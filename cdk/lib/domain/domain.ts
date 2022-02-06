@@ -70,7 +70,6 @@ export function createDomainResources(stack: Stack) {
           target: RecordTarget.fromIpAddresses(address.address),
           ttl: Duration.minutes(1),
         };
-        console.log(props.recordName, props.target.values![0]);
         const resourceName = (
           domain +
           association.base +
