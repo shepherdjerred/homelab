@@ -13,12 +13,10 @@
     "cdk": "cdk",
     "lint+build": "npm run lint && npm run build",
     "lint:fix+build": "npm run lint:fix && npm run build",
-    "lint": "npm run eslint && npm run prettier",
-    "lint:fix": "npm run eslint:fix && npm run prettier:fix",
+    "lint": "npm run eslint",
+    "lint:fix": "npm run eslint:fix",
     "eslint": "eslint \"*/**/*.{ts,tsx}\" --color",
-    "eslint:fix": "eslint \"*/**/*.{ts,tsx}\" --fix --color",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write ."
+    "eslint:fix": "eslint \"*/**/*.{ts,tsx}\" --fix --color"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
