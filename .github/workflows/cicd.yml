@@ -142,7 +142,7 @@ jobs:
       - name: Build package
         run: npm run build
       - name: CDK Deploy
-        run: npm run cdk deploy --all
+        run: npm run cdk deploy -- --all
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.CDK_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.CDK_SECRET_ACCESS_KEY }}
