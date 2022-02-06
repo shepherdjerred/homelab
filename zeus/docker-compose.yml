@@ -1,0 +1,236 @@
+version: "3.8"
+services:
+  nginx_public_exporter:
+    container_name: nginx_public_exporter
+    depends_on:
+    - nginx_public
+    image: nginx/nginx-prometheus-exporter:latest
+    command: -nginx.scrape-uri=http://nginx_public:8080/stub_status
+    restart: unless-stopped
+  nginx_tailscale_exporter:
+    container_name: nginx_tailscale_exporter
+    depends_on:
+    - nginx_tailscale
+    image: nginx/nginx-prometheus-exporter:latest
+    command: -nginx.scrape-uri=http://nginx_tailscale:8080/stub_status
+    restart: unless-stopped
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    privileged: true
+    command:
+      - "--path.rootfs=/host"
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - "/:/host:ro,rslave"
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+  promtail:
+    depends_on:
+      - loki
+    image: grafana/promtail:latest
+    container_name: promtail
+    command: -config.file=/etc/promtail/promtail.yml
+    privileged: true
+    volumes:
+      - ./config/promtail.yml:/etc/promtail/promtail.yml
+      - /var/log/journal:/var/log/journal
+      - /run/log/journal:/run/log/journal
+      - /etc/machine-id:/etc/machine-id
+  tailscale:
+    image: tailscale/tailscale
+    container_name: tailscale
+    privileged: true
+    command: tailscaled
+    network_mode: host
+    volumes:
+      - /var/lib:/var/lib
+      - /dev/net/tun:/dev/net/tun
+  certbot:
+    image: certbot/dns-route53
+    container_name: certbot
+    privileged: true
+    command: |
+      certonly
+      --cert-name "shepherdjerred.com"
+      -n
+      --agree-tos
+      -m shepherdjerred@gmail.com
+      --dns-route53
+      -d public.zeus.home.shepherdjerred.com
+      -d zeus.home.shepherdjerred.com
+      -d homeassistant.zeus.home.shepherdjerred.com
+      -d plex.zeus.home.shepherdjerred.com
+      -d plex.public.zeus.home.shepherdjerred.com
+      -d overseerr.zeus.home.shepherdjerred.com
+      -d overseerr.public.zeus.home.shepherdjerred.com
+      -d pi-hole.zeus.home.shepherdjerred.com
+      -d pi-hole.public.zeus.home.shepherdjerred.com
+    volumes:
+      - ./config/credentials:/root/.aws/credentials
+      - letsencrypt-certs:/etc/letsencrypt
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    privileged: true
+    volumes:
+      - ./config/grafana.ini:/etc/grafana/grafana.ini
+      - grafana:/var/lib/grafana
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    privileged: true
+    volumes:
+      - prometheus-data:/prometheus
+      - prometheus:/etc/prometheus/
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    privileged: true
+    volumes:
+      - loki:/etc/loki/
+      - ./config/loki/loki.yaml:/etc/loki/local-config.yaml
+      - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/
+  nginx_public:
+    image: nginx:alpine
+    container_name: nginx_public
+    privileged: true
+    ports:
+      - 192.168.1.45:80:80
+      - 192.168.1.45:443:443
+      - 2601:602:8500:17bc:4fbd:94e:6646:34d4:80:80
+      - 2601:602:8500:17bc:4fbd:94e:6646:34d4:443:443
+    volumes:
+      - ./config/nginx/nginx-public.conf:/etc/nginx/nginx.conf:ro
+      - letsencrypt-certs:/etc/letsencrypt
+  nginx_tailscale:
+    depends_on:
+    - tailscale
+    image: nginx:alpine
+    container_name: nginx_tailscale
+    privileged: true
+    ports:
+      - 100.103.244.82:80:80
+      - 100.103.244.82:443:443
+      - fd7a:115c:a1e0:ab12:4843:cd96:6267:f452:80:80
+      - fd7a:115c:a1e0:ab12:4843:cd96:6267:f452:443:443
+    volumes:
+      - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro
+      - letsencrypt-certs:/etc/letsencrypt
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    privileged: true
+    devices:
+      - /dev/dri:/dev/dri
+    env_file:
+      - "vars.env"
+    ports:
+      - 32400:32400
+      - 1900:1900/udp
+      - 3005:3005
+      - 5353:5353/udp
+      - 8324:8324
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+      - 32469:32469
+    volumes:
+      - /var/storage/plex:/config
+      - /var/storage/media/tv:/tv
+      - /var/storage/media/movies:/movies
+      - /var/storage/media/other:/other
+    restart: unless-stopped
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    privileged: true
+    hostname: syncthing
+    env_file:
+      - "vars.env"
+    volumes:
+      - syncthing-config:/config
+      - /var/storage/syncthing:/syncthing
+    ports:
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
+    restart: unless-stopped
+  homeassistant:
+    image: lscr.io/linuxserver/homeassistant:latest
+    container_name: homeassistant
+    privileged: true
+    env_file:
+      - "vars.env"
+    volumes:
+      - homeassistant-config:/config
+      - ./config/homeassistant/configuration.yaml:/config/configuration.yaml
+    restart: unless-stopped
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    privileged: true
+    env_file:
+      - "vars.env"
+    volumes:
+      - overseerr-config:/config
+    restart: unless-stopped
+    labels:
+      - "docker-volume-backup.stop-during-backup=true"
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    privileged: true
+    env_file:
+      - "vars.env"
+    volumes:
+      - radarr-config:/config
+      - /var/storage/media/movies:/movies
+      - /var/storage/syncthing/downloads:/downloads
+    restart: unless-stopped
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    privileged: true
+    env_file:
+      - "vars.env"
+    volumes:
+      - sonarr-config:/config
+      - /var/storage/media/tv:/tv
+      - /var/storage/syncthing/downloads:/downloads
+    restart: unless-stopped
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
+    privileged: true
+    env_file:
+      - "vars.env"
+    volumes:
+      - jackett-config:/config
+      - /var/storage/syncthing/downloads:/downloads
+    restart: unless-stopped
+volumes:
+  jackett-config:
+  sonarr-config:
+  radarr-config:
+  overseerr-config:
+  syncthing-config:
+  homeassistant-config:
+  grafana:
+  prometheus:
+  prometheus-data:
+  loki:
+  letsencrypt-certs:

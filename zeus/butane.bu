@@ -1,0 +1,71 @@
+variant: fcos
+version: 1.4.0
+passwd:
+    users:
+        - name: core
+          ssh_authorized_keys:
+              - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDxNpFK/kKbp53DJarquYTeNZXLnYNbSjQiEti24vRqHIRmD3wvLpX1NiiIY7xnP3rwEY8s1NjHarKXLYmCBrOZKkBxu5U6ROyLMCCfhCXBcJXUVJng1PmoJ4+hlIPWq3I136Y4ZP1xiKWKVuMa6vC06wqA5m6bh5TEqDNOP+cW6dn3qX7sy0qNtiZU8VmJ5fM9kHA02bZf3YYlK4780ESVY8RU3zOTZDvnOZUuIRLpMgsDH3eqyu2AKvnMNPrNxSYGffd6PXeng2rIEaV49/LnO1Cw61vDWYUL8jULzZ+SqE5ydnOUGfqguOTEYbtaXhBrYECgDCDGvRXF0VAaj3D7 jerred@jerred-macbook.local
+          groups:
+              - docker
+storage:
+    files:
+        - path: /etc/hostname
+          mode: 0644
+          contents:
+              inline: zeus.home.shepherdjerred.com
+        - path: /etc/docker/daemon.json
+          mode: 0600
+          contents:
+            inline: |
+              {}
+    links:
+        - path: /etc/localtime
+          target: ../usr/share/zoneinfo/America/Los_Angeles
+systemd:
+    units:
+        - name: custom-bootupd-auto.service
+          enabled: true
+          contents: |
+              [Unit]
+              Description=Bootupd automatic update
+
+              [Service]
+              ExecStart=/usr/bin/bootupctl update
+              RemainAfterExit=yes
+
+              [Install]
+              WantedBy=multi-user.target
+        - name: rpm-ostree-install-docker-compose.service
+          enabled: true
+          contents: |
+              [Unit]
+              Description=Layer docker-compose with rpm-ostree
+              Wants=network-online.target
+              After=network-online.target
+              # We run before `zincati.service` to avoid conflicting rpm-ostree
+              # transactions.
+              Before=zincati.service
+              ConditionPathExists=!/var/lib/%N.stamp
+
+              [Service]
+              Type=oneshot
+              RemainAfterExit=yes
+              # `--allow-inactive` ensures that rpm-ostree does not return an error
+              # if the package is already installed. This is useful if the package is
+              # added to the root image in a future Fedora CoreOS release as it will
+              # prevent the service from failing.
+              ExecStart=/usr/bin/rpm-ostree install --apply-live --allow-inactive docker-compose
+              ExecStart=/bin/touch /var/lib/%N.stamp
+
+              [Install]
+              WantedBy=multi-user.target
+        - name: storage.mount
+          contents: |
+            [Unit]
+            Before=local-fs.target,docker.service
+            ConditionPathExists=/dev/md127
+
+            [Mount]
+            What=/dev/md127
+            Where=/var/storage
+            Type=ext4
