@@ -113,9 +113,7 @@ jobs:
       - name: Build package
         run: npm run build
       - name: CDK Synth
-        uses: scottbrenner/aws-cdk-action@v1.4.3
-        with:
-          args: synth
+        run: npm run cdk synth
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -144,9 +142,7 @@ jobs:
       - name: Build package
         run: npm run build
       - name: CDK Deploy
-        uses: scottbrenner/aws-cdk-action@v1.4.3
-        with:
-          args: deploy --all
+        run: npm run cdk deploy --all
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.CDK_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.CDK_SECRET_ACCESS_KEY }}
