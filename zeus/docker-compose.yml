@@ -3,14 +3,14 @@ services:
   nginx_public_exporter:
     container_name: nginx_public_exporter
     depends_on:
-    - nginx_public
+      - nginx_public
     image: nginx/nginx-prometheus-exporter:latest
     command: -nginx.scrape-uri=http://nginx_public:8080/stub_status
     restart: unless-stopped
   nginx_tailscale_exporter:
     container_name: nginx_tailscale_exporter
     depends_on:
-    - nginx_tailscale
+      - nginx_tailscale
     image: nginx/nginx-prometheus-exporter:latest
     command: -nginx.scrape-uri=http://nginx_tailscale:8080/stub_status
     restart: unless-stopped
@@ -66,15 +66,14 @@ services:
       --agree-tos
       -m shepherdjerred@gmail.com
       --dns-route53
-      -d public.zeus.home.shepherdjerred.com
-      -d zeus.home.shepherdjerred.com
-      -d homeassistant.zeus.home.shepherdjerred.com
-      -d plex.zeus.home.shepherdjerred.com
-      -d plex.public.zeus.home.shepherdjerred.com
-      -d overseerr.zeus.home.shepherdjerred.com
-      -d overseerr.public.zeus.home.shepherdjerred.com
-      -d pi-hole.zeus.home.shepherdjerred.com
-      -d pi-hole.public.zeus.home.shepherdjerred.com
+      -d public.zeus.shepherdjerred.com
+      -d tailscale.zeus.shepherdjerred.com
+      -d public.homeassistant.zeus.shepherdjerred.com
+      -d tailscale.homeassistant.zeus.shepherdjerred.com
+      -d plex.tailscale.zeus.shepherdjerred.com
+      -d plex.public.zeus.shepherdjerred.com
+      -d overseerr.tailscale.zeus.shepherdjerred.com
+      -d overseerr.public.zeus.shepherdjerred.com
     volumes:
       - ./config/credentials:/root/.aws/credentials
       - letsencrypt-certs:/etc/letsencrypt
@@ -117,7 +116,7 @@ services:
       - letsencrypt-certs:/etc/letsencrypt
   nginx_tailscale:
     depends_on:
-    - tailscale
+      - tailscale
     image: nginx:alpine
     container_name: nginx_tailscale
     privileged: true
