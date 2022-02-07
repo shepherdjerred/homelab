@@ -58,7 +58,6 @@ services:
   certbot:
     image: certbot/dns-route53
     container_name: certbot
-    privileged: true
     command: |
       certonly
       --cert-name "shepherdjerred.com"
@@ -80,14 +79,12 @@ services:
   grafana:
     image: grafana/grafana-oss:latest
     container_name: grafana
-    privileged: true
     volumes:
       - ./config/grafana.ini:/etc/grafana/grafana.ini
       - grafana:/var/lib/grafana
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    privileged: true
     volumes:
       - prometheus-data:/prometheus
       - prometheus:/etc/prometheus/
@@ -97,7 +94,6 @@ services:
   loki:
     image: grafana/loki:latest
     container_name: loki
-    privileged: true
     volumes:
       - loki:/etc/loki/
       - ./config/loki/loki.yaml:/etc/loki/local-config.yaml
@@ -105,13 +101,13 @@ services:
   nginx_public:
     image: nginx:alpine
     container_name: nginx_public
-    privileged: true
     ports:
       - 192.168.1.45:80:80
       - 192.168.1.45:443:443
       - 2601:602:8500:17bc:4fbd:94e:6646:34d4:80:80
       - 2601:602:8500:17bc:4fbd:94e:6646:34d4:443:443
     volumes:
+      - ./config/nginx/includes:/etc/nginx/includes
       - ./config/nginx/nginx-public.conf:/etc/nginx/nginx.conf:ro
       - letsencrypt-certs:/etc/letsencrypt
   nginx_tailscale:
@@ -119,24 +115,25 @@ services:
       - tailscale
     image: nginx:alpine
     container_name: nginx_tailscale
-    privileged: true
     ports:
       - 100.103.244.82:80:80
       - 100.103.244.82:443:443
       - fd7a:115c:a1e0:ab12:4843:cd96:6267:f452:80:80
       - fd7a:115c:a1e0:ab12:4843:cd96:6267:f452:443:443
     volumes:
+      - ./config/nginx/includes:/etc/nginx/includes
       - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro
       - letsencrypt-certs:/etc/letsencrypt
   plex:
     image: plexinc/pms-docker:latest
     container_name: plex
-    privileged: true
+    user: 1000:1000
     devices:
       - /dev/dri:/dev/dri
     environment:
       - TZ=America/Los_Angeles
       - ADVERTISE_IP=http://73.157.91.74:32400,http://100.103.244.82:32400,http://192.168.1.45:32400
+      - CHANGE_CONFIG_DIR_OWNERSHIP=false
     ports:
       - 32400:32400/tcp
       - 3005:3005/tcp
@@ -148,16 +145,15 @@ services:
       - 32413:32413/udp
       - 32414:32414/udp
     volumes:
-      - /var/storage/plex:/config
+      - /var/storage/plex:/config:Z
       - plex-transcode:/transcode
-      - /var/storage/media/tv:/data/tv
-      - /var/storage/media/movies:/data/movies
-      - /var/storage/media/other:/data/other
+      - /var/storage/media/tv:/data/tv:Z
+      - /var/storage/media/movies:/data/movies:Z
+      - /var/storage/media/other:/data/other:Z
     restart: unless-stopped
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
-    privileged: true
     hostname: syncthing
     env_file:
       - "vars.env"
@@ -172,17 +168,14 @@ services:
   homeassistant:
     image: lscr.io/linuxserver/homeassistant:latest
     container_name: homeassistant
-    privileged: true
     env_file:
       - "vars.env"
     volumes:
       - homeassistant-config:/config
-      - ./config/homeassistant/configuration.yaml:/config/configuration.yaml
     restart: unless-stopped
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
-    privileged: true
     env_file:
       - "vars.env"
     volumes:
@@ -193,7 +186,6 @@ services:
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
-    privileged: true
     env_file:
       - "vars.env"
     volumes:
@@ -204,7 +196,6 @@ services:
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
-    privileged: true
     env_file:
       - "vars.env"
     volumes:
@@ -215,7 +206,6 @@ services:
   jackett:
     image: lscr.io/linuxserver/jackett:latest
     container_name: jackett
-    privileged: true
     env_file:
       - "vars.env"
     volumes:
