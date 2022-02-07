@@ -66,10 +66,10 @@ services:
       --agree-tos
       -m shepherdjerred@gmail.com
       --dns-route53
-      -d public.zeus.shepherdjerred.com
       -d tailscale.zeus.shepherdjerred.com
-      -d public.homeassistant.zeus.shepherdjerred.com
-      -d tailscale.homeassistant.zeus.shepherdjerred.com
+      -d public.zeus.shepherdjerred.com
+      -d homeassistant.tailscale.zeus.shepherdjerred.com
+      -d homeassistant.public.zeus.shepherdjerred.com
       -d plex.tailscale.zeus.shepherdjerred.com
       -d plex.public.zeus.shepherdjerred.com
       -d overseerr.tailscale.zeus.shepherdjerred.com
@@ -129,29 +129,30 @@ services:
       - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro
       - letsencrypt-certs:/etc/letsencrypt
   plex:
-    image: lscr.io/linuxserver/plex:latest
+    image: plexinc/pms-docker:latest
     container_name: plex
     privileged: true
     devices:
       - /dev/dri:/dev/dri
-    env_file:
-      - "vars.env"
+    environment:
+      - TZ=America/Los_Angeles
+      - ADVERTISE_IP=http://73.157.91.74:32400,http://100.103.244.82:32400,http://192.168.1.45:32400
     ports:
-      - 32400:32400
+      - 32400:32400/tcp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
       - 1900:1900/udp
-      - 3005:3005
-      - 5353:5353/udp
-      - 8324:8324
       - 32410:32410/udp
       - 32412:32412/udp
       - 32413:32413/udp
       - 32414:32414/udp
-      - 32469:32469
     volumes:
       - /var/storage/plex:/config
-      - /var/storage/media/tv:/tv
-      - /var/storage/media/movies:/movies
-      - /var/storage/media/other:/other
+      - plex-transcode:/transcode
+      - /var/storage/media/tv:/data/tv
+      - /var/storage/media/movies:/data/movies
+      - /var/storage/media/other:/data/other
     restart: unless-stopped
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
@@ -233,3 +234,4 @@ volumes:
   prometheus-data:
   loki:
   letsencrypt-certs:
+  plex-transcode:
