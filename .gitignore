@@ -1,2 +1,4 @@
 credentials
-
+*.ign
+*.iso
+.DS_Store
