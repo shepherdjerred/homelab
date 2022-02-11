@@ -1,33 +1,9 @@
 variant: fcos
-version: 1.1.0
+version: 1.4.0
 storage:
   files:
-    - path: /etc/target.ign
+    - path: /etc/coreos/installer.d/custom.yaml
       contents:
         inline: |
-          source: https://raw.githubusercontent.com/shepherdjerred/servers/main/zeus/ignition.ign
-      mode: 0644
-systemd:
-  units:
-    - name: my-coreos-installer.service
-      enabled: true
-      contents: |
-        [Unit]
-        Description=Run CoreOS Installer
-        Requires=coreos-installer-pre.target
-        After=coreos-installer-pre.target
-        OnFailure=emergency.target
-        OnFailureJobMode=replace-irreversibly
-
-        After=network-online.target
-        Wants=network-online.target
-
-        [Service]
-        Type=oneshot
-        ExecStart=/usr/bin/coreos-installer install -i /etc/target.ign /dev/sdd
-        ExecStart=/usr/bin/systemctl --no-block reboot
-        StandardOutput=kmsg+console
-        StandardError=kmsg+console
-
-        [Install]
-        RequiredBy=default.target
+          dest-device: /dev/sdd
+          ignition-url: https://raw.githubusercontent.com/shepherdjerred/servers/main/zeus/ignition.ign
