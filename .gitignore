@@ -1,4 +1,6 @@
 credentials
 *.ign
+# Allow this one ignition until I can find another place to store artifacts
+!zeus/ignition.ign
 *.iso
 .DS_Store
