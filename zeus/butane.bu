@@ -28,7 +28,6 @@ storage:
 systemd:
     units:
         - name: custom-bootupd-auto.service
-          enabled: true
           contents: |
             [Unit]
             Description=Bootupd automatic update
@@ -90,7 +89,6 @@ systemd:
             [Install]
             WantedBy=multi-user.target
         - name: docker-compose-reload.service
-          enabled: true
           contents: |
             [Unit]
             Description=Refresh images and update containers
@@ -100,7 +98,6 @@ systemd:
 
             ExecStart=/bin/systemctl reload-or-restart docker-compose.service
         - name: docker-compose-reload.timer
-          enabled: true
           contents: |
             [Unit]
             Description=Refresh images and update containers
@@ -114,7 +111,6 @@ systemd:
             [Install]
             WantedBy=timers.target
         - name: docker-compose.service
-          enabled: true
           contents: |
             [Unit]
             Description=Docker Compose container starter
