@@ -8,7 +8,7 @@ storage:
       mode: 0644
 systemd:
   units:
-    - name: my-coreos-installer.service
+    - name: coreos-installer.service
       enabled: true
       contents: |
         [Unit]

@@ -28,13 +28,6 @@
           "source": "data:,public.zeus.home.shepherdjerred.com"
         },
         "mode": 420
-      },
-      {
-        "path": "/etc/docker/daemon.json",
-        "contents": {
-          "source": "data:;base64,ewogICJkYXRhLXJvb3QiOiAiL3Zhci9zdG9yYWdlL2RvY2tlciIKfQo="
-        },
-        "mode": 384
       }
     ],
     "links": [
@@ -48,30 +41,37 @@
     "units": [
       {
         "contents": "[Unit]\nDescription=Bootupd automatic update\n\n[Service]\nExecStart=/usr/bin/bootupctl update\nRemainAfterExit=yes\n\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": false,
         "name": "custom-bootupd-auto.service"
       },
       {
         "contents": "[Unit]\nDescription=Layer docker-compose with rpm-ostree\nWants=network-online.target\nAfter=network-online.target\n# We run before `zincati.service` to avoid conflicting rpm-ostree\n# transactions.\nBefore=zincati.service\nConditionPathExists=!/var/lib/%N.stamp\n\n[Service]\nType=oneshot\nRemainAfterExit=yes\n# `--allow-inactive` ensures that rpm-ostree does not return an error\n# if the package is already installed. This is useful if the package is\n# added to the root image in a future Fedora CoreOS release as it will\n# prevent the service from failing.\nExecStart=/usr/bin/rpm-ostree install --apply-live --allow-inactive docker-compose\nExecStart=/bin/touch /var/lib/%N.stamp\n\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": true,
         "name": "rpm-ostree-install-docker-compose.service"
       },
       {
         "contents": "[Unit]\nBefore=local-fs.target,docker.service\nConditionPathExists=/dev/md127\n\n[Mount]\nWhat=/dev/md127\nWhere=/var/storage\nType=ext4\n\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": false,
         "name": "var-storage.mount"
       },
       {
         "contents": "[Unit]\nWants=network-online.target\nAfter=network-online.target\nDescription=Clone shepherdjerred/servers git repo\n\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=cd /var/docker-compose \u0026\u0026 \\\n          /usr/bin/git clone https://github.com/shepherdjerred/servers/\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": true,
         "name": "clone-servers-git-repo.service"
       },
       {
         "contents": "[Unit]\nDescription=Refresh images and update containers\n\n[Service]\nType=oneshot\n\nExecStart=/bin/systemctl reload-or-restart docker-compose.service\n",
+        "enabled": false,
         "name": "docker-compose-reload.service"
       },
       {
         "contents": "[Unit]\nDescription=Refresh images and update containers\nRequires=docker-compose.service\nAfter=docker-compose.service\n\n[Timer]\nOnCalendar=weekly\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n",
+        "enabled": false,
         "name": "docker-compose-reload.timer"
       },
       {
         "contents": "[Unit]\nDescription=Docker Compose container starter\nAfter=docker.service network-online.target var-storage.mount rpm-ostree-install-docker-compose.service\nRequires=docker.service network-online.target\n\n[Service]\nWorkingDirectory=/var/docker-compose/servers/zeus\nType=oneshot\nRemainAfterExit=yes\n\nExecStartPre=/usr/bin/git reset --hard origin/main\nExecStartPre=/usr/bin/git pull\nExecStartPre=-/usr/bin/docker-compose pull --quiet\nExecStart=/usr/bin/docker-compose up -d\n\nExecStop=/usr/bin/docker-compose down\n\nExecReload=/usr/bin/docker-compose pull --quiet\nExecReload=/usr/bin/docker-compose up -d\n\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": false,
         "name": "docker-compose.service"
       }
     ]

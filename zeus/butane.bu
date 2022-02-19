@@ -15,19 +15,20 @@ storage:
           mode: 0644
           contents:
               inline: public.zeus.home.shepherdjerred.com
-        - path: /etc/docker/daemon.json
-          mode: 0600
-          contents:
-            inline: |
-              {
-                "data-root": "/var/storage/docker"
-              }
+        # - path: /etc/docker/daemon.json
+        #   mode: 0600
+        #   contents:
+        #     inline: |
+        #       {
+        #         "data-root": "/var/storage/docker"
+        #       }
     links:
         - path: /etc/localtime
           target: ../usr/share/zoneinfo/America/Los_Angeles
 systemd:
     units:
         - name: custom-bootupd-auto.service
+          enabled: false
           contents: |
             [Unit]
             Description=Bootupd automatic update
@@ -39,6 +40,7 @@ systemd:
             [Install]
             WantedBy=multi-user.target
         - name: rpm-ostree-install-docker-compose.service
+          enabled: true
           contents: |
             [Unit]
             Description=Layer docker-compose with rpm-ostree
@@ -62,6 +64,7 @@ systemd:
             [Install]
             WantedBy=multi-user.target
         - name: var-storage.mount
+          enabled: false
           contents: |
             [Unit]
             Before=local-fs.target,docker.service
@@ -75,6 +78,7 @@ systemd:
             [Install]
             WantedBy=multi-user.target
         - name: clone-servers-git-repo.service
+          enabled: true
           contents: |
             [Unit]
             Wants=network-online.target
@@ -89,6 +93,7 @@ systemd:
             [Install]
             WantedBy=multi-user.target
         - name: docker-compose-reload.service
+          enabled: false
           contents: |
             [Unit]
             Description=Refresh images and update containers
@@ -98,6 +103,7 @@ systemd:
 
             ExecStart=/bin/systemctl reload-or-restart docker-compose.service
         - name: docker-compose-reload.timer
+          enabled: false
           contents: |
             [Unit]
             Description=Refresh images and update containers
@@ -111,6 +117,7 @@ systemd:
             [Install]
             WantedBy=timers.target
         - name: docker-compose.service
+          enabled: false
           contents: |
             [Unit]
             Description=Docker Compose container starter
