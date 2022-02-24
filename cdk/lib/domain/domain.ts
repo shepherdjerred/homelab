@@ -31,10 +31,10 @@ export function createDomainResources(stack: Stack) {
         addressType: "v4",
         address: "73.157.91.74",
       },
-      {
-        addressType: "v6",
-        address: "2601:602:8500:17bc:4fbd:94e:6646:34d4",
-      },
+      // {
+      //   addressType: "v6",
+      //   address: "fe80::b6d5:9dc1:4a04:2353",
+      // },
     ],
     domains: ["homeassistant", "overseerr", "plex", ""],
   };
@@ -44,11 +44,11 @@ export function createDomainResources(stack: Stack) {
     addresses: [
       {
         addressType: "v4",
-        address: "100.103.244.82",
+        address: "100.74.41.106",
       },
       {
         addressType: "v6",
-        address: "fd7a:115c:a1e0:ab12:4843:cd96:6267:f452",
+        address: "fd7a:115c:a1e0:ab12:4843:cd96:624a:296a",
       },
     ],
     domains: ["homeassistant", "overseerr", "plex", ""],
