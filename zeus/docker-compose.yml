@@ -112,6 +112,7 @@ services:
       # - 2601:602:8500:17bc:4fbd:94e:6646:34d4:80:80
       # - 2601:602:8500:17bc:4fbd:94e:6646:34d4:443:443
     volumes:
+      - ./static/public.html:/usr/share/nginx/html/index.html
       - ./config/nginx/includes:/etc/nginx/includes
       - ./config/nginx/nginx-public.conf:/etc/nginx/nginx.conf:ro
       - letsencrypt-certs:/etc/letsencrypt
@@ -127,6 +128,7 @@ services:
       - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:80:80
       - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:443:443
     volumes:
+      - ./static/tailscale.html:/usr/share/nginx/html/index.html
       - ./config/nginx/includes:/etc/nginx/includes
       - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro
       - letsencrypt-certs:/etc/letsencrypt
