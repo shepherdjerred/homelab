@@ -28,6 +28,13 @@
           "source": "data:,public.zeus.home.shepherdjerred.com"
         },
         "mode": 420
+      },
+      {
+        "path": "/etc/docker/daemon.json",
+        "contents": {
+          "source": "data:;base64,ewogICJkYXRhLXJvb3QiOiAiL3Zhci9zdG9yYWdlL2RvY2tlciIKfQo="
+        },
+        "mode": 384
       }
     ],
     "links": [
@@ -45,7 +52,7 @@
         "name": "custom-bootupd-auto.service"
       },
       {
-        "contents": "[Unit]\nDescription=Layer docker-compose with rpm-ostree\nWants=network-online.target\nAfter=network-online.target\n# We run before `zincati.service` to avoid conflicting rpm-ostree\n# transactions.\nBefore=zincati.service\nConditionPathExists=!/var/lib/%N.stamp\n\n[Service]\nType=oneshot\nRemainAfterExit=yes\n# `--allow-inactive` ensures that rpm-ostree does not return an error\n# if the package is already installed. This is useful if the package is\n# added to the root image in a future Fedora CoreOS release as it will\n# prevent the service from failing.\nExecStart=/usr/bin/rpm-ostree install --apply-live --allow-inactive docker-compose\nExecStart=/bin/touch /var/lib/%N.stamp\n\n[Install]\nWantedBy=multi-user.target\n",
+        "contents": "[Unit]\nDescription=Layer docker-compose with rpm-ostree\nWants=network-online.target\nAfter=network-online.target\n# We run before `zincati.service` to avoid conflicting rpm-ostree\n# transactions.\nBefore=zincati.service\nConditionPathExists=!/var/lib/%N.stamp\n\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=/usr/bin/rpm-ostree install --apply-live docker-compose\nExecStart=/bin/touch /var/lib/%N.stamp\n\n[Install]\nWantedBy=multi-user.target\n",
         "enabled": true,
         "name": "rpm-ostree-install-docker-compose.service"
       },
@@ -55,7 +62,7 @@
         "name": "var-storage.mount"
       },
       {
-        "contents": "[Unit]\nWants=network-online.target\nAfter=network-online.target\nDescription=Clone shepherdjerred/servers git repo\n\n[Service]\nType=oneshot\nRemainAfterExit=yes\nExecStart=cd /var/docker-compose \u0026\u0026 \\\n          /usr/bin/git clone https://github.com/shepherdjerred/servers/\n[Install]\nWantedBy=multi-user.target\n",
+        "contents": "[Unit]\nWants=network-online.target\nAfter=network-online.target\nDescription=Clone shepherdjerred/servers git repo\n\n[Service]\nType=oneshot\nRemainAfterExit=yes\nWorkingDirectory=/var/docker-compose\nExecStart=/usr/bin/git clone https://github.com/shepherdjerred/servers/\n\n[Install]\nWantedBy=multi-user.target\n",
         "enabled": true,
         "name": "clone-servers-git-repo.service"
       },
@@ -70,7 +77,7 @@
         "name": "docker-compose-reload.timer"
       },
       {
-        "contents": "[Unit]\nDescription=Docker Compose container starter\nAfter=docker.service network-online.target var-storage.mount rpm-ostree-install-docker-compose.service\nRequires=docker.service network-online.target\n\n[Service]\nWorkingDirectory=/var/docker-compose/servers/zeus\nType=oneshot\nRemainAfterExit=yes\n\nExecStartPre=/usr/bin/git reset --hard origin/main\nExecStartPre=/usr/bin/git pull\nExecStartPre=-/usr/bin/docker-compose pull --quiet\nExecStart=/usr/bin/docker-compose up -d\n\nExecStop=/usr/bin/docker-compose down\n\nExecReload=/usr/bin/docker-compose pull --quiet\nExecReload=/usr/bin/docker-compose up -d\n\n[Install]\nWantedBy=multi-user.target\n",
+        "contents": "[Unit]\nDescription=Docker Compose container starter\nAfter=docker.service network-online.target var-storage.mount rpm-ostree-install-docker-compose.service\nRequires=docker.service network-online.target\n\n[Service]\nWorkingDirectory=/var/docker-compose/servers/zeus\nType=oneshot\nRemainAfterExit=yes\n\nExecStartPre=/usr/bin/git reset --hard origin/main\nExecStartPre=/usr/bin/git pull\nExecStartPre=-/usr/bin/docker-compose pull\nExecStart=/usr/bin/docker-compose up -d\n\nExecStop=/usr/bin/docker-compose down\n\nExecReload=/usr/bin/docker-compose pull\nExecReload=/usr/bin/docker-compose up -d\n\n[Install]\nWantedBy=multi-user.target\n",
         "enabled": false,
         "name": "docker-compose.service"
       }

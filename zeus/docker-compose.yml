@@ -83,14 +83,14 @@ services:
     privileged: true
     volumes:
       - ./config/grafana.ini:/etc/grafana/grafana.ini
-      - grafana:/var/lib/grafana
+      - grafana-data:/var/lib/grafana
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
     privileged: true
     volumes:
       - prometheus-data:/prometheus
-      - prometheus:/etc/prometheus/
+      - prometheus-config:/etc/prometheus/
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
     extra_hosts:
       - host.docker.internal:host-gateway
@@ -99,7 +99,7 @@ services:
     container_name: loki
     privileged: true
     volumes:
-      - loki:/etc/loki/
+      - loki-data:/etc/loki/
       - ./config/loki/loki.yaml:/etc/loki/local-config.yaml
       - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/
   nginx_public:
@@ -230,9 +230,9 @@ volumes:
   overseerr-config:
   syncthing-config:
   homeassistant-config:
-  grafana:
-  prometheus:
+  grafana-data:
+  prometheus-config:
   prometheus-data:
-  loki:
+  loki-data:
   letsencrypt-certs:
   plex-transcode:
