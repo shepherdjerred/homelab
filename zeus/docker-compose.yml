@@ -34,6 +34,7 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+    restart: unless-stopped
   promtail:
     depends_on:
       - loki
@@ -46,6 +47,7 @@ services:
       - /var/log/journal:/var/log/journal
       - /run/log/journal:/run/log/journal
       - /etc/machine-id:/etc/machine-id
+    restart: unless-stopped
   tailscale:
     image: tailscale/tailscale
     container_name: tailscale
@@ -55,6 +57,7 @@ services:
     volumes:
       - /var/lib:/var/lib
       - /dev/net/tun:/dev/net/tun
+    restart: unless-stopped
   certbot:
     image: certbot/dns-route53
     container_name: certbot
@@ -84,6 +87,10 @@ services:
     volumes:
       - ./config/grafana.ini:/etc/grafana/grafana.ini
       - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+      - loki
+    restart: unless-stopped
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
@@ -94,6 +101,11 @@ services:
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
     extra_hosts:
       - host.docker.internal:host-gateway
+    depends_on:
+      - nginx_public_exporter
+      - nginx_tailscale_exporter
+      - cadvisor
+    restart: unless-stopped
   loki:
     image: grafana/loki:latest
     container_name: loki
@@ -102,6 +114,7 @@ services:
       - loki-data:/etc/loki/
       - ./config/loki/loki.yaml:/etc/loki/local-config.yaml
       - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/
+    restart: unless-stopped
   nginx_public:
     image: nginx:alpine
     container_name: nginx_public
@@ -116,9 +129,12 @@ services:
       - ./config/nginx/includes:/etc/nginx/includes
       - ./config/nginx/nginx-public.conf:/etc/nginx/nginx.conf:ro
       - letsencrypt-certs:/etc/letsencrypt
-  nginx_tailscale:
     depends_on:
-      - tailscale
+      - plex
+      - overseerr
+      - homeassistant
+    restart: unless-stopped
+  nginx_tailscale:
     image: nginx:alpine
     container_name: nginx_tailscale
     privileged: true
@@ -132,6 +148,11 @@ services:
       - ./config/nginx/includes:/etc/nginx/includes
       - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro
       - letsencrypt-certs:/etc/letsencrypt
+    depends_on:
+      - plex
+      - overseerr
+      - homeassistant
+    restart: unless-stopped
   plex:
     image: plexinc/pms-docker:latest
     container_name: plex
@@ -193,6 +214,9 @@ services:
     restart: unless-stopped
     labels:
       - "docker-volume-backup.stop-during-backup=true"
+    depends_on:
+      - radarr
+      - sonarr
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -204,6 +228,8 @@ services:
       - /var/storage/media/movies:/movies
       - /var/storage/syncthing/downloads:/downloads
     restart: unless-stopped
+    depends_on:
+      - jackett
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
@@ -215,6 +241,8 @@ services:
       - /var/storage/media/tv:/tv
       - /var/storage/syncthing/downloads:/downloads
     restart: unless-stopped
+    depends_on:
+      - jackett
   jackett:
     image: lscr.io/linuxserver/jackett:latest
     container_name: jackett
