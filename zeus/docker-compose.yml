@@ -1,5 +1,35 @@
 version: "3.8"
 services:
+  tautulli:
+    privileged: true
+    container_name: tautulli
+    image: ghcr.io/tautulli/tautulli:latest
+    restart: unless-stopped
+    volumes:
+      - tautulli-data:/config
+      - /var/storage/plex/Plex\ Media\ Server/Logs:/plex_logs:ro
+    env_file:
+      - "vars.env"
+  varken:
+    privileged: true
+    container_name: varken
+    image: boerderij/varken:latest
+    restart: unless-stopped
+    volumes:
+      - ./config/varken.ini:/config/varken.ini
+    depends_on:
+      - influxdb
+    env_file:
+      - "vars.env"
+  influxdb:
+    privileged: true
+    container_name: influxdb
+    image: influxdb:alpine
+    restart: unless-stopped
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    env_file:
+      - "vars.env"
   nginx_public_exporter:
     container_name: nginx_public_exporter
     depends_on:
@@ -7,6 +37,8 @@ services:
     image: nginx/nginx-prometheus-exporter:latest
     command: -nginx.scrape-uri=http://nginx_public:8080/stub_status
     restart: unless-stopped
+    env_file:
+      - "vars.env"
   nginx_tailscale_exporter:
     container_name: nginx_tailscale_exporter
     depends_on:
@@ -14,6 +46,8 @@ services:
     image: nginx/nginx-prometheus-exporter:latest
     command: -nginx.scrape-uri=http://nginx_tailscale:8080/stub_status
     restart: unless-stopped
+    env_file:
+      - "vars.env"
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
     container_name: node_exporter
@@ -25,6 +59,8 @@ services:
     restart: unless-stopped
     volumes:
       - "/:/host:ro,rslave"
+    env_file:
+      - "vars.env"
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
@@ -35,6 +71,8 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
     restart: unless-stopped
+    env_file:
+      - "vars.env"
   promtail:
     depends_on:
       - loki
@@ -43,11 +81,13 @@ services:
     command: -config.file=/etc/promtail/promtail.yml
     privileged: true
     volumes:
-      - ./config/promtail.yml:/etc/promtail/promtail.yml
-      - /var/log/journal:/var/log/journal
-      - /run/log/journal:/run/log/journal
-      - /etc/machine-id:/etc/machine-id
+      - ./config/promtail.yml:/etc/promtail/promtail.yml:ro
+      - /var/log/journal:/var/log/journal:ro
+      - /run/log/journal:/run/log/journal:ro
+      - /etc/machine-id:/etc/machine-id:ro
     restart: unless-stopped
+    env_file:
+      - "vars.env"
   tailscale:
     image: tailscale/tailscale
     container_name: tailscale
@@ -58,6 +98,8 @@ services:
       - /var/lib:/var/lib
       - /dev/net/tun:/dev/net/tun
     restart: unless-stopped
+    env_file:
+      - "vars.env"
   certbot:
     image: certbot/dns-route53
     container_name: certbot
@@ -77,20 +119,26 @@ services:
       -d plex.public.zeus.shepherdjerred.com
       -d overseerr.tailscale.zeus.shepherdjerred.com
       -d overseerr.public.zeus.shepherdjerred.com
+      -d influxdb.tailscale.zeus.shepherdjerred.com
     volumes:
-      - ./config/credentials:/root/.aws/credentials
+      - ./config/credentials:/root/.aws/credentials:ro
       - letsencrypt-certs:/etc/letsencrypt
+    env_file:
+      - "vars.env"
   grafana:
     image: grafana/grafana-oss:latest
     container_name: grafana
     privileged: true
     volumes:
-      - ./config/grafana.ini:/etc/grafana/grafana.ini
+      - ./config/grafana.ini:/etc/grafana/grafana.ini:ro
       - grafana-data:/var/lib/grafana
     depends_on:
       - prometheus
       - loki
+      - influxdb
     restart: unless-stopped
+    env_file:
+      - "vars.env"
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
@@ -98,7 +146,7 @@ services:
     volumes:
       - prometheus-data:/prometheus
       - prometheus-config:/etc/prometheus/
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     extra_hosts:
       - host.docker.internal:host-gateway
     depends_on:
@@ -106,15 +154,19 @@ services:
       - nginx_tailscale_exporter
       - cadvisor
     restart: unless-stopped
+    env_file:
+      - "vars.env"
   loki:
     image: grafana/loki:latest
     container_name: loki
     privileged: true
     volumes:
       - loki-data:/etc/loki/
-      - ./config/loki/loki.yaml:/etc/loki/local-config.yaml
+      - ./config/loki/loki.yaml:/etc/loki/local-config.yaml:ro
       - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/
     restart: unless-stopped
+    env_file:
+      - "vars.env"
   nginx_public:
     image: nginx:alpine
     container_name: nginx_public
@@ -125,15 +177,17 @@ services:
       # - 2601:602:8500:17bc:4fbd:94e:6646:34d4:80:80
       # - 2601:602:8500:17bc:4fbd:94e:6646:34d4:443:443
     volumes:
-      - ./static/public.html:/usr/share/nginx/html/index.html
-      - ./config/nginx/includes:/etc/nginx/includes
+      - ./static/public.html:/usr/share/nginx/html/index.html:ro
+      - ./config/nginx/includes:/etc/nginx/includes:ro
       - ./config/nginx/nginx-public.conf:/etc/nginx/nginx.conf:ro
-      - letsencrypt-certs:/etc/letsencrypt
+      - letsencrypt-certs:/etc/letsencrypt:ro
     depends_on:
       - plex
       - overseerr
       - homeassistant
     restart: unless-stopped
+    env_file:
+      - "vars.env"
   nginx_tailscale:
     image: nginx:alpine
     container_name: nginx_tailscale
@@ -144,15 +198,17 @@ services:
       - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:80:80
       - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:443:443
     volumes:
-      - ./static/tailscale.html:/usr/share/nginx/html/index.html
-      - ./config/nginx/includes:/etc/nginx/includes
+      - ./static/tailscale.html:/usr/share/nginx/html/index.html:ro
+      - ./config/nginx/includes:/etc/nginx/includes:ro
       - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro
-      - letsencrypt-certs:/etc/letsencrypt
+      - letsencrypt-certs:/etc/letsencrypt:ro
     depends_on:
       - plex
       - overseerr
       - homeassistant
     restart: unless-stopped
+    env_file:
+      - "vars.env"
   plex:
     image: plexinc/pms-docker:latest
     container_name: plex
@@ -160,7 +216,6 @@ services:
     devices:
       - /dev/dri:/dev/dri
     environment:
-      - TZ=America/Los_Angeles
       - ADVERTISE_IP=http://73.157.91.74:32400,http://100.103.244.82:32400,http://192.168.1.45:32400
     ports:
       - 32400:32400/tcp
@@ -179,6 +234,8 @@ services:
       - /var/storage/media/movies:/data/movies
       - /var/storage/media/other:/data/other
     restart: unless-stopped
+    env_file:
+      - "vars.env"
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
@@ -266,3 +323,5 @@ volumes:
   loki-data:
   letsencrypt-certs:
   plex-transcode:
+  influxdb-data:
+  tautulli-data:

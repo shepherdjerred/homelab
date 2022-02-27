@@ -27,6 +27,7 @@ stop:
 restart: stop start
 
 lint: build
+	docker-compose config
 	docker run --rm -i quay.io/coreos/ignition-validate:release - < $(ZEUS_IGNITION_FILE)
 	docker run --rm -i quay.io/coreos/ignition-validate:release - < $(BOOTSTRAP_IGNITION_FILE)
 

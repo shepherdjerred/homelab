@@ -51,7 +51,7 @@ export function createDomainResources(stack: Stack) {
         address: "fd7a:115c:a1e0:ab12:4843:cd96:624a:296a",
       },
     ],
-    domains: ["homeassistant", "overseerr", "plex", ""],
+    domains: ["influxdb", "homeassistant", "overseerr", "plex", ""],
   };
 
   const associations = [publicAssociation, tailscaleAssociation];
