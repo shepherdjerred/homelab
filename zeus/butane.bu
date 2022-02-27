@@ -22,6 +22,36 @@ storage:
               {
                 "data-root": "/var/storage/docker"
               }
+        - path: /etc/selinux/config
+          mode: 0644
+          contents:
+            inline: |
+              # This file controls the state of SELinux on the system.
+              # SELINUX= can take one of these three values:
+              #     enforcing - SELinux security policy is enforced.
+              #     permissive - SELinux prints warnings instead of enforcing.
+              #     disabled - No SELinux policy is loaded.
+              # See also:
+              # https://docs.fedoraproject.org/en-US/quick-docs/getting-started-with-selinux/#getting-started-with-selinux-selinux-states-and-modes
+              #
+              # NOTE: In earlier Fedora kernel builds, SELINUX=disabled would also
+              # fully disable SELinux during boot. If you need a system with SELinux
+              # fully disabled instead of SELinux running with no policy loaded, you
+              # need to pass selinux=0 to the kernel command line. You can use grubby
+              # to persistently set the bootloader to boot with selinux=0:
+              #
+              #    grubby --update-kernel ALL --args selinux=0
+              #
+              # To revert back to SELinux enabled:
+              #
+              #    grubby --update-kernel ALL --remove-args selinux
+              #
+              SELINUX=permissive
+              # SELINUXTYPE= can take one of these three values:
+              #     targeted - Targeted processes are protected,
+              #     minimum - Modification of targeted policy. Only selected processes are protected.
+              #     mls - Multi Level Security protection.
+              SELINUXTYPE=targeted
     links:
         - path: /etc/localtime
           target: ../usr/share/zoneinfo/America/Los_Angeles
@@ -86,55 +116,6 @@ systemd:
             RemainAfterExit=yes
             WorkingDirectory=/var/docker-compose
             ExecStart=/usr/bin/git clone https://github.com/shepherdjerred/servers/
-
-            [Install]
-            WantedBy=multi-user.target
-        - name: docker-compose-reload.service
-          enabled: false
-          contents: |
-            [Unit]
-            Description=Refresh images and update containers
-
-            [Service]
-            Type=oneshot
-
-            ExecStart=/bin/systemctl reload-or-restart docker-compose.service
-        - name: docker-compose-reload.timer
-          enabled: false
-          contents: |
-            [Unit]
-            Description=Refresh images and update containers
-            Requires=docker-compose.service
-            After=docker-compose.service
-
-            [Timer]
-            OnCalendar=weekly
-            Persistent=true
-
-            [Install]
-            WantedBy=timers.target
-        - name: docker-compose.service
-          enabled: false
-          contents: |
-            [Unit]
-            Description=Docker Compose container starter
-            After=docker.service network-online.target var-storage.mount rpm-ostree-install-docker-compose.service
-            Requires=docker.service network-online.target
-
-            [Service]
-            WorkingDirectory=/var/docker-compose/servers/zeus
-            Type=oneshot
-            RemainAfterExit=yes
-
-            ExecStartPre=/usr/bin/git reset --hard origin/main
-            ExecStartPre=/usr/bin/git pull
-            ExecStartPre=-/usr/bin/docker-compose pull
-            ExecStart=/usr/bin/docker-compose up -d
-
-            ExecStop=/usr/bin/docker-compose down
-
-            ExecReload=/usr/bin/docker-compose pull
-            ExecReload=/usr/bin/docker-compose up -d
 
             [Install]
             WantedBy=multi-user.target
