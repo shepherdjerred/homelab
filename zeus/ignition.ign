@@ -35,6 +35,14 @@
           "source": "data:;base64,ewogICJkYXRhLXJvb3QiOiAiL3Zhci9zdG9yYWdlL2RvY2tlciIKfQo="
         },
         "mode": 384
+      },
+      {
+        "path": "/etc/selinux/config",
+        "contents": {
+          "compression": "gzip",
+          "source": "data:;base64,H4sIAAAAAAAC/5RTTY/bOAy9+1cQ8HXk7DnAHPYwCwyQnSmQDNA5KhbjqJFJV6Qy9b8vJH8kLdCizSWWRL7H90jWcDh7gZMPCC2TRg4CekYQtYrAJ9g/7Tylb8A03Y+i2DdVnR+eX94+P0JrCdReEJhKhp5REPQcEeFqQ0LZVjXkH9KJY+upA7PiCrYpeh1h4ODbEbzMYeiaOW3A2HsRf8W7vCF6UoEPG8lTJ+BJFK3LBaw0C4DzYo8BHRh44RvCShjYuolujwg2COeKz6qDbDcbx600J3Qc7RD5C7bacOw2SOZtv/mafHsxOWTToaqnzojaqOjMh9ezEQyZbFP/7vX2n10XY8mZnh1KVVc1vLwenrbwTIA2Bo8R/iu1wAUjYYBj8sHJw9qPVewHp+CKmqqGUwphXIxYLXAp5m4cmbWB5xOMnIAQHdi50ZDLXMJ/hnH3pi+QMVFuyJRIvLg8WfyQGap64lCGwYrALP7xn3yTZ2wW1nLfW3IQPGED75zKpCVB6GI6HseqLhAYxYsiaRhBUAtCFlQYYw7Jp6melWpbnAWYocCYNDiraGbuf3c7MMbG7q68knJgiHjFqHC07SWjL8KRiid/hhyx5yv+QFDV1dLC28Df9uzw/unpb3ZNbexQy8wfls8hcosiKGAj5pNiq+ge5pTek+9TDwb+Z+dPvrXqmQrNilC62cArFbdDyf8V7rJ+fZCMmYJ62OEVA+zXpZ9iPVNT3QtdCKvvAQAA//9++ueQoQQAAA=="
+        },
+        "mode": 420
       }
     ],
     "links": [
@@ -65,21 +73,6 @@
         "contents": "[Unit]\nWants=network-online.target\nAfter=network-online.target\nDescription=Clone shepherdjerred/servers git repo\n\n[Service]\nType=oneshot\nRemainAfterExit=yes\nWorkingDirectory=/var/docker-compose\nExecStart=/usr/bin/git clone https://github.com/shepherdjerred/servers/\n\n[Install]\nWantedBy=multi-user.target\n",
         "enabled": true,
         "name": "clone-servers-git-repo.service"
-      },
-      {
-        "contents": "[Unit]\nDescription=Refresh images and update containers\n\n[Service]\nType=oneshot\n\nExecStart=/bin/systemctl reload-or-restart docker-compose.service\n",
-        "enabled": false,
-        "name": "docker-compose-reload.service"
-      },
-      {
-        "contents": "[Unit]\nDescription=Refresh images and update containers\nRequires=docker-compose.service\nAfter=docker-compose.service\n\n[Timer]\nOnCalendar=weekly\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n",
-        "enabled": false,
-        "name": "docker-compose-reload.timer"
-      },
-      {
-        "contents": "[Unit]\nDescription=Docker Compose container starter\nAfter=docker.service network-online.target var-storage.mount rpm-ostree-install-docker-compose.service\nRequires=docker.service network-online.target\n\n[Service]\nWorkingDirectory=/var/docker-compose/servers/zeus\nType=oneshot\nRemainAfterExit=yes\n\nExecStartPre=/usr/bin/git reset --hard origin/main\nExecStartPre=/usr/bin/git pull\nExecStartPre=-/usr/bin/docker-compose pull\nExecStart=/usr/bin/docker-compose up -d\n\nExecStop=/usr/bin/docker-compose down\n\nExecReload=/usr/bin/docker-compose pull\nExecReload=/usr/bin/docker-compose up -d\n\n[Install]\nWantedBy=multi-user.target\n",
-        "enabled": false,
-        "name": "docker-compose.service"
       }
     ]
   }
