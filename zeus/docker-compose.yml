@@ -19,6 +19,7 @@ services:
       - ./config/varken.ini:/config/varken.ini
     depends_on:
       - influxdb
+      - tautulli
     env_file:
       - "vars.env"
   influxdb:
@@ -27,7 +28,7 @@ services:
     image: influxdb:alpine
     restart: unless-stopped
     volumes:
-      - influxdb-data:/var/lib/influxdb2
+      - influxdb-data:/var/lib/influxdb
     env_file:
       - "vars.env"
   nginx_public_exporter:
