@@ -140,6 +140,8 @@ services:
     restart: unless-stopped
     env_file:
       - "vars.env"
+    environment:
+      GF_INSTALL_PLUGINS: grafana-piechart-panel,grafana-worldmap-panel
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
