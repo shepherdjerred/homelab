@@ -1,11 +1,10 @@
 version: "3.8"
 services:
   timemachine:
-    privileged: true
     network_mode: "host"
     restart: unless-stopped
     volumes:
-      - /var/timemachine:/opt/timemachine
+      - /var/timemachine:/opt/timemachine:Z
       - timemachine-var-lib-samba:/var/lib/samba
       - timemachine-var-cache-samba:/var/cache/samba
       - timemachine-run-samba:/run/samba
@@ -20,29 +19,26 @@ services:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     restart: unless-stopped
   tautulli:
-    privileged: true
     container_name: tautulli
     image: ghcr.io/tautulli/tautulli:latest
     restart: unless-stopped
     volumes:
       - tautulli-data:/config
-      - /var/storage/plex/Plex\ Media\ Server/Logs:/plex_logs:ro
+      - /var/storage/plex/Plex\ Media\ Server/Logs:/plex_logs:ro,z
     env_file:
       - "vars.env"
   varken:
-    privileged: true
     container_name: varken
     image: boerderij/varken:latest
     restart: unless-stopped
     volumes:
-      - ./config/varken.ini:/config/varken.ini
+      - ./config/varken.ini:/config/varken.ini:Z
     depends_on:
       - influxdb
       - tautulli
     env_file:
       - "vars.env"
   influxdb:
-    privileged: true
     container_name: influxdb
     image: influxdb:alpine
     restart: unless-stopped
@@ -99,9 +95,8 @@ services:
     image: grafana/promtail:latest
     container_name: promtail
     command: -config.file=/etc/promtail/promtail.yml
-    privileged: true
     volumes:
-      - ./config/promtail.yml:/etc/promtail/promtail.yml:ro
+      - ./config/promtail.yml:/etc/promtail/promtail.yml:ro,Z
       - /var/log/journal:/var/log/journal:ro
       - /run/log/journal:/run/log/journal:ro
       - /etc/machine-id:/etc/machine-id:ro
@@ -123,7 +118,6 @@ services:
   certbot:
     image: certbot/dns-route53
     container_name: certbot
-    privileged: true
     command: |
       certonly
       --cert-name "shepherdjerred.com"
@@ -141,16 +135,15 @@ services:
       -d overseerr.public.zeus.shepherdjerred.com
       -d influxdb.tailscale.zeus.shepherdjerred.com
     volumes:
-      - ./config/credentials:/root/.aws/credentials:ro
+      - ./config/credentials:/root/.aws/credentials:ro,Z
       - letsencrypt-certs:/etc/letsencrypt
     env_file:
       - "vars.env"
   grafana:
     image: grafana/grafana-oss:latest
     container_name: grafana
-    privileged: true
     volumes:
-      - ./config/grafana.ini:/etc/grafana/grafana.ini:ro
+      - ./config/grafana.ini:/etc/grafana/grafana.ini:ro,Z
       - grafana-data:/var/lib/grafana
     depends_on:
       - prometheus
@@ -164,11 +157,10 @@ services:
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
-    privileged: true
     volumes:
       - prometheus-data:/prometheus
       - prometheus-config:/etc/prometheus/
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
     extra_hosts:
       - host.docker.internal:host-gateway
     depends_on:
@@ -181,27 +173,25 @@ services:
   loki:
     image: grafana/loki:latest
     container_name: loki
-    privileged: true
     volumes:
       - loki-data:/etc/loki/
-      - ./config/loki/loki.yaml:/etc/loki/local-config.yaml:ro
-      - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/
+      - ./config/loki/loki.yaml:/etc/loki/local-config.yaml:ro,Z
+      - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/:ro,Z
     restart: unless-stopped
     env_file:
       - "vars.env"
   nginx_public:
     image: nginx:alpine
     container_name: nginx_public
-    privileged: true
     ports:
       - 192.168.1.45:80:80
       - 192.168.1.45:443:443
       # - 2601:602:8500:17bc:4fbd:94e:6646:34d4:80:80
       # - 2601:602:8500:17bc:4fbd:94e:6646:34d4:443:443
     volumes:
-      - ./static/public.html:/usr/share/nginx/html/index.html:ro
-      - ./config/nginx/includes:/etc/nginx/includes:ro
-      - ./config/nginx/nginx-public.conf:/etc/nginx/nginx.conf:ro
+      - ./static/public.html:/usr/share/nginx/html/index.html:ro,Z
+      - ./config/nginx/includes:/etc/nginx/includes:ro,z
+      - ./config/nginx/nginx-public.conf:/etc/nginx/nginx.conf:ro,Z
       - letsencrypt-certs:/etc/letsencrypt:ro
     depends_on:
       - plex
@@ -213,16 +203,15 @@ services:
   nginx_tailscale:
     image: nginx:alpine
     container_name: nginx_tailscale
-    privileged: true
     ports:
       - 100.74.41.106:80:80
       - 100.74.41.106:443:443
       - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:80:80
       - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:443:443
     volumes:
-      - ./static/tailscale.html:/usr/share/nginx/html/index.html:ro
-      - ./config/nginx/includes:/etc/nginx/includes:ro
-      - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro
+      - ./static/tailscale.html:/usr/share/nginx/html/index.html:ro,Z
+      - ./config/nginx/includes:/etc/nginx/includes:ro,z
+      - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro,Z
       - letsencrypt-certs:/etc/letsencrypt:ro
     depends_on:
       - plex
@@ -234,7 +223,6 @@ services:
   plex:
     image: plexinc/pms-docker:latest
     container_name: plex
-    privileged: true
     devices:
       - /dev/dri:/dev/dri
     environment:
@@ -250,24 +238,23 @@ services:
       - 32413:32413/udp
       - 32414:32414/udp
     volumes:
-      - /var/storage/plex:/config
+      - /var/storage/plex:/config:z
       - plex-transcode:/transcode
-      - /var/storage/media/tv:/data/tv
-      - /var/storage/media/movies:/data/movies
-      - /var/storage/media/other:/data/other
+      - /var/storage/media/tv:/data/tv:z
+      - /var/storage/media/movies:/data/movies:z
+      - /var/storage/media/other:/data/other:z
     restart: unless-stopped
     env_file:
       - "vars.env"
   syncthing:
     image: syncthing/syncthing:latest
     container_name: syncthing
-    privileged: true
     hostname: syncthing
     env_file:
       - "vars.env"
     volumes:
       - syncthing-config:/var/syncthing/
-      - /var/storage/syncthing:/syncthing
+      - /var/storage/syncthing:/syncthing:Z
     ports:
       - 22000:22000/tcp
       - 22000:22000/udp
@@ -276,7 +263,6 @@ services:
   homeassistant:
     image: lscr.io/linuxserver/homeassistant:latest
     container_name: homeassistant
-    privileged: true
     env_file:
       - "vars.env"
     volumes:
@@ -285,7 +271,6 @@ services:
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
-    privileged: true
     env_file:
       - "vars.env"
     volumes:
@@ -299,33 +284,30 @@ services:
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
-    privileged: true
     env_file:
       - "vars.env"
     volumes:
       - radarr-config:/config
-      - /var/storage/media/movies:/movies
-      - /var/storage/syncthing/Torrents:/downloads
+      - /var/storage/media/movies:/movies:z
+      - /var/storage/syncthing/Torrents:/downloads:z
     restart: unless-stopped
     depends_on:
       - jackett
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
-    privileged: true
     env_file:
       - "vars.env"
     volumes:
       - sonarr-config:/config
-      - /var/storage/media/tv:/tv
-      - /var/storage/syncthing/Torrents:/downloads
+      - /var/storage/media/tv:/tv:z
+      - /var/storage/syncthing/Torrents:/downloads:z
     restart: unless-stopped
     depends_on:
       - jackett
   jackett:
     image: lscr.io/linuxserver/jackett:latest
     container_name: jackett
-    privileged: true
     env_file:
       - "vars.env"
     volumes:
