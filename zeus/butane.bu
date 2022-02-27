@@ -94,16 +94,44 @@ systemd:
           contents: |
             [Unit]
             Before=local-fs.target,docker.service
-            ConditionPathExists=/dev/md127
+            ConditionPathExists=/dev/disk/by-uuid/c48e1b3a-4c8c-4488-82ee-45b6b377b61a
 
             [Mount]
-            What=/dev/md127
+            What=/dev/disk/by-uuid/c48e1b3a-4c8c-4488-82ee-45b6b377b61a
             Where=/var/storage
             Type=ext4
 
             [Install]
             WantedBy=multi-user.target
-        - name: clone-servers-git-repo.service
+        - name: var-timemachine.mount
+          enabled: false
+          contents: |
+            [Unit]
+            Before=local-fs.target,docker.service
+            ConditionPathExists=/dev/disk/by-uuid/49f949f8-a2f0-4e25-8723-19283b531ac4
+
+            [Mount]
+            What=/dev/disk/by-uuid/49f949f8-a2f0-4e25-8723-19283b531ac4
+            Where=/var/timemachine
+            Type=ext4
+
+            [Install]
+            WantedBy=multi-user.target
+        - name: var-spare.mount
+          enabled: false
+          contents: |
+            [Unit]
+            Before=local-fs.target,docker.service
+            ConditionPathExists=/dev/disk/by-uuid/d8ec49c8-97ee-4cf2-992c-c5c9fbff6c70
+
+            [Mount]
+            What=/dev/disk/by-uuid/d8ec49c8-97ee-4cf2-992c-c5c9fbff6c70
+            Where=/var/spare
+            Type=ext4
+
+            [Install]
+            WantedBy=multi-user.target
+        - name: clone-git-repo.service
           enabled: true
           contents: |
             [Unit]

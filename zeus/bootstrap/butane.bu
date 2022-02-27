@@ -25,7 +25,7 @@ systemd:
 
         [Service]
         Type=oneshot
-        ExecStart=/usr/bin/coreos-installer install -i /etc/target.ign /dev/sdd
+        ExecStart=/usr/bin/coreos-installer install -i /etc/target.ign /dev/disk/by-id/ata-Samsung_SSD_850_EVO_500GB_S21HNXAG547183T
         ExecStart=/usr/bin/systemctl --no-block reboot
         StandardOutput=kmsg+console
         StandardError=kmsg+console

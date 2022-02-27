@@ -65,14 +65,24 @@
         "name": "rpm-ostree-install-docker-compose.service"
       },
       {
-        "contents": "[Unit]\nBefore=local-fs.target,docker.service\nConditionPathExists=/dev/md127\n\n[Mount]\nWhat=/dev/md127\nWhere=/var/storage\nType=ext4\n\n[Install]\nWantedBy=multi-user.target\n",
+        "contents": "[Unit]\nBefore=local-fs.target,docker.service\nConditionPathExists=/dev/disk/by-uuid/c48e1b3a-4c8c-4488-82ee-45b6b377b61a\n\n[Mount]\nWhat=/dev/disk/by-uuid/c48e1b3a-4c8c-4488-82ee-45b6b377b61a\nWhere=/var/storage\nType=ext4\n\n[Install]\nWantedBy=multi-user.target\n",
         "enabled": false,
         "name": "var-storage.mount"
       },
       {
+        "contents": "[Unit]\nBefore=local-fs.target,docker.service\nConditionPathExists=/dev/disk/by-uuid/49f949f8-a2f0-4e25-8723-19283b531ac4\n\n[Mount]\nWhat=/dev/disk/by-uuid/49f949f8-a2f0-4e25-8723-19283b531ac4\nWhere=/var/timemachine\nType=ext4\n\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": false,
+        "name": "var-timemachine.mount"
+      },
+      {
+        "contents": "[Unit]\nBefore=local-fs.target,docker.service\nConditionPathExists=/dev/disk/by-uuid/d8ec49c8-97ee-4cf2-992c-c5c9fbff6c70\n\n[Mount]\nWhat=/dev/disk/by-uuid/d8ec49c8-97ee-4cf2-992c-c5c9fbff6c70\nWhere=/var/spare\nType=ext4\n\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": false,
+        "name": "var-spare.mount"
+      },
+      {
         "contents": "[Unit]\nWants=network-online.target\nAfter=network-online.target\nDescription=Clone shepherdjerred/servers git repo\n\n[Service]\nType=oneshot\nRemainAfterExit=yes\nWorkingDirectory=/var/docker-compose\nExecStart=/usr/bin/git clone https://github.com/shepherdjerred/servers/\n\n[Install]\nWantedBy=multi-user.target\n",
         "enabled": true,
-        "name": "clone-servers-git-repo.service"
+        "name": "clone-git-repo.service"
       }
     ]
   }
