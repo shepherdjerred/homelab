@@ -1,5 +1,9 @@
 version: "3.8"
 services:
+  flaresolverr:
+    container_name: flaresolverr
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    restart: unless-stopped
   tautulli:
     privileged: true
     container_name: tautulli
@@ -28,7 +32,7 @@ services:
     image: influxdb:alpine
     restart: unless-stopped
     volumes:
-      - influxdb-data:/var/lib/influxdb
+      - influxdb-data:/var/lib/influxdb2
     env_file:
       - "vars.env"
   nginx_public_exporter:
@@ -240,14 +244,14 @@ services:
     env_file:
       - "vars.env"
   syncthing:
-    image: lscr.io/linuxserver/syncthing:latest
+    image: syncthing/syncthing:latest
     container_name: syncthing
     privileged: true
     hostname: syncthing
     env_file:
       - "vars.env"
     volumes:
-      - syncthing-config:/config
+      - syncthing-config:/var/syncthing/
       - /var/storage/syncthing:/syncthing
     ports:
       - 22000:22000/tcp
@@ -286,7 +290,7 @@ services:
     volumes:
       - radarr-config:/config
       - /var/storage/media/movies:/movies
-      - /var/storage/syncthing/downloads:/downloads
+      - /var/storage/syncthing/Torrents:/downloads
     restart: unless-stopped
     depends_on:
       - jackett
@@ -299,7 +303,7 @@ services:
     volumes:
       - sonarr-config:/config
       - /var/storage/media/tv:/tv
-      - /var/storage/syncthing/downloads:/downloads
+      - /var/storage/syncthing/Torrents:/downloads
     restart: unless-stopped
     depends_on:
       - jackett
@@ -311,7 +315,6 @@ services:
       - "vars.env"
     volumes:
       - jackett-config:/config
-      - /var/storage/syncthing/downloads:/downloads
     restart: unless-stopped
 volumes:
   jackett-config:
