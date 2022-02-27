@@ -1,5 +1,20 @@
 version: "3.8"
 services:
+  timemachine:
+    privileged: true
+    network_mode: "host"
+    restart: unless-stopped
+    volumes:
+      - /var/timemachine:/opt/timemachine
+      - timemachine-var-lib-samba:/var/lib/samba
+      - timemachine-var-cache-samba:/var/cache/samba
+      - timemachine-run-samba:/run/samba
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    container_name: timemachine
+    image: mbentley/timemachine:smb
   flaresolverr:
     container_name: flaresolverr
     image: ghcr.io/flaresolverr/flaresolverr:latest
@@ -331,3 +346,6 @@ volumes:
   plex-transcode:
   influxdb-data:
   tautulli-data:
+  timemachine-var-lib-samba:
+  timemachine-var-cache-samba:
+  timemachine-run-samba:
