@@ -1,8 +1,6 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
-http:
-  server_host: 127.0.0.1
 # Text to speech
 tts:
   - platform: google_translate
