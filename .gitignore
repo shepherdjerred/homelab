@@ -6,3 +6,4 @@
 # These have secrets. Don't commit 'em.
 varken.ini
 credentials
+secrets.yaml
