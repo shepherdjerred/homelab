@@ -273,7 +273,6 @@ services:
       - homeassistant-config:/config
       - ./config/homeassistant/configuration.yaml:/config/configuration.yaml:Z
       - ./config/homeassistant/secrets.yaml:/config/secrets.yaml:Z
-      - ./config/homeassistant/includes:/config/includes:Z
     restart: unless-stopped
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest

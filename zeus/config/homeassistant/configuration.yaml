@@ -9,6 +9,6 @@ nest:
   client_secret: !secret client_secret
   project_id: !secret project_id
 
-automation: !include includes/automations.yaml
-script: !include includes/scripts.yaml
-scene: !include includes/scenes.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
