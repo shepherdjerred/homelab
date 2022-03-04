@@ -8,6 +8,7 @@ nest:
   client_id: !secret client_id
   client_secret: !secret client_secret
   project_id: !secret project_id
+ffmpeg:
 
 automation: !include automations.yaml
 script: !include scripts.yaml
