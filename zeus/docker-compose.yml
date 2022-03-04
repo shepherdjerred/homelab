@@ -229,6 +229,7 @@ services:
     container_name: plex
     devices:
       - /dev/dri:/dev/dri
+    shm_size: 8GB
     environment:
       - ADVERTISE_IP=http://73.157.91.74:32400,http://100.103.244.82:32400,http://192.168.1.45:32400
     ports:
@@ -242,7 +243,7 @@ services:
       - 32414:32414/udp
     volumes:
       - /var/storage/plex:/config:z
-      - plex-transcode:/transcode
+      - /dev/shm:/transcode
       - /var/storage/media/tv:/data/tv:z
       - /var/storage/media/movies:/data/movies:z
       - /var/storage/media/other:/data/other:z
