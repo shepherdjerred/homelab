@@ -19,9 +19,7 @@ storage:
           mode: 0600
           contents:
             inline: |
-              {
-                "data-root": "/var/storage/docker"
-              }
+              {}
         - path: /etc/selinux/config
           mode: 0644
           contents:
