@@ -283,8 +283,6 @@ services:
     volumes:
       - overseerr-config:/config
     restart: unless-stopped
-    labels:
-      - "docker-volume-backup.stop-during-backup=true"
     depends_on:
       - radarr
       - sonarr
@@ -320,6 +318,38 @@ services:
     volumes:
       - jackett-config:/config
     restart: unless-stopped
+  volumerize:
+    image: blacklabelops/volumerize:1.7.1
+    container_name: volumerize
+    env_file:
+      - "vars.env"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - volumerize-cache:/volumerize-cache
+      - /var/storage/backup:/target:Z
+      - jackett-config:/source/jackett-config:ro
+      - sonarr-config:/source/sonarr-config:ro
+      - radarr-config:/source/radarr-config:ro
+      - overseerr-config:/source/overseerr-config:ro
+      - syncthing-config:/source/syncthing-config:ro
+      - homeassistant-config:/source/homeassistant-config:ro
+      - grafana-data:/source/grafana-data:ro
+      - prometheus-config:/source/prometheus-config:ro
+      - prometheus-data:/source/prometheus-data:ro
+      - loki-data:/source/loki-data:ro
+      - influxdb-data:/source/influxdb-data:ro
+      - tautulli-data:/source/tautulli-data:ro
+      - timemachine-var-lib-samba:/source/timemachine-var-lib-samba:ro
+      - timemachine-var-cache-samba:/source/timemachine-var-cache-samba:ro
+      - timemachine-run-samba:/source/timemachine-run-samba:ro
+    environment:
+      VOLUMERIZE_SOURCE: "/source"
+      VOLUMERIZE_TARGET: "file:///target"
+      # VOLUMERIZE_JOBBER_TIME: "0 0 4 * * *"
+      VOLUMERIZE_CONTAINERS: "jackett sonarr radarr overseerr syncthing homeassistant grafana prometheus loki influxdb tautulli timemachine"
+      VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
+    restart: unless-stopped
+# Add new volumes to backup if needed.
 volumes:
   jackett-config:
   sonarr-config:
@@ -332,9 +362,9 @@ volumes:
   prometheus-data:
   loki-data:
   letsencrypt-certs:
-  plex-transcode:
   influxdb-data:
   tautulli-data:
   timemachine-var-lib-samba:
   timemachine-var-cache-samba:
   timemachine-run-samba:
+  volumerize-cache:
