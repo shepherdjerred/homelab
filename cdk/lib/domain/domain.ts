@@ -55,7 +55,7 @@ function createPersephoneRecords(stack: Stack, hostedZone: IHostedZone) {
     domains: [""],
   };
 
-  const persephoneAssocations = [publicAssociation];
+  const persephoneAssocations = [publicAssociation, tailscaleAssociation];
   createRecords(stack, persephoneAssocations, hostedZone);
 }
 
