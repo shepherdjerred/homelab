@@ -1,79 +1,5 @@
-version: "3.9"
-
+version: "3.8"
 services:
-  syncthing:
-    image: syncthing/syncthing:latest
-    container_name: syncthing
-    hostname: syncthing
-    env_file:
-      - "vars.env"
-    volumes:
-      - syncthing-config:/var/syncthing/
-      - /var/storage/syncthing:/syncthing:Z
-    ports:
-      - 22000:22000/tcp
-      - 22000:22000/udp
-      - 21027:21027/udp
-    restart: unless-stopped
-  nginx_tailscale:
-    image: nginx:alpine
-    container_name: nginx_tailscale
-    ports:
-      - 100.74.41.106:80:80
-      - 100.74.41.106:443:443
-      - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:80:80
-      - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:443:443
-    volumes:
-      - ./static/tailscale.html:/usr/share/nginx/html/index.html:ro,Z
-      - ./config/nginx/includes:/etc/nginx/includes:ro,z
-      - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro,Z
-      - letsencrypt-certs:/etc/letsencrypt:ro
-    depends_on:
-      - plex
-      - overseerr
-      - homeassistant
-    restart: unless-stopped
-    env_file:
-      - "vars.env"
-  certbot:
-    image: certbot/dns-route53
-    container_name: certbot
-    command: |
-      certonly
-      --cert-name "shepherdjerred.com"
-      -n
-      --agree-tos
-      -m shepherdjerred@gmail.com
-      --dns-route53
-      -d tailscale.zeus.shepherdjerred.com
-      -d public.zeus.shepherdjerred.com
-      -d homeassistant.tailscale.zeus.shepherdjerred.com
-      -d homeassistant.public.zeus.shepherdjerred.com
-      -d plex.tailscale.zeus.shepherdjerred.com
-      -d plex.public.zeus.shepherdjerred.com
-      -d overseerr.tailscale.zeus.shepherdjerred.com
-      -d overseerr.public.zeus.shepherdjerred.com
-      -d influxdb.tailscale.zeus.shepherdjerred.com
-    volumes:
-      - ./config/credentials:/root/.aws/credentials:ro,Z
-      - letsencrypt-certs:/etc/letsencrypt
-    env_file:
-      - "vars.env"
-  grafana:
-    image: grafana/grafana-oss:latest
-    container_name: grafana
-    volumes:
-      - ./config/grafana.ini:/etc/grafana/grafana.ini:ro,Z
-      - grafana-data:/var/lib/grafana
-    depends_on:
-      - prometheus
-      - loki
-      - influxdb
-    restart: unless-stopped
-    env_file:
-      - "vars.env"
-    environment:
-      GF_INSTALL_PLUGINS: grafana-piechart-panel,grafana-worldmap-panel
   nginx_tailscale_exporter:
     container_name: nginx_tailscale_exporter
     depends_on:
@@ -134,55 +60,130 @@ services:
     restart: unless-stopped
     env_file:
       - "vars.env"
-  geoip-updater:
-    image: crazymax/geoip-updater:latest
+  certbot:
+    image: certbot/dns-route53
+    container_name: certbot
+    command: |
+      certonly
+      --cert-name "shepherdjerred.com"
+      -n
+      --agree-tos
+      -m shepherdjerred@gmail.com
+      --dns-route53
+      -d tailscale.zeus.shepherdjerred.com
+      -d public.zeus.shepherdjerred.com
+      -d homeassistant.tailscale.zeus.shepherdjerred.com
+      -d homeassistant.public.zeus.shepherdjerred.com
+      -d plex.tailscale.zeus.shepherdjerred.com
+      -d plex.public.zeus.shepherdjerred.com
+      -d overseerr.tailscale.zeus.shepherdjerred.com
+      -d overseerr.public.zeus.shepherdjerred.com
+      -d influxdb.tailscale.zeus.shepherdjerred.com
     volumes:
-      - "./data/geoip:/data"
+      - ./config/credentials:/root/.aws/credentials:ro,Z
+      - letsencrypt-certs:/etc/letsencrypt
     env_file:
-      - "./geoip-updater.env"
-    restart: unless-stopped
-  rtorrent-rutorrent:
-    image: crazymax/rtorrent-rutorrent:latest
-    expose:
-      - "${RT_DHT_PORT}/udp"
-      - "${XMLRPC_PORT}"
-      - "${RUTORRENT_PORT}"
-      - "${WEBDAV_PORT}"
-      - "${RT_INC_PORT}"
-    ports:
-      - target: ${RT_DHT_PORT}
-        published: ${RT_DHT_PORT}
-        protocol: udp
-      - target: ${RUTORRENT_PORT}
-        published: ${RUTORRENT_PORT}
-        protocol: tcp
-      - target: ${WEBDAV_PORT}
-        published: ${WEBDAV_PORT}
-        protocol: tcp
-      - target: ${RT_INC_PORT}
-        published: ${RT_INC_PORT}
-        protocol: tcp
-    env_file:
-      - "rtorrent-rutorrent.env"
-      - ".env"
+      - "vars.env"
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
     volumes:
-      - "./data:/data"
-      - "./downloads:/downloads"
-      - "./passwd:/passwd"
-    ulimits:
-      nproc: 65535
-      nofile:
-        soft: 32000
-        hard: 40000
-    restart: unless-stopped
-  rtorrent-logs:
-    image: bash
-    command: bash -c 'tail -f /log/*.log'
+      - ./config/grafana.ini:/etc/grafana/grafana.ini:ro,Z
+      - grafana-data:/var/lib/grafana
     depends_on:
-      - rtorrent-rutorrent
-    volumes:
-      - "./data/rtorrent/log:/log"
+      - prometheus
+      - loki
+      - influxdb
     restart: unless-stopped
+    env_file:
+      - "vars.env"
+    environment:
+      GF_INSTALL_PLUGINS: grafana-piechart-panel,grafana-worldmap-panel
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - prometheus-data:/prometheus
+      - prometheus-config:/etc/prometheus/
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    depends_on:
+      - nginx_public_exporter
+      - nginx_tailscale_exporter
+      - cadvisor
+    restart: unless-stopped
+    env_file:
+      - "vars.env"
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    volumes:
+      - loki-data:/etc/loki/
+      - ./config/loki/loki.yaml:/etc/loki/local-config.yaml:ro,Z
+      - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/:ro,Z
+    restart: unless-stopped
+    env_file:
+      - "vars.env"
+  nginx_tailscale:
+    image: nginx:alpine
+    container_name: nginx_tailscale
+    ports:
+      - 100.74.41.106:80:80
+      - 100.74.41.106:443:443
+      - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:80:80
+      - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:443:443
+    volumes:
+      - ./static/tailscale.html:/usr/share/nginx/html/index.html:ro,Z
+      - ./config/nginx/includes:/etc/nginx/includes:ro,z
+      - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro,Z
+      - letsencrypt-certs:/etc/letsencrypt:ro
+    depends_on:
+      - plex
+      - overseerr
+      - homeassistant
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - "vars.env"
+  syncthing:
+    image: syncthing/syncthing:latest
+    container_name: syncthing
+    hostname: syncthing
+    env_file:
+      - "vars.env"
+    volumes:
+      - syncthing-config:/var/syncthing/
+      - /home/debian/syncthing:/syncthing:Z
+    ports:
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
+    restart: unless-stopped
+  volumerize:
+    image: blacklabelops/volumerize:1.7.1
+    # command: backup
+    container_name: volumerize
+    env_file:
+      - "vars.env"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - volumerize-cache:/volumerize-cache
+      - /home/debian/backup:/target:Z
+      - syncthing-config:/source/syncthing-config:ro
+      - grafana-data:/source/grafana-data:ro
+      - prometheus-config:/source/prometheus-config:ro
+      - prometheus-data:/source/prometheus-data:ro
+      - loki-data:/source/loki-data:ro
+    environment:
+      VOLUMERIZE_SOURCE: "/source"
+      VOLUMERIZE_TARGET: "file:///target"
+      VOLUMERIZE_JOBBER_TIME: "0 0 4 * * *"
+      VOLUMERIZE_CONTAINERS: "jackett sonarr radarr overseerr syncthing homeassistant grafana prometheus loki influxdb tautulli timemachine"
+      VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
+    restart: unless-stopped
+# Add new volumes to backup if needed.
 volumes:
   syncthing-config:
   grafana-data:
@@ -190,3 +191,4 @@ volumes:
   prometheus-data:
   loki-data:
   letsencrypt-certs:
+  volumerize-cache:
