@@ -134,6 +134,8 @@ services:
       - "host.docker.internal:host-gateway"
     env_file:
       - "vars.env"
+    depends_on:
+      - tailscale
   syncthing:
     image: syncthing/syncthing:latest
     container_name: syncthing
