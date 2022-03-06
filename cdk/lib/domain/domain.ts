@@ -3,6 +3,7 @@ import {
   AaaaRecord,
   ARecord,
   HostedZone,
+  IHostedZone,
   RecordTarget,
 } from "aws-cdk-lib/aws-route53";
 
@@ -23,7 +24,37 @@ export function createDomainResources(stack: Stack) {
     hostedZoneId: "Z24MJMG74F2S94",
     zoneName: root,
   });
+  createZeusRecords(stack, hostedZone);
+}
 
+function createPersephoneRecords(stack: Stack, hostedZone: IHostedZone) {
+  const publicAssociation: Association = {
+    base: "public.persephone",
+    addresses: [
+      {
+        addressType: "v4",
+        address: "158.69.122.44",
+      },
+    ],
+    domains: [""],
+  };
+
+  const tailscaleAssociation: Association = {
+    base: "tailscale.persephone",
+    addresses: [
+      {
+        addressType: "v6",
+        address: "",
+      },
+    ],
+    domains: [""],
+  };
+
+  const persephoneAssocations = [publicAssociation, tailscaleAssociation];
+  createRecords(stack, persephoneAssocations, hostedZone);
+}
+
+function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
   const publicAssociation: Association = {
     base: "public.zeus",
     addresses: [
@@ -54,7 +85,15 @@ export function createDomainResources(stack: Stack) {
     domains: ["influxdb", "homeassistant", "overseerr", "plex", ""],
   };
 
-  const associations = [publicAssociation, tailscaleAssociation];
+  const zeusAssocations = [publicAssociation, tailscaleAssociation];
+  createRecords(stack, zeusAssocations, hostedZone);
+}
+
+function createRecords(
+  stack: Stack,
+  associations: Association[],
+  hostedZone: IHostedZone
+) {
   associations.map((association) => {
     association.domains.map((domain) => {
       association.addresses.map((address) => {
