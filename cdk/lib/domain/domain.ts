@@ -25,6 +25,7 @@ export function createDomainResources(stack: Stack) {
     zoneName: root,
   });
   createZeusRecords(stack, hostedZone);
+  createPersephoneRecords(stack, hostedZone);
 }
 
 function createPersephoneRecords(stack: Stack, hostedZone: IHostedZone) {
@@ -39,18 +40,7 @@ function createPersephoneRecords(stack: Stack, hostedZone: IHostedZone) {
     domains: [""],
   };
 
-  const tailscaleAssociation: Association = {
-    base: "tailscale.persephone",
-    addresses: [
-      {
-        addressType: "v6",
-        address: "",
-      },
-    ],
-    domains: [""],
-  };
-
-  const persephoneAssocations = [publicAssociation, tailscaleAssociation];
+  const persephoneAssocations = [publicAssociation];
   createRecords(stack, persephoneAssocations, hostedZone);
 }
 
