@@ -70,15 +70,8 @@ services:
       --agree-tos
       -m shepherdjerred@gmail.com
       --dns-route53
-      -d tailscale.zeus.shepherdjerred.com
-      -d public.zeus.shepherdjerred.com
-      -d homeassistant.tailscale.zeus.shepherdjerred.com
-      -d homeassistant.public.zeus.shepherdjerred.com
-      -d plex.tailscale.zeus.shepherdjerred.com
-      -d plex.public.zeus.shepherdjerred.com
-      -d overseerr.tailscale.zeus.shepherdjerred.com
-      -d overseerr.public.zeus.shepherdjerred.com
-      -d influxdb.tailscale.zeus.shepherdjerred.com
+      -d tailscale.persephone.shepherdjerred.com
+      -d public.persephone.shepherdjerred.com
     volumes:
       - ./config/credentials:/root/.aws/credentials:ro,Z
       - letsencrypt-certs:/etc/letsencrypt
@@ -93,7 +86,6 @@ services:
     depends_on:
       - prometheus
       - loki
-      - influxdb
     restart: unless-stopped
     env_file:
       - "vars.env"
@@ -109,7 +101,6 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     depends_on:
-      - nginx_public_exporter
       - nginx_tailscale_exporter
       - cadvisor
     restart: unless-stopped
@@ -129,19 +120,15 @@ services:
     image: nginx:alpine
     container_name: nginx_tailscale
     ports:
-      - 100.74.41.106:80:80
-      - 100.74.41.106:443:443
-      - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:80:80
-      - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:443:443
+      - 100.88.20.114:80:80
+      - 100.88.20.114:443:443
+      - fd7a:115c:a1e0:ab12:4843:cd96:6258:1472:80:80
+      - fd7a:115c:a1e0:ab12:4843:cd96:6258:1472:443:443
     volumes:
       - ./static/tailscale.html:/usr/share/nginx/html/index.html:ro,Z
       - ./config/nginx/includes:/etc/nginx/includes:ro,z
       - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro,Z
       - letsencrypt-certs:/etc/letsencrypt:ro
-    depends_on:
-      - plex
-      - overseerr
-      - homeassistant
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -180,7 +167,7 @@ services:
       VOLUMERIZE_SOURCE: "/source"
       VOLUMERIZE_TARGET: "file:///target"
       VOLUMERIZE_JOBBER_TIME: "0 0 4 * * *"
-      VOLUMERIZE_CONTAINERS: "jackett sonarr radarr overseerr syncthing homeassistant grafana prometheus loki influxdb tautulli timemachine"
+      VOLUMERIZE_CONTAINERS: "syncthing grafana prometheus loki"
       VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
     restart: unless-stopped
 # Add new volumes to backup if needed.

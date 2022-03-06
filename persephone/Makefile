@@ -3,7 +3,7 @@ MAKEFLAGS+=--always-make --no-builtin-rules --no-builtin-variables --warn-undefi
 USER=debian
 HOST=public.persephone.shepherdjerred.com
 REMOTE=$(USER)@$(HOST)
-REMOTE_DIRECTORY=/var/docker-compose/servers/persephone
+REMOTE_DIRECTORY=/home/debian/servers/persephone
 
 deploy:
 	rsync --progress -a . $(REMOTE):$(REMOTE_DIRECTORY)
