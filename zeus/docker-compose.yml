@@ -320,6 +320,7 @@ services:
     restart: unless-stopped
   volumerize:
     image: blacklabelops/volumerize:1.7.1
+    # command: backup
     container_name: volumerize
     env_file:
       - "vars.env"
@@ -345,7 +346,7 @@ services:
     environment:
       VOLUMERIZE_SOURCE: "/source"
       VOLUMERIZE_TARGET: "file:///target"
-      # VOLUMERIZE_JOBBER_TIME: "0 0 4 * * *"
+      VOLUMERIZE_JOBBER_TIME: "0 0 4 * * *"
       VOLUMERIZE_CONTAINERS: "jackett sonarr radarr overseerr syncthing homeassistant grafana prometheus loki influxdb tautulli timemachine"
       VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
     restart: unless-stopped

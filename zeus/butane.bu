@@ -122,8 +122,7 @@ systemd:
             Before=local-fs.target,docker.service
             ConditionPathExists=/dev/disk/by-uuid/d8ec49c8-97ee-4cf2-992c-c5c9fbff6c70
 
-            [Mount]
-            What=/dev/disk/by-uuid/d8ec49c8-97ee-4cf2-992c-c5c9fbff6c70
+            [Mount]d8ec49c8-97ee-4cf2-992c-c5c9fbff6c708ec49c8-97ee-4cf2-992c-c5c9fbff6c70
             Where=/var/spare
             Type=ext4
 
