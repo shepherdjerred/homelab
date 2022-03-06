@@ -40,6 +40,21 @@ function createPersephoneRecords(stack: Stack, hostedZone: IHostedZone) {
     domains: [""],
   };
 
+  const tailscaleAssociation: Association = {
+    base: "tailscale.persephone",
+    addresses: [
+      {
+        addressType: "v4",
+        address: "100.88.20.114",
+      },
+      {
+        addressType: "v6",
+        address: "fd7a:115c:a1e0:ab12:4843:cd96:6258:1472",
+      },
+    ],
+    domains: [""],
+  };
+
   const persephoneAssocations = [publicAssociation];
   createRecords(stack, persephoneAssocations, hostedZone);
 }
