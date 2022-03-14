@@ -1,4 +1,55 @@
 scrape_configs:
+  - job_name: syncthing_exporter
+    static_configs:
+      - targets:
+          - syncthing_exporter:9093
+  - job_name: json
+    metrics_path: /probe
+    static_configs:
+      - targets:
+          - http://syncthing:22070/status
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: json_exporter:7979
+  - job_name: "blackbox"
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+          - https://influxdb.tailscale.zeus.shepherdjerred.com
+          - https://plex.tailscale.zeus.shepherdjerred.com
+          - https://overseerr.tailscale.zeus.shepherdjerred.com
+          - https://homeassistant.tailscale.zeus.shepherdjerred.com
+          - https://tailscale.zeus.shepherdjerred.com
+          - https://tailscale.zeus.shepherdjerred.com/tautulli
+          - https://tailscale.zeus.shepherdjerred.com/jackett
+          - https://tailscale.zeus.shepherdjerred.com/sonarr
+          - https://tailscale.zeus.shepherdjerred.com/radarr
+          - https://tailscale.zeus.shepherdjerred.com/syncthing
+          - https://tailscale.zeus.shepherdjerred.com
+          - https://public.zeus.shepherdjerred.com
+          - https://plex.public.zeus.shepherdjerred.com
+          - https://overseerr.public.zeus.shepherdjerred.com
+          - https://homeassistant.public.zeus.shepherdjerred.com
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115
+  - job_name: speedtest
+    metrics_path: /probe
+    scrape_interval: 10m
+    scrape_timeout: 10m
+    static_configs:
+      - targets:
+          - speedtest:9516
   - job_name: prometheus
     static_configs:
       - targets:

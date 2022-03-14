@@ -1,5 +1,32 @@
 version: "3.8"
 services:
+  syncthing_exporter:
+    image: f100024/syncthing_exporter:latest
+    container_name: syncthing_exporter
+    ports:
+      - 9093:9093
+    environment:
+      SYNCTHING_URI: "http://syncthing:8384/"
+      # This application is only accessible from my Tailscale network, so an access key is okay here
+      SYNCTHING_TOKEN: "Gx4RRiqFLaqcx3Z4MD2ZokjaWmW4DweP"
+    restart: unless-stopped
+  blackbox:
+    container_name: blackbox
+    image: prom/blackbox-exporter:master
+    restart: unless-stopped
+    command: --config.file=/config/blackbox.yml
+    volumes:
+      - ./config/blackbox:/config:Z
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:z
+  speedtest:
+    container_name: speedtest
+    image: jraviles/prometheus_speedtest:latest
+    restart: unless-stopped
   timemachine:
     network_mode: "host"
     restart: unless-stopped
@@ -227,8 +254,11 @@ services:
   plex:
     image: plexinc/pms-docker:latest
     container_name: plex
-    devices:
-      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
     shm_size: 8GB
     environment:
       - ADVERTISE_IP=http://73.157.91.74:32400,http://100.103.244.82:32400,http://192.168.1.45:32400
@@ -325,7 +355,7 @@ services:
     env_file:
       - "vars.env"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:z
       - volumerize-cache:/volumerize-cache
       - /var/storage/backup:/target:Z
       - jackett-config:/source/jackett-config:ro
