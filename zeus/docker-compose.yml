@@ -1,14 +1,14 @@
 version: "3.8"
 services:
-  # nvidia_exporter:
-  #   deploy:
-  #     resources:
-  #       reservations:
-  #         devices:
-  #           - capabilities: [gpu]
-  #   container_name: nvidia_exporter
-  #   image: nvcr.io/nvidia/k8s/dcgm-exporter:2.3.4-2.6.4-ubuntu20.04
-  #   restart: unless-stopped
+  nvidia_exporter:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    container_name: nvidia_exporter
+    image: nvcr.io/nvidia/k8s/dcgm-exporter:2.3.4-2.6.4-ubuntu20.04
+    restart: unless-stopped
   syncthing_exporter:
     image: f100024/syncthing_exporter:latest
     container_name: syncthing_exporter
@@ -38,7 +38,7 @@ services:
     network_mode: "host"
     restart: unless-stopped
     volumes:
-      - /var/timemachine:/opt/timemachine:Z
+      - /mnt/timemachine:/opt/timemachine:Z
       - timemachine-var-lib-samba:/var/lib/samba
       - timemachine-var-cache-samba:/var/cache/samba
       - timemachine-run-samba:/run/samba
@@ -58,7 +58,7 @@ services:
     restart: unless-stopped
     volumes:
       - tautulli-data:/config
-      - /var/storage/plex/Plex\ Media\ Server/Logs:/plex_logs:ro,z
+      - /mnt/storage/plex/Plex\ Media\ Server/Logs:/plex_logs:ro,z
     env_file:
       - "vars.env"
   varken:
@@ -141,11 +141,12 @@ services:
     image: tailscale/tailscale
     container_name: tailscale
     privileged: true
-    command: tailscaled
+    command: tailscaled --statedir /dev/tailscale
     network_mode: host
     volumes:
       - /var/lib:/var/lib
       - /dev/net/tun:/dev/net/tun
+      - tailscale-data:/tailscale
     restart: unless-stopped
     env_file:
       - "vars.env"
@@ -240,10 +241,10 @@ services:
     image: nginx:alpine
     container_name: nginx_tailscale
     ports:
-      - 100.74.41.106:80:80
-      - 100.74.41.106:443:443
-      - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:80:80
-      - fd7a:115c:a1e0:ab12:4843:cd96:624a:296a:443:443
+      - 100.93.17.99:80:80
+      - 100.93.17.99:443:443
+      - fd7a:115c:a1e0:ab12:4843:cd96:625d:1163:80:80
+      - fd7a:115c:a1e0:ab12:4843:cd96:625d:1163:443:443
     volumes:
       - ./static/tailscale.html:/usr/share/nginx/html/index.html:ro,Z
       - ./config/nginx/includes:/etc/nginx/includes:ro,z
@@ -268,7 +269,9 @@ services:
             - capabilities: [gpu]
     shm_size: 8GB
     environment:
-      - ADVERTISE_IP=http://73.157.91.74:32400,http://100.103.244.82:32400,http://192.168.1.45:32400
+      ADVERTISE_IP: http://73.157.91.74:32400,http://100.103.244.82:32400,http://192.168.1.45:32400
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
     ports:
       - 32400:32400/tcp
       - 3005:3005/tcp
@@ -279,11 +282,11 @@ services:
       - 32413:32413/udp
       - 32414:32414/udp
     volumes:
-      - /var/storage/plex:/config:z
+      - /mnt/storage/plex:/config:z
       - /dev/shm:/transcode
-      - /var/storage/media/tv:/data/tv:z
-      - /var/storage/media/movies:/data/movies:z
-      - /var/storage/media/other:/data/other:z
+      - /mnt/storage/media/tv:/data/tv:z
+      - /mnt/storage/media/movies:/data/movies:z
+      - /mnt/storage/media/other:/data/other:z
     restart: unless-stopped
     env_file:
       - "vars.env"
@@ -295,7 +298,7 @@ services:
       - "vars.env"
     volumes:
       - syncthing-config:/var/syncthing/
-      - /var/storage/syncthing:/syncthing:Z
+      - /mnt/storage/syncthing:/syncthing:Z
     ports:
       - 22000:22000/tcp
       - 22000:22000/udp
@@ -330,8 +333,8 @@ services:
       - "vars.env"
     volumes:
       - radarr-config:/config
-      - /var/storage/media/movies:/movies:z
-      - /var/storage/syncthing/Torrents:/downloads:z
+      - /mnt/storage/media/movies:/movies:z
+      - /mnt/storage/syncthing/Torrents:/downloads:z
     restart: unless-stopped
     depends_on:
       - jackett
@@ -342,8 +345,8 @@ services:
       - "vars.env"
     volumes:
       - sonarr-config:/config
-      - /var/storage/media/tv:/tv:z
-      - /var/storage/syncthing/Torrents:/downloads:z
+      - /mnt/storage/media/tv:/tv:z
+      - /mnt/storage/syncthing/Torrents:/downloads:z
     restart: unless-stopped
     depends_on:
       - jackett
@@ -357,14 +360,14 @@ services:
     restart: unless-stopped
   volumerize:
     image: blacklabelops/volumerize:1.7.1
-    # command: backup
+    # command: restore -t 20220315T023223Z
     container_name: volumerize
     env_file:
       - "vars.env"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:z
       - volumerize-cache:/volumerize-cache
-      - /var/storage/backup:/target:Z
+      - /mnt/storage/backup:/target:Z
       - jackett-config:/source/jackett-config:ro
       - sonarr-config:/source/sonarr-config:ro
       - radarr-config:/source/radarr-config:ro
@@ -406,3 +409,4 @@ volumes:
   timemachine-var-cache-samba:
   timemachine-run-samba:
   volumerize-cache:
+  tailscale-data:
