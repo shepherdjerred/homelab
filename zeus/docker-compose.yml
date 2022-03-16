@@ -101,7 +101,6 @@ services:
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
     container_name: node_exporter
-    privileged: true
     command:
       - "--path.rootfs=/host"
     network_mode: host
@@ -140,7 +139,9 @@ services:
   tailscale:
     image: tailscale/tailscale
     container_name: tailscale
-    privileged: true
+    cap_add:
+      - "NET_ADMIN"
+      - "SYS_MODULE"
     command: tailscaled --statedir /dev/tailscale
     network_mode: host
     volumes:
@@ -221,8 +222,8 @@ services:
     ports:
       - 192.168.1.45:80:80
       - 192.168.1.45:443:443
-      # - 2601:602:8500:17bc:4fbd:94e:6646:34d4:80:80
-      # - 2601:602:8500:17bc:4fbd:94e:6646:34d4:443:443
+      - 2601:602:8500:1187:325a:3aff:fe7b:6fd5:80:80
+      - 2601:602:8500:1187:325a:3aff:fe7b:6fd5:443:443
     volumes:
       - ./static/public.html:/usr/share/nginx/html/index.html:ro,Z
       - ./config/nginx/includes:/etc/nginx/includes:ro,z
