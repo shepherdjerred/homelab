@@ -80,11 +80,11 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
     addresses: [
       {
         addressType: "v4",
-        address: "100.93.17.99",
+        address: "100.96.254.65",
       },
       {
         addressType: "v6",
-        address: "fd7a:115c:a1e0:ab12:4843:cd96:625d:1163",
+        address: "fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41",
       },
     ],
     domains: ["influxdb", "homeassistant", "overseerr", "plex", ""],

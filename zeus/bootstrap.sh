@@ -13,7 +13,7 @@ apt upgrade
 # Sudo
 apt install -y sudo
 
-sed -i 's/%sudo	ALL=(ALL:ALL) ALL/sudo	ALL=(ALL:ALL) ALL/g' /etc/sudoers
+# %sudo ALL=(ALL) NOPASSWD: ALL
 cat /etc/sudoers
 usermod -a -G sudo jerred
 
@@ -37,7 +37,7 @@ echo "UUID=c48e1b3a-4c8c-4488-82ee-45b6b377b61a     /mnt/storage     ext4 defaul
 echo "UUID=49f949f8-a2f0-4e25-8723-19283b531ac4     /mnt/timemachine ext4 defaults    0    0" | tee -a /etc/fstab
 echo "UUID=d8ec49c8-97ee-4cf2-992c-c5c9fbff6c70     /mnt/spare       ext4 defaults    0    0" | tee -a /etc/fstab
 cat /etc/fstab
-# mount -a
+mount -a
 
 # Docker
 curl -fsSL https://get.docker.com -o get-docker.sh
@@ -57,7 +57,7 @@ apt install -y bash-completion
 
 # Nvidia Drivers
 # https://wiki.debian.org/NvidiaGraphicsDrivers
-# Requires for non-free software, e.g. nvidia drivers
+# Required for non-free software, e.g. nvidia drivers
 apt install -y software-properties-common
 add-apt-repository contrib
 apt-add-repository non-free
@@ -79,27 +79,10 @@ distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
 apt-get update
 apt-get install -y nvidia-docker2
 
-# sudo systemctl restart docker
-# sudo docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+sudo systemctl restart docker
 
-# sed -i 's/ldconfig = "@\/sbin\/ldconfig"/ldconfig = "\/sbin\/ldconfig"/g' /etc/nvidia-container-runtime/config.toml
-# cat /etc/nvidia-container-runtime/config.toml
-
-# Docker nvidia runtime
-# mkdir -p /etc/docker
-# touch /etc/docker/daemon.json
-# tee /etc/docker/daemon.json <<EOF
-# {
-#     "runtimes": {
-#         "nvidia": {
-#             "path": "/usr/bin/nvidia-container-runtime",
-#             "runtimeArgs": []
-#         }
-#     }
-# }
-# EOF
-# cat /etc/docker/daemon.json
-# systemctl restart docker.service
+sed -i 's/ldconfig = "@\/sbin\/ldconfig"/ldconfig = "\/sbin\/ldconfig"/g' /etc/nvidia-container-runtime/config.toml
+cat /etc/nvidia-container-runtime/config.toml
 
 # unattended upgrades
 apt install unattended-upgrades apt-listchanges

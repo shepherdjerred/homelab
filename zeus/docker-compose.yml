@@ -242,10 +242,10 @@ services:
     image: nginx:alpine
     container_name: nginx_tailscale
     ports:
-      - 100.93.17.99:80:80
-      - 100.93.17.99:443:443
-      - fd7a:115c:a1e0:ab12:4843:cd96:625d:1163:80:80
-      - fd7a:115c:a1e0:ab12:4843:cd96:625d:1163:443:443
+      - 100.96.254.65:80:80
+      - 100.96.254.65:443:443
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:80:80
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:443:443
     volumes:
       - ./static/tailscale.html:/usr/share/nginx/html/index.html:ro,Z
       - ./config/nginx/includes:/etc/nginx/includes:ro,z
@@ -361,7 +361,7 @@ services:
     restart: unless-stopped
   volumerize:
     image: blacklabelops/volumerize:1.7.1
-    # command: restore -t 20220315T023223Z
+    # command:
     container_name: volumerize
     env_file:
       - "vars.env"
