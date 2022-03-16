@@ -7,7 +7,7 @@ services:
           devices:
             - capabilities: [gpu]
     container_name: nvidia_exporter
-    image: nvcr.io/nvidia/k8s/dcgm-exporter:ubuntu20.04
+    image: nvcr.io/nvidia/k8s/dcgm-exporter:2.3.4-2.6.4-ubuntu20.04
     restart: unless-stopped
   syncthing_exporter:
     image: f100024/syncthing_exporter:latest
