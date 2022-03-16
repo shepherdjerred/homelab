@@ -5,7 +5,7 @@ set -e
 sudo apt update
 sudo apt upgrade
 
-sudo apt install rsync
+sudo apt install -y rsync
 
 sudo apt-get install \
     ca-certificates \
