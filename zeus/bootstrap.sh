@@ -84,6 +84,19 @@ sudo systemctl restart docker
 sed -i 's/ldconfig = "@\/sbin\/ldconfig"/ldconfig = "\/sbin\/ldconfig"/g' /etc/nvidia-container-runtime/config.toml
 cat /etc/nvidia-container-runtime/config.toml
 
+# daemon.json
+# {
+#     "ipv6": true,
+#     "fixed-cidr-v6": "2001:db8:1::/64",
+#     "log-driver": "journald",
+#     "runtimes": {
+#         "nvidia": {
+#             "path": "nvidia-container-runtime",
+#             "runtimeArgs": []
+#         }
+#     }
+# }
+
 # unattended upgrades
 apt install unattended-upgrades apt-listchanges
 echo unattended-upgrades unattended-upgrades/enable_auto_updates boolean true | debconf-set-selections

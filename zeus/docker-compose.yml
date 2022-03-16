@@ -7,7 +7,7 @@ services:
           devices:
             - capabilities: [gpu]
     container_name: nvidia_exporter
-    image: nvcr.io/nvidia/k8s/dcgm-exporter:2.3.4-2.6.4-ubuntu20.04
+    image: nvcr.io/nvidia/k8s/dcgm-exporter:ubuntu20.04
     restart: unless-stopped
   syncthing_exporter:
     image: f100024/syncthing_exporter:latest
@@ -361,7 +361,6 @@ services:
     restart: unless-stopped
   volumerize:
     image: blacklabelops/volumerize:1.7.1
-    # command:
     container_name: volumerize
     env_file:
       - "vars.env"
@@ -391,7 +390,6 @@ services:
       VOLUMERIZE_CONTAINERS: "jackett sonarr radarr overseerr syncthing homeassistant grafana prometheus loki influxdb tautulli timemachine"
       VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
     restart: unless-stopped
-# Add new volumes to backup if needed.
 volumes:
   jackett-config:
   sonarr-config:

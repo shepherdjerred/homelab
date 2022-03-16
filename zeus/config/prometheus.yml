@@ -19,14 +19,29 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: json_exporter:7979
-  - job_name: "blackbox"
+  - job_name: "blackbox_http_401"
+    metrics_path: /probe
+    params:
+      module: [http_401]
+    static_configs:
+      - targets:
+          - https://plex.tailscale.zeus.shepherdjerred.com
+          - https://plex.public.zeus.shepherdjerred.com
+          - https://tailscale.zeus.shepherdjerred.com/syncthing
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115
+  - job_name: "blackbox_http_2xx"
     metrics_path: /probe
     params:
       module: [http_2xx]
     static_configs:
       - targets:
           - https://influxdb.tailscale.zeus.shepherdjerred.com
-          - https://plex.tailscale.zeus.shepherdjerred.com
           - https://overseerr.tailscale.zeus.shepherdjerred.com
           - https://homeassistant.tailscale.zeus.shepherdjerred.com
           - https://tailscale.zeus.shepherdjerred.com
@@ -34,10 +49,8 @@ scrape_configs:
           - https://tailscale.zeus.shepherdjerred.com/jackett
           - https://tailscale.zeus.shepherdjerred.com/sonarr
           - https://tailscale.zeus.shepherdjerred.com/radarr
-          - https://tailscale.zeus.shepherdjerred.com/syncthing
           - https://tailscale.zeus.shepherdjerred.com
           - https://public.zeus.shepherdjerred.com
-          - https://plex.public.zeus.shepherdjerred.com
           - https://overseerr.public.zeus.shepherdjerred.com
           - https://homeassistant.public.zeus.shepherdjerred.com
     relabel_configs:
@@ -49,8 +62,8 @@ scrape_configs:
         replacement: blackbox:9115
   - job_name: speedtest
     metrics_path: /probe
-    scrape_interval: 10m
-    scrape_timeout: 10m
+    scrape_interval: 5m
+    scrape_timeout: 5m
     static_configs:
       - targets:
           - speedtest:9516
