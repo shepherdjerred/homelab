@@ -67,10 +67,10 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
         addressType: "v4",
         address: "73.157.91.74",
       },
-      {
-        addressType: "v6",
-        address: "2601:602:8500:1187:325a:3aff:fe7b:6fd5",
-      },
+      // {
+      //   addressType: "v6",
+      //   address: "2601:602:8500:1187:325a:3aff:fe7b:6fd5",
+      // },
     ],
     domains: ["homeassistant", "overseerr", "plex", ""],
   };

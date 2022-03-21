@@ -222,8 +222,8 @@ services:
     ports:
       - 192.168.1.45:80:80
       - 192.168.1.45:443:443
-      - 2601:602:8500:1187:325a:3aff:fe7b:6fd5:80:80
-      - 2601:602:8500:1187:325a:3aff:fe7b:6fd5:443:443
+      # - 2601:602:8500:1187:325a:3aff:fe7b:6fd5:80:80
+      # - 2601:602:8500:1187:325a:3aff:fe7b:6fd5:443:443
     volumes:
       - ./static/public.html:/usr/share/nginx/html/index.html:ro,Z
       - ./config/nginx/includes:/etc/nginx/includes:ro,z

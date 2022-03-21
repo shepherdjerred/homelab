@@ -1,5 +1,56 @@
 version: "3.8"
 services:
+  geoip-updater:
+    container_name: geoip-updater
+    image: crazymax/geoip-updater:latest
+    volumes:
+      - rtorrent-data:/data
+    restart: unless-stopped
+  rtorrent:
+    container_name: rtorrent
+    image: crazymax/rtorrent-rutorrent:latest
+    env_file:
+      - vars.env
+    volumes:
+      - rtorrent-data:/data
+      - rtorrent-temp:/downloads/temp
+      - /home/debian/syncthing:/downloads/complete
+    depends_on:
+      - tailscale
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 32000
+        hard: 40000
+    ports:
+      - 100.88.20.114:8000:8000
+      - fd7a:115c:a1e0:ab12:4843:cd96:6258:1472:8000:8000
+    restart: unless-stopped
+  speedtest:
+    container_name: speedtest
+    image: jraviles/prometheus_speedtest:latest
+    restart: unless-stopped
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:z
+  blackbox:
+    container_name: blackbox
+    image: prom/blackbox-exporter:master
+    restart: unless-stopped
+    command: --config.file=/config/blackbox.yml
+    volumes:
+      - ./config/blackbox:/config:Z
+  syncthing_exporter:
+    image: f100024/syncthing_exporter:latest
+    container_name: syncthing_exporter
+    environment:
+      SYNCTHING_URI: "http://syncthing:8384/"
+      # This application is only accessible from my Tailscale network, so an access key is okay here
+      SYNCTHING_TOKEN: "JHtHwiK7SWFLhnA4C3WrNSLYE6XjkoQT"
+    restart: unless-stopped
   nginx_tailscale_exporter:
     container_name: nginx_tailscale_exporter
     depends_on:
@@ -181,3 +232,5 @@ volumes:
   loki-data:
   letsencrypt-certs:
   volumerize-cache:
+  rtorrent-data:
+  rtorrent-temp:

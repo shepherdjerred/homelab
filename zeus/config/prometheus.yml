@@ -7,18 +7,6 @@ scrape_configs:
     static_configs:
       - targets:
           - syncthing_exporter:9093
-  - job_name: json
-    metrics_path: /probe
-    static_configs:
-      - targets:
-          - http://syncthing:22070/status
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: json_exporter:7979
   - job_name: "blackbox_http_401"
     metrics_path: /probe
     params:
