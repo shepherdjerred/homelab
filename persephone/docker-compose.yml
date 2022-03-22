@@ -14,7 +14,7 @@ services:
     volumes:
       - rtorrent-data:/data
       - rtorrent-temp:/downloads/temp
-      - /home/debian/syncthing:/downloads/complete
+      - /home/debian/syncthing/Torrents:/downloads/complete
     depends_on:
       - tailscale
     ulimits:
