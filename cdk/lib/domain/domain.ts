@@ -26,6 +26,22 @@ export function createDomainResources(stack: Stack) {
   });
   createZeusRecords(stack, hostedZone);
   createPersephoneRecords(stack, hostedZone);
+  createRouterRecords(stack, hostedZone);
+}
+
+function createRouterRecords(stack: Stack, hostedZone: IHostedZone) {
+  const association: Association = {
+    base: "router.home",
+    addresses: [
+      {
+        addressType: "v4",
+        address: "192.168.1.1",
+      },
+    ],
+    domains: [""],
+  };
+
+  createRecords(stack, [association], hostedZone);
 }
 
 function createPersephoneRecords(stack: Stack, hostedZone: IHostedZone) {
@@ -65,12 +81,12 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
     addresses: [
       {
         addressType: "v4",
-        address: "73.157.91.74",
+        address: "67.171.2.123",
       },
-      // {
-      //   addressType: "v6",
-      //   address: "2601:602:8500:1187:325a:3aff:fe7b:6fd5",
-      // },
+      {
+        addressType: "v6",
+        address: "2601:602:8500:1b1f:325a:3aff:fe7b:6fd5",
+      },
     ],
     domains: ["homeassistant", "overseerr", "plex", ""],
   };

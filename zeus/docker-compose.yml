@@ -222,8 +222,8 @@ services:
     ports:
       - 192.168.1.45:80:80
       - 192.168.1.45:443:443
-      # - 2601:602:8500:1187:325a:3aff:fe7b:6fd5:80:80
-      # - 2601:602:8500:1187:325a:3aff:fe7b:6fd5:443:443
+      - 2601:602:8500:1b1f:325a:3aff:fe7b:6fd5:80:80
+      - 2601:602:8500:1b1f:325a:3aff:fe7b:6fd5:443:443
     volumes:
       - ./static/public.html:/usr/share/nginx/html/index.html:ro,Z
       - ./config/nginx/includes:/etc/nginx/includes:ro,z
@@ -270,7 +270,7 @@ services:
             - capabilities: [gpu]
     shm_size: 8GB
     environment:
-      ADVERTISE_IP: http://73.157.91.74:32400,http://100.103.244.82:32400,http://192.168.1.45:32400
+      ADVERTISE_IP: http://67.171.2.123:32400,http://100.103.244.82:32400,http://192.168.1.45:32400
       NVIDIA_VISIBLE_DEVICES: all
       NVIDIA_DRIVER_CAPABILITIES: all
     ports:
