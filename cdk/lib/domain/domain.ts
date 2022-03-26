@@ -81,7 +81,7 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
     addresses: [
       {
         addressType: "v4",
-        address: "67.171.2.123",
+        address: "67.170.77.54",
       },
       {
         addressType: "v6",
@@ -106,7 +106,22 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
     domains: ["influxdb", "homeassistant", "overseerr", "plex", ""],
   };
 
-  const zeusAssocations = [publicAssociation, tailscaleAssociation];
+  const internalAssociation: Association = {
+    base: "internal.zeus",
+    addresses: [
+      {
+        addressType: "v4",
+        address: "192.168.1.45",
+      },
+    ],
+    domains: [""],
+  };
+
+  const zeusAssocations = [
+    publicAssociation,
+    tailscaleAssociation,
+    internalAssociation,
+  ];
   createRecords(stack, zeusAssocations, hostedZone);
 }
 

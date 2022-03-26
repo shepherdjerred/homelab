@@ -1,6 +1,20 @@
 version: "3.8"
 services:
+  bazarr:
+    image: lscr.io/linuxserver/bazarr
+    container_name: bazarr
+    env_file:
+      - "vars.env"
+    volumes:
+      - /path/to/bazarr/config:/config
+      - /path/to/movies:/movies #optional
+      - /path/to/tv:/tv #optional
+    ports:
+      - 6767:6767
+    restart: unless-stopped
   nvidia_exporter:
+    env_file:
+      - "vars.env"
     deploy:
       resources:
         reservations:
@@ -10,6 +24,8 @@ services:
     image: nvcr.io/nvidia/k8s/dcgm-exporter:2.3.4-2.6.4-ubuntu20.04
     restart: unless-stopped
   syncthing_exporter:
+    env_file:
+      - "vars.env"
     image: f100024/syncthing_exporter:latest
     container_name: syncthing_exporter
     environment:
@@ -18,6 +34,8 @@ services:
       SYNCTHING_TOKEN: "Gx4RRiqFLaqcx3Z4MD2ZokjaWmW4DweP"
     restart: unless-stopped
   blackbox:
+    env_file:
+      - "vars.env"
     container_name: blackbox
     image: prom/blackbox-exporter:master
     restart: unless-stopped
@@ -25,16 +43,22 @@ services:
     volumes:
       - ./config/blackbox:/config:Z
   # watchtower:
+  #   env_file:
+  #     - "vars.env"
   #   image: containrrr/watchtower
   #   container_name: watchtower
   #   restart: unless-stopped
   #   volumes:
   #     - /var/run/docker.sock:/var/run/docker.sock:z
   speedtest:
+    env_file:
+      - "vars.env"
     container_name: speedtest
     image: jraviles/prometheus_speedtest:latest
     restart: unless-stopped
   timemachine:
+    env_file:
+      - "vars.env"
     network_mode: "host"
     restart: unless-stopped
     volumes:
@@ -49,6 +73,8 @@ services:
     container_name: timemachine
     image: mbentley/timemachine:smb
   flaresolverr:
+    env_file:
+      - "vars.env"
     container_name: flaresolverr
     image: ghcr.io/flaresolverr/flaresolverr:latest
     restart: unless-stopped
