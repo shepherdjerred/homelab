@@ -8,15 +8,15 @@ REMOTE_DIRECTORY=/home/debian/servers/persephone
 deploy:
 	rsync --progress -a . $(REMOTE):$(REMOTE_DIRECTORY)
 
-start:
+up:
 	ssh $(REMOTE) \
-	"cd $(REMOTE_DIRECTORY) && docker-compose up -d"
+	"cd $(REMOTE_DIRECTORY) && docker-compose up -d --remove-orphans"
 
-stop:
+down:
 	ssh $(REMOTE) \
 	"cd $(REMOTE_DIRECTORY) && docker-compose down"
 
-restart: stop start
+restart: down up
 
 lint:
 	docker-compose config

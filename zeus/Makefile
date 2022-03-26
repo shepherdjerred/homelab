@@ -1,7 +1,7 @@
 MAKEFLAGS+=--always-make --no-builtin-rules --no-builtin-variables --warn-undefined-variables
 
 USER=jerred
-HOST=192.168.1.45
+HOST=zeus
 REMOTE=$(USER)@$(HOST)
 REMOTE_DIRECTORY=/home/jerred/servers/zeus
 
@@ -10,7 +10,7 @@ deploy:
 
 up:
 	ssh $(REMOTE) \
-	"cd $(REMOTE_DIRECTORY) && docker-compose up -d"
+	"cd $(REMOTE_DIRECTORY) && docker-compose up -d --remove-orphans"
 
 down:
 	ssh $(REMOTE) \

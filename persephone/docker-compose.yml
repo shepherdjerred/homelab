@@ -30,12 +30,12 @@ services:
     container_name: speedtest
     image: jraviles/prometheus_speedtest:latest
     restart: unless-stopped
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:z
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   container_name: watchtower
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:z
   blackbox:
     container_name: blackbox
     image: prom/blackbox-exporter:master

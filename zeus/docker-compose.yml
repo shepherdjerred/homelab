@@ -24,12 +24,12 @@ services:
     command: --config.file=/config/blackbox.yml
     volumes:
       - ./config/blackbox:/config:Z
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:z
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   container_name: watchtower
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:z
   speedtest:
     container_name: speedtest
     image: jraviles/prometheus_speedtest:latest

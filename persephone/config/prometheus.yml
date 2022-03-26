@@ -3,6 +3,21 @@ scrape_configs:
     static_configs:
       - targets:
           - syncthing_exporter:9093
+  - job_name: "blackbox_ssh"
+    metrics_path: /probe
+    params:
+      module: [ssh_banner]
+    static_configs:
+      - targets:
+          - tailscale.persephone.shepherdjerred.com
+          - public.persephone.shepherdjerred.com
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115
   - job_name: "blackbox_http_401"
     metrics_path: /probe
     params:
