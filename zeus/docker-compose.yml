@@ -42,6 +42,8 @@ services:
     command: --config.file=/config/blackbox.yml
     volumes:
       - ./config/blackbox:/config:Z
+    ports:
+      - 9115:9115
   # watchtower:
   #   env_file:
   #     - "vars.env"
