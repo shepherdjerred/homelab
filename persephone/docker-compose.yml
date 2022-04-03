@@ -3,12 +3,12 @@ services:
   blackbox:
     command: "--config.file=/config/blackbox.yml"
     container_name: blackbox
+    env_file:
+      - vars.env
     image: prom/blackbox-exporter:master
     restart: unless-stopped
     volumes:
       - ./config/blackbox:/config:Z
-    env_file:
-      - vars.env
   cadvisor:
     container_name: cadvisor
     env_file:
@@ -35,16 +35,16 @@ services:
     env_file:
       - vars.env
     image: certbot/dns-route53
+    restart: never
     volumes:
       - ./config/credentials:/root/.aws/credentials:ro,Z
       - letsencrypt-certs:/etc/letsencrypt:rw
-    restart: never
   geoip-updater:
     container_name: geoip-updater
-    image: crazymax/geoip-updater:latest
-    restart: unless-stopped
     env_file:
       - vars.env
+    image: crazymax/geoip-updater:latest
+    restart: unless-stopped
     volumes:
       - rtorrent-data:/data:rw
   grafana:
@@ -154,10 +154,10 @@ services:
       - /home/debian/syncthing/Torrents:/downloads/complete:Z
   speedtest:
     container_name: speedtest
-    image: jraviles/prometheus_speedtest:latest
-    restart: unless-stopped
     env_file:
       - vars.env
+    image: jraviles/prometheus_speedtest:latest
+    restart: unless-stopped
   syncthing:
     container_name: syncthing
     env_file:
