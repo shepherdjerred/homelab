@@ -1,119 +1,27 @@
-version: "3.8"
+---
 services:
-  geoip-updater:
-    container_name: geoip-updater
-    image: crazymax/geoip-updater:latest
-    volumes:
-      - rtorrent-data:/data
-    restart: unless-stopped
-  rtorrent:
-    container_name: rtorrent
-    image: crazymax/rtorrent-rutorrent:latest
-    env_file:
-      - vars.env
-    volumes:
-      - rtorrent-data:/data
-      - rtorrent-temp:/downloads/temp
-      - /home/debian/syncthing/Torrents:/downloads/complete
-    depends_on:
-      - tailscale
-    ulimits:
-      nproc: 65535
-      nofile:
-        soft: 32000
-        hard: 40000
-    ports:
-      - 100.88.20.114:8000:8000
-      - fd7a:115c:a1e0:ab12:4843:cd96:6258:1472:8000:8000
-    restart: unless-stopped
-  speedtest:
-    container_name: speedtest
-    image: jraviles/prometheus_speedtest:latest
-    restart: unless-stopped
-  # watchtower:
-  #   image: containrrr/watchtower
-  #   container_name: watchtower
-  #   restart: unless-stopped
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock:z
   blackbox:
+    command: "--config.file=/config/blackbox.yml"
     container_name: blackbox
     image: prom/blackbox-exporter:master
     restart: unless-stopped
-    command: --config.file=/config/blackbox.yml
     volumes:
       - ./config/blackbox:/config:Z
-  syncthing_exporter:
-    image: f100024/syncthing_exporter:latest
-    container_name: syncthing_exporter
-    environment:
-      SYNCTHING_URI: "http://syncthing:8384/"
-      # This application is only accessible from my Tailscale network, so an access key is okay here
-      SYNCTHING_TOKEN: "JHtHwiK7SWFLhnA4C3WrNSLYE6XjkoQT"
-    restart: unless-stopped
-  nginx_tailscale_exporter:
-    container_name: nginx_tailscale_exporter
-    depends_on:
-      - nginx_tailscale
-    image: nginx/nginx-prometheus-exporter:latest
-    command: -nginx.scrape-uri=http://nginx_tailscale:8080/stub_status
-    restart: unless-stopped
     env_file:
-      - "vars.env"
-  node_exporter:
-    image: quay.io/prometheus/node-exporter:latest
-    container_name: node_exporter
-    privileged: true
-    command:
-      - "--path.rootfs=/host"
-    network_mode: host
-    pid: host
-    restart: unless-stopped
-    volumes:
-      - "/:/host:ro,rslave"
-    env_file:
-      - "vars.env"
+      - vars.env
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
+    env_file:
+      - vars.env
+    image: gcr.io/cadvisor/cadvisor:latest
     privileged: true
+    restart: unless-stopped
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-    restart: unless-stopped
-    env_file:
-      - "vars.env"
-  promtail:
-    depends_on:
-      - loki
-    image: grafana/promtail:latest
-    container_name: promtail
-    command: -config.file=/etc/promtail/promtail.yml
-    volumes:
-      - ./config/promtail.yml:/etc/promtail/promtail.yml:ro,Z
-      - /var/log/journal:/var/log/journal:ro
-      - /run/log/journal:/run/log/journal:ro
-      - /etc/machine-id:/etc/machine-id:ro
-    restart: unless-stopped
-    env_file:
-      - "vars.env"
-  tailscale:
-    image: tailscale/tailscale
-    container_name: tailscale
-    privileged: true
-    command: tailscaled
-    network_mode: host
-    volumes:
-      - /var/lib:/var/lib
-      - /dev/net/tun:/dev/net/tun
-    restart: unless-stopped
-    env_file:
-      - "vars.env"
   certbot:
-    image: certbot/dns-route53
-    container_name: certbot
     command: |
       certonly
       --cert-name "shepherdjerred.com"
@@ -123,114 +31,208 @@ services:
       --dns-route53
       -d tailscale.persephone.shepherdjerred.com
       -d public.persephone.shepherdjerred.com
+    container_name: certbot
+    env_file:
+      - vars.env
+    image: certbot/dns-route53
     volumes:
       - ./config/credentials:/root/.aws/credentials:ro,Z
-      - letsencrypt-certs:/etc/letsencrypt
+      - letsencrypt-certs:/etc/letsencrypt:rw
+    restart: never
+  geoip-updater:
+    container_name: geoip-updater
+    image: crazymax/geoip-updater:latest
+    restart: unless-stopped
     env_file:
-      - "vars.env"
-  grafana:
-    image: grafana/grafana-oss:latest
-    container_name: grafana
+      - vars.env
     volumes:
-      - ./config/grafana.ini:/etc/grafana/grafana.ini:ro,Z
-      - grafana-data:/var/lib/grafana
+      - rtorrent-data:/data:rw
+  grafana:
+    container_name: grafana
     depends_on:
       - prometheus
       - loki
-    restart: unless-stopped
     env_file:
-      - "vars.env"
+      - vars.env
     environment:
       GF_INSTALL_PLUGINS: grafana-piechart-panel,grafana-worldmap-panel
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    volumes:
-      - prometheus-data:/prometheus
-      - prometheus-config:/etc/prometheus/
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    depends_on:
-      - nginx_tailscale_exporter
-      - cadvisor
+    image: grafana/grafana-oss:latest
     restart: unless-stopped
-    env_file:
-      - "vars.env"
-  loki:
-    image: grafana/loki:latest
-    container_name: loki
     volumes:
-      - loki-data:/etc/loki/
+      - ./config/grafana.ini:/etc/grafana/grafana.ini:ro,Z
+      - grafana-data:/var/lib/grafana:rw
+  loki:
+    container_name: loki
+    env_file:
+      - vars.env
+    image: grafana/loki:latest
+    restart: unless-stopped
+    volumes:
+      - loki-data:/etc/loki/:rw
       - ./config/loki/loki.yaml:/etc/loki/local-config.yaml:ro,Z
       - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/:ro,Z
-    restart: unless-stopped
-    env_file:
-      - "vars.env"
   nginx_tailscale:
-    image: nginx:alpine
     container_name: nginx_tailscale
+    depends_on:
+      - tailscale
+    env_file:
+      - vars.env
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    image: nginx:alpine
     ports:
       - 100.88.20.114:80:80
       - 100.88.20.114:443:443
       - fd7a:115c:a1e0:ab12:4843:cd96:6258:1472:80:80
       - fd7a:115c:a1e0:ab12:4843:cd96:6258:1472:443:443
+    restart: unless-stopped
     volumes:
       - ./static/tailscale.html:/usr/share/nginx/html/index.html:ro,Z
       - ./config/nginx/includes:/etc/nginx/includes:ro,z
       - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro,Z
       - letsencrypt-certs:/etc/letsencrypt:ro
-    restart: unless-stopped
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+  nginx_tailscale_exporter:
+    command: "-nginx.scrape-uri=http://nginx_tailscale:8080/stub_status"
+    container_name: nginx_tailscale_exporter
+    depends_on:
+      - nginx_tailscale
     env_file:
-      - "vars.env"
+      - vars.env
+    image: nginx/nginx-prometheus-exporter:latest
+    restart: unless-stopped
+  node_exporter:
+    command:
+      - "--path.rootfs=/host"
+    container_name: node_exporter
+    env_file:
+      - vars.env
+    image: quay.io/prometheus/node-exporter:latest
+    network_mode: host
+    pid: host
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - /:/host:ro,rslave
+  prometheus:
+    container_name: prometheus
+    depends_on:
+      - nginx_tailscale_exporter
+      - cadvisor
+    env_file:
+      - vars.env
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    volumes:
+      - prometheus-data:/prometheus:rw
+      - prometheus-config:/etc/prometheus/:rw
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
+  promtail:
+    command: "-config.file=/etc/promtail/promtail.yml"
+    container_name: promtail
+    depends_on:
+      - loki
+    env_file:
+      - vars.env
+    image: grafana/promtail:latest
+    restart: unless-stopped
+    volumes:
+      - ./config/promtail.yml:/etc/promtail/promtail.yml:ro,Z
+      - /var/log/journal:/var/log/journal:ro
+      - /run/log/journal:/run/log/journal:ro
+      - /etc/machine-id:/etc/machine-id:ro
+  rtorrent:
+    container_name: rtorrent
     depends_on:
       - tailscale
-  syncthing:
-    image: syncthing/syncthing:latest
-    container_name: syncthing
-    hostname: syncthing
     env_file:
-      - "vars.env"
+      - vars.env
+    image: crazymax/rtorrent-rutorrent:latest
+    ports:
+      - 100.88.20.114:8000:8000
+      - fd7a:115c:a1e0:ab12:4843:cd96:6258:1472:8000:8000
+    restart: unless-stopped
+    ulimits:
+      nofile:
+        hard: 40000
+        soft: 32000
+      nproc: 65535
     volumes:
-      - syncthing-config:/var/syncthing/
-      - /home/debian/syncthing:/syncthing:Z
+      - rtorrent-data:/data:rw
+      - rtorrent-temp:/downloads/temp:rw
+      - /home/debian/syncthing/Torrents:/downloads/complete:Z
+  speedtest:
+    container_name: speedtest
+    image: jraviles/prometheus_speedtest:latest
+    restart: unless-stopped
+    env_file:
+      - vars.env
+  syncthing:
+    container_name: syncthing
+    env_file:
+      - vars.env
+    hostname: syncthing
+    image: syncthing/syncthing:latest
     ports:
       - 22000:22000/tcp
       - 22000:22000/udp
       - 21027:21027/udp
     restart: unless-stopped
+    volumes:
+      - syncthing-config:/var/syncthing/:rw
+      - /home/debian/syncthing:/syncthing:Z
+  syncthing_exporter:
+    container_name: syncthing_exporter
+    env_file:
+      - vars.env
+    environment:
+      SYNCTHING_TOKEN: JHtHwiK7SWFLhnA4C3WrNSLYE6XjkoQT
+      SYNCTHING_URI: http://syncthing:8384/
+    image: f100024/syncthing_exporter:latest
+    restart: unless-stopped
+  tailscale:
+    command: tailscaled
+    container_name: tailscale
+    env_file:
+      - vars.env
+    image: tailscale/tailscale
+    network_mode: host
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - /var/lib:/var/lib:rw
+      - /dev/net/tun:/dev/net/tun:rw
   volumerize:
-    image: blacklabelops/volumerize:1.7.1
-    # command: backup
     container_name: volumerize
     env_file:
-      - "vars.env"
+      - vars.env
+    environment:
+      VOLUMERIZE_CONTAINERS: syncthing grafana prometheus loki
+      VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
+      VOLUMERIZE_JOBBER_TIME: 0 0 4 * * *
+      VOLUMERIZE_SOURCE: /source
+      VOLUMERIZE_TARGET: file:///target
+    image: blacklabelops/volumerize:1.7.1
+    restart: unless-stopped
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - volumerize-cache:/volumerize-cache
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - volumerize-cache:/volumerize-cache:rw
       - /home/debian/backup:/target:Z
       - syncthing-config:/source/syncthing-config:ro
       - grafana-data:/source/grafana-data:ro
       - prometheus-config:/source/prometheus-config:ro
       - prometheus-data:/source/prometheus-data:ro
       - loki-data:/source/loki-data:ro
-    environment:
-      VOLUMERIZE_SOURCE: "/source"
-      VOLUMERIZE_TARGET: "file:///target"
-      VOLUMERIZE_JOBBER_TIME: "0 0 4 * * *"
-      VOLUMERIZE_CONTAINERS: "syncthing grafana prometheus loki"
-      VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
-    restart: unless-stopped
-# Add new volumes to backup if needed.
+      - rtorrent-data:/source/rtorrent-data:ro
+version: "3.8"
 volumes:
-  syncthing-config:
-  grafana-data:
-  prometheus-config:
-  prometheus-data:
-  loki-data:
-  letsencrypt-certs:
-  volumerize-cache:
-  rtorrent-data:
-  rtorrent-temp:
+  grafana-data: null
+  letsencrypt-certs: null
+  loki-data: null
+  prometheus-config: null
+  prometheus-data: null
+  rtorrent-data: null
+  rtorrent-temp: null
+  syncthing-config: null
+  volumerize-cache: null
