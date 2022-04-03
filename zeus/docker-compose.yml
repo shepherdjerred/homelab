@@ -1,5 +1,15 @@
 ---
 services:
+  apprise:
+    container_name: apprise
+    env_file:
+      - vars.env
+    image: lscr.io/linuxserver/apprise-api
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    volumes:
+      - apprise-config:/config
   bazarr:
     container_name: bazarr
     env_file:
@@ -94,16 +104,6 @@ services:
     restart: unless-stopped
     volumes:
       - influxdb-data:/var/lib/influxdb2:rw
-  apprise:
-    image: lscr.io/linuxserver/apprise-api
-    container_name: apprise
-    env_file:
-      - vars.env
-    volumes:
-      - apprise-config:/config
-    ports:
-      - 8000:8000
-    restart: unless-stopped
   jackett:
     container_name: jackett
     env_file:
@@ -403,6 +403,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:z
 version: "3.8"
 volumes:
+  apprise-config: null
+  bazarr-config: null
   grafana-data: null
   homeassistant-config: null
   influxdb-data: null
@@ -421,5 +423,3 @@ volumes:
   timemachine-var-cache-samba: null
   timemachine-var-lib-samba: null
   volumerize-cache: null
-  bazarr-config: null
-  apprise-config: null
