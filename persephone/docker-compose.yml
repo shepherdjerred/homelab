@@ -49,9 +49,6 @@ services:
       - rtorrent-data:/data:rw
   grafana:
     container_name: grafana
-    depends_on:
-      - prometheus
-      - loki
     env_file:
       - vars.env
     environment:
@@ -94,8 +91,6 @@ services:
   nginx_tailscale_exporter:
     command: "-nginx.scrape-uri=http://nginx_tailscale:8080/stub_status"
     container_name: nginx_tailscale_exporter
-    depends_on:
-      - nginx_tailscale
     env_file:
       - vars.env
     image: nginx/nginx-prometheus-exporter:latest
@@ -115,9 +110,6 @@ services:
       - /:/host:ro,rslave
   prometheus:
     container_name: prometheus
-    depends_on:
-      - nginx_tailscale_exporter
-      - cadvisor
     env_file:
       - vars.env
     extra_hosts:
@@ -131,8 +123,6 @@ services:
   promtail:
     command: "-config.file=/etc/promtail/promtail.yml"
     container_name: promtail
-    depends_on:
-      - loki
     env_file:
       - vars.env
     image: grafana/promtail:latest

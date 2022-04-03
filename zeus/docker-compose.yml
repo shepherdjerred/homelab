@@ -18,8 +18,6 @@ services:
     env_file:
       - vars.env
     image: prom/blackbox-exporter:master
-    ports:
-      - "9115:9115"
     restart: unless-stopped
     volumes:
       - ./config/blackbox:/config:Z
@@ -68,10 +66,6 @@ services:
     restart: unless-stopped
   grafana:
     container_name: grafana
-    depends_on:
-      - prometheus
-      - loki
-      - influxdb
     env_file:
       - vars.env
     environment:
@@ -100,6 +94,16 @@ services:
     restart: unless-stopped
     volumes:
       - influxdb-data:/var/lib/influxdb2:rw
+  apprise:
+    image: lscr.io/linuxserver/apprise-api
+    container_name: apprise
+    env_file:
+      - vars.env
+    volumes:
+      - apprise-config:/config
+    ports:
+      - 8000:8000
+    restart: unless-stopped
   jackett:
     container_name: jackett
     env_file:
@@ -120,10 +124,6 @@ services:
       - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/:ro,Z
   nginx_public:
     container_name: nginx_public
-    depends_on:
-      - plex
-      - overseerr
-      - homeassistant
     env_file:
       - vars.env
     extra_hosts:
@@ -143,8 +143,6 @@ services:
   nginx_public_exporter:
     command: "-nginx.scrape-uri=http://nginx_public:8080/stub_status"
     container_name: nginx_public_exporter
-    depends_on:
-      - nginx_public
     env_file:
       - vars.env
     image: nginx/nginx-prometheus-exporter:latest
@@ -152,9 +150,7 @@ services:
   nginx_tailscale:
     container_name: nginx_tailscale
     depends_on:
-      - plex
-      - overseerr
-      - homeassistant
+      - tailscale
     env_file:
       - vars.env
     extra_hosts:
@@ -174,8 +170,6 @@ services:
   nginx_tailscale_exporter:
     command: "-nginx.scrape-uri=http://nginx_tailscale:8080/stub_status"
     container_name: nginx_tailscale_exporter
-    depends_on:
-      - nginx_tailscale
     env_file:
       - vars.env
     image: nginx/nginx-prometheus-exporter:latest
@@ -206,9 +200,6 @@ services:
     restart: unless-stopped
   overseerr:
     container_name: overseerr
-    depends_on:
-      - radarr
-      - sonarr
     env_file:
       - vars.env
     image: lscr.io/linuxserver/overseerr:latest
@@ -249,10 +240,6 @@ services:
       - /mnt/storage/media/other:/data/other:z
   prometheus:
     container_name: prometheus
-    depends_on:
-      - nginx_public_exporter
-      - nginx_tailscale_exporter
-      - cadvisor
     env_file:
       - vars.env
     extra_hosts:
@@ -266,8 +253,6 @@ services:
   promtail:
     command: "-config.file=/etc/promtail/promtail.yml"
     container_name: promtail
-    depends_on:
-      - loki
     env_file:
       - vars.env
     image: grafana/promtail:latest
@@ -279,8 +264,6 @@ services:
       - /etc/machine-id:/etc/machine-id:ro
   radarr:
     container_name: radarr
-    depends_on:
-      - jackett
     env_file:
       - vars.env
     image: lscr.io/linuxserver/radarr:latest
@@ -291,8 +274,6 @@ services:
       - /mnt/storage/syncthing/Torrents:/downloads:z
   sonarr:
     container_name: sonarr
-    depends_on:
-      - jackett
     env_file:
       - vars.env
     image: lscr.io/linuxserver/sonarr:latest
@@ -372,9 +353,6 @@ services:
       - timemachine-run-samba:/run/samba:rw
   varken:
     container_name: varken
-    depends_on:
-      - influxdb
-      - tautulli
     env_file:
       - vars.env
     image: boerderij/varken:latest
@@ -414,6 +392,7 @@ services:
       - timemachine-run-samba:/source/timemachine-run-samba:ro
       - tailscale-data:/source/tailscale-data:ro
       - bazarr-config:/source/bazarr-config:ro
+      - apprise-config:/source/apprise-config:ro
   watchtower:
     container_name: watchtower
     env_file:
@@ -443,3 +422,4 @@ volumes:
   timemachine-var-lib-samba: null
   volumerize-cache: null
   bazarr-config: null
+  apprise-config: null
