@@ -3,9 +3,11 @@ MAKEFLAGS+=--always-make --no-builtin-rules --no-builtin-variables --warn-undefi
 USER=jerred
 HOST=zeus
 REMOTE=$(USER)@$(HOST)
-REMOTE_DIRECTORY=/home/jerred/servers/zeus
+REMOTE_DIRECTORY=/home/$(USER)/servers/zeus
 
-deploy:
+deploy: sync pull restart;
+
+sync:
 	rsync --progress -a . $(REMOTE):$(REMOTE_DIRECTORY)
 
 up:
@@ -16,4 +18,10 @@ down:
 	ssh $(REMOTE) \
 	"cd $(REMOTE_DIRECTORY) && docker-compose down"
 
-restart: up down
+restart:
+	ssh $(REMOTE) \
+	"cd $(REMOTE_DIRECTORY) && docker-compose restart"
+
+pull:
+	ssh $(REMOTE) \
+	"cd $(REMOTE_DIRECTORY) && docker-compose pull"

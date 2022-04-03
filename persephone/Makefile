@@ -1,11 +1,13 @@
 MAKEFLAGS+=--always-make --no-builtin-rules --no-builtin-variables --warn-undefined-variables
 
 USER=debian
-HOST=public.persephone.shepherdjerred.com
+HOST=persephone
 REMOTE=$(USER)@$(HOST)
-REMOTE_DIRECTORY=/home/debian/servers/persephone
+REMOTE_DIRECTORY=/home/${USER}/servers/persephone
 
-deploy:
+deploy: sync pull restart;
+
+sync:
 	rsync --progress -a . $(REMOTE):$(REMOTE_DIRECTORY)
 
 up:
@@ -16,7 +18,10 @@ down:
 	ssh $(REMOTE) \
 	"cd $(REMOTE_DIRECTORY) && docker-compose down"
 
-restart: down up
+restart:
+	ssh $(REMOTE) \
+	"cd $(REMOTE_DIRECTORY) && docker-compose restart"
 
-lint:
-	docker-compose config
+pull:
+	ssh $(REMOTE) \
+	"cd $(REMOTE_DIRECTORY) && docker-compose pull"
