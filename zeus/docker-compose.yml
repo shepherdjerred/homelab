@@ -58,7 +58,6 @@ services:
       -d overseerr.tailscale.zeus.shepherdjerred.com
       -d overseerr.public.zeus.shepherdjerred.com
       -d influxdb.tailscale.zeus.shepherdjerred.com
-      -d syncthing.tailscale.zeus.shepherdjerred.com
     container_name: certbot
     env_file:
       - vars.env
