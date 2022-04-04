@@ -103,7 +103,14 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
         address: "fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41",
       },
     ],
-    domains: ["influxdb", "homeassistant", "overseerr", "plex", ""],
+    domains: [
+      "syncthing",
+      "influxdb",
+      "homeassistant",
+      "overseerr",
+      "plex",
+      "",
+    ],
   };
 
   const internalAssociation: Association = {

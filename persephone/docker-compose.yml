@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
     volumes:
       - /:/rootfs:ro
-      - /var/run:/var/run:rw
+      - /var/run:/var/run
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
   certbot:
@@ -35,10 +35,10 @@ services:
     env_file:
       - vars.env
     image: certbot/dns-route53
-    restart: never
+    restart: "no"
     volumes:
       - ./config/credentials:/root/.aws/credentials:ro,Z
-      - letsencrypt-certs:/etc/letsencrypt:rw
+      - letsencrypt-certs:/etc/letsencrypt
   geoip-updater:
     container_name: geoip-updater
     env_file:
@@ -46,7 +46,7 @@ services:
     image: crazymax/geoip-updater:latest
     restart: unless-stopped
     volumes:
-      - rtorrent-data:/data:rw
+      - rtorrent-data:/data
   grafana:
     container_name: grafana
     env_file:
@@ -57,7 +57,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./config/grafana.ini:/etc/grafana/grafana.ini:ro,Z
-      - grafana-data:/var/lib/grafana:rw
+      - grafana-data:/var/lib/grafana
   loki:
     container_name: loki
     env_file:
@@ -65,7 +65,7 @@ services:
     image: grafana/loki:latest
     restart: unless-stopped
     volumes:
-      - loki-data:/etc/loki/:rw
+      - loki-data:/etc/loki/
       - ./config/loki/loki.yaml:/etc/loki/local-config.yaml:ro,Z
       - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/:ro,Z
   nginx_tailscale:
@@ -117,8 +117,8 @@ services:
     image: prom/prometheus:latest
     restart: unless-stopped
     volumes:
-      - prometheus-data:/prometheus:rw
-      - prometheus-config:/etc/prometheus/:rw
+      - prometheus-data:/prometheus
+      - prometheus-config:/etc/prometheus/
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
   promtail:
     command: "-config.file=/etc/promtail/promtail.yml"
@@ -149,8 +149,8 @@ services:
         soft: 32000
       nproc: 65535
     volumes:
-      - rtorrent-data:/data:rw
-      - rtorrent-temp:/downloads/temp:rw
+      - rtorrent-data:/data
+      - rtorrent-temp:/downloads/temp
       - /home/debian/syncthing/Torrents:/downloads/complete:Z
   speedtest:
     container_name: speedtest
@@ -170,7 +170,7 @@ services:
       - 21027:21027/udp
     restart: unless-stopped
     volumes:
-      - syncthing-config:/var/syncthing/:rw
+      - syncthing-config:/var/syncthing/
       - /home/debian/syncthing:/syncthing:Z
   syncthing_exporter:
     container_name: syncthing_exporter
@@ -191,8 +191,8 @@ services:
     privileged: true
     restart: unless-stopped
     volumes:
-      - /var/lib:/var/lib:rw
-      - /dev/net/tun:/dev/net/tun:rw
+      - /var/lib:/var/lib
+      - /dev/net/tun:/dev/net/tun
   volumerize:
     container_name: volumerize
     env_file:
@@ -206,8 +206,8 @@ services:
     image: blacklabelops/volumerize:1.7.1
     restart: unless-stopped
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:rw
-      - volumerize-cache:/volumerize-cache:rw
+      - /var/run/docker.sock:/var/run/docker.sock
+      - volumerize-cache:/volumerize-cache
       - /home/debian/backup:/target:Z
       - syncthing-config:/source/syncthing-config:ro
       - grafana-data:/source/grafana-data:ro

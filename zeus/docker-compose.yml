@@ -13,8 +13,6 @@ services:
     env_file:
       - vars.env
     image: lscr.io/linuxserver/bazarr
-    ports:
-      - "6767:6767"
     restart: unless-stopped
     volumes:
       - bazarr-config:/config
@@ -58,6 +56,7 @@ services:
       -d overseerr.tailscale.zeus.shepherdjerred.com
       -d overseerr.public.zeus.shepherdjerred.com
       -d influxdb.tailscale.zeus.shepherdjerred.com
+      -d syncthing.tailscale.zeus.shepherdjerred.com
     container_name: certbot
     env_file:
       - vars.env
