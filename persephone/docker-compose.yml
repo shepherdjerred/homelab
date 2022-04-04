@@ -72,6 +72,9 @@ services:
     container_name: nginx_tailscale
     depends_on:
       - tailscale
+      - grafana
+      - syncthing
+      - rtorrent
     env_file:
       - vars.env
     extra_hosts:
