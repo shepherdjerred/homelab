@@ -5,8 +5,6 @@ services:
     env_file:
       - vars.env
     image: lscr.io/linuxserver/apprise-api
-    ports:
-      - "8000:8000"
     restart: unless-stopped
     volumes:
       - apprise-config:/config
@@ -19,9 +17,9 @@ services:
       - "6767:6767"
     restart: unless-stopped
     volumes:
-      - bazarr-config:/config:rw,Z
-      - /mnt/storage/media/movies:/movies:rw,Z
-      - /mnt/storage/media/tv:/tv:rw,Z
+      - bazarr-config:/config
+      - /mnt/storage/media/movies:/movies:z
+      - /mnt/storage/media/tv:/tv:z
   blackbox:
     command: "--config.file=/config/blackbox.yml"
     container_name: blackbox
@@ -40,7 +38,7 @@ services:
     restart: unless-stopped
     volumes:
       - /:/rootfs:ro
-      - /var/run:/var/run:rw
+      - /var/run:/var/run
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
   certbot:
@@ -64,10 +62,10 @@ services:
     env_file:
       - vars.env
     image: certbot/dns-route53
-    restart: never
+    restart: "no"
     volumes:
       - ./config/credentials:/root/.aws/credentials:ro,Z
-      - letsencrypt-certs:/etc/letsencrypt:rw
+      - letsencrypt-certs:/etc/letsencrypt
   flaresolverr:
     container_name: flaresolverr
     env_file:
@@ -84,7 +82,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./config/grafana.ini:/etc/grafana/grafana.ini:ro,Z
-      - grafana-data:/var/lib/grafana:rw
+      - grafana-data:/var/lib/grafana
   homeassistant:
     container_name: homeassistant
     env_file:
@@ -93,7 +91,7 @@ services:
     network_mode: host
     restart: unless-stopped
     volumes:
-      - homeassistant-config:/config:rw
+      - homeassistant-config:/config
       - ./config/homeassistant/configuration.yaml:/config/configuration.yaml:Z
       - ./config/homeassistant/secrets.yaml:/config/secrets.yaml:Z
   influxdb:
@@ -103,7 +101,7 @@ services:
     image: influxdb:alpine
     restart: unless-stopped
     volumes:
-      - influxdb-data:/var/lib/influxdb2:rw
+      - influxdb-data:/var/lib/influxdb2
   jackett:
     container_name: jackett
     env_file:
@@ -111,7 +109,7 @@ services:
     image: lscr.io/linuxserver/jackett:latest
     restart: unless-stopped
     volumes:
-      - jackett-config:/config:rw
+      - jackett-config:/config
   loki:
     container_name: loki
     env_file:
@@ -119,7 +117,7 @@ services:
     image: grafana/loki:latest
     restart: unless-stopped
     volumes:
-      - loki-data:/etc/loki/:rw
+      - loki-data:/etc/loki/
       - ./config/loki/loki.yaml:/etc/loki/local-config.yaml:ro,Z
       - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/:ro,Z
   nginx_public:
@@ -205,7 +203,7 @@ services:
     image: lscr.io/linuxserver/overseerr:latest
     restart: unless-stopped
     volumes:
-      - overseerr-config:/config:rw
+      - overseerr-config:/config
   plex:
     container_name: plex
     deploy:
@@ -234,7 +232,7 @@ services:
     shm_size: 8GB
     volumes:
       - /mnt/storage/plex:/config:z
-      - /dev/shm:/transcode:rw
+      - /dev/shm:/transcode
       - /mnt/storage/media/tv:/data/tv:z
       - /mnt/storage/media/movies:/data/movies:z
       - /mnt/storage/media/other:/data/other:z
@@ -247,8 +245,8 @@ services:
     image: prom/prometheus:latest
     restart: unless-stopped
     volumes:
-      - prometheus-data:/prometheus:rw
-      - prometheus-config:/etc/prometheus/:rw
+      - prometheus-data:/prometheus
+      - prometheus-config:/etc/prometheus/
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
   promtail:
     command: "-config.file=/etc/promtail/promtail.yml"
@@ -269,7 +267,7 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     restart: unless-stopped
     volumes:
-      - radarr-config:/config:rw
+      - radarr-config:/config
       - /mnt/storage/media/movies:/movies:z
       - /mnt/storage/syncthing/Torrents:/downloads:z
   sonarr:
@@ -279,7 +277,7 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     restart: unless-stopped
     volumes:
-      - sonarr-config:/config:rw
+      - sonarr-config:/config
       - /mnt/storage/media/tv:/tv:z
       - /mnt/storage/syncthing/Torrents:/downloads:z
   speedtest:
@@ -300,7 +298,7 @@ services:
       - 21027:21027/udp
     restart: unless-stopped
     volumes:
-      - syncthing-config:/var/syncthing/:rw
+      - syncthing-config:/var/syncthing/
       - /mnt/storage/syncthing:/syncthing:Z
   syncthing_exporter:
     container_name: syncthing_exporter
@@ -323,9 +321,9 @@ services:
     network_mode: host
     restart: unless-stopped
     volumes:
-      - /var/lib:/var/lib:rw
-      - /dev/net/tun:/dev/net/tun:rw
-      - tailscale-data:/tailscale:rw
+      - /var/lib:/var/lib
+      - /dev/net/tun:/dev/net/tun
+      - tailscale-data:/tailscale
   tautulli:
     container_name: tautulli
     env_file:
@@ -333,7 +331,7 @@ services:
     image: ghcr.io/tautulli/tautulli:latest
     restart: unless-stopped
     volumes:
-      - tautulli-data:/config:rw
+      - tautulli-data:/config
       - /mnt/storage/plex/Plex\ Media\ Server/Logs:/plex_logs:ro,z
   timemachine:
     container_name: timemachine
@@ -348,9 +346,9 @@ services:
         soft: 65536
     volumes:
       - /mnt/timemachine:/opt/timemachine:Z
-      - timemachine-var-lib-samba:/var/lib/samba:rw
-      - timemachine-var-cache-samba:/var/cache/samba:rw
-      - timemachine-run-samba:/run/samba:rw
+      - timemachine-var-lib-samba:/var/lib/samba
+      - timemachine-var-cache-samba:/var/cache/samba
+      - timemachine-run-samba:/run/samba
   varken:
     container_name: varken
     env_file:
@@ -373,7 +371,7 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:z
-      - volumerize-cache:/volumerize-cache:rw
+      - volumerize-cache:/volumerize-cache
       - /mnt/storage/backup:/target:Z
       - jackett-config:/source/jackett-config:ro
       - sonarr-config:/source/sonarr-config:ro
