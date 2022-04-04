@@ -18,6 +18,8 @@ services:
       - bazarr-config:/config
       - /mnt/storage/media/movies:/movies:z
       - /mnt/storage/media/tv:/tv:z
+    ports:
+      - 6767:6767
   blackbox:
     command: "--config.file=/config/blackbox.yml"
     container_name: blackbox
@@ -148,6 +150,7 @@ services:
     container_name: nginx_tailscale
     depends_on:
       - tailscale
+      - syncthing # TODO: remove this
     env_file:
       - vars.env
     extra_hosts:
