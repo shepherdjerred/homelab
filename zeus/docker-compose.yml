@@ -13,13 +13,13 @@ services:
     env_file:
       - vars.env
     image: lscr.io/linuxserver/bazarr
+    ports:
+      - "6767:6767"
     restart: unless-stopped
     volumes:
       - bazarr-config:/config
       - /mnt/storage/media/movies:/movies:z
       - /mnt/storage/media/tv:/tv:z
-    ports:
-      - 6767:6767
   blackbox:
     command: "--config.file=/config/blackbox.yml"
     container_name: blackbox
@@ -88,7 +88,14 @@ services:
     env_file:
       - vars.env
     image: ghcr.io/home-assistant/home-assistant:stable
-    network_mode: host
+    ports:
+      - 1400:1400 # Sonos
+      - 21068:21068 # HomeKit?
+      - 21067:21067 # HomeKit?
+      - 21066:21066 # HomeKit?
+      - 21064:21064 # HomeKit?
+      - 21063:21063 # HomeKit
+      - 5353:5353/udp # HomeKit
     restart: unless-stopped
     volumes:
       - homeassistant-config:/config
@@ -124,8 +131,6 @@ services:
     container_name: nginx_public
     env_file:
       - vars.env
-    extra_hosts:
-      - host.docker.internal:host-gateway
     image: nginx:alpine
     ports:
       - 192.168.1.45:80:80
@@ -149,11 +154,8 @@ services:
     container_name: nginx_tailscale
     depends_on:
       - tailscale
-      - syncthing # TODO: remove this
     env_file:
       - vars.env
-    extra_hosts:
-      - host.docker.internal:host-gateway
     image: nginx:alpine
     ports:
       - 100.96.254.65:80:80
@@ -339,8 +341,12 @@ services:
     env_file:
       - vars.env
     image: mbentley/timemachine:smb
-    network_mode: host
     restart: unless-stopped
+    ports:
+      - 137:137/udp
+      - 138:138/udp
+      - 139:139
+      - 445:445
     ulimits:
       nofile:
         hard: 65536

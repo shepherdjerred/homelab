@@ -1,11 +1,11 @@
 MAKEFLAGS+=--always-make --no-builtin-rules --no-builtin-variables --warn-undefined-variables
 
 USER=jerred
-HOST=zeus
+HOST=zeus-public
 REMOTE=$(USER)@$(HOST)
 REMOTE_DIRECTORY=/home/$(USER)/servers/zeus
 
-deploy: sync pull restart;
+deploy: sync pull down up;
 
 sync:
 	rsync --progress -a . $(REMOTE):$(REMOTE_DIRECTORY)

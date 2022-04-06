@@ -1,11 +1,11 @@
 MAKEFLAGS+=--always-make --no-builtin-rules --no-builtin-variables --warn-undefined-variables
 
 USER=debian
-HOST=persephone
+HOST=persephone-public
 REMOTE=$(USER)@$(HOST)
 REMOTE_DIRECTORY=/home/${USER}/servers/persephone
 
-deploy: sync pull restart;
+deploy: sync pull down up;
 
 sync:
 	rsync --progress -a . $(REMOTE):$(REMOTE_DIRECTORY)
