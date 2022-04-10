@@ -29,9 +29,17 @@ modules:
         - 401
   tcp_connect:
     prober: tcp
-  ssh_banner:
+  ssh_banner_ipv4:
     prober: tcp
     tcp:
+      preferred_ip_protocol: ipv4
+      query_response:
+        - expect: "^SSH-2.0-"
+        - send: "SSH-2.0-blackbox-ssh-check"
+  ssh_banner_ipv6:
+    prober: tcp
+    tcp:
+      preferred_ip_protocol: ipv6
       query_response:
         - expect: "^SSH-2.0-"
         - send: "SSH-2.0-blackbox-ssh-check"

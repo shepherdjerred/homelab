@@ -7,14 +7,14 @@ scrape_configs:
     static_configs:
       - targets:
           - syncthing_exporter:9093
-  - job_name: "blackbox_ssh"
+  - job_name: "blackbox_ssh_ipv4"
     metrics_path: /probe
     params:
       module: [ssh_banner]
     static_configs:
       - targets:
-          - tailscale.zeus.shepherdjerred.com
-          - public.zeus.shepherdjerred.com
+          - tailscale.zeus.shepherdjerred.com:22
+          - public.zeus.shepherdjerred.com:22
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -22,15 +22,14 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: blackbox:9115
-  - job_name: "blackbox_http_ipv6_401"
+  - job_name: "blackbox_ssh_ipv6"
     metrics_path: /probe
     params:
-      module: [http_401]
+      module: [ssh_banner]
     static_configs:
       - targets:
-          - https://plex.tailscale.zeus.shepherdjerred.com
-          - https://plex.public.zeus.shepherdjerred.com
-          - https://tailscale.zeus.shepherdjerred.com/syncthing
+          - tailscale.zeus.shepherdjerred.com:22
+          - public.zeus.shepherdjerred.com:22
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -44,34 +43,21 @@ scrape_configs:
       module: [http_2xx]
     static_configs:
       - targets:
-          - https://influxdb.tailscale.zeus.shepherdjerred.com
-          - https://overseerr.tailscale.zeus.shepherdjerred.com
-          - https://homeassistant.tailscale.zeus.shepherdjerred.com
-          - https://tailscale.zeus.shepherdjerred.com
-          - https://tailscale.zeus.shepherdjerred.com/tautulli
-          - https://tailscale.zeus.shepherdjerred.com/jackett
-          - https://tailscale.zeus.shepherdjerred.com/sonarr
-          - https://tailscale.zeus.shepherdjerred.com/radarr
-          - https://tailscale.zeus.shepherdjerred.com
-          - https://public.zeus.shepherdjerred.com
-          - https://overseerr.public.zeus.shepherdjerred.com
-          - https://homeassistant.public.zeus.shepherdjerred.com
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: blackbox:9115
-  - job_name: "blackbox_http_ipv4_401"
-    metrics_path: /probe
-    params:
-      module: [http_401]
-    static_configs:
-      - targets:
-          - https://plex.tailscale.zeus.shepherdjerred.com
-          - https://plex.public.zeus.shepherdjerred.com
-          - https://tailscale.zeus.shepherdjerred.com/syncthing
+          - https://influxdb.tailscale.zeus.shepherdjerred.com:443
+          - https://overseerr.tailscale.zeus.shepherdjerred.com:443
+          - https://homeassistant.tailscale.zeus.shepherdjerred.com:443
+          - https://tailscale.zeus.shepherdjerred.com:443
+          - https://tailscale.zeus.shepherdjerred.com/tautulli:443
+          - https://tailscale.zeus.shepherdjerred.com/jackett:443
+          - https://tailscale.zeus.shepherdjerred.com/sonarr:443
+          - https://tailscale.zeus.shepherdjerred.com/radarr:443
+          - https://tailscale.zeus.shepherdjerred.com:443
+          - https://public.zeus.shepherdjerred.com:443
+          - https://overseerr.public.zeus.shepherdjerred.com:443
+          - https://homeassistant.public.zeus.shepherdjerred.com:443
+          - https://plex.tailscale.zeus.shepherdjerred.com/identity:443
+          - https://plex.public.zeus.shepherdjerred.com/identity:443
+          - https://tailscale.zeus.shepherdjerred.com/syncthing:443
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -85,18 +71,21 @@ scrape_configs:
       module: [http_2xx]
     static_configs:
       - targets:
-          - https://influxdb.tailscale.zeus.shepherdjerred.com
-          - https://overseerr.tailscale.zeus.shepherdjerred.com
-          - https://homeassistant.tailscale.zeus.shepherdjerred.com
-          - https://tailscale.zeus.shepherdjerred.com
-          - https://tailscale.zeus.shepherdjerred.com/tautulli
-          - https://tailscale.zeus.shepherdjerred.com/jackett
-          - https://tailscale.zeus.shepherdjerred.com/sonarr
-          - https://tailscale.zeus.shepherdjerred.com/radarr
-          - https://tailscale.zeus.shepherdjerred.com
-          - https://public.zeus.shepherdjerred.com
-          - https://overseerr.public.zeus.shepherdjerred.com
-          - https://homeassistant.public.zeus.shepherdjerred.com
+          - https://influxdb.tailscale.zeus.shepherdjerred.com:443
+          - https://overseerr.tailscale.zeus.shepherdjerred.com:443
+          - https://homeassistant.tailscale.zeus.shepherdjerred.com:443
+          - https://tailscale.zeus.shepherdjerred.com:443
+          - https://tailscale.zeus.shepherdjerred.com/tautulli:443
+          - https://tailscale.zeus.shepherdjerred.com/jackett:443
+          - https://tailscale.zeus.shepherdjerred.com/sonarr:443
+          - https://tailscale.zeus.shepherdjerred.com/radarr:443
+          - https://tailscale.zeus.shepherdjerred.com:443
+          - https://public.zeus.shepherdjerred.com:443
+          - https://overseerr.public.zeus.shepherdjerred.com:443
+          - https://homeassistant.public.zeus.shepherdjerred.com:443
+          - https://plex.tailscale.zeus.shepherdjerred.com/identity:443
+          - https://plex.public.zeus.shepherdjerred.com/identity:443
+          - https://tailscale.zeus.shepherdjerred.com/syncthing:443
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
