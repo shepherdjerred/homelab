@@ -115,7 +115,7 @@ jobs:
       - name: CDK Synth
         run: npm run cdk synth
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: out
           path: cdk/cdk.out
