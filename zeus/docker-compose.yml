@@ -13,8 +13,6 @@ services:
     env_file:
       - vars.env
     image: lscr.io/linuxserver/bazarr
-    ports:
-      - "6767:6767"
     restart: unless-stopped
     volumes:
       - bazarr-config:/config
@@ -224,7 +222,6 @@ services:
       NVIDIA_VISIBLE_DEVICES: all
     image: plexinc/pms-docker:latest
     ports:
-      - 32400:32400/tcp
       - 3005:3005/tcp
       - 8324:8324/tcp
       - 32469:32469/tcp
