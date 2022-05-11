@@ -5,6 +5,19 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 0.0.0.0/0
+sonos:
+  media_player:
+    hosts:
+      - 192.168.1.9
+      - 192.168.1.16
+      - 192.168.1.25
+      - 192.168.1.40
+      - 192.168.1.54
+      - 192.168.1.73
+      - 192.168.1.223
+      - 192.168.1.240
+      - 192.168.1.246
+    advertise_addr: 192.168.1.45
 
 # Text to speech
 tts:

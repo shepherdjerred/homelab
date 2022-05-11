@@ -346,10 +346,14 @@ services:
     image: mbentley/timemachine:smb
     restart: unless-stopped
     ports:
-      - 137:137/udp
-      - 138:138/udp
-      - 139:139
-      - 445:445
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:137:137/udp
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:138:138/udp
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:139:139
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:445:445
+      - 100.96.254.65:137:137/udp
+      - 100.96.254.65:138:138/udp
+      - 100.96.254.65:139:139
+      - 100.96.254.65:445:445
     ulimits:
       nofile:
         hard: 65536
