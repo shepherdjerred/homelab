@@ -317,7 +317,7 @@ services:
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
-    command: tailscaled --statedir /dev/tailscale
+    command: tailscaled
     container_name: tailscale
     env_file:
       - vars.env
