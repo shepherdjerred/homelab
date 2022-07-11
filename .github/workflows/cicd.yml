@@ -30,7 +30,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.1.0
+        uses: actions/setup-node@v3.3.0
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
@@ -55,7 +55,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.1.0
+        uses: actions/setup-node@v3.3.0
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
@@ -80,7 +80,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.1.0
+        uses: actions/setup-node@v3.3.0
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
@@ -105,7 +105,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.1.0
+        uses: actions/setup-node@v3.3.0
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
@@ -115,7 +115,7 @@ jobs:
       - name: CDK Synth
         run: npm run cdk synth
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: out
           path: cdk/cdk.out

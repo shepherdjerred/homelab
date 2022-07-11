@@ -13,8 +13,6 @@ services:
     env_file:
       - vars.env
     image: lscr.io/linuxserver/bazarr
-    ports:
-      - "6767:6767"
     restart: unless-stopped
     volumes:
       - bazarr-config:/config
@@ -255,7 +253,7 @@ services:
       - prometheus-config:/etc/prometheus/
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
   promtail:
-    command: "-config.file=/etc/promtail/promtail.yml"
+    command: "-config.file=/etc/promtail/promtail.yml --storage.tsdb.retention.time=365d"
     container_name: promtail
     env_file:
       - vars.env
@@ -319,7 +317,7 @@ services:
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
-    command: tailscaled --statedir /dev/tailscale
+    command: tailscaled
     container_name: tailscale
     env_file:
       - vars.env
@@ -346,10 +344,14 @@ services:
     image: mbentley/timemachine:smb
     restart: unless-stopped
     ports:
-      - 137:137/udp
-      - 138:138/udp
-      - 139:139
-      - 445:445
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:137:137/udp
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:138:138/udp
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:139:139
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:445:445
+      - 100.96.254.65:137:137/udp
+      - 100.96.254.65:138:138/udp
+      - 100.96.254.65:139:139
+      - 100.96.254.65:445:445
     ulimits:
       nofile:
         hard: 65536
