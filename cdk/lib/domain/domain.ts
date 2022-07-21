@@ -81,7 +81,7 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
     addresses: [
       {
         addressType: "v4",
-        address: "24.17.18.146",
+        address: "67.171.0.180",
       },
       {
         addressType: "v6",
