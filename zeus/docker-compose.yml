@@ -134,8 +134,8 @@ services:
     ports:
       - 192.168.1.45:80:80
       - 192.168.1.45:443:443
-      - 2601:602:8500:1b1f:325a:3aff:fe7b:6fd5:80:80
-      - 2601:602:8500:1b1f:325a:3aff:fe7b:6fd5:443:443
+      - 2601:602:8200:277c:325a:3aff:fe7b:6fd5:80:80
+      - 2601:602:8200:277c:325a:3aff:fe7b:6fd5:443:443
     restart: unless-stopped
     volumes:
       - ./static/public.html:/usr/share/nginx/html/index.html:ro,Z
