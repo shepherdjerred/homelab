@@ -4,11 +4,11 @@ services:
     container_name: glitter_minecraft
     image: ghcr.io/shepherdjerred-minecraft/spigot:1.19
     volumes:
-      - /mnt/storage/games/glitter_minecraft,target=/home/minecraft/server
+      - /mnt/storage/games/glitter_minecraft:/home/minecraft/server:Z
     ports:
       - 25565:25565/tcp
       - 25565:25565/udp
-    command: -Xmx4G -jar "../spigot.jar"d
+    command: -Xmx4G -jar "../spigot.jar"
   apprise:
     container_name: apprise
     env_file:
