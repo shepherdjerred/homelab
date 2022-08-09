@@ -124,12 +124,6 @@ services:
     image: ghcr.io/home-assistant/home-assistant:stable
     ports:
       - 1400:1400 # Sonos
-      - 21068:21068 # HomeKit?
-      - 21067:21067 # HomeKit?
-      - 21066:21066 # HomeKit?
-      - 21064:21064 # HomeKit?
-      - 21063:21063 # HomeKit
-      - 5353:5353/udp # HomeKit
     restart: unless-stopped
     volumes:
       - homeassistant-config:/config
@@ -287,7 +281,7 @@ services:
       - prometheus-data:/prometheus
       - prometheus-config:/etc/prometheus/
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
-    command: "--storage.tsdb.retention.time=365d --config.file=/etc/prometheus/prometheus.yml"
+    command: "--storage.tsdb.retention.time=365d --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
   promtail:
     command: "-config.file=/etc/promtail/promtail.yml"
     container_name: promtail
