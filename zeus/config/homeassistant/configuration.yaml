@@ -22,13 +22,6 @@ sonos:
 # Text to speech
 tts:
   - platform: google_translate
-nest:
-  client_id: !secret nest_client_id
-  client_secret: !secret nest_client_secret
-  project_id: !secret nest_project_id
-spotify:
-  client_id: !secret spotify_client_id
-  client_secret: !secret spotify_client_secret
 ffmpeg:
 
 automation: !include automations.yaml
