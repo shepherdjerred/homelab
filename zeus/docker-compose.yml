@@ -1,5 +1,21 @@
 ---
 services:
+  factorio:
+    container_name: factorio
+    image: factoriotools/factorio:stable
+    volumes:
+      - /mnt/storage/games/factorio:/factorio:Z
+    ports:
+      - 34197:34197/udp
+  matt:
+    container_name: matt_minecraft
+    image: ghcr.io/shepherdjerred-minecraft/spigot:1.19
+    volumes:
+      - /mnt/storage/games/matt_minecraft:/home/minecraft/server:Z
+    ports:
+      - 25566:25565/tcp
+      - 25566:25565/udp
+    command: -Xmx2G -jar "../spigot.jar"
   glitter_minecraft:
     container_name: glitter_minecraft
     image: ghcr.io/shepherdjerred-minecraft/spigot:1.19
@@ -8,7 +24,7 @@ services:
     ports:
       - 25565:25565/tcp
       - 25565:25565/udp
-    command: -Xmx4G -jar "../spigot.jar"
+    command: -Xmx2G -jar "../spigot.jar"
   apprise:
     container_name: apprise
     env_file:
@@ -66,6 +82,16 @@ services:
       -d overseerr.public.zeus.shepherdjerred.com
       -d influxdb.tailscale.zeus.shepherdjerred.com
       -d prometheus.tailscale.zeus.shepherdjerred.com
+      -d tailscale.zeus.sjer.red
+      -d public.zeus.sjer.red
+      -d homeassistant.tailscale.zeus.sjer.red
+      -d homeassistant.public.zeus.sjer.red
+      -d plex.tailscale.zeus.sjer.red
+      -d plex.public.zeus.sjer.red
+      -d overseerr.tailscale.zeus.sjer.red
+      -d overseerr.public.zeus.sjer.red
+      -d influxdb.tailscale.zeus.sjer.red
+      -d prometheus.tailscale.zeus.sjer.red
     container_name: certbot
     env_file:
       - vars.env
@@ -261,8 +287,9 @@ services:
       - prometheus-data:/prometheus
       - prometheus-config:/etc/prometheus/
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
+    command: "--storage.tsdb.retention.time=365d --config.file=/etc/prometheus/prometheus.yml"
   promtail:
-    command: "-config.file=/etc/promtail/promtail.yml --storage.tsdb.retention.time=365d"
+    command: "-config.file=/etc/promtail/promtail.yml"
     container_name: promtail
     env_file:
       - vars.env

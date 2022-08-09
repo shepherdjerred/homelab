@@ -31,6 +31,8 @@ services:
       --dns-route53
       -d tailscale.persephone.shepherdjerred.com
       -d public.persephone.shepherdjerred.com
+      -d tailscale.persephone.sjer.red
+      -d public.persephone.sjer.red
     container_name: certbot
     env_file:
       - vars.env
