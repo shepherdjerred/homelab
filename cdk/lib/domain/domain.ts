@@ -393,7 +393,7 @@ function createRecords(
           domain +
           association.base +
           hostedZone.zoneName +
-          +"-" +
+          "-" +
           address.addressType;
         switch (address.addressType) {
           case "v4":
