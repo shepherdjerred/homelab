@@ -30,7 +30,3 @@ restart:
 pull:
 	ssh $(REMOTE) \
 	"cd $(REMOTE_DIRECTORY) && docker-compose pull"
-
-restart-nginx:
-	ssh $(REMOTE) \
-	"cd $(REMOTE_DIRECTORY) && docker-compose restart nginx_tailscale && docker-compose restart nginx_public"

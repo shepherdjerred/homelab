@@ -140,14 +140,6 @@ scrape_configs:
     static_configs:
       - targets:
           - localhost:9090
-  - job_name: nginx_public
-    static_configs:
-      - targets:
-          - nginx_public_exporter:9113
-  - job_name: nginx_tailscale
-    static_configs:
-      - targets:
-          - nginx_tailscale_exporter:9113
   - job_name: loki
     static_configs:
       - targets:

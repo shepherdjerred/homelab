@@ -9,8 +9,8 @@ scrape_configs:
       module: [ssh_banner]
     static_configs:
       - targets:
-          - tailscale.persephone.shepherdjerred.com
-          - public.persephone.shepherdjerred.com
+          - ts.persephone.sjer.red
+          - public.persephone.sjer.red
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -24,7 +24,7 @@ scrape_configs:
       module: [http_401]
     static_configs:
       - targets:
-          - https://tailscale.persephone.shepherdjerred.com/syncthing
+          - https://ts.persephone.sjer.red/syncthing
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -38,8 +38,8 @@ scrape_configs:
       module: [http_2xx]
     static_configs:
       - targets:
-          - https://tailscale.persephone.shepherdjerred.com
-          - https://public.persephone.shepherdjerred.com
+          - https://ts.persephone.sjer.red
+          - https://public.persephone.sjer.red
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
@@ -58,10 +58,6 @@ scrape_configs:
     static_configs:
       - targets:
           - localhost:9090
-  - job_name: nginx_tailscale
-    static_configs:
-      - targets:
-          - nginx_tailscale_exporter:9113
   - job_name: loki
     static_configs:
       - targets:

@@ -1,0 +1,32 @@
+{
+	acme_dns route53
+}
+
+influxdb.ts.persephone.sjer.red influxdb.ts.persephone.shepherdjerred.com {
+	reverse_proxy http://influxdb:8086
+}
+
+prometheus.ts.persephone.sjer.red prometheus.ts.persephone.shepherdjerred.com {
+	reverse_proxy http://prometheus:9090
+}
+
+grafana.ts.persephone.sjer.red grafana.ts.persephone.shepherdjerred.com {
+	reverse_proxy http://grafana:3000
+}
+
+syncthing.ts.persephone.sjer.red syncthing.ts.persephone.shepherdjerred.com {
+	reverse_proxy http://syncthing:8384
+}
+
+blackbox.ts.persephone.sjer.red blackbox.ts.persephone.shepherdjerred.com {
+	reverse_proxy http://blackbox:9115
+}
+
+rutorrent.ts.persephone.sjer.red rutorrent.ts.persephone.shepherdjerred.com {
+	reverse_proxy http://rutorrent:8000
+}
+
+ts.persephone.sjer.red ts.persephone.shepherdjerred.com {
+	root * /srv
+	file_server
+}
