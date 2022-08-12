@@ -294,7 +294,7 @@ function createPersephoneRecords(stack: Stack, hostedZone: IHostedZone) {
   };
 
   const tailscaleAssociation: Association = {
-    base: "tailscale.persephone",
+    base: "ts.persephone",
     addresses: [
       {
         addressType: "v4",
@@ -329,7 +329,7 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
   };
 
   const tailscaleAssociation: Association = {
-    base: "tailscale.zeus",
+    base: "ts.zeus",
     addresses: [
       {
         addressType: "v4",
@@ -341,6 +341,14 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
       },
     ],
     domains: [
+      "syncthing",
+      "grafana",
+      "tautulli",
+      "jackett",
+      "sonarr",
+      "bazarr",
+      "blackbox",
+      "radarr",
       "prometheus",
       "influxdb",
       "homeassistant",
