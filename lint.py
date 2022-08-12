@@ -23,14 +23,14 @@ def lint(file):
         ]
         for expected_key in expected_keys:
             if expected_key not in service:
-                service_errors.append(f"{expected_key} not found")
-        if ":" not in service["image"]:
+                service_errors.append(f"key `{expected_key}` not found")
+        if "image" in service and ":" not in service["image"]:
             service_errors.append(f"no tag for image {service['image']}")
         if service["container_name"] != service_name:
             service_errors.append(
                 f"key {service_name} does not match container_name {service['container_name']}")
         expected_vars_file = "vars.env"
-        if expected_vars_file not in service["env_file"]:
+        if "env_file" not in service or expected_vars_file not in service["env_file"]:
             service_errors.append(f"{service_name} not using {expected_vars_file} in env_file")
         if "volumes" in service:
             for volume in service["volumes"]:

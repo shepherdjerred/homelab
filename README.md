@@ -4,6 +4,6 @@
 
 Local nas hosted at my home.
 
-## Hades
+## Persephone
 
 Leased server from Kimsufi.

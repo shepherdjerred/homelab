@@ -1,5 +1,41 @@
 ---
 services:
+  caddy_tailscale:
+    container_name: caddy_tailscale
+    depends_on:
+      - tailscale
+    build: config/caddy
+    env_file:
+      - vars.env
+    ports:
+      - 100.96.254.65:80:80
+      - 100.96.254.65:443:443
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:80:80
+      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:443:443
+    volumes:
+      - caddy-tailscale-config:/config:Z
+      - caddy-tailscale-data:/data:Z
+      - ./static/tailscale.html:/srv/index.html:Z
+      - ./config/caddy/tailscale.Caddyfile:/etc/caddy/Caddyfile:ro,Z
+      - ./config/credentials:/root/.aws/credentials:ro,Z
+    restart: unless-stopped
+  caddy_public:
+    container_name: caddy_public
+    build: config/caddy
+    env_file:
+      - vars.env
+    ports:
+      - 192.168.1.45:80:80
+      - 192.168.1.45:443:443
+      - 2601:602:8200:277c:325a:3aff:fe7b:6fd5:80:80
+      - 2601:602:8200:277c:325a:3aff:fe7b:6fd5:443:443
+    volumes:
+      - caddy-public-config:/config:Z
+      - caddy-public-data:/data:Z
+      - ./static/public.html:/srv/index.html:Z
+      - ./config/caddy/public.Caddyfile:/etc/caddy/Caddyfile:ro,Z
+      - ./config/credentials:/root/.aws/credentials:ro,Z
+    restart: unless-stopped
   factorio:
     container_name: factorio
     image: factoriotools/factorio:stable
@@ -7,7 +43,7 @@ services:
       - /mnt/storage/games/factorio:/factorio:Z
     ports:
       - 34197:34197/udp
-  matt:
+  matt_minecraft:
     container_name: matt_minecraft
     image: ghcr.io/shepherdjerred-minecraft/spigot:1.19
     volumes:
@@ -64,42 +100,6 @@ services:
       - /var/run:/var/run
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-  certbot:
-    command: |
-      certonly
-      --cert-name "shepherdjerred.com"
-      -n
-      --agree-tos
-      -m shepherdjerred@gmail.com
-      --dns-route53
-      -d tailscale.zeus.shepherdjerred.com
-      -d public.zeus.shepherdjerred.com
-      -d homeassistant.tailscale.zeus.shepherdjerred.com
-      -d homeassistant.public.zeus.shepherdjerred.com
-      -d plex.tailscale.zeus.shepherdjerred.com
-      -d plex.public.zeus.shepherdjerred.com
-      -d overseerr.tailscale.zeus.shepherdjerred.com
-      -d overseerr.public.zeus.shepherdjerred.com
-      -d influxdb.tailscale.zeus.shepherdjerred.com
-      -d prometheus.tailscale.zeus.shepherdjerred.com
-      -d tailscale.zeus.sjer.red
-      -d public.zeus.sjer.red
-      -d homeassistant.tailscale.zeus.sjer.red
-      -d homeassistant.public.zeus.sjer.red
-      -d plex.tailscale.zeus.sjer.red
-      -d plex.public.zeus.sjer.red
-      -d overseerr.tailscale.zeus.sjer.red
-      -d overseerr.public.zeus.sjer.red
-      -d influxdb.tailscale.zeus.sjer.red
-      -d prometheus.tailscale.zeus.sjer.red
-    container_name: certbot
-    env_file:
-      - vars.env
-    image: certbot/dns-route53
-    restart: "no"
-    volumes:
-      - ./config/credentials:/root/.aws/credentials:ro,Z
-      - letsencrypt-certs:/etc/letsencrypt
   flaresolverr:
     container_name: flaresolverr
     env_file:
@@ -155,54 +155,6 @@ services:
       - loki-data:/etc/loki/
       - ./config/loki/loki.yaml:/etc/loki/local-config.yaml:ro,Z
       - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/:ro,Z
-  nginx_public:
-    container_name: nginx_public
-    env_file:
-      - vars.env
-    image: nginx:alpine
-    ports:
-      - 192.168.1.45:80:80
-      - 192.168.1.45:443:443
-      - 2601:602:8200:277c:325a:3aff:fe7b:6fd5:80:80
-      - 2601:602:8200:277c:325a:3aff:fe7b:6fd5:443:443
-    restart: unless-stopped
-    volumes:
-      - ./static/public.html:/usr/share/nginx/html/index.html:ro,Z
-      - ./config/nginx/includes:/etc/nginx/includes:ro,z
-      - ./config/nginx/nginx-public.conf:/etc/nginx/nginx.conf:ro,Z
-      - letsencrypt-certs:/etc/letsencrypt:ro
-  nginx_public_exporter:
-    command: "-nginx.scrape-uri=http://nginx_public:8080/stub_status"
-    container_name: nginx_public_exporter
-    env_file:
-      - vars.env
-    image: nginx/nginx-prometheus-exporter:latest
-    restart: unless-stopped
-  nginx_tailscale:
-    container_name: nginx_tailscale
-    depends_on:
-      - tailscale
-    env_file:
-      - vars.env
-    image: nginx:alpine
-    ports:
-      - 100.96.254.65:80:80
-      - 100.96.254.65:443:443
-      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:80:80
-      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:443:443
-    restart: unless-stopped
-    volumes:
-      - ./static/tailscale.html:/usr/share/nginx/html/index.html:ro,Z
-      - ./config/nginx/includes:/etc/nginx/includes:ro,z
-      - ./config/nginx/nginx-tailscale.conf:/etc/nginx/nginx.conf:ro,Z
-      - letsencrypt-certs:/etc/letsencrypt:ro
-  nginx_tailscale_exporter:
-    command: "-nginx.scrape-uri=http://nginx_tailscale:8080/stub_status"
-    container_name: nginx_tailscale_exporter
-    env_file:
-      - vars.env
-    image: nginx/nginx-prometheus-exporter:latest
-    restart: unless-stopped
   node_exporter:
     command:
       - "--path.rootfs=/host"
@@ -449,7 +401,6 @@ volumes:
   homeassistant-config: null
   influxdb-data: null
   jackett-config: null
-  letsencrypt-certs: null
   loki-data: null
   overseerr-config: null
   prometheus-config: null
@@ -463,3 +414,7 @@ volumes:
   timemachine-var-cache-samba: null
   timemachine-var-lib-samba: null
   volumerize-cache: null
+  caddy-public-config: null
+  caddy-public-data: null
+  caddy-tailscale-config: null
+  caddy-tailscale-data: null

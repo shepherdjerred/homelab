@@ -1,0 +1,117 @@
+{
+	acme_dns route53
+}
+
+tailscale.zeus.sjer.red {
+	root * /srv
+	file_server
+}
+
+tailscale.zeus.shepherdjerred.com {
+	root * /srv
+	file_server
+}
+
+plex.tailscale.zeus.sjer.red {
+	reverse_proxy http://plex:32400
+}
+
+plex.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy http://plex:32400
+}
+
+overseerr.tailscale.zeus.sjer.red {
+	reverse_proxy http://overseerr:5055
+}
+
+overseerr.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy http://overseerr:5055
+}
+
+homeassistant.tailscale.zeus.sjer.red {
+	reverse_proxy http://homeassistant:8123
+}
+
+homeassistant.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy http://homeassistant:8123
+}
+
+grafana.tailscale.zeus.sjer.red {
+	reverse_proxy /grafana/* http://grafana:3000
+}
+
+grafana.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy /grafana/* http://grafana:3000
+}
+
+tautulli.tailscale.zeus.sjer.red {
+	reverse_proxy /tautulli/* http://tautulli:8181
+}
+
+tautulli.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy /tautulli/* http://tautulli:8181
+}
+
+jackett.tailscale.zeus.sjer.red {
+	reverse_proxy /jackett/* http://jackett:9117
+}
+
+jackett.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy /jackett/* http://jackett:9117
+}
+
+sonarr.tailscale.zeus.sjer.red {
+	reverse_proxy /sonarr/* http://sonarr:8989
+}
+
+sonarr.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy /sonarr/* http://sonarr:8989
+}
+
+bazarr.tailscale.zeus.sjer.red {
+	reverse_proxy /bazarr/* http://bazarr:6767
+}
+
+bazarr.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy /bazarr/* http://bazarr:6767
+}
+
+blackbox.tailscale.zeus.sjer.red {
+	reverse_proxy /blackbox/* http://blackbox:9115
+}
+
+blackbox.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy /blackbox/* http://blackbox:9115
+}
+
+radarr.tailscale.zeus.sjer.red {
+	reverse_proxy /radarr/* http://radarr:7878
+}
+
+radarr.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy /radarr/* http://radarr:7878
+}
+
+syncthing.tailscale.zeus.sjer.red {
+	reverse_proxy /syncthing/* http://syncthing:8384
+}
+
+syncthing.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy /syncthing/* http://syncthing:8384
+}
+
+influxdb.tailscale.zeus.sjer.red {
+	reverse_proxy http://influxdb:8086
+}
+
+influxdb.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy http://influxdb:8086
+}
+
+prometheus.tailscale.zeus.sjer.red {
+	reverse_proxy http://prometheus:9090
+}
+
+prometheus.tailscale.zeus.shepherdjerred.com {
+	reverse_proxy http://prometheus:9090
+}

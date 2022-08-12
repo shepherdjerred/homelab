@@ -10,6 +10,11 @@ deploy: sync pull down up;
 sync:
 	rsync --progress -a . $(REMOTE):$(REMOTE_DIRECTORY)
 
+reload:
+	ssh $(REMOTE) \
+	docker exec -w /etc/caddy caddy_public caddy reload
+	docker exec -w /etc/caddy caddy_tailscale caddy reload
+
 up:
 	ssh $(REMOTE) \
 	"cd $(REMOTE_DIRECTORY) && docker-compose up -d --remove-orphans"
