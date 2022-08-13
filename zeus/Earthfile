@@ -1,0 +1,44 @@
+VERSION 0.6
+FROM alpine
+WORKDIR /workspace
+
+deploy:
+  FROM +render
+  SAVE ARTIFACT * AS LOCAL ./out/
+  LOCALLY
+  RUN rsync --progress -a --checksum out/ zeus-public:/home/jerred/config
+  RUN ssh zeus-public cd /home/jerred/config && docker-compose up -d --remove-orphans
+
+render:
+  COPY config ./config/
+  COPY static ./static/
+  COPY ../common+caddy/ ./config/caddy
+  COPY ../common+config.vars/ .
+  COPY ../common+config.blackbox/ ./config
+  COPY ../common+config.loki/ ./config
+  COPY ../common+config.promtail/ ./config/promtail
+  COPY +render.varken/ ./config/
+  COPY +render.docker-compose/ ./
+  SAVE ARTIFACT *
+
+lint:
+  FROM ../common+lint.docker-compose
+  COPY docker-compose.yml .
+  RUN ./lint.py
+
+gomplate:
+  FROM golang:alpine
+  WORKDIR /workspace
+  RUN go install github.com/hairyhenderson/gomplate/v3/cmd/gomplate@latest
+
+render.docker-compose:
+  FROM +gomplate
+  COPY docker-compose.yml .
+  RUN --secret=DATADOG_API_KEY=+secrets/sj/datadog_api_key gomplate -f docker-compose.yml -o docker-compose.yml
+  SAVE ARTIFACT docker-compose.yml
+
+render.varken:
+  FROM +gomplate
+  COPY config/varken.ini .
+  RUN --secret=MAXMIND_LICENSE_KEY=+secrets/sj/zeus/maxmind_license_key --secret=INFLUXDB_PASSWORD=+secrets/sj/zeus/influxdb_password --secret=TAUTULLI_API_KEY=+secrets/sj/zeus/tautulli_api_key --secret=SONARR_API_KEY=+secrets/sj/zeus/sonarr_api_key --secret=RADARR_API_KEY=+secrets/sj/zeus/radarr_api_key gomplate -f varken.ini -o varken.ini
+  SAVE ARTIFACT varken.ini

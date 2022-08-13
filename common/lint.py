@@ -77,8 +77,9 @@ def lint(file):
     return errors
 
 
-errors = {}
-errors["zeus"] = lint("zeus/docker-compose.yml")
-errors["persephone"] = lint("persephone/docker-compose.yml")
+errors = lint("docker-compose.yml")
 
 print(json.dumps(errors, indent=2))
+
+if len(errors) > 0:
+    exit(1)

@@ -1,5 +1,15 @@
 ---
 services:
+  datadog:
+    container_name: datadog
+    image: gcr.io/datadoghq/agent:7
+    environment:
+      DD_API_KEY: {{ .Env.DATADOG_API_KEY }}
+      DD_SITE: datadoghq.com
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
   caddy_tailscale:
     container_name: caddy_tailscale
     depends_on:
@@ -106,17 +116,6 @@ services:
       - vars.env
     image: ghcr.io/flaresolverr/flaresolverr:latest
     restart: unless-stopped
-  grafana:
-    container_name: grafana
-    env_file:
-      - vars.env
-    environment:
-      GF_INSTALL_PLUGINS: grafana-piechart-panel,grafana-worldmap-panel
-    image: grafana/grafana-oss:latest
-    restart: unless-stopped
-    volumes:
-      - ./config/grafana.ini:/etc/grafana/grafana.ini:ro,Z
-      - grafana-data:/var/lib/grafana
   homeassistant:
     container_name: homeassistant
     env_file:
@@ -128,7 +127,6 @@ services:
     volumes:
       - homeassistant-config:/config
       - ./config/homeassistant/configuration.yaml:/config/configuration.yaml:Z
-      - ./config/homeassistant/secrets.yaml:/config/secrets.yaml:Z
   influxdb:
     container_name: influxdb
     env_file:
@@ -395,26 +393,49 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:z
 version: "3.8"
 volumes:
-  apprise-config: null
-  bazarr-config: null
-  grafana-data: null
-  homeassistant-config: null
-  influxdb-data: null
-  jackett-config: null
-  loki-data: null
-  overseerr-config: null
-  prometheus-config: null
-  prometheus-data: null
-  radarr-config: null
-  sonarr-config: null
-  syncthing-config: null
-  tailscale-data: null
-  tautulli-data: null
-  timemachine-run-samba: null
-  timemachine-var-cache-samba: null
-  timemachine-var-lib-samba: null
-  volumerize-cache: null
-  caddy-public-config: null
-  caddy-public-data: null
-  caddy-tailscale-config: null
-  caddy-tailscale-data: null
+  apprise-config:
+    name: zeus_apprise-config
+  bazarr-config:
+    name: zeus_bazarr-config
+  grafana-data:
+    name: zeus_grafana-data
+  homeassistant-config:
+    name: zeus_homeassistant-config
+  influxdb-data:
+    name: zeus_influxdb-data
+  jackett-config:
+    name: zeus_jackett-config
+  loki-data:
+    name: zeus_loki-data
+  overseerr-config:
+    name: zeus_overseerr-config
+  prometheus-config:
+    name: zeus_prometheus-config
+  prometheus-data:
+    name: zeus_prometheus-data
+  radarr-config:
+    name: zeus_radarr-config
+  sonarr-config:
+    name: zeus_sonarr-config
+  syncthing-config:
+    name: zeus_syncthing-config
+  tailscale-data:
+    name: zeus_tailscale-data
+  tautulli-data:
+    name: zeus_tautulli-data
+  timemachine-run-samba:
+    name: zeus_timemachine-run-samba
+  timemachine-var-cache-samba:
+    name: zeus_timemachine-var-cache-samba
+  timemachine-var-lib-samba:
+    name: zeus_timemachine-var-lib-samba
+  volumerize-cache:
+    name: zeus_volumerize-cache
+  caddy-public-config:
+    name: zeus_caddy-public-config
+  caddy-public-data:
+    name: zeus_caddy-public-data
+  caddy-tailscale-config:
+    name: zeus_caddy-tailscale-config
+  caddy-tailscale-data:
+    name: zeus_caddy-tailscale-data

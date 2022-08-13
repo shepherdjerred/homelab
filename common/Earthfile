@@ -1,0 +1,31 @@
+VERSION 0.6
+FROM alpine
+WORKDIR /workspace
+
+caddy:
+  COPY caddy/Dockerfile .
+  SAVE ARTIFACT Dockerfile
+
+config.promtail:
+  COPY config/promtail.yml .
+  SAVE ARTIFACT promtail.yml
+
+config.loki:
+  COPY config/loki ./loki
+  SAVE ARTIFACT loki
+
+config.blackbox:
+  COPY config/blackbox ./blackbox
+  SAVE ARTIFACT blackbox
+
+lint.docker-compose:
+  FROM python:slim
+  WORKDIR /workspace
+  RUN pip install --upgrade pip
+  COPY requirements.txt .
+  RUN pip install -r requirements.txt
+  COPY lint.py .
+
+config.vars:
+  COPY config/vars.env .
+  SAVE ARTIFACT vars.env
