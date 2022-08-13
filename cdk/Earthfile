@@ -1,0 +1,31 @@
+VERSION 0.6
+FROM alpine
+
+deps:
+  FROM node:lts
+  COPY package*.json .
+  RUN npm install
+
+build:
+  FROM +deps
+  COPY . .
+  RUN npm run build
+
+deploy:
+  FROM +build
+  RUN --secret AWS_ACCESS_KEY_ID=+secrets/sj/aws_access_key_id --secret AWS_SECRET_ACCESS_KEY=+secrets/sj/aws_secret_access_key npm run cdk -- deploy --all
+
+lint:
+  FROM +deps
+  COPY . .
+  RUN npm run lint
+
+lint.fix:
+  FROM +deps
+  COPY . .
+  RUN npm run lint:fix
+  SAVE ARTIFACT * AS LOCAL ./
+
+test:
+  FROM +deps
+  RUN npm run test

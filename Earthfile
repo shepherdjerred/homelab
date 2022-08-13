@@ -6,9 +6,9 @@ lint:
 
 lint.prettier.fix:
   FROM tmknom/prettier
-  COPY . .
-  RUN prettier -w .
-  SAVE ARTIFACT * AS LOCAL .
+  COPY . /workspace
+  RUN prettier -w /workspace
+  SAVE ARTIFACT /workspace/* AS LOCAL ./
 
 lint.prettier:
   FROM tmknom/prettier
