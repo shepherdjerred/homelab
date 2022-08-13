@@ -16,6 +16,8 @@ env:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    env:
+      EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - name: Put back the git branch into git (Earthly uses it for tagging)
@@ -27,7 +29,13 @@ jobs:
             branch="${GITHUB_REF##*/}"
           fi
           git checkout -b "$branch" || true
+      - name: Docker Login
+        run: docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Download latest earthly
         run: "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/download/v0.6.21/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'"
-      - name: Run build
-        run: EARTHLY_TOKEN=${{ secrets.EARTHLY_TOKEN }} earthly --ci +deploy
+      - name: Lint
+        run: earthly --ci --push +lint
+      - name: Test
+        run: earthly --ci --push +test
+      - name: Deploy
+        run: earthly --ci --push +deploy

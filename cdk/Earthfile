@@ -3,7 +3,8 @@ FROM alpine
 
 deps:
   FROM node:lts
-  RUN npm install -g npm@latest
+  WORKDIR /workspace
+  RUN npm install --location=global npm@latest
   COPY package*.json .
   RUN npm install
 
