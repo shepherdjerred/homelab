@@ -1,6 +1,5 @@
 import { App } from "aws-cdk-lib";
 import "source-map-support/register";
-import { BootstrapStack } from "./bootstrap/bootstrap-stack";
 import { DomainStack } from "./domain/domain-stack";
 
 const app = new App();
@@ -12,5 +11,4 @@ const props = {
   },
 };
 
-new BootstrapStack(app, "BootstrapStack", props);
 new DomainStack(app, "DomainStack", props);
