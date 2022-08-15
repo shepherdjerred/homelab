@@ -5,9 +5,6 @@ WORKDIR /workspace
 deploy:
   FROM +render
   SAVE ARTIFACT * AS LOCAL ./out/
-  LOCALLY
-  RUN rsync --progress -a --checksum out/ zeus-public:/home/jerred/config
-  RUN ssh zeus-public cd /home/jerred/config && docker-compose up -d --remove-orphans
 
 render:
   COPY config ./config/

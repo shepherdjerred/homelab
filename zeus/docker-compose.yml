@@ -4,10 +4,13 @@ services:
     container_name: datadog
     image: gcr.io/datadoghq/agent:7
     environment:
-      DD_API_KEY: {{ .Env.DATADOG_API_KEY }}
+      DD_API_KEY: "{{ .Env.DATADOG_API_KEY }}"
       DD_SITE: datadoghq.com
+      DD_LOGS_ENABLED: "true"
+      DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: "true"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
       - /proc/:/host/proc/:ro
       - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
   caddy_tailscale:
@@ -71,14 +74,6 @@ services:
       - 25565:25565/tcp
       - 25565:25565/udp
     command: -Xmx2G -jar "../spigot.jar"
-  apprise:
-    container_name: apprise
-    env_file:
-      - vars.env
-    image: lscr.io/linuxserver/apprise-api
-    restart: unless-stopped
-    volumes:
-      - apprise-config:/config
   bazarr:
     container_name: bazarr
     env_file:
@@ -98,18 +93,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./config/blackbox:/config:Z
-  cadvisor:
-    container_name: cadvisor
-    env_file:
-      - vars.env
-    image: gcr.io/cadvisor/cadvisor:latest
-    privileged: true
-    restart: unless-stopped
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
   flaresolverr:
     container_name: flaresolverr
     env_file:
@@ -143,40 +126,6 @@ services:
     restart: unless-stopped
     volumes:
       - jackett-config:/config
-  loki:
-    container_name: loki
-    env_file:
-      - vars.env
-    image: grafana/loki:latest
-    restart: unless-stopped
-    volumes:
-      - loki-data:/etc/loki/
-      - ./config/loki/loki.yaml:/etc/loki/local-config.yaml:ro,Z
-      - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/:ro,Z
-  node_exporter:
-    command:
-      - "--path.rootfs=/host"
-    container_name: node_exporter
-    env_file:
-      - vars.env
-    image: quay.io/prometheus/node-exporter:latest
-    network_mode: host
-    pid: host
-    restart: unless-stopped
-    volumes:
-      - /:/host:ro,rslave
-  nvidia_exporter:
-    container_name: nvidia_exporter
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities:
-                - gpu
-    env_file:
-      - vars.env
-    image: nvcr.io/nvidia/k8s/dcgm-exporter:2.3.4-2.6.4-ubuntu20.04
-    restart: unless-stopped
   overseerr:
     container_name: overseerr
     env_file:
@@ -232,18 +181,6 @@ services:
       - prometheus-config:/etc/prometheus/
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
     command: "--storage.tsdb.retention.time=365d --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
-  promtail:
-    command: "-config.file=/etc/promtail/promtail.yml"
-    container_name: promtail
-    env_file:
-      - vars.env
-    image: grafana/promtail:latest
-    restart: unless-stopped
-    volumes:
-      - ./config/promtail.yml:/etc/promtail/promtail.yml:ro,Z
-      - /var/log/journal:/var/log/journal:ro
-      - /run/log/journal:/run/log/journal:ro
-      - /etc/machine-id:/etc/machine-id:ro
   radarr:
     container_name: radarr
     env_file:
