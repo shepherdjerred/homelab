@@ -179,6 +179,7 @@ services:
       - /dev/shm:/transcode
       - /mnt/storage/media/tv:/data/tv:z
       - /mnt/storage/media/movies:/data/movies:z
+      - /mnt/storage/media/music:/data/music:z
       - /mnt/storage/media/other:/data/other:z
     devices:
       - /dev/dvb:/dev/dvb
