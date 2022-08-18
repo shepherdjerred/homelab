@@ -1,5 +1,15 @@
 ---
 services:
+  lidarr:
+    container_name: lidarr
+    env_file:
+      - vars.env
+    image: lscr.io/linuxserver/lidarr:latest
+    restart: unless-stopped
+    volumes:
+      - lidarr-config:/config
+      - /mnt/storage/media/music:/music:z
+      - /mnt/storage/syncthing/Torrents:/downloads:z
   datadog:
     container_name: datadog
     image: gcr.io/datadoghq/agent:7
@@ -18,6 +28,9 @@ services:
     depends_on:
       - tailscale
     build: config/caddy
+    environment:
+      AWS_ACCESS_KEY_ID: ".Env.AWS_ACCESS_KEY_ID"
+      AWS_SECRET_ACCESS_KEY: ".Env.AWS_SECRET_ACCESS_KEY"
     env_file:
       - vars.env
     ports:
@@ -30,11 +43,13 @@ services:
       - caddy-tailscale-data:/data:Z
       - ./static/tailscale.html:/srv/index.html:Z
       - ./config/caddy/tailscale.Caddyfile:/etc/caddy/Caddyfile:ro,Z
-      - ./config/credentials:/root/.aws/credentials:ro,Z
     restart: unless-stopped
   caddy_public:
     container_name: caddy_public
     build: config/caddy
+    environment:
+      AWS_ACCESS_KEY_ID: ".Env.AWS_ACCESS_KEY_ID"
+      AWS_SECRET_ACCESS_KEY: ".Env.AWS_SECRET_ACCESS_KEY"
     env_file:
       - vars.env
     ports:
@@ -47,7 +62,6 @@ services:
       - caddy-public-data:/data:Z
       - ./static/public.html:/srv/index.html:Z
       - ./config/caddy/public.Caddyfile:/etc/caddy/Caddyfile:ro,Z
-      - ./config/credentials:/root/.aws/credentials:ro,Z
     restart: unless-stopped
   factorio:
     container_name: factorio
@@ -330,6 +344,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:z
 version: "3.8"
 volumes:
+  lidarr-config:
+    name: zeus_lidarr-config
   apprise-config:
     name: zeus_apprise-config
   bazarr-config:

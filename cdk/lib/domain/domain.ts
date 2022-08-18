@@ -357,6 +357,7 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
       "bazarr",
       "blackbox",
       "radarr",
+      "lidarr",
       "prometheus",
       "influxdb",
       "homeassistant",

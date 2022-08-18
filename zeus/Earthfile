@@ -2,7 +2,7 @@ VERSION 0.6
 FROM alpine
 WORKDIR /workspace
 
-deploy:
+out:
   FROM +render
   SAVE ARTIFACT * AS LOCAL ./out/
 
