@@ -8,15 +8,16 @@ http:
 sonos:
   media_player:
     hosts:
-      - 192.168.1.9
-      - 192.168.1.16
-      - 192.168.1.25
-      - 192.168.1.40
-      - 192.168.1.54
-      - 192.168.1.73
-      - 192.168.1.223
-      - 192.168.1.240
-      - 192.168.1.246
+      - 192.168.1.9 # Living Room Right
+      - 192.168.1.40 # Living Room Left
+      - 192.168.1.48 # Bedroom Right
+      - 192.168.1.54 # Bathroom
+      - 192.168.1.73 # Kitchen
+      - 192.168.1.80 # Living Room Sub
+      - 192.168.1.223 # Sonos Move
+      - 192.168.1.227 # Dining Room
+      - 192.168.1.240 # Living Room Arc
+      - 192.168.1.246 # Bedroom Left
     advertise_addr: 192.168.1.45
 
 # Text to speech
