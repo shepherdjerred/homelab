@@ -29,8 +29,8 @@ services:
       - tailscale
     build: config/caddy
     environment:
-      AWS_ACCESS_KEY_ID: ".Env.AWS_ACCESS_KEY_ID"
-      AWS_SECRET_ACCESS_KEY: ".Env.AWS_SECRET_ACCESS_KEY"
+      AWS_ACCESS_KEY_ID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
+      AWS_SECRET_ACCESS_KEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
     env_file:
       - vars.env
     ports:
@@ -48,8 +48,8 @@ services:
     container_name: caddy_public
     build: config/caddy
     environment:
-      AWS_ACCESS_KEY_ID: ".Env.AWS_ACCESS_KEY_ID"
-      AWS_SECRET_ACCESS_KEY: ".Env.AWS_SECRET_ACCESS_KEY"
+      AWS_ACCESS_KEY_ID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
+      AWS_SECRET_ACCESS_KEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
     env_file:
       - vars.env
     ports:
