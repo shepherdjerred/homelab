@@ -21,27 +21,6 @@ services:
       - ./config/caddy/tailscale.Caddyfile:/etc/caddy/Caddyfile:ro,Z
       - ./config/credentials:/root/.aws/credentials:ro,Z
     restart: unless-stopped
-  blackbox:
-    command: "--config.file=/config/blackbox.yml"
-    container_name: blackbox
-    env_file:
-      - vars.env
-    image: prom/blackbox-exporter:master
-    restart: unless-stopped
-    volumes:
-      - ./config/blackbox:/config:Z
-  cadvisor:
-    container_name: cadvisor
-    env_file:
-      - vars.env
-    image: gcr.io/cadvisor/cadvisor:latest
-    privileged: true
-    restart: unless-stopped
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
   geoip-updater:
     container_name: geoip-updater
     env_file:
@@ -50,40 +29,6 @@ services:
     restart: unless-stopped
     volumes:
       - rtorrent-data:/data
-  grafana:
-    container_name: grafana
-    env_file:
-      - vars.env
-    environment:
-      GF_INSTALL_PLUGINS: grafana-piechart-panel,grafana-worldmap-panel
-    image: grafana/grafana-oss:latest
-    restart: unless-stopped
-    volumes:
-      - ./config/grafana.ini:/etc/grafana/grafana.ini:ro,Z
-      - grafana-data:/var/lib/grafana
-  loki:
-    container_name: loki
-    env_file:
-      - vars.env
-    image: grafana/loki:latest
-    restart: unless-stopped
-    volumes:
-      - loki-data:/etc/loki/
-      - ./config/loki/loki.yaml:/etc/loki/local-config.yaml:ro,Z
-      - ./config/loki/rules.yaml:/etc/loki/rules/fake/rules.yaml/:ro,Z
-  node_exporter:
-    command:
-      - "--path.rootfs=/host"
-    container_name: node_exporter
-    env_file:
-      - vars.env
-    image: quay.io/prometheus/node-exporter:latest
-    network_mode: host
-    pid: host
-    privileged: true
-    restart: unless-stopped
-    volumes:
-      - /:/host:ro,rslave
   prometheus:
     container_name: prometheus
     env_file:
@@ -96,26 +41,18 @@ services:
       - prometheus-data:/prometheus
       - prometheus-config:/etc/prometheus/
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
-  promtail:
-    command: "-config.file=/etc/promtail/promtail.yml"
-    container_name: promtail
-    env_file:
-      - vars.env
-    image: grafana/promtail:latest
-    restart: unless-stopped
-    volumes:
-      - ./config/promtail.yml:/etc/promtail/promtail.yml:ro,Z
-      - /var/log/journal:/var/log/journal:ro
-      - /run/log/journal:/run/log/journal:ro
-      - /etc/machine-id:/etc/machine-id:ro
   rtorrent:
     container_name: rtorrent
     depends_on:
       - tailscale
+    environment:
+      WAN_IP: 158.69.122.44
     env_file:
       - vars.env
     image: crazymax/rtorrent-rutorrent:latest
     ports:
+      - 50000:50000
+      - 6881:6881
       - 100.88.20.114:8000:8000
       - fd7a:115c:a1e0:ab12:4843:cd96:6258:1472:8000:8000
     restart: unless-stopped
