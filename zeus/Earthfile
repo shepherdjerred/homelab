@@ -2,9 +2,15 @@ VERSION 0.6
 FROM alpine
 WORKDIR /workspace
 
-out:
-  FROM +render
-  SAVE ARTIFACT * AS LOCAL ./out/
+rsync:
+  RUN apk add rsync openssh
+  RUN mkdir -p /root/.ssh/
+  COPY ssh/known_hosts /root/.ssh/known_hosts
+
+deploy:
+  FROM +rsync
+  COPY +render/ .
+  RUN --ssh rsync --progress -a --checksum . jerred@public.zeus.sjer.red:/home/jerred/config
 
 render:
   COPY config ./config/
