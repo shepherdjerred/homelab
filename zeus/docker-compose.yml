@@ -23,6 +23,7 @@ services:
     network_mode: "service:vpn"
     volumes:
       - transmission-config:/config
+      - ./config/transmission/settings.json:/config/settings.json
       - /mnt/storage/downloads:/downloads:Z
   lidarr:
     container_name: lidarr
