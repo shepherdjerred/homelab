@@ -321,7 +321,6 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
       "overseerr",
       "plex",
       "qbittorrent",
-      "flood",
       "",
     ],
   };
