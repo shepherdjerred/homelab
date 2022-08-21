@@ -1,0 +1,8 @@
+logs_enabled: true
+logs_config:
+  container_collect_all: true
+  force_use_http: true
+  use_compression: true
+  compression_level: 6
+  batch_wait: 5
+  open_files_limit: 500

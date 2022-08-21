@@ -34,10 +34,6 @@ lidarr.ts.zeus.sjer.red lidarr.ts.zeus.shepherdjerred.com {
 	reverse_proxy http://lidarr:8686
 }
 
-blackbox.ts.zeus.sjer.red blackbox.ts.zeus.shepherdjerred.com {
-	reverse_proxy http://blackbox:9115
-}
-
 bazarr.ts.zeus.sjer.red bazarr.ts.zeus.shepherdjerred.com {
 	reverse_proxy http://bazarr:6767
 }

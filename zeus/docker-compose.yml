@@ -14,6 +14,8 @@ services:
     volumes:
       - /lib/modules:/lib/modules
       - ./config/wireguard:/config
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "nginx", "service": "webapp"}]'
   transmission:
     container_name: transmission
     env_file:
@@ -41,13 +43,30 @@ services:
     environment:
       DD_API_KEY: "{{ .Env.DATADOG_API_KEY }}"
       DD_SITE: datadoghq.com
+      DD_PROCESS_AGENT_ENABLED: "true"
       DD_LOGS_ENABLED: "true"
       DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: "true"
+      DD_SYSTEM_PROBE_ENABLED: "true"
+      DD_APM_ENABLED: "true"
+      DD_LOGS_CONFIG_USE_HTTP: "true"
+    cap_add:
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - SYS_PTRACE
+      - NET_ADMIN
+      - NET_BROADCAST
+      - NET_RAW
+      - IPC_LOCK
+      - CHOWN
+    security_opt:
+      - apparmor:unconfined
     volumes:
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+      - /sys/kernel/debug:/sys/kernel/debug
+      - /etc/passwd:/etc/passwd:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
       - /proc/:/host/proc/:ro
-      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
   caddy_tailscale:
     container_name: caddy_tailscale
     depends_on:
@@ -123,15 +142,6 @@ services:
       - bazarr-config:/config
       - /mnt/storage/media/movies:/movies:z
       - /mnt/storage/media/tv:/tv:z
-  blackbox:
-    command: "--config.file=/config/blackbox.yml"
-    container_name: blackbox
-    env_file:
-      - vars.env
-    image: prom/blackbox-exporter:master
-    restart: unless-stopped
-    volumes:
-      - ./config/blackbox:/config:Z
   flaresolverr:
     container_name: flaresolverr
     env_file:

@@ -6,10 +6,6 @@ caddy:
   COPY caddy/Dockerfile .
   SAVE ARTIFACT Dockerfile
 
-config.blackbox:
-  COPY config/blackbox ./blackbox
-  SAVE ARTIFACT blackbox
-
 lint.docker-compose:
   FROM python:slim
   WORKDIR /workspace

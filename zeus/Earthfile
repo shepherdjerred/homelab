@@ -21,7 +21,6 @@ render:
   COPY static ./static/
   COPY ../common+caddy/ ./config/caddy
   COPY ../common+config.vars/ .
-  COPY ../common+config.blackbox/ ./config
   COPY +render.varken/ ./config/
   COPY +render.wireguard/ ./config/wireguard/
   COPY +render.docker-compose/ ./
