@@ -18,10 +18,6 @@ influxdb.ts.zeus.sjer.red influxdb.ts.zeus.shepherdjerred.com {
 	reverse_proxy http://influxdb:8086
 }
 
-prometheus.ts.zeus.sjer.red prometheus.ts.zeus.shepherdjerred.com {
-	reverse_proxy http://prometheus:9090
-}
-
 syncthing.ts.zeus.sjer.red syncthing.ts.zeus.shepherdjerred.com {
 	reverse_proxy http://syncthing:8384
 }

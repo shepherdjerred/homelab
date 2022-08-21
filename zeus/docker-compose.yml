@@ -14,8 +14,6 @@ services:
     volumes:
       - /lib/modules:/lib/modules
       - ./config/wireguard:/config
-    labels:
-      com.datadoghq.ad.logs: '[{"source": "nginx", "service": "webapp"}]'
   transmission:
     container_name: transmission
     env_file:
@@ -49,6 +47,55 @@ services:
       DD_SYSTEM_PROBE_ENABLED: "true"
       DD_APM_ENABLED: "true"
       DD_LOGS_CONFIG_USE_HTTP: "true"
+    labels:
+      ad.datadoghq.com/speedtest.check_names: |
+        ["openmetrics"]
+      ad.datadoghq.com/speedtest.init_configs: |
+        [{}]
+      ad.datadoghq.com/speedtest.instances: |
+        [
+          {
+            "openmetrics_endpoint": "http://%%host%%:%%port%%/metrics ",
+            "namespace": "speedtest",
+            "metrics": [".*"]
+          }
+        ]
+      ad.datadoghq.com/syncthing_exporter.check_names: |
+        ["openmetrics"]
+      ad.datadoghq.com/syncthing_exporter.init_configs: |
+        [{}]
+      ad.datadoghq.com/syncthing_exporter.instances: |
+        [
+          {
+            "openmetrics_endpoint": "http://%%host%%:%%port%%/metrics ",
+            "namespace": "syncthing_exporter",
+            "metrics": [".*"]
+          }
+        ]
+      ad.datadoghq.com/caddy_tailscale.check_names: |
+        ["openmetrics"]
+      ad.datadoghq.com/caddy_tailscale.init_configs: |
+        [{}]
+      ad.datadoghq.com/caddy_tailscale.instances: |
+        [
+          {
+            "openmetrics_endpoint": "http://%%host%%:2019/metrics ",
+            "namespace": "caddy_tailscale",
+            "metrics": [".*"]
+          }
+        ]
+      ad.datadoghq.com/caddy_public.check_names: |
+        ["openmetrics"]
+      ad.datadoghq.com/caddy_public.init_configs: |
+        [{}]
+      ad.datadoghq.com/caddy_public.instances: |
+        [
+          {
+            "openmetrics_endpoint": "http://%%host%%:2019/metrics ",
+            "namespace": "caddy_public",
+            "metrics": [".*"]
+          }
+        ]
     cap_add:
       - SYS_ADMIN
       - SYS_RESOURCE
@@ -67,6 +114,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
       - /proc/:/host/proc/:ro
+      - /mnt/storage:/mnt/storage:ro # for metrics
+      - /mnt/timemachine:/mnt/timemachine:ro # for metrics
   caddy_tailscale:
     container_name: caddy_tailscale
     depends_on:
@@ -218,19 +267,6 @@ services:
       - /mnt/storage/media/other:/data/other:z
     devices:
       - /dev/dvb:/dev/dvb
-  prometheus:
-    container_name: prometheus
-    env_file:
-      - vars.env
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    image: prom/prometheus:latest
-    restart: unless-stopped
-    volumes:
-      - prometheus-data:/prometheus
-      - prometheus-config:/etc/prometheus/
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
-    command: "--storage.tsdb.retention.time=365d --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
   radarr:
     container_name: radarr
     env_file:
@@ -343,7 +379,7 @@ services:
     env_file:
       - vars.env
     environment:
-      VOLUMERIZE_CONTAINERS: jackett sonarr radarr overseerr syncthing homeassistant prometheus loki influxdb tautulli timemachine
+      VOLUMERIZE_CONTAINERS: jackett sonarr radarr overseerr syncthing homeassistant loki influxdb tautulli timemachine
       VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
       VOLUMERIZE_JOBBER_TIME: 0 0 4 * * *
       VOLUMERIZE_SOURCE: /source
@@ -360,8 +396,6 @@ services:
       - overseerr-config:/source/overseerr-config:ro
       - syncthing-config:/source/syncthing-config:ro
       - homeassistant-config:/source/homeassistant-config:ro
-      - prometheus-config:/source/prometheus-config:ro
-      - prometheus-data:/source/prometheus-data:ro
       - loki-data:/source/loki-data:ro
       - influxdb-data:/source/influxdb-data:ro
       - tautulli-data:/source/tautulli-data:ro
@@ -397,10 +431,6 @@ volumes:
     name: zeus_loki-data
   overseerr-config:
     name: zeus_overseerr-config
-  prometheus-config:
-    name: zeus_prometheus-config
-  prometheus-data:
-    name: zeus_prometheus-data
   radarr-config:
     name: zeus_radarr-config
   sonarr-config:

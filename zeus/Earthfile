@@ -14,7 +14,7 @@ deploy:
 
 up:
   FROM +deploy
-  RUN --no-cache --ssh ssh jerred@public.zeus.sjer.red "cd /home/jerred/config && docker-compose down && docker-compose up -d --remove-orphans"
+  RUN --no-cache --ssh ssh jerred@public.zeus.sjer.red "cd /home/jerred/config && docker-compose pull && docker-compose build && docker-compose down --remove-orphans && docker-compose up -d --remove-orphans"
 
 render:
   COPY config ./config/
