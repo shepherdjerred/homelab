@@ -47,7 +47,12 @@ tautulli.ts.zeus.sjer.red tautulli.ts.zeus.shepherdjerred.com {
 }
 
 qbittorrent.ts.zeus.sjer.red qbittorrent.ts.zeus.shepherdjerred.com {
-	reverse_proxy http://vpn:8080
+	reverse_proxy http://wireguard:8080 {
+		header_up Host 127.0.0.8080 :
+		header_up X-Forwarded-Host {hostport}
+		header_up -Origin
+		header_up -Referer
+	}
 }
 
 ts.zeus.sjer.red ts.zeus.shepherdjerred.com {

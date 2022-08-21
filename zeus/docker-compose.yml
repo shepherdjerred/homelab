@@ -1,8 +1,8 @@
 ---
 services:
-  vpn:
+  wireguard:
     image: linuxserver/wireguard
-    container_name: vpn
+    container_name: wireguard
     env_file:
       - config/vars.env
     restart: unless-stopped
@@ -14,14 +14,6 @@ services:
     volumes:
       - /lib/modules:/lib/modules
       - ./config/wireguard:/config
-  flood:
-    hostname: flood
-    image: jesec/flood
-    restart: unless-stopped
-    command: --port 3001 --allowedpath /data
-    volumes:
-      - qbittorrent-config:/config
-      - /mnt/storage/downloads:/downloads
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -30,7 +22,7 @@ services:
     volumes:
       - qbittorrent-config:/config
       - /mnt/storage/downloads:/downloads:Z
-    network_mode: "service:vpn"
+    network_mode: "service:wireguard"
     restart: unless-stopped
   lidarr:
     container_name: lidarr
@@ -403,7 +395,6 @@ services:
       - overseerr-config:/source/overseerr-config:ro
       - syncthing-config:/source/syncthing-config:ro
       - homeassistant-config:/source/homeassistant-config:ro
-      - loki-data:/source/loki-data:ro
       - influxdb-data:/source/influxdb-data:ro
       - tautulli-data:/source/tautulli-data:ro
       - timemachine-var-lib-samba:/source/timemachine-var-lib-samba:ro
@@ -411,7 +402,6 @@ services:
       - timemachine-run-samba:/source/timemachine-run-samba:ro
       - tailscale-data:/source/tailscale-data:ro
       - bazarr-config:/source/bazarr-config:ro
-      - apprise-config:/source/apprise-config:ro
   watchtower:
     container_name: watchtower
     env_file:
@@ -424,8 +414,6 @@ version: "3.8"
 volumes:
   lidarr-config:
     name: zeus_lidarr-config
-  apprise-config:
-    name: zeus_apprise-config
   bazarr-config:
     name: zeus_bazarr-config
   homeassistant-config:
@@ -434,8 +422,6 @@ volumes:
     name: zeus_influxdb-data
   jackett-config:
     name: zeus_jackett-config
-  loki-data:
-    name: zeus_loki-data
   overseerr-config:
     name: zeus_overseerr-config
   radarr-config:

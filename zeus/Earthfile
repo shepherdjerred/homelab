@@ -50,7 +50,7 @@ render.docker-compose:
 render.wireguard:
   FROM +gomplate
   COPY config/wireguard/wg0.conf .
-  RUN --secret=WIREGUARD_PRIVATE_KEY=+secrets/sj/wireguard/privatekey --secret=WIREGUARD_PUBLIC_KEY=+secrets/sj/wireguard/publickey --secret=WIREGUARD_PRESHARED_KEY=+secrets/sj/wireguard/presharedkey gomplate -f wg0.conf -o wg0.conf
+  RUN --secret=WIREGUARD_PRIVATE_KEY=+secrets/sj/wireguard/privatekey --secret=WIREGUARD_PUBLIC_KEY=+secrets/sj/wireguard/publickey gomplate -f wg0.conf -o wg0.conf
   SAVE ARTIFACT wg0.conf
 
 render.varken:
