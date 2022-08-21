@@ -45,7 +45,6 @@ export function createDomainResources(stack: Stack) {
 
 function createAllRecords(stack: Stack, hostedZone: IHostedZone) {
   createZeusRecords(stack, hostedZone);
-  createPersephoneRecords(stack, hostedZone);
   createRouterRecords(stack, hostedZone);
   createKittensRecords(stack, hostedZone);
   createResumeRecords(stack, hostedZone);
@@ -281,37 +280,6 @@ function createRouterRecords(stack: Stack, hostedZone: IHostedZone) {
   createRecords(stack, [association], hostedZone);
 }
 
-function createPersephoneRecords(stack: Stack, hostedZone: IHostedZone) {
-  const publicAssociation: Association = {
-    base: "public.persephone",
-    addresses: [
-      {
-        addressType: "v4",
-        address: "158.69.122.44",
-      },
-    ],
-    domains: [""],
-  };
-
-  const tailscaleAssociation: Association = {
-    base: "ts.persephone",
-    addresses: [
-      {
-        addressType: "v4",
-        address: "100.88.20.114",
-      },
-      {
-        addressType: "v6",
-        address: "fd7a:115c:a1e0:ab12:4843:cd96:6258:1472",
-      },
-    ],
-    domains: ["", "syncthing", "influxdb", "rutorrent"],
-  };
-
-  const persephoneAssocations = [publicAssociation, tailscaleAssociation];
-  createRecords(stack, persephoneAssocations, hostedZone);
-}
-
 function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
   const publicAssociation: Association = {
     base: "public.zeus",
@@ -352,7 +320,8 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
       "homeassistant",
       "overseerr",
       "plex",
-      "transmission",
+      "qbittorrent",
+      "flood",
       "",
     ],
   };

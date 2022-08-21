@@ -4,7 +4,7 @@ services:
     image: linuxserver/wireguard
     container_name: vpn
     env_file:
-      - vars.env
+      - config/vars.env
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
@@ -14,21 +14,28 @@ services:
     volumes:
       - /lib/modules:/lib/modules
       - ./config/wireguard:/config
-  transmission:
-    container_name: transmission
-    env_file:
-      - vars.env
-    image: lscr.io/linuxserver/transmission
+  flood:
+    hostname: flood
+    image: jesec/flood
     restart: unless-stopped
-    network_mode: "service:vpn"
+    command: --port 3001 --allowedpath /data
     volumes:
-      - transmission-config:/config
-      - ./config/transmission/settings.json:/config/settings.json
+      - qbittorrent-config:/config
+      - /mnt/storage/downloads:/downloads
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    env_file:
+      - config/vars.env
+    volumes:
+      - qbittorrent-config:/config
       - /mnt/storage/downloads:/downloads:Z
+    network_mode: "service:vpn"
+    restart: unless-stopped
   lidarr:
     container_name: lidarr
     env_file:
-      - vars.env
+      - config/vars.env
     image: lscr.io/linuxserver/lidarr:latest
     restart: unless-stopped
     volumes:
@@ -125,12 +132,12 @@ services:
       AWS_ACCESS_KEY_ID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
       AWS_SECRET_ACCESS_KEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
     env_file:
-      - vars.env
+      - config/vars.env
     ports:
-      - 100.96.254.65:80:80
-      - 100.96.254.65:443:443
-      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:80:80
-      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:443:443
+      - '{{ (datasource "vars").network.tailscale.ipv4 }}:80:80'
+      - '{{ (datasource "vars").network.tailscale.ipv4 }}:443:443'
+      - '{{ (datasource "vars").network.tailscale.ipv6 }}:80:80'
+      - '{{ (datasource "vars").network.tailscale.ipv6 }}:443:443'
     volumes:
       - caddy-tailscale-config:/config:Z
       - caddy-tailscale-data:/data:Z
@@ -144,12 +151,12 @@ services:
       AWS_ACCESS_KEY_ID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
       AWS_SECRET_ACCESS_KEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
     env_file:
-      - vars.env
+      - config/vars.env
     ports:
-      - 192.168.1.45:80:80
-      - 192.168.1.45:443:443
-      - 2601:602:8200:277c:325a:3aff:fe7b:6fd5:80:80
-      - 2601:602:8200:277c:325a:3aff:fe7b:6fd5:443:443
+      - '{{ (datasource "vars").network.public.ipv4 }}:80:80'
+      - '{{ (datasource "vars").network.public.ipv4 }}:443:443'
+      - '{{ (datasource "vars").network.public.ipv6 }}:80:80'
+      - '{{ (datasource "vars").network.public.ipv6 }}:443:443'
     volumes:
       - caddy-public-config:/config:Z
       - caddy-public-data:/data:Z
@@ -184,7 +191,7 @@ services:
   bazarr:
     container_name: bazarr
     env_file:
-      - vars.env
+      - config/vars.env
     image: lscr.io/linuxserver/bazarr
     restart: unless-stopped
     volumes:
@@ -194,13 +201,13 @@ services:
   flaresolverr:
     container_name: flaresolverr
     env_file:
-      - vars.env
+      - config/vars.env
     image: ghcr.io/flaresolverr/flaresolverr:latest
     restart: unless-stopped
   homeassistant:
     container_name: homeassistant
     env_file:
-      - vars.env
+      - config/vars.env
     image: ghcr.io/home-assistant/home-assistant:stable
     ports:
       - 1400:1400 # Sonos
@@ -211,7 +218,7 @@ services:
   influxdb:
     container_name: influxdb
     env_file:
-      - vars.env
+      - config/vars.env
     image: influxdb:alpine
     restart: unless-stopped
     volumes:
@@ -219,7 +226,7 @@ services:
   jackett:
     container_name: jackett
     env_file:
-      - vars.env
+      - config/vars.env
     image: lscr.io/linuxserver/jackett:latest
     restart: unless-stopped
     volumes:
@@ -227,7 +234,7 @@ services:
   overseerr:
     container_name: overseerr
     env_file:
-      - vars.env
+      - config/vars.env
     image: lscr.io/linuxserver/overseerr:latest
     restart: unless-stopped
     volumes:
@@ -241,9 +248,9 @@ services:
             - capabilities:
                 - gpu
     env_file:
-      - vars.env
+      - config/vars.env
     environment:
-      ADVERTISE_IP: http://67.171.2.123:32400,http://100.103.244.82:32400,http://192.168.1.45:32400
+      ADVERTISE_IP: http://{{ (datasource "vars").network.external.ipv4 }}:32400,http://{{ (datasource "vars").network.tailscale.ipv4 }}:32400,http://{{ (datasource "vars").network.tailscale.ipv4 }}:32400
       NVIDIA_DRIVER_CAPABILITIES: all
       NVIDIA_VISIBLE_DEVICES: all
     image: plexinc/pms-docker:latest
@@ -270,7 +277,7 @@ services:
   radarr:
     container_name: radarr
     env_file:
-      - vars.env
+      - config/vars.env
     image: lscr.io/linuxserver/radarr:latest
     restart: unless-stopped
     volumes:
@@ -280,7 +287,7 @@ services:
   sonarr:
     container_name: sonarr
     env_file:
-      - vars.env
+      - config/vars.env
     image: lscr.io/linuxserver/sonarr:latest
     restart: unless-stopped
     volumes:
@@ -290,13 +297,13 @@ services:
   speedtest:
     container_name: speedtest
     env_file:
-      - vars.env
+      - config/vars.env
     image: jraviles/prometheus_speedtest:latest
     restart: unless-stopped
   syncthing:
     container_name: syncthing
     env_file:
-      - vars.env
+      - config/vars.env
     hostname: syncthing
     image: syncthing/syncthing:latest
     ports:
@@ -310,7 +317,7 @@ services:
   syncthing_exporter:
     container_name: syncthing_exporter
     env_file:
-      - vars.env
+      - config/vars.env
     environment:
       SYNCTHING_TOKEN: Gx4RRiqFLaqcx3Z4MD2ZokjaWmW4DweP
       SYNCTHING_URI: http://syncthing:8384/
@@ -323,7 +330,7 @@ services:
     command: tailscaled
     container_name: tailscale
     env_file:
-      - vars.env
+      - config/vars.env
     image: tailscale/tailscale
     network_mode: host
     restart: unless-stopped
@@ -334,7 +341,7 @@ services:
   tautulli:
     container_name: tautulli
     env_file:
-      - vars.env
+      - config/vars.env
     image: ghcr.io/tautulli/tautulli:latest
     restart: unless-stopped
     volumes:
@@ -343,20 +350,20 @@ services:
   timemachine:
     container_name: timemachine
     env_file:
-      - vars.env
+      - config/vars.env
     depends_on:
       - tailscale
     image: mbentley/timemachine:smb
     restart: unless-stopped
     ports:
-      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:137:137/udp
-      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:138:138/udp
-      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:139:139
-      - fd7a:115c:a1e0:ab12:4843:cd96:6260:fe41:445:445
-      - 100.96.254.65:137:137/udp
-      - 100.96.254.65:138:138/udp
-      - 100.96.254.65:139:139
-      - 100.96.254.65:445:445
+      - '{{ (datasource "vars").network.tailscale.ipv4 }}:137:137/udp'
+      - '{{ (datasource "vars").network.tailscale.ipv4 }}:138:138/udp'
+      - '{{ (datasource "vars").network.tailscale.ipv4 }}:139:139'
+      - '{{ (datasource "vars").network.tailscale.ipv4 }}:445:445'
+      - '{{ (datasource "vars").network.tailscale.ipv6 }}:137:137/udp'
+      - '{{ (datasource "vars").network.tailscale.ipv6 }}:138:138/udp'
+      - '{{ (datasource "vars").network.tailscale.ipv6 }}:139:139'
+      - '{{ (datasource "vars").network.tailscale.ipv6 }}:445:445'
     ulimits:
       nofile:
         hard: 65536
@@ -369,7 +376,7 @@ services:
   varken:
     container_name: varken
     env_file:
-      - vars.env
+      - config/vars.env
     image: boerderij/varken:latest
     restart: unless-stopped
     volumes:
@@ -377,9 +384,9 @@ services:
   volumerize:
     container_name: volumerize
     env_file:
-      - vars.env
+      - config/vars.env
     environment:
-      VOLUMERIZE_CONTAINERS: jackett sonarr radarr overseerr syncthing homeassistant loki influxdb tautulli timemachine
+      VOLUMERIZE_CONTAINERS: jackett sonarr radarr overseerr syncthing homeassistant influxdb tautulli timemachine
       VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
       VOLUMERIZE_JOBBER_TIME: 0 0 4 * * *
       VOLUMERIZE_SOURCE: /source
@@ -408,7 +415,7 @@ services:
   watchtower:
     container_name: watchtower
     env_file:
-      - vars.env
+      - config/vars.env
     image: containrrr/watchtower
     restart: unless-stopped
     volumes:
@@ -457,5 +464,5 @@ volumes:
     name: zeus_caddy-tailscale-config
   caddy-tailscale-data:
     name: zeus_caddy-tailscale-data
-  transmission-config:
-    name: zeus_transmission-config
+  qbittorrent-config:
+    name: zeus_qbittorrent-config

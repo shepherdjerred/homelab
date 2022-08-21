@@ -2,10 +2,6 @@ VERSION 0.6
 FROM alpine
 WORKDIR /workspace
 
-caddy:
-  COPY caddy/Dockerfile .
-  SAVE ARTIFACT Dockerfile
-
 lint.docker-compose:
   FROM python:slim
   WORKDIR /workspace
@@ -13,7 +9,3 @@ lint.docker-compose:
   COPY requirements.txt .
   RUN pip install -r requirements.txt
   COPY lint.py .
-
-config.vars:
-  COPY config/vars.env .
-  SAVE ARTIFACT vars.env

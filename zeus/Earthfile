@@ -7,39 +7,44 @@ rsync:
   RUN mkdir -p /root/.ssh/
   COPY ssh/known_hosts /root/.ssh/known_hosts
 
-deploy:
+sync:
   FROM +rsync
   COPY +render/ .
   RUN --no-cache --ssh rsync --progress -a --checksum . jerred@public.zeus.sjer.red:/home/jerred/config
 
 up:
-  FROM +deploy
+  FROM +sync
   RUN --no-cache --ssh ssh jerred@public.zeus.sjer.red "cd /home/jerred/config && docker-compose pull && docker-compose build && docker-compose down --remove-orphans && docker-compose up -d --remove-orphans"
 
-render:
-  COPY config ./config/
-  COPY static ./static/
-  COPY ../common+caddy/ ./config/caddy
-  COPY ../common+config.vars/ .
-  COPY +render.varken/ ./config/
-  COPY +render.wireguard/ ./config/wireguard/
-  COPY +render.docker-compose/ ./
-  SAVE ARTIFACT *
-
 lint:
-  FROM ../common+lint.docker-compose
-  COPY docker-compose.yml .
+  BUILD +lint.docker-compose
+
+lint.docker-compose:
+  FROM ./lint+lint.docker-compose
+  COPY +render.docker-compose/ .
   RUN ./lint.py
+  FROM lscr.io/linuxserver/docker-compose:latest
+  COPY +render/ .
+  RUN docker-compose config
 
 gomplate:
   FROM golang:alpine
   WORKDIR /workspace
   RUN go install github.com/hairyhenderson/gomplate/v3/cmd/gomplate@latest
 
+render:
+  COPY config ./config/
+  COPY static ./static/
+  COPY +render.varken/ ./config/
+  COPY +render.wireguard/ ./config/wireguard/
+  COPY +render.docker-compose/ ./
+  SAVE ARTIFACT *
+
 render.docker-compose:
   FROM +gomplate
   COPY docker-compose.yml .
-  RUN --secret=DATADOG_API_KEY=+secrets/sj/datadog_api_key --secret=AWS_ACCESS_KEY_ID=+secrets/sj/aws_access_key_id --secret=AWS_SECRET_ACCESS_KEY=+secrets/sj/aws_secret_access_key gomplate -f docker-compose.yml -o docker-compose.yml
+  COPY vars.json .
+  RUN --secret=DATADOG_API_KEY=+secrets/sj/datadog_api_key --secret=AWS_ACCESS_KEY_ID=+secrets/sj/aws_access_key_id --secret=AWS_SECRET_ACCESS_KEY=+secrets/sj/aws_secret_access_key gomplate -d vars=./vars.json -f docker-compose.yml -o docker-compose.yml
   SAVE ARTIFACT docker-compose.yml
 
 render.wireguard:

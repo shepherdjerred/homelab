@@ -46,8 +46,8 @@ tautulli.ts.zeus.sjer.red tautulli.ts.zeus.shepherdjerred.com {
 	reverse_proxy http://tautulli:8181
 }
 
-transmission.ts.zeus.sjer.red transmission.ts.zeus.shepherdjerred.com {
-	reverse_proxy http://vpn:9091
+qbittorrent.ts.zeus.sjer.red qbittorrent.ts.zeus.shepherdjerred.com {
+	reverse_proxy http://vpn:8080
 }
 
 ts.zeus.sjer.red ts.zeus.shepherdjerred.com {
