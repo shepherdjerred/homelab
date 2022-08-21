@@ -1,5 +1,29 @@
 ---
 services:
+  vpn:
+    image: linuxserver/wireguard
+    container_name: vpn
+    env_file:
+      - vars.env
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    volumes:
+      - /lib/modules:/lib/modules
+      - ./config/wireguard:/config
+  transmission:
+    container_name: transmission
+    env_file:
+      - vars.env
+    image: lscr.io/linuxserver/transmission
+    restart: unless-stopped
+    network_mode: "service:vpn"
+    volumes:
+      - transmission-config:/config
+      - /mnt/storage/downloads:/downloads:Z
   lidarr:
     container_name: lidarr
     env_file:
@@ -9,7 +33,7 @@ services:
     volumes:
       - lidarr-config:/config
       - /mnt/storage/media/music:/music:z
-      - /mnt/storage/syncthing/Torrents:/downloads:z
+      - /mnt/storage/downloads:/downloads:z
   datadog:
     container_name: datadog
     image: gcr.io/datadoghq/agent:7
@@ -205,7 +229,7 @@ services:
     volumes:
       - radarr-config:/config
       - /mnt/storage/media/movies:/movies:z
-      - /mnt/storage/syncthing/Torrents:/downloads:z
+      - /mnt/storage/downloads:/downloads:z
   sonarr:
     container_name: sonarr
     env_file:
@@ -215,7 +239,7 @@ services:
     volumes:
       - sonarr-config:/config
       - /mnt/storage/media/tv:/tv:z
-      - /mnt/storage/syncthing/Torrents:/downloads:z
+      - /mnt/storage/downloads:/downloads:z
   speedtest:
     container_name: speedtest
     env_file:
@@ -306,7 +330,7 @@ services:
     env_file:
       - vars.env
     environment:
-      VOLUMERIZE_CONTAINERS: jackett sonarr radarr overseerr syncthing homeassistant grafana prometheus loki influxdb tautulli timemachine
+      VOLUMERIZE_CONTAINERS: jackett sonarr radarr overseerr syncthing homeassistant prometheus loki influxdb tautulli timemachine
       VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
       VOLUMERIZE_JOBBER_TIME: 0 0 4 * * *
       VOLUMERIZE_SOURCE: /source
@@ -323,7 +347,6 @@ services:
       - overseerr-config:/source/overseerr-config:ro
       - syncthing-config:/source/syncthing-config:ro
       - homeassistant-config:/source/homeassistant-config:ro
-      - grafana-data:/source/grafana-data:ro
       - prometheus-config:/source/prometheus-config:ro
       - prometheus-data:/source/prometheus-data:ro
       - loki-data:/source/loki-data:ro
@@ -351,8 +374,6 @@ volumes:
     name: zeus_apprise-config
   bazarr-config:
     name: zeus_bazarr-config
-  grafana-data:
-    name: zeus_grafana-data
   homeassistant-config:
     name: zeus_homeassistant-config
   influxdb-data:
@@ -393,3 +414,5 @@ volumes:
     name: zeus_caddy-tailscale-config
   caddy-tailscale-data:
     name: zeus_caddy-tailscale-data
+  transmission-config:
+    name: zeus_transmission-config

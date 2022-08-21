@@ -6,14 +6,6 @@ caddy:
   COPY caddy/Dockerfile .
   SAVE ARTIFACT Dockerfile
 
-config.promtail:
-  COPY config/promtail.yml .
-  SAVE ARTIFACT promtail.yml
-
-config.loki:
-  COPY config/loki ./loki
-  SAVE ARTIFACT loki
-
 config.blackbox:
   COPY config/blackbox ./blackbox
   SAVE ARTIFACT blackbox

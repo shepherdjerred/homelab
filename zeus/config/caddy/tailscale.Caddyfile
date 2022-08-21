@@ -22,10 +22,6 @@ prometheus.ts.zeus.sjer.red prometheus.ts.zeus.shepherdjerred.com {
 	reverse_proxy http://prometheus:9090
 }
 
-grafana.ts.zeus.sjer.red grafana.ts.zeus.shepherdjerred.com {
-	reverse_proxy http://grafana:3000
-}
-
 syncthing.ts.zeus.sjer.red syncthing.ts.zeus.shepherdjerred.com {
 	reverse_proxy http://syncthing:8384
 }
@@ -56,6 +52,10 @@ jackett.ts.zeus.sjer.red jackett.ts.zeus.shepherdjerred.com {
 
 tautulli.ts.zeus.sjer.red tautulli.ts.zeus.shepherdjerred.com {
 	reverse_proxy http://tautulli:8181
+}
+
+transmission.ts.zeus.sjer.red transmission.ts.zeus.shepherdjerred.com {
+	reverse_proxy http://vpn:9091
 }
 
 ts.zeus.sjer.red ts.zeus.shepherdjerred.com {

@@ -307,7 +307,6 @@ function createPersephoneRecords(stack: Stack, hostedZone: IHostedZone) {
     ],
     domains: [
       "",
-      "grafana",
       "syncthing",
       "prometheus",
       "blackbox",
@@ -350,7 +349,6 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
     ],
     domains: [
       "syncthing",
-      "grafana",
       "tautulli",
       "jackett",
       "sonarr",
@@ -363,6 +361,7 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
       "homeassistant",
       "overseerr",
       "plex",
+      "transmission",
       "",
     ],
   };

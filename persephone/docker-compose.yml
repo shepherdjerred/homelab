@@ -111,7 +111,7 @@ services:
     env_file:
       - vars.env
     environment:
-      VOLUMERIZE_CONTAINERS: syncthing grafana prometheus loki
+      VOLUMERIZE_CONTAINERS: syncthing prometheus
       VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
       VOLUMERIZE_JOBBER_TIME: 0 0 4 * * *
       VOLUMERIZE_SOURCE: /source
@@ -123,15 +123,11 @@ services:
       - volumerize-cache:/volumerize-cache
       - /home/debian/backup:/target:Z
       - syncthing-config:/source/syncthing-config:ro
-      - grafana-data:/source/grafana-data:ro
       - prometheus-config:/source/prometheus-config:ro
       - prometheus-data:/source/prometheus-data:ro
-      - loki-data:/source/loki-data:ro
       - rtorrent-data:/source/rtorrent-data:ro
 version: "3.8"
 volumes:
-  grafana-data: null
-  loki-data: null
   prometheus-config: null
   prometheus-data: null
   rtorrent-data: null
