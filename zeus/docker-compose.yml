@@ -298,6 +298,8 @@ services:
     container_name: timemachine
     env_file:
       - vars.env
+    depends_on:
+      - tailscale
     image: mbentley/timemachine:smb
     restart: unless-stopped
     ports:
