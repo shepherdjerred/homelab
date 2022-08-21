@@ -305,13 +305,7 @@ function createPersephoneRecords(stack: Stack, hostedZone: IHostedZone) {
         address: "fd7a:115c:a1e0:ab12:4843:cd96:6258:1472",
       },
     ],
-    domains: [
-      "",
-      "syncthing",
-      "prometheus",
-      "influxdb",
-      "rutorrent",
-    ],
+    domains: ["", "syncthing", "influxdb", "rutorrent"],
   };
 
   const persephoneAssocations = [publicAssociation, tailscaleAssociation];
@@ -354,7 +348,6 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
       "bazarr",
       "radarr",
       "lidarr",
-      "prometheus",
       "influxdb",
       "homeassistant",
       "overseerr",
