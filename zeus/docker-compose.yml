@@ -21,7 +21,7 @@ services:
       - config/vars.env
     volumes:
       - qbittorrent-config:/config
-      - /mnt/storage/downloads:/downloads:Z
+      - /mnt/storage/downloads/torrents:/downloads:Z
     network_mode: "service:wireguard"
     restart: unless-stopped
   lidarr:
@@ -33,7 +33,7 @@ services:
     volumes:
       - lidarr-config:/config
       - /mnt/storage/media/music:/music:z
-      - /mnt/storage/downloads:/downloads:z
+      - /mnt/storage/downloads/torrents:/downloads:z
   datadog:
     container_name: datadog
     image: gcr.io/datadoghq/agent:7
@@ -155,31 +155,6 @@ services:
       - ./static/public.html:/srv/index.html:Z
       - ./config/caddy/public.Caddyfile:/etc/caddy/Caddyfile:ro,Z
     restart: unless-stopped
-  factorio:
-    container_name: factorio
-    image: factoriotools/factorio:stable
-    volumes:
-      - /mnt/storage/games/factorio:/factorio:Z
-    ports:
-      - 34197:34197/udp
-  matt_minecraft:
-    container_name: matt_minecraft
-    image: ghcr.io/shepherdjerred-minecraft/spigot:1.19
-    volumes:
-      - /mnt/storage/games/matt_minecraft:/home/minecraft/server:Z
-    ports:
-      - 25566:25565/tcp
-      - 25566:25565/udp
-    command: -Xmx2G -jar "../spigot.jar"
-  glitter_minecraft:
-    container_name: glitter_minecraft
-    image: ghcr.io/shepherdjerred-minecraft/spigot:1.19
-    volumes:
-      - /mnt/storage/games/glitter_minecraft:/home/minecraft/server:Z
-    ports:
-      - 25565:25565/tcp
-      - 25565:25565/udp
-    command: -Xmx2G -jar "../spigot.jar"
   bazarr:
     container_name: bazarr
     env_file:
@@ -276,7 +251,7 @@ services:
     volumes:
       - radarr-config:/config
       - /mnt/storage/media/movies:/movies:z
-      - /mnt/storage/downloads:/downloads:z
+      - /mnt/storage/downloads/torrents:/downloads:z
   sonarr:
     container_name: sonarr
     env_file:
@@ -286,7 +261,7 @@ services:
     volumes:
       - sonarr-config:/config
       - /mnt/storage/media/tv:/tv:z
-      - /mnt/storage/downloads:/downloads:z
+      - /mnt/storage/downloads/torrents:/downloads:z
   speedtest:
     container_name: speedtest
     env_file:
