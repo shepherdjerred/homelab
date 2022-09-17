@@ -28,12 +28,27 @@ services:
     container_name: lidarr
     env_file:
       - config/vars.env
-    image: lscr.io/linuxserver/lidarr:latest
+    environment:
+      - autoStart=true
+      - enableAudioScript=true
+      - enableVideoScript=false
+      - scriptInterval=15m
+      - searchSort=date
+      - audioFormat=native
+      - audioBitrate=lossless
+      - enableReplaygainTags=true
+      - audioLyricType=both
+      - dlClientSource=deezer
+      - arlToken="{{ .Env.DEEZER_ARL }}"
+      - topLimit=10
+      - enableQueueCleaner=true
+    image: randomninjaatk/lidarr-extended:latest
     restart: unless-stopped
     volumes:
       - lidarr-config:/config
       - /mnt/storage/media/music:/music:z
       - /mnt/storage/downloads/torrents:/downloads:z
+      - /mnt/storage/downloads/lidarr-extended:/downloads-lidarr-extended:z
   datadog:
     container_name: datadog
     image: gcr.io/datadoghq/agent:7
