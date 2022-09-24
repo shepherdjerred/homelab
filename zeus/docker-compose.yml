@@ -27,15 +27,6 @@ services:
       - /mnt/storage/downloads/torrents:/downloads:Z
     network_mode: "service:wireguard"
     restart: unless-stopped
-  lidarr:
-    container_name: lidarr
-    env_file:
-      - config/vars.env
-    image: lscr.io/linuxserver/lidarr:latest
-    restart: unless-stopped
-    volumes:
-      - lidarr-config:/config
-      - /mnt/storage/media/music:/music:z
   datadog:
     container_name: datadog
     image: gcr.io/datadoghq/agent:7
@@ -390,8 +381,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:z
 version: "3.8"
 volumes:
-  lidarr-config:
-    name: zeus_lidarr-config
   bazarr-config:
     name: zeus_bazarr-config
   homeassistant-config:

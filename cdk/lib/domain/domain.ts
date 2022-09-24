@@ -315,7 +315,6 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
       "sonarr",
       "bazarr",
       "radarr",
-      "lidarr",
       "influxdb",
       "homeassistant",
       "overseerr",
