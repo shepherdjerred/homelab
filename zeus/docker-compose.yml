@@ -1,5 +1,11 @@
 ---
 services:
+  nitter:
+    image: zedeus/nitter
+    container_name: nitter
+    env_file:
+      - config/vars.env
+    restart: unless-stopped
   wireguard:
     image: linuxserver/wireguard
     container_name: wireguard
