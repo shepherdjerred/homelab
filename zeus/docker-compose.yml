@@ -1,10 +1,32 @@
 ---
 services:
+  teddit:
+    image: teddit/teddit
+    container_name: teddit
+    environment:
+      redis_host: teddit_redis
+    env_file:
+      - config/vars.env
+    restart: unless-stopped
+  teddit_redis:
+    image: redis
+    container_name: teddit_redis
+    env_file:
+      - config/vars.env
+    restart: unless-stopped
+  nitter_redis:
+    image: redis
+    container_name: nitter_redis
+    env_file:
+      - config/vars.env
+    restart: unless-stopped
   nitter:
     image: zedeus/nitter
     container_name: nitter
     env_file:
       - config/vars.env
+    volumes:
+      - ./config/nitter.conf:/src/nitter.conf:ro,Z
     restart: unless-stopped
   wireguard:
     image: linuxserver/wireguard

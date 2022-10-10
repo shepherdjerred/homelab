@@ -286,11 +286,11 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
     addresses: [
       {
         addressType: "v4",
-        address: "76.146.154.97",
+        address: "76.146.155.109",
       },
       {
         addressType: "v6",
-        address: "2601:602:8200:277c:325a:3aff:fe7b:6fd5",
+        address: "2601:602:8200:669:325a:3aff:fe7b:6fd5",
       },
     ],
     domains: ["homeassistant", "overseerr", "plex", ""],
@@ -321,6 +321,7 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
       "plex",
       "qbittorrent",
       "nitter",
+      "teddit",
       "",
     ],
   };

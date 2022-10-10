@@ -2,8 +2,12 @@
 	acme_dns route53
 }
 
-nitter.ts.zeus.sjer.red plex.ts.zeus.shepherdjerred.com  {
+nitter.ts.zeus.sjer.red nitter.ts.zeus.shepherdjerred.com  {
 	reverse_proxy http://nitter:8080
+}
+
+teddit.ts.zeus.sjer.red teddit.ts.zeus.shepherdjerred.com  {
+	reverse_proxy http://teddit:8080
 }
 
 plex.ts.zeus.sjer.red plex.ts.zeus.shepherdjerred.com {
