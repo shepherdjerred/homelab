@@ -4,7 +4,7 @@ services:
     image: teddit/teddit
     container_name: teddit
     environment:
-      redis_host: teddit_redis
+      REDIS_HOST: teddit_redis
     env_file:
       - config/vars.env
     restart: unless-stopped
