@@ -5,9 +5,12 @@ services:
     container_name: teddit
     environment:
       REDIS_HOST: teddit_redis
+      DOMAIN: teddit.ts.zeus.sjer.red
     env_file:
       - config/vars.env
     restart: unless-stopped
+    depends_on:
+      - teddit_redis
   teddit_redis:
     image: redis
     container_name: teddit_redis
@@ -28,6 +31,8 @@ services:
     volumes:
       - ./config/nitter.conf:/src/nitter.conf:ro,Z
     restart: unless-stopped
+    depends_on:
+      - nitter_redis
   wireguard:
     image: linuxserver/wireguard
     container_name: wireguard
