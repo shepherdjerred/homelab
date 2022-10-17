@@ -1,0 +1,4 @@
+directory: /music
+library: /music/library.db
+import:
+  move: yes

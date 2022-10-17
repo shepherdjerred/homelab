@@ -1,5 +1,15 @@
 ---
 services:
+  beets:
+    image: lscr.io/linuxserver/beets:latest
+    container_name: beets
+    volumes:
+      - ./config/beets:/config
+      - /mnt/storage/media/music:/music:z
+      - /mnt/storage/syncthing/Music:/downloads:z
+    env_file:
+      - config/vars.env
+    restart: unless-stopped
   teddit:
     image: teddit/teddit
     container_name: teddit

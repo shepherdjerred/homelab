@@ -322,6 +322,7 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
       "qbittorrent",
       "nitter",
       "teddit",
+      "beets",
       "",
     ],
   };
