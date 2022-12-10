@@ -20,7 +20,5 @@ jobs:
       - uses: earthly/actions-setup@v1.0.2
       - name: Lint
         run: earthly --ci --push +lint
-      - name: Test
-        run: earthly --ci --push +test
       - name: Deploy
         run: earthly --ci --push +deploy

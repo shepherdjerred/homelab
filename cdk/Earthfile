@@ -27,7 +27,3 @@ lint.fix:
   COPY . .
   RUN npm run lint:fix
   SAVE ARTIFACT * AS LOCAL ./
-
-test:
-  FROM +deps
-  RUN npm run test
