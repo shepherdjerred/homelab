@@ -10,10 +10,6 @@ teddit.ts.zeus.sjer.red teddit.ts.zeus.shepherdjerred.com  {
 	reverse_proxy http://teddit:8080
 }
 
-beets.ts.zeus.sjer.red beets.ts.zeus.shepherdjerred.com  {
-	reverse_proxy http://beets:8337
-}
-
 plex.ts.zeus.sjer.red plex.ts.zeus.shepherdjerred.com {
 	reverse_proxy http://plex:32400
 }
