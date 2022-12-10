@@ -15,7 +15,7 @@ build:
 
 deploy:
   FROM +build
-  RUN --secret AWS_ACCESS_KEY_ID=+secrets/sj/aws_access_key_id --secret AWS_SECRET_ACCESS_KEY=+secrets/sj/aws_secret_access_key npm run cdk -- deploy --all
+  RUN --secret AWS_ACCESS_KEY_ID=+secrets/user/servers/zeus/aws_access_key_id --secret AWS_SECRET_ACCESS_KEY=+secrets/user/servers/zeus/aws_secret_access_key npm run cdk -- deploy --all
 
 lint:
   FROM +deps
