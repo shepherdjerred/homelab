@@ -19,7 +19,7 @@
     "eslint:fix": "eslint \"*/**/*.{ts,tsx}\" --fix --color"
   },
   "devDependencies": {
-    "@types/node": "^16.18.4",
+    "@types/node": "^16.18.8",
     "@typescript-eslint/eslint-plugin": "^5.46.0",
     "@typescript-eslint/parser": "^5.45.0",
     "aws-cdk": "2.54.0",
