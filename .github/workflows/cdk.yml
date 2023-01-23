@@ -17,7 +17,7 @@ jobs:
       EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
     steps:
       - uses: actions/checkout@v3
-      - uses: earthly/actions-setup@v1.0.2
+      - uses: earthly/actions-setup@v1.0.3
       - name: Lint
         run: earthly --ci --push +lint
       - name: Deploy
