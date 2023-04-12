@@ -2,7 +2,7 @@
   "network": {
     "public": {
       "ipv4": "192.168.1.45",
-      "ipv6": "2601:602:8200:669:325a:3aff:fe7b:6fd5"
+      "ipv6": "fe80::325a:3aff:fe7b:6fd5"
     },
     "external": {
       "ipv4": "75.172.183.213"
