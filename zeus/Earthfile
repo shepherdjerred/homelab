@@ -28,7 +28,7 @@ lint.docker-compose:
   RUN docker-compose config
 
 gomplate:
-  FROM golang:alpine
+  FROM golang:1.19-alpine
   WORKDIR /workspace
   RUN go install github.com/hairyhenderson/gomplate/v3/cmd/gomplate@latest
 

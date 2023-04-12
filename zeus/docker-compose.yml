@@ -140,7 +140,6 @@ services:
       - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
       - /proc/:/host/proc/:ro
       - /mnt/storage:/mnt/storage:ro # for metrics
-      - /mnt/timemachine:/mnt/timemachine:ro # for metrics
   caddy_tailscale:
     container_name: caddy_tailscale
     depends_on:
@@ -154,8 +153,8 @@ services:
     ports:
       - '{{ (datasource "vars").network.tailscale.ipv4 }}:80:80'
       - '{{ (datasource "vars").network.tailscale.ipv4 }}:443:443'
-      - '{{ (datasource "vars").network.tailscale.ipv6 }}:80:80'
-      - '{{ (datasource "vars").network.tailscale.ipv6 }}:443:443'
+      # - '[{{ (datasource "vars").network.tailscale.ipv6 }}]::80'
+      # - '[{{ (datasource "vars").network.tailscale.ipv6 }}]::443'
     volumes:
       - caddy-tailscale-config:/config:Z
       - caddy-tailscale-data:/data:Z
@@ -173,8 +172,8 @@ services:
     ports:
       - '{{ (datasource "vars").network.public.ipv4 }}:80:80'
       - '{{ (datasource "vars").network.public.ipv4 }}:443:443'
-      - '{{ (datasource "vars").network.public.ipv6 }}:80:80'
-      - '{{ (datasource "vars").network.public.ipv6 }}:443:443'
+      # - '[{{ (datasource "vars").network.public.ipv6 }}]::80'
+      # - '[{{ (datasource "vars").network.public.ipv6 }}]::443'
     volumes:
       - caddy-public-config:/config:Z
       - caddy-public-data:/data:Z
@@ -234,12 +233,12 @@ services:
       - overseerr-config:/config
   plex:
     container_name: plex
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities:
-                - gpu
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - capabilities:
+    #             - gpu
     env_file:
       - config/vars.env
     environment:
@@ -341,32 +340,6 @@ services:
     volumes:
       - tautulli-data:/config
       - /mnt/storage/plex/Plex\ Media\ Server/Logs:/plex_logs:ro,z
-  timemachine:
-    container_name: timemachine
-    env_file:
-      - config/vars.env
-    depends_on:
-      - tailscale
-    image: mbentley/timemachine:smb
-    restart: unless-stopped
-    ports:
-      - '{{ (datasource "vars").network.tailscale.ipv4 }}:137:137/udp'
-      - '{{ (datasource "vars").network.tailscale.ipv4 }}:138:138/udp'
-      - '{{ (datasource "vars").network.tailscale.ipv4 }}:139:139'
-      - '{{ (datasource "vars").network.tailscale.ipv4 }}:445:445'
-      - '{{ (datasource "vars").network.tailscale.ipv6 }}:137:137/udp'
-      - '{{ (datasource "vars").network.tailscale.ipv6 }}:138:138/udp'
-      - '{{ (datasource "vars").network.tailscale.ipv6 }}:139:139'
-      - '{{ (datasource "vars").network.tailscale.ipv6 }}:445:445'
-    ulimits:
-      nofile:
-        hard: 65536
-        soft: 65536
-    volumes:
-      - /mnt/timemachine:/opt/timemachine:Z
-      - timemachine-var-lib-samba:/var/lib/samba
-      - timemachine-var-cache-samba:/var/cache/samba
-      - timemachine-run-samba:/run/samba
   varken:
     container_name: varken
     env_file:
@@ -380,7 +353,7 @@ services:
     env_file:
       - config/vars.env
     environment:
-      VOLUMERIZE_CONTAINERS: jackett sonarr radarr overseerr syncthing homeassistant influxdb tautulli timemachine
+      VOLUMERIZE_CONTAINERS: jackett sonarr radarr overseerr syncthing homeassistant influxdb tautulli
       VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
       VOLUMERIZE_JOBBER_TIME: 0 0 4 * * *
       VOLUMERIZE_SOURCE: /source
@@ -399,9 +372,6 @@ services:
       - homeassistant-config:/source/homeassistant-config:ro
       - influxdb-data:/source/influxdb-data:ro
       - tautulli-data:/source/tautulli-data:ro
-      - timemachine-var-lib-samba:/source/timemachine-var-lib-samba:ro
-      - timemachine-var-cache-samba:/source/timemachine-var-cache-samba:ro
-      - timemachine-run-samba:/source/timemachine-run-samba:ro
       - tailscale-data:/source/tailscale-data:ro
       - bazarr-config:/source/bazarr-config:ro
   watchtower:
@@ -434,12 +404,6 @@ volumes:
     name: zeus_tailscale-data
   tautulli-data:
     name: zeus_tautulli-data
-  timemachine-run-samba:
-    name: zeus_timemachine-run-samba
-  timemachine-var-cache-samba:
-    name: zeus_timemachine-var-cache-samba
-  timemachine-var-lib-samba:
-    name: zeus_timemachine-var-lib-samba
   volumerize-cache:
     name: zeus_volumerize-cache
   caddy-public-config:

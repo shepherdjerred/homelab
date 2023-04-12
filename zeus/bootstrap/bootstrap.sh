@@ -34,7 +34,6 @@ mkdir /mnt/timemachine
 mkdir /mnt/spare
 
 echo "UUID=c48e1b3a-4c8c-4488-82ee-45b6b377b61a     /mnt/storage     ext4 defaults    0    0" | tee -a /etc/fstab
-echo "UUID=49f949f8-a2f0-4e25-8723-19283b531ac4     /mnt/timemachine ext4 defaults    0    0" | tee -a /etc/fstab
 echo "UUID=d8ec49c8-97ee-4cf2-992c-c5c9fbff6c70     /mnt/spare       ext4 defaults    0    0" | tee -a /etc/fstab
 cat /etc/fstab
 mount -a
