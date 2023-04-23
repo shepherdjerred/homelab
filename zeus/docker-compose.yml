@@ -31,10 +31,10 @@ services:
       DDNSR53_CREDENTIALS_ACCESSKEYID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
       DDNSR53_CREDENTIALS_SECRETACCESSKEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
       DDNSR53_ROUTE53_HOSTEDZONEID: Z052318621SQJ9EM5RPOU
-      DDNSR53_ROUTE53_RECORDSSET_0_NAME: "public.zeus.sjer.red."
+      DDNSR53_ROUTE53_RECORDSSET_0_NAME: "ddns.sjer.red."
       DDNSR53_ROUTE53_RECORDSSET_0_TYPE: A
       DDNSR53_ROUTE53_RECORDSSET_0_TTL: 60
-      DDNSR53_ROUTE53_RECORDSSET_1_NAME: "public.zeus.sjer.red."
+      DDNSR53_ROUTE53_RECORDSSET_1_NAME: "ddns.sjer.red."
       DDNSR53_ROUTE53_RECORDSSET_1_TYPE: AAAA
       DDNSR53_ROUTE53_RECORDSSET_1_TTL: 60
     restart: unless-stopped
@@ -191,8 +191,8 @@ services:
     ports:
       - '{{ (datasource "vars").network.tailscale.ipv4 }}:80:80'
       - '{{ (datasource "vars").network.tailscale.ipv4 }}:443:443'
-      - '[{{ (datasource "vars").network.tailscale.ipv6 }}]:80:80'
-      - '[{{ (datasource "vars").network.tailscale.ipv6 }}]:443:443'
+      # - '[{{ (datasource "vars").network.tailscale.ipv6 }}]:80:80'
+      # - '[{{ (datasource "vars").network.tailscale.ipv6 }}]:443:443'
     volumes:
       - caddy-tailscale-config:/config:Z
       - caddy-tailscale-data:/data:Z
@@ -210,8 +210,8 @@ services:
     ports:
       - '{{ (datasource "vars").network.public.ipv4 }}:80:80'
       - '{{ (datasource "vars").network.public.ipv4 }}:443:443'
-      - '[{{ (datasource "vars").network.public.ipv6 }}]:80:80'
-      - '[{{ (datasource "vars").network.public.ipv6 }}]:443:443'
+      # - '[{{ (datasource "vars").network.public.ipv6 }}]:80:80'
+      # - '[{{ (datasource "vars").network.public.ipv6 }}]:443:443'
     volumes:
       - caddy-public-config:/config:Z
       - caddy-public-data:/data:Z
@@ -265,12 +265,12 @@ services:
       - overseerr-config:/config
   plex:
     container_name: plex
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - capabilities:
-    #             - gpu
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - gpu
     env_file:
       - config/vars.env
     environment:

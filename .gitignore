@@ -2,3 +2,4 @@
 *.iso
 .DS_Store
 .vscode
+.secret

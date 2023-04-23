@@ -20,7 +20,7 @@ interface Association {
 }
 
 interface Address {
-  addressType: "v4" | "v6";
+  addressType: "v4" | "v6" | "alias";
   address: string;
 }
 
@@ -285,12 +285,8 @@ function createZeusRecords(stack: Stack, hostedZone: IHostedZone) {
     base: "public.zeus",
     addresses: [
       {
-        addressType: "v4",
-        address: "75.172.185.158",
-      },
-      {
-        addressType: "v6",
-        address: "fe80::325a:3aff:fe7b:6fd5",
+        addressType: "alias",
+        address: "ddns.sjer.red",
       },
     ],
     domains: ["homeassistant", "overseerr", "plex", ""],
@@ -377,6 +373,14 @@ function createRecords(
             break;
           case "v6":
             new AaaaRecord(stack, resourceName, props);
+            break;
+          case "alias":
+            new CnameRecord(stack, resourceName, {
+              recordName,
+              domainName: address.address,
+              ttl,
+              zone: hostedZone,
+            });
             break;
         }
       });

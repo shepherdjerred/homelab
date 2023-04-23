@@ -10,11 +10,11 @@ rsync:
 sync:
   FROM +rsync
   COPY +render/ .
-  RUN --no-cache --ssh rsync --progress -a --checksum . jerred@192.168.1.45:/home/jerred/config
+  RUN --no-cache --ssh rsync --progress -a --checksum . jerred@public.zeus.sjer.red:/home/jerred/config
 
 up:
   FROM +sync
-  RUN --no-cache --ssh ssh jerred@192.168.1.45 "cd /home/jerred/config && docker-compose pull && docker-compose build && docker-compose down --remove-orphans && docker-compose up -d --remove-orphans"
+  RUN --no-cache --ssh ssh jerred@public.zeus.sjer.red "cd /home/jerred/config && docker-compose pull && docker-compose build && docker-compose down --remove-orphans && docker-compose up -d --remove-orphans"
 
 lint:
   BUILD +lint.docker-compose
