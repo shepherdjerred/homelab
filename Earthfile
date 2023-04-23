@@ -1,16 +1,13 @@
-VERSION 0.6
-FROM alpine
+VERSION 0.7
+ARG --global EARTHLY_CI
 
 lint:
-  BUILD +lint.prettier
-
-lint.prettier.fix:
-  FROM tmknom/prettier
-  COPY . /workspace
-  RUN prettier -w /workspace
-  SAVE ARTIFACT /workspace/* AS LOCAL ./
-
-lint.prettier:
-  FROM tmknom/prettier
+  FROM node:lts
+  WORKDIR /workspace
   COPY . .
-  RUN prettier .
+  IF [ $EARTHLY_CI = true ]
+    RUN npx prettier .
+  ELSE
+    RUN npx prettier -w .
+    SAVE ARTIFACT * AS LOCAL ./
+  END

@@ -1,5 +1,43 @@
 ---
 services:
+  ddns-route53-shepherdjerred:
+    image: crazymax/ddns-route53
+    container_name: ddns-route53-shepherdjerred
+    env_file:
+      - config/vars.env
+    environment:
+      SCHEDULE: "*/1 * * * *"
+      LOG_LEVEL: info
+      LOG_JSON: false
+      DDNSR53_CREDENTIALS_ACCESSKEYID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
+      DDNSR53_CREDENTIALS_SECRETACCESSKEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
+      DDNSR53_ROUTE53_HOSTEDZONEID: Z24MJMG74F2S94
+      DDNSR53_ROUTE53_RECORDSSET_0_NAME: "ddns.shepherdjerred.com."
+      DDNSR53_ROUTE53_RECORDSSET_0_TYPE: A
+      DDNSR53_ROUTE53_RECORDSSET_0_TTL: 60
+      DDNSR53_ROUTE53_RECORDSSET_1_NAME: "ddns.shepherdjerred.com."
+      DDNSR53_ROUTE53_RECORDSSET_1_TYPE: AAAA
+      DDNSR53_ROUTE53_RECORDSSET_1_TTL: 60
+    restart: unless-stopped
+  ddns-route53-sjerred:
+    image: crazymax/ddns-route53
+    container_name: ddns-route53-sjerred
+    env_file:
+      - config/vars.env
+    environment:
+      SCHEDULE: "*/1 * * * *"
+      LOG_LEVEL: info
+      LOG_JSON: false
+      DDNSR53_CREDENTIALS_ACCESSKEYID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
+      DDNSR53_CREDENTIALS_SECRETACCESSKEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
+      DDNSR53_ROUTE53_HOSTEDZONEID: Z052318621SQJ9EM5RPOU
+      DDNSR53_ROUTE53_RECORDSSET_0_NAME: "public.zeus.sjer.red."
+      DDNSR53_ROUTE53_RECORDSSET_0_TYPE: A
+      DDNSR53_ROUTE53_RECORDSSET_0_TTL: 60
+      DDNSR53_ROUTE53_RECORDSSET_1_NAME: "public.zeus.sjer.red."
+      DDNSR53_ROUTE53_RECORDSSET_1_TYPE: AAAA
+      DDNSR53_ROUTE53_RECORDSSET_1_TTL: 60
+    restart: unless-stopped
   teddit:
     image: teddit/teddit
     container_name: teddit
@@ -153,8 +191,8 @@ services:
     ports:
       - '{{ (datasource "vars").network.tailscale.ipv4 }}:80:80'
       - '{{ (datasource "vars").network.tailscale.ipv4 }}:443:443'
-      # - '[{{ (datasource "vars").network.tailscale.ipv6 }}]::80'
-      # - '[{{ (datasource "vars").network.tailscale.ipv6 }}]::443'
+      - '[{{ (datasource "vars").network.tailscale.ipv6 }}]:80:80'
+      - '[{{ (datasource "vars").network.tailscale.ipv6 }}]:443:443'
     volumes:
       - caddy-tailscale-config:/config:Z
       - caddy-tailscale-data:/data:Z
@@ -172,8 +210,8 @@ services:
     ports:
       - '{{ (datasource "vars").network.public.ipv4 }}:80:80'
       - '{{ (datasource "vars").network.public.ipv4 }}:443:443'
-      # - '[{{ (datasource "vars").network.public.ipv6 }}]::80'
-      # - '[{{ (datasource "vars").network.public.ipv6 }}]::443'
+      - '[{{ (datasource "vars").network.public.ipv6 }}]:80:80'
+      - '[{{ (datasource "vars").network.public.ipv6 }}]:443:443'
     volumes:
       - caddy-public-config:/config:Z
       - caddy-public-data:/data:Z
@@ -190,12 +228,6 @@ services:
       - bazarr-config:/config
       - /mnt/storage/media/movies:/movies:z
       - /mnt/storage/media/tv:/tv:z
-  flaresolverr:
-    container_name: flaresolverr
-    env_file:
-      - config/vars.env
-    image: ghcr.io/flaresolverr/flaresolverr:latest
-    restart: unless-stopped
   homeassistant:
     container_name: homeassistant
     env_file:
@@ -242,7 +274,7 @@ services:
     env_file:
       - config/vars.env
     environment:
-      ADVERTISE_IP: http://{{ (datasource "vars").network.external.ipv4 }}:32400,http://{{ (datasource "vars").network.tailscale.ipv4 }}:32400,http://{{ (datasource "vars").network.tailscale.ipv4 }}:32400
+      ADVERTISE_IP: https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red
       NVIDIA_DRIVER_CAPABILITIES: all
       NVIDIA_VISIBLE_DEVICES: all
     image: plexinc/pms-docker:latest
@@ -386,33 +418,49 @@ version: "3.8"
 volumes:
   bazarr-config:
     name: zeus_bazarr-config
+    external: true
   homeassistant-config:
     name: zeus_homeassistant-config
+    external: true
   influxdb-data:
     name: zeus_influxdb-data
+    external: true
   jackett-config:
     name: zeus_jackett-config
+    external: true
   overseerr-config:
     name: zeus_overseerr-config
+    external: true
   radarr-config:
     name: zeus_radarr-config
+    external: true
   sonarr-config:
     name: zeus_sonarr-config
+    external: true
   syncthing-config:
     name: zeus_syncthing-config
+    external: true
   tailscale-data:
     name: zeus_tailscale-data
+    external: true
   tautulli-data:
     name: zeus_tautulli-data
+    external: true
   volumerize-cache:
     name: zeus_volumerize-cache
+    external: true
   caddy-public-config:
     name: zeus_caddy-public-config
+    external: true
   caddy-public-data:
     name: zeus_caddy-public-data
+    external: true
   caddy-tailscale-config:
     name: zeus_caddy-tailscale-config
+    external: true
   caddy-tailscale-data:
     name: zeus_caddy-tailscale-data
+    external: true
   qbittorrent-config:
     name: zeus_qbittorrent-config
+    external: true
