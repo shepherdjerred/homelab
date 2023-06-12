@@ -19,4 +19,4 @@ jobs:
       - name: Lint
         run: earthly --ci --push +lint
       - name: Deploy
-        run: earthly --ci --push +deploy
+        run: earthly --ci --push +build
