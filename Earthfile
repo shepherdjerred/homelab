@@ -4,6 +4,7 @@ ARG --global EARTHLY_CI
 
 pipeline.push:
   PIPELINE --push
+  TRIGGER push main
   BUILD +devcontainer
   BUILD +lint
   BUILD ./zeus+lint
