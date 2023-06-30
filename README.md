@@ -4,4 +4,4 @@
 
 ## Zeus
 
-Local nas hosted at my home.
+Local server hosted at my home.
