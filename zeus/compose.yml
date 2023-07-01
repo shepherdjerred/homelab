@@ -9,7 +9,7 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - ./config/cloudflare-ddns/config.json:/config.json
+      - ./config/cloudflare-ddns/config.json:/config.json:ro,Z
     restart: unless-stopped
   teddit:
     image: teddit/teddit

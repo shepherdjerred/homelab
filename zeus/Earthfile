@@ -46,6 +46,7 @@ render.cloudflare-ddns:
   FROM +gomplate
   COPY config/cloudflare-ddns/config.json.tmpl .
   RUN --secret=CLOUDFLARE_TOKEN gomplate -d vars=./vars.json -f config.json.tmpl -o config.json
+  SAVE ARTIFACT config.json
 
 render.docker-compose:
   FROM +gomplate
