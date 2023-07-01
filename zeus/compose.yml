@@ -163,8 +163,8 @@ services:
     ports:
       - '{{ (datasource "vars").network.tailscale.ipv4 }}:80:80'
       - '{{ (datasource "vars").network.tailscale.ipv4 }}:443:443'
-      - '[{{ (datasource "vars").network.tailscale.ipv6 }}]:80:80'
-      - '[{{ (datasource "vars").network.tailscale.ipv6 }}]:443:443'
+      # - '[{{ (datasource "vars").network.tailscale.ipv6 }}]:80:80'
+      # - '[{{ (datasource "vars").network.tailscale.ipv6 }}]:443:443'
     volumes:
       - caddy-tailscale-config:/config:Z
       - caddy-tailscale-data:/data:Z
@@ -181,8 +181,8 @@ services:
     ports:
       - '{{ (datasource "vars").network.public.ipv4 }}:80:80'
       - '{{ (datasource "vars").network.public.ipv4 }}:443:443'
-      - '[{{ (datasource "vars").network.public.ipv6 }}]:80:80'
-      - '[{{ (datasource "vars").network.public.ipv6 }}]:443:443'
+      # - '[{{ (datasource "vars").network.public.ipv6 }}]:80:80'
+      # - '[{{ (datasource "vars").network.public.ipv6 }}]:443:443'
     volumes:
       - caddy-public-config:/config:Z
       - caddy-public-data:/data:Z
