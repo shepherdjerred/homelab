@@ -1,5 +1,5 @@
-{
-	acme_dns cloudflare
+tls {
+	dns cloudflare {env.CLOUDFLARE_TOKEN}
 }
 
 nitter.ts.zeus.sjer.red nitter.ts.zeus.shepherdjerred.com  {
