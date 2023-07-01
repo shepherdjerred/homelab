@@ -1,5 +1,5 @@
 {
-	acme_dns route53
+	acme_dns cloudflare
 }
 
 nitter.ts.zeus.sjer.red nitter.ts.zeus.shepherdjerred.com  {

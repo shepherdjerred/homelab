@@ -23,7 +23,7 @@ lint.docker-compose:
   FROM ./lint+lint.docker-compose
   COPY +render.docker-compose/ .
   RUN ./lint.py
-  FROM lscr.io/linuxserver/docker-compose:latest
+  FROM lscr.io/linuxserver/docker-compose
   COPY +render/ .
   RUN docker-compose config
 
@@ -37,15 +37,21 @@ render:
   COPY static ./static/
   COPY +render.varken/ ./config/
   COPY +render.wireguard/ ./config/wireguard/
+  COPY +render.cloudflare-ddns/ ./config/cloudflare-ddns/
   COPY +render.docker-compose/ ./
   SAVE ARTIFACT *
 
+render.cloudflare-ddns:
+  FROM +gomplate
+  COPY config/cloudflare-ddns/config.json.tmpl .
+  RUN --secret=CLOUDFLARE_TOKEN gomplate -d vars=./vars.json -f config.json.tmpl -o config.json
+
 render.docker-compose:
   FROM +gomplate
-  COPY docker-compose.yml .
+  COPY compose.yml .
   COPY vars.json .
-  RUN --secret=DATADOG_API_KEY --secret=AWS_ACCESS_KEY_ID --secret=AWS_SECRET_ACCESS_KEY gomplate -d vars=./vars.json -f docker-compose.yml -o docker-compose.yml
-  SAVE ARTIFACT docker-compose.yml
+  RUN --secret=DATADOG_API_KEY --secret=CLOUDFLARE_TOKEN gomplate -d vars=./vars.json -f compose.yml -o compose.yml
+  SAVE ARTIFACT compose.yml
 
 render.wireguard:
   FROM +gomplate

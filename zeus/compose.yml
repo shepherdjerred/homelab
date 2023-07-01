@@ -1,42 +1,15 @@
 ---
 services:
-  ddns-route53-shepherdjerred:
-    image: crazymax/ddns-route53
-    container_name: ddns-route53-shepherdjerred
+  cloudflare-ddns:
+    image: timothyjmiller/cloudflare-ddns
+    container_name: cloudflare-ddns
     env_file:
       - config/vars.env
     environment:
-      SCHEDULE: "*/1 * * * *"
-      LOG_LEVEL: info
-      LOG_JSON: false
-      DDNSR53_CREDENTIALS_ACCESSKEYID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
-      DDNSR53_CREDENTIALS_SECRETACCESSKEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
-      DDNSR53_ROUTE53_HOSTEDZONEID: Z24MJMG74F2S94
-      DDNSR53_ROUTE53_RECORDSSET_0_NAME: "ddns.shepherdjerred.com."
-      DDNSR53_ROUTE53_RECORDSSET_0_TYPE: A
-      DDNSR53_ROUTE53_RECORDSSET_0_TTL: 60
-      DDNSR53_ROUTE53_RECORDSSET_1_NAME: "ddns.shepherdjerred.com."
-      DDNSR53_ROUTE53_RECORDSSET_1_TYPE: AAAA
-      DDNSR53_ROUTE53_RECORDSSET_1_TTL: 60
-    restart: unless-stopped
-  ddns-route53-sjerred:
-    image: crazymax/ddns-route53
-    container_name: ddns-route53-sjerred
-    env_file:
-      - config/vars.env
-    environment:
-      SCHEDULE: "*/1 * * * *"
-      LOG_LEVEL: info
-      LOG_JSON: false
-      DDNSR53_CREDENTIALS_ACCESSKEYID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
-      DDNSR53_CREDENTIALS_SECRETACCESSKEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
-      DDNSR53_ROUTE53_HOSTEDZONEID: Z052318621SQJ9EM5RPOU
-      DDNSR53_ROUTE53_RECORDSSET_0_NAME: "ddns.sjer.red."
-      DDNSR53_ROUTE53_RECORDSSET_0_TYPE: A
-      DDNSR53_ROUTE53_RECORDSSET_0_TTL: 60
-      DDNSR53_ROUTE53_RECORDSSET_1_NAME: "ddns.sjer.red."
-      DDNSR53_ROUTE53_RECORDSSET_1_TYPE: AAAA
-      DDNSR53_ROUTE53_RECORDSSET_1_TTL: 60
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./config/cloudflare-ddns/config.json:/config.json
     restart: unless-stopped
   teddit:
     image: teddit/teddit
@@ -89,7 +62,7 @@ services:
       - /lib/modules:/lib/modules
       - ./config/wireguard:/config
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent
     container_name: qbittorrent
     env_file:
       - config/vars.env
@@ -184,8 +157,7 @@ services:
       - tailscale
     build: config/caddy
     environment:
-      AWS_ACCESS_KEY_ID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
-      AWS_SECRET_ACCESS_KEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
+      CLOUDFLARE_TOKEN: "{{ .Env.CLOUDFLARE_TOKEN }}"
     env_file:
       - config/vars.env
     ports:
@@ -203,8 +175,7 @@ services:
     container_name: caddy_public
     build: config/caddy
     environment:
-      AWS_ACCESS_KEY_ID: "{{ .Env.AWS_ACCESS_KEY_ID }}"
-      AWS_SECRET_ACCESS_KEY: "{{ .Env.AWS_SECRET_ACCESS_KEY }}"
+      CLOUDFLARE_TOKEN: "{{ .Env.CLOUDFLARE_TOKEN }}"
     env_file:
       - config/vars.env
     ports:
@@ -251,7 +222,7 @@ services:
     container_name: jackett
     env_file:
       - config/vars.env
-    image: lscr.io/linuxserver/jackett:latest
+    image: lscr.io/linuxserver/jackett
     restart: unless-stopped
     volumes:
       - jackett-config:/config
@@ -259,7 +230,7 @@ services:
     container_name: overseerr
     env_file:
       - config/vars.env
-    image: lscr.io/linuxserver/overseerr:latest
+    image: lscr.io/linuxserver/overseerr
     restart: unless-stopped
     volumes:
       - overseerr-config:/config
@@ -277,7 +248,7 @@ services:
       ADVERTISE_IP: https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red
       NVIDIA_DRIVER_CAPABILITIES: all
       NVIDIA_VISIBLE_DEVICES: all
-    image: plexinc/pms-docker:latest
+    image: plexinc/pms-docker
     ports:
       - 32400:32400/tcp
       - 3005:3005/tcp
@@ -303,7 +274,7 @@ services:
     container_name: radarr
     env_file:
       - config/vars.env
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr
     restart: unless-stopped
     volumes:
       - radarr-config:/config
@@ -313,7 +284,7 @@ services:
     container_name: sonarr
     env_file:
       - config/vars.env
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr
     restart: unless-stopped
     volumes:
       - sonarr-config:/config
@@ -323,14 +294,14 @@ services:
     container_name: speedtest
     env_file:
       - config/vars.env
-    image: jraviles/prometheus_speedtest:latest
+    image: jraviles/prometheus_speedtest
     restart: unless-stopped
   syncthing:
     container_name: syncthing
     env_file:
       - config/vars.env
     hostname: syncthing
-    image: syncthing/syncthing:latest
+    image: syncthing/syncthing
     ports:
       - 22000:22000/tcp
       - 22000:22000/udp
@@ -346,7 +317,7 @@ services:
     environment:
       SYNCTHING_TOKEN: Gx4RRiqFLaqcx3Z4MD2ZokjaWmW4DweP
       SYNCTHING_URI: http://syncthing:8384/
-    image: f100024/syncthing_exporter:latest
+    image: f100024/syncthing_exporter
     restart: unless-stopped
   tailscale:
     cap_add:
@@ -367,7 +338,7 @@ services:
     container_name: tautulli
     env_file:
       - config/vars.env
-    image: ghcr.io/tautulli/tautulli:latest
+    image: ghcr.io/tautulli/tautulli
     restart: unless-stopped
     volumes:
       - tautulli-data:/config
@@ -376,7 +347,7 @@ services:
     container_name: varken
     env_file:
       - config/vars.env
-    image: boerderij/varken:latest
+    image: boerderij/varken
     restart: unless-stopped
     volumes:
       - ./config/varken.ini:/config/varken.ini:Z

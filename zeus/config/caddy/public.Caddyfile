@@ -1,5 +1,5 @@
 {
-	acme_dns route53
+	acme_dns cloudflare
 }
 
 public.zeus.sjer.red public.zeus.shepherdjerred.com {

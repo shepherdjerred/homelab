@@ -1,0 +1,32 @@
+{
+  "cloudflare": [
+    {
+      "authentication": {
+        "api_token": "{{ .Env.CLOUDFLARE_TOKEN }}",
+      },
+      "zone_id": "879487f81194d63121d0b8dddd16f08f",
+      "subdomains": [
+        {
+          "name": "ddns",
+          "proxied": false
+        }
+      ]
+    },
+    {
+      "authentication": {
+        "api_token": "{{ .Env.CLOUDFLARE_TOKEN }}",
+      },
+      "zone_id": "50f1698cfdf308ce2b272c88a1dffbe0",
+      "subdomains": [
+        {
+          "name": "ddns",
+          "proxied": false
+        }
+      ]
+    }
+  ],
+  "a": true,
+  "aaaa": true,
+  "purgeUnknownRecords": false,
+  "ttl": 60
+}

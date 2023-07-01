@@ -77,7 +77,7 @@ def lint(file):
     return errors
 
 
-errors = lint("docker-compose.yml")
+errors = lint("compose.yml")
 
 print(json.dumps(errors, indent=2))
 
