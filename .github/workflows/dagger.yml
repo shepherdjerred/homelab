@@ -7,18 +7,25 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - name: Install Deno
+        uses: actions/cache@v3
         with:
           path: |
             ~/.deno
             ~/.cache/deno
           key: ${{ runner.os }}-deno-${{ hashFiles('**/deps.ts') }}
-      - uses: denoland/setup-deno@v1
+      - name: Setup Deno caching
+        uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
-      - run: |
+      - name: Install Dagger CLI
+        run: |
           cd /usr/local
           curl -L https://dl.dagger.io/dagger/install.sh | sh
+      - name: Run Dagger Pipeline
+        run: dagger run deno run -A ci/index.ts
