@@ -1,0 +1,6 @@
+repos:
+  - repo: https://github.com/nozaq/pre-commit-deno
+    rev: 0.1.0
+    hooks:
+      - id: deno-fmt
+      - id: deno-lint
