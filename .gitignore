@@ -1,5 +1,5 @@
-*.ign
-*.iso
-.DS_Store
-.vscode
-.secret
+*.d.ts
+*.js
+!jest.config.js
+node_modules
+dist/
