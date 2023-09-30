@@ -1,3 +1,9 @@
 # Servers
 
-[![Open in DevPod!](https://devpod.sh/assets/open-in-devpod.svg)](https://devpod.sh/open#https://github.com/shepherdjerred/servers)
+## Build
+
+```bash
+deno run --allow-write src/main.ts
+
+kubectl apply -f dist/hello.k8s.yaml
+```

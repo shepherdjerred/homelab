@@ -1,0 +1,11 @@
+{
+  "version": "3",
+  "remote": {
+    "https://esm.sh/cdk8s@2.64.25": "d52ee13c107308383c66c1898bb474322d196fe52cb240fdf38c2849432510b0",
+    "https://esm.sh/constructs@10.2.70": "486bb0284151c5fd1a202a041b67550a28000e20fd4fcc27f7872cf6828278df",
+    "https://esm.sh/v132/cdk8s@2.64.25/denonext/cdk8s.mjs": "758666f28abd52ac25dd432416c69053df95e81a27ddd37625144f817e685a62",
+    "https://esm.sh/v132/constructs@10.2.70/denonext/constructs.mjs": "c2142f4ee6b2c4ed1f010b6c067a97a698df3173a046e350ef24440cb771df2b",
+    "https://esm.sh/v132/fast-json-patch@3.1.1/denonext/fast-json-patch.mjs": "9007860190336aa381bde2411eb991d3d70fe378c0cc204f099d4fc9bd6b7619",
+    "https://esm.sh/v132/yaml@2.3.2/denonext/yaml.mjs": "8d26366b8eb31232c8d7e4ddf02c2aaafbeb639753953e06ae2ac519774a4e26"
+  }
+}

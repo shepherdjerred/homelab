@@ -1,8 +1,8 @@
-import { Construct } from "constructs";
-import { App, Chart, ChartProps } from "cdk8s";
+import { Construct } from "https://esm.sh/constructs@10.2.70";
+import { App, Chart, ChartProps } from "https://esm.sh/cdk8s@2.64.25";
 
 // imported constructs
-import { KubeDeployment, KubeService, IntOrString } from "./imports/k8s";
+import { IntOrString, KubeDeployment, KubeService } from "./imports/k8s.ts";
 
 export class MyChart extends Chart {
   constructor(scope: Construct, id: string, props: ChartProps = {}) {
