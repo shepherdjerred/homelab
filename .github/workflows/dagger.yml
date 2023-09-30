@@ -29,7 +29,3 @@ jobs:
           curl -L https://dl.dagger.io/dagger/install.sh | sh
       - name: Run Dagger Pipeline
         run: dagger run deno run -A ci/index.ts
-      - uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: dist/
