@@ -6,7 +6,7 @@ export class MyChart extends Chart {
   constructor(scope: Construct, id: string, props: ChartProps = {}) {
     super(scope, id, props);
 
-    const label = { app: "hello-k8s" };
+    const label = { app: "sjerred" };
 
     new KubeService(this, "service", {
       spec: {
@@ -60,5 +60,5 @@ export class MyChart extends Chart {
 }
 
 const app = new App();
-new MyChart(app, "hello");
+new MyChart(app, "sjerred");
 app.synth();
