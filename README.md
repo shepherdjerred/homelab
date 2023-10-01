@@ -4,8 +4,8 @@
 
 ```bash
 # Build yaml
-deno run --allow-write src/main.ts
+deno run --allow-write --allow-env src/main.ts
 
 # Deploy
-kubectl apply -f dist/hello.k8s.yaml
+kubectl apply -f dist/sjerred.k8s.yaml
 ```

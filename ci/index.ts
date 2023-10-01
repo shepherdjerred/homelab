@@ -13,7 +13,7 @@ connect(async (client) => {
     .withMountedCache("~/.cache/deno", cache);
 
   const runner = source
-    .withExec(["deno", "run", "--allow-write", "src/main.ts"])
+    .withExec(["deno", "run", "--allow-write", "--allow-env", "src/main.ts"])
     .directory("dist");
 
   await runner.export("./dist");
