@@ -3,6 +3,7 @@
   "packages": {
     "specifiers": {
       "npm:cdk8s": "npm:cdk8s@2.68.0_constructs@10.3.0",
+      "npm:cdk8s-plus-27": "npm:cdk8s-plus-27@2.7.53_cdk8s@2.68.0__constructs@10.3.0_constructs@10.3.0",
       "npm:constructs": "npm:constructs@10.3.0"
     },
     "npm": {
@@ -237,6 +238,15 @@
         "dependencies": {
           "base64-js": "base64-js@1.5.1",
           "ieee754": "ieee754@1.2.1"
+        }
+      },
+      "cdk8s-plus-27@2.7.53_cdk8s@2.68.0__constructs@10.3.0_constructs@10.3.0": {
+        "integrity": "sha512-vWWY/PvVhuQ9W4kssvg+Y2b+x7WhABFFyVhwrLJmIgHjpdBbhdV+mwPPsOK+DbkstbDrQTpx+Klus9mscCcBVQ==",
+        "dependencies": {
+          "backport": "backport@8.5.0_graphql@16.8.1",
+          "cdk8s": "cdk8s@2.68.0_constructs@10.3.0",
+          "constructs": "constructs@10.3.0",
+          "minimatch": "minimatch@3.1.2"
         }
       },
       "cdk8s@2.68.0_constructs@10.3.0": {
