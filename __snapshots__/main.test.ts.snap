@@ -1,3 +1,41 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+export const snapshot = {};
 
-exports[`Placeholder Empty 1`] = `Array []`;
+snapshot[`placeholder 1`] = `
+[
+  {
+    apiVersion: "apps/v1",
+    kind: "Deployment",
+    metadata: {
+      name: "test-chart-my-deployment-c8d35e42",
+    },
+    spec: {
+      replicas: 3,
+      selector: {
+        matchLabels: {
+          app: "label",
+        },
+      },
+      template: {
+        metadata: {
+          labels: {
+            app: "label",
+          },
+        },
+        spec: {
+          containers: [
+            {
+              image: "nginx:1.19.10",
+              name: "app-container",
+              ports: [
+                {
+                  containerPort: 80,
+                },
+              ],
+            },
+          ],
+        },
+      },
+    },
+  },
+]
+`;
