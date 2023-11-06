@@ -3,3 +3,5 @@
 !jest.config.js
 node_modules
 dist/
+.idea
+*.iml
