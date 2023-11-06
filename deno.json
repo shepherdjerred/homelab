@@ -1,5 +1,10 @@
 {
   "tasks": {
     "dev": "deno run --watch main.ts"
+  },
+  "imports": {
+    "cdk8s-plus-27": "npm:cdk8s-plus-27",
+    "cdk8s": "npm:cdk8s",
+    "constructs": "npm:constructs"
   }
 }
