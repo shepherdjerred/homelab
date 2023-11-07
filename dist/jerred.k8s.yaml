@@ -434,7 +434,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
             runAsNonRoot: false
       dnsPolicy: ClusterFirst
       hostNetwork: false
@@ -529,7 +529,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
             runAsNonRoot: false
           startupProbe:
             failureThreshold: 3
