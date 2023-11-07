@@ -51,3 +51,26 @@ spec:
             - name: custom-tools
               subPath: argocd-vault-plugin
               mountPath: /usr/local/bin/argocd-vault-plugin
+        - name: avp-helm
+          command: [/var/run/argocd/argocd-cmp-server]
+          image: registry.access.redhat.com/ubi8
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 999
+          volumeMounts:
+            - mountPath: /var/run/argocd
+              name: var-files
+            - mountPath: /home/argocd/cmp-server/plugins
+              name: plugins
+            - mountPath: /tmp
+              name: tmp
+
+            # Register plugins into sidecar
+            - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+              subPath: avp-helm.yaml
+              name: cmp-plugin
+
+            # Important: Mount tools into $PATH
+            - name: custom-tools
+              subPath: argocd-vault-plugin
+              mountPath: /usr/local/bin/argocd-vault-plugin
