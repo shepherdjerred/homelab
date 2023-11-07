@@ -12,6 +12,7 @@ export function createTedditDeployment(chart: Chart) {
     securityContext: {
       ensureNonRoot: false,
     },
+    resources: {},
   });
 
   const redisService = redisDeployment.exposeViaService();
@@ -30,6 +31,7 @@ export function createTedditDeployment(chart: Chart) {
       ensureNonRoot: false,
       readOnlyRootFilesystem: false,
     },
+    resources: {},
   });
 
   const tedditService = tedditDeployment.exposeViaService();

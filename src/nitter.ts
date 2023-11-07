@@ -13,6 +13,7 @@ export function createNitterDeployment(chart: Chart) {
       ensureNonRoot: false,
       readOnlyRootFilesystem: false,
     },
+    resources: {},
   });
 
   const service = deployment.exposeViaService();

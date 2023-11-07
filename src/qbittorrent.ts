@@ -13,6 +13,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
       ensureNonRoot: false,
       readOnlyRootFilesystem: false,
     },
+    resources: {},
   });
 
   const service = deployment.exposeViaService();

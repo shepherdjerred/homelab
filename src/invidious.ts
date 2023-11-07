@@ -17,6 +17,7 @@ export function createInvidiousDeployment(chart: Chart) {
       ensureNonRoot: false,
       readOnlyRootFilesystem: false,
     },
+    resources: {},
   });
 
   const postgresService = postgresDeployment.exposeViaService();
@@ -44,6 +45,7 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
       ensureNonRoot: false,
       readOnlyRootFilesystem: false,
     },
+    resources: {},
   });
 
   const invidiousService = invidiousDeployment.exposeViaService();

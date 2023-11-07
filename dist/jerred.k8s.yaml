@@ -31,13 +31,6 @@ spec:
           name: main
           ports:
             - containerPort: 5432
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -156,13 +149,6 @@ spec:
           name: main
           ports:
             - containerPort: 3000
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -225,13 +211,6 @@ spec:
           name: main
           ports:
             - containerPort: 6379
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -332,13 +311,6 @@ spec:
           name: main
           ports:
             - containerPort: 8080
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -424,13 +396,6 @@ spec:
             - containerPort: 32414
               name: port-32414
               protocol: UDP
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -519,13 +484,6 @@ spec:
           name: main
           ports:
             - containerPort: 7878
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -588,13 +546,6 @@ spec:
           name: main
           ports:
             - containerPort: 6767
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -657,13 +608,6 @@ spec:
           name: main
           ports:
             - containerPort: 8123
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -726,13 +670,6 @@ spec:
           name: main
           ports:
             - containerPort: 9117
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -795,13 +732,6 @@ spec:
           name: main
           ports:
             - containerPort: 8080
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -864,13 +794,6 @@ spec:
           name: main
           ports:
             - containerPort: 5055
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -933,13 +856,6 @@ spec:
           name: main
           ports:
             - containerPort: 8080
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -1002,13 +918,6 @@ spec:
           name: main
           ports:
             - containerPort: 8989
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -1071,13 +980,6 @@ spec:
           name: main
           ports:
             - containerPort: 8384
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -1140,13 +1042,6 @@ spec:
           name: main
           ports:
             - containerPort: 8181
-          resources:
-            limits:
-              cpu: 1500m
-              memory: 2048Mi
-            requests:
-              cpu: 1000m
-              memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
