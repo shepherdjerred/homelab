@@ -52,7 +52,7 @@ export function createPlexDeployment(chart: Chart) {
     ],
     securityContext: {
       ensureNonRoot: false,
-      //   readOnlyRootFilesystem: false,
+      readOnlyRootFilesystem: false,
     },
   });
 

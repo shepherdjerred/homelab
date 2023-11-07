@@ -11,7 +11,7 @@ export function createRadarrDeployment(chart: Chart) {
     portNumber: 7878,
     securityContext: {
       ensureNonRoot: false,
-      //   readOnlyRootFilesystem: false,
+      readOnlyRootFilesystem: false,
     },
   });
 
