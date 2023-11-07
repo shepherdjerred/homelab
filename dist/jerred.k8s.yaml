@@ -559,3 +559,624 @@ spec:
   selector:
     cdk8s.io/metadata.addr: jerred-radarr-c89ce6f7
   type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-bazarr-c8cb7bbc
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-bazarr-c8418a60
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-bazarr-c8418a60
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/bazarr
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 6767
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 6767
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: bazarr
+  name: jerred-bazarr-service-c8f986f7
+spec:
+  externalIPs: []
+  ports:
+    - port: 6767
+      targetPort: 6767
+  selector:
+    cdk8s.io/metadata.addr: jerred-bazarr-c8418a60
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-homeassistant-c8be839d
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-homeassistant-c8be9848
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-homeassistant-c8be9848
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: ghcr.io/home-assistant/home-assistant:stable
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8123
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8123
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: homeassistant
+  name: jerred-homeassistant-service-c8b310f5
+spec:
+  externalIPs: []
+  ports:
+    - port: 8123
+      targetPort: 8123
+  selector:
+    cdk8s.io/metadata.addr: jerred-homeassistant-c8be9848
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-jackett-c8624c67
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-jackett-c808e979
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-jackett-c808e979
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/jackett
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 9117
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 9117
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: jackett
+  name: jerred-jackett-service-c8e7054d
+spec:
+  externalIPs: []
+  ports:
+    - port: 9117
+      targetPort: 9117
+  selector:
+    cdk8s.io/metadata.addr: jerred-jackett-c808e979
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-nitter-c8e9abe2
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-nitter-c8a60e60
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-nitter-c8a60e60
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: zedeus/nitter
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8080
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: nitter
+  name: jerred-nitter-service-c8e57b46
+spec:
+  externalIPs: []
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    cdk8s.io/metadata.addr: jerred-nitter-c8a60e60
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-overseerr-c82662c6
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-overseerr-c81b0680
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-overseerr-c81b0680
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/overseerr
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 5055
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 5055
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: overseerr
+  name: jerred-overseerr-service-c8aa8202
+spec:
+  externalIPs: []
+  ports:
+    - port: 5055
+      targetPort: 5055
+  selector:
+    cdk8s.io/metadata.addr: jerred-overseerr-c81b0680
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-qbittorrent-c8799201
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-qbittorrent-c845f9f8
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-qbittorrent-c845f9f8
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/qbittorrent
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8080
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: qbittorrent
+  name: jerred-qbittorrent-service-c83eba8d
+spec:
+  externalIPs: []
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    cdk8s.io/metadata.addr: jerred-qbittorrent-c845f9f8
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-sonarr-c8a61d8f
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-sonarr-c83efdfd
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-sonarr-c83efdfd
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/sonarr
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8989
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8989
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: sonarr
+  name: jerred-sonarr-service-c81da467
+spec:
+  externalIPs: []
+  ports:
+    - port: 8989
+      targetPort: 8989
+  selector:
+    cdk8s.io/metadata.addr: jerred-sonarr-c83efdfd
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-syncthing-c881dc3b
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-syncthing-c840ef17
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-syncthing-c840ef17
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/syncthing
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8384
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8384
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: syncthing
+  name: jerred-syncthing-service-c85923e3
+spec:
+  externalIPs: []
+  ports:
+    - port: 8384
+      targetPort: 8384
+  selector:
+    cdk8s.io/metadata.addr: jerred-syncthing-c840ef17
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-tautulli-c80e68e0
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-tautulli-c823447b
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-tautulli-c823447b
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/tautulli
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8181
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8181
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: tautulli
+  name: jerred-tautulli-service-c8523b59
+spec:
+  externalIPs: []
+  ports:
+    - port: 8181
+      targetPort: 8181
+  selector:
+    cdk8s.io/metadata.addr: jerred-tautulli-c823447b
+  type: ClusterIP

@@ -1,4 +1,4 @@
-import { Deployment, EnvValue, Protocol } from "cdk8s-plus-27";
+import { Deployment } from "cdk8s-plus-27";
 import { Chart } from "cdk8s";
 
 export function createRadarrDeployment(chart: Chart) {
