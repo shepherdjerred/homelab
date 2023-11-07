@@ -1,0 +1,374 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-postgres-c85006ef
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-postgres-c8104b8a
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-postgres-c8104b8a
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: invidious
+          image: postgres
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 5432
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 5432
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jerred-postgres-service-c8b93ec1
+spec:
+  externalIPs: []
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    cdk8s.io/metadata.addr: jerred-postgres-c8104b8a
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allowingressc8a64485b8c929f771b4018d6920c37ce-c8626a55
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              cdk8s.io/metadata.addr: jerred-invidious-c8a64485
+      ports:
+        - port: 5432
+          protocol: TCP
+  podSelector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-postgres-c8104b8a
+  policyTypes:
+    - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allowegressundefinedc8a64485b8c929f771b4018d6-c8216336
+spec:
+  egress:
+    - ports:
+        - port: 5432
+          protocol: TCP
+      to:
+        - podSelector:
+            matchLabels:
+              cdk8s.io/metadata.addr: jerred-postgres-c8104b8a
+  podSelector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-invidious-c8a64485
+  policyTypes:
+    - Egress
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-invidious-c8610df6
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-invidious-c8a64485
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-invidious-c8a64485
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: INVIDIOUS_CONFIG
+              value: "
+
+                db:
+
+                \  dbname: invidious
+
+                \  user: postgres
+
+                \  password: password
+
+                \  host: jerred-postgres-service-c8b93ec1
+
+                \  port: 5432
+
+                check_tables: true
+
+                hmac_key: \"rVA6+87s6d8 7f56S4A6S5Df46 advs\"
+
+                \    "
+          image: quay.io/invidious/invidious
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 3000
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: invidious
+  name: jerred-invidious-service-c8827da5
+spec:
+  externalIPs: []
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    cdk8s.io/metadata.addr: jerred-invidious-c8a64485
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-redis-c81625d6
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-redis-c8da9e76
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-redis-c8da9e76
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: redis
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 6379
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 6379
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jerred-redis-service-c8ea8a2c
+spec:
+  externalIPs: []
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    cdk8s.io/metadata.addr: jerred-redis-c8da9e76
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allowingressc81f7043b360d70608e5a49009276dc2d-c89df41b
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              cdk8s.io/metadata.addr: jerred-teddit-c81f7043
+      ports:
+        - port: 6379
+          protocol: TCP
+  podSelector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-redis-c8da9e76
+  policyTypes:
+    - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allowegressundefinedc81f7043b360d70608e5a4900-c831af7e
+spec:
+  egress:
+    - ports:
+        - port: 6379
+          protocol: TCP
+      to:
+        - podSelector:
+            matchLabels:
+              cdk8s.io/metadata.addr: jerred-redis-c8da9e76
+  podSelector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-teddit-c81f7043
+  policyTypes:
+    - Egress
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-teddit-c82fa327
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-teddit-c81f7043
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-teddit-c81f7043
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: REDIS_HOST
+              value: jerred-redis-service-c8ea8a2c
+          image: teddit/teddit
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8080
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: teddit
+  name: jerred-teddit-service-c8d08b6d
+spec:
+  externalIPs: []
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    cdk8s.io/metadata.addr: jerred-teddit-c81f7043
+  type: ClusterIP
