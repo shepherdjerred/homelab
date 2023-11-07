@@ -9,10 +9,10 @@ export function createRadarrDeployment(chart: Chart) {
   deployment.addContainer({
     image: "lscr.io/linuxserver/radarr",
     portNumber: 7878,
-    // securityContext: {
-    //   ensureNonRoot: false,
-    //   readOnlyRootFilesystem: false,
-    // },
+    securityContext: {
+      ensureNonRoot: false,
+      //   readOnlyRootFilesystem: false,
+    },
   });
 
   const service = deployment.exposeViaService();

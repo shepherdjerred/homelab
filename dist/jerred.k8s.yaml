@@ -435,7 +435,7 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: true
-            runAsNonRoot: true
+            runAsNonRoot: false
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -530,7 +530,7 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: true
-            runAsNonRoot: true
+            runAsNonRoot: false
           startupProbe:
             failureThreshold: 3
             tcpSocket:
