@@ -10,42 +10,42 @@ export function createPlexDeployment(chart: Chart) {
     image: "plexinc/pms-docker",
     ports: [
       {
-        name: "port 32400",
+        name: "port-32400",
         number: 32400,
         protocol: Protocol.TCP,
       },
       {
-        name: "port 3005",
+        name: "port-3005",
         number: 3005,
         protocol: Protocol.TCP,
       },
       {
-        name: "port 8324",
+        name: "port-8324",
         number: 8324,
         protocol: Protocol.TCP,
       },
       {
-        name: "port 32469",
+        name: "port-32469",
         number: 32469,
         protocol: Protocol.TCP,
       },
       {
-        name: "port 32410",
+        name: "port-32410",
         number: 32410,
         protocol: Protocol.UDP,
       },
       {
-        name: "port 32412",
+        name: "port-32412",
         number: 32412,
         protocol: Protocol.UDP,
       },
       {
-        name: "port 32413",
+        name: "port-32413",
         number: 32413,
         protocol: Protocol.UDP,
       },
       {
-        name: "port 32414",
+        name: "port-32414",
         number: 32414,
         protocol: Protocol.UDP,
       },
