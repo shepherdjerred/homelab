@@ -18,5 +18,5 @@ export function createRadarrDeployment(chart: Chart) {
   const service = deployment.exposeViaService();
 
   service.metadata.addAnnotation("tailscale.com/expose", "true");
-  service.metadata.addAnnotation("tailscale.com/hostname", "plex");
+  service.metadata.addAnnotation("tailscale.com/hostname", "radarr");
 }

@@ -549,7 +549,7 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/expose: "true"
-    tailscale.com/hostname: plex
+    tailscale.com/hostname: radarr
   name: jerred-radarr-service-c83b8880
 spec:
   externalIPs: []
