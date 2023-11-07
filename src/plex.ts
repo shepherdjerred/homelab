@@ -2,11 +2,11 @@ import { Deployment, EnvValue, Protocol } from "cdk8s-plus-27";
 import { Chart } from "cdk8s";
 
 export function createPlexDeployment(chart: Chart) {
-  const plexDeployment = new Deployment(chart, "plex", {
+  const deployment = new Deployment(chart, "plex", {
     replicas: 1,
   });
 
-  plexDeployment.addContainer({
+  deployment.addContainer({
     image: "plexinc/pms-docker",
     ports: [
       {
@@ -50,18 +50,14 @@ export function createPlexDeployment(chart: Chart) {
         protocol: Protocol.UDP,
       },
     ],
-    envVariables: {
-      POSTGRES_PASSWORD: EnvValue.fromValue("password"),
-      POSTGRES_DB: EnvValue.fromValue("invidious"),
-    },
     securityContext: {
-      ensureNonRoot: false,
-      readOnlyRootFilesystem: false,
+      //   ensureNonRoot: false,
+      //   readOnlyRootFilesystem: false,
     },
   });
 
-  const plexService = plexDeployment.exposeViaService();
+  const service = deployment.exposeViaService();
 
-  plexService.metadata.addAnnotation("tailscale.com/expose", "true");
-  plexService.metadata.addAnnotation("tailscale.com/hostname", "plex");
+  service.metadata.addAnnotation("tailscale.com/expose", "true");
+  service.metadata.addAnnotation("tailscale.com/hostname", "plex");
 }

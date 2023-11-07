@@ -396,12 +396,7 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - env:
-            - name: POSTGRES_PASSWORD
-              value: password
-            - name: POSTGRES_DB
-              value: invidious
-          image: plexinc/pms-docker
+        - image: plexinc/pms-docker
           imagePullPolicy: Always
           name: main
           ports:
@@ -439,8 +434,8 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: false
-            runAsNonRoot: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -494,4 +489,73 @@ spec:
       targetPort: 32414
   selector:
     cdk8s.io/metadata.addr: jerred-plex-c8024da6
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jerred-radarr-c845967c
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: jerred-radarr-c89ce6f7
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: jerred-radarr-c89ce6f7
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/radarr
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 7878
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 7878
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: plex
+  name: jerred-radarr-service-c83b8880
+spec:
+  externalIPs: []
+  ports:
+    - port: 7878
+      targetPort: 7878
+  selector:
+    cdk8s.io/metadata.addr: jerred-radarr-c89ce6f7
   type: ClusterIP
