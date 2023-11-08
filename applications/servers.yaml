@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: servers
+spec:
+  destination:
+    name: ""
+    namespace: servers
+    server: "https://kubernetes.default.svc"
+  source:
+    path: dist/
+    repoURL: "https://github.com/shepherdjerred/servers"
+    targetRevision: sj/k8s
+    # plugin:
+    #   name: argocd-vault-plugin
+  sources: []
+  project: default
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

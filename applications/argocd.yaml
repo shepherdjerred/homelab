@@ -1,0 +1,11 @@
+project: default
+source:
+  repoURL: "https://github.com/argoproj/argo-cd"
+  path: manifests/
+  targetRevision: stable
+destination:
+  server: "https://kubernetes.default.svc"
+  namespace: argocd
+syncPolicy:
+  syncOptions:
+    - CreateNamespace=true
