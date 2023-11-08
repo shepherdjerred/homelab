@@ -48,7 +48,9 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
     resources: {},
   });
 
-  const invidiousService = invidiousDeployment.exposeViaService();
+  const invidiousService = invidiousDeployment.exposeViaService({
+    name: "https",
+  });
 
   postgresDeployment.connections.allowFrom(invidiousDeployment);
   invidiousService.metadata.addAnnotation("tailscale.com/expose", "true");

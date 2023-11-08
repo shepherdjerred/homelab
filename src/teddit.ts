@@ -34,7 +34,9 @@ export function createTedditDeployment(chart: Chart) {
     resources: {},
   });
 
-  const tedditService = tedditDeployment.exposeViaService();
+  const tedditService = tedditDeployment.exposeViaService({
+    name: "https",
+  });
 
   redisDeployment.connections.allowFrom(tedditDeployment);
   tedditService.metadata.addAnnotation("tailscale.com/expose", "true");

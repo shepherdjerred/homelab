@@ -173,7 +173,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: invidious
-  name: jerred-invidious-service-c8827da5
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -335,7 +335,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: teddit
-  name: jerred-teddit-service-c8d08b6d
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -416,7 +416,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: plex
-  name: jerred-plex-service-c8eab0d6
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -508,7 +508,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: radarr
-  name: jerred-radarr-service-c83b8880
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -570,7 +570,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: bazarr
-  name: jerred-bazarr-service-c8f986f7
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -632,7 +632,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: homeassistant
-  name: jerred-homeassistant-service-c8b310f5
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -694,7 +694,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: jackett
-  name: jerred-jackett-service-c8e7054d
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -756,7 +756,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: nitter
-  name: jerred-nitter-service-c8e57b46
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -818,7 +818,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: overseerr
-  name: jerred-overseerr-service-c8aa8202
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -880,7 +880,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: qbittorrent
-  name: jerred-qbittorrent-service-c83eba8d
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -942,7 +942,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: sonarr
-  name: jerred-sonarr-service-c81da467
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -1004,7 +1004,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: syncthing
-  name: jerred-syncthing-service-c85923e3
+  name: https
 spec:
   externalIPs: []
   ports:
@@ -1066,7 +1066,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: tautulli
-  name: jerred-tautulli-service-c8523b59
+  name: https
 spec:
   externalIPs: []
   ports:

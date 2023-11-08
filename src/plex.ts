@@ -57,7 +57,9 @@ export function createPlexDeployment(chart: Chart) {
     resources: {},
   });
 
-  const service = deployment.exposeViaService();
+  const service = deployment.exposeViaService({
+    name: "https",
+  });
 
   service.metadata.addAnnotation("tailscale.com/expose", "true");
   service.metadata.addAnnotation("tailscale.com/hostname", "plex");
