@@ -17,7 +17,12 @@ export function createBazarrDeployment(chart: Chart) {
   });
 
   const service = deployment.exposeViaService({
-    name: "https",
+    ports: [
+      {
+        name: "https",
+        port: 6767,
+      },
+    ],
   });
 
   service.metadata.addAnnotation("tailscale.com/expose", "true");

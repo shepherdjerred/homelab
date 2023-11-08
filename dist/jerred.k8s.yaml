@@ -173,12 +173,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: invidious
-  name: https
+  name: jerred-invidious-service-c8827da5
 spec:
   externalIPs: []
   ports:
-    - port: 3000
-      targetPort: 3000
+    - name: https
+      port: 3000
   selector:
     cdk8s.io/metadata.addr: jerred-invidious-c8a64485
   type: ClusterIP
@@ -335,12 +335,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: teddit
-  name: https
+  name: jerred-teddit-service-c8d08b6d
 spec:
   externalIPs: []
   ports:
-    - port: 8080
-      targetPort: 8080
+    - name: https
+      port: 8080
   selector:
     cdk8s.io/metadata.addr: jerred-teddit-c81f7043
   type: ClusterIP
@@ -416,42 +416,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: plex
-  name: https
+  name: jerred-plex-service-c8eab0d6
 spec:
   externalIPs: []
   ports:
-    - name: port-32400
+    - name: https
       port: 32400
-      protocol: TCP
-      targetPort: 32400
-    - name: port-3005
-      port: 3005
-      protocol: TCP
-      targetPort: 3005
-    - name: port-8324
-      port: 8324
-      protocol: TCP
-      targetPort: 8324
-    - name: port-32469
-      port: 32469
-      protocol: TCP
-      targetPort: 32469
-    - name: port-32410
-      port: 32410
-      protocol: UDP
-      targetPort: 32410
-    - name: port-32412
-      port: 32412
-      protocol: UDP
-      targetPort: 32412
-    - name: port-32413
-      port: 32413
-      protocol: UDP
-      targetPort: 32413
-    - name: port-32414
-      port: 32414
-      protocol: UDP
-      targetPort: 32414
   selector:
     cdk8s.io/metadata.addr: jerred-plex-c8024da6
   type: ClusterIP
@@ -508,12 +478,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: radarr
-  name: https
+  name: jerred-radarr-service-c83b8880
 spec:
   externalIPs: []
   ports:
-    - port: 7878
-      targetPort: 7878
+    - name: https
+      port: 7878
   selector:
     cdk8s.io/metadata.addr: jerred-radarr-c89ce6f7
   type: ClusterIP
@@ -570,12 +540,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: bazarr
-  name: https
+  name: jerred-bazarr-service-c8f986f7
 spec:
   externalIPs: []
   ports:
-    - port: 6767
-      targetPort: 6767
+    - name: https
+      port: 6767
   selector:
     cdk8s.io/metadata.addr: jerred-bazarr-c8418a60
   type: ClusterIP
@@ -632,12 +602,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: homeassistant
-  name: https
+  name: jerred-homeassistant-service-c8b310f5
 spec:
   externalIPs: []
   ports:
-    - port: 8123
-      targetPort: 8123
+    - name: https
+      port: 8123
   selector:
     cdk8s.io/metadata.addr: jerred-homeassistant-c8be9848
   type: ClusterIP
@@ -694,12 +664,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: jackett
-  name: https
+  name: jerred-jackett-service-c8e7054d
 spec:
   externalIPs: []
   ports:
-    - port: 9117
-      targetPort: 9117
+    - name: https
+      port: 9117
   selector:
     cdk8s.io/metadata.addr: jerred-jackett-c808e979
   type: ClusterIP
@@ -756,12 +726,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: nitter
-  name: https
+  name: jerred-nitter-service-c8e57b46
 spec:
   externalIPs: []
   ports:
-    - port: 8080
-      targetPort: 8080
+    - name: https
+      port: 8080
   selector:
     cdk8s.io/metadata.addr: jerred-nitter-c8a60e60
   type: ClusterIP
@@ -818,12 +788,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: overseerr
-  name: https
+  name: jerred-overseerr-service-c8aa8202
 spec:
   externalIPs: []
   ports:
-    - port: 5055
-      targetPort: 5055
+    - name: https
+      port: 5055
   selector:
     cdk8s.io/metadata.addr: jerred-overseerr-c81b0680
   type: ClusterIP
@@ -880,12 +850,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: qbittorrent
-  name: https
+  name: jerred-qbittorrent-service-c83eba8d
 spec:
   externalIPs: []
   ports:
-    - port: 8080
-      targetPort: 8080
+    - name: https
+      port: 8080
   selector:
     cdk8s.io/metadata.addr: jerred-qbittorrent-c845f9f8
   type: ClusterIP
@@ -942,12 +912,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: sonarr
-  name: https
+  name: jerred-sonarr-service-c81da467
 spec:
   externalIPs: []
   ports:
-    - port: 8989
-      targetPort: 8989
+    - name: https
+      port: 8989
   selector:
     cdk8s.io/metadata.addr: jerred-sonarr-c83efdfd
   type: ClusterIP
@@ -1004,12 +974,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: syncthing
-  name: https
+  name: jerred-syncthing-service-c85923e3
 spec:
   externalIPs: []
   ports:
-    - port: 8384
-      targetPort: 8384
+    - name: https
+      port: 8384
   selector:
     cdk8s.io/metadata.addr: jerred-syncthing-c840ef17
   type: ClusterIP
@@ -1066,12 +1036,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: tautulli
-  name: https
+  name: jerred-tautulli-service-c8523b59
 spec:
   externalIPs: []
   ports:
-    - port: 8181
-      targetPort: 8181
+    - name: https
+      port: 8181
   selector:
     cdk8s.io/metadata.addr: jerred-tautulli-c823447b
   type: ClusterIP

@@ -35,7 +35,12 @@ export function createTedditDeployment(chart: Chart) {
   });
 
   const tedditService = tedditDeployment.exposeViaService({
-    name: "https",
+    ports: [
+      {
+        name: "https",
+        port: 8080,
+      },
+    ],
   });
 
   redisDeployment.connections.allowFrom(tedditDeployment);

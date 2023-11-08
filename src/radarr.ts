@@ -17,7 +17,12 @@ export function createRadarrDeployment(chart: Chart) {
   });
 
   const service = deployment.exposeViaService({
-    name: "https",
+    ports: [
+      {
+        name: "https",
+        port: 7878,
+      },
+    ],
   });
 
   service.metadata.addAnnotation("tailscale.com/expose", "true");

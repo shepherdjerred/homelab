@@ -17,7 +17,12 @@ export function createTautulliDeployment(chart: Chart) {
   });
 
   const service = deployment.exposeViaService({
-    name: "https",
+    ports: [
+      {
+        name: "https",
+        port: 8181,
+      },
+    ],
   });
 
   service.metadata.addAnnotation("tailscale.com/expose", "true");

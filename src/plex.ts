@@ -58,7 +58,12 @@ export function createPlexDeployment(chart: Chart) {
   });
 
   const service = deployment.exposeViaService({
-    name: "https",
+    ports: [
+      {
+        name: "https",
+        port: 32400,
+      },
+    ],
   });
 
   service.metadata.addAnnotation("tailscale.com/expose", "true");

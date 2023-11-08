@@ -17,7 +17,12 @@ export function createNitterDeployment(chart: Chart) {
   });
 
   const service = deployment.exposeViaService({
-    name: "https",
+    ports: [
+      {
+        name: "https",
+        port: 8080,
+      },
+    ],
   });
 
   service.metadata.addAnnotation("tailscale.com/expose", "true");

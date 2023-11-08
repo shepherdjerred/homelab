@@ -17,7 +17,12 @@ export function createOverseerrDeployment(chart: Chart) {
   });
 
   const service = deployment.exposeViaService({
-    name: "https",
+    ports: [
+      {
+        name: "https",
+        port: 5055,
+      },
+    ],
   });
 
   service.metadata.addAnnotation("tailscale.com/expose", "true");

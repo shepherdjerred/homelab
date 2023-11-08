@@ -17,7 +17,12 @@ export function createSyncthingDeployment(chart: Chart) {
   });
 
   const service = deployment.exposeViaService({
-    name: "https",
+    ports: [
+      {
+        name: "https",
+        port: 8384,
+      },
+    ],
   });
 
   service.metadata.addAnnotation("tailscale.com/expose", "true");

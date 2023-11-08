@@ -17,7 +17,12 @@ export function createJackettDeployment(chart: Chart) {
   });
 
   const service = deployment.exposeViaService({
-    name: "https",
+    ports: [
+      {
+        name: "https",
+        port: 9117,
+      },
+    ],
   });
 
   service.metadata.addAnnotation("tailscale.com/expose", "true");

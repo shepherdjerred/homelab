@@ -49,7 +49,12 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
   });
 
   const invidiousService = invidiousDeployment.exposeViaService({
-    name: "https",
+    ports: [
+      {
+        name: "https",
+        port: 3000,
+      },
+    ],
   });
 
   postgresDeployment.connections.allowFrom(invidiousDeployment);
