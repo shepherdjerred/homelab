@@ -537,18 +537,53 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: bazarr
   name: jerred-bazarr-service-c8f986f7
 spec:
   externalIPs: []
   ports:
-    - port: 443
+    - port: 6767
       targetPort: 6767
   selector:
     cdk8s.io/metadata.addr: jerred-bazarr-c8418a60
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: bazarr
+  name: jerred-bazarr-service-c8f5a145
+spec:
+  externalIPs: []
+  ports:
+    - name: https
+      port: 443
+      targetPort: 6767
+  selector:
+    cdk8s.io/metadata.addr: jerred-bazarr-c8418a60
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jerred-bazarr-ingress-c8e5b636
+spec:
+  defaultBackend:
+    service:
+      name: jerred-bazarr-service-c8f5a145
+      port:
+        number: 443
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: jerred-bazarr-service-c8f986f7
+                port:
+                  number: 6767
+            path: /
+            pathType: Prefix
 ---
 apiVersion: apps/v1
 kind: Deployment

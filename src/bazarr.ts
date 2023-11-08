@@ -1,4 +1,4 @@
-import { Deployment } from "cdk8s-plus-27";
+import { Deployment, Ingress, IngressBackend, Service } from "cdk8s-plus-27";
 import { Chart } from "cdk8s";
 
 export function createBazarrDeployment(chart: Chart) {
@@ -16,7 +16,8 @@ export function createBazarrDeployment(chart: Chart) {
     resources: {},
   });
 
-  const service = deployment.exposeViaService({
+  const service = new Service(chart, "bazarr-service", {
+    selector: deployment,
     ports: [
       {
         name: "https",
@@ -24,6 +25,14 @@ export function createBazarrDeployment(chart: Chart) {
         targetPort: 6767,
       },
     ],
+  });
+
+  const ingress = new Ingress(chart, "bazarr-ingress", {
+    defaultBackend: IngressBackend.fromService(service),
+  });
+
+  deployment.exposeViaIngress("/", {
+    ingress,
   });
 
   service.metadata.addAnnotation("tailscale.com/expose", "true");
