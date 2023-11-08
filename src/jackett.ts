@@ -19,8 +19,8 @@ export function createJackettDeployment(chart: Chart) {
   const service = deployment.exposeViaService({
     ports: [
       {
-        name: "https",
-        port: 9117,
+        port: 443,
+        targetPort: 9117,
       },
     ],
   });

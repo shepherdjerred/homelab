@@ -19,8 +19,8 @@ export function createQBitTorrentDeployment(chart: Chart) {
   const service = deployment.exposeViaService({
     ports: [
       {
-        name: "https",
         port: 8080,
+        targetPort: 8080,
       },
     ],
   });

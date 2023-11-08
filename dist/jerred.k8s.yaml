@@ -177,8 +177,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 3000
+    - port: 443
+      targetPort: 3000
   selector:
     cdk8s.io/metadata.addr: jerred-invidious-c8a64485
   type: ClusterIP
@@ -339,8 +339,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 8080
+    - port: 443
+      targetPort: 8080
   selector:
     cdk8s.io/metadata.addr: jerred-teddit-c81f7043
   type: ClusterIP
@@ -420,8 +420,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 32400
+    - port: 443
+      targetPort: 32400
   selector:
     cdk8s.io/metadata.addr: jerred-plex-c8024da6
   type: ClusterIP
@@ -482,8 +482,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 7878
+    - port: 443
+      targetPort: 7878
   selector:
     cdk8s.io/metadata.addr: jerred-radarr-c89ce6f7
   type: ClusterIP
@@ -544,8 +544,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 6767
+    - port: 443
+      targetPort: 6767
   selector:
     cdk8s.io/metadata.addr: jerred-bazarr-c8418a60
   type: ClusterIP
@@ -606,8 +606,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 8123
+    - port: 443
+      targetPort: 8123
   selector:
     cdk8s.io/metadata.addr: jerred-homeassistant-c8be9848
   type: ClusterIP
@@ -668,8 +668,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 9117
+    - port: 443
+      targetPort: 9117
   selector:
     cdk8s.io/metadata.addr: jerred-jackett-c808e979
   type: ClusterIP
@@ -730,8 +730,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 8080
+    - port: 443
+      targetPort: 8080
   selector:
     cdk8s.io/metadata.addr: jerred-nitter-c8a60e60
   type: ClusterIP
@@ -792,8 +792,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 5055
+    - port: 443
+      targetPort: 5055
   selector:
     cdk8s.io/metadata.addr: jerred-overseerr-c81b0680
   type: ClusterIP
@@ -854,8 +854,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 8080
+    - port: 8080
+      targetPort: 8080
   selector:
     cdk8s.io/metadata.addr: jerred-qbittorrent-c845f9f8
   type: ClusterIP
@@ -916,8 +916,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 8989
+    - port: 443
+      targetPort: 8989
   selector:
     cdk8s.io/metadata.addr: jerred-sonarr-c83efdfd
   type: ClusterIP
@@ -978,8 +978,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 8384
+    - port: 443
+      targetPort: 8384
   selector:
     cdk8s.io/metadata.addr: jerred-syncthing-c840ef17
   type: ClusterIP
@@ -1040,8 +1040,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 8181
+    - port: 443
+      targetPort: 8181
   selector:
     cdk8s.io/metadata.addr: jerred-tautulli-c823447b
   type: ClusterIP

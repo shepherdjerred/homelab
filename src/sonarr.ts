@@ -19,8 +19,8 @@ export function createSonarrDeployment(chart: Chart) {
   const service = deployment.exposeViaService({
     ports: [
       {
-        name: "https",
-        port: 8989,
+        port: 443,
+        targetPort: 8989,
       },
     ],
   });

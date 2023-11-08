@@ -37,8 +37,8 @@ export function createTedditDeployment(chart: Chart) {
   const tedditService = tedditDeployment.exposeViaService({
     ports: [
       {
-        name: "https",
-        port: 8080,
+        port: 443,
+        targetPort: 8080,
       },
     ],
   });

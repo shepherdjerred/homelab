@@ -19,8 +19,8 @@ export function createRadarrDeployment(chart: Chart) {
   const service = deployment.exposeViaService({
     ports: [
       {
-        name: "https",
-        port: 7878,
+        port: 443,
+        targetPort: 7878,
       },
     ],
   });

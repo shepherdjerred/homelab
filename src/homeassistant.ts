@@ -19,8 +19,8 @@ export function createHomeAssistantDeployment(chart: Chart) {
   const service = deployment.exposeViaService({
     ports: [
       {
-        name: "https",
-        port: 8123,
+        port: 443,
+        targetPort: 8123,
       },
     ],
   });

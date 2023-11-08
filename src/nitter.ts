@@ -19,8 +19,8 @@ export function createNitterDeployment(chart: Chart) {
   const service = deployment.exposeViaService({
     ports: [
       {
-        name: "https",
-        port: 8080,
+        port: 443,
+        targetPort: 8080,
       },
     ],
   });

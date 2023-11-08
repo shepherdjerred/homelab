@@ -19,8 +19,8 @@ export function createOverseerrDeployment(chart: Chart) {
   const service = deployment.exposeViaService({
     ports: [
       {
-        name: "https",
-        port: 5055,
+        port: 443,
+        targetPort: 5055,
       },
     ],
   });

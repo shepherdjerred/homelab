@@ -19,8 +19,8 @@ export function createTautulliDeployment(chart: Chart) {
   const service = deployment.exposeViaService({
     ports: [
       {
-        name: "https",
-        port: 8181,
+        port: 443,
+        targetPort: 8181,
       },
     ],
   });

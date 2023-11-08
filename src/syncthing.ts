@@ -19,8 +19,8 @@ export function createSyncthingDeployment(chart: Chart) {
   const service = deployment.exposeViaService({
     ports: [
       {
-        name: "https",
-        port: 8384,
+        port: 443,
+        targetPort: 8384,
       },
     ],
   });
