@@ -19,6 +19,7 @@ export function createBazarrDeployment(chart: Chart) {
   const service = deployment.exposeViaService({
     ports: [
       {
+        name: "https",
         port: 443,
         targetPort: 6767,
       },
