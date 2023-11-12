@@ -1,4 +1,0 @@
-language: typescript
-app: deno run --allow-write=dist src/main.ts
-imports:
-  - k8s

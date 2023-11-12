@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: turing
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/shepherdjerred/servers'
+    path: dist/
+    targetRevision: sj/k8s
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: turing
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

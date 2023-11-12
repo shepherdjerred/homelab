@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: datadog
+spec:
+  project: default
+  source:
+    repoURL: 'https://helm.datadoghq.com'
+    targetRevision: 1.2.2
+    chart: datadog-operator
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: datadog
+    syncPolicy:
+      syncOptions:
+        - CreateNamespace=true

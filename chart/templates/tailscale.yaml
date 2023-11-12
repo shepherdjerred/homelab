@@ -2,7 +2,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: tailscale
-  namespace: tailscale
 spec:
   project: default
   source:
@@ -12,3 +11,6 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: tailscale
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
