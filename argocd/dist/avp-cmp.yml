@@ -4,6 +4,7 @@ metadata:
   name: cmp-plugin
 data:
   avp.yaml: |
+    ---
     apiVersion: argoproj.io/v1alpha1
     kind: ConfigManagementPlugin
     metadata:
@@ -44,4 +45,3 @@ data:
             helm template $ARGOCD_APP_NAME --include-crds . |
             argocd-vault-plugin generate -
       lockRepo: false
----
