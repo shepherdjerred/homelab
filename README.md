@@ -58,4 +58,4 @@
         ```
 
 1. Sync the 1Password application.
-1. Sync the Tailscale application.
+1. Sync all of the applications.
