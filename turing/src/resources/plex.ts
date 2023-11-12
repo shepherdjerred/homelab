@@ -106,7 +106,7 @@ export function createPlexDeployment(chart: Chart) {
   const service = deployment.exposeViaService({
     ports: [
       {
-        port: 443,
+        port: 32400,
         targetPort: 32400,
       },
     ],
