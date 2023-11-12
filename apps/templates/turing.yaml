@@ -21,3 +21,6 @@ spec:
         generate:
           command: ["argocd-vault-plugin"]
           args: ["generate", "./"]
+  directory:
+    recurse: true
+    include: argocd-vault-plugin
