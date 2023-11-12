@@ -3,7 +3,6 @@ kind: Application
 metadata:
   name: turing
   namespace: turing
-
 spec:
   project: default
   source:
@@ -13,6 +12,3 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: turing
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true

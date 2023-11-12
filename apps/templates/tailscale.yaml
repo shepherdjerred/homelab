@@ -12,6 +12,3 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: tailscale
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
