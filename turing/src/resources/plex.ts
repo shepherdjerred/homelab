@@ -28,12 +28,14 @@ export function createPlexDeployment(chart: Chart) {
         protocol: Protocol.UDP,
       },
       {
-        name: "port-5353-bonjour",
+        // bonjour
+        name: "port-5353",
         number: 5353,
         protocol: Protocol.UDP,
       },
       {
-        name: "port-3005-companion",
+        // companion
+        name: "port-3005",
         number: 3005,
         protocol: Protocol.TCP,
       },

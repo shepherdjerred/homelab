@@ -382,10 +382,10 @@ spec:
               name: port-1900-dlna
               protocol: UDP
             - containerPort: 5353
-              name: port-5353-bonjour
+              name: port-5353
               protocol: UDP
             - containerPort: 3005
-              name: port-3005-companion
+              name: port-3005
               protocol: TCP
             - containerPort: 8324
               name: port-8324-roku
