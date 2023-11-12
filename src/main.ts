@@ -14,7 +14,7 @@ import { createSyncthingDeployment } from "./syncthing.ts";
 import { createTautulliDeployment } from "./tautulli.ts";
 
 const app = new App();
-const chart = new Chart(app, "jerred");
+const chart = new Chart(app, "turing");
 
 createInvidiousDeployment(chart);
 createTedditDeployment(chart);

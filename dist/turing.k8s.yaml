@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-postgres-c85006ef
+  name: turing-postgres-c8a6b074
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-postgres-c8104b8a
+      cdk8s.io/metadata.addr: turing-postgres-c8e70aca
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-postgres-c8104b8a
+        cdk8s.io/metadata.addr: turing-postgres-c8e70aca
     spec:
       automountServiceAccountToken: false
       containers:
@@ -52,39 +52,39 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: jerred-postgres-service-c8b93ec1
+  name: turing-postgres-service-c834f588
 spec:
   externalIPs: []
   ports:
     - port: 5432
       targetPort: 5432
   selector:
-    cdk8s.io/metadata.addr: jerred-postgres-c8104b8a
+    cdk8s.io/metadata.addr: turing-postgres-c8e70aca
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allowingressc8a64485b8c929f771b4018d6920c37ce-c8626a55
+  name: allowingressc8ca4b09d8cd514c29205a1c1fc83a275-c8724ba3
 spec:
   ingress:
     - from:
         - podSelector:
             matchLabels:
-              cdk8s.io/metadata.addr: jerred-invidious-c8a64485
+              cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
       ports:
         - port: 5432
           protocol: TCP
   podSelector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-postgres-c8104b8a
+      cdk8s.io/metadata.addr: turing-postgres-c8e70aca
   policyTypes:
     - Ingress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allowegressundefinedc8a64485b8c929f771b4018d6-c8216336
+  name: allowegressundefinedc8ca4b09d8cd514c29205a1c1-c87b2d8c
 spec:
   egress:
     - ports:
@@ -93,24 +93,24 @@ spec:
       to:
         - podSelector:
             matchLabels:
-              cdk8s.io/metadata.addr: jerred-postgres-c8104b8a
+              cdk8s.io/metadata.addr: turing-postgres-c8e70aca
   podSelector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-invidious-c8a64485
+      cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
   policyTypes:
     - Egress
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-invidious-c8610df6
+  name: turing-invidious-c89ec085
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-invidious-c8a64485
+      cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -119,7 +119,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-invidious-c8a64485
+        cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
     spec:
       automountServiceAccountToken: false
       containers:
@@ -135,7 +135,7 @@ spec:
 
                 \  password: password
 
-                \  host: jerred-postgres-service-c8b93ec1
+                \  host: turing-postgres-service-c834f588
 
                 \  port: 5432
 
@@ -173,27 +173,27 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: invidious
-  name: jerred-invidious-service-c8827da5
+  name: turing-invidious-service-c8406399
 spec:
   externalIPs: []
   ports:
     - port: 443
       targetPort: 3000
   selector:
-    cdk8s.io/metadata.addr: jerred-invidious-c8a64485
+    cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-redis-c81625d6
+  name: turing-redis-c813a201
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-redis-c8da9e76
+      cdk8s.io/metadata.addr: turing-redis-c8bfb50b
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -202,7 +202,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-redis-c8da9e76
+        cdk8s.io/metadata.addr: turing-redis-c8bfb50b
     spec:
       automountServiceAccountToken: false
       containers:
@@ -232,39 +232,39 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: jerred-redis-service-c8ea8a2c
+  name: turing-redis-service-c8b2526d
 spec:
   externalIPs: []
   ports:
     - port: 6379
       targetPort: 6379
   selector:
-    cdk8s.io/metadata.addr: jerred-redis-c8da9e76
+    cdk8s.io/metadata.addr: turing-redis-c8bfb50b
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allowingressc81f7043b360d70608e5a49009276dc2d-c89df41b
+  name: allowingressc85c9da1da370a0a089caa8aa1e59255b-c8782800
 spec:
   ingress:
     - from:
         - podSelector:
             matchLabels:
-              cdk8s.io/metadata.addr: jerred-teddit-c81f7043
+              cdk8s.io/metadata.addr: turing-teddit-c85c9da1
       ports:
         - port: 6379
           protocol: TCP
   podSelector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-redis-c8da9e76
+      cdk8s.io/metadata.addr: turing-redis-c8bfb50b
   policyTypes:
     - Ingress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allowegressundefinedc81f7043b360d70608e5a4900-c831af7e
+  name: allowegressundefinedc85c9da1da370a0a089caa8aa-c8001380
 spec:
   egress:
     - ports:
@@ -273,24 +273,24 @@ spec:
       to:
         - podSelector:
             matchLabels:
-              cdk8s.io/metadata.addr: jerred-redis-c8da9e76
+              cdk8s.io/metadata.addr: turing-redis-c8bfb50b
   podSelector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-teddit-c81f7043
+      cdk8s.io/metadata.addr: turing-teddit-c85c9da1
   policyTypes:
     - Egress
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-teddit-c82fa327
+  name: turing-teddit-c847c3ad
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-teddit-c81f7043
+      cdk8s.io/metadata.addr: turing-teddit-c85c9da1
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -299,13 +299,13 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-teddit-c81f7043
+        cdk8s.io/metadata.addr: turing-teddit-c85c9da1
     spec:
       automountServiceAccountToken: false
       containers:
         - env:
             - name: REDIS_HOST
-              value: jerred-redis-service-c8ea8a2c
+              value: turing-redis-service-c8b2526d
           image: teddit/teddit
           imagePullPolicy: Always
           name: main
@@ -335,27 +335,27 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: teddit
-  name: jerred-teddit-service-c8d08b6d
+  name: turing-teddit-service-c8fb90f6
 spec:
   externalIPs: []
   ports:
     - port: 443
       targetPort: 8080
   selector:
-    cdk8s.io/metadata.addr: jerred-teddit-c81f7043
+    cdk8s.io/metadata.addr: turing-teddit-c85c9da1
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-plex-c8562040
+  name: turing-plex-c83a2035
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-plex-c8024da6
+      cdk8s.io/metadata.addr: turing-plex-c8e0eac9
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -364,7 +364,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-plex-c8024da6
+        cdk8s.io/metadata.addr: turing-plex-c8e0eac9
     spec:
       automountServiceAccountToken: false
       containers:
@@ -416,27 +416,27 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: plex
-  name: jerred-plex-service-c8eab0d6
+  name: turing-plex-service-c8da1529
 spec:
   externalIPs: []
   ports:
     - port: 443
       targetPort: 32400
   selector:
-    cdk8s.io/metadata.addr: jerred-plex-c8024da6
+    cdk8s.io/metadata.addr: turing-plex-c8e0eac9
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-radarr-c845967c
+  name: turing-radarr-c85c39bc
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-radarr-c89ce6f7
+      cdk8s.io/metadata.addr: turing-radarr-c889326d
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -445,7 +445,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-radarr-c89ce6f7
+        cdk8s.io/metadata.addr: turing-radarr-c889326d
     spec:
       automountServiceAccountToken: false
       containers:
@@ -478,27 +478,27 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: radarr
-  name: jerred-radarr-service-c83b8880
+  name: turing-radarr-service-c8ede58b
 spec:
   externalIPs: []
   ports:
     - port: 443
       targetPort: 7878
   selector:
-    cdk8s.io/metadata.addr: jerred-radarr-c89ce6f7
+    cdk8s.io/metadata.addr: turing-radarr-c889326d
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-bazarr-c8cb7bbc
+  name: turing-bazarr-c8e2b230
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-bazarr-c8418a60
+      cdk8s.io/metadata.addr: turing-bazarr-c802be67
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -507,7 +507,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-bazarr-c8418a60
+        cdk8s.io/metadata.addr: turing-bazarr-c802be67
     spec:
       automountServiceAccountToken: false
       containers:
@@ -537,14 +537,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: jerred-bazarr-service-c8f986f7
+  name: turing-bazarr-service-c83889b9
 spec:
   externalIPs: []
   ports:
     - port: 6767
       targetPort: 6767
   selector:
-    cdk8s.io/metadata.addr: jerred-bazarr-c8418a60
+    cdk8s.io/metadata.addr: turing-bazarr-c802be67
   type: ClusterIP
 ---
 apiVersion: v1
@@ -553,7 +553,7 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: bazarr
-  name: jerred-bazarr-service-c8f5a145
+  name: turing-bazarr-service-c886f550
 spec:
   externalIPs: []
   ports:
@@ -561,17 +561,17 @@ spec:
       port: 443
       targetPort: 6767
   selector:
-    cdk8s.io/metadata.addr: jerred-bazarr-c8418a60
+    cdk8s.io/metadata.addr: turing-bazarr-c802be67
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: jerred-bazarr-ingress-c8e5b636
+  name: turing-bazarr-ingress-c8383bc0
 spec:
   defaultBackend:
     service:
-      name: jerred-bazarr-service-c8f5a145
+      name: turing-bazarr-service-c886f550
       port:
         number: 443
   rules:
@@ -579,7 +579,7 @@ spec:
         paths:
           - backend:
               service:
-                name: jerred-bazarr-service-c8f986f7
+                name: turing-bazarr-service-c83889b9
                 port:
                   number: 6767
             path: /
@@ -588,14 +588,14 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-homeassistant-c8be839d
+  name: turing-homeassistant-c8d5f667
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-homeassistant-c8be9848
+      cdk8s.io/metadata.addr: turing-homeassistant-c8dec317
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -604,7 +604,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-homeassistant-c8be9848
+        cdk8s.io/metadata.addr: turing-homeassistant-c8dec317
     spec:
       automountServiceAccountToken: false
       containers:
@@ -637,27 +637,27 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: homeassistant
-  name: jerred-homeassistant-service-c8b310f5
+  name: turing-homeassistant-service-c83c321f
 spec:
   externalIPs: []
   ports:
     - port: 443
       targetPort: 8123
   selector:
-    cdk8s.io/metadata.addr: jerred-homeassistant-c8be9848
+    cdk8s.io/metadata.addr: turing-homeassistant-c8dec317
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-jackett-c8624c67
+  name: turing-jackett-c8f6c7b2
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-jackett-c808e979
+      cdk8s.io/metadata.addr: turing-jackett-c8bd3297
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -666,7 +666,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-jackett-c808e979
+        cdk8s.io/metadata.addr: turing-jackett-c8bd3297
     spec:
       automountServiceAccountToken: false
       containers:
@@ -699,27 +699,27 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: jackett
-  name: jerred-jackett-service-c8e7054d
+  name: turing-jackett-service-c80fa52f
 spec:
   externalIPs: []
   ports:
     - port: 443
       targetPort: 9117
   selector:
-    cdk8s.io/metadata.addr: jerred-jackett-c808e979
+    cdk8s.io/metadata.addr: turing-jackett-c8bd3297
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-nitter-c8e9abe2
+  name: turing-nitter-c83b5027
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-nitter-c8a60e60
+      cdk8s.io/metadata.addr: turing-nitter-c8547ba1
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -728,7 +728,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-nitter-c8a60e60
+        cdk8s.io/metadata.addr: turing-nitter-c8547ba1
     spec:
       automountServiceAccountToken: false
       containers:
@@ -761,27 +761,27 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: nitter
-  name: jerred-nitter-service-c8e57b46
+  name: turing-nitter-service-c8dd2908
 spec:
   externalIPs: []
   ports:
     - port: 443
       targetPort: 8080
   selector:
-    cdk8s.io/metadata.addr: jerred-nitter-c8a60e60
+    cdk8s.io/metadata.addr: turing-nitter-c8547ba1
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-overseerr-c82662c6
+  name: turing-overseerr-c8c458a3
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-overseerr-c81b0680
+      cdk8s.io/metadata.addr: turing-overseerr-c8da0376
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -790,7 +790,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-overseerr-c81b0680
+        cdk8s.io/metadata.addr: turing-overseerr-c8da0376
     spec:
       automountServiceAccountToken: false
       containers:
@@ -823,27 +823,27 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: overseerr
-  name: jerred-overseerr-service-c8aa8202
+  name: turing-overseerr-service-c8869539
 spec:
   externalIPs: []
   ports:
     - port: 443
       targetPort: 5055
   selector:
-    cdk8s.io/metadata.addr: jerred-overseerr-c81b0680
+    cdk8s.io/metadata.addr: turing-overseerr-c8da0376
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-qbittorrent-c8799201
+  name: turing-qbittorrent-c8a5ea19
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-qbittorrent-c845f9f8
+      cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -852,7 +852,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-qbittorrent-c845f9f8
+        cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
     spec:
       automountServiceAccountToken: false
       containers:
@@ -885,27 +885,27 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: qbittorrent
-  name: jerred-qbittorrent-service-c83eba8d
+  name: turing-qbittorrent-service-c8ca4dc3
 spec:
   externalIPs: []
   ports:
     - port: 8080
       targetPort: 8080
   selector:
-    cdk8s.io/metadata.addr: jerred-qbittorrent-c845f9f8
+    cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-sonarr-c8a61d8f
+  name: turing-sonarr-c897ed8c
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-sonarr-c83efdfd
+      cdk8s.io/metadata.addr: turing-sonarr-c8f9699c
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -914,7 +914,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-sonarr-c83efdfd
+        cdk8s.io/metadata.addr: turing-sonarr-c8f9699c
     spec:
       automountServiceAccountToken: false
       containers:
@@ -947,27 +947,27 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: sonarr
-  name: jerred-sonarr-service-c81da467
+  name: turing-sonarr-service-c864ae4a
 spec:
   externalIPs: []
   ports:
     - port: 443
       targetPort: 8989
   selector:
-    cdk8s.io/metadata.addr: jerred-sonarr-c83efdfd
+    cdk8s.io/metadata.addr: turing-sonarr-c8f9699c
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-syncthing-c881dc3b
+  name: turing-syncthing-c86b97b8
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-syncthing-c840ef17
+      cdk8s.io/metadata.addr: turing-syncthing-c84725cd
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -976,7 +976,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-syncthing-c840ef17
+        cdk8s.io/metadata.addr: turing-syncthing-c84725cd
     spec:
       automountServiceAccountToken: false
       containers:
@@ -1009,27 +1009,27 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: syncthing
-  name: jerred-syncthing-service-c85923e3
+  name: turing-syncthing-service-c854cbf8
 spec:
   externalIPs: []
   ports:
     - port: 443
       targetPort: 8384
   selector:
-    cdk8s.io/metadata.addr: jerred-syncthing-c840ef17
+    cdk8s.io/metadata.addr: turing-syncthing-c84725cd
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jerred-tautulli-c80e68e0
+  name: turing-tautulli-c8f7df34
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: jerred-tautulli-c823447b
+      cdk8s.io/metadata.addr: turing-tautulli-c8df029b
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -1038,7 +1038,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: jerred-tautulli-c823447b
+        cdk8s.io/metadata.addr: turing-tautulli-c8df029b
     spec:
       automountServiceAccountToken: false
       containers:
@@ -1071,12 +1071,12 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: tautulli
-  name: jerred-tautulli-service-c8523b59
+  name: turing-tautulli-service-c83a18a9
 spec:
   externalIPs: []
   ports:
     - port: 443
       targetPort: 8181
   selector:
-    cdk8s.io/metadata.addr: jerred-tautulli-c823447b
+    cdk8s.io/metadata.addr: turing-tautulli-c8df029b
   type: ClusterIP
