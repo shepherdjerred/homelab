@@ -40,10 +40,22 @@
 1. Go to the Argo CD UI at `http://<host>:8080`. Change the `admin` password.
 
 1. Add `apps/` directory in this repository to argocd.
-1. Sync the `argocd` application, but not any others.
+1. Sync the `apps` Application.
+1. Create the `1password` namespace.
+
+    ```
+    kubectl create namespace 1password
+    ```
+
 1. Set the credentials in the `manual` directory. Create these resources using `kubectl apply`.
 
+    * Be sure not to commit any changes to these files so that secrets don't leak.
     * These should be the only credentials that are manually set. Everything else can be retrieved from 1Password.
+    * Annoyingly, the credential in `1password-secret.yaml` _must_ be base64 encoded.
+
+        ```
+        cat 1password-credentials.json | base64 -w 0
+        ```
 
 1. Sync the 1Password application.
 1. Sync the Tailscale application.
