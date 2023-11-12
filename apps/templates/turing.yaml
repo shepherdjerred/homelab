@@ -15,12 +15,3 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
-  data:
-    configManagementPlugins: |-
-      - name: argocd-vault-plugin-helm
-        generate:
-          command: ["argocd-vault-plugin"]
-          args: ["generate", "./"]
-  directory:
-    recurse: true
-    include: argocd-vault-plugin
