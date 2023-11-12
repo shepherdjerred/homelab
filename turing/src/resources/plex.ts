@@ -15,44 +15,55 @@ export function createPlexDeployment(chart: Chart) {
       // NVIDIA_DRIVER_CAPABILITIES: EnvValue.fromValue("all"),
       // NVIDIA_VISIBLE_DEVICES:  EnvValue.fromValue("all")
     },
+    // https://support.plex.tv/articles/201543147-what-network-ports-do-i-need-to-allow-through-my-firewall/
     ports: [
       {
-        name: "port-32400",
+        name: "port-32400-web",
         number: 32400,
         protocol: Protocol.TCP,
       },
       {
-        name: "port-3005",
+        name: "port-1900-dlna",
+        number: 1900,
+        protocol: Protocol.UDP,
+      },
+      {
+        name: "port-5353-bonjour",
+        number: 5353,
+        protocol: Protocol.UDP,
+      },
+      {
+        name: "port-3005-companion",
         number: 3005,
         protocol: Protocol.TCP,
       },
       {
-        name: "port-8324",
+        name: "port-8324-roku",
         number: 8324,
         protocol: Protocol.TCP,
       },
       {
-        name: "port-32469",
+        name: "port-32469-dlna",
         number: 32469,
         protocol: Protocol.TCP,
       },
       {
-        name: "port-32410",
+        name: "port-32410-gdm",
         number: 32410,
         protocol: Protocol.UDP,
       },
       {
-        name: "port-32412",
+        name: "port-32412-gdm",
         number: 32412,
         protocol: Protocol.UDP,
       },
       {
-        name: "port-32413",
+        name: "port-32413-gdm",
         number: 32413,
         protocol: Protocol.UDP,
       },
       {
-        name: "port-32414",
+        name: "port-32414-gdm",
         number: 32414,
         protocol: Protocol.UDP,
       },
