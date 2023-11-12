@@ -1,4 +1,4 @@
-import { App, Chart } from "cdk8s";
+import { App, Chart } from "npm:cdk8s";
 import { createInvidiousDeployment } from "./resources/invidious.ts";
 import { createTedditDeployment } from "./resources/teddit.ts";
 import { createPlexDeployment } from "./resources/plex.ts";

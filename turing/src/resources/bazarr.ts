@@ -1,5 +1,5 @@
-import { Deployment, Ingress, IngressBackend, Service } from "cdk8s-plus-27";
-import { ApiObject, Chart } from "cdk8s";
+import { Deployment, Ingress, IngressBackend, Service } from "npm:cdk8s-plus-27";
+import { ApiObject, Chart } from "npm:cdk8s";
 
 export function createBazarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "bazarr", {

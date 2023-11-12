@@ -368,7 +368,10 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - image: plexinc/pms-docker
+        - env:
+            - name: ADVERTISE_IP
+              value: https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red
+          image: plexinc/pms-docker
           imagePullPolicy: Always
           name: main
           ports:
@@ -401,6 +404,19 @@ spec:
             privileged: false
             readOnlyRootFilesystem: false
             runAsNonRoot: false
+          volumeMounts:
+            - mountPath: /config
+              name: plex-config-bind-mount
+            - mountPath: /data/tv
+              name: plex-tv-bind-mount
+            - mountPath: /data/movies
+              name: plex-movies-bind-mount
+            - mountPath: /data/other
+              name: plex-other-bind-mount
+            - mountPath: /data/music
+              name: plex-music-bind-mount
+            - mountPath: /transcode
+              name: plex-shm-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -409,6 +425,31 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - hostPath:
+            path: /mnt/storage/plex
+            type: ""
+          name: plex-config-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/tv
+            type: ""
+          name: plex-tv-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/movies
+            type: ""
+          name: plex-movies-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/other
+            type: ""
+          name: plex-other-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/music
+            type: ""
+          name: plex-music-bind-mount
+        - emptyDir:
+            medium: Memory
+            sizeLimit: 8192Mi
+          name: plex-shm-mount
 ---
 apiVersion: v1
 kind: Service

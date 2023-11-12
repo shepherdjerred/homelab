@@ -1,5 +1,5 @@
-import { EnvValue, Deployment } from "cdk8s-plus-27";
-import { Chart } from "cdk8s";
+import { EnvValue, Deployment } from "npm:cdk8s-plus-27";
+import { Chart } from "npm:cdk8s";
 
 export function createTedditDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "redis", {

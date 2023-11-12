@@ -1,5 +1,5 @@
-import { Deployment } from "cdk8s-plus-27";
-import { Chart } from "cdk8s";
+import { Deployment } from "npm:cdk8s-plus-27";
+import { Chart } from "npm:cdk8s";
 
 export function createQBitTorrentDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "qbittorrent", {

@@ -1,5 +1,5 @@
-import { Deployment, EnvValue } from "cdk8s-plus-27";
-import { Chart } from "cdk8s";
+import { Deployment, EnvValue } from "npm:cdk8s-plus-27";
+import { Chart } from "npm:cdk8s";
 
 export function createInvidiousDeployment(chart: Chart) {
   const postgresDeployment = new Deployment(chart, "postgres", {
