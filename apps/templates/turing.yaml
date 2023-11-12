@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: turing
-  namespace: turing
+  namespace: argocd
 spec:
   project: default
   source:
@@ -12,3 +12,12 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: turing
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+  data:
+    configManagementPlugins: |-
+      - name: argocd-vault-plugin-helm
+        generate:
+          command: ["argocd-vault-plugin"]
+          args: ["generate", "./"]
