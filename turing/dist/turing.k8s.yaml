@@ -376,28 +376,34 @@ spec:
           name: main
           ports:
             - containerPort: 32400
-              name: port-32400
+              name: port-32400-web
               protocol: TCP
+            - containerPort: 1900
+              name: port-1900-dlna
+              protocol: UDP
+            - containerPort: 5353
+              name: port-5353-bonjour
+              protocol: UDP
             - containerPort: 3005
-              name: port-3005
+              name: port-3005-companion
               protocol: TCP
             - containerPort: 8324
-              name: port-8324
+              name: port-8324-roku
               protocol: TCP
             - containerPort: 32469
-              name: port-32469
+              name: port-32469-dlna
               protocol: TCP
             - containerPort: 32410
-              name: port-32410
+              name: port-32410-gdm
               protocol: UDP
             - containerPort: 32412
-              name: port-32412
+              name: port-32412-gdm
               protocol: UDP
             - containerPort: 32413
-              name: port-32413
+              name: port-32413-gdm
               protocol: UDP
             - containerPort: 32414
-              name: port-32414
+              name: port-32414-gdm
               protocol: UDP
           securityContext:
             allowPrivilegeEscalation: false
@@ -461,7 +467,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - port: 443
+    - port: 32400
       targetPort: 32400
   selector:
     cdk8s.io/metadata.addr: turing-plex-c8e0eac9
