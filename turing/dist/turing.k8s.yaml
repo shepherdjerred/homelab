@@ -674,19 +674,19 @@ spec:
               name: port-8123-web
               protocol: TCP
             - containerPort: 5353
-              name: port-5353-homekit
+              name: port-5353
               protocol: TCP
             - containerPort: 21063
-              name: port-21063-homekit
+              name: port-21063
               protocol: TCP
             - containerPort: 21064
-              name: port-21064-homekit
+              name: port-21064
               protocol: TCP
             - containerPort: 21065
-              name: port-21065-homekit
+              name: port-21065
               protocol: TCP
             - containerPort: 21066
-              name: port-21066-homekit
+              name: port-21066
               protocol: TCP
           securityContext:
             allowPrivilegeEscalation: false
