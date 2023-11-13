@@ -602,8 +602,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 443
+    - port: 443
       targetPort: 6767
   selector:
     cdk8s.io/metadata.addr: turing-bazarr-c802be67
