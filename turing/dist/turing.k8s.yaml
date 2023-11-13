@@ -671,15 +671,31 @@ spec:
           name: main
           ports:
             - containerPort: 8123
+              name: port-8123-web
+              protocol: TCP
+            - containerPort: 5353
+              name: port-5353-homekit
+              protocol: TCP
+            - containerPort: 21063
+              name: port-21063-homekit
+              protocol: TCP
+            - containerPort: 21064
+              name: port-21064-homekit
+              protocol: TCP
+            - containerPort: 21065
+              name: port-21065-homekit
+              protocol: TCP
+            - containerPort: 21066
+              name: port-21066-homekit
+              protocol: TCP
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
             runAsNonRoot: false
-          startupProbe:
-            failureThreshold: 3
-            tcpSocket:
-              port: 8123
+          volumeMounts:
+            - mountPath: /config
+              name: homeassistant-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -688,6 +704,11 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - hostPath:
+            path: /mnt/storage/data/homeassistant
+            type: ""
+          name: homeassistant-bind-mount
 ---
 apiVersion: v1
 kind: Service
