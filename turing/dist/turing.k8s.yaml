@@ -595,19 +595,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-bazarr-service-c83889b9
-spec:
-  externalIPs: []
-  ports:
-    - port: 6767
-      targetPort: 6767
-  selector:
-    cdk8s.io/metadata.addr: turing-bazarr-c802be67
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: bazarr
@@ -621,27 +608,6 @@ spec:
   selector:
     cdk8s.io/metadata.addr: turing-bazarr-c802be67
   type: ClusterIP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: turing-bazarr-ingress-c8383bc0
-spec:
-  defaultBackend:
-    service:
-      name: turing-bazarr-service-c886f550
-      port:
-        number: 443
-  rules:
-    - http:
-        paths:
-          - backend:
-              service:
-                name: turing-bazarr-service-c83889b9
-                port:
-                  number: 6767
-            path: /
-            pathType: Prefix
 ---
 apiVersion: apps/v1
 kind: Deployment
