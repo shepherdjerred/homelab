@@ -50,13 +50,13 @@ export function createHomeAssistantDeployment(chart: Chart) {
       {
         volume: Volume.fromHostPath(
           chart,
-          "homeassistant-config-bind-mount",
-          "homeassistant-config-bind-mount",
+          "homeassistant-bind-mount",
+          "homeassistant-bind-mount",
           {
-            path: "/home/sjerred/git/servers/config/homeassistant/configuration.yaml",
+            path: "/mnt/storage/data/homeassistant",
           }
         ),
-        path: "/config/configuration.yaml",
+        path: "/config",
       },
     ],
   });

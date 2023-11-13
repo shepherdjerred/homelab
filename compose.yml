@@ -1,0 +1,17 @@
+services:
+  volumerize:
+    container_name: volumerize
+    # env_file:
+    #   - config/vars.env
+    environment:
+      VOLUMERIZE_CONTAINERS: jackett sonarr radarr overseerr syncthing homeassistant influxdb tautulli
+      VOLUMERIZE_FULL_IF_OLDER_THAN: 28D
+      VOLUMERIZE_JOBBER_TIME: 0 0 4 * * *
+      VOLUMERIZE_SOURCE: /source
+      VOLUMERIZE_TARGET: file:///target
+    image: blacklabelops/volumerize:1.7.1
+    restart: unless-stopped
+    command: restore
+    volumes:
+      - /mnt/storage/recovery:/source
+      - /mnt/storage/backup:/target
