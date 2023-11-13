@@ -1,6 +1,4 @@
 import {
-  Container,
-  Cpu,
   Deployment,
   EmptyDirMedium,
   EnvValue,
@@ -8,14 +6,18 @@ import {
   ServiceType,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
+import { Chart, Size } from "npm:cdk8s";
 
 export function createPlexDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "plex", {
     replicas: 1,
   });
 
-  // TODO: attach GPU
+  // TODO: attach GPU, https://docs.k3s.io/advanced#nvidia-container-runtime-support
+  // https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+  // https://github.com/NVIDIA/k8s-device-plugin#quick-start
+  // https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/
+  // https://github.com/NVIDIA/nvidia-container-toolkit
   // TODO: pass through TV tuner device, /dev/dvb:/dev/dvb
   deployment.addContainer({
     image: "plexinc/pms-docker",
