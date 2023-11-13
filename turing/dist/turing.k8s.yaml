@@ -706,7 +706,7 @@ spec:
       terminationGracePeriodSeconds: 30
       volumes:
         - hostPath:
-            path: /mnt/storage/data/homeassistant
+            path: /mnt/storage/data/homeassistant-config
             type: ""
           name: homeassistant-bind-mount
 ---

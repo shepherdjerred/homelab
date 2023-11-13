@@ -58,7 +58,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
           "homeassistant-bind-mount",
           "homeassistant-bind-mount",
           {
-            path: "/mnt/storage/data/homeassistant",
+            path: "/mnt/storage/data/homeassistant-config",
           }
         ),
         path: "/config",
