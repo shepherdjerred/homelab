@@ -8,9 +8,9 @@
 
     * Configure:
 
-    ```
-    rm -rfv ~/.kube && mkdir ~/.kube && sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && sudo chown $USER:$USER ~/.kube/config && chmod 600 ~/.kube/config
-    ```
+        ```
+        rm -rfv ~/.kube && mkdir ~/.kube && sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && sudo chown $USER:$USER ~/.kube/config && chmod 600 ~/.kube/config
+        ```
 
 1. Install `helm` and `argocd`.
 
@@ -61,7 +61,9 @@
 1. Sync all of the applications.
 
 // TODO: patch argocd with tailscale ingress
+
 // TODO: persistent storage
-// TODO: bind mount for plex
+
 // TODO: https
+
 // TODO: security hardening
