@@ -25,9 +25,6 @@ export function createBazarrDeployment(chart: Chart) {
     ],
   });
 
-  // TODO
-  // https://cdk8s.io/docs/latest/basics/escape-hatches/#patching-api-objects-directly
-  // https://tailscale.com/kb/1236/kubernetes-operator/#ingress-resource
   ApiObject.of(ingress).addJsonPatch(
     JsonPatch.add("/spec/ingressClassName", "tailscale")
   );

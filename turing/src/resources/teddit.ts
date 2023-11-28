@@ -1,5 +1,10 @@
-import { EnvValue, Deployment } from "npm:cdk8s-plus-27";
-import { Chart } from "npm:cdk8s";
+import {
+  EnvValue,
+  Deployment,
+  Ingress,
+  IngressBackend,
+} from "npm:cdk8s-plus-27";
+import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 
 export function createTedditDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "redis", {
@@ -34,16 +39,20 @@ export function createTedditDeployment(chart: Chart) {
     resources: {},
   });
 
-  const tedditService = tedditDeployment.exposeViaService({
-    ports: [
+  const ingress = new Ingress(chart, "teddit-ingress", {
+    defaultBackend: IngressBackend.fromResource(tedditDeployment),
+    tls: [
       {
-        port: 443,
-        targetPort: 8080,
+        hosts: ["teddit"],
       },
     ],
   });
 
-  redisDeployment.connections.allowFrom(tedditDeployment);
-  tedditService.metadata.addAnnotation("tailscale.com/expose", "true");
-  tedditService.metadata.addAnnotation("tailscale.com/hostname", "teddit");
+  ApiObject.of(ingress).addJsonPatch(
+    JsonPatch.add("/spec/ingressClassName", "tailscale")
+  );
+
+  tedditDeployment.exposeViaIngress("/", {
+    ingress,
+  });
 }

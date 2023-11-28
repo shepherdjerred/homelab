@@ -1,5 +1,11 @@
-import { Deployment, Protocol, Volume } from "npm:cdk8s-plus-27";
-import { Chart } from "npm:cdk8s";
+import {
+  Deployment,
+  Ingress,
+  IngressBackend,
+  Protocol,
+  Volume,
+} from "npm:cdk8s-plus-27";
+import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 
 export function createHomeAssistantDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "homeassistant", {
@@ -66,15 +72,21 @@ export function createHomeAssistantDeployment(chart: Chart) {
     ],
   });
 
-  const service = deployment.exposeViaService({
-    ports: [
+  const ingress = new Ingress(chart, "homeassistant-ingress", {
+    defaultBackend: IngressBackend.fromResource(deployment),
+    tls: [
       {
-        port: 443,
-        targetPort: 8123,
+        hosts: ["homeassistant"],
       },
     ],
   });
 
-  service.metadata.addAnnotation("tailscale.com/expose", "true");
-  service.metadata.addAnnotation("tailscale.com/hostname", "homeassistant");
+  ApiObject.of(ingress).addJsonPatch(
+    JsonPatch.add("/spec/ingressClassName", "tailscale")
+  );
+
+  deployment.exposeViaIngress("/", {
+    ingress,
+    ports: [{ port: 8123 }],
+  });
 }

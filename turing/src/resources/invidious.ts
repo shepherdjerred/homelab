@@ -1,5 +1,10 @@
-import { Deployment, EnvValue } from "npm:cdk8s-plus-27";
-import { Chart } from "npm:cdk8s";
+import {
+  Deployment,
+  EnvValue,
+  Ingress,
+  IngressBackend,
+} from "npm:cdk8s-plus-27";
+import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 
 export function createInvidiousDeployment(chart: Chart) {
   const postgresDeployment = new Deployment(chart, "postgres", {
@@ -48,19 +53,22 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
     resources: {},
   });
 
-  const invidiousService = invidiousDeployment.exposeViaService({
-    ports: [
+  postgresDeployment.connections.allowFrom(invidiousDeployment);
+
+  const ingress = new Ingress(chart, "invidious-ingress", {
+    defaultBackend: IngressBackend.fromResource(invidiousDeployment),
+    tls: [
       {
-        port: 443,
-        targetPort: 3000,
+        hosts: ["invidious"],
       },
     ],
   });
 
-  postgresDeployment.connections.allowFrom(invidiousDeployment);
-  invidiousService.metadata.addAnnotation("tailscale.com/expose", "true");
-  invidiousService.metadata.addAnnotation(
-    "tailscale.com/hostname",
-    "invidious"
+  ApiObject.of(ingress).addJsonPatch(
+    JsonPatch.add("/spec/ingressClassName", "tailscale")
   );
+
+  invidiousDeployment.exposeViaIngress("/", {
+    ingress,
+  });
 }

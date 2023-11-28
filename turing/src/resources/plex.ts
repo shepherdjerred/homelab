@@ -2,11 +2,13 @@ import {
   Deployment,
   EmptyDirMedium,
   EnvValue,
+  Ingress,
+  IngressBackend,
   Protocol,
-  ServiceType,
+  Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart, Size } from "npm:cdk8s";
+import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
 
 export function createPlexDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "plex", {
@@ -165,16 +167,21 @@ export function createPlexDeployment(chart: Chart) {
     ],
   });
 
-  const service = deployment.exposeViaService({
-    serviceType: ServiceType.NODE_PORT,
-    ports: [
+  const ingress = new Ingress(chart, "plex-ingress", {
+    defaultBackend: IngressBackend.fromResource(deployment),
+    tls: [
       {
-        port: 32400,
-        targetPort: 32400,
+        hosts: ["plex"],
       },
     ],
   });
 
-  service.metadata.addAnnotation("tailscale.com/expose", "true");
-  service.metadata.addAnnotation("tailscale.com/hostname", "plex");
+  ApiObject.of(ingress).addJsonPatch(
+    JsonPatch.add("/spec/ingressClassName", "tailscale")
+  );
+
+  deployment.exposeViaIngress("/", {
+    ingress,
+    ports: [{ port: 32400 }],
+  });
 }

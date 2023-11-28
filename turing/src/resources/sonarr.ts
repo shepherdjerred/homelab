@@ -1,5 +1,5 @@
-import { Deployment } from "npm:cdk8s-plus-27";
-import { Chart } from "npm:cdk8s";
+import { Deployment, Ingress, IngressBackend } from "npm:cdk8s-plus-27";
+import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 
 export function createSonarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "sonarr", {
@@ -16,15 +16,20 @@ export function createSonarrDeployment(chart: Chart) {
     resources: {},
   });
 
-  const service = deployment.exposeViaService({
-    ports: [
+  const ingress = new Ingress(chart, "sonarr-ingress", {
+    defaultBackend: IngressBackend.fromResource(deployment),
+    tls: [
       {
-        port: 443,
-        targetPort: 8989,
+        hosts: ["sonarr"],
       },
     ],
   });
 
-  service.metadata.addAnnotation("tailscale.com/expose", "true");
-  service.metadata.addAnnotation("tailscale.com/hostname", "sonarr");
+  ApiObject.of(ingress).addJsonPatch(
+    JsonPatch.add("/spec/ingressClassName", "tailscale")
+  );
+
+  deployment.exposeViaIngress("/", {
+    ingress,
+  });
 }

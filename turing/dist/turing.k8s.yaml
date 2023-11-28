@@ -170,18 +170,40 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: invidious
   name: turing-invidious-service-c8406399
 spec:
   externalIPs: []
   ports:
-    - port: 443
+    - port: 3000
       targetPort: 3000
   selector:
     cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-invidious-ingress-c8c77057
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-invidious-c89ec085
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-invidious-service-c8406399
+                port:
+                  number: 3000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - invidious
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -242,44 +264,6 @@ spec:
     cdk8s.io/metadata.addr: turing-redis-c8bfb50b
   type: ClusterIP
 ---
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allowingressc85c9da1da370a0a089caa8aa1e59255b-c8782800
-spec:
-  ingress:
-    - from:
-        - podSelector:
-            matchLabels:
-              cdk8s.io/metadata.addr: turing-teddit-c85c9da1
-      ports:
-        - port: 6379
-          protocol: TCP
-  podSelector:
-    matchLabels:
-      cdk8s.io/metadata.addr: turing-redis-c8bfb50b
-  policyTypes:
-    - Ingress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allowegressundefinedc85c9da1da370a0a089caa8aa-c8001380
-spec:
-  egress:
-    - ports:
-        - port: 6379
-          protocol: TCP
-      to:
-        - podSelector:
-            matchLabels:
-              cdk8s.io/metadata.addr: turing-redis-c8bfb50b
-  podSelector:
-    matchLabels:
-      cdk8s.io/metadata.addr: turing-teddit-c85c9da1
-  policyTypes:
-    - Egress
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -332,18 +316,40 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: teddit
   name: turing-teddit-service-c8fb90f6
 spec:
   externalIPs: []
   ports:
-    - port: 443
+    - port: 8080
       targetPort: 8080
   selector:
     cdk8s.io/metadata.addr: turing-teddit-c85c9da1
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-teddit-ingress-c8a9622a
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-teddit-c847c3ad
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-teddit-service-c8fb90f6
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - teddit
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -471,18 +477,39 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: plex
   name: turing-plex-service-c8da1529
 spec:
   externalIPs: []
   ports:
     - port: 32400
-      targetPort: 32400
   selector:
     cdk8s.io/metadata.addr: turing-plex-c8e0eac9
-  type: NodePort
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-plex-ingress-c84add34
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-plex-c83a2035
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-plex-service-c8da1529
+                port:
+                  number: 32400
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - plex
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -533,18 +560,40 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: radarr
   name: turing-radarr-service-c8ede58b
 spec:
   externalIPs: []
   ports:
-    - port: 443
+    - port: 7878
       targetPort: 7878
   selector:
     cdk8s.io/metadata.addr: turing-radarr-c889326d
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-radarr-ingress-c8e1dbcf
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-radarr-c85c39bc
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-radarr-service-c8ede58b
+                port:
+                  number: 7878
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - radarr
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -700,18 +749,39 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: homeassistant
   name: turing-homeassistant-service-c83c321f
 spec:
   externalIPs: []
   ports:
-    - port: 443
-      targetPort: 8123
+    - port: 8123
   selector:
     cdk8s.io/metadata.addr: turing-homeassistant-c8dec317
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-homeassistant-ingress-c852382a
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-homeassistant-c8d5f667
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-homeassistant-service-c83c321f
+                port:
+                  number: 8123
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - homeassistant
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -762,18 +832,40 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: jackett
   name: turing-jackett-service-c80fa52f
 spec:
   externalIPs: []
   ports:
-    - port: 443
+    - port: 9117
       targetPort: 9117
   selector:
     cdk8s.io/metadata.addr: turing-jackett-c8bd3297
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-jackett-ingress-c80f86fd
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-jackett-c8f6c7b2
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-jackett-service-c80fa52f
+                port:
+                  number: 9117
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - jackett
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -824,18 +916,40 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: nitter
   name: turing-nitter-service-c8dd2908
 spec:
   externalIPs: []
   ports:
-    - port: 443
+    - port: 8080
       targetPort: 8080
   selector:
     cdk8s.io/metadata.addr: turing-nitter-c8547ba1
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-nitter-ingress-c8691666
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-nitter-c83b5027
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-nitter-service-c8dd2908
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - nitter
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -886,18 +1000,40 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: overseerr
   name: turing-overseerr-service-c8869539
 spec:
   externalIPs: []
   ports:
-    - port: 443
+    - port: 5055
       targetPort: 5055
   selector:
     cdk8s.io/metadata.addr: turing-overseerr-c8da0376
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-overseerr-ingress-c804e9b7
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-overseerr-c8c458a3
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-overseerr-service-c8869539
+                port:
+                  number: 5055
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - overseerr
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -948,9 +1084,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: qbittorrent
   name: turing-qbittorrent-service-c8ca4dc3
 spec:
   externalIPs: []
@@ -960,6 +1093,31 @@ spec:
   selector:
     cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-qbittorrent-ingress-c8acbd1e
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-qbittorrent-c8a5ea19
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-qbittorrent-service-c8ca4dc3
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - qbittorrent
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1010,18 +1168,40 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: sonarr
   name: turing-sonarr-service-c864ae4a
 spec:
   externalIPs: []
   ports:
-    - port: 443
+    - port: 8989
       targetPort: 8989
   selector:
     cdk8s.io/metadata.addr: turing-sonarr-c8f9699c
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-sonarr-ingress-c8b38537
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-sonarr-c897ed8c
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-sonarr-service-c864ae4a
+                port:
+                  number: 8989
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - sonarr
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1072,18 +1252,40 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: syncthing
   name: turing-syncthing-service-c854cbf8
 spec:
   externalIPs: []
   ports:
-    - port: 443
+    - port: 8384
       targetPort: 8384
   selector:
     cdk8s.io/metadata.addr: turing-syncthing-c84725cd
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-syncthing-ingress-c82f9117
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-syncthing-c86b97b8
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-syncthing-service-c854cbf8
+                port:
+                  number: 8384
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - syncthing
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -1134,15 +1336,37 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: tautulli
   name: turing-tautulli-service-c83a18a9
 spec:
   externalIPs: []
   ports:
-    - port: 443
+    - port: 8181
       targetPort: 8181
   selector:
     cdk8s.io/metadata.addr: turing-tautulli-c8df029b
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-tautulli-ingress-c8b16f18
+spec:
+  defaultBackend:
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-tautulli-c8f7df34
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: turing-tautulli-service-c83a18a9
+                port:
+                  number: 8181
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - tautulli
