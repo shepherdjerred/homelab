@@ -23,7 +23,7 @@ export function createTautulliDeployment(chart: Chart) {
 
   const service = new Service(chart, "tautulli-service", {
     selector: deployment,
-    ports: [{ name: "http", port: 443, targetPort: 8181 }],
+    ports: [{ name: "https", port: 443, targetPort: 8181 }],
   });
 
   const ingress = new Ingress(chart, "tautulli-ingress", {

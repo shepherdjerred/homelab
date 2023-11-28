@@ -23,7 +23,7 @@ export function createRadarrDeployment(chart: Chart) {
 
   const service = new Service(chart, "radarr-service", {
     selector: deployment,
-    ports: [{ name: "http", port: 443, targetPort: 7878 }],
+    ports: [{ name: "https", port: 443, targetPort: 7878 }],
   });
 
   const ingress = new Ingress(chart, "radarr-ingress", {

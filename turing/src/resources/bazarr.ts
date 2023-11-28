@@ -23,7 +23,7 @@ export function createBazarrDeployment(chart: Chart) {
 
   const service = new Service(chart, "bazarr-service", {
     selector: deployment,
-    ports: [{ name: "http", port: 443, targetPort: 6767 }],
+    ports: [{ name: "https", port: 443, targetPort: 6767 }],
   });
 
   const ingress = new Ingress(chart, "bazarr-ingress", {

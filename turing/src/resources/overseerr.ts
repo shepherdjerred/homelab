@@ -23,7 +23,7 @@ export function createOverseerrDeployment(chart: Chart) {
 
   const service = new Service(chart, "overseerr-service", {
     selector: deployment,
-    ports: [{ name: "http", port: 443, targetPort: 5055 }],
+    ports: [{ name: "https", port: 443, targetPort: 5055 }],
   });
 
   const ingress = new Ingress(chart, "overseerr-ingress", {

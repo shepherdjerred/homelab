@@ -174,7 +174,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
       targetPort: 3000
   selector:
@@ -311,7 +311,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
   selector:
     cdk8s.io/metadata.addr: turing-teddit-c85c9da1
@@ -462,7 +462,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
       targetPort: 32400
   selector:
@@ -537,7 +537,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
       targetPort: 7878
   selector:
@@ -612,7 +612,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
       targetPort: 6767
   selector:
@@ -708,7 +708,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
       targetPort: 8123
   selector:
@@ -783,7 +783,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
       targetPort: 9117
   selector:
@@ -858,7 +858,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
   selector:
     cdk8s.io/metadata.addr: turing-nitter-c8547ba1
@@ -932,7 +932,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
       targetPort: 5055
   selector:
@@ -1007,7 +1007,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
   selector:
     cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
@@ -1081,7 +1081,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
       targetPort: 8989
   selector:
@@ -1156,7 +1156,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
       targetPort: 8384
   selector:
@@ -1231,7 +1231,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
+    - name: https
       port: 443
       targetPort: 8181
   selector:
