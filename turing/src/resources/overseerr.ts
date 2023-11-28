@@ -1,4 +1,9 @@
-import { Deployment, Ingress, IngressBackend } from "npm:cdk8s-plus-27";
+import {
+  Deployment,
+  Ingress,
+  IngressBackend,
+  Service,
+} from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 
 export function createOverseerrDeployment(chart: Chart) {
@@ -16,8 +21,15 @@ export function createOverseerrDeployment(chart: Chart) {
     resources: {},
   });
 
+  const service = new Service(chart, "overseerr-service", {
+    selector: deployment,
+    ports: [{ name: "http", port: 80, targetPort: 5055 }],
+  });
+
   const ingress = new Ingress(chart, "overseerr-ingress", {
-    defaultBackend: IngressBackend.fromResource(deployment),
+    defaultBackend: IngressBackend.fromService(service, {
+      port: 80,
+    }),
     tls: [
       {
         hosts: ["overseerr"],
@@ -28,8 +40,4 @@ export function createOverseerrDeployment(chart: Chart) {
   ApiObject.of(ingress).addJsonPatch(
     JsonPatch.add("/spec/ingressClassName", "tailscale")
   );
-
-  deployment.exposeViaIngress("/", {
-    ingress,
-  });
 }

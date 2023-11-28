@@ -5,6 +5,7 @@ import {
   Ingress,
   IngressBackend,
   Protocol,
+  Service,
   Volume,
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
@@ -166,8 +167,15 @@ export function createPlexDeployment(chart: Chart) {
     ],
   });
 
+  const service = new Service(chart, "plex-service", {
+    selector: deployment,
+    ports: [{ name: "http", port: 80, targetPort: 32400 }],
+  });
+
   const ingress = new Ingress(chart, "plex-ingress", {
-    defaultBackend: IngressBackend.fromResource(deployment),
+    defaultBackend: IngressBackend.fromService(service, {
+      port: 80,
+    }),
     tls: [
       {
         hosts: ["plex"],
@@ -178,9 +186,4 @@ export function createPlexDeployment(chart: Chart) {
   ApiObject.of(ingress).addJsonPatch(
     JsonPatch.add("/spec/ingressClassName", "tailscale")
   );
-
-  deployment.exposeViaIngress("/", {
-    ingress,
-    ports: [{ port: 32400 }],
-  });
 }

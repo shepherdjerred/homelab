@@ -1,4 +1,9 @@
-import { Deployment, Ingress, IngressBackend } from "npm:cdk8s-plus-27";
+import {
+  Deployment,
+  Ingress,
+  IngressBackend,
+  Service,
+} from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 
 export function createJackettDeployment(chart: Chart) {
@@ -16,8 +21,15 @@ export function createJackettDeployment(chart: Chart) {
     resources: {},
   });
 
+  const service = new Service(chart, "jackett-service", {
+    selector: deployment,
+    ports: [{ name: "http", port: 80, targetPort: 9117 }],
+  });
+
   const ingress = new Ingress(chart, "jackett-ingress", {
-    defaultBackend: IngressBackend.fromResource(deployment),
+    defaultBackend: IngressBackend.fromService(service, {
+      port: 80,
+    }),
     tls: [
       {
         hosts: ["jackett"],
@@ -28,8 +40,4 @@ export function createJackettDeployment(chart: Chart) {
   ApiObject.of(ingress).addJsonPatch(
     JsonPatch.add("/spec/ingressClassName", "tailscale")
   );
-
-  deployment.exposeViaIngress("/", {
-    ingress,
-  });
 }

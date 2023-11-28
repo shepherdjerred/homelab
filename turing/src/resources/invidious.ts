@@ -3,6 +3,7 @@ import {
   EnvValue,
   Ingress,
   IngressBackend,
+  Service,
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 
@@ -55,8 +56,15 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
 
   postgresDeployment.connections.allowFrom(invidiousDeployment);
 
+  const service = new Service(chart, "invidious-service", {
+    selector: invidiousDeployment,
+    ports: [{ name: "http", port: 80, targetPort: 3000 }],
+  });
+
   const ingress = new Ingress(chart, "invidious-ingress", {
-    defaultBackend: IngressBackend.fromResource(invidiousDeployment),
+    defaultBackend: IngressBackend.fromService(service, {
+      port: 80,
+    }),
     tls: [
       {
         hosts: ["invidious"],
@@ -67,8 +75,4 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
   ApiObject.of(ingress).addJsonPatch(
     JsonPatch.add("/spec/ingressClassName", "tailscale")
   );
-
-  invidiousDeployment.exposeViaIngress("/", {
-    ingress,
-  });
 }

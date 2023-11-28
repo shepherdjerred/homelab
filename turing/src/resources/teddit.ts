@@ -3,6 +3,7 @@ import {
   Deployment,
   Ingress,
   IngressBackend,
+  Service,
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 
@@ -39,8 +40,15 @@ export function createTedditDeployment(chart: Chart) {
     resources: {},
   });
 
+  const service = new Service(chart, "teddit-service", {
+    selector: tedditDeployment,
+    ports: [{ name: "http", port: 80, targetPort: 8080 }],
+  });
+
   const ingress = new Ingress(chart, "teddit-ingress", {
-    defaultBackend: IngressBackend.fromResource(tedditDeployment),
+    defaultBackend: IngressBackend.fromService(service, {
+      port: 80,
+    }),
     tls: [
       {
         hosts: ["teddit"],
@@ -51,8 +59,4 @@ export function createTedditDeployment(chart: Chart) {
   ApiObject.of(ingress).addJsonPatch(
     JsonPatch.add("/spec/ingressClassName", "tailscale")
   );
-
-  tedditDeployment.exposeViaIngress("/", {
-    ingress,
-  });
 }

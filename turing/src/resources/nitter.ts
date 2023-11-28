@@ -1,4 +1,4 @@
-import { Deployment, Ingress, IngressBackend } from "npm:cdk8s-plus-27";
+import { Deployment, Ingress, IngressBackend, Service } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 
 export function createNitterDeployment(chart: Chart) {
@@ -16,8 +16,15 @@ export function createNitterDeployment(chart: Chart) {
     resources: {},
   });
 
+  const service = new Service(chart, "nitter-service", {
+    selector: deployment,
+    ports: [{ name: "http", port: 80, targetPort: 8080 }],
+  });
+
   const ingress = new Ingress(chart, "nitter-ingress", {
-    defaultBackend: IngressBackend.fromResource(deployment),
+    defaultBackend: IngressBackend.fromService(service, {
+      port: 80,
+    }),
     tls: [
       {
         hosts: ["nitter"],
@@ -28,8 +35,4 @@ export function createNitterDeployment(chart: Chart) {
   ApiObject.of(ingress).addJsonPatch(
     JsonPatch.add("/spec/ingressClassName", "tailscale")
   );
-
-  deployment.exposeViaIngress("/", {
-    ingress,
-  });
 }
