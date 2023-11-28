@@ -605,20 +605,6 @@ spec:
     cdk8s.io/metadata.addr: turing-bazarr-c802be67
   type: ClusterIP
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: turing-bazarr-service-c886f550
-spec:
-  externalIPs: []
-  ports:
-    - name: http
-      port: 80
-      targetPort: 6767
-  selector:
-    cdk8s.io/metadata.addr: turing-bazarr-c802be67
-  type: ClusterIP
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
