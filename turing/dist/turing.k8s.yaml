@@ -612,8 +612,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 443
+    - name: http
+      port: 80
       targetPort: 6767
   selector:
     cdk8s.io/metadata.addr: turing-bazarr-c802be67
@@ -625,10 +625,10 @@ metadata:
   name: turing-bazarr-ingress-c8383bc0
 spec:
   defaultBackend:
-    service:
-      name: turing-bazarr-service-c886f550
-      port:
-        number: 443
+    resource:
+      apiGroup: apps
+      kind: Deployment
+      name: turing-bazarr-c8e2b230
   ingressClassName: tailscale
   rules:
     - http:
