@@ -1,6 +1,5 @@
 import {
   Deployment,
-  HttpIngressPathType,
   Ingress,
   IngressBackend,
   Service,
@@ -26,6 +25,7 @@ export function createBazarrDeployment(chart: Chart) {
     selector: deployment,
     ports: [
       {
+        name: "https",
         port: 443,
         targetPort: 6767,
       },
