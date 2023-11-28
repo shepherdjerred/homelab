@@ -23,12 +23,12 @@ export function createSyncthingDeployment(chart: Chart) {
 
   const service = new Service(chart, "syncthing-service", {
     selector: deployment,
-    ports: [{ name: "http", port: 80, targetPort: 8384 }],
+    ports: [{ name: "http", port: 443, targetPort: 8384 }],
   });
 
   const ingress = new Ingress(chart, "syncthing-ingress", {
     defaultBackend: IngressBackend.fromService(service, {
-      port: 80,
+      port: 443,
     }),
     tls: [
       {

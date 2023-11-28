@@ -23,12 +23,12 @@ export function createSonarrDeployment(chart: Chart) {
 
   const service = new Service(chart, "sonarr-service", {
     selector: deployment,
-    ports: [{ name: "http", port: 80, targetPort: 8989 }],
+    ports: [{ name: "http", port: 443, targetPort: 8989 }],
   });
 
   const ingress = new Ingress(chart, "sonarr-ingress", {
     defaultBackend: IngressBackend.fromService(service, {
-      port: 80,
+      port: 443,
     }),
     tls: [
       {

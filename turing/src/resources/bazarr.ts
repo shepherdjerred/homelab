@@ -23,12 +23,12 @@ export function createBazarrDeployment(chart: Chart) {
 
   const service = new Service(chart, "bazarr-service", {
     selector: deployment,
-    ports: [{ name: "http", port: 80, targetPort: 6767 }],
+    ports: [{ name: "http", port: 443, targetPort: 6767 }],
   });
 
   const ingress = new Ingress(chart, "bazarr-ingress", {
     defaultBackend: IngressBackend.fromService(service, {
-      port: 80,
+      port: 443,
     }),
     tls: [
       {
