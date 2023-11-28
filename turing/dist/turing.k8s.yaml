@@ -644,11 +644,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-bazarr-service-c83889b9
+  name: turing-bazarr-service-c886f550
 spec:
   externalIPs: []
   ports:
-    - port: 6767
+    - port: 80
       targetPort: 6767
   selector:
     cdk8s.io/metadata.addr: turing-bazarr-c802be67
@@ -660,21 +660,11 @@ metadata:
   name: turing-bazarr-ingress-c8383bc0
 spec:
   defaultBackend:
-    resource:
-      apiGroup: apps
-      kind: Deployment
-      name: turing-bazarr-c8e2b230
+    service:
+      name: turing-bazarr-service-c886f550
+      port:
+        number: 80
   ingressClassName: tailscale
-  rules:
-    - http:
-        paths:
-          - backend:
-              service:
-                name: turing-bazarr-service-c83889b9
-                port:
-                  number: 6767
-            path: /
-            pathType: Prefix
   tls:
     - hosts:
         - bazarr

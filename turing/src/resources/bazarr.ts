@@ -1,4 +1,9 @@
-import { Deployment, Ingress, IngressBackend } from "npm:cdk8s-plus-27";
+import {
+  Deployment,
+  Ingress,
+  IngressBackend,
+  Service,
+} from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 
 export function createBazarrDeployment(chart: Chart) {
@@ -16,8 +21,15 @@ export function createBazarrDeployment(chart: Chart) {
     resources: {},
   });
 
+  const service = new Service(chart, "bazarr-service", {
+    selector: deployment,
+    ports: [{ port: 80, targetPort: 6767 }],
+  });
+
   const ingress = new Ingress(chart, "bazarr-ingress", {
-    defaultBackend: IngressBackend.fromResource(deployment),
+    defaultBackend: IngressBackend.fromService(service, {
+      port: 80,
+    }),
     tls: [
       {
         hosts: ["bazarr"],
@@ -28,8 +40,4 @@ export function createBazarrDeployment(chart: Chart) {
   ApiObject.of(ingress).addJsonPatch(
     JsonPatch.add("/spec/ingressClassName", "tailscale")
   );
-
-  deployment.exposeViaIngress("/", {
-    ingress,
-  });
 }

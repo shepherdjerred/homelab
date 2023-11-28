@@ -5,7 +5,6 @@ import {
   Ingress,
   IngressBackend,
   Protocol,
-  Service,
   Volume,
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
