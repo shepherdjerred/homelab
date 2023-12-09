@@ -1263,7 +1263,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: credential
-                  name: name
+                  name: tailscale-auth-key
           image: ghcr.io/tailscale/golink:main
           imagePullPolicy: Always
           name: main
