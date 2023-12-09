@@ -1,7 +1,9 @@
 import {
   Deployment,
+  EnvValue,
   PersistentVolumeAccessMode,
   PersistentVolumeClaim,
+  Secret,
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
@@ -23,6 +25,12 @@ export function createGolinkDeployment(chart: Chart) {
     securityContext: {
       ensureNonRoot: false,
       readOnlyRootFilesystem: false,
+    },
+    envVariables: {
+      TS_AUTH_KEY: EnvValue.fromSecretValue({
+        secret: Secret.fromSecretName(chart, "tailscale-auth-key", "name"),
+        key: ".",
+      }),
     },
     resources: {},
     volumeMounts: [
