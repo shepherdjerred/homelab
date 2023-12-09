@@ -42,13 +42,11 @@ export function createTedditDeployment(chart: Chart) {
 
   const service = new Service(chart, "teddit-service", {
     selector: tedditDeployment,
-    ports: [{ name: "https", port: 443, targetport: 44380 }],
+    ports: [{ port: 8080 }],
   });
 
   const ingress = new Ingress(chart, "teddit-ingress", {
-    defaultBackend: IngressBackend.fromService(service, {
-      port: 443,
-    }),
+    defaultBackend: IngressBackend.fromService(service),
     tls: [
       {
         hosts: ["teddit"],

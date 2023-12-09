@@ -75,13 +75,11 @@ export function createHomeAssistantDeployment(chart: Chart) {
 
   const service = new Service(chart, "homeassistant-service", {
     selector: deployment,
-    ports: [{ name: "https", port: 443, targetPort: 8123 }],
+    ports: [{ port: 8123 }],
   });
 
   const ingress = new Ingress(chart, "homeassistant-ingress", {
-    defaultBackend: IngressBackend.fromService(service, {
-      port: 443,
-    }),
+    defaultBackend: IngressBackend.fromService(service),
     tls: [
       {
         hosts: ["homeassistant"],

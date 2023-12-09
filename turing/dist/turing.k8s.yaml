@@ -1,6 +1,562 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: turing-postgres-c8a6b074
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-postgres-c8e70aca
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-postgres-c8e70aca
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: invidious
+          image: postgres
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 5432
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 5432
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-postgres-service-c834f588
+spec:
+  externalIPs: []
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    cdk8s.io/metadata.addr: turing-postgres-c8e70aca
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allowingressc8ca4b09d8cd514c29205a1c1fc83a275-c8724ba3
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
+      ports:
+        - port: 5432
+          protocol: TCP
+  podSelector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-postgres-c8e70aca
+  policyTypes:
+    - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allowegressundefinedc8ca4b09d8cd514c29205a1c1-c87b2d8c
+spec:
+  egress:
+    - ports:
+        - port: 5432
+          protocol: TCP
+      to:
+        - podSelector:
+            matchLabels:
+              cdk8s.io/metadata.addr: turing-postgres-c8e70aca
+  podSelector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
+  policyTypes:
+    - Egress
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-invidious-c89ec085
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: INVIDIOUS_CONFIG
+              value: "
+
+                db:
+
+                \  dbname: invidious
+
+                \  user: postgres
+
+                \  password: password
+
+                \  host: turing-postgres-service-c834f588
+
+                \  port: 5432
+
+                check_tables: true
+
+                hmac_key: \"rVA6+87s6d8 7f56S4A6S5Df46 advs\"
+
+                \    "
+          image: quay.io/invidious/invidious
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 3000
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 3000
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-invidious-service-c889a532
+spec:
+  externalIPs: []
+  ports:
+    - port: 3000
+  selector:
+    cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-invidious-ingress-c8c77057
+spec:
+  defaultBackend:
+    service:
+      name: turing-invidious-service-c889a532
+      port:
+        number: 3000
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - invidious
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-redis-c813a201
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-redis-c8bfb50b
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-redis-c8bfb50b
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: redis
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 6379
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 6379
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-redis-service-c8b2526d
+spec:
+  externalIPs: []
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    cdk8s.io/metadata.addr: turing-redis-c8bfb50b
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-teddit-c847c3ad
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-teddit-c85c9da1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-teddit-c85c9da1
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: REDIS_HOST
+              value: turing-redis-service-c8b2526d
+          image: teddit/teddit
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8080
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-teddit-service-c897e691
+spec:
+  externalIPs: []
+  ports:
+    - port: 8080
+  selector:
+    cdk8s.io/metadata.addr: turing-teddit-c85c9da1
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-teddit-ingress-c8a9622a
+spec:
+  defaultBackend:
+    service:
+      name: turing-teddit-service-c897e691
+      port:
+        number: 8080
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - teddit
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-plex-c83a2035
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-plex-c8e0eac9
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-plex-c8e0eac9
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: ADVERTISE_IP
+              value: https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red
+          image: plexinc/pms-docker
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 32400
+              hostIP: 0.0.0.0
+              hostPort: 32400
+              name: port-32400-web
+              protocol: TCP
+            - containerPort: 1900
+              hostPort: 1900
+              name: port-1900-dlna
+              protocol: UDP
+            - containerPort: 5353
+              hostPort: 5353
+              name: port-5353
+              protocol: UDP
+            - containerPort: 3005
+              hostPort: 3005
+              name: port-3005
+              protocol: TCP
+            - containerPort: 8324
+              hostPort: 8324
+              name: port-8324-roku
+              protocol: TCP
+            - containerPort: 32469
+              hostPort: 32469
+              name: port-32469-dlna
+              protocol: TCP
+            - containerPort: 32410
+              hostPort: 32410
+              name: port-32410-gdm
+              protocol: UDP
+            - containerPort: 32412
+              hostPort: 32412
+              name: port-32412-gdm
+              protocol: UDP
+            - containerPort: 32413
+              hostPort: 32413
+              name: port-32413-gdm
+              protocol: UDP
+            - containerPort: 32414
+              hostPort: 32414
+              name: port-32414-gdm
+              protocol: UDP
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          volumeMounts:
+            - mountPath: /config
+              name: plex-config-bind-mount
+            - mountPath: /data/tv
+              name: plex-tv-bind-mount
+            - mountPath: /data/movies
+              name: plex-movies-bind-mount
+            - mountPath: /data/other
+              name: plex-other-bind-mount
+            - mountPath: /data/music
+              name: plex-music-bind-mount
+            - mountPath: /transcode
+              name: plex-shm-mount
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - hostPath:
+            path: /mnt/storage/plex
+            type: ""
+          name: plex-config-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/tv
+            type: ""
+          name: plex-tv-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/movies
+            type: ""
+          name: plex-movies-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/other
+            type: ""
+          name: plex-other-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/music
+            type: ""
+          name: plex-music-bind-mount
+        - emptyDir:
+            medium: Memory
+            sizeLimit: 8192Mi
+          name: plex-shm-mount
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-plex-service-c8895365
+spec:
+  externalIPs: []
+  ports:
+    - name: https
+      port: 443
+      targetPort: 32400
+  selector:
+    cdk8s.io/metadata.addr: turing-plex-c8e0eac9
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-plex-ingress-c84add34
+spec:
+  defaultBackend:
+    service:
+      name: turing-plex-service-c8895365
+      port:
+        number: 443
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - plex
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-radarr-c85c39bc
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-radarr-c889326d
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-radarr-c889326d
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/radarr
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 7878
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 7878
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-radarr-service-c8f20cb0
+spec:
+  externalIPs: []
+  ports:
+    - port: 7878
+  selector:
+    cdk8s.io/metadata.addr: turing-radarr-c889326d
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-radarr-ingress-c8e1dbcf
+spec:
+  defaultBackend:
+    service:
+      name: turing-radarr-service-c8f20cb0
+      port:
+        number: 7878
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - radarr
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: turing-bazarr-c8e2b230
 spec:
   minReadySeconds: 0
@@ -51,9 +607,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: http
-      port: 80
-      targetPort: 6767
+    - port: 6767
   selector:
     cdk8s.io/metadata.addr: turing-bazarr-c802be67
   type: ClusterIP
@@ -67,8 +621,616 @@ spec:
     service:
       name: turing-bazarr-service-c886f550
       port:
-        name: https
+        number: 6767
   ingressClassName: tailscale
   tls:
     - hosts:
         - bazarr
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-homeassistant-c8d5f667
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-homeassistant-c8dec317
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-homeassistant-c8dec317
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: ghcr.io/home-assistant/home-assistant:stable
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8123
+              name: port-8123-web
+              protocol: TCP
+            - containerPort: 5353
+              name: port-5353
+              protocol: TCP
+            - containerPort: 21063
+              name: port-21063
+              protocol: TCP
+            - containerPort: 21064
+              name: port-21064
+              protocol: TCP
+            - containerPort: 21065
+              name: port-21065
+              protocol: TCP
+            - containerPort: 21066
+              name: port-21066
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          volumeMounts:
+            - mountPath: /config
+              name: homeassistant-bind-mount
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - hostPath:
+            path: /mnt/storage/data/homeassistant-config
+            type: ""
+          name: homeassistant-bind-mount
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-homeassistant-service-c8afe261
+spec:
+  externalIPs: []
+  ports:
+    - port: 8123
+  selector:
+    cdk8s.io/metadata.addr: turing-homeassistant-c8dec317
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-homeassistant-ingress-c852382a
+spec:
+  defaultBackend:
+    service:
+      name: turing-homeassistant-service-c8afe261
+      port:
+        number: 8123
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - homeassistant
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-jackett-c8f6c7b2
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-jackett-c8bd3297
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-jackett-c8bd3297
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/jackett
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 9117
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 9117
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-jackett-service-c8006ef4
+spec:
+  externalIPs: []
+  ports:
+    - port: 9117
+  selector:
+    cdk8s.io/metadata.addr: turing-jackett-c8bd3297
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-jackett-ingress-c80f86fd
+spec:
+  defaultBackend:
+    service:
+      name: turing-jackett-service-c8006ef4
+      port:
+        number: 9117
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - jackett
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-nitter-c83b5027
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-nitter-c8547ba1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-nitter-c8547ba1
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: zedeus/nitter
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8080
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-nitter-service-c8451cc9
+spec:
+  externalIPs: []
+  ports:
+    - port: 8080
+  selector:
+    cdk8s.io/metadata.addr: turing-nitter-c8547ba1
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-nitter-ingress-c8691666
+spec:
+  defaultBackend:
+    service:
+      name: turing-nitter-service-c8451cc9
+      port:
+        number: 8080
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - nitter
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-overseerr-c8c458a3
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-overseerr-c8da0376
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-overseerr-c8da0376
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/overseerr
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 5055
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 5055
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-overseerr-service-c8d7d56c
+spec:
+  externalIPs: []
+  ports:
+    - port: 5055
+  selector:
+    cdk8s.io/metadata.addr: turing-overseerr-c8da0376
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  name: turing-overseerr-ingress-c804e9b7
+spec:
+  defaultBackend:
+    service:
+      name: turing-overseerr-service-c8d7d56c
+      port:
+        number: 5055
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - overseerr
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-qbittorrent-c8a5ea19
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/qbittorrent
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8080
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-qbittorrent-service-c855f8e2
+spec:
+  externalIPs: []
+  ports:
+    - name: https
+      port: 443
+  selector:
+    cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-qbittorrent-ingress-c8acbd1e
+spec:
+  defaultBackend:
+    service:
+      name: turing-qbittorrent-service-c855f8e2
+      port:
+        number: 443
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - qbittorrent
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-sonarr-c897ed8c
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-sonarr-c8f9699c
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-sonarr-c8f9699c
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/sonarr
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8989
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8989
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-sonarr-service-c87c67d9
+spec:
+  externalIPs: []
+  ports:
+    - port: 8989
+  selector:
+    cdk8s.io/metadata.addr: turing-sonarr-c8f9699c
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-sonarr-ingress-c8b38537
+spec:
+  defaultBackend:
+    service:
+      name: turing-sonarr-service-c87c67d9
+      port:
+        number: 8989
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - sonarr
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-syncthing-c86b97b8
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-syncthing-c84725cd
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-syncthing-c84725cd
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/syncthing
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8384
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8384
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-syncthing-service-c8df4f2d
+spec:
+  externalIPs: []
+  ports:
+    - port: 8384
+  selector:
+    cdk8s.io/metadata.addr: turing-syncthing-c84725cd
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-syncthing-ingress-c82f9117
+spec:
+  defaultBackend:
+    service:
+      name: turing-syncthing-service-c8df4f2d
+      port:
+        number: 8384
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - syncthing
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-tautulli-c8f7df34
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-tautulli-c8df029b
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-tautulli-c8df029b
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: lscr.io/linuxserver/tautulli
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8181
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8181
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-tautulli-service-c80564a9
+spec:
+  externalIPs: []
+  ports:
+    - port: 8181
+  selector:
+    cdk8s.io/metadata.addr: turing-tautulli-c8df029b
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-tautulli-ingress-c8b16f18
+spec:
+  defaultBackend:
+    service:
+      name: turing-tautulli-service-c80564a9
+      port:
+        number: 8181
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - tautulli

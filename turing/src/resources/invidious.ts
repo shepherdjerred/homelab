@@ -58,13 +58,11 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
 
   const service = new Service(chart, "invidious-service", {
     selector: invidiousDeployment,
-    ports: [{ name: "https", port: 443, targetPort: 3000 }],
+    ports: [{ port: 3000 }],
   });
 
   const ingress = new Ingress(chart, "invidious-ingress", {
-    defaultBackend: IngressBackend.fromService(service, {
-      port: 443,
-    }),
+    defaultBackend: IngressBackend.fromService(service),
     tls: [
       {
         hosts: ["invidious"],

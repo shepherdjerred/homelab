@@ -23,13 +23,11 @@ export function createJackettDeployment(chart: Chart) {
 
   const service = new Service(chart, "jackett-service", {
     selector: deployment,
-    ports: [{ name: "https", port: 443, targetPort: 9117 }],
+    ports: [{ port: 9117 }],
   });
 
   const ingress = new Ingress(chart, "jackett-ingress", {
-    defaultBackend: IngressBackend.fromService(service, {
-      port: 443,
-    }),
+    defaultBackend: IngressBackend.fromService(service),
     tls: [
       {
         hosts: ["jackett"],
