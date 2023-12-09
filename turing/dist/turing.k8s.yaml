@@ -1258,7 +1258,13 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - image: ghcr.io/tailscale/golink:main
+        - env:
+            - name: TS_AUTH_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: "."
+                  name: name
+          image: ghcr.io/tailscale/golink:main
           imagePullPolicy: Always
           name: main
           ports:
