@@ -1234,3 +1234,65 @@ spec:
   tls:
     - hosts:
         - tautulli
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-golink-c874ad2c
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-golink-c8ad5c7c
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-golink-c8ad5c7c
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: ghcr.io/tailscale/golink:main
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8080
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: go
+  name: turing-golink-service-c804ea76
+spec:
+  externalIPs: []
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    cdk8s.io/metadata.addr: turing-golink-c8ad5c7c
+  type: ClusterIP

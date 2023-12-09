@@ -12,6 +12,7 @@ import { createQBitTorrentDeployment } from "./resources/qbittorrent.ts";
 import { createSonarrDeployment } from "./resources/sonarr.ts";
 import { createSyncthingDeployment } from "./resources/syncthing.ts";
 import { createTautulliDeployment } from "./resources/tautulli.ts";
+import { createGolinkDeployment } from "./resources/golink.ts";
 
 const app = new App();
 const chart = new Chart(app, "turing");
@@ -29,5 +30,6 @@ createQBitTorrentDeployment(chart);
 createSonarrDeployment(chart);
 createSyncthingDeployment(chart);
 createTautulliDeployment(chart);
+createGolinkDeployment(chart);
 
 app.synth();
