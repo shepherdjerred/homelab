@@ -2,7 +2,6 @@ import {
   Deployment,
   PersistentVolumeAccessMode,
   PersistentVolumeClaim,
-  Service,
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
@@ -33,12 +32,4 @@ export function createGolinkDeployment(chart: Chart) {
       },
     ],
   });
-
-  const service = new Service(chart, "golink-service", {
-    selector: deployment,
-    ports: [{ port: 80, targetPort: 8080 }],
-  });
-
-  service.metadata.addAnnotation("tailscale.com/expose", "true");
-  service.metadata.addAnnotation("tailscale.com/hostname", "go");
 }

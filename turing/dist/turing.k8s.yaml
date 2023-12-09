@@ -1301,19 +1301,3 @@ spec:
       storage: 2Gi
   storageClassName: longhorn
   volumeMode: Filesystem
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: go
-  name: turing-golink-service-c804ea76
-spec:
-  externalIPs: []
-  ports:
-    - port: 80
-      targetPort: 8080
-  selector:
-    cdk8s.io/metadata.addr: turing-golink-c8ad5c7c
-  type: ClusterIP
