@@ -1,14 +1,21 @@
 import {
   Deployment,
-  Ingress,
-  IngressBackend,
+  PersistentVolumeAccessMode,
+  PersistentVolumeClaim,
   Service,
+  Volume,
 } from "npm:cdk8s-plus-27";
-import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
+import { Chart, Size } from "npm:cdk8s";
 
 export function createGolinkDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "golink", {
     replicas: 1,
+  });
+
+  const claim = new PersistentVolumeClaim(chart, "Claim", {
+    storage: Size.gibibytes(2),
+    storageClassName: "longhorn",
+    accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
   });
 
   deployment.addContainer({
@@ -19,6 +26,12 @@ export function createGolinkDeployment(chart: Chart) {
       readOnlyRootFilesystem: false,
     },
     resources: {},
+    volumeMounts: [
+      {
+        path: "/home/nonroot",
+        volume: Volume.fromPersistentVolumeClaim(chart, "golink-volume", claim),
+      },
+    ],
   });
 
   const service = new Service(chart, "golink-service", {
