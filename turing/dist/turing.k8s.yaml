@@ -1262,7 +1262,7 @@ spec:
             - name: TS_AUTH_KEY
               valueFrom:
                 secretKeyRef:
-                  key: "."
+                  key: credential
                   name: name
           image: ghcr.io/tailscale/golink:main
           imagePullPolicy: Always
