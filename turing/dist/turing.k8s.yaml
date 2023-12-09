@@ -1267,17 +1267,11 @@ spec:
           image: ghcr.io/tailscale/golink:main
           imagePullPolicy: Always
           name: main
-          ports:
-            - containerPort: 8080
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: false
-            runAsNonRoot: false
-          startupProbe:
-            failureThreshold: 3
-            tcpSocket:
-              port: 8080
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
           volumeMounts:
             - mountPath: /home/nonroot
               name: pvc-turing-claim-c8f45b26
