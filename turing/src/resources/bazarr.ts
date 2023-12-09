@@ -23,13 +23,11 @@ export function createBazarrDeployment(chart: Chart) {
 
   const service = new Service(chart, "bazarr-service", {
     selector: deployment,
-    ports: [{ name: "https", port: 443, targetPort: 6767 }],
+    ports: [{ name: "http", port: 80, targetPort: 6767 }],
   });
 
   const ingress = new Ingress(chart, "bazarr-ingress", {
-    defaultBackend: IngressBackend.fromService(service, {
-      port: 443,
-    }),
+    defaultBackend: IngressBackend.fromService(service, {}),
     tls: [
       {
         hosts: ["bazarr"],
@@ -38,6 +36,8 @@ export function createBazarrDeployment(chart: Chart) {
   });
 
   ApiObject.of(ingress).addJsonPatch(
-    JsonPatch.add("/spec/ingressClassName", "tailscale")
+    JsonPatch.add("/spec/ingressClassName", "tailscale"),
+    JsonPatch.add("/spec/defaultBackend/service/port/name", "https"),
+    JsonPatch.remove("/spec/defaultBackend/service/port/number")
   );
 }
