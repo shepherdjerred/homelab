@@ -13,6 +13,8 @@ spec:
       parameters:
         - name: helmPreUpgradeCheckerJob.enabled
           value: "false"
+        - name: persistence.defaultClassReplicaCount
+          value: 1
   destination:
     server: "https://kubernetes.default.svc"
     namespace: longhorn
