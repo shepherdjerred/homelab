@@ -29,7 +29,7 @@ export function createGolinkDeployment(chart: Chart) {
     envVariables: {
       TS_AUTH_KEY: EnvValue.fromSecretValue({
         secret: Secret.fromSecretName(chart, "tailscale-auth-key", "name"),
-        key: ".",
+        key: "credential",
       }),
     },
     resources: {},
