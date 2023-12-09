@@ -1272,6 +1272,9 @@ spec:
             failureThreshold: 3
             tcpSocket:
               port: 8080
+          volumeMounts:
+            - mountPath: /home/nonroot
+              name: pvc-turing-claim-c8f45b26
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1280,6 +1283,24 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-claim-c8f45b26
+          persistentVolumeClaim:
+            claimName: turing-claim-c8f45b26
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-claim-c8f45b26
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
