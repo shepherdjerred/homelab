@@ -6,12 +6,13 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/shepherdjerred/servers'
+    repoURL: "https://github.com/shepherdjerred/servers"
     path: turing/dist/
     targetRevision: sj/k8s
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: turing
   syncPolicy:
+    automated:
     syncOptions:
       - CreateNamespace=true

@@ -6,12 +6,13 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/tailscale/tailscale'
+    repoURL: "https://github.com/tailscale/tailscale"
     path: cmd/k8s-operator/deploy/chart
     targetRevision: HEAD
   destination:
-    server: 'https://kubernetes.default.svc'
+    server: "https://kubernetes.default.svc"
     namespace: tailscale
   syncPolicy:
+    automated:
     syncOptions:
       - CreateNamespace=true
