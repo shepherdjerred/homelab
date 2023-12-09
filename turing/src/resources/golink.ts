@@ -26,6 +26,7 @@ export function createGolinkDeployment(chart: Chart) {
     securityContext: {
       user: 0,
       group: 0,
+      ensureNonRoot: false,
       readOnlyRootFilesystem: false,
     },
     envVariables: {
