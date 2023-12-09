@@ -60,10 +60,4 @@
 1. Sync the 1Password application.
 1. Sync all of the applications.
 
-// TODO: patch argocd with tailscale ingress
-
-// TODO: persistent storage
-
-// TODO: https
-
 // TODO: security hardening
