@@ -24,7 +24,8 @@ export function createGolinkDeployment(chart: Chart) {
   deployment.addContainer({
     image: "ghcr.io/tailscale/golink:main",
     securityContext: {
-      ensureNonRoot: false,
+      user: 65532,
+      group: 65532,
       readOnlyRootFilesystem: false,
     },
     envVariables: {
