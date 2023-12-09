@@ -1270,8 +1270,8 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
           volumeMounts:
             - mountPath: /home/nonroot
               name: pvc-turing-claim-c8f45b26

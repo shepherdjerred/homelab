@@ -23,10 +23,10 @@ export function createGolinkDeployment(chart: Chart) {
 
   deployment.addContainer({
     image: "ghcr.io/tailscale/golink:main",
-    // securityContext: {
-    //   ensureNonRoot: false,
-    //   readOnlyRootFilesystem: false,
-    // },
+    securityContext: {
+      ensureNonRoot: false,
+      readOnlyRootFilesystem: false,
+    },
     envVariables: {
       TS_AUTH_KEY: EnvValue.fromSecretValue({
         secret: Secret.fromSecretName(
