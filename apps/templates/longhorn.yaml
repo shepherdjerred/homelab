@@ -15,6 +15,8 @@ spec:
           value: "false"
         - name: persistence.defaultClassReplicaCount
           value: 1
+        - name: defaultSettings.backupTarget
+          value: "s3://longhorn-backup@auto/"
         - name: defaultSettings.backupTargetCredentialSecret
           value: "aws-secret"
   destination:
