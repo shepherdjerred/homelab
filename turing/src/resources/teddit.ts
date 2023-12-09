@@ -8,7 +8,7 @@ import {
 import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 
 export function createTedditDeployment(chart: Chart) {
-  const redisDeployment = new Deployment(chart, "redis", {
+  const redisDeployment = new Deployment(chart, "teddit-redis", {
     replicas: 1,
   });
 

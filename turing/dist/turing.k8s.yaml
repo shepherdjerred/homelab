@@ -197,14 +197,14 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-redis-c813a201
+  name: turing-teddit-redis-c85cfeac
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-redis-c8bfb50b
+      cdk8s.io/metadata.addr: turing-teddit-redis-c880213d
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -213,7 +213,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-redis-c8bfb50b
+        cdk8s.io/metadata.addr: turing-teddit-redis-c880213d
     spec:
       automountServiceAccountToken: false
       containers:
@@ -243,14 +243,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-redis-service-c8b2526d
+  name: turing-teddit-redis-service-c8b0124b
 spec:
   externalIPs: []
   ports:
     - port: 6379
       targetPort: 6379
   selector:
-    cdk8s.io/metadata.addr: turing-redis-c8bfb50b
+    cdk8s.io/metadata.addr: turing-teddit-redis-c880213d
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -278,7 +278,7 @@ spec:
       containers:
         - env:
             - name: REDIS_HOST
-              value: turing-redis-service-c8b2526d
+              value: turing-teddit-redis-service-c8b0124b
           image: teddit/teddit
           imagePullPolicy: Always
           name: main
@@ -591,6 +591,9 @@ spec:
             failureThreshold: 3
             tcpSocket:
               port: 6767
+          volumeMounts:
+            - mountPath: /home/nonroot
+              name: pvc-turing-bazarr-pvc-c87412a2
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -599,6 +602,24 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-bazarr-pvc-c87412a2
+          persistentVolumeClaim:
+            claimName: turing-bazarr-pvc-c87412a2
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-bazarr-pvc-c87412a2
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
@@ -797,6 +818,65 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: turing-nitter-redis-c8213a57
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-nitter-redis-c85a5d16
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-nitter-redis-c85a5d16
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: redis
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 6379
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 6379
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-nitter-redis-service-c8eb333b
+spec:
+  externalIPs: []
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    cdk8s.io/metadata.addr: turing-nitter-redis-c85a5d16
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: turing-nitter-c83b5027
 spec:
   minReadySeconds: 0
@@ -831,6 +911,9 @@ spec:
             failureThreshold: 3
             tcpSocket:
               port: 8080
+          volumeMounts:
+            - mountPath: /src/
+              name: configmap-turing-nitter-conf-c88d4ff3
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -839,6 +922,19 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            name: turing-nitter-conf-c88d4ff3
+          name: configmap-turing-nitter-conf-c88d4ff3
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: turing-nitter-conf-c88d4ff3
+data:
+  ? "[Server]\naddress = \"0.0.0.0\"\nport = 8080\nhttps = false  # disable to enable cookies when not using https\nhttpMaxConnections = 100\nstaticDir = \"./public\"\ntitle = \"nitter\"\nhostname = \"nitter.tailnet-1a49.ts.net\"\n\n[Cache]\nlistMinutes = 240  # how long to cache list info (not the tweets, so keep it high)\nrssMinutes = 10  # how long to cache rss queries\nredisHost = \"turing-nitter-redis-service-c8eb333b\"  # Change to \"nitter-redis\" if using docker-compose\nredisPort = 6379\nredisPassword = \"\"\nredisConnections = 20  # connection pool size\nredisMaxConnections = 30\n# max, new connections are opened when none are available, but if the pool size\n# goes above this, they're closed when released. don't worry about this unless\n# you receive tons of requests per second\n\n[Config]\nhmacKey = \"489yc4tvwh4tvw90\"  # random key for cryptographic signing of video urls\nbase64Media = false  # use base64 encoding for proxied media urls\nenableRSS = true  # set this to false to disable RSS feeds\nenableDebug = false  # enable request logs and debug endpoints\nproxy = \"\"  # http/https url, SOCKS proxies are not supported\nproxyAuth = \"\"\ntokenCount = 10\n# minimum amount of usable tokens. tokens are used to authorize API requests,\n# but they expire after ~1 hour, and have a limit of 187 requests.\n# the limit gets reset every 15 minutes, and the pool is filled up so there's\n# always at least $tokenCount usable tokens. again, only increase this if\n# you receive major bursts all the time\n\n# Change default preferences here, see src/prefs_impl.nim for a complete list\n[Preferences]\ntheme = \"Nitter\"\nreplaceTwitter = \"go/nitter\"\nreplaceYouTube = \"\"\nreplaceReddit = \"go/teddit\"\nreplaceInstagram = \"\"\nproxyVideos = true\nhlsPlayback = false\ninfiniteScroll = false\n"
+  : nitter.conf
+immutable: false
 ---
 apiVersion: v1
 kind: Service
@@ -1276,7 +1372,7 @@ spec:
             runAsUser: 0
           volumeMounts:
             - mountPath: /home/nonroot
-              name: pvc-turing-claim-c8f45b26
+              name: pvc-turing-golink-pvc-c8463083
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1286,15 +1382,15 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-claim-c8f45b26
+        - name: pvc-turing-golink-pvc-c8463083
           persistentVolumeClaim:
-            claimName: turing-claim-c8f45b26
+            claimName: turing-golink-pvc-c8463083
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-claim-c8f45b26
+  name: turing-golink-pvc-c8463083
 spec:
   accessModes:
     - ReadWriteOnce

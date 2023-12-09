@@ -14,7 +14,7 @@ export function createGolinkDeployment(chart: Chart) {
     replicas: 1,
   });
 
-  const claim = new PersistentVolumeClaim(chart, "Claim", {
+  const claim = new PersistentVolumeClaim(chart, "golink-pvc", {
     storage: Size.gibibytes(2),
     storageClassName: "longhorn",
     accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
@@ -24,6 +24,7 @@ export function createGolinkDeployment(chart: Chart) {
   deployment.addContainer({
     image: "ghcr.io/tailscale/golink:main",
     securityContext: {
+      // weird sqlite errors running as non-root
       user: 0,
       group: 0,
       ensureNonRoot: false,
