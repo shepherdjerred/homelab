@@ -13,6 +13,6 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: datadog
   syncPolicy:
-    automated:
+    automated: {}
     syncOptions:
       - CreateNamespace=true

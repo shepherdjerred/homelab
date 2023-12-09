@@ -13,6 +13,6 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: turing
   syncPolicy:
-    automated:
+    automated: {}
     syncOptions:
       - CreateNamespace=true
