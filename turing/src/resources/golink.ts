@@ -3,6 +3,7 @@ import {
   EnvValue,
   PersistentVolumeAccessMode,
   PersistentVolumeClaim,
+  PersistentVolumeMode,
   Secret,
   Volume,
 } from "npm:cdk8s-plus-27";
@@ -17,6 +18,7 @@ export function createGolinkDeployment(chart: Chart) {
     storage: Size.gibibytes(2),
     storageClassName: "longhorn",
     accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
+    volumeMode: PersistentVolumeMode.FILE_SYSTEM,
   });
 
   deployment.addContainer({
