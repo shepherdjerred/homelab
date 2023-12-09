@@ -14,7 +14,7 @@ spec:
         - name: helmPreUpgradeCheckerJob.enabled
           value: "false"
         - name: persistence.defaultClassReplicaCount
-          value: 1
+          value: "1"
         - name: defaultSettings.backupTarget
           value: "s3://longhorn-backup@auto/"
         - name: defaultSettings.backupTargetCredentialSecret
