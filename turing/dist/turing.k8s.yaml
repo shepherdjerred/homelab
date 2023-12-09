@@ -1274,6 +1274,8 @@ spec:
             runAsGroup: 65532
             runAsNonRoot: true
             runAsUser: 65532
+            fsUser: 65532
+            fsGroup: 65532
           volumeMounts:
             - mountPath: /home/nonroot
               name: pvc-turing-claim-c8f45b26
