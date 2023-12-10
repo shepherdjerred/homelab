@@ -6,6 +6,8 @@ import {
   PersistentVolumeAccessMode,
   PersistentVolumeClaim,
   PersistentVolumeMode,
+  Protocol,
+  Secret,
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
@@ -31,6 +33,15 @@ export function createBitmagnetDeployment(chart: Chart) {
     replicas: 1,
   });
 
+  const postgresPassword = EnvValue.fromSecretValue({
+    secret: Secret.fromSecretName(
+      chart,
+      "bitmagnet-postgres-password",
+      "bitmagnet-postgres-password"
+    ),
+    key: "password",
+  });
+
   const postgresClaim = new PersistentVolumeClaim(
     chart,
     "bitmagnet-postgres-pvc",
@@ -42,13 +53,11 @@ export function createBitmagnetDeployment(chart: Chart) {
     }
   );
 
-  const postgresPassword = "password";
-
   postgresDeployment.addContainer({
     image: "postgres",
     portNumber: 5432,
     envVariables: {
-      POSTGRES_PASSWORD: EnvValue.fromValue(postgresPassword),
+      POSTGRES_PASSWORD: postgresPassword,
       PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
       POSTGRES_DB: EnvValue.fromValue("bitmagnet"),
     },
@@ -84,19 +93,16 @@ export function createBitmagnetDeployment(chart: Chart) {
 
   deployment.addContainer({
     image: "ghcr.io/bitmagnet-io/bitmagnet:latest",
-    // TODO, maybe:
-    // # BitTorrent ports:
-    // - "3334:3334/tcp"
-    // - "3334:3334/udp"
     envVariables: {
       POSTGRES_HOST: EnvValue.fromValue(postgresService.name),
-      // TODO: store as secret
-      POSTGRES_PASSWORD: EnvValue.fromValue(postgresPassword),
+      POSTGRES_PASSWORD: postgresPassword,
       REDIS_ADDR: EnvValue.fromValue(
         `${redisService.name}:${redisService.port}`
       ),
-      // TODO
-      //   TMDB_API_KEY: EnvValue.fromValue(""),
+      TMDB_API_KEY: EnvValue.fromSecretValue({
+        secret: Secret.fromSecretName(chart, "tmdb-api-key", "tmdb-api-key"),
+        key: "password",
+      }),
     },
     command: [
       "bitmagnet",
