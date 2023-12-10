@@ -1843,7 +1843,7 @@ spec:
             - name: TMDB_API_KEY
               valueFrom:
                 secretKeyRef:
-                  key: password
+                  key: API Key
                   name: tmdb-api-key
           image: ghcr.io/bitmagnet-io/bitmagnet:latest
           imagePullPolicy: Always
