@@ -18,7 +18,7 @@ export function createInvidiousDeployment(chart: Chart) {
         POSTGRES_PASSWORD: EnvValue.fromValue("password"),
         POSTGRES_DB: EnvValue.fromValue("invidious"),
       },
-    })
+    }),
   );
 
   const postgresService = postgresDeployment.exposeViaService();
@@ -43,7 +43,7 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
     `),
       },
       portNumber: 3000,
-    })
+    }),
   );
 
   postgresDeployment.connections.allowFrom(invidiousDeployment);

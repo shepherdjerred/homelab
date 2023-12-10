@@ -1,4 +1,4 @@
-import { EnvValue, Deployment, Service } from "npm:cdk8s-plus-27";
+import { Deployment, EnvValue, Service } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { createTailscaleIngress } from "../utils/tailscale.ts";
@@ -12,7 +12,7 @@ export function createTedditDeployment(chart: Chart) {
     withCommonProps({
       image: "redis",
       portNumber: 6379,
-    })
+    }),
   );
 
   const redisService = redisDeployment.exposeViaService();
@@ -28,7 +28,7 @@ export function createTedditDeployment(chart: Chart) {
         REDIS_HOST: EnvValue.fromValue(redisService.name),
       },
       portNumber: 8080,
-    })
+    }),
   );
 
   const service = new Service(chart, "teddit-service", {

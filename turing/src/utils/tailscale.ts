@@ -16,7 +16,7 @@ export function createTailscaleIngress(
     host: string;
     service: Service;
     funnel?: boolean;
-  }
+  },
 ) {
   let base: IngressProps = {
     defaultBackend: IngressBackend.fromService(props.service),
@@ -41,7 +41,7 @@ export function createTailscaleIngress(
   const ingress = new Ingress(scope, id, merge(base, props));
 
   ApiObject.of(ingress).addJsonPatch(
-    JsonPatch.add("/spec/ingressClassName", "tailscale")
+    JsonPatch.add("/spec/ingressClassName", "tailscale"),
   );
 
   return ingress;

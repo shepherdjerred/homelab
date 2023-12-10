@@ -57,12 +57,12 @@ export function createHomeAssistantDeployment(chart: Chart) {
             "homeassistant-bind-mount",
             {
               path: "/mnt/storage/data/homeassistant-config",
-            }
+            },
           ),
           path: "/config",
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "homeassistant-service", {

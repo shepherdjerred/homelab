@@ -21,11 +21,11 @@ export function createBazarrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "bazarr-volume",
-            claim
+            claim,
           ),
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "bazarr-service", {

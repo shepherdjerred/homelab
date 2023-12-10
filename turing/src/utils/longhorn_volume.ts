@@ -11,7 +11,7 @@ import { Size } from "npm:cdk8s";
 export function createLonghornVolume(
   scope: Construct,
   id: string,
-  props: Omit<PersistentVolumeClaimProps, "storageClassName"> = {}
+  props: Omit<PersistentVolumeClaimProps, "storageClassName"> = {},
 ) {
   const base = {
     storage: Size.gibibytes(2),

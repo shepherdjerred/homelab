@@ -21,7 +21,7 @@ export function createTautulliDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "tautulli-volume",
-            claim
+            claim,
           ),
         },
         {
@@ -31,12 +31,12 @@ export function createTautulliDeployment(chart: Chart) {
             "tautulli-bind-mount",
             {
               path: "/mnt/storage/plex/Plex Media Server/Logs",
-            }
+            },
           ),
           path: "/plex_logs",
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "tautulli-service", {

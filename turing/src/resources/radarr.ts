@@ -21,7 +21,7 @@ export function createRadarrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "radarr-volume",
-            claim
+            claim,
           ),
         },
         {
@@ -31,7 +31,7 @@ export function createRadarrDeployment(chart: Chart) {
             "radarr-torrents-bind-mount",
             {
               path: "/mnt/storage/downloads/torrents",
-            }
+            },
           ),
           path: "/downloads",
         },
@@ -42,12 +42,12 @@ export function createRadarrDeployment(chart: Chart) {
             "radarr-movies-bind-mount",
             {
               path: "/mnt/storage/media/movies",
-            }
+            },
           ),
           path: "/movies",
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "radarr-service", {
