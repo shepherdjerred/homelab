@@ -1256,7 +1256,7 @@ spec:
   ports:
     - name: https
       port: 443
-      targetPort: 44380
+      targetPort: 8080
   selector:
     cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
   type: ClusterIP

@@ -17,23 +17,6 @@ services:
     volumes:
       - /lib/modules:/lib/modules
       - ./config/wireguard:/config
-  homeassistant:
-    container_name: homeassistant
-    env_file:
-      - config/vars.env
-    image: ghcr.io/home-assistant/home-assistant:stable
-    ports:
-      - 1400:1400 # Sonos
-      # homekit
-      - 5353:5353
-      - 21063:21063
-      - 21064:21064
-      - 21065:21065
-      - 21066:21066
-    restart: unless-stopped
-    volumes:
-      - homeassistant-config:/config
-      - ./config/homeassistant/configuration.yaml:/config/configuration.yaml:Z
   mdns_repeater:
     container_name: mdns_repeater
     image: jdbeeler/mdns-repeater
