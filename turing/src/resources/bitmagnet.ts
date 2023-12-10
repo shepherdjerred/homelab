@@ -49,6 +49,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     portNumber: 6379,
     envVariables: {
       POSTGRES_PASSWORD: EnvValue.fromValue(postgresPassword),
+      PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
     },
     securityContext: {
       ensureNonRoot: false,
