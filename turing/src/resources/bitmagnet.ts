@@ -91,6 +91,7 @@ export function createBitmagnetDeployment(chart: Chart) {
       POSTGRES_HOST: EnvValue.fromValue(postgresService.name),
       // TODO: store as secret
       POSTGRES_PASSWORD: EnvValue.fromValue(postgresPassword),
+      POSTGRES_DB: EnvValue.fromValue("bitmagnet"),
       REDIS_ADDR: EnvValue.fromValue(
         `${redisService.name}:${redisService.port}`
       ),
