@@ -18,6 +18,11 @@ export function createHomeAssistantDeployment(chart: Chart) {
   // TODO: add mdns repeater
   deployment.addContainer(
     withCommonProps({
+      securityContext: {
+        ensureNonRoot: false,
+        user: 0,
+        group: 0,
+      },
       image: "ghcr.io/home-assistant/home-assistant:stable",
       ports: [
         {
