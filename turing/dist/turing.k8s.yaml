@@ -1740,7 +1740,7 @@ spec:
           imagePullPolicy: Always
           name: main
           ports:
-            - containerPort: 6379
+            - containerPort: 5432
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -1749,7 +1749,7 @@ spec:
           startupProbe:
             failureThreshold: 3
             tcpSocket:
-              port: 6379
+              port: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: pvc-turing-bitmagnet-postgres-pvc-c8f754bd
@@ -1774,8 +1774,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - port: 6379
-      targetPort: 6379
+    - port: 5432
+      targetPort: 5432
   selector:
     cdk8s.io/metadata.addr: turing-bitmagnet-postgres-c868056f
   type: ClusterIP
