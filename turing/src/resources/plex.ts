@@ -15,11 +15,6 @@ export function createPlexDeployment(chart: Chart) {
     replicas: 1,
   });
 
-  // TODO: attach GPU, https://docs.k3s.io/advanced#nvidia-container-runtime-support
-  // https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
-  // https://github.com/NVIDIA/k8s-device-plugin#quick-start
-  // https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/
-  // https://github.com/NVIDIA/nvidia-container-toolkit
   // TODO: pass through TV tuner device, /dev/dvb:/dev/dvb
   deployment.addContainer({
     image: "plexinc/pms-docker",
@@ -164,6 +159,7 @@ export function createPlexDeployment(chart: Chart) {
         path: "/transcode",
       },
     ],
+    resources: {},
   });
 
   const service = new Service(chart, "plex-service", {
@@ -187,6 +183,6 @@ export function createPlexDeployment(chart: Chart) {
   );
 
   ApiObject.of(deployment).addJsonPatch(
-    JsonPatch.add("/spec/template/runtimeClassName", "nvidia")
+    JsonPatch.add("/spec/template/spec/runtimeClassName", "nvidia")
   );
 }
