@@ -1,4 +1,9 @@
-import { Deployment, Service, Volume } from "npm:cdk8s-plus-27";
+import {
+  Deployment,
+  DeploymentStrategy,
+  Service,
+  Volume,
+} from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../utils/linuxserver-io.ts";
 import { createLonghornVolume } from "../utils/longhorn_volume.ts";
@@ -7,6 +12,7 @@ import { createTailscaleIngress } from "../utils/tailscale.ts";
 export function createSonarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "sonarr", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   const claim = createLonghornVolume(chart, "sonarr-pvc");
@@ -21,7 +27,7 @@ export function createSonarrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "sonarr-volume",
-            claim,
+            claim
           ),
         },
         {
@@ -31,7 +37,7 @@ export function createSonarrDeployment(chart: Chart) {
             "sonarr-torrents-bind-mount",
             {
               path: "/mnt/storage/downloads/torrents",
-            },
+            }
           ),
           path: "/downloads",
         },
@@ -42,12 +48,12 @@ export function createSonarrDeployment(chart: Chart) {
             "sonarr-movies-bind-mount",
             {
               path: "/mnt/storage/media/tv",
-            },
+            }
           ),
           path: "/tv",
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "sonarr-service", {

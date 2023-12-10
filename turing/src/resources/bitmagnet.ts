@@ -1,5 +1,6 @@
 import {
   Deployment,
+  DeploymentStrategy,
   EnvValue,
   PersistentVolumeAccessMode,
   PersistentVolumeMode,

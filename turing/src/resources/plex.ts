@@ -1,5 +1,6 @@
 import {
   Deployment,
+  DeploymentStrategy,
   EmptyDirMedium,
   EnvValue,
   Protocol,
@@ -13,6 +14,7 @@ import { createTailscaleIngress } from "../utils/tailscale.ts";
 export function createPlexDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "plex", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   deployment.addContainer(
@@ -20,7 +22,7 @@ export function createPlexDeployment(chart: Chart) {
       image: "plexinc/pms-docker",
       envVariables: {
         ADVERTISE_IP: EnvValue.fromValue(
-          "https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red",
+          "https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red"
         ),
         NVIDIA_DRIVER_CAPABILITIES: EnvValue.fromValue("all"),
         NVIDIA_VISIBLE_DEVICES: EnvValue.fromValue("all"),
@@ -104,7 +106,7 @@ export function createPlexDeployment(chart: Chart) {
             "plex-config-bind-mount",
             {
               path: "/mnt/storage/plex",
-            },
+            }
           ),
           path: "/config",
         },
@@ -115,7 +117,7 @@ export function createPlexDeployment(chart: Chart) {
             "plex-tv-bind-mount",
             {
               path: "/mnt/storage/media/tv",
-            },
+            }
           ),
           path: "/data/tv",
         },
@@ -126,7 +128,7 @@ export function createPlexDeployment(chart: Chart) {
             "plex-movies-bind-mount",
             {
               path: "/mnt/storage/media/movies",
-            },
+            }
           ),
           path: "/data/movies",
         },
@@ -137,7 +139,7 @@ export function createPlexDeployment(chart: Chart) {
             "plex-other-bind-mount",
             {
               path: "/mnt/storage/media/other",
-            },
+            }
           ),
           path: "/data/other",
         },
@@ -148,7 +150,7 @@ export function createPlexDeployment(chart: Chart) {
             "plex-music-bind-mount",
             {
               path: "/mnt/storage/media/music",
-            },
+            }
           ),
           path: "/data/music",
         },
@@ -160,7 +162,7 @@ export function createPlexDeployment(chart: Chart) {
             {
               medium: EmptyDirMedium.MEMORY,
               sizeLimit: Size.gibibytes(8),
-            },
+            }
           ),
           path: "/transcode",
         },
@@ -171,12 +173,12 @@ export function createPlexDeployment(chart: Chart) {
             "plex-dev-dvb-bind-mount",
             {
               path: "/dev/dvb",
-            },
+            }
           ),
           path: "/dev/dvb",
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "plex-service", {
@@ -191,6 +193,6 @@ export function createPlexDeployment(chart: Chart) {
   });
 
   ApiObject.of(deployment).addJsonPatch(
-    JsonPatch.add("/spec/template/spec/runtimeClassName", "nvidia"),
+    JsonPatch.add("/spec/template/spec/runtimeClassName", "nvidia")
   );
 }

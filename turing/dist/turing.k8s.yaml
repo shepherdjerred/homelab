@@ -348,10 +348,7 @@ spec:
     matchLabels:
       cdk8s.io/metadata.addr: turing-plex-c8e0eac9
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -511,10 +508,7 @@ spec:
     matchLabels:
       cdk8s.io/metadata.addr: turing-radarr-c889326d
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -626,10 +620,7 @@ spec:
     matchLabels:
       cdk8s.io/metadata.addr: turing-bazarr-c802be67
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -741,10 +732,7 @@ spec:
     matchLabels:
       cdk8s.io/metadata.addr: turing-homeassistant-c8dec317
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -1159,10 +1147,7 @@ spec:
     matchLabels:
       cdk8s.io/metadata.addr: turing-overseerr-c8da0376
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -1276,10 +1261,7 @@ spec:
     matchLabels:
       cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -1391,10 +1373,7 @@ spec:
     matchLabels:
       cdk8s.io/metadata.addr: turing-sonarr-c8f9699c
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -1506,10 +1485,7 @@ spec:
     matchLabels:
       cdk8s.io/metadata.addr: turing-syncthing-c84725cd
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -1621,10 +1597,7 @@ spec:
     matchLabels:
       cdk8s.io/metadata.addr: turing-tautulli-c8df029b
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:
@@ -1736,10 +1709,7 @@ spec:
     matchLabels:
       cdk8s.io/metadata.addr: turing-golink-c8ad5c7c
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       labels:

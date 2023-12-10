@@ -1,4 +1,10 @@
-import { Deployment, EnvValue, Secret, Volume } from "npm:cdk8s-plus-27";
+import {
+  Deployment,
+  DeploymentStrategy,
+  EnvValue,
+  Secret,
+  Volume,
+} from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { createLonghornVolume } from "../utils/longhorn_volume.ts";
 import { withCommonProps } from "../utils/common.ts";
@@ -11,6 +17,7 @@ export function createGolinkDeployment(chart: Chart) {
       user: 65532,
       group: 65532,
     },
+    strategy: DeploymentStrategy.recreate(),
   });
 
   const claim = createLonghornVolume(chart, "golink-pvc");
@@ -23,7 +30,7 @@ export function createGolinkDeployment(chart: Chart) {
           secret: Secret.fromSecretName(
             chart,
             "tailscale-auth-key",
-            "tailscale-auth-key",
+            "tailscale-auth-key"
           ),
           key: "credential",
         }),
@@ -34,10 +41,10 @@ export function createGolinkDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "golink-volume",
-            claim,
+            claim
           ),
         },
       ],
-    }),
+    })
   );
 }

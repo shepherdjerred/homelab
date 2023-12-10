@@ -1,4 +1,9 @@
-import { Deployment, Service, Volume } from "npm:cdk8s-plus-27";
+import {
+  Deployment,
+  DeploymentStrategy,
+  Service,
+  Volume,
+} from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../utils/linuxserver-io.ts";
 import { createLonghornVolume } from "../utils/longhorn_volume.ts";
@@ -7,6 +12,7 @@ import { createTailscaleIngress } from "../utils/tailscale.ts";
 export function createRadarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "radarr", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   const claim = createLonghornVolume(chart, "radarr-pvc");
@@ -21,7 +27,7 @@ export function createRadarrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "radarr-volume",
-            claim,
+            claim
           ),
         },
         {
@@ -31,7 +37,7 @@ export function createRadarrDeployment(chart: Chart) {
             "radarr-torrents-bind-mount",
             {
               path: "/mnt/storage/downloads/torrents",
-            },
+            }
           ),
           path: "/downloads",
         },
@@ -42,12 +48,12 @@ export function createRadarrDeployment(chart: Chart) {
             "radarr-movies-bind-mount",
             {
               path: "/mnt/storage/media/movies",
-            },
+            }
           ),
           path: "/movies",
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "radarr-service", {

@@ -1,4 +1,10 @@
-import { Deployment, Protocol, Service, Volume } from "npm:cdk8s-plus-27";
+import {
+  Deployment,
+  DeploymentStrategy,
+  Protocol,
+  Service,
+  Volume,
+} from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { createTailscaleIngress } from "../utils/tailscale.ts";
@@ -6,6 +12,7 @@ import { createTailscaleIngress } from "../utils/tailscale.ts";
 export function createHomeAssistantDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "homeassistant", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   // TODO: add mdns repeater
@@ -57,12 +64,12 @@ export function createHomeAssistantDeployment(chart: Chart) {
             "homeassistant-bind-mount",
             {
               path: "/mnt/storage/data/homeassistant-config",
-            },
+            }
           ),
           path: "/config",
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "homeassistant-service", {

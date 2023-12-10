@@ -1,4 +1,9 @@
-import { Deployment, Service, Volume } from "npm:cdk8s-plus-27";
+import {
+  Deployment,
+  DeploymentStrategy,
+  Service,
+  Volume,
+} from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { createLonghornVolume } from "../utils/longhorn_volume.ts";
 import { withCommonLinuxServerProps } from "../utils/linuxserver-io.ts";
@@ -7,6 +12,7 @@ import { createTailscaleIngress } from "../utils/tailscale.ts";
 export function createOverseerrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "overseerr", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   const claim = createLonghornVolume(chart, "overseerr-pvc");
@@ -21,11 +27,11 @@ export function createOverseerrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "overseerr-volume",
-            claim,
+            claim
           ),
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "overseerr-service", {
