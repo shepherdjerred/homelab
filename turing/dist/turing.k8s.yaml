@@ -1309,7 +1309,7 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
-            runAsNonRoot: true
+            runAsNonRoot: false
           startupProbe:
             failureThreshold: 3
             tcpSocket:

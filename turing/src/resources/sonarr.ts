@@ -33,6 +33,7 @@ export function createSonarrDeployment(chart: Chart) {
     portNumber: 8989,
     securityContext: {
       readOnlyRootFilesystem: false,
+      ensureNonRoot: false,
     },
     resources: {},
     volumeMounts: [
