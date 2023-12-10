@@ -28,6 +28,8 @@ export function createRadarrDeployment(chart: Chart) {
     securityContext: {
       ensureNonRoot: false,
       readOnlyRootFilesystem: false,
+      user: 1000,
+      group: 1000,
     },
     resources: {},
     volumeMounts: [
