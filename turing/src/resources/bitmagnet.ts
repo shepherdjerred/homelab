@@ -53,6 +53,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     },
     securityContext: {
       ensureNonRoot: false,
+      readOnlyRootFilesystem: false,
     },
     resources: {},
     volumeMounts: [
