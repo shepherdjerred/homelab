@@ -15,7 +15,6 @@ export function createPlexDeployment(chart: Chart) {
     replicas: 1,
   });
 
-  // TODO: pass through TV tuner device, /dev/dvb:/dev/dvb
   deployment.addContainer({
     image: "plexinc/pms-docker",
     envVariables: {
@@ -94,6 +93,7 @@ export function createPlexDeployment(chart: Chart) {
     securityContext: {
       ensureNonRoot: false,
       readOnlyRootFilesystem: false,
+      privileged: true,
     },
     volumeMounts: [
       {
@@ -157,6 +157,17 @@ export function createPlexDeployment(chart: Chart) {
           sizeLimit: Size.gibibytes(8),
         }),
         path: "/transcode",
+      },
+      {
+        volume: Volume.fromHostPath(
+          chart,
+          "plex-dev-dvb-bind-mount",
+          "plex-dev-dvb-bind-mount",
+          {
+            path: "/dev/dvb",
+          }
+        ),
+        path: "/dev/dvb",
       },
     ],
     resources: {},
