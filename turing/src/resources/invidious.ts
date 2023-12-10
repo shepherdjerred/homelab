@@ -20,6 +20,10 @@ export function createInvidiousDeployment(chart: Chart) {
     withCommonProps({
       image: "postgres",
       portNumber: 5432,
+      securityContext: {
+        user: 1000,
+        group: 1000,
+      },
       envVariables: {
         POSTGRES_PASSWORD: EnvValue.fromValue("password"),
         POSTGRES_DB: EnvValue.fromValue("invidious"),

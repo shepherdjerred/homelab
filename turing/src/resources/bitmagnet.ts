@@ -61,6 +61,10 @@ export function createBitmagnetDeployment(chart: Chart) {
         PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
         POSTGRES_DB: EnvValue.fromValue("bitmagnet"),
       },
+      securityContext: {
+        user: 1000,
+        group: 1000,
+      },
       volumeMounts: [
         {
           path: "/var/lib/postgresql/data",
