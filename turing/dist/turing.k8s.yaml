@@ -422,6 +422,8 @@ spec:
               name: plex-music-bind-mount
             - mountPath: /transcode
               name: plex-shm-mount
+            - mountPath: /dev/dvb
+              name: plex-dev-dvb-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -456,6 +458,10 @@ spec:
             medium: Memory
             sizeLimit: 8192Mi
           name: plex-shm-mount
+        - hostPath:
+            path: /dev/dvb
+            type: ""
+          name: plex-dev-dvb-bind-mount
 ---
 apiVersion: v1
 kind: Service

@@ -159,17 +159,17 @@ export function createPlexDeployment(chart: Chart) {
         }),
         path: "/transcode",
       },
-      // {
-      //   volume: Volume.fromHostPath(
-      //     chart,
-      //     "plex-dev-dvb-bind-mount",
-      //     "plex-dev-dvb-bind-mount",
-      //     {
-      //       path: "/dev/dvb",
-      //     }
-      //   ),
-      //   path: "/dev/dvb",
-      // },
+      {
+        volume: Volume.fromHostPath(
+          chart,
+          "plex-dev-dvb-bind-mount",
+          "plex-dev-dvb-bind-mount",
+          {
+            path: "/dev/dvb",
+          }
+        ),
+        path: "/dev/dvb",
+      },
     ],
     resources: {},
   });

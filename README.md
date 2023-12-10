@@ -59,11 +59,15 @@
 
 1. Sync the 1Password application.
 1. Sync all of the applications.
-1. Install Nvidia Drivers
+1. Install Nvidia Drivers for Plex GPU acceleration
 
     * Follow these instructions:
 
         * https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
         * https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html
+
+1. Install Hauppauge Drivers for Hauppauge TV tuners
+
+    * https://www.hauppauge.com/pages/support/support_linux.html
 
 // TODO: security hardening
