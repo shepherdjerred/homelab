@@ -15,6 +15,9 @@ export function createRadarrDeployment(chart: Chart) {
     replicas: 1,
     securityContext: {
       fsGroup: 1000,
+      user: 1000,
+      group: 1000,
+      ensureNonRoot: true,
     },
   });
 
@@ -29,10 +32,7 @@ export function createRadarrDeployment(chart: Chart) {
     image: "lscr.io/linuxserver/radarr",
     portNumber: 7878,
     securityContext: {
-      ensureNonRoot: false,
       readOnlyRootFilesystem: false,
-      user: 1000,
-      group: 1000,
     },
     resources: {},
     volumeMounts: [

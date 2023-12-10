@@ -524,9 +524,7 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
-            runAsGroup: 1000
-            runAsNonRoot: false
-            runAsUser: 1000
+            runAsNonRoot: true
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -544,7 +542,9 @@ spec:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: Always
+        runAsGroup: 1000
         runAsNonRoot: true
+        runAsUser: 1000
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
@@ -1309,9 +1309,7 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
-            runAsGroup: 1000
-            runAsNonRoot: false
-            runAsUser: 1000
+            runAsNonRoot: true
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -1329,7 +1327,9 @@ spec:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: Always
+        runAsGroup: 1000
         runAsNonRoot: true
+        runAsUser: 1000
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
