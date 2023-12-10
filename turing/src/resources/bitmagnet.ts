@@ -101,7 +101,7 @@ export function createBitmagnetDeployment(chart: Chart) {
       ),
       TMDB_API_KEY: EnvValue.fromSecretValue({
         secret: Secret.fromSecretName(chart, "tmdb-api-key", "tmdb-api-key"),
-        key: "API Key",
+        key: "api-key",
       }),
     },
     command: [
