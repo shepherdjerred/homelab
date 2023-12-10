@@ -30,10 +30,10 @@ export function createInvidiousDeployment(chart: Chart) {
       portNumber: 5432,
       envVariables: {
         POSTGRES_PASSWORD: EnvValue.fromValue("password"),
+        PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
         POSTGRES_DB: EnvValue.fromValue("invidious"),
       },
       securityContext: {
-        readOnlyRootFilesystem: false,
         user: 1000,
         group: 1000,
       },

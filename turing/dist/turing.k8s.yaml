@@ -21,6 +21,8 @@ spec:
         - env:
             - name: POSTGRES_PASSWORD
               value: password
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
             - name: POSTGRES_DB
               value: invidious
           image: postgres
@@ -31,7 +33,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsNonRoot: true
             runAsUser: 1000
@@ -1873,7 +1875,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsNonRoot: true
             runAsUser: 1000
@@ -1890,9 +1892,7 @@ spec:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: Always
-        runAsGroup: 1000
         runAsNonRoot: true
-        runAsUser: 1000
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:

@@ -34,8 +34,6 @@ export function createBitmagnetDeployment(chart: Chart) {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
-      user: 1000,
-      group: 1000,
       fsGroup: 1000,
     },
   });
@@ -63,7 +61,6 @@ export function createBitmagnetDeployment(chart: Chart) {
         POSTGRES_DB: EnvValue.fromValue("bitmagnet"),
       },
       securityContext: {
-        readOnlyRootFilesystem: false,
         user: 1000,
         group: 1000,
       },
