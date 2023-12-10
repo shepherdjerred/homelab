@@ -64,13 +64,15 @@ export function createBitmagnetDeployment(chart: Chart) {
       },
       securityContext: {
         readOnlyRootFilesystem: false,
+        user: 1000,
+        group: 1000,
       },
       volumeMounts: [
         {
           path: "/var/lib/postgresql/data",
           volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "postgres-volume",
+            "bitmagnet-postgres-volume",
             postgresClaim
           ),
         },
