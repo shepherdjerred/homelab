@@ -100,7 +100,6 @@ export function createPlexDeployment(chart: Chart) {
       ensureNonRoot: false,
       readOnlyRootFilesystem: false,
     },
-    resources: {},
     volumeMounts: [
       {
         volume: Volume.fromHostPath(
