@@ -13,6 +13,9 @@ import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
 export function createSonarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "sonarr", {
     replicas: 1,
+    securityContext: {
+      fsGroup: 1000,
+    },
   });
 
   const claim = new PersistentVolumeClaim(chart, "sonarr-pvc", {

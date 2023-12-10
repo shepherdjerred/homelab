@@ -542,6 +542,7 @@ spec:
       hostNetwork: false
       restartPolicy: Always
       securityContext:
+        fsGroup: 1000
         fsGroupChangePolicy: Always
         runAsNonRoot: true
       setHostnameAsFQDN: false
@@ -1326,6 +1327,7 @@ spec:
       hostNetwork: false
       restartPolicy: Always
       securityContext:
+        fsGroup: 1000
         fsGroupChangePolicy: Always
         runAsNonRoot: true
       setHostnameAsFQDN: false
