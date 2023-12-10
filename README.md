@@ -59,5 +59,11 @@
 
 1. Sync the 1Password application.
 1. Sync all of the applications.
+1. Install Nvidia Drivers
+
+    * Follow these instructions:
+
+        * https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
+        * https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html
 
 // TODO: security hardening

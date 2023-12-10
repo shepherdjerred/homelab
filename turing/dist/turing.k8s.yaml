@@ -354,7 +354,7 @@ spec:
       containers:
         - env:
             - name: ADVERTISE_IP
-              value: https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red
+              value: https://plex.tailnet-1a49.ts.net
             - name: NVIDIA_DRIVER_CAPABILITIES
               value: all
             - name: NVIDIA_VISIBLE_DEVICES

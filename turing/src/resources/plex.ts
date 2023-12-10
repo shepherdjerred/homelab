@@ -185,4 +185,6 @@ export function createPlexDeployment(chart: Chart) {
   ApiObject.of(deployment).addJsonPatch(
     JsonPatch.add("/spec/template/spec/runtimeClassName", "nvidia")
   );
+
+  ingress.metadata.addAnnotation("tailscale.com/funnel", "true");
 }
