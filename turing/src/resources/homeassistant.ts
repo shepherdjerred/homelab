@@ -22,6 +22,8 @@ export function createHomeAssistantDeployment(chart: Chart) {
         ensureNonRoot: false,
         user: 0,
         group: 0,
+        // required
+        readOnlyRootFilesystem: false,
       },
       image: "ghcr.io/home-assistant/home-assistant:stable",
       ports: [

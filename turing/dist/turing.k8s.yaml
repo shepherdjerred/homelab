@@ -786,7 +786,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
             runAsGroup: 0
             runAsNonRoot: false
             runAsUser: 0
