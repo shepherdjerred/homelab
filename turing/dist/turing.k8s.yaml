@@ -1327,9 +1327,9 @@ spec:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: Always
-        runAsGroup: 1000
-        runAsNonRoot: true
-        runAsUser: 1000
+        runAsGroup: 0
+        runAsNonRoot: false
+        runAsUser: 0
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:

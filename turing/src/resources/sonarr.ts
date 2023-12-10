@@ -15,9 +15,9 @@ export function createSonarrDeployment(chart: Chart) {
     replicas: 1,
     securityContext: {
       fsGroup: 1000,
-      user: 1000,
-      group: 1000,
-      ensureNonRoot: true,
+      user: 0,
+      group: 0,
+      ensureNonRoot: false,
     },
   });
 
