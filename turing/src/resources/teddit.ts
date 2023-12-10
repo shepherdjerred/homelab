@@ -1,4 +1,9 @@
-import { Deployment, EnvValue, Service } from "npm:cdk8s-plus-27";
+import {
+  Deployment,
+  DeploymentStrategy,
+  EnvValue,
+  Service,
+} from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { createTailscaleIngress } from "../utils/tailscale.ts";
@@ -6,6 +11,7 @@ import { createTailscaleIngress } from "../utils/tailscale.ts";
 export function createTedditDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "teddit-redis", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   redisDeployment.addContainer(
@@ -23,6 +29,7 @@ export function createTedditDeployment(chart: Chart) {
 
   const tedditDeployment = new Deployment(chart, "teddit", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   tedditDeployment.addContainer(

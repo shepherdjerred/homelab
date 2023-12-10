@@ -1,4 +1,10 @@
-import { ConfigMap, Deployment, Service, Volume } from "npm:cdk8s-plus-27";
+import {
+  ConfigMap,
+  Deployment,
+  DeploymentStrategy,
+  Service,
+  Volume,
+} from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { createTailscaleIngress } from "../utils/tailscale.ts";
@@ -6,6 +12,7 @@ import { createTailscaleIngress } from "../utils/tailscale.ts";
 export function createNitterDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "nitter-redis", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   redisDeployment.addContainer(

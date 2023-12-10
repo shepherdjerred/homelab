@@ -1,4 +1,9 @@
-import { Deployment, EnvValue, Service } from "npm:cdk8s-plus-27";
+import {
+  Deployment,
+  DeploymentStrategy,
+  EnvValue,
+  Service,
+} from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { createTailscaleIngress } from "../utils/tailscale.ts";
@@ -6,6 +11,7 @@ import { createTailscaleIngress } from "../utils/tailscale.ts";
 export function createInvidiousDeployment(chart: Chart) {
   const postgresDeployment = new Deployment(chart, "postgres", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   // TODO: use real password
@@ -25,6 +31,7 @@ export function createInvidiousDeployment(chart: Chart) {
 
   const invidiousDeployment = new Deployment(chart, "invidious", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   invidiousDeployment.addContainer(

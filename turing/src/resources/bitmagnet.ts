@@ -16,6 +16,7 @@ import { createTailscaleIngress } from "../utils/tailscale.ts";
 export function createBitmagnetDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "bitmagnet-redis", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   redisDeployment.addContainer(
@@ -33,6 +34,7 @@ export function createBitmagnetDeployment(chart: Chart) {
 
   const postgresDeployment = new Deployment(chart, "bitmagnet-postgres", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   const postgresPassword = EnvValue.fromSecretValue({
@@ -76,6 +78,7 @@ export function createBitmagnetDeployment(chart: Chart) {
 
   const deployment = new Deployment(chart, "bitmagnet", {
     replicas: 1,
+    strategy: DeploymentStrategy.recreate(),
   });
 
   const claim = createLonghornVolume(chart, "bitmagnet-pvc");
