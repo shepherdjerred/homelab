@@ -1736,6 +1736,8 @@ spec:
               value: password
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
+            - name: POSTGRES_DB
+              value: bitmagnet
           image: postgres
           imagePullPolicy: Always
           name: main
@@ -1828,8 +1830,6 @@ spec:
               value: turing-bitmagnet-postgres-service-c8632b7f
             - name: POSTGRES_PASSWORD
               value: password
-            - name: POSTGRES_DB
-              value: bitmagnet
             - name: REDIS_ADDR
               value: turing-bitmagnet-redis-service-c85c7503:6379
           image: ghcr.io/bitmagnet-io/bitmagnet:latest
