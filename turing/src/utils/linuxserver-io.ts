@@ -14,9 +14,11 @@ const commonLinuxServerProps: Partial<ContainerProps> = {
     PGID: EnvValue.fromValue(LINUXSERVER_GID.toString()),
   },
   securityContext: {
-    // linuxserver.io images run as root, and require a writable filesystem
+    // linuxserver.io images initially run as root, and require a writable filesystem
     ensureNonRoot: false,
     readOnlyRootFilesystem: false,
+    user: 0,
+    group: 0,
   },
 };
 

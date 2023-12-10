@@ -293,7 +293,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: true
+            runAsGroup: 1000
             runAsNonRoot: true
+            runAsUser: 1000
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -536,7 +538,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
+            runAsGroup: 0
             runAsNonRoot: false
+            runAsUser: 0
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -649,7 +653,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
+            runAsGroup: 0
             runAsNonRoot: false
+            runAsUser: 0
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -861,7 +867,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
+            runAsGroup: 0
             runAsNonRoot: false
+            runAsUser: 0
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -1178,7 +1186,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
+            runAsGroup: 0
             runAsNonRoot: false
+            runAsUser: 0
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -1293,7 +1303,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
+            runAsGroup: 0
             runAsNonRoot: false
+            runAsUser: 0
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -1406,7 +1418,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
+            runAsGroup: 0
             runAsNonRoot: false
+            runAsUser: 0
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -1519,7 +1533,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
+            runAsGroup: 0
             runAsNonRoot: false
+            runAsUser: 0
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -1632,7 +1648,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
+            runAsGroup: 0
             runAsNonRoot: false
+            runAsUser: 0
           startupProbe:
             failureThreshold: 3
             tcpSocket:

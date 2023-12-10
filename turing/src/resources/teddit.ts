@@ -31,6 +31,10 @@ export function createTedditDeployment(chart: Chart) {
       envVariables: {
         REDIS_HOST: EnvValue.fromValue(redisService.name),
       },
+      securityContext: {
+        user: 1000,
+        group: 1000,
+      },
       portNumber: 8080,
     })
   );
