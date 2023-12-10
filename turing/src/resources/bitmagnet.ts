@@ -63,6 +63,8 @@ export function createBitmagnetDeployment(chart: Chart) {
       securityContext: {
         user: 1000,
         group: 1000,
+        // pg fails to start without this
+        readOnlyRootFilesystem: false,
       },
       volumeMounts: [
         {
