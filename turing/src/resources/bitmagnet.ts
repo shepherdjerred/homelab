@@ -91,7 +91,9 @@ export function createBitmagnetDeployment(chart: Chart) {
       POSTGRES_HOST: EnvValue.fromValue(postgresService.name),
       // TODO: store as secret
       POSTGRES_PASSWORD: EnvValue.fromValue(postgresPassword),
-      REDIS_ADDR: EnvValue.fromValue(redisService.name),
+      REDIS_ADDR: EnvValue.fromValue(
+        `${redisService.name}:${redisService.port}`
+      ),
       // TODO
       //   TMDB_API_KEY: EnvValue.fromValue(""),
     },
@@ -111,7 +113,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     resources: {},
     volumeMounts: [
       {
-        path: "/config",
+        path: "/app",
         volume: Volume.fromPersistentVolumeClaim(
           chart,
           "bitmagnet-volume",

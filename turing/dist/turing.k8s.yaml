@@ -1822,7 +1822,7 @@ spec:
             - name: POSTGRES_PASSWORD
               value: password
             - name: REDIS_ADDR
-              value: turing-bitmagnet-redis-service-c85c7503
+              value: turing-bitmagnet-redis-service-c85c7503:6379
           image: ghcr.io/bitmagnet-io/bitmagnet:latest
           imagePullPolicy: Always
           name: main
@@ -1838,7 +1838,7 @@ spec:
             tcpSocket:
               port: 3333
           volumeMounts:
-            - mountPath: /config
+            - mountPath: /app
               name: pvc-turing-bitmagnet-pvc-c8b966f0
       dnsPolicy: ClusterFirst
       hostNetwork: false
