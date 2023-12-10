@@ -91,6 +91,11 @@ export function createBitmagnetDeployment(chart: Chart) {
   deployment.addContainer(
     withCommonProps({
       image: "ghcr.io/bitmagnet-io/bitmagnet:latest",
+      securityContext: {
+        user: 0,
+        group: 0,
+        ensureNonRoot: false,
+      },
       envVariables: {
         POSTGRES_HOST: EnvValue.fromValue(postgresService.name),
         POSTGRES_PASSWORD: postgresPassword,

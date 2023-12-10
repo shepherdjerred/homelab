@@ -1983,7 +1983,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: true
-            runAsNonRoot: true
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
           startupProbe:
             failureThreshold: 3
             tcpSocket:
