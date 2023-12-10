@@ -403,7 +403,7 @@ spec:
             allowPrivilegeEscalation: true
             privileged: true
             readOnlyRootFilesystem: false
-            runAsNonRoot: true
+            runAsNonRoot: false
           volumeMounts:
             - mountPath: /config
               name: plex-config-bind-mount
@@ -424,11 +424,8 @@ spec:
       restartPolicy: Always
       runtimeClassName: nvidia
       securityContext:
-        fsGroup: 1000
         fsGroupChangePolicy: Always
-        runAsGroup: 1000
         runAsNonRoot: true
-        runAsUser: 1000
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:

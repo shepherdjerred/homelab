@@ -15,11 +15,7 @@ export function createPlexDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "plex", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
-    securityContext: {
-      user: 1000,
-      group: 1000,
-      fsGroup: 1000,
-    },
+    securityContext: {},
   });
 
   deployment.addContainer(
@@ -103,6 +99,7 @@ export function createPlexDeployment(chart: Chart) {
         allowPrivilegeEscalation: true,
         privileged: true,
         // needed
+        ensureNonRoot: false,
         readOnlyRootFilesystem: false,
       },
       volumeMounts: [
