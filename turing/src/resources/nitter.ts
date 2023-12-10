@@ -45,7 +45,8 @@ export function createNitterDeployment(chart: Chart) {
     resources: {},
     volumeMounts: [
       {
-        path: "/src/",
+        path: "/src/nitter.conf",
+        subPath: "nitter.conf",
         volume: Volume.fromConfigMap(chart, "nitter-config", config, {
           items: {
             "nitter.conf": {
