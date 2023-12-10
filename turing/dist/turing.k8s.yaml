@@ -912,7 +912,7 @@ spec:
             tcpSocket:
               port: 8080
           volumeMounts:
-            - mountPath: /src/
+            - mountPath: /src/nitter.conf
               name: configmap-turing-nitter-conf-c88d4ff3
       dnsPolicy: ClusterFirst
       hostNetwork: false
@@ -924,6 +924,9 @@ spec:
       terminationGracePeriodSeconds: 30
       volumes:
         - configMap:
+            items:
+              - key: nitter.conf
+                path: "."
             name: turing-nitter-conf-c88d4ff3
           name: configmap-turing-nitter-conf-c88d4ff3
 ---
