@@ -12,7 +12,11 @@ export function createNitterDeployment(chart: Chart) {
     withCommonProps({
       image: "redis",
       portNumber: 6379,
-    }),
+      securityContext: {
+        user: 999,
+        group: 999,
+      },
+    })
   );
 
   const redisService = redisDeployment.exposeViaService();
@@ -45,7 +49,7 @@ export function createNitterDeployment(chart: Chart) {
           }),
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "nitter-service", {

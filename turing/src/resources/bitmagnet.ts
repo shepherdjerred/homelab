@@ -21,7 +21,11 @@ export function createBitmagnetDeployment(chart: Chart) {
     withCommonProps({
       image: "redis",
       portNumber: 6379,
-    }),
+      securityContext: {
+        user: 999,
+        group: 999,
+      },
+    })
   );
 
   const redisService = redisDeployment.exposeViaService();
@@ -34,7 +38,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     secret: Secret.fromSecretName(
       chart,
       "bitmagnet-postgres-password",
-      "bitmagnet-postgres-password",
+      "bitmagnet-postgres-password"
     ),
     key: "password",
   });
@@ -60,11 +64,11 @@ export function createBitmagnetDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "postgres-volume",
-            postgresClaim,
+            postgresClaim
           ),
         },
       ],
-    }),
+    })
   );
 
   const postgresService = postgresDeployment.exposeViaService();
@@ -82,7 +86,7 @@ export function createBitmagnetDeployment(chart: Chart) {
         POSTGRES_HOST: EnvValue.fromValue(postgresService.name),
         POSTGRES_PASSWORD: postgresPassword,
         REDIS_ADDR: EnvValue.fromValue(
-          `${redisService.name}:${redisService.port}`,
+          `${redisService.name}:${redisService.port}`
         ),
         TMDB_API_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "tmdb-api-key", "tmdb-api-key"),
@@ -104,11 +108,11 @@ export function createBitmagnetDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "bitmagnet-volume",
-            claim,
+            claim
           ),
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "bitmagnet-service", {

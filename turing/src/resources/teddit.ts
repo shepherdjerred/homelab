@@ -12,7 +12,11 @@ export function createTedditDeployment(chart: Chart) {
     withCommonProps({
       image: "redis",
       portNumber: 6379,
-    }),
+      securityContext: {
+        user: 999,
+        group: 999,
+      },
+    })
   );
 
   const redisService = redisDeployment.exposeViaService();
@@ -28,7 +32,7 @@ export function createTedditDeployment(chart: Chart) {
         REDIS_HOST: EnvValue.fromValue(redisService.name),
       },
       portNumber: 8080,
-    }),
+    })
   );
 
   const service = new Service(chart, "teddit-service", {
