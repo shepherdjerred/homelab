@@ -470,9 +470,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - name: https
-      port: 443
-      targetPort: 32400
+    - port: 32400
   selector:
     cdk8s.io/metadata.addr: turing-plex-c8e0eac9
   type: ClusterIP
@@ -488,7 +486,7 @@ spec:
     service:
       name: turing-plex-service-c8895365
       port:
-        number: 443
+        number: 32400
   ingressClassName: tailscale
   tls:
     - hosts:

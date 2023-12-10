@@ -176,13 +176,11 @@ export function createPlexDeployment(chart: Chart) {
 
   const service = new Service(chart, "plex-service", {
     selector: deployment,
-    ports: [{ name: "https", port: 443, targetPort: 32400 }],
+    ports: [{ port: 32400 }],
   });
 
   const ingress = new Ingress(chart, "plex-ingress", {
-    defaultBackend: IngressBackend.fromService(service, {
-      port: 443,
-    }),
+    defaultBackend: IngressBackend.fromService(service),
     tls: [
       {
         hosts: ["plex"],
