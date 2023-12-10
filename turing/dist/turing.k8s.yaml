@@ -1648,3 +1648,252 @@ spec:
       storage: 2Gi
   storageClassName: longhorn
   volumeMode: Filesystem
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-bitmagnet-redis-c8d949c0
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-bitmagnet-redis-c81e926b
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-bitmagnet-redis-c81e926b
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: redis
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 6379
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 6379
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-bitmagnet-redis-service-c85c7503
+spec:
+  externalIPs: []
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    cdk8s.io/metadata.addr: turing-bitmagnet-redis-c81e926b
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-bitmagnet-postgres-c83238e3
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-bitmagnet-postgres-c868056f
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-bitmagnet-postgres-c868056f
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: POSTGRES_PASSWORD
+              value: password
+          image: postgres
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 6379
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 6379
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: pvc-turing-bitmagnet-postgres-pvc-c8f754bd
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-bitmagnet-postgres-pvc-c8f754bd
+          persistentVolumeClaim:
+            claimName: turing-bitmagnet-postgres-pvc-c8f754bd
+            readOnly: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-bitmagnet-postgres-service-c8632b7f
+spec:
+  externalIPs: []
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    cdk8s.io/metadata.addr: turing-bitmagnet-postgres-c868056f
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-bitmagnet-postgres-pvc-c8f754bd
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: turing-bitmagnet-c8fed88d
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-bitmagnet-c80fe8d5
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-bitmagnet-c80fe8d5
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - command:
+            - worker
+            - run
+            - --keys=http_server
+            - --keys=queue_server
+            - --keys=dht_crawler
+          env:
+            - name: POSTGRES_HOST
+              value: turing-bitmagnet-postgres-service-c8632b7f
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: REDIS_ADDR
+              value: turing-bitmagnet-redis-service-c85c7503
+          image: ghcr.io/bitmagnet-io/bitmagnet:latest
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 3333
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 3333
+          volumeMounts:
+            - mountPath: /config
+              name: pvc-turing-bitmagnet-pvc-c8b966f0
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-bitmagnet-pvc-c8b966f0
+          persistentVolumeClaim:
+            claimName: turing-bitmagnet-pvc-c8b966f0
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-bitmagnet-pvc-c8b966f0
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: turing-bitmagnet-service-c8cb6ac6
+spec:
+  externalIPs: []
+  ports:
+    - port: 3333
+  selector:
+    cdk8s.io/metadata.addr: turing-bitmagnet-c80fe8d5
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: turing-bitmagnet-ingress-c8dedbbc
+spec:
+  defaultBackend:
+    service:
+      name: turing-bitmagnet-service-c8cb6ac6
+      port:
+        number: 3333
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - bitmagnet
