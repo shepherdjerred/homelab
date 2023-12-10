@@ -13,6 +13,7 @@ import { createSonarrDeployment } from "./resources/sonarr.ts";
 import { createSyncthingDeployment } from "./resources/syncthing.ts";
 import { createTautulliDeployment } from "./resources/tautulli.ts";
 import { createGolinkDeployment } from "./resources/golink.ts";
+import { createBitmagnetDeployment } from "./resources/bitmagnet.ts";
 
 const app = new App();
 const chart = new Chart(app, "turing");
@@ -31,5 +32,6 @@ createSonarrDeployment(chart);
 createSyncthingDeployment(chart);
 createTautulliDeployment(chart);
 createGolinkDeployment(chart);
+createBitmagnetDeployment(chart);
 
 app.synth();
