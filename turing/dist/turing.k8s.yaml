@@ -1816,13 +1816,7 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - command:
-            - worker
-            - run
-            - --keys=http_server
-            - --keys=queue_server
-            - --keys=dht_crawler
-          env:
+        - env:
             - name: POSTGRES_HOST
               value: turing-bitmagnet-postgres-service-c8632b7f
             - name: POSTGRES_PASSWORD

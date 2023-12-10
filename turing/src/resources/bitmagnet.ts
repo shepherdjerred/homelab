@@ -95,14 +95,14 @@ export function createBitmagnetDeployment(chart: Chart) {
       // TODO
       //   TMDB_API_KEY: EnvValue.fromValue(""),
     },
-    command: [
-      "worker",
-      "run",
-      "--keys=http_server",
-      "--keys=queue_server",
-      // # disable the next line to run without DHT crawler
-      "--keys=dht_crawler",
-    ],
+    // command: [
+    //   "worker",
+    //   "run",
+    //   "--keys=http_server",
+    //   "--keys=queue_server",
+    //   // # disable the next line to run without DHT crawler
+    //   "--keys=dht_crawler",
+    // ],
     portNumber: 3333,
     securityContext: {
       ensureNonRoot: false,
