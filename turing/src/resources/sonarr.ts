@@ -13,6 +13,9 @@ export function createSonarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "sonarr", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    securityContext: {
+      fsGroup: 1000,
+    },
   });
 
   const claim = createLonghornVolume(chart, "sonarr-pvc");

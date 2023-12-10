@@ -13,6 +13,9 @@ export function createRadarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "radarr", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    securityContext: {
+      fsGroup: 1000,
+    },
   });
 
   const claim = createLonghornVolume(chart, "radarr-pvc");
