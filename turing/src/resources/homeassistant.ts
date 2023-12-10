@@ -90,4 +90,6 @@ export function createHomeAssistantDeployment(chart: Chart) {
   ApiObject.of(ingress).addJsonPatch(
     JsonPatch.add("/spec/ingressClassName", "tailscale")
   );
+
+  ingress.metadata.addAnnotation("tailscale.com/funnel", "true");
 }

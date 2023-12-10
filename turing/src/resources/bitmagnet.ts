@@ -104,7 +104,6 @@ export function createBitmagnetDeployment(chart: Chart) {
       "run",
       "--keys=http_server",
       "--keys=queue_server",
-      // # disable the next line to run without DHT crawler
       "--keys=dht_crawler",
     ],
     portNumber: 3333,
