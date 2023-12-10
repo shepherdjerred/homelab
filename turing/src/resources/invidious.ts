@@ -57,6 +57,9 @@ export function createInvidiousDeployment(chart: Chart) {
   const invidiousDeployment = new Deployment(chart, "invidious", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    securityContext: {
+      fsGroup: 1000,
+    },
   });
 
   invidiousDeployment.addContainer(
@@ -75,6 +78,10 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
     `),
       },
       portNumber: 3000,
+      securityContext: {
+        user: 1000,
+        group: 1000,
+      },
     })
   );
 

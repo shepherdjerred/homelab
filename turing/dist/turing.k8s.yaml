@@ -173,7 +173,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: true
+            runAsGroup: 1000
             runAsNonRoot: true
+            runAsUser: 1000
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -182,6 +184,7 @@ spec:
       hostNetwork: false
       restartPolicy: Always
       securityContext:
+        fsGroup: 1000
         fsGroupChangePolicy: Always
         runAsNonRoot: true
       setHostnameAsFQDN: false
