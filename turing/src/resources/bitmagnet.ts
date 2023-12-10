@@ -15,16 +15,16 @@ export function createBitmagnetDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "bitmagnet-redis", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
-    securityContext: {
-      user: 999,
-      group: 999,
-    },
   });
 
   redisDeployment.addContainer(
     withCommonProps({
       image: "redis",
       portNumber: 6379,
+      securityContext: {
+        user: 999,
+        group: 999,
+      },
     })
   );
 

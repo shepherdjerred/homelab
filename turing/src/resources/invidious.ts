@@ -13,8 +13,6 @@ export function createInvidiousDeployment(chart: Chart) {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
-      user: 1000,
-      group: 1000,
       fsGroup: 1000,
     },
   });
@@ -32,6 +30,8 @@ export function createInvidiousDeployment(chart: Chart) {
       },
       securityContext: {
         readOnlyRootFilesystem: false,
+        user: 1000,
+        group: 1000,
       },
     })
   );

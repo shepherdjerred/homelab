@@ -14,8 +14,6 @@ export function createGolinkDeployment(chart: Chart) {
     replicas: 1,
     securityContext: {
       fsGroup: 65532,
-      user: 65532,
-      group: 65532,
     },
     strategy: DeploymentStrategy.recreate(),
   });
@@ -34,6 +32,10 @@ export function createGolinkDeployment(chart: Chart) {
           ),
           key: "credential",
         }),
+      },
+      securityContext: {
+        user: 65532,
+        group: 65532,
       },
       volumeMounts: [
         {

@@ -32,7 +32,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
+            runAsGroup: 1000
             runAsNonRoot: true
+            runAsUser: 1000
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -43,9 +45,7 @@ spec:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: Always
-        runAsGroup: 1000
         runAsNonRoot: true
-        runAsUser: 1000
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
 ---
@@ -223,7 +223,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: true
+            runAsGroup: 999
             runAsNonRoot: true
+            runAsUser: 999
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -233,9 +235,7 @@ spec:
       restartPolicy: Always
       securityContext:
         fsGroupChangePolicy: Always
-        runAsGroup: 999
         runAsNonRoot: true
-        runAsUser: 999
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
 ---
@@ -952,7 +952,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: true
+            runAsGroup: 999
             runAsNonRoot: true
+            runAsUser: 999
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -962,9 +964,7 @@ spec:
       restartPolicy: Always
       securityContext:
         fsGroupChangePolicy: Always
-        runAsGroup: 999
         runAsNonRoot: true
-        runAsUser: 999
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
 ---
@@ -1719,7 +1719,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: true
+            runAsGroup: 65532
             runAsNonRoot: true
+            runAsUser: 65532
           volumeMounts:
             - mountPath: /home/nonroot
               name: pvc-turing-golink-pvc-c8463083
@@ -1729,9 +1731,7 @@ spec:
       securityContext:
         fsGroup: 65532
         fsGroupChangePolicy: Always
-        runAsGroup: 65532
         runAsNonRoot: true
-        runAsUser: 65532
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
@@ -1785,7 +1785,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: true
+            runAsGroup: 999
             runAsNonRoot: true
+            runAsUser: 999
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -1795,9 +1797,7 @@ spec:
       restartPolicy: Always
       securityContext:
         fsGroupChangePolicy: Always
-        runAsGroup: 999
         runAsNonRoot: true
-        runAsUser: 999
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
 ---
