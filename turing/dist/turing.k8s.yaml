@@ -931,9 +931,53 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: turing-nitter-conf-c88d4ff3
-binaryData:
-  ? W1NlcnZlcl0KYWRkcmVzcyA9ICIwLjAuMC4wIgpwb3J0ID0gODA4MApodHRwcyA9IGZhbHNlICAjIGRpc2FibGUgdG8gZW5hYmxlIGNvb2tpZXMgd2hlbiBub3QgdXNpbmcgaHR0cHMKaHR0cE1heENvbm5lY3Rpb25zID0gMTAwCnN0YXRpY0RpciA9ICIuL3B1YmxpYyIKdGl0bGUgPSAibml0dGVyIgpob3N0bmFtZSA9ICJuaXR0ZXIudGFpbG5ldC0xYTQ5LnRzLm5ldCIKCltDYWNoZV0KbGlzdE1pbnV0ZXMgPSAyNDAgICMgaG93IGxvbmcgdG8gY2FjaGUgbGlzdCBpbmZvIChub3QgdGhlIHR3ZWV0cywgc28ga2VlcCBpdCBoaWdoKQpyc3NNaW51dGVzID0gMTAgICMgaG93IGxvbmcgdG8gY2FjaGUgcnNzIHF1ZXJpZXMKcmVkaXNIb3N0ID0gInR1cmluZy1uaXR0ZXItcmVkaXMtc2VydmljZS1jOGViMzMzYiIgICMgQ2hhbmdlIHRvICJuaXR0ZXItcmVkaXMiIGlmIHVzaW5nIGRvY2tlci1jb21wb3NlCnJlZGlzUG9ydCA9IDYzNzkKcmVkaXNQYXNzd29yZCA9ICIiCnJlZGlzQ29ubmVjdGlvbnMgPSAyMCAgIyBjb25uZWN0aW9uIHBvb2wgc2l6ZQpyZWRpc01heENvbm5lY3Rpb25zID0gMzAKIyBtYXgsIG5ldyBjb25uZWN0aW9ucyBhcmUgb3BlbmVkIHdoZW4gbm9uZSBhcmUgYXZhaWxhYmxlLCBidXQgaWYgdGhlIHBvb2wgc2l6ZQojIGdvZXMgYWJvdmUgdGhpcywgdGhleSdyZSBjbG9zZWQgd2hlbiByZWxlYXNlZC4gZG9uJ3Qgd29ycnkgYWJvdXQgdGhpcyB1bmxlc3MKIyB5b3UgcmVjZWl2ZSB0b25zIG9mIHJlcXVlc3RzIHBlciBzZWNvbmQKCltDb25maWddCmhtYWNLZXkgPSAiNDg5eWM0dHZ3aDR0dnc5MCIgICMgcmFuZG9tIGtleSBmb3IgY3J5cHRvZ3JhcGhpYyBzaWduaW5nIG9mIHZpZGVvIHVybHMKYmFzZTY0TWVkaWEgPSBmYWxzZSAgIyB1c2UgYmFzZTY0IGVuY29kaW5nIGZvciBwcm94aWVkIG1lZGlhIHVybHMKZW5hYmxlUlNTID0gdHJ1ZSAgIyBzZXQgdGhpcyB0byBmYWxzZSB0byBkaXNhYmxlIFJTUyBmZWVkcwplbmFibGVEZWJ1ZyA9IGZhbHNlICAjIGVuYWJsZSByZXF1ZXN0IGxvZ3MgYW5kIGRlYnVnIGVuZHBvaW50cwpwcm94eSA9ICIiICAjIGh0dHAvaHR0cHMgdXJsLCBTT0NLUyBwcm94aWVzIGFyZSBub3Qgc3VwcG9ydGVkCnByb3h5QXV0aCA9ICIiCnRva2VuQ291bnQgPSAxMAojIG1pbmltdW0gYW1vdW50IG9mIHVzYWJsZSB0b2tlbnMuIHRva2VucyBhcmUgdXNlZCB0byBhdXRob3JpemUgQVBJIHJlcXVlc3RzLAojIGJ1dCB0aGV5IGV4cGlyZSBhZnRlciB+MSBob3VyLCBhbmQgaGF2ZSBhIGxpbWl0IG9mIDE4NyByZXF1ZXN0cy4KIyB0aGUgbGltaXQgZ2V0cyByZXNldCBldmVyeSAxNSBtaW51dGVzLCBhbmQgdGhlIHBvb2wgaXMgZmlsbGVkIHVwIHNvIHRoZXJlJ3MKIyBhbHdheXMgYXQgbGVhc3QgJHRva2VuQ291bnQgdXNhYmxlIHRva2Vucy4gYWdhaW4sIG9ubHkgaW5jcmVhc2UgdGhpcyBpZgojIHlvdSByZWNlaXZlIG1ham9yIGJ1cnN0cyBhbGwgdGhlIHRpbWUKCiMgQ2hhbmdlIGRlZmF1bHQgcHJlZmVyZW5jZXMgaGVyZSwgc2VlIHNyYy9wcmVmc19pbXBsLm5pbSBmb3IgYSBjb21wbGV0ZSBsaXN0CltQcmVmZXJlbmNlc10KdGhlbWUgPSAiTml0dGVyIgpyZXBsYWNlVHdpdHRlciA9ICJnby9uaXR0ZXIiCnJlcGxhY2VZb3VUdWJlID0gIiIKcmVwbGFjZVJlZGRpdCA9ICJnby90ZWRkaXQiCnJlcGxhY2VJbnN0YWdyYW0gPSAiIgpwcm94eVZpZGVvcyA9IHRydWUKaGxzUGxheWJhY2sgPSBmYWxzZQppbmZpbml0ZVNjcm9sbCA9IGZhbHNlCg==
-  : nitter.conf
+data:
+  nitter.conf: |
+    [Server]
+    address = "0.0.0.0"
+    port = 8080
+    https = false  # disable to enable cookies when not using https
+    httpMaxConnections = 100
+    staticDir = "./public"
+    title = "nitter"
+    hostname = "nitter.tailnet-1a49.ts.net"
+
+    [Cache]
+    listMinutes = 240  # how long to cache list info (not the tweets, so keep it high)
+    rssMinutes = 10  # how long to cache rss queries
+    redisHost = "turing-nitter-redis-service-c8eb333b"  # Change to "nitter-redis" if using docker-compose
+    redisPort = 6379
+    redisPassword = ""
+    redisConnections = 20  # connection pool size
+    redisMaxConnections = 30
+    # max, new connections are opened when none are available, but if the pool size
+    # goes above this, they're closed when released. don't worry about this unless
+    # you receive tons of requests per second
+
+    [Config]
+    hmacKey = "489yc4tvwh4tvw90"  # random key for cryptographic signing of video urls
+    base64Media = false  # use base64 encoding for proxied media urls
+    enableRSS = true  # set this to false to disable RSS feeds
+    enableDebug = false  # enable request logs and debug endpoints
+    proxy = ""  # http/https url, SOCKS proxies are not supported
+    proxyAuth = ""
+    tokenCount = 10
+    # minimum amount of usable tokens. tokens are used to authorize API requests,
+    # but they expire after ~1 hour, and have a limit of 187 requests.
+    # the limit gets reset every 15 minutes, and the pool is filled up so there's
+    # always at least $tokenCount usable tokens. again, only increase this if
+    # you receive major bursts all the time
+
+    # Change default preferences here, see src/prefs_impl.nim for a complete list
+    [Preferences]
+    theme = "Nitter"
+    replaceTwitter = "go/nitter"
+    replaceYouTube = ""
+    replaceReddit = "go/teddit"
+    replaceInstagram = ""
+    proxyVideos = true
+    hlsPlayback = false
+    infiniteScroll = false
 immutable: false
 ---
 apiVersion: v1

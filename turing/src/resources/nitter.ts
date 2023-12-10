@@ -33,7 +33,7 @@ export function createNitterDeployment(chart: Chart) {
   contents = contents.replaceAll("<REDIS PORT>", redisService.port.toString());
 
   const config = new ConfigMap(chart, "nitter-conf");
-  config.addBinaryData(btoa(contents), "nitter.conf");
+  config.addData("nitter.conf", contents);
 
   deployment.addContainer({
     image: "zedeus/nitter",
