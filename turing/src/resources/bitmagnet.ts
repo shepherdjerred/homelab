@@ -2,8 +2,6 @@ import {
   Deployment,
   DeploymentStrategy,
   EnvValue,
-  PersistentVolumeAccessMode,
-  PersistentVolumeMode,
   Secret,
   Service,
   Volume,
@@ -53,8 +51,6 @@ export function createBitmagnetDeployment(chart: Chart) {
 
   const postgresClaim = createLonghornVolume(chart, "bitmagnet-postgres-pvc", {
     storage: Size.gibibytes(10),
-    accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
-    volumeMode: PersistentVolumeMode.FILE_SYSTEM,
   });
 
   postgresDeployment.addContainer(
@@ -65,6 +61,9 @@ export function createBitmagnetDeployment(chart: Chart) {
         POSTGRES_PASSWORD: postgresPassword,
         PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
         POSTGRES_DB: EnvValue.fromValue("bitmagnet"),
+      },
+      securityContext: {
+        readOnlyRootFilesystem: false,
       },
       volumeMounts: [
         {

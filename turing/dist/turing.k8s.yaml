@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-postgres-c8a6b074
+  name: turing-invidious-postgres-c8dfbdf8
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-postgres-c8e70aca
+      cdk8s.io/metadata.addr: turing-invidious-postgres-c8058353
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-postgres-c8e70aca
+        cdk8s.io/metadata.addr: turing-invidious-postgres-c8058353
     spec:
       automountServiceAccountToken: false
       containers:
@@ -31,7 +31,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
             runAsNonRoot: true
           startupProbe:
             failureThreshold: 3
@@ -52,20 +52,20 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-postgres-service-c834f588
+  name: turing-invidious-postgres-service-c8682e54
 spec:
   externalIPs: []
   ports:
     - port: 5432
       targetPort: 5432
   selector:
-    cdk8s.io/metadata.addr: turing-postgres-c8e70aca
+    cdk8s.io/metadata.addr: turing-invidious-postgres-c8058353
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allowingressc8ca4b09d8cd514c29205a1c1fc83a275-c8724ba3
+  name: allowingressc8ca4b09d8cd514c29205a1c1fc83a275-c8839c5d
 spec:
   ingress:
     - from:
@@ -77,14 +77,14 @@ spec:
           protocol: TCP
   podSelector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-postgres-c8e70aca
+      cdk8s.io/metadata.addr: turing-invidious-postgres-c8058353
   policyTypes:
     - Ingress
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allowegressundefinedc8ca4b09d8cd514c29205a1c1-c87b2d8c
+  name: allowegressundefinedc8ca4b09d8cd514c29205a1c1-c8cfff80
 spec:
   egress:
     - ports:
@@ -93,12 +93,25 @@ spec:
       to:
         - podSelector:
             matchLabels:
-              cdk8s.io/metadata.addr: turing-postgres-c8e70aca
+              cdk8s.io/metadata.addr: turing-invidious-postgres-c8058353
   podSelector:
     matchLabels:
       cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
   policyTypes:
     - Egress
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-invidious-postgres-pvc-c8127671
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -132,7 +145,7 @@ spec:
 
                 \  password: password
 
-                \  host: turing-postgres-service-c834f588
+                \  host: turing-invidious-postgres-service-c8682e54
 
                 \  port: 5432
 
@@ -541,6 +554,7 @@ spec:
       hostNetwork: false
       restartPolicy: Always
       securityContext:
+        fsGroup: 1000
         fsGroupChangePolicy: Always
         runAsNonRoot: true
       setHostnameAsFQDN: false
@@ -1400,6 +1414,7 @@ spec:
       hostNetwork: false
       restartPolicy: Always
       securityContext:
+        fsGroup: 1000
         fsGroupChangePolicy: Always
         runAsNonRoot: true
       setHostnameAsFQDN: false
@@ -1848,7 +1863,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
             runAsNonRoot: true
           startupProbe:
             failureThreshold: 3

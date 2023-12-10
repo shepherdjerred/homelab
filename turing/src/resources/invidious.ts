@@ -3,13 +3,15 @@ import {
   DeploymentStrategy,
   EnvValue,
   Service,
+  Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { createTailscaleIngress } from "../utils/tailscale.ts";
+import { createLonghornVolume } from "../utils/longhorn_volume.ts";
 
 export function createInvidiousDeployment(chart: Chart) {
-  const postgresDeployment = new Deployment(chart, "postgres", {
+  const postgresDeployment = new Deployment(chart, "invidious-postgres", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
@@ -19,8 +21,11 @@ export function createInvidiousDeployment(chart: Chart) {
     },
   });
 
+  const postgresClaim = createLonghornVolume(chart, "invidious-postgres-pvc");
+
   // TODO: use real password
-  // TODO: persist db
+  // this is a bit complicated because we need to give invidious a config
+  // maybe store the entire config in 1P as a secret/configmap
   postgresDeployment.addContainer(
     withCommonProps({
       image: "postgres",
@@ -28,6 +33,9 @@ export function createInvidiousDeployment(chart: Chart) {
       envVariables: {
         POSTGRES_PASSWORD: EnvValue.fromValue("password"),
         POSTGRES_DB: EnvValue.fromValue("invidious"),
+      },
+      securityContext: {
+        readOnlyRootFilesystem: false,
       },
     })
   );
