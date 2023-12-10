@@ -38,6 +38,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     securityContext: {
       user: 1000,
       group: 1000,
+      fsGroup: 1000,
     },
   });
 

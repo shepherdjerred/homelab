@@ -1861,6 +1861,7 @@ spec:
       hostNetwork: false
       restartPolicy: Always
       securityContext:
+        fsGroup: 1000
         fsGroupChangePolicy: Always
         runAsGroup: 1000
         runAsNonRoot: true
