@@ -3,12 +3,10 @@ import {
   DeploymentStrategy,
   EnvValue,
   Service,
-  Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { createTailscaleIngress } from "../utils/tailscale.ts";
-import { createLonghornVolume } from "../utils/longhorn_volume.ts";
 
 export function createInvidiousDeployment(chart: Chart) {
   const postgresDeployment = new Deployment(chart, "invidious-postgres", {
@@ -20,8 +18,6 @@ export function createInvidiousDeployment(chart: Chart) {
       fsGroup: 1000,
     },
   });
-
-  const postgresClaim = createLonghornVolume(chart, "invidious-postgres-pvc");
 
   // TODO: use real password
   // this is a bit complicated because we need to give invidious a config

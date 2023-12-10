@@ -100,19 +100,6 @@ spec:
   policyTypes:
     - Egress
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: turing-invidious-postgres-pvc-c8127671
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
-  storageClassName: longhorn
-  volumeMode: Filesystem
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
