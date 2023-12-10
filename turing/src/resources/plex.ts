@@ -27,8 +27,8 @@ export function createPlexDeployment(chart: Chart) {
       ADVERTISE_IP: EnvValue.fromValue(
         "https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red"
       ),
-      // NVIDIA_DRIVER_CAPABILITIES: EnvValue.fromValue("all"),
-      // NVIDIA_VISIBLE_DEVICES:  EnvValue.fromValue("all")
+      NVIDIA_DRIVER_CAPABILITIES: EnvValue.fromValue("all"),
+      NVIDIA_VISIBLE_DEVICES: EnvValue.fromValue("all"),
     },
     // https://support.plex.tv/articles/201543147-what-network-ports-do-i-need-to-allow-through-my-firewall/
     ports: [
@@ -185,5 +185,9 @@ export function createPlexDeployment(chart: Chart) {
 
   ApiObject.of(ingress).addJsonPatch(
     JsonPatch.add("/spec/ingressClassName", "tailscale")
+  );
+
+  ApiObject.of(deployment).addJsonPatch(
+    JsonPatch.add("/spec/template/runtimeClassName", "nvidia")
   );
 }

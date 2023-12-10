@@ -355,6 +355,10 @@ spec:
         - env:
             - name: ADVERTISE_IP
               value: https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red
+            - name: NVIDIA_DRIVER_CAPABILITIES
+              value: all
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: all
           image: plexinc/pms-docker
           imagePullPolicy: Always
           name: main
@@ -421,6 +425,7 @@ spec:
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
+      runtimeClassName: nvidia
       securityContext:
         fsGroupChangePolicy: Always
         runAsNonRoot: true
