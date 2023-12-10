@@ -34,6 +34,8 @@ export function createTedditDeployment(chart: Chart) {
       securityContext: {
         user: 1000,
         group: 1000,
+        // npm needs write access
+        readOnlyRootFilesystem: false,
       },
       portNumber: 8080,
     })

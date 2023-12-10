@@ -292,7 +292,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
             runAsGroup: 1000
             runAsNonRoot: true
             runAsUser: 1000
