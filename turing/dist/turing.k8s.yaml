@@ -354,7 +354,7 @@ spec:
       containers:
         - env:
             - name: ADVERTISE_IP
-              value: https://plex.tailnet-1a49.ts.net
+              value: https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red
             - name: NVIDIA_DRIVER_CAPABILITIES
               value: all
             - name: NVIDIA_VISIBLE_DEVICES
@@ -406,7 +406,7 @@ spec:
               protocol: UDP
           securityContext:
             allowPrivilegeEscalation: false
-            privileged: false
+            privileged: true
             readOnlyRootFilesystem: false
             runAsNonRoot: false
           volumeMounts:
@@ -422,6 +422,8 @@ spec:
               name: plex-music-bind-mount
             - mountPath: /transcode
               name: plex-shm-mount
+            - mountPath: /dev/dvb
+              name: plex-dev-dvb-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -456,6 +458,10 @@ spec:
             medium: Memory
             sizeLimit: 8192Mi
           name: plex-shm-mount
+        - hostPath:
+            path: /dev/dvb
+            type: ""
+          name: plex-dev-dvb-bind-mount
 ---
 apiVersion: v1
 kind: Service
@@ -474,6 +480,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  annotations:
+    tailscale.com/funnel: "true"
   name: turing-plex-ingress-c84add34
 spec:
   defaultBackend:
