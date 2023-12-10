@@ -405,7 +405,7 @@ spec:
               name: port-32414-gdm
               protocol: UDP
           securityContext:
-            allowPrivilegeEscalation: false
+            allowPrivilegeEscalation: true
             privileged: true
             readOnlyRootFilesystem: false
             runAsNonRoot: false
