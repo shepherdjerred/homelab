@@ -55,13 +55,11 @@ export function createQBitTorrentDeployment(chart: Chart) {
 
   const service = new Service(chart, "qbittorrent-service", {
     selector: deployment,
-    ports: [{ name: "https", port: 443, targetPort: 8080 }],
+    ports: [{ port: 8080 }],
   });
 
   const ingress = new Ingress(chart, "qbittorrent-ingress", {
-    defaultBackend: IngressBackend.fromService(service, {
-      port: 443,
-    }),
+    defaultBackend: IngressBackend.fromService(service),
     tls: [
       {
         hosts: ["qbittorrent"],
