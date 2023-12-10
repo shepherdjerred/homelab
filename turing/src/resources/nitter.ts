@@ -45,11 +45,11 @@ export function createNitterDeployment(chart: Chart) {
     resources: {},
     volumeMounts: [
       {
-        path: "/src/nitter.conf",
+        path: "/src/",
         volume: Volume.fromConfigMap(chart, "nitter-config", config, {
           items: {
             "nitter.conf": {
-              path: ".",
+              path: "nitter.conf",
             },
           },
         }),
