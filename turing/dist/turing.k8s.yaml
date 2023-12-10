@@ -402,7 +402,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: true
             privileged: true
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
             runAsNonRoot: true
           volumeMounts:
             - mountPath: /config

@@ -102,6 +102,8 @@ export function createPlexDeployment(chart: Chart) {
       securityContext: {
         allowPrivilegeEscalation: true,
         privileged: true,
+        // needed
+        readOnlyRootFilesystem: false,
       },
       volumeMounts: [
         {
