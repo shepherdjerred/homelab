@@ -17,16 +17,16 @@ export function createBitmagnetDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "bitmagnet-redis", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    securityContext: {
+      user: 999,
+      group: 999,
+    },
   });
 
   redisDeployment.addContainer(
     withCommonProps({
       image: "redis",
       portNumber: 6379,
-      securityContext: {
-        user: 999,
-        group: 999,
-      },
     })
   );
 
@@ -35,6 +35,10 @@ export function createBitmagnetDeployment(chart: Chart) {
   const postgresDeployment = new Deployment(chart, "bitmagnet-postgres", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    securityContext: {
+      user: 1000,
+      group: 1000,
+    },
   });
 
   const postgresPassword = EnvValue.fromSecretValue({
@@ -60,10 +64,6 @@ export function createBitmagnetDeployment(chart: Chart) {
         POSTGRES_PASSWORD: postgresPassword,
         PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
         POSTGRES_DB: EnvValue.fromValue("bitmagnet"),
-      },
-      securityContext: {
-        user: 1000,
-        group: 1000,
       },
       volumeMounts: [
         {

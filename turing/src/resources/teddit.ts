@@ -12,16 +12,16 @@ export function createTedditDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "teddit-redis", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    securityContext: {
+      user: 999,
+      group: 999,
+    },
   });
 
   redisDeployment.addContainer(
     withCommonProps({
       image: "redis",
       portNumber: 6379,
-      securityContext: {
-        user: 999,
-        group: 999,
-      },
     })
   );
 
@@ -30,6 +30,10 @@ export function createTedditDeployment(chart: Chart) {
   const tedditDeployment = new Deployment(chart, "teddit", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    securityContext: {
+      user: 1000,
+      group: 1000,
+    },
   });
 
   tedditDeployment.addContainer(
@@ -39,9 +43,6 @@ export function createTedditDeployment(chart: Chart) {
         REDIS_HOST: EnvValue.fromValue(redisService.name),
       },
       securityContext: {
-        user: 1000,
-        group: 1000,
-        // npm needs write access
         readOnlyRootFilesystem: false,
       },
       portNumber: 8080,

@@ -12,6 +12,11 @@ export function createInvidiousDeployment(chart: Chart) {
   const postgresDeployment = new Deployment(chart, "postgres", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    securityContext: {
+      user: 1000,
+      group: 1000,
+      fsGroup: 1000,
+    },
   });
 
   // TODO: use real password
@@ -20,10 +25,6 @@ export function createInvidiousDeployment(chart: Chart) {
     withCommonProps({
       image: "postgres",
       portNumber: 5432,
-      securityContext: {
-        user: 1000,
-        group: 1000,
-      },
       envVariables: {
         POSTGRES_PASSWORD: EnvValue.fromValue("password"),
         POSTGRES_DB: EnvValue.fromValue("invidious"),
