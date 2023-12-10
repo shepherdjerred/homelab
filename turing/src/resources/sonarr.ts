@@ -9,15 +9,13 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
-import { GID, UID, getVars } from "./linuxserver-io.ts";
+import { GID, getVars } from "./linuxserver-io.ts";
 
 export function createSonarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "sonarr", {
     replicas: 1,
     securityContext: {
       fsGroup: GID,
-      user: UID,
-      group: GID,
       ensureNonRoot: false,
     },
   });
