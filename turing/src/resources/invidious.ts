@@ -1,30 +1,25 @@
-import {
-  Deployment,
-  EnvValue,
-  Ingress,
-  IngressBackend,
-  Service,
-} from "npm:cdk8s-plus-27";
-import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
+import { Deployment, EnvValue, Service } from "npm:cdk8s-plus-27";
+import { Chart } from "npm:cdk8s";
+import { withCommonProps } from "../utils/common.ts";
+import { createTailscaleIngress } from "../utils/tailscale.ts";
 
 export function createInvidiousDeployment(chart: Chart) {
   const postgresDeployment = new Deployment(chart, "postgres", {
     replicas: 1,
   });
 
-  postgresDeployment.addContainer({
-    image: "postgres",
-    portNumber: 5432,
-    envVariables: {
-      POSTGRES_PASSWORD: EnvValue.fromValue("password"),
-      POSTGRES_DB: EnvValue.fromValue("invidious"),
-    },
-    securityContext: {
-      ensureNonRoot: false,
-      readOnlyRootFilesystem: false,
-    },
-    resources: {},
-  });
+  // TODO: use real password
+  // TODO: persist db
+  postgresDeployment.addContainer(
+    withCommonProps({
+      image: "postgres",
+      portNumber: 5432,
+      envVariables: {
+        POSTGRES_PASSWORD: EnvValue.fromValue("password"),
+        POSTGRES_DB: EnvValue.fromValue("invidious"),
+      },
+    })
+  );
 
   const postgresService = postgresDeployment.exposeViaService();
 
@@ -32,10 +27,11 @@ export function createInvidiousDeployment(chart: Chart) {
     replicas: 1,
   });
 
-  invidiousDeployment.addContainer({
-    image: "quay.io/invidious/invidious",
-    envVariables: {
-      INVIDIOUS_CONFIG: EnvValue.fromValue(`
+  invidiousDeployment.addContainer(
+    withCommonProps({
+      image: "quay.io/invidious/invidious",
+      envVariables: {
+        INVIDIOUS_CONFIG: EnvValue.fromValue(`
 db:
   dbname: invidious
   user: postgres
@@ -45,14 +41,10 @@ db:
 check_tables: true
 hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
     `),
-    },
-    portNumber: 3000,
-    securityContext: {
-      ensureNonRoot: false,
-      readOnlyRootFilesystem: false,
-    },
-    resources: {},
-  });
+      },
+      portNumber: 3000,
+    })
+  );
 
   postgresDeployment.connections.allowFrom(invidiousDeployment);
 
@@ -61,16 +53,8 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
     ports: [{ port: 3000 }],
   });
 
-  const ingress = new Ingress(chart, "invidious-ingress", {
-    defaultBackend: IngressBackend.fromService(service),
-    tls: [
-      {
-        hosts: ["invidious"],
-      },
-    ],
+  createTailscaleIngress(chart, "invidious-ingress", {
+    service,
+    host: "invidious",
   });
-
-  ApiObject.of(ingress).addJsonPatch(
-    JsonPatch.add("/spec/ingressClassName", "tailscale")
-  );
 }

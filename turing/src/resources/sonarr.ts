@@ -1,88 +1,62 @@
-import {
-  Deployment,
-  Ingress,
-  IngressBackend,
-  PersistentVolumeAccessMode,
-  PersistentVolumeClaim,
-  PersistentVolumeMode,
-  Service,
-  Volume,
-} from "npm:cdk8s-plus-27";
-import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
-import { GID, getVars } from "./linuxserver-io.ts";
+import { Deployment, Service, Volume } from "npm:cdk8s-plus-27";
+import { Chart } from "npm:cdk8s";
+import { withCommonLinuxServerProps } from "../utils/linuxserver-io.ts";
+import { createLonghornVolume } from "../utils/longhorn_volume.ts";
+import { createTailscaleIngress } from "../utils/tailscale.ts";
 
 export function createSonarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "sonarr", {
     replicas: 1,
-    securityContext: {
-      fsGroup: GID,
-      ensureNonRoot: false,
-    },
   });
 
-  const claim = new PersistentVolumeClaim(chart, "sonarr-pvc", {
-    storage: Size.gibibytes(2),
-    storageClassName: "longhorn",
-    accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
-    volumeMode: PersistentVolumeMode.FILE_SYSTEM,
-  });
+  const claim = createLonghornVolume(chart, "sonarr-pvc");
 
-  deployment.addContainer({
-    image: "lscr.io/linuxserver/sonarr",
-    portNumber: 8989,
-    securityContext: {
-      readOnlyRootFilesystem: false,
-      ensureNonRoot: false,
-    },
-    envVariables: {
-      ...getVars(),
-    },
-    resources: {},
-    volumeMounts: [
-      {
-        path: "/config",
-        volume: Volume.fromPersistentVolumeClaim(chart, "sonarr-volume", claim),
-      },
-      {
-        volume: Volume.fromHostPath(
-          chart,
-          "sonarr-torrents-bind-mount",
-          "sonarr-torrents-bind-mount",
-          {
-            path: "/mnt/storage/downloads/torrents",
-          }
-        ),
-        path: "/downloads",
-      },
-      {
-        volume: Volume.fromHostPath(
-          chart,
-          "sonarr-movies-bind-mount",
-          "sonarr-movies-bind-mount",
-          {
-            path: "/mnt/storage/media/tv",
-          }
-        ),
-        path: "/tv",
-      },
-    ],
-  });
+  deployment.addContainer(
+    withCommonLinuxServerProps({
+      image: "lscr.io/linuxserver/sonarr",
+      portNumber: 8989,
+      volumeMounts: [
+        {
+          path: "/config",
+          volume: Volume.fromPersistentVolumeClaim(
+            chart,
+            "sonarr-volume",
+            claim
+          ),
+        },
+        {
+          volume: Volume.fromHostPath(
+            chart,
+            "sonarr-torrents-bind-mount",
+            "sonarr-torrents-bind-mount",
+            {
+              path: "/mnt/storage/downloads/torrents",
+            }
+          ),
+          path: "/downloads",
+        },
+        {
+          volume: Volume.fromHostPath(
+            chart,
+            "sonarr-movies-bind-mount",
+            "sonarr-movies-bind-mount",
+            {
+              path: "/mnt/storage/media/tv",
+            }
+          ),
+          path: "/tv",
+        },
+      ],
+    })
+  );
 
   const service = new Service(chart, "sonarr-service", {
     selector: deployment,
     ports: [{ port: 8989 }],
   });
 
-  const ingress = new Ingress(chart, "sonarr-ingress", {
-    defaultBackend: IngressBackend.fromService(service),
-    tls: [
-      {
-        hosts: ["sonarr"],
-      },
-    ],
+  createTailscaleIngress(chart, "sonarr-ingress", {
+    service,
+    host: "sonarr",
   });
-
-  ApiObject.of(ingress).addJsonPatch(
-    JsonPatch.add("/spec/ingressClassName", "tailscale")
-  );
 }

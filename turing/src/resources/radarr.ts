@@ -1,89 +1,62 @@
-import {
-  Deployment,
-  Ingress,
-  IngressBackend,
-  PersistentVolumeAccessMode,
-  PersistentVolumeClaim,
-  PersistentVolumeMode,
-  Service,
-  Volume,
-} from "npm:cdk8s-plus-27";
-import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
-import { GID, UID, getVars } from "./linuxserver-io.ts";
+import { Deployment, Service, Volume } from "npm:cdk8s-plus-27";
+import { Chart } from "npm:cdk8s";
+import { withCommonLinuxServerProps } from "../utils/linuxserver-io.ts";
+import { createLonghornVolume } from "../utils/longhorn_volume.ts";
+import { createTailscaleIngress } from "../utils/tailscale.ts";
 
 export function createRadarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "radarr", {
     replicas: 1,
-    securityContext: {
-      fsGroup: GID,
-      user: UID,
-      group: GID,
-      ensureNonRoot: true,
-    },
   });
 
-  const claim = new PersistentVolumeClaim(chart, "radarr-pvc", {
-    storage: Size.gibibytes(2),
-    storageClassName: "longhorn",
-    accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
-    volumeMode: PersistentVolumeMode.FILE_SYSTEM,
-  });
+  const claim = createLonghornVolume(chart, "radarr-pvc");
 
-  deployment.addContainer({
-    image: "lscr.io/linuxserver/radarr",
-    portNumber: 7878,
-    securityContext: {
-      readOnlyRootFilesystem: false,
-    },
-    envVariables: {
-      ...getVars(),
-    },
-    resources: {},
-    volumeMounts: [
-      {
-        path: "/config",
-        volume: Volume.fromPersistentVolumeClaim(chart, "radarr-volume", claim),
-      },
-      {
-        volume: Volume.fromHostPath(
-          chart,
-          "radarr-torrents-bind-mount",
-          "radarr-torrents-bind-mount",
-          {
-            path: "/mnt/storage/downloads/torrents",
-          }
-        ),
-        path: "/downloads",
-      },
-      {
-        volume: Volume.fromHostPath(
-          chart,
-          "radarr-movies-bind-mount",
-          "radarr-movies-bind-mount",
-          {
-            path: "/mnt/storage/media/movies",
-          }
-        ),
-        path: "/movies",
-      },
-    ],
-  });
+  deployment.addContainer(
+    withCommonLinuxServerProps({
+      image: "lscr.io/linuxserver/radarr",
+      portNumber: 7878,
+      volumeMounts: [
+        {
+          path: "/config",
+          volume: Volume.fromPersistentVolumeClaim(
+            chart,
+            "radarr-volume",
+            claim
+          ),
+        },
+        {
+          volume: Volume.fromHostPath(
+            chart,
+            "radarr-torrents-bind-mount",
+            "radarr-torrents-bind-mount",
+            {
+              path: "/mnt/storage/downloads/torrents",
+            }
+          ),
+          path: "/downloads",
+        },
+        {
+          volume: Volume.fromHostPath(
+            chart,
+            "radarr-movies-bind-mount",
+            "radarr-movies-bind-mount",
+            {
+              path: "/mnt/storage/media/movies",
+            }
+          ),
+          path: "/movies",
+        },
+      ],
+    })
+  );
 
   const service = new Service(chart, "radarr-service", {
     selector: deployment,
     ports: [{ port: 7878 }],
   });
 
-  const ingress = new Ingress(chart, "radarr-ingress", {
-    defaultBackend: IngressBackend.fromService(service, {}),
-    tls: [
-      {
-        hosts: ["radarr"],
-      },
-    ],
+  createTailscaleIngress(chart, "radarr-ingress", {
+    service,
+    host: "radarr",
   });
-
-  ApiObject.of(ingress).addJsonPatch(
-    JsonPatch.add("/spec/ingressClassName", "tailscale")
-  );
 }

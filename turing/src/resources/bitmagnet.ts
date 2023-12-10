@@ -1,31 +1,28 @@
 import {
   Deployment,
   EnvValue,
-  Ingress,
-  IngressBackend,
   PersistentVolumeAccessMode,
-  PersistentVolumeClaim,
   PersistentVolumeMode,
-  Protocol,
   Secret,
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
+import { Chart, Size } from "npm:cdk8s";
+import { createLonghornVolume } from "../utils/longhorn_volume.ts";
+import { withCommonProps } from "../utils/common.ts";
+import { createTailscaleIngress } from "../utils/tailscale.ts";
 
 export function createBitmagnetDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "bitmagnet-redis", {
     replicas: 1,
   });
 
-  redisDeployment.addContainer({
-    image: "redis",
-    portNumber: 6379,
-    securityContext: {
-      ensureNonRoot: false,
-    },
-    resources: {},
-  });
+  redisDeployment.addContainer(
+    withCommonProps({
+      image: "redis",
+      portNumber: 6379,
+    })
+  );
 
   const redisService = redisDeployment.exposeViaService();
 
@@ -42,41 +39,33 @@ export function createBitmagnetDeployment(chart: Chart) {
     key: "password",
   });
 
-  const postgresClaim = new PersistentVolumeClaim(
-    chart,
-    "bitmagnet-postgres-pvc",
-    {
-      storage: Size.gibibytes(10),
-      storageClassName: "longhorn",
-      accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
-      volumeMode: PersistentVolumeMode.FILE_SYSTEM,
-    }
-  );
-
-  postgresDeployment.addContainer({
-    image: "postgres",
-    portNumber: 5432,
-    envVariables: {
-      POSTGRES_PASSWORD: postgresPassword,
-      PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
-      POSTGRES_DB: EnvValue.fromValue("bitmagnet"),
-    },
-    securityContext: {
-      ensureNonRoot: false,
-      readOnlyRootFilesystem: false,
-    },
-    resources: {},
-    volumeMounts: [
-      {
-        path: "/var/lib/postgresql/data",
-        volume: Volume.fromPersistentVolumeClaim(
-          chart,
-          "postgres-volume",
-          postgresClaim
-        ),
-      },
-    ],
+  const postgresClaim = createLonghornVolume(chart, "bitmagnet-postgres-pvc", {
+    storage: Size.gibibytes(10),
+    accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
+    volumeMode: PersistentVolumeMode.FILE_SYSTEM,
   });
+
+  postgresDeployment.addContainer(
+    withCommonProps({
+      image: "postgres",
+      portNumber: 5432,
+      envVariables: {
+        POSTGRES_PASSWORD: postgresPassword,
+        PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
+        POSTGRES_DB: EnvValue.fromValue("bitmagnet"),
+      },
+      volumeMounts: [
+        {
+          path: "/var/lib/postgresql/data",
+          volume: Volume.fromPersistentVolumeClaim(
+            chart,
+            "postgres-volume",
+            postgresClaim
+          ),
+        },
+      ],
+    })
+  );
 
   const postgresService = postgresDeployment.exposeViaService();
 
@@ -84,67 +73,51 @@ export function createBitmagnetDeployment(chart: Chart) {
     replicas: 1,
   });
 
-  const claim = new PersistentVolumeClaim(chart, "bitmagnet-pvc", {
-    storage: Size.gibibytes(2),
-    storageClassName: "longhorn",
-    accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
-    volumeMode: PersistentVolumeMode.FILE_SYSTEM,
-  });
+  const claim = createLonghornVolume(chart, "bitmagnet-pvc");
 
-  deployment.addContainer({
-    image: "ghcr.io/bitmagnet-io/bitmagnet:latest",
-    envVariables: {
-      POSTGRES_HOST: EnvValue.fromValue(postgresService.name),
-      POSTGRES_PASSWORD: postgresPassword,
-      REDIS_ADDR: EnvValue.fromValue(
-        `${redisService.name}:${redisService.port}`
-      ),
-      TMDB_API_KEY: EnvValue.fromSecretValue({
-        secret: Secret.fromSecretName(chart, "tmdb-api-key", "tmdb-api-key"),
-        key: "api-key",
-      }),
-    },
-    command: [
-      "bitmagnet",
-      "worker",
-      "run",
-      "--keys=http_server",
-      "--keys=queue_server",
-      "--keys=dht_crawler",
-    ],
-    portNumber: 3333,
-    securityContext: {
-      ensureNonRoot: false,
-      readOnlyRootFilesystem: false,
-    },
-    resources: {},
-    volumeMounts: [
-      {
-        path: "/app",
-        volume: Volume.fromPersistentVolumeClaim(
-          chart,
-          "bitmagnet-volume",
-          claim
+  deployment.addContainer(
+    withCommonProps({
+      image: "ghcr.io/bitmagnet-io/bitmagnet:latest",
+      envVariables: {
+        POSTGRES_HOST: EnvValue.fromValue(postgresService.name),
+        POSTGRES_PASSWORD: postgresPassword,
+        REDIS_ADDR: EnvValue.fromValue(
+          `${redisService.name}:${redisService.port}`
         ),
+        TMDB_API_KEY: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "tmdb-api-key", "tmdb-api-key"),
+          key: "api-key",
+        }),
       },
-    ],
-  });
+      command: [
+        "bitmagnet",
+        "worker",
+        "run",
+        "--keys=http_server",
+        "--keys=queue_server",
+        "--keys=dht_crawler",
+      ],
+      portNumber: 3333,
+      volumeMounts: [
+        {
+          path: "/app",
+          volume: Volume.fromPersistentVolumeClaim(
+            chart,
+            "bitmagnet-volume",
+            claim
+          ),
+        },
+      ],
+    })
+  );
 
   const service = new Service(chart, "bitmagnet-service", {
     selector: deployment,
     ports: [{ port: 3333 }],
   });
 
-  const ingress = new Ingress(chart, "bitmagnet-ingress", {
-    defaultBackend: IngressBackend.fromService(service),
-    tls: [
-      {
-        hosts: ["bitmagnet"],
-      },
-    ],
+  createTailscaleIngress(chart, "bitmagnet-ingress", {
+    service,
+    host: "bitmagnet",
   });
-
-  ApiObject.of(ingress).addJsonPatch(
-    JsonPatch.add("/spec/ingressClassName", "tailscale")
-  );
 }

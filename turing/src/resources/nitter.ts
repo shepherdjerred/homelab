@@ -1,26 +1,19 @@
-import {
-  ConfigMap,
-  Deployment,
-  Ingress,
-  IngressBackend,
-  Service,
-  Volume,
-} from "npm:cdk8s-plus-27";
-import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
+import { ConfigMap, Deployment, Service, Volume } from "npm:cdk8s-plus-27";
+import { Chart } from "npm:cdk8s";
+import { withCommonProps } from "../utils/common.ts";
+import { createTailscaleIngress } from "../utils/tailscale.ts";
 
 export function createNitterDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "nitter-redis", {
     replicas: 1,
   });
 
-  redisDeployment.addContainer({
-    image: "redis",
-    portNumber: 6379,
-    securityContext: {
-      ensureNonRoot: false,
-    },
-    resources: {},
-  });
+  redisDeployment.addContainer(
+    withCommonProps({
+      image: "redis",
+      portNumber: 6379,
+    })
+  );
 
   const redisService = redisDeployment.exposeViaService();
 
@@ -35,44 +28,33 @@ export function createNitterDeployment(chart: Chart) {
   const config = new ConfigMap(chart, "nitter-conf");
   config.addData("nitter.conf", contents);
 
-  deployment.addContainer({
-    image: "zedeus/nitter",
-    portNumber: 8080,
-    securityContext: {
-      ensureNonRoot: false,
-      readOnlyRootFilesystem: false,
-    },
-    resources: {},
-    volumeMounts: [
-      {
-        path: "/src/nitter.conf",
-        subPath: "nitter.conf",
-        volume: Volume.fromConfigMap(chart, "nitter-config", config, {
-          items: {
-            "nitter.conf": {
-              path: "nitter.conf",
+  deployment.addContainer(
+    withCommonProps({
+      image: "zedeus/nitter",
+      portNumber: 8080,
+      volumeMounts: [
+        {
+          path: "/src/nitter.conf",
+          subPath: "nitter.conf",
+          volume: Volume.fromConfigMap(chart, "nitter-config", config, {
+            items: {
+              "nitter.conf": {
+                path: "nitter.conf",
+              },
             },
-          },
-        }),
-      },
-    ],
-  });
+          }),
+        },
+      ],
+    })
+  );
 
   const service = new Service(chart, "nitter-service", {
     selector: deployment,
     ports: [{ port: 8080 }],
   });
 
-  const ingress = new Ingress(chart, "nitter-ingress", {
-    defaultBackend: IngressBackend.fromService(service),
-    tls: [
-      {
-        hosts: ["nitter"],
-      },
-    ],
+  createTailscaleIngress(chart, "nitter-ingress", {
+    service,
+    host: "nitter",
   });
-
-  ApiObject.of(ingress).addJsonPatch(
-    JsonPatch.add("/spec/ingressClassName", "tailscale")
-  );
 }

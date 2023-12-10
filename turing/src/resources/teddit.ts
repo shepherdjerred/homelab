@@ -1,25 +1,19 @@
-import {
-  EnvValue,
-  Deployment,
-  Ingress,
-  IngressBackend,
-  Service,
-} from "npm:cdk8s-plus-27";
-import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
+import { EnvValue, Deployment, Service } from "npm:cdk8s-plus-27";
+import { Chart } from "npm:cdk8s";
+import { withCommonProps } from "../utils/common.ts";
+import { createTailscaleIngress } from "../utils/tailscale.ts";
 
 export function createTedditDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "teddit-redis", {
     replicas: 1,
   });
 
-  redisDeployment.addContainer({
-    image: "redis",
-    portNumber: 6379,
-    securityContext: {
-      ensureNonRoot: false,
-    },
-    resources: {},
-  });
+  redisDeployment.addContainer(
+    withCommonProps({
+      image: "redis",
+      portNumber: 6379,
+    })
+  );
 
   const redisService = redisDeployment.exposeViaService();
 
@@ -27,34 +21,23 @@ export function createTedditDeployment(chart: Chart) {
     replicas: 1,
   });
 
-  tedditDeployment.addContainer({
-    image: "teddit/teddit",
-    envVariables: {
-      REDIS_HOST: EnvValue.fromValue(redisService.name),
-    },
-    portNumber: 8080,
-    securityContext: {
-      ensureNonRoot: false,
-      readOnlyRootFilesystem: false,
-    },
-    resources: {},
-  });
+  tedditDeployment.addContainer(
+    withCommonProps({
+      image: "teddit/teddit",
+      envVariables: {
+        REDIS_HOST: EnvValue.fromValue(redisService.name),
+      },
+      portNumber: 8080,
+    })
+  );
 
   const service = new Service(chart, "teddit-service", {
     selector: tedditDeployment,
     ports: [{ port: 8080 }],
   });
 
-  const ingress = new Ingress(chart, "teddit-ingress", {
-    defaultBackend: IngressBackend.fromService(service),
-    tls: [
-      {
-        hosts: ["teddit"],
-      },
-    ],
+  createTailscaleIngress(chart, "teddit-ingress", {
+    service,
+    host: "teddit",
   });
-
-  ApiObject.of(ingress).addJsonPatch(
-    JsonPatch.add("/spec/ingressClassName", "tailscale")
-  );
 }
