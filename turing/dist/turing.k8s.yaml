@@ -518,6 +518,13 @@ spec:
             failureThreshold: 3
             tcpSocket:
               port: 7878
+          volumeMounts:
+            - mountPath: /config
+              name: pvc-turing-radarr-pvc-c8200eb9
+            - mountPath: /downloads
+              name: radarr-torrents-bind-mount
+            - mountPath: /movies
+              name: radarr-movies-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -526,6 +533,32 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-radarr-pvc-c8200eb9
+          persistentVolumeClaim:
+            claimName: turing-radarr-pvc-c8200eb9
+            readOnly: false
+        - hostPath:
+            path: /mnt/storage/downloads/torrents
+            type: ""
+          name: radarr-torrents-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/movies
+            type: ""
+          name: radarr-movies-bind-mount
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-radarr-pvc-c8200eb9
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
@@ -592,7 +625,7 @@ spec:
             tcpSocket:
               port: 6767
           volumeMounts:
-            - mountPath: /home/nonroot
+            - mountPath: /config
               name: pvc-turing-bazarr-pvc-c87412a2
       dnsPolicy: ClusterFirst
       hostNetwork: false
@@ -779,6 +812,9 @@ spec:
             failureThreshold: 3
             tcpSocket:
               port: 9117
+          volumeMounts:
+            - mountPath: /config
+              name: pvc-turing-jackett-pvc-c86c6e82
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -787,6 +823,24 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-jackett-pvc-c86c6e82
+          persistentVolumeClaim:
+            claimName: turing-jackett-pvc-c86c6e82
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-jackett-pvc-c86c6e82
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
@@ -1048,6 +1102,9 @@ spec:
             failureThreshold: 3
             tcpSocket:
               port: 5055
+          volumeMounts:
+            - mountPath: /config
+              name: pvc-turing-overseerr-pvc-c8438bc2
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1056,6 +1113,24 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-overseerr-pvc-c8438bc2
+          persistentVolumeClaim:
+            claimName: turing-overseerr-pvc-c8438bc2
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-overseerr-pvc-c8438bc2
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
@@ -1123,6 +1198,11 @@ spec:
             failureThreshold: 3
             tcpSocket:
               port: 8080
+          volumeMounts:
+            - mountPath: /config
+              name: pvc-turing-qbittorrent-pvc-c88e62da
+            - mountPath: /downloads
+              name: qbittorrent-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1131,6 +1211,28 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-qbittorrent-pvc-c88e62da
+          persistentVolumeClaim:
+            claimName: turing-qbittorrent-pvc-c88e62da
+            readOnly: false
+        - hostPath:
+            path: /mnt/storage/downloads/torrents
+            type: ""
+          name: qbittorrent-bind-mount
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-qbittorrent-pvc-c88e62da
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
@@ -1141,6 +1243,7 @@ spec:
   ports:
     - name: https
       port: 443
+      targetPort: 44380
   selector:
     cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
   type: ClusterIP
@@ -1197,6 +1300,13 @@ spec:
             failureThreshold: 3
             tcpSocket:
               port: 8989
+          volumeMounts:
+            - mountPath: /config
+              name: pvc-turing-sonarr-pvc-c8a3c84d
+            - mountPath: /downloads
+              name: sonarr-torrents-bind-mount
+            - mountPath: /tv
+              name: sonarr-movies-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1205,6 +1315,32 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-sonarr-pvc-c8a3c84d
+          persistentVolumeClaim:
+            claimName: turing-sonarr-pvc-c8a3c84d
+            readOnly: false
+        - hostPath:
+            path: /mnt/storage/downloads/torrents
+            type: ""
+          name: sonarr-torrents-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/tv
+            type: ""
+          name: sonarr-movies-bind-mount
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-sonarr-pvc-c8a3c84d
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
@@ -1270,6 +1406,11 @@ spec:
             failureThreshold: 3
             tcpSocket:
               port: 8384
+          volumeMounts:
+            - mountPath: /var/syncthing/
+              name: pvc-turing-syncthing-pvc-c8a3c966
+            - mountPath: /syncthing
+              name: syncthing-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1278,6 +1419,28 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-syncthing-pvc-c8a3c966
+          persistentVolumeClaim:
+            claimName: turing-syncthing-pvc-c8a3c966
+            readOnly: false
+        - hostPath:
+            path: /mnt/storage/syncthing
+            type: ""
+          name: syncthing-bind-mount
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-syncthing-pvc-c8a3c966
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
@@ -1343,6 +1506,11 @@ spec:
             failureThreshold: 3
             tcpSocket:
               port: 8181
+          volumeMounts:
+            - mountPath: /config
+              name: pvc-turing-tautulli-pvc-c84c497c
+            - mountPath: /plex_logs
+              name: tautulli-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1351,6 +1519,28 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-tautulli-pvc-c84c497c
+          persistentVolumeClaim:
+            claimName: turing-tautulli-pvc-c84c497c
+            readOnly: false
+        - hostPath:
+            path: /mnt/storage/plex/Plex Media Server/Logs
+            type: ""
+          name: tautulli-bind-mount
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: turing-tautulli-pvc-c84c497c
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service

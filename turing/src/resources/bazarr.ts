@@ -32,7 +32,7 @@ export function createBazarrDeployment(chart: Chart) {
     resources: {},
     volumeMounts: [
       {
-        path: "/home/nonroot",
+        path: "/config",
         volume: Volume.fromPersistentVolumeClaim(chart, "bazarr-volume", claim),
       },
     ],
