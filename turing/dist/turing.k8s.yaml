@@ -515,7 +515,14 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - image: lscr.io/linuxserver/radarr
+        - env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: US/Los_Angeles
+          image: lscr.io/linuxserver/radarr
           imagePullPolicy: Always
           name: main
           ports:
@@ -1300,7 +1307,14 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - image: lscr.io/linuxserver/sonarr
+        - env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: US/Los_Angeles
+          image: lscr.io/linuxserver/sonarr
           imagePullPolicy: Always
           name: main
           ports:
@@ -1327,9 +1341,9 @@ spec:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: Always
-        runAsGroup: 0
+        runAsGroup: 1000
         runAsNonRoot: false
-        runAsUser: 0
+        runAsUser: 1000
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:

@@ -9,14 +9,15 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
+import { GID, UID, getVars } from "./linuxserver-io.ts";
 
 export function createRadarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "radarr", {
     replicas: 1,
     securityContext: {
-      fsGroup: 1000,
-      user: 1000,
-      group: 1000,
+      fsGroup: GID,
+      user: UID,
+      group: GID,
       ensureNonRoot: true,
     },
   });
@@ -33,6 +34,9 @@ export function createRadarrDeployment(chart: Chart) {
     portNumber: 7878,
     securityContext: {
       readOnlyRootFilesystem: false,
+    },
+    envVariables: {
+      ...getVars(),
     },
     resources: {},
     volumeMounts: [
