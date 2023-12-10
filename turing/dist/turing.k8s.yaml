@@ -424,8 +424,11 @@ spec:
       restartPolicy: Always
       runtimeClassName: nvidia
       securityContext:
+        fsGroup: 1000
         fsGroupChangePolicy: Always
+        runAsGroup: 1000
         runAsNonRoot: true
+        runAsUser: 1000
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
@@ -1030,7 +1033,9 @@ spec:
       restartPolicy: Always
       securityContext:
         fsGroupChangePolicy: Always
+        runAsGroup: 999
         runAsNonRoot: true
+        runAsUser: 999
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:

@@ -30,6 +30,10 @@ export function createNitterDeployment(chart: Chart) {
 
   const deployment = new Deployment(chart, "nitter", {
     replicas: 1,
+    securityContext: {
+      user: 999,
+      group: 999,
+    },
   });
 
   let contents = Deno.readTextFileSync("config/nitter.conf");
