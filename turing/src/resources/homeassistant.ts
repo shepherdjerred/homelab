@@ -5,7 +5,7 @@ import {
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart } from "npm:cdk8s";
+import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { createTailscaleIngress } from "../utils/tailscale.ts";
 
@@ -77,6 +77,10 @@ export function createHomeAssistantDeployment(chart: Chart) {
         },
       ],
     })
+  );
+
+  ApiObject.of(deployment).addJsonPatch(
+    JsonPatch.add("/spec/template/spec/hostNetwork", true)
   );
 
   const service = new Service(chart, "homeassistant-service", {

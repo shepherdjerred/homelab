@@ -794,7 +794,7 @@ spec:
             - mountPath: /config
               name: homeassistant-bind-mount
       dnsPolicy: ClusterFirst
-      hostNetwork: false
+      hostNetwork: true
       restartPolicy: Always
       securityContext:
         fsGroupChangePolicy: Always
