@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "watch",
+      "type": "shell",
+      "command": "/home/sjerred/.local/share/rtx/installs/deno/latest/.deno/bin/denon diff",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "options": { "cwd": "${workspaceFolder}/turing" },
+      "runOptions": { "runOn": "folderOpen" }
+    }
+  ]
+}
