@@ -10,8 +10,29 @@ import { Chart, Size } from "npm:cdk8s";
 import { createLonghornVolume } from "../../utils/longhorn.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
+import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 
 export function createBitmagnetDeployment(chart: Chart) {
+  const item = new OnePasswordItem(chart, "bitmagnet-postgres-onepassword", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m",
+    },
+    metadata: {
+      name: "bitmagnet-postgres-onepassword",
+    },
+  });
+
+  const tmdbItem = new OnePasswordItem(chart, "tmdb-api-key-onepassword", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/z5a3jfyku5hvfxjzmvzm4ma3b4",
+    },
+    metadata: {
+      name: "tmdb-api-key",
+    },
+  });
+
   const redisDeployment = new Deployment(chart, "bitmagnet-redis", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
@@ -42,7 +63,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     secret: Secret.fromSecretName(
       chart,
       "bitmagnet-postgres-password",
-      "bitmagnet-postgres-password",
+      item.name,
     ),
     key: "password",
   });
@@ -103,7 +124,7 @@ export function createBitmagnetDeployment(chart: Chart) {
           `${redisService.name}:${redisService.port}`,
         ),
         TMDB_API_KEY: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "tmdb-api-key", "tmdb-api-key"),
+          secret: Secret.fromSecretName(chart, "tmdb-api-key", tmdbItem.name),
           key: "api-key",
         }),
       },

@@ -1,4 +1,4 @@
 language: typescript
-app: deno run --allow-write=dist/main.ts --allow-read=config ./src/main.ts
+app: false
 imports:
   - k8s

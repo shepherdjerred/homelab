@@ -14,9 +14,16 @@ import { createSyncthingDeployment } from "./services/syncthing.ts";
 import { createTautulliDeployment } from "./services/media/tautulli.ts";
 import { createGolinkDeployment } from "./services/golink.ts";
 import { createBitmagnetDeployment } from "./services/torrents/bitmagnet.ts";
+import { createDatadogResources } from "./datadog.ts";
+import { createLonghornResources } from "./longhorn.ts";
+import { createNvidiaResources } from "./nvidia.ts";
+import { createTailscaleResources } from "./tailscale.ts";
 
 const app = new App();
-const chart = new Chart(app, "turing", { namespace: "turing" });
+const chart = new Chart(app, "turing", {
+  namespace: "turing",
+  disableResourceNameHashes: true,
+});
 
 createInvidiousDeployment(chart);
 createTedditDeployment(chart);
@@ -33,5 +40,10 @@ createSyncthingDeployment(chart);
 createTautulliDeployment(chart);
 createGolinkDeployment(chart);
 createBitmagnetDeployment(chart);
+
+createDatadogResources(chart);
+createLonghornResources(chart);
+createNvidiaResources(chart);
+createTailscaleResources(chart);
 
 app.synth();

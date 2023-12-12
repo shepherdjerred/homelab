@@ -10,7 +10,8 @@ repos:
     rev: v0.6.5
     hooks:
       - id: kube-linter
-        args: ["turing/dist/"]
+        args: ["turing/dist/", "apps/templates/"]
+    # TODO: sandbox this
   - repo: local
     hooks:
       - id: run

@@ -1,10 +1,14 @@
 {
   "deno.enable": true,
   "deno.lint": true,
-  "deno.unstable": true,
+  "deno.unstable": false,
   "deno.codeLens.implementations": true,
   "deno.cacheOnSave": true,
   "search.exclude": {
     "**/imports/*.ts": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
   }
 }

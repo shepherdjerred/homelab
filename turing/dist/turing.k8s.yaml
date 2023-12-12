@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-invidious-postgres-c8dfbdf8
+  name: turing-invidious-postgres
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -44,7 +44,7 @@ spec:
               port: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: pvc-turing-invidious-postgres-pvc-c8127671
+              name: pvc-turing-invidious-postgres-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -55,15 +55,15 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-invidious-postgres-pvc-c8127671
+        - name: pvc-turing-invidious-postgres-pvc
           persistentVolumeClaim:
-            claimName: turing-invidious-postgres-pvc-c8127671
+            claimName: turing-invidious-postgres-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-invidious-postgres-service-c8682e54
+  name: turing-invidious-postgres-service
   namespace: turing
 spec:
   externalIPs: []
@@ -77,7 +77,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allowingressc8ca4b09d8cd514c29205a1c1fc83a275-c8839c5d
+  name: allowingressc8ca4b09d8cd514c29205a1c1fc83a275eab94e5be
   namespace: turing
 spec:
   ingress:
@@ -100,7 +100,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allowegressturingc8ca4b09d8cd514c29205a1c1fc8-c8de7672
+  name: allowegressturingc8ca4b09d8cd514c29205a1c1fc83a275eab9
   namespace: turing
 spec:
   egress:
@@ -123,7 +123,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-invidious-postgres-pvc-c8127671
+  name: turing-invidious-postgres-pvc
   namespace: turing
 spec:
   accessModes:
@@ -137,7 +137,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-invidious-c89ec085
+  name: turing-invidious
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -167,7 +167,7 @@ spec:
 
                 \  password: password
 
-                \  host: turing-invidious-postgres-service-c8682e54
+                \  host: turing-invidious-postgres-service
 
                 \  port: 5432
 
@@ -205,7 +205,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-invidious-service-c889a532
+  name: turing-invidious-service
   namespace: turing
 spec:
   externalIPs: []
@@ -218,12 +218,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: turing-invidious-ingress-c8c77057
+  name: turing-invidious-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-invidious-service-c889a532
+      name: turing-invidious-service
       port:
         number: 3000
   ingressClassName: tailscale
@@ -234,7 +234,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-teddit-redis-c85cfeac
+  name: turing-teddit-redis
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -283,7 +283,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-teddit-redis-service-c8b0124b
+  name: turing-teddit-redis-service
   namespace: turing
 spec:
   externalIPs: []
@@ -297,7 +297,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-teddit-c847c3ad
+  name: turing-teddit
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -317,7 +317,7 @@ spec:
       containers:
         - env:
             - name: REDIS_HOST
-              value: turing-teddit-redis-service-c8b0124b
+              value: turing-teddit-redis-service
           image: teddit/teddit
           imagePullPolicy: Always
           name: main
@@ -346,7 +346,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-teddit-service-c897e691
+  name: turing-teddit-service
   namespace: turing
 spec:
   externalIPs: []
@@ -359,12 +359,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: turing-teddit-ingress-c8a9622a
+  name: turing-teddit-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-teddit-service-c897e691
+      name: turing-teddit-service
       port:
         number: 8080
   ingressClassName: tailscale
@@ -375,7 +375,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-plex-c83a2035
+  name: turing-plex
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -507,7 +507,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-plex-service-c8895365
+  name: turing-plex-service
   namespace: turing
 spec:
   externalIPs: []
@@ -522,12 +522,12 @@ kind: Ingress
 metadata:
   annotations:
     tailscale.com/funnel: "true"
-  name: turing-plex-ingress-c84add34
+  name: turing-plex-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-plex-service-c8895365
+      name: turing-plex-service
       port:
         number: 32400
   ingressClassName: tailscale
@@ -538,7 +538,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-radarr-c85c39bc
+  name: turing-radarr
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -581,7 +581,7 @@ spec:
               port: 7878
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc-c84c497c
+              name: pvc-turing-tautulli-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -596,9 +596,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc-c84c497c
+        - name: pvc-turing-tautulli-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc-c84c497c
+            claimName: turing-tautulli-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -612,7 +612,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-radarr-pvc-c8200eb9
+  name: turing-radarr-pvc
   namespace: turing
 spec:
   accessModes:
@@ -626,7 +626,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-radarr-service-c8f20cb0
+  name: turing-radarr-service
   namespace: turing
 spec:
   externalIPs: []
@@ -639,12 +639,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: turing-radarr-ingress-c8e1dbcf
+  name: turing-radarr-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-radarr-service-c8f20cb0
+      name: turing-radarr-service
       port:
         number: 7878
   ingressClassName: tailscale
@@ -655,7 +655,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-bazarr-c8e2b230
+  name: turing-bazarr
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -698,7 +698,7 @@ spec:
               port: 6767
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc-c84c497c
+              name: pvc-turing-tautulli-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -712,9 +712,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc-c84c497c
+        - name: pvc-turing-tautulli-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc-c84c497c
+            claimName: turing-tautulli-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -728,7 +728,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-bazarr-pvc-c87412a2
+  name: turing-bazarr-pvc
   namespace: turing
 spec:
   accessModes:
@@ -742,7 +742,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-bazarr-service-c886f550
+  name: turing-bazarr-service
   namespace: turing
 spec:
   externalIPs: []
@@ -755,12 +755,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: turing-bazarr-ingress-c8383bc0
+  name: turing-bazarr-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-bazarr-service-c886f550
+      name: turing-bazarr-service
       port:
         number: 6767
   ingressClassName: tailscale
@@ -771,7 +771,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-homeassistant-c8d5f667
+  name: turing-homeassistant
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -841,7 +841,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-homeassistant-service-c8afe261
+  name: turing-homeassistant-service
   namespace: turing
 spec:
   externalIPs: []
@@ -856,12 +856,12 @@ kind: Ingress
 metadata:
   annotations:
     tailscale.com/funnel: "true"
-  name: turing-homeassistant-ingress-c852382a
+  name: turing-homeassistant-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-homeassistant-service-c8afe261
+      name: turing-homeassistant-service
       port:
         number: 8123
   ingressClassName: tailscale
@@ -872,7 +872,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-jackett-c8f6c7b2
+  name: turing-jackett
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -915,7 +915,7 @@ spec:
               port: 9117
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc-c84c497c
+              name: pvc-turing-tautulli-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -929,9 +929,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc-c84c497c
+        - name: pvc-turing-tautulli-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc-c84c497c
+            claimName: turing-tautulli-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -945,7 +945,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-jackett-pvc-c86c6e82
+  name: turing-jackett-pvc
   namespace: turing
 spec:
   accessModes:
@@ -959,7 +959,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-jackett-service-c8006ef4
+  name: turing-jackett-service
   namespace: turing
 spec:
   externalIPs: []
@@ -972,12 +972,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: turing-jackett-ingress-c80f86fd
+  name: turing-jackett-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-jackett-service-c8006ef4
+      name: turing-jackett-service
       port:
         number: 9117
   ingressClassName: tailscale
@@ -988,7 +988,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-nitter-redis-c8213a57
+  name: turing-nitter-redis
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -1037,7 +1037,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-nitter-redis-service-c8eb333b
+  name: turing-nitter-redis-service
   namespace: turing
 spec:
   externalIPs: []
@@ -1051,7 +1051,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-nitter-c83b5027
+  name: turing-nitter
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -1091,7 +1091,7 @@ spec:
               port: 8080
           volumeMounts:
             - mountPath: /src/nitter.conf
-              name: configmap-turing-nitter-conf-c88d4ff3
+              name: configmap-turing-nitter-conf
               subPath: nitter.conf
       dnsPolicy: ClusterFirst
       hostNetwork: false
@@ -1108,13 +1108,13 @@ spec:
             items:
               - key: nitter.conf
                 path: nitter.conf
-            name: turing-nitter-conf-c88d4ff3
-          name: configmap-turing-nitter-conf-c88d4ff3
+            name: turing-nitter-conf
+          name: configmap-turing-nitter-conf
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: turing-nitter-conf-c88d4ff3
+  name: turing-nitter-conf
   namespace: turing
 data:
   nitter.conf: |
@@ -1130,7 +1130,7 @@ data:
     [Cache]
     listMinutes = 240  # how long to cache list info (not the tweets, so keep it high)
     rssMinutes = 10  # how long to cache rss queries
-    redisHost = "turing-nitter-redis-service-c8eb333b"  # Change to "nitter-redis" if using docker-compose
+    redisHost = "turing-nitter-redis-service"  # Change to "nitter-redis" if using docker-compose
     redisPort = 6379
     redisPassword = ""
     redisConnections = 20  # connection pool size
@@ -1168,7 +1168,7 @@ immutable: false
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-nitter-service-c8451cc9
+  name: turing-nitter-service
   namespace: turing
 spec:
   externalIPs: []
@@ -1181,12 +1181,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: turing-nitter-ingress-c8691666
+  name: turing-nitter-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-nitter-service-c8451cc9
+      name: turing-nitter-service
       port:
         number: 8080
   ingressClassName: tailscale
@@ -1197,7 +1197,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-overseerr-c8c458a3
+  name: turing-overseerr
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -1240,7 +1240,7 @@ spec:
               port: 5055
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc-c84c497c
+              name: pvc-turing-tautulli-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -1254,9 +1254,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc-c84c497c
+        - name: pvc-turing-tautulli-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc-c84c497c
+            claimName: turing-tautulli-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -1270,7 +1270,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-overseerr-pvc-c8438bc2
+  name: turing-overseerr-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1284,7 +1284,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-overseerr-service-c8d7d56c
+  name: turing-overseerr-service
   namespace: turing
 spec:
   externalIPs: []
@@ -1299,12 +1299,12 @@ kind: Ingress
 metadata:
   annotations:
     tailscale.com/funnel: "true"
-  name: turing-overseerr-ingress-c804e9b7
+  name: turing-overseerr-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-overseerr-service-c8d7d56c
+      name: turing-overseerr-service
       port:
         number: 5055
   ingressClassName: tailscale
@@ -1315,7 +1315,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-qbittorrent-c8a5ea19
+  name: turing-qbittorrent
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -1358,7 +1358,7 @@ spec:
               port: 8080
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc-c84c497c
+              name: pvc-turing-tautulli-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -1372,9 +1372,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc-c84c497c
+        - name: pvc-turing-tautulli-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc-c84c497c
+            claimName: turing-tautulli-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -1388,7 +1388,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-qbittorrent-pvc-c88e62da
+  name: turing-qbittorrent-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1402,7 +1402,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-qbittorrent-service-c855f8e2
+  name: turing-qbittorrent-service
   namespace: turing
 spec:
   externalIPs: []
@@ -1415,12 +1415,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: turing-qbittorrent-ingress-c8acbd1e
+  name: turing-qbittorrent-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-qbittorrent-service-c855f8e2
+      name: turing-qbittorrent-service
       port:
         number: 8080
   ingressClassName: tailscale
@@ -1431,7 +1431,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-sonarr-c897ed8c
+  name: turing-sonarr
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -1474,7 +1474,7 @@ spec:
               port: 8989
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc-c84c497c
+              name: pvc-turing-tautulli-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -1489,9 +1489,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc-c84c497c
+        - name: pvc-turing-tautulli-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc-c84c497c
+            claimName: turing-tautulli-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -1505,7 +1505,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-sonarr-pvc-c8a3c84d
+  name: turing-sonarr-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1519,7 +1519,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-sonarr-service-c87c67d9
+  name: turing-sonarr-service
   namespace: turing
 spec:
   externalIPs: []
@@ -1532,12 +1532,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: turing-sonarr-ingress-c8b38537
+  name: turing-sonarr-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-sonarr-service-c87c67d9
+      name: turing-sonarr-service
       port:
         number: 8989
   ingressClassName: tailscale
@@ -1548,7 +1548,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-syncthing-c86b97b8
+  name: turing-syncthing
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -1591,7 +1591,7 @@ spec:
               port: 8384
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc-c84c497c
+              name: pvc-turing-tautulli-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -1605,9 +1605,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc-c84c497c
+        - name: pvc-turing-tautulli-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc-c84c497c
+            claimName: turing-tautulli-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -1621,7 +1621,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-syncthing-pvc-c8a3c966
+  name: turing-syncthing-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1635,7 +1635,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-syncthing-service-c8df4f2d
+  name: turing-syncthing-service
   namespace: turing
 spec:
   externalIPs: []
@@ -1648,12 +1648,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: turing-syncthing-ingress-c82f9117
+  name: turing-syncthing-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-syncthing-service-c8df4f2d
+      name: turing-syncthing-service
       port:
         number: 8384
   ingressClassName: tailscale
@@ -1664,7 +1664,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-tautulli-c8f7df34
+  name: turing-tautulli
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -1707,7 +1707,7 @@ spec:
               port: 8181
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc-c84c497c
+              name: pvc-turing-tautulli-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -1721,9 +1721,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc-c84c497c
+        - name: pvc-turing-tautulli-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc-c84c497c
+            claimName: turing-tautulli-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -1737,7 +1737,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-tautulli-pvc-c84c497c
+  name: turing-tautulli-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1751,7 +1751,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-tautulli-service-c80564a9
+  name: turing-tautulli-service
   namespace: turing
 spec:
   externalIPs: []
@@ -1764,12 +1764,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: turing-tautulli-ingress-c8b16f18
+  name: turing-tautulli-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-tautulli-service-c80564a9
+      name: turing-tautulli-service
       port:
         number: 8181
   ingressClassName: tailscale
@@ -1780,7 +1780,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-golink-c874ad2c
+  name: turing-golink
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -1816,7 +1816,7 @@ spec:
             runAsUser: 65532
           volumeMounts:
             - mountPath: /home/nonroot
-              name: pvc-turing-golink-pvc-c8463083
+              name: pvc-turing-golink-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1827,15 +1827,15 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-golink-pvc-c8463083
+        - name: pvc-turing-golink-pvc
           persistentVolumeClaim:
-            claimName: turing-golink-pvc-c8463083
+            claimName: turing-golink-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-golink-pvc-c8463083
+  name: turing-golink-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1846,10 +1846,26 @@ spec:
   storageClassName: longhorn
   volumeMode: Filesystem
 ---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: bitmagnet-postgres-onepassword
+  namespace: turing
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: tmdb-api-key
+  namespace: turing
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/z5a3jfyku5hvfxjzmvzm4ma3b4
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-bitmagnet-redis-c8d949c0
+  name: turing-bitmagnet-redis
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -1898,7 +1914,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-bitmagnet-redis-service-c85c7503
+  name: turing-bitmagnet-redis-service
   namespace: turing
 spec:
   externalIPs: []
@@ -1912,7 +1928,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-bitmagnet-postgres-c83238e3
+  name: turing-bitmagnet-postgres
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -1935,7 +1951,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: bitmagnet-postgres-password
+                  name: bitmagnet-postgres-onepassword
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
             - name: POSTGRES_DB
@@ -1958,7 +1974,7 @@ spec:
               port: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: pvc-turing-bitmagnet-postgres-pvc-c8f754bd
+              name: pvc-turing-bitmagnet-postgres-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1969,15 +1985,15 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-bitmagnet-postgres-pvc-c8f754bd
+        - name: pvc-turing-bitmagnet-postgres-pvc
           persistentVolumeClaim:
-            claimName: turing-bitmagnet-postgres-pvc-c8f754bd
+            claimName: turing-bitmagnet-postgres-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-bitmagnet-postgres-service-c8632b7f
+  name: turing-bitmagnet-postgres-service
   namespace: turing
 spec:
   externalIPs: []
@@ -1991,7 +2007,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-bitmagnet-postgres-pvc-c8f754bd
+  name: turing-bitmagnet-postgres-pvc
   namespace: turing
 spec:
   accessModes:
@@ -2005,7 +2021,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: turing-bitmagnet-c8fed88d
+  name: turing-bitmagnet
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -2032,14 +2048,14 @@ spec:
             - --keys=dht_crawler
           env:
             - name: POSTGRES_HOST
-              value: turing-bitmagnet-postgres-service-c8632b7f
+              value: turing-bitmagnet-postgres-service
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: bitmagnet-postgres-password
+                  name: bitmagnet-postgres-onepassword
             - name: REDIS_ADDR
-              value: turing-bitmagnet-redis-service-c85c7503:6379
+              value: turing-bitmagnet-redis-service:6379
             - name: TMDB_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -2063,7 +2079,7 @@ spec:
               port: 3333
           volumeMounts:
             - mountPath: /app
-              name: pvc-turing-bitmagnet-pvc-c8b966f0
+              name: pvc-turing-bitmagnet-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2073,15 +2089,15 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-bitmagnet-pvc-c8b966f0
+        - name: pvc-turing-bitmagnet-pvc
           persistentVolumeClaim:
-            claimName: turing-bitmagnet-pvc-c8b966f0
+            claimName: turing-bitmagnet-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: turing-bitmagnet-pvc-c8b966f0
+  name: turing-bitmagnet-pvc
   namespace: turing
 spec:
   accessModes:
@@ -2095,7 +2111,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: turing-bitmagnet-service-c8cb6ac6
+  name: turing-bitmagnet-service
   namespace: turing
 spec:
   externalIPs: []
@@ -2108,15 +2124,90 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: turing-bitmagnet-ingress-c8dedbbc
+  name: turing-bitmagnet-ingress
   namespace: turing
 spec:
   defaultBackend:
     service:
-      name: turing-bitmagnet-service-c8cb6ac6
+      name: turing-bitmagnet-service
       port:
         number: 3333
   ingressClassName: tailscale
   tls:
     - hosts:
         - bitmagnet
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: turing-datadog-secret
+  namespace: datadog
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/jn4difq4yuehvaif6va3zxrvle
+---
+apiVersion: datadoghq.com/v2alpha1
+kind: DatadogAgent
+metadata:
+  name: turing-datadog-agent
+  namespace: turing
+spec:
+  global:
+    credentials:
+      apiSecret:
+        keyName: api-key
+        secretName: turing-datadog-secret
+      appSecret:
+        keyName: app-key
+        secretName: turing-datadog-secret
+    site: datadoghq.com
+  override:
+    clusterAgent:
+      image:
+        name: gcr.io/datadoghq/cluster-agent:latest
+    nodeAgent:
+      image:
+        name: gcr.io/datadoghq/agent:latest
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: aws-secret
+  namespace: longhorn
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/47zgh2s2tj4ite3gujflgqiwsq
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: turing-longhorn-recurring-job
+  namespace: longhorn
+spec:
+  concurrency: 4
+  cron: 0 0 * * *
+  groups:
+    - default
+  retain: 28
+  task: backup
+---
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: nvidia
+  namespace: nvidia
+handler: nvidia
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: tailscale-auth-key
+  namespace: turing
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/t5scpnlhnxvu25dneg6jdd7c7q
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: tailscale-operator-oauth
+  namespace: tailscale
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/mboftvs4fyptyqvg3anrfjy6vu

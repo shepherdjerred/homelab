@@ -14,8 +14,8 @@ export function createTailscaleIngress(
   id: string,
   props: Partial<IngressProps> & {
     host: string;
-    service: Service;
     funnel?: boolean;
+    service: Service;
   },
 ) {
   let base: IngressProps = {
