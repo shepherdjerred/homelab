@@ -5,9 +5,9 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
-import { createLonghornVolume } from "../utils/longhorn_volume.ts";
-import { withCommonLinuxServerProps } from "../utils/linuxserver-io.ts";
-import { createTailscaleIngress } from "../utils/tailscale.ts";
+import { createLonghornVolume } from "../../utils/longhorn.ts";
+import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
+import { createTailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createJackettDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "jackett", {

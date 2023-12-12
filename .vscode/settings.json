@@ -5,6 +5,6 @@
   "deno.codeLens.implementations": true,
   "deno.cacheOnSave": true,
   "search.exclude": {
-    "**/imports/k8s.ts": true
+    "**/imports/*.ts": true
   }
 }

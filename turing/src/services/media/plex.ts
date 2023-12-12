@@ -8,8 +8,8 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
-import { withCommonProps } from "../utils/common.ts";
-import { createTailscaleIngress } from "../utils/tailscale.ts";
+import { withCommonProps } from "../../utils/common.ts";
+import { createTailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createPlexDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "plex", {

@@ -7,9 +7,9 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
-import { createLonghornVolume } from "../utils/longhorn_volume.ts";
-import { withCommonProps } from "../utils/common.ts";
-import { createTailscaleIngress } from "../utils/tailscale.ts";
+import { createLonghornVolume } from "../../utils/longhorn.ts";
+import { withCommonProps } from "../../utils/common.ts";
+import { createTailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createBitmagnetDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "bitmagnet-redis", {

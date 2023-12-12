@@ -5,9 +5,9 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
-import { withCommonLinuxServerProps } from "../utils/linuxserver-io.ts";
-import { createLonghornVolume } from "../utils/longhorn_volume.ts";
-import { createTailscaleIngress } from "../utils/tailscale.ts";
+import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
+import { createLonghornVolume } from "../../utils/longhorn.ts";
+import { createTailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createRadarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "radarr", {

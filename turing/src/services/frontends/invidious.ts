@@ -6,9 +6,9 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
-import { withCommonProps } from "../utils/common.ts";
-import { createTailscaleIngress } from "../utils/tailscale.ts";
-import { createLonghornVolume } from "../utils/longhorn_volume.ts";
+import { withCommonProps } from "../../utils/common.ts";
+import { createTailscaleIngress } from "../../utils/tailscale.ts";
+import { createLonghornVolume } from "../../utils/longhorn.ts";
 
 export function createInvidiousDeployment(chart: Chart) {
   const postgresDeployment = new Deployment(chart, "invidious-postgres", {

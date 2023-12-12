@@ -6,8 +6,8 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
-import { withCommonProps } from "../utils/common.ts";
-import { createTailscaleIngress } from "../utils/tailscale.ts";
+import { withCommonProps } from "../../utils/common.ts";
+import { createTailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createNitterDeployment(chart: Chart) {
   const redisDeployment = new Deployment(chart, "nitter-redis", {

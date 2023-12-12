@@ -6,7 +6,7 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
-import { createLonghornVolume } from "../utils/longhorn_volume.ts";
+import { createLonghornVolume } from "../utils/longhorn.ts";
 import { withCommonProps } from "../utils/common.ts";
 
 export function createGolinkDeployment(chart: Chart) {
