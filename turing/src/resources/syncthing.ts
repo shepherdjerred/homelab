@@ -27,7 +27,7 @@ export function createSyncthingDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "syncthing-volume",
-            claim
+            claim,
           ),
         },
         {
@@ -37,12 +37,12 @@ export function createSyncthingDeployment(chart: Chart) {
             "syncthing-bind-mount",
             {
               path: "/mnt/storage/syncthing",
-            }
+            },
           ),
           path: "/syncthing",
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "syncthing-service", {

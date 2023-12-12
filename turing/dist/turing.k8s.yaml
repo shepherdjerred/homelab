@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-invidious-postgres-c8dfbdf8
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -63,6 +64,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-invidious-postgres-service-c8682e54
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -76,10 +78,14 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allowingressc8ca4b09d8cd514c29205a1c1fc83a275-c8839c5d
+  namespace: turing
 spec:
   ingress:
     - from:
-        - podSelector:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: turing
+          podSelector:
             matchLabels:
               cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
       ports:
@@ -94,14 +100,18 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allowegressundefinedc8ca4b09d8cd514c29205a1c1-c8cfff80
+  name: allowegressturingc8ca4b09d8cd514c29205a1c1fc8-c8de7672
+  namespace: turing
 spec:
   egress:
     - ports:
         - port: 5432
           protocol: TCP
       to:
-        - podSelector:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: turing
+          podSelector:
             matchLabels:
               cdk8s.io/metadata.addr: turing-invidious-postgres-c8058353
   podSelector:
@@ -114,6 +124,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-invidious-postgres-pvc-c8127671
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -127,6 +138,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-invidious-c89ec085
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -194,6 +206,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-invidious-service-c889a532
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -206,6 +219,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: turing-invidious-ingress-c8c77057
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -221,6 +235,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-teddit-redis-c85cfeac
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -269,6 +284,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-teddit-redis-service-c8b0124b
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -282,6 +298,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-teddit-c847c3ad
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -330,6 +347,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-teddit-service-c897e691
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -342,6 +360,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: turing-teddit-ingress-c8a9622a
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -357,6 +376,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-plex-c83a2035
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -488,6 +508,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-plex-service-c8895365
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -502,6 +523,7 @@ metadata:
   annotations:
     tailscale.com/funnel: "true"
   name: turing-plex-ingress-c84add34
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -517,6 +539,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-radarr-c85c39bc
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -590,6 +613,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-radarr-pvc-c8200eb9
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -603,6 +627,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-radarr-service-c8f20cb0
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -615,6 +640,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: turing-radarr-ingress-c8e1dbcf
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -630,6 +656,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-bazarr-c8e2b230
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -702,6 +729,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-bazarr-pvc-c87412a2
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -715,6 +743,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-bazarr-service-c886f550
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -727,6 +756,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: turing-bazarr-ingress-c8383bc0
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -742,6 +772,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-homeassistant-c8d5f667
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -811,6 +842,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-homeassistant-service-c8afe261
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -825,6 +857,7 @@ metadata:
   annotations:
     tailscale.com/funnel: "true"
   name: turing-homeassistant-ingress-c852382a
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -840,6 +873,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-jackett-c8f6c7b2
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -912,6 +946,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-jackett-pvc-c86c6e82
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -925,6 +960,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-jackett-service-c8006ef4
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -937,6 +973,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: turing-jackett-ingress-c80f86fd
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -952,6 +989,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-nitter-redis-c8213a57
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -1000,6 +1038,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-nitter-redis-service-c8eb333b
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -1013,6 +1052,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-nitter-c83b5027
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -1075,6 +1115,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: turing-nitter-conf-c88d4ff3
+  namespace: turing
 data:
   nitter.conf: |
     [Server]
@@ -1128,6 +1169,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-nitter-service-c8451cc9
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -1140,6 +1182,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: turing-nitter-ingress-c8691666
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -1155,6 +1198,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-overseerr-c8c458a3
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -1227,6 +1271,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-overseerr-pvc-c8438bc2
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -1240,6 +1285,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-overseerr-service-c8d7d56c
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -1254,6 +1300,7 @@ metadata:
   annotations:
     tailscale.com/funnel: "true"
   name: turing-overseerr-ingress-c804e9b7
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -1269,6 +1316,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-qbittorrent-c8a5ea19
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -1341,6 +1389,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-qbittorrent-pvc-c88e62da
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -1354,6 +1403,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-qbittorrent-service-c855f8e2
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -1366,6 +1416,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: turing-qbittorrent-ingress-c8acbd1e
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -1381,6 +1432,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-sonarr-c897ed8c
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -1454,6 +1506,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-sonarr-pvc-c8a3c84d
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -1467,6 +1520,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-sonarr-service-c87c67d9
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -1479,6 +1533,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: turing-sonarr-ingress-c8b38537
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -1494,6 +1549,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-syncthing-c86b97b8
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -1566,6 +1622,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-syncthing-pvc-c8a3c966
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -1579,6 +1636,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-syncthing-service-c8df4f2d
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -1591,6 +1649,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: turing-syncthing-ingress-c82f9117
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -1606,6 +1665,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-tautulli-c8f7df34
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -1678,6 +1738,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-tautulli-pvc-c84c497c
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -1691,6 +1752,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-tautulli-service-c80564a9
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -1703,6 +1765,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: turing-tautulli-ingress-c8b16f18
+  namespace: turing
 spec:
   defaultBackend:
     service:
@@ -1718,6 +1781,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-golink-c874ad2c
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -1772,6 +1836,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-golink-pvc-c8463083
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -1785,6 +1850,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-bitmagnet-redis-c8d949c0
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -1833,6 +1899,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-bitmagnet-redis-service-c85c7503
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -1846,6 +1913,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-bitmagnet-postgres-c83238e3
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -1910,6 +1978,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-bitmagnet-postgres-service-c8632b7f
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -1923,6 +1992,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-bitmagnet-postgres-pvc-c8f754bd
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -1936,6 +2006,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: turing-bitmagnet-c8fed88d
+  namespace: turing
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
@@ -2011,6 +2082,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: turing-bitmagnet-pvc-c8b966f0
+  namespace: turing
 spec:
   accessModes:
     - ReadWriteOnce
@@ -2024,6 +2096,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: turing-bitmagnet-service-c8cb6ac6
+  namespace: turing
 spec:
   externalIPs: []
   ports:
@@ -2036,6 +2109,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: turing-bitmagnet-ingress-c8dedbbc
+  namespace: turing
 spec:
   defaultBackend:
     service:

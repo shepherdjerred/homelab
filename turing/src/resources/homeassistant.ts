@@ -71,16 +71,16 @@ export function createHomeAssistantDeployment(chart: Chart) {
             "homeassistant-bind-mount",
             {
               path: "/mnt/storage/data/homeassistant-config",
-            }
+            },
           ),
           path: "/config",
         },
       ],
-    })
+    }),
   );
 
   ApiObject.of(deployment).addJsonPatch(
-    JsonPatch.add("/spec/template/spec/hostNetwork", true)
+    JsonPatch.add("/spec/template/spec/hostNetwork", true),
   );
 
   const service = new Service(chart, "homeassistant-service", {

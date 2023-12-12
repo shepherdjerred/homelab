@@ -27,11 +27,11 @@ export function createJackettDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "jackett-volume",
-            claim
+            claim,
           ),
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "jackett-service", {

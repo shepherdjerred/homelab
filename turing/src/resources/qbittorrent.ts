@@ -29,7 +29,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "qbittorrent-volume",
-            claim
+            claim,
           ),
         },
         {
@@ -39,12 +39,12 @@ export function createQBitTorrentDeployment(chart: Chart) {
             "qbittorrent-bind-mount",
             {
               path: "/mnt/storage/downloads/torrents",
-            }
+            },
           ),
           path: "/downloads",
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "qbittorrent-service", {

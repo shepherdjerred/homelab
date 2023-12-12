@@ -27,11 +27,11 @@ export function createOverseerrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "overseerr-volume",
-            claim
+            claim,
           ),
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "overseerr-service", {

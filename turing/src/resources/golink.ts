@@ -28,7 +28,7 @@ export function createGolinkDeployment(chart: Chart) {
           secret: Secret.fromSecretName(
             chart,
             "tailscale-auth-key",
-            "tailscale-auth-key"
+            "tailscale-auth-key",
           ),
           key: "credential",
         }),
@@ -43,10 +43,10 @@ export function createGolinkDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "golink-volume",
-            claim
+            claim,
           ),
         },
       ],
-    })
+    }),
   );
 }

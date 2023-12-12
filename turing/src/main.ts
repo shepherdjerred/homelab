@@ -16,7 +16,7 @@ import { createGolinkDeployment } from "./resources/golink.ts";
 import { createBitmagnetDeployment } from "./resources/bitmagnet.ts";
 
 const app = new App();
-const chart = new Chart(app, "turing");
+const chart = new Chart(app, "turing", { namespace: "turing" });
 
 createInvidiousDeployment(chart);
 createTedditDeployment(chart);

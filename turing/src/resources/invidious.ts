@@ -5,7 +5,7 @@ import {
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart, Size } from "npm:cdk8s";
+import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { createTailscaleIngress } from "../utils/tailscale.ts";
 import { createLonghornVolume } from "../utils/longhorn_volume.ts";
@@ -45,11 +45,11 @@ export function createInvidiousDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "invidious-postgres-volume",
-            postgresClaim
+            postgresClaim,
           ),
         },
       ],
-    })
+    }),
   );
 
   const postgresService = postgresDeployment.exposeViaService();
@@ -82,7 +82,7 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
         user: 1000,
         group: 1000,
       },
-    })
+    }),
   );
 
   postgresDeployment.connections.allowFrom(invidiousDeployment);

@@ -22,7 +22,7 @@ export function createTedditDeployment(chart: Chart) {
         user: 999,
         group: 999,
       },
-    })
+    }),
   );
 
   const redisService = redisDeployment.exposeViaService();
@@ -46,7 +46,7 @@ export function createTedditDeployment(chart: Chart) {
         readOnlyRootFilesystem: false,
       },
       portNumber: 8080,
-    })
+    }),
   );
 
   const service = new Service(chart, "teddit-service", {

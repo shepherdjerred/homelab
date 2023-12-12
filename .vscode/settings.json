@@ -3,5 +3,8 @@
   "deno.lint": true,
   "deno.unstable": true,
   "deno.codeLens.implementations": true,
-  "deno.cacheOnSave": true
+  "deno.cacheOnSave": true,
+  "search.exclude": {
+    "**/imports/k8s.ts": true
+  }
 }
