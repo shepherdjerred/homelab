@@ -142,6 +142,27 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    app.kubernetes.io/instance: apps
+  name: turing
+  namespace: argocd
+spec:
+  destination:
+    namespace: turing
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: cdk8s/dist/
+    repoURL: https://github.com/shepherdjerred/servers
+    targetRevision: main
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
