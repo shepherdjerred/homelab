@@ -14,7 +14,7 @@ export function createNvidiaApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://nvidia.github.io/k8s-device-plugin",
-        targetRevision: "0.14.3",
+        targetRevision: "v0.14.3",
         chart: "nvdp",
       },
       destination: {

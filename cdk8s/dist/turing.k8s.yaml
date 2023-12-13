@@ -115,7 +115,7 @@ spec:
   source:
     chart: nvdp
     repoURL: https://nvidia.github.io/k8s-device-plugin
-    targetRevision: 0.14.3
+    targetRevision: v0.14.3
   syncPolicy:
     automated: {}
     syncOptions:
