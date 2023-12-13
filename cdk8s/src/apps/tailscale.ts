@@ -5,10 +5,7 @@ export function createTailscaleApp(chart: Chart) {
   return new Application(chart, "tailscale-app", {
     metadata: {
       name: "tailscale",
-      namespace: "apps",
-      labels: {
-        "app.kubernetes.io/instance": "apps",
-      },
+      namespace: "argocd",
     },
     spec: {
       project: "default",

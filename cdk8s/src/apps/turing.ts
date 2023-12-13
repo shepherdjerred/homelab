@@ -5,10 +5,7 @@ export function createTuringApp(chart: Chart) {
   return new Application(chart, "turing-app", {
     metadata: {
       name: "turing",
-      namespace: "apps",
-      labels: {
-        "app.kubernetes.io/instance": "apps",
-      },
+      namespace: "argocd",
     },
     spec: {
       project: "default",

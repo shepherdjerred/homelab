@@ -4,18 +4,26 @@ metadata:
   labels:
     app.kubernetes.io/instance: turing
   name: default
-  namespace: turing
+  namespace: argocd
 spec:
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  destinations:
+    - namespace: "*"
+      server: "*"
   orphanedResources:
     warn: true
+  sourceRepos:
+    - "*"
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   labels:
-    app.kubernetes.io/instance: apps
+    app.kubernetes.io/instance: turing
   name: 1password
-  namespace: apps
+  namespace: argocd
 spec:
   destination:
     namespace: 1password
@@ -42,9 +50,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   labels:
-    app.kubernetes.io/instance: apps
+    app.kubernetes.io/instance: turing
   name: argocd
-  namespace: apps
+  namespace: argocd
 spec:
   destination:
     namespace: argocd
@@ -63,9 +71,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   labels:
-    app.kubernetes.io/instance: apps
+    app.kubernetes.io/instance: turing
   name: datadog
-  namespace: apps
+  namespace: argocd
 spec:
   destination:
     namespace: datadog
@@ -84,9 +92,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   labels:
-    app.kubernetes.io/instance: apps
+    app.kubernetes.io/instance: turing
   name: longhorn
-  namespace: apps
+  namespace: argocd
 spec:
   destination:
     namespace: longhorn
@@ -115,9 +123,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   labels:
-    app.kubernetes.io/instance: apps
+    app.kubernetes.io/instance: turing
   name: tailscale
-  namespace: apps
+  namespace: argocd
 spec:
   destination:
     namespace: tailscale
@@ -136,9 +144,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   labels:
-    app.kubernetes.io/instance: apps
+    app.kubernetes.io/instance: turing
   name: turing
-  namespace: apps
+  namespace: argocd
 spec:
   destination:
     namespace: turing

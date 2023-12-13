@@ -5,11 +5,25 @@ export function createProject(chart: Chart) {
   new AppProject(chart, "project", {
     metadata: {
       name: "default",
+      namespace: "argocd",
     },
     spec: {
       orphanedResources: {
         warn: true,
       },
+      sourceRepos: ["*"],
+      destinations: [
+        {
+          namespace: "*",
+          server: "*",
+        },
+      ],
+      clusterResourceWhitelist: [
+        {
+          group: "*",
+          kind: "*",
+        },
+      ],
     },
   });
 }
