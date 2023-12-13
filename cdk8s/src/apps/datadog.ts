@@ -5,7 +5,7 @@ export function createDatadogApp(chart: Chart) {
   return new Application(chart, "datadog-app", {
     metadata: {
       name: "datadog",
-      namespace: "argocd",
+      namespace: "apps",
       labels: {
         "app.kubernetes.io/instance": "apps",
       },

@@ -94,6 +94,9 @@ Cluster Setup:
      - https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
      - https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html
 
+   - Note: it seems that the k8s operator is _not_ required for things to work
+     properly.
+
 1. Install Hauppauge Drivers for Hauppauge TV tuners.
 
    - https://www.hauppauge.com/pages/support/support_linux.html
@@ -105,3 +108,5 @@ Cluster Setup:
 1. Follow the K3s hardening guide.
 
    - https://docs.k3s.io/security/hardening-guide
+
+1. Increase number of file watchers

@@ -5,7 +5,7 @@ export function createArgoCdApp(chart: Chart) {
   new Application(chart, "argocd-app", {
     metadata: {
       name: "argocd",
-      namespace: "argocd",
+      namespace: "apps",
       labels: {
         "app.kubernetes.io/instance": "apps",
       },

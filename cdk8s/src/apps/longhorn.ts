@@ -6,7 +6,7 @@ export function createLonghornApp(chart: Chart) {
   return new Application(chart, "longhorn-app", {
     metadata: {
       name: "longhorn",
-      namespace: "argocd",
+      namespace: "apps",
       labels: {
         "app.kubernetes.io/instance": "apps",
       },

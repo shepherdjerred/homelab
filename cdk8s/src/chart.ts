@@ -22,7 +22,6 @@ import { createOnePasswordApp } from "./apps/1password.ts";
 import { createArgoCdApp } from "./apps/argocd.ts";
 import { createDatadogApp } from "./apps/datadog.ts";
 import { createLonghornApp } from "./apps/longhorn.ts";
-import { createNvidiaApp } from "./apps/nvidia.ts";
 import { createTailscaleApp } from "./apps/tailscale.ts";
 import { createTuringApp } from "./apps/turing.ts";
 import { createProject } from "./apps/project.ts";
@@ -42,7 +41,6 @@ createOnePasswordApp(chart);
 createArgoCdApp(chart);
 createDatadogApp(chart);
 createLonghornApp(chart);
-createNvidiaApp(chart);
 createTailscaleApp(chart);
 createTuringApp(chart);
 

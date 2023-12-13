@@ -18,7 +18,7 @@ export function createTailscaleResources(chart: Chart) {
         "vaults/v64ocnykdqju4ui6j6pua56xw4/items/mboftvs4fyptyqvg3anrfjy6vu",
     },
     metadata: {
-      name: "tailscale-operator-oauth",
+      name: "operator-oauth",
       namespace: "tailscale",
     },
   });

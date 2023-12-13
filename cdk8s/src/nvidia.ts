@@ -5,7 +5,6 @@ export function createNvidiaResources(chart: Chart) {
   new KubeRuntimeClass(chart, "nvidia", {
     metadata: {
       name: "nvidia",
-      namespace: "nvidia",
     },
     handler: "nvidia",
   });

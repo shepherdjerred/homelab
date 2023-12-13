@@ -15,7 +15,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: apps
   name: 1password
-  namespace: argocd
+  namespace: apps
 spec:
   destination:
     namespace: 1password
@@ -44,7 +44,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: apps
   name: argocd
-  namespace: argocd
+  namespace: apps
 spec:
   destination:
     namespace: argocd
@@ -65,7 +65,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: apps
   name: datadog
-  namespace: argocd
+  namespace: apps
 spec:
   destination:
     namespace: datadog
@@ -86,7 +86,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: apps
   name: longhorn
-  namespace: argocd
+  namespace: apps
 spec:
   destination:
     namespace: longhorn
@@ -116,30 +116,8 @@ kind: Application
 metadata:
   labels:
     app.kubernetes.io/instance: apps
-  name: nvidia
-  namespace: argocd
-spec:
-  destination:
-    namespace: nvidia
-    server: https://kubernetes.default.svc
-  project: default
-  source:
-    chart: nvidia-device-plugin
-    helm: {}
-    repoURL: https://nvidia.github.io/k8s-device-plugin
-    targetRevision: 0.14.3
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  labels:
-    app.kubernetes.io/instance: apps
   name: tailscale
-  namespace: argocd
+  namespace: apps
 spec:
   destination:
     namespace: tailscale
@@ -160,7 +138,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: apps
   name: turing
-  namespace: argocd
+  namespace: apps
 spec:
   destination:
     namespace: turing
@@ -2505,7 +2483,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: turing
   name: nvidia
-  namespace: nvidia
+  namespace: turing
 handler: nvidia
 ---
 apiVersion: onepassword.com/v1
@@ -2523,7 +2501,7 @@ kind: OnePasswordItem
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: tailscale-operator-oauth
+  name: operator-oauth
   namespace: tailscale
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/mboftvs4fyptyqvg3anrfjy6vu

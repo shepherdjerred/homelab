@@ -5,7 +5,7 @@ export function createOnePasswordApp(chart: Chart) {
   new Application(chart, "1password-app", {
     metadata: {
       name: "1password",
-      namespace: "argocd",
+      namespace: "apps",
       labels: {
         "app.kubernetes.io/instance": "apps",
       },
