@@ -1,11 +1,14 @@
 import { Chart } from "npm:cdk8s";
-import { Application } from "../../../imports/argoproj.io.ts";
+import { Application } from "../../imports/argoproj.io.ts";
 
 export function createOnePasswordApp(chart: Chart) {
-  new Application(chart, "1password", {
+  new Application(chart, "1password-app", {
     metadata: {
       name: "1password",
       namespace: "argocd",
+      labels: {
+        "app.kubernetes.io/instance": "apps",
+      },
     },
     spec: {
       project: "default",

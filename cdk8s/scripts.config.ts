@@ -9,6 +9,9 @@ export const config: DenonConfig = {
       cmd: "deno task build && deno task up",
     },
   },
+  watcher: {
+    interval: 1000,
+  },
 };
 
 export default config;

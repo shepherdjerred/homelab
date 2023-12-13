@@ -19,33 +19,47 @@ import { createLonghornResources } from "./longhorn.ts";
 import { createNvidiaResources } from "./nvidia.ts";
 import { createTailscaleResources } from "./tailscale.ts";
 import { createOnePasswordApp } from "./apps/1password.ts";
+import { createArgoCdApp } from "./apps/argocd.ts";
+import { createDatadogApp } from "./apps/datadog.ts";
+import { createLonghornApp } from "./apps/longhorn.ts";
+import { createNvidiaApp } from "./apps/nvidia.ts";
+import { createTailscaleApp } from "./apps/tailscale.ts";
 
-export function createTuringChart(app: App) {
-  const chart = new Chart(app, "turing", {
-    namespace: "turing",
-    disableResourceNameHashes: true,
-  });
+const app = new App();
+const chart = new Chart(app, "turing", {
+  namespace: "turing",
+  disableResourceNameHashes: true,
+  labels: {
+    "app.kubernetes.io/instance": "turing",
+  },
+});
 
-  createOnePasswordApp(chart);
+createOnePasswordApp(chart);
+createArgoCdApp(chart);
+createDatadogApp(chart);
+createLonghornApp(chart);
+createNvidiaApp(chart);
+createTailscaleApp(chart);
 
-  createInvidiousDeployment(chart);
-  createTedditDeployment(chart);
-  createPlexDeployment(chart);
-  createRadarrDeployment(chart);
-  createBazarrDeployment(chart);
-  createHomeAssistantDeployment(chart);
-  createJackettDeployment(chart);
-  createNitterDeployment(chart);
-  createOverseerrDeployment(chart);
-  createQBitTorrentDeployment(chart);
-  createSonarrDeployment(chart);
-  createSyncthingDeployment(chart);
-  createTautulliDeployment(chart);
-  createGolinkDeployment(chart);
-  createBitmagnetDeployment(chart);
+createInvidiousDeployment(chart);
+createTedditDeployment(chart);
+createPlexDeployment(chart);
+createRadarrDeployment(chart);
+createBazarrDeployment(chart);
+createHomeAssistantDeployment(chart);
+createJackettDeployment(chart);
+createNitterDeployment(chart);
+createOverseerrDeployment(chart);
+createQBitTorrentDeployment(chart);
+createSonarrDeployment(chart);
+createSyncthingDeployment(chart);
+createTautulliDeployment(chart);
+createGolinkDeployment(chart);
+createBitmagnetDeployment(chart);
 
-  createDatadogResources(chart);
-  createLonghornResources(chart);
-  createNvidiaResources(chart);
-  createTailscaleResources(chart);
-}
+createDatadogResources(chart);
+createLonghornResources(chart);
+createNvidiaResources(chart);
+createTailscaleResources(chart);
+
+app.synth();

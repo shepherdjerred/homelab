@@ -1,6 +1,6 @@
 import { Chart } from "npm:cdk8s";
-import { DatadogAgentV2Alpha1 } from "../../imports/datadoghq.com.ts";
-import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import { DatadogAgentV2Alpha1 } from "../imports/datadoghq.com.ts";
+import { OnePasswordItem } from "../imports/onepassword.com.ts";
 
 export function createDatadogResources(chart: Chart) {
   const item = new OnePasswordItem(chart, "datadog-secret", {

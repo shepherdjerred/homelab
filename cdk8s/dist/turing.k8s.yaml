@@ -1,6 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  labels:
+    app.kubernetes.io/instance: apps
   name: 1password
   namespace: argocd
 spec:
@@ -25,9 +27,126 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    app.kubernetes.io/instance: apps
+  name: argocd
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: manifests/
+    repoURL: https://github.com/argoproj/argo-cd
+    targetRevision: stable
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    app.kubernetes.io/instance: apps
+  name: datadog
+  namespace: argocd
+spec:
+  destination:
+    namespace: datadog
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: datadog-operator
+    repoURL: https://helm.datadoghq.com
+    targetRevision: 1.2.2
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    app.kubernetes.io/instance: apps
+  name: longhorn
+  namespace: argocd
+spec:
+  destination:
+    namespace: longhorn
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: longhorn
+    helm:
+      parameters:
+        - name: helmPreUpgradeCheckerJob.enabled
+          value: "false"
+        - name: persistence.defaultClassReplicaCount
+          value: "1"
+        - name: defaultSettings.backupTarget
+          value: s3://longhorn-backup@auto/
+        - name: defaultSettings.backupTargetCredentialSecret
+          value: aws-secret
+    repoURL: https://charts.longhorn.io
+    targetRevision: 1.5.3
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    app.kubernetes.io/instance: apps
+  name: nvidia
+  namespace: argocd
+spec:
+  destination:
+    namespace: nvidia
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: nvdp
+    repoURL: https://nvidia.github.io/k8s-device-plugin
+    targetRevision: 0.14.3
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    app.kubernetes.io/instance: apps
+  name: tailscale
+  namespace: argocd
+spec:
+  destination:
+    namespace: tailscale
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: cmd/k8s-operator/deploy/chart
+    repoURL: https://github.com/tailscale/tailscale
+    targetRevision: HEAD
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-invidious-postgres
   namespace: turing
 spec:
@@ -90,6 +209,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-invidious-postgres-service
   namespace: turing
 spec:
@@ -104,6 +225,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: allowingressc8ca4b09d8cd514c29205a1c1fc83a275eab94e5be
   namespace: turing
 spec:
@@ -127,6 +250,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: allowegressturingc8ca4b09d8cd514c29205a1c1fc83a275eab9
   namespace: turing
 spec:
@@ -150,6 +275,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-invidious-postgres-pvc
   namespace: turing
 spec:
@@ -164,6 +291,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-invidious
   namespace: turing
 spec:
@@ -232,6 +361,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-invidious-service
   namespace: turing
 spec:
@@ -245,6 +376,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-invidious-ingress
   namespace: turing
 spec:
@@ -261,6 +394,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-teddit-redis
   namespace: turing
 spec:
@@ -310,6 +445,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-teddit-redis-service
   namespace: turing
 spec:
@@ -324,6 +461,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-teddit
   namespace: turing
 spec:
@@ -373,6 +512,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-teddit-service
   namespace: turing
 spec:
@@ -386,6 +527,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-teddit-ingress
   namespace: turing
 spec:
@@ -402,6 +545,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-plex
   namespace: turing
 spec:
@@ -534,6 +679,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-plex-service
   namespace: turing
 spec:
@@ -549,6 +696,8 @@ kind: Ingress
 metadata:
   annotations:
     tailscale.com/funnel: "true"
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-plex-ingress
   namespace: turing
 spec:
@@ -565,6 +714,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-radarr
   namespace: turing
 spec:
@@ -639,6 +790,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-radarr-pvc
   namespace: turing
 spec:
@@ -653,6 +806,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-radarr-service
   namespace: turing
 spec:
@@ -666,6 +821,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-radarr-ingress
   namespace: turing
 spec:
@@ -682,6 +839,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bazarr
   namespace: turing
 spec:
@@ -755,6 +914,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bazarr-pvc
   namespace: turing
 spec:
@@ -769,6 +930,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bazarr-service
   namespace: turing
 spec:
@@ -782,6 +945,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bazarr-ingress
   namespace: turing
 spec:
@@ -798,6 +963,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-homeassistant
   namespace: turing
 spec:
@@ -868,6 +1035,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-homeassistant-service
   namespace: turing
 spec:
@@ -883,6 +1052,8 @@ kind: Ingress
 metadata:
   annotations:
     tailscale.com/funnel: "true"
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-homeassistant-ingress
   namespace: turing
 spec:
@@ -899,6 +1070,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-jackett
   namespace: turing
 spec:
@@ -972,6 +1145,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-jackett-pvc
   namespace: turing
 spec:
@@ -986,6 +1161,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-jackett-service
   namespace: turing
 spec:
@@ -999,6 +1176,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-jackett-ingress
   namespace: turing
 spec:
@@ -1015,6 +1194,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-nitter-redis
   namespace: turing
 spec:
@@ -1064,6 +1245,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-nitter-redis-service
   namespace: turing
 spec:
@@ -1078,6 +1261,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-nitter
   namespace: turing
 spec:
@@ -1141,6 +1326,8 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-nitter-conf
   namespace: turing
 data:
@@ -1195,6 +1382,8 @@ immutable: false
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-nitter-service
   namespace: turing
 spec:
@@ -1208,6 +1397,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-nitter-ingress
   namespace: turing
 spec:
@@ -1224,6 +1415,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-overseerr
   namespace: turing
 spec:
@@ -1297,6 +1490,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-overseerr-pvc
   namespace: turing
 spec:
@@ -1311,6 +1506,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-overseerr-service
   namespace: turing
 spec:
@@ -1326,6 +1523,8 @@ kind: Ingress
 metadata:
   annotations:
     tailscale.com/funnel: "true"
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-overseerr-ingress
   namespace: turing
 spec:
@@ -1342,6 +1541,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-qbittorrent
   namespace: turing
 spec:
@@ -1415,6 +1616,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-qbittorrent-pvc
   namespace: turing
 spec:
@@ -1429,6 +1632,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-qbittorrent-service
   namespace: turing
 spec:
@@ -1442,6 +1647,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-qbittorrent-ingress
   namespace: turing
 spec:
@@ -1458,6 +1665,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-sonarr
   namespace: turing
 spec:
@@ -1532,6 +1741,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-sonarr-pvc
   namespace: turing
 spec:
@@ -1546,6 +1757,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-sonarr-service
   namespace: turing
 spec:
@@ -1559,6 +1772,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-sonarr-ingress
   namespace: turing
 spec:
@@ -1575,6 +1790,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-syncthing
   namespace: turing
 spec:
@@ -1648,6 +1865,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-syncthing-pvc
   namespace: turing
 spec:
@@ -1662,6 +1881,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-syncthing-service
   namespace: turing
 spec:
@@ -1675,6 +1896,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-syncthing-ingress
   namespace: turing
 spec:
@@ -1691,6 +1914,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-tautulli
   namespace: turing
 spec:
@@ -1764,6 +1989,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-tautulli-pvc
   namespace: turing
 spec:
@@ -1778,6 +2005,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-tautulli-service
   namespace: turing
 spec:
@@ -1791,6 +2020,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-tautulli-ingress
   namespace: turing
 spec:
@@ -1807,6 +2038,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-golink
   namespace: turing
 spec:
@@ -1862,6 +2095,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-golink-pvc
   namespace: turing
 spec:
@@ -1876,6 +2111,8 @@ spec:
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: bitmagnet-postgres-onepassword
   namespace: turing
 spec:
@@ -1884,6 +2121,8 @@ spec:
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: tmdb-api-key
   namespace: turing
 spec:
@@ -1892,6 +2131,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bitmagnet-redis
   namespace: turing
 spec:
@@ -1941,6 +2182,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bitmagnet-redis-service
   namespace: turing
 spec:
@@ -1955,6 +2198,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bitmagnet-postgres
   namespace: turing
 spec:
@@ -2020,6 +2265,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bitmagnet-postgres-service
   namespace: turing
 spec:
@@ -2034,6 +2281,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bitmagnet-postgres-pvc
   namespace: turing
 spec:
@@ -2048,6 +2297,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bitmagnet
   namespace: turing
 spec:
@@ -2124,6 +2375,8 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bitmagnet-pvc
   namespace: turing
 spec:
@@ -2138,6 +2391,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bitmagnet-service
   namespace: turing
 spec:
@@ -2151,6 +2406,8 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bitmagnet-ingress
   namespace: turing
 spec:
@@ -2167,6 +2424,8 @@ spec:
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-datadog-secret
   namespace: datadog
 spec:
@@ -2175,6 +2434,8 @@ spec:
 apiVersion: datadoghq.com/v2alpha1
 kind: DatadogAgent
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-datadog-agent
   namespace: turing
 spec:
@@ -2198,6 +2459,8 @@ spec:
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: aws-secret
   namespace: longhorn
 spec:
@@ -2206,6 +2469,8 @@ spec:
 apiVersion: node.k8s.io/v1
 kind: RuntimeClass
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: nvidia
   namespace: nvidia
 handler: nvidia
@@ -2213,6 +2478,8 @@ handler: nvidia
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: tailscale-auth-key
   namespace: turing
 spec:
@@ -2221,6 +2488,8 @@ spec:
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: tailscale-operator-oauth
   namespace: tailscale
 spec:
