@@ -1,3 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: 1password
+  namespace: argocd
+spec:
+  destination:
+    namespace: 1password
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: connect
+    helm:
+      parameters:
+        - name: operator.autoRestart
+          value: "true"
+        - name: operator.create
+          value: "true"
+        - name: operator.pollingInterval
+          value: "60"
+    repoURL: https://1password.github.io/connect-helm-charts/
+    targetRevision: 1.14.0
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

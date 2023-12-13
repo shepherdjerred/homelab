@@ -10,13 +10,13 @@ repos:
     rev: v0.6.5
     hooks:
       - id: kube-linter
-        args: ["turing/dist/", "apps/templates/"]
+        args: ["cdk8s/dist/"]
     # TODO: sandbox this
   - repo: local
     hooks:
       - id: run
         name: build k8s manifest
-        entry: bash -c 'cd turing && deno task build'
+        entry: bash -c 'cd cdk8s/ && deno task build'
         language: system
         types: [ts]
         pass_filenames: false

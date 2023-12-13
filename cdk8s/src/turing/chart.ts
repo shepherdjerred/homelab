@@ -18,32 +18,34 @@ import { createDatadogResources } from "./datadog.ts";
 import { createLonghornResources } from "./longhorn.ts";
 import { createNvidiaResources } from "./nvidia.ts";
 import { createTailscaleResources } from "./tailscale.ts";
+import { createOnePasswordApp } from "./apps/1password.ts";
 
-const app = new App();
-const chart = new Chart(app, "turing", {
-  namespace: "turing",
-  disableResourceNameHashes: true,
-});
+export function createTuringChart(app: App) {
+  const chart = new Chart(app, "turing", {
+    namespace: "turing",
+    disableResourceNameHashes: true,
+  });
 
-createInvidiousDeployment(chart);
-createTedditDeployment(chart);
-createPlexDeployment(chart);
-createRadarrDeployment(chart);
-createBazarrDeployment(chart);
-createHomeAssistantDeployment(chart);
-createJackettDeployment(chart);
-createNitterDeployment(chart);
-createOverseerrDeployment(chart);
-createQBitTorrentDeployment(chart);
-createSonarrDeployment(chart);
-createSyncthingDeployment(chart);
-createTautulliDeployment(chart);
-createGolinkDeployment(chart);
-createBitmagnetDeployment(chart);
+  createOnePasswordApp(chart);
 
-createDatadogResources(chart);
-createLonghornResources(chart);
-createNvidiaResources(chart);
-createTailscaleResources(chart);
+  createInvidiousDeployment(chart);
+  createTedditDeployment(chart);
+  createPlexDeployment(chart);
+  createRadarrDeployment(chart);
+  createBazarrDeployment(chart);
+  createHomeAssistantDeployment(chart);
+  createJackettDeployment(chart);
+  createNitterDeployment(chart);
+  createOverseerrDeployment(chart);
+  createQBitTorrentDeployment(chart);
+  createSonarrDeployment(chart);
+  createSyncthingDeployment(chart);
+  createTautulliDeployment(chart);
+  createGolinkDeployment(chart);
+  createBitmagnetDeployment(chart);
 
-app.synth();
+  createDatadogResources(chart);
+  createLonghornResources(chart);
+  createNvidiaResources(chart);
+  createTailscaleResources(chart);
+}

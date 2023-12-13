@@ -9,7 +9,7 @@
         "reveal": "always",
         "panel": "new"
       },
-      "options": { "cwd": "${workspaceFolder}/turing" },
+      "options": { "cwd": "${workspaceFolder}/cdk8s/" },
       "runOptions": { "runOn": "folderOpen" }
     }
   ]

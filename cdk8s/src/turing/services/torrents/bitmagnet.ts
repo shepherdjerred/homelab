@@ -10,7 +10,7 @@ import { Chart, Size } from "npm:cdk8s";
 import { createLonghornVolume } from "../../utils/longhorn.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
-import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
+import { OnePasswordItem } from "../../../../imports/onepassword.com.ts";
 
 export function createBitmagnetDeployment(chart: Chart) {
   const item = new OnePasswordItem(chart, "bitmagnet-postgres-onepassword", {

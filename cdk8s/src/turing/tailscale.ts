@@ -1,5 +1,5 @@
 import { Chart } from "npm:cdk8s";
-import { OnePasswordItem } from "../imports/onepassword.com.ts";
+import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createTailscaleResources(chart: Chart) {
   new OnePasswordItem(chart, "tailscale-auth-key-onepassword", {
