@@ -14,8 +14,9 @@ export function createNvidiaApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://nvidia.github.io/k8s-device-plugin",
-        targetRevision: "v0.14.3",
-        chart: "nvdp",
+        targetRevision: "0.14.3",
+        chart: "nvidia-device-plugin",
+        helm: {},
       },
       destination: {
         server: "https://kubernetes.default.svc",

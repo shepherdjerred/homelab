@@ -1,4 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: default
+  namespace: turing
+spec:
+  orphanedResources:
+    warn: true
+---
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   labels:
@@ -113,9 +124,10 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    chart: nvdp
+    chart: nvidia-device-plugin
+    helm: {}
     repoURL: https://nvidia.github.io/k8s-device-plugin
-    targetRevision: v0.14.3
+    targetRevision: 0.14.3
   syncPolicy:
     automated: {}
     syncOptions:

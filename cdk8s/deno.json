@@ -1,7 +1,7 @@
 {
   "tasks": {
     "build": "deno run --allow-write=dist --allow-read=config src/chart.ts",
-    "up": "kubectl apply -f dist",
+    "up": "deno task build && kubectl apply -f dist",
     "diff": "KUBECTL_EXTERNAL_DIFF=delta DELTA_PAGER=bat BAT_PAGER=/home/linuxbrew/.linuxbrew/bin/less kubectl diff -f dist/turing.k8s.yaml"
   }
 }

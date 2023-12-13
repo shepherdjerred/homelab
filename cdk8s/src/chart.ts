@@ -25,6 +25,7 @@ import { createLonghornApp } from "./apps/longhorn.ts";
 import { createNvidiaApp } from "./apps/nvidia.ts";
 import { createTailscaleApp } from "./apps/tailscale.ts";
 import { createTuringApp } from "./apps/turing.ts";
+import { createProject } from "./apps/project.ts";
 
 const app = new App();
 const chart = new Chart(app, "turing", {
@@ -34,6 +35,8 @@ const chart = new Chart(app, "turing", {
     "app.kubernetes.io/instance": "turing",
   },
 });
+
+createProject(chart);
 
 createOnePasswordApp(chart);
 createArgoCdApp(chart);
