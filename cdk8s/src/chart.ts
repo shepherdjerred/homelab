@@ -44,6 +44,7 @@ createLonghornApp(chart);
 createTailscaleApp(chart);
 createTuringApp(chart);
 
+createTautulliDeployment(chart);
 createInvidiousDeployment(chart);
 createTedditDeployment(chart);
 createPlexDeployment(chart);
@@ -56,7 +57,6 @@ createOverseerrDeployment(chart);
 createQBitTorrentDeployment(chart);
 createSonarrDeployment(chart);
 createSyncthingDeployment(chart);
-createTautulliDeployment(chart);
 createGolinkDeployment(chart);
 createBitmagnetDeployment(chart);
 

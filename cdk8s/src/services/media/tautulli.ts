@@ -30,17 +30,6 @@ export function createTautulliDeployment(chart: Chart) {
             longhornVolume.claim,
           ),
         },
-        {
-          volume: Volume.fromHostPath(
-            chart,
-            "tautulli-bind-mount",
-            "tautulli-bind-mount",
-            {
-              path: "/mnt/storage/plex/Plex Media Server/Logs",
-            },
-          ),
-          path: "/plex_logs",
-        },
       ],
     }),
   );

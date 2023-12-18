@@ -166,6 +166,130 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/instance: turing
+  name: turing-tautulli
+  namespace: turing
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-tautulli-c8df029b
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-tautulli-c8df029b
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: TZ
+              value: US/Los_Angeles
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          image: lscr.io/linuxserver/tautulli
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8181
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8181
+          volumeMounts:
+            - mountPath: /var/syncthing/
+              name: pvc-turing-syncthing-longhorn-pvc
+            - mountPath: /syncthing
+              name: syncthing-bind-mount
+            - mountPath: /tv
+              name: sonarr-movies-bind-mount
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-turing-syncthing-longhorn-pvc
+          persistentVolumeClaim:
+            claimName: turing-syncthing-longhorn-pvc
+            readOnly: false
+        - hostPath:
+            path: /mnt/storage/syncthing
+            type: ""
+          name: syncthing-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/tv
+            type: ""
+          name: sonarr-movies-bind-mount
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-tautulli-longhorn-pvc
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-tautulli-service
+  namespace: turing
+spec:
+  externalIPs: []
+  ports:
+    - port: 8181
+  selector:
+    cdk8s.io/metadata.addr: turing-tautulli-c8df029b
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-tautulli-ingress
+  namespace: turing
+spec:
+  defaultBackend:
+    service:
+      name: turing-tautulli-service
+      port:
+        number: 8181
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - tautulli
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-invidious-postgres
   namespace: turing
 spec:
@@ -777,10 +901,10 @@ spec:
             tcpSocket:
               port: 7878
           volumeMounts:
-            - mountPath: /config
-              name: pvc-turing-tautulli-longhorn-pvc
-            - mountPath: /plex_logs
-              name: tautulli-bind-mount
+            - mountPath: /var/syncthing/
+              name: pvc-turing-syncthing-longhorn-pvc
+            - mountPath: /syncthing
+              name: syncthing-bind-mount
             - mountPath: /tv
               name: sonarr-movies-bind-mount
       dnsPolicy: ClusterFirst
@@ -793,14 +917,14 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-longhorn-pvc
+        - name: pvc-turing-syncthing-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-longhorn-pvc
+            claimName: turing-syncthing-longhorn-pvc
             readOnly: false
         - hostPath:
-            path: /mnt/storage/plex/Plex Media Server/Logs
+            path: /mnt/storage/syncthing
             type: ""
-          name: tautulli-bind-mount
+          name: syncthing-bind-mount
         - hostPath:
             path: /mnt/storage/media/tv
             type: ""
@@ -902,10 +1026,10 @@ spec:
             tcpSocket:
               port: 6767
           volumeMounts:
-            - mountPath: /config
-              name: pvc-turing-tautulli-longhorn-pvc
-            - mountPath: /plex_logs
-              name: tautulli-bind-mount
+            - mountPath: /var/syncthing/
+              name: pvc-turing-syncthing-longhorn-pvc
+            - mountPath: /syncthing
+              name: syncthing-bind-mount
             - mountPath: /tv
               name: sonarr-movies-bind-mount
       dnsPolicy: ClusterFirst
@@ -917,14 +1041,14 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-longhorn-pvc
+        - name: pvc-turing-syncthing-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-longhorn-pvc
+            claimName: turing-syncthing-longhorn-pvc
             readOnly: false
         - hostPath:
-            path: /mnt/storage/plex/Plex Media Server/Logs
+            path: /mnt/storage/syncthing
             type: ""
-          name: tautulli-bind-mount
+          name: syncthing-bind-mount
         - hostPath:
             path: /mnt/storage/media/tv
             type: ""
@@ -1133,10 +1257,10 @@ spec:
             tcpSocket:
               port: 9117
           volumeMounts:
-            - mountPath: /config
-              name: pvc-turing-tautulli-longhorn-pvc
-            - mountPath: /plex_logs
-              name: tautulli-bind-mount
+            - mountPath: /var/syncthing/
+              name: pvc-turing-syncthing-longhorn-pvc
+            - mountPath: /syncthing
+              name: syncthing-bind-mount
             - mountPath: /tv
               name: sonarr-movies-bind-mount
       dnsPolicy: ClusterFirst
@@ -1148,14 +1272,14 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-longhorn-pvc
+        - name: pvc-turing-syncthing-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-longhorn-pvc
+            claimName: turing-syncthing-longhorn-pvc
             readOnly: false
         - hostPath:
-            path: /mnt/storage/plex/Plex Media Server/Logs
+            path: /mnt/storage/syncthing
             type: ""
-          name: tautulli-bind-mount
+          name: syncthing-bind-mount
         - hostPath:
             path: /mnt/storage/media/tv
             type: ""
@@ -1478,10 +1602,10 @@ spec:
             tcpSocket:
               port: 5055
           volumeMounts:
-            - mountPath: /config
-              name: pvc-turing-tautulli-longhorn-pvc
-            - mountPath: /plex_logs
-              name: tautulli-bind-mount
+            - mountPath: /var/syncthing/
+              name: pvc-turing-syncthing-longhorn-pvc
+            - mountPath: /syncthing
+              name: syncthing-bind-mount
             - mountPath: /tv
               name: sonarr-movies-bind-mount
       dnsPolicy: ClusterFirst
@@ -1493,14 +1617,14 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-longhorn-pvc
+        - name: pvc-turing-syncthing-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-longhorn-pvc
+            claimName: turing-syncthing-longhorn-pvc
             readOnly: false
         - hostPath:
-            path: /mnt/storage/plex/Plex Media Server/Logs
+            path: /mnt/storage/syncthing
             type: ""
-          name: tautulli-bind-mount
+          name: syncthing-bind-mount
         - hostPath:
             path: /mnt/storage/media/tv
             type: ""
@@ -1604,10 +1728,10 @@ spec:
             tcpSocket:
               port: 8080
           volumeMounts:
-            - mountPath: /config
-              name: pvc-turing-tautulli-longhorn-pvc
-            - mountPath: /plex_logs
-              name: tautulli-bind-mount
+            - mountPath: /var/syncthing/
+              name: pvc-turing-syncthing-longhorn-pvc
+            - mountPath: /syncthing
+              name: syncthing-bind-mount
             - mountPath: /tv
               name: sonarr-movies-bind-mount
       dnsPolicy: ClusterFirst
@@ -1619,14 +1743,14 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-longhorn-pvc
+        - name: pvc-turing-syncthing-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-longhorn-pvc
+            claimName: turing-syncthing-longhorn-pvc
             readOnly: false
         - hostPath:
-            path: /mnt/storage/plex/Plex Media Server/Logs
+            path: /mnt/storage/syncthing
             type: ""
-          name: tautulli-bind-mount
+          name: syncthing-bind-mount
         - hostPath:
             path: /mnt/storage/media/tv
             type: ""
@@ -1728,10 +1852,10 @@ spec:
             tcpSocket:
               port: 8989
           volumeMounts:
-            - mountPath: /config
-              name: pvc-turing-tautulli-longhorn-pvc
-            - mountPath: /plex_logs
-              name: tautulli-bind-mount
+            - mountPath: /var/syncthing/
+              name: pvc-turing-syncthing-longhorn-pvc
+            - mountPath: /syncthing
+              name: syncthing-bind-mount
             - mountPath: /tv
               name: sonarr-movies-bind-mount
       dnsPolicy: ClusterFirst
@@ -1744,14 +1868,14 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-longhorn-pvc
+        - name: pvc-turing-syncthing-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-longhorn-pvc
+            claimName: turing-syncthing-longhorn-pvc
             readOnly: false
         - hostPath:
-            path: /mnt/storage/plex/Plex Media Server/Logs
+            path: /mnt/storage/syncthing
             type: ""
-          name: tautulli-bind-mount
+          name: syncthing-bind-mount
         - hostPath:
             path: /mnt/storage/media/tv
             type: ""
@@ -1853,10 +1977,10 @@ spec:
             tcpSocket:
               port: 8384
           volumeMounts:
-            - mountPath: /config
-              name: pvc-turing-tautulli-longhorn-pvc
-            - mountPath: /plex_logs
-              name: tautulli-bind-mount
+            - mountPath: /var/syncthing/
+              name: pvc-turing-syncthing-longhorn-pvc
+            - mountPath: /syncthing
+              name: syncthing-bind-mount
             - mountPath: /tv
               name: sonarr-movies-bind-mount
       dnsPolicy: ClusterFirst
@@ -1868,14 +1992,14 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-longhorn-pvc
+        - name: pvc-turing-syncthing-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-longhorn-pvc
+            claimName: turing-syncthing-longhorn-pvc
             readOnly: false
         - hostPath:
-            path: /mnt/storage/plex/Plex Media Server/Logs
+            path: /mnt/storage/syncthing
             type: ""
-          name: tautulli-bind-mount
+          name: syncthing-bind-mount
         - hostPath:
             path: /mnt/storage/media/tv
             type: ""
@@ -1929,130 +2053,6 @@ spec:
   tls:
     - hosts:
         - syncthing
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-tautulli
-  namespace: turing
-spec:
-  minReadySeconds: 0
-  progressDeadlineSeconds: 600
-  replicas: 1
-  selector:
-    matchLabels:
-      cdk8s.io/metadata.addr: turing-tautulli-c8df029b
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        cdk8s.io/metadata.addr: turing-tautulli-c8df029b
-    spec:
-      automountServiceAccountToken: false
-      containers:
-        - env:
-            - name: TZ
-              value: US/Los_Angeles
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
-          image: lscr.io/linuxserver/tautulli
-          imagePullPolicy: Always
-          name: main
-          ports:
-            - containerPort: 8181
-          securityContext:
-            allowPrivilegeEscalation: false
-            privileged: false
-            readOnlyRootFilesystem: false
-            runAsGroup: 0
-            runAsNonRoot: false
-            runAsUser: 0
-          startupProbe:
-            failureThreshold: 3
-            tcpSocket:
-              port: 8181
-          volumeMounts:
-            - mountPath: /config
-              name: pvc-turing-tautulli-longhorn-pvc
-            - mountPath: /plex_logs
-              name: tautulli-bind-mount
-            - mountPath: /tv
-              name: sonarr-movies-bind-mount
-      dnsPolicy: ClusterFirst
-      hostNetwork: false
-      restartPolicy: Always
-      securityContext:
-        fsGroupChangePolicy: Always
-        runAsNonRoot: true
-      setHostnameAsFQDN: false
-      terminationGracePeriodSeconds: 30
-      volumes:
-        - name: pvc-turing-tautulli-longhorn-pvc
-          persistentVolumeClaim:
-            claimName: turing-tautulli-longhorn-pvc
-            readOnly: false
-        - hostPath:
-            path: /mnt/storage/plex/Plex Media Server/Logs
-            type: ""
-          name: tautulli-bind-mount
-        - hostPath:
-            path: /mnt/storage/media/tv
-            type: ""
-          name: sonarr-movies-bind-mount
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-tautulli-longhorn-pvc
-  namespace: turing
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
-  storageClassName: longhorn
-  volumeMode: Filesystem
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-tautulli-service
-  namespace: turing
-spec:
-  externalIPs: []
-  ports:
-    - port: 8181
-  selector:
-    cdk8s.io/metadata.addr: turing-tautulli-c8df029b
-  type: ClusterIP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-tautulli-ingress
-  namespace: turing
-spec:
-  defaultBackend:
-    service:
-      name: turing-tautulli-service
-      port:
-        number: 8181
-  ingressClassName: tailscale
-  tls:
-    - hosts:
-        - tautulli
 ---
 apiVersion: apps/v1
 kind: Deployment
