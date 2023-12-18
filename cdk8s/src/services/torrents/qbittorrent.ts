@@ -37,7 +37,44 @@ export function createQBitTorrentDeployment(chart: Chart) {
   );
 
   deployment.addContainer(
+    withCommonProps({
+      name: "gluetun",
+      image: "ghcr.io/qdm12/gluetun",
+      // TODO: replace this with capability to run as non-root
+      securityContext: {
+        privileged: true,
+        allowPrivilegeEscalation: true,
+        ensureNonRoot: false,
+        readOnlyRootFilesystem: false,
+      },
+      envVariables: {
+        VPN_SERVICE_PROVIDER: EnvValue.fromValue("mullvad"),
+        VPN_TYPE: EnvValue.fromValue("wireguard"),
+        WIREGUARD_PRIVATE_KEY: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(
+            chart,
+            "mullvad-private-key",
+            item.name,
+          ),
+          key: "private-key",
+        }),
+        WIREGUARD_ADDRESSES: EnvValue.fromValue("10.65.91.92/32"),
+      },
+      volumeMounts: [
+        {
+          path: "/gluetun",
+          volume: Volume.fromPersistentVolumeClaim(
+            chart,
+            "qbittorrent-gluetun-volume",
+            gluetunLonghornVolume.claim,
+          ),
+        },
+      ],
+    }),
+  );
+  deployment.addContainer(
     withCommonLinuxServerProps({
+      name: "qbittorrent",
       image: "lscr.io/linuxserver/qbittorrent",
       portNumber: 8080,
       volumeMounts: [
@@ -59,49 +96,6 @@ export function createQBitTorrentDeployment(chart: Chart) {
             },
           ),
           path: "/downloads",
-        },
-      ],
-    }),
-  );
-
-  deployment.addContainer(
-    withCommonProps({
-      image: "ghcr.io/qdm12/gluetun",
-      // TODO: replace this with capability to run as non-root
-      securityContext: {
-        privileged: true,
-        allowPrivilegeEscalation: true,
-        ensureNonRoot: false,
-        readOnlyRootFilesystem: false,
-      },
-      envVariables: {
-        VPN_SERVICE_PROVIDER: EnvValue.fromValue("mullvad"),
-        VPN_TYPE: EnvValue.fromValue("wireguard"),
-        WIREGUARD_PRIVATE_KEY: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(
-            chart,
-            "mullvad-private-key",
-            item.name,
-          ),
-          key: "private-key",
-        }),
-        WIREGUARD_ADDRESSES: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(
-            chart,
-            "mullvad-address",
-            item.name,
-          ),
-          key: "address",
-        }),
-      },
-      volumeMounts: [
-        {
-          path: "/gluetun",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "qbittorrent-gluetun-volume",
-            gluetunLonghornVolume.claim,
-          ),
         },
       ],
     }),

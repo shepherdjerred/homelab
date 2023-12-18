@@ -1677,13 +1677,38 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
+            - name: VPN_SERVICE_PROVIDER
+              value: mullvad
+            - name: VPN_TYPE
+              value: wireguard
+            - name: WIREGUARD_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: private-key
+                  name: turing-mullvad
+            - name: WIREGUARD_ADDRESSES
+              value: 10.65.91.92/32
+          image: ghcr.io/qdm12/gluetun
+          imagePullPolicy: Always
+          name: gluetun
+          securityContext:
+            allowPrivilegeEscalation: true
+            privileged: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          volumeMounts:
+            - mountPath: /gluetun
+              name: pvc-qbittorrent-gluetun-longhorn
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
             - name: PUID
               value: "1000"
             - name: PGID
               value: "1000"
           image: lscr.io/linuxserver/qbittorrent
           imagePullPolicy: Always
-          name: main
+          name: qbittorrent
           ports:
             - containerPort: 8080
           securityContext:
@@ -1702,34 +1727,6 @@ spec:
               name: pvc-qbittorrent-longhorn
             - mountPath: /downloads
               name: qbittorrent-bind-mount
-        - env:
-            - name: TZ
-              value: America/Los_Angeles
-            - name: VPN_SERVICE_PROVIDER
-              value: mullvad
-            - name: VPN_TYPE
-              value: wireguard
-            - name: WIREGUARD_PRIVATE_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: private-key
-                  name: turing-mullvad
-            - name: WIREGUARD_ADDRESSES
-              valueFrom:
-                secretKeyRef:
-                  key: address
-                  name: turing-mullvad
-          image: ghcr.io/qdm12/gluetun
-          imagePullPolicy: Always
-          name: main
-          securityContext:
-            allowPrivilegeEscalation: true
-            privileged: true
-            readOnlyRootFilesystem: false
-            runAsNonRoot: false
-          volumeMounts:
-            - mountPath: /gluetun
-              name: pvc-qbittorrent-gluetun-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1739,6 +1736,10 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
+        - name: pvc-qbittorrent-gluetun-longhorn
+          persistentVolumeClaim:
+            claimName: qbittorrent-gluetun-longhorn
+            readOnly: false
         - name: pvc-qbittorrent-longhorn
           persistentVolumeClaim:
             claimName: qbittorrent-longhorn
@@ -1747,10 +1748,6 @@ spec:
             path: /mnt/storage/downloads/torrents
             type: ""
           name: qbittorrent-bind-mount
-        - name: pvc-qbittorrent-gluetun-longhorn
-          persistentVolumeClaim:
-            claimName: qbittorrent-gluetun-longhorn
-            readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
