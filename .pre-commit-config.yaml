@@ -12,6 +12,7 @@ repos:
       - id: kube-linter
         args: ["cdk8s/dist/"]
     # TODO: sandbox this
+    # TODO: run deno check
   - repo: local
     hooks:
       - id: run

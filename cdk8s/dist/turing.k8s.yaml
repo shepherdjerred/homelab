@@ -2439,6 +2439,21 @@ metadata:
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/47zgh2s2tj4ite3gujflgqiwsq
 ---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-longhorn-recurring-job
+  namespace: longhorn
+spec:
+  concurrency: 4
+  cron: 0 0 * * *
+  labels: {}
+  name: longhorn-recurring-job
+  retain: 3
+  task: backup
+---
 apiVersion: node.k8s.io/v1
 kind: RuntimeClass
 metadata:
