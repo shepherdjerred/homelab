@@ -1641,6 +1641,16 @@ spec:
     - hosts:
         - overseerr
 ---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-mullvad
+  namespace: turing
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/74rqjncejp7rpgelymnmul5ssm
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -1692,6 +1702,34 @@ spec:
               name: pvc-qbittorrent-longhorn
             - mountPath: /downloads
               name: qbittorrent-bind-mount
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: VPN_SERVICE_PROVIDER
+              value: mullvad
+            - name: VPN_TYPE
+              value: wireguard
+            - name: WIREGUARD_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: private-key
+                  name: turing-mullvad
+            - name: WIREGUARD_ADDRESSES
+              valueFrom:
+                secretKeyRef:
+                  key: address
+                  name: turing-mullvad
+          image: ghcr.io/qdm12/gluetun
+          imagePullPolicy: Always
+          name: main
+          securityContext:
+            allowPrivilegeEscalation: true
+            privileged: true
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          volumeMounts:
+            - mountPath: /gluetun
+              name: pvc-qbittorrent-gluetun-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1709,6 +1747,10 @@ spec:
             path: /mnt/storage/downloads/torrents
             type: ""
           name: qbittorrent-bind-mount
+        - name: pvc-qbittorrent-gluetun-longhorn
+          persistentVolumeClaim:
+            claimName: qbittorrent-gluetun-longhorn
+            readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -1727,8 +1769,26 @@ spec:
   volumeMode: Filesystem
 ---
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: qbittorrent-gluetun-longhorn
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    metallb.universe.tf/allow-shared-ip: gluetun
   labels:
     app.kubernetes.io/instance: turing
   name: turing-qbittorrent-service
