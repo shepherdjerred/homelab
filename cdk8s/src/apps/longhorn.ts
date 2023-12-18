@@ -1,8 +1,19 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createLonghornApp(chart: Chart) {
-  // TODO: move 1password secret here
+  const item = new OnePasswordItem(chart, "longhorn-secret", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/47zgh2s2tj4ite3gujflgqiwsq",
+    },
+    metadata: {
+      namespace: "longhorn",
+      name: "aws-secret",
+    },
+  });
+
   return new Application(chart, "longhorn-app", {
     metadata: {
       name: "longhorn",
@@ -30,7 +41,7 @@ export function createLonghornApp(chart: Chart) {
             },
             {
               name: "defaultSettings.backupTargetCredentialSecret",
-              value: "aws-secret",
+              value: item.name,
             },
           ],
         },

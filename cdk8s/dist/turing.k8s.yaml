@@ -88,6 +88,16 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: aws-secret
+  namespace: longhorn
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/47zgh2s2tj4ite3gujflgqiwsq
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -273,12 +283,22 @@ spec:
     - hosts:
         - tautulli
 ---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: invidious-postgres-onepassword
+  namespace: turing
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/l7quccusjzdh4ww5rhutqpaf2m
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-invidious-postgres
+  name: turing-invidious-postgres-deployment
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -286,13 +306,13 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-invidious-postgres-c8058353
+      cdk8s.io/metadata.addr: turing-invidious-postgres-deployment-c8cf5dfb
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-invidious-postgres-c8058353
+        cdk8s.io/metadata.addr: turing-invidious-postgres-deployment-c8cf5dfb
     spec:
       automountServiceAccountToken: false
       containers:
@@ -300,7 +320,10 @@ spec:
             - name: TZ
               value: America/Los_Angeles
             - name: POSTGRES_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: invidious-postgres-onepassword
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
             - name: POSTGRES_DB
@@ -344,7 +367,7 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-invidious-postgres-service
+  name: turing-invidious-postgres-deployment-service
   namespace: turing
 spec:
   externalIPs: []
@@ -352,58 +375,8 @@ spec:
     - port: 5432
       targetPort: 5432
   selector:
-    cdk8s.io/metadata.addr: turing-invidious-postgres-c8058353
+    cdk8s.io/metadata.addr: turing-invidious-postgres-deployment-c8cf5dfb
   type: ClusterIP
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: allowingressc8ca4b09d8cd514c29205a1c1fc83a275eab94e5be
-  namespace: turing
-spec:
-  ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: turing
-          podSelector:
-            matchLabels:
-              cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
-      ports:
-        - port: 5432
-          protocol: TCP
-  podSelector:
-    matchLabels:
-      cdk8s.io/metadata.addr: turing-invidious-postgres-c8058353
-  policyTypes:
-    - Ingress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: allowegressturingc8ca4b09d8cd514c29205a1c1fc83a275eab9
-  namespace: turing
-spec:
-  egress:
-    - ports:
-        - port: 5432
-          protocol: TCP
-      to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: turing
-          podSelector:
-            matchLabels:
-              cdk8s.io/metadata.addr: turing-invidious-postgres-c8058353
-  podSelector:
-    matchLabels:
-      cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
-  policyTypes:
-    - Egress
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -417,9 +390,19 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 2Gi
+      storage: 10Gi
   storageClassName: longhorn
   volumeMode: Filesystem
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: invidious-onepassword
+  namespace: turing
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/akpdkfv3c5b7j7vfxcm3tulvzy
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -447,29 +430,9 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-            - name: INVIDIOUS_CONFIG
-              value: "
-
-                db:
-
-                \  dbname: invidious
-
-                \  user: postgres
-
-                \  password: password
-
-                \  host: turing-invidious-postgres-service
-
-                \  port: 5432
-
-                check_tables: true
-
-                hmac_key: \"rVA6+87s6d8 7f56S4A6S5Df46 advs\"
-
-                \    "
           image: quay.io/invidious/invidious
           imagePullPolicy: Always
-          name: main
+          name: invidious
           ports:
             - containerPort: 3000
           securityContext:
@@ -485,6 +448,39 @@ spec:
               port: 3000
       dnsPolicy: ClusterFirst
       hostNetwork: false
+      initContainers:
+        - command:
+            - gomplate
+            - /invidious/config/config.yml.tmpl
+            - -o
+            - /invidious/config/config.yml
+          env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: invidious-postgres-onepassword
+            - name: POSTGRES_HOST
+              value: turing-invidious-postgres-deployment-service
+            - name: HMAC_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: hmac
+                  name: invidious-onepassword
+          image: k8spatterns/gomplate
+          imagePullPolicy: Always
+          name: init-0
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          volumeMounts:
+            - mountPath: /invidious/config/config.yml.tmpl
+              name: configmap-turing-invidious-config-map
+              subPath: config.yml.tmpl
       restartPolicy: Always
       securityContext:
         fsGroup: 1000
@@ -492,6 +488,32 @@ spec:
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            items:
+              - key: config.yml.tmpl
+                path: config.yml.tmpl
+            name: turing-invidious-config-map
+          name: configmap-turing-invidious-config-map
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-invidious-config-map
+  namespace: turing
+data:
+  config.yml.tmpl: |
+    db:
+      dbname: invidious
+      user: postgres
+      password: "{{ .Env.POSTGRES_PASSWORD }}"
+      host: "{{ .Env.POSTGRES_HOST }}"
+      port: 5432
+    check_tables: true
+    hmac_key: "{{ .Env.HMAC_KEY }}"
+immutable: false
 ---
 apiVersion: v1
 kind: Service
@@ -1469,7 +1491,8 @@ data:
     # you receive tons of requests per second
 
     [Config]
-    hmacKey = "489yc4tvwh4tvw90"  # random key for cryptographic signing of video urls
+    # TODO: replace with gomplate
+    hmacKey = "vwr5hpc.ATE-puw-tuw"  # random key for cryptographic signing of video urls
     base64Media = false  # use base64 encoding for proxied media urls
     enableRSS = true  # set this to false to disable RSS feeds
     enableDebug = false  # enable request logs and debug endpoints
@@ -2139,16 +2162,6 @@ kind: OnePasswordItem
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: bitmagnet-postgres-onepassword
-  namespace: turing
-spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
   name: tmdb-api-key
   namespace: turing
 spec:
@@ -2221,12 +2234,22 @@ spec:
     cdk8s.io/metadata.addr: turing-bitmagnet-redis-c81e926b
   type: ClusterIP
 ---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: bitmagnet-postgres-onepassword
+  namespace: turing
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-postgres
+  name: turing-bitmagnet-postgres-deployment
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -2234,13 +2257,13 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-bitmagnet-postgres-c868056f
+      cdk8s.io/metadata.addr: turing-bitmagnet-postgres-deployment-c88c7f8b
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-bitmagnet-postgres-c868056f
+        cdk8s.io/metadata.addr: turing-bitmagnet-postgres-deployment-c88c7f8b
     spec:
       automountServiceAccountToken: false
       containers:
@@ -2295,7 +2318,7 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-postgres-service
+  name: turing-bitmagnet-postgres-deployment-service
   namespace: turing
 spec:
   externalIPs: []
@@ -2303,7 +2326,7 @@ spec:
     - port: 5432
       targetPort: 5432
   selector:
-    cdk8s.io/metadata.addr: turing-bitmagnet-postgres-c868056f
+    cdk8s.io/metadata.addr: turing-bitmagnet-postgres-deployment-c88c7f8b
   type: ClusterIP
 ---
 apiVersion: v1
@@ -2356,7 +2379,7 @@ spec:
             - name: TZ
               value: America/Los_Angeles
             - name: POSTGRES_HOST
-              value: turing-bitmagnet-postgres-service
+              value: turing-bitmagnet-postgres-deployment-service
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -2485,16 +2508,6 @@ spec:
     nodeAgent:
       image:
         name: gcr.io/datadoghq/agent:latest
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: aws-secret
-  namespace: longhorn
-spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/47zgh2s2tj4ite3gujflgqiwsq
 ---
 apiVersion: longhorn.io/v1beta2
 kind: RecurringJob

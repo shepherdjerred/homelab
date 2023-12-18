@@ -11,18 +11,9 @@ import { LonghornVolume } from "../../utils/longhorn.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
+import { Postgres } from "../common/postgres.ts";
 
 export function createBitmagnetDeployment(chart: Chart) {
-  const item = new OnePasswordItem(chart, "bitmagnet-postgres-onepassword", {
-    spec: {
-      itemPath:
-        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m",
-    },
-    metadata: {
-      name: "bitmagnet-postgres-onepassword",
-    },
-  });
-
   const tmdbItem = new OnePasswordItem(chart, "tmdb-api-key-onepassword", {
     spec: {
       itemPath:
@@ -51,60 +42,12 @@ export function createBitmagnetDeployment(chart: Chart) {
 
   const redisService = redisDeployment.exposeViaService();
 
-  const postgresDeployment = new Deployment(chart, "bitmagnet-postgres", {
-    replicas: 1,
-    strategy: DeploymentStrategy.recreate(),
-    securityContext: {
-      fsGroup: 1000,
-    },
+  const postgres = new Postgres(chart, "bitmagnet-postgres", {
+    itemPath:
+      "vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m",
+    database: "bitmagnet",
+    size: Size.gibibytes(10),
   });
-
-  const postgresPassword = EnvValue.fromSecretValue({
-    secret: Secret.fromSecretName(
-      chart,
-      "bitmagnet-postgres-password",
-      item.name,
-    ),
-    key: "password",
-  });
-
-  const postgresLonghornVolume = new LonghornVolume(
-    chart,
-    "bitmagnet-postgres-longhorn",
-    {
-      storage: Size.gibibytes(10),
-    },
-  );
-
-  postgresDeployment.addContainer(
-    withCommonProps({
-      image: "postgres",
-      portNumber: 5432,
-      envVariables: {
-        POSTGRES_PASSWORD: postgresPassword,
-        PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
-        POSTGRES_DB: EnvValue.fromValue("bitmagnet"),
-      },
-      securityContext: {
-        user: 1000,
-        group: 1000,
-        // pg fails to start without this
-        readOnlyRootFilesystem: false,
-      },
-      volumeMounts: [
-        {
-          path: "/var/lib/postgresql/data",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "bitmagnet-postgres-volume",
-            postgresLonghornVolume.claim,
-          ),
-        },
-      ],
-    }),
-  );
-
-  const postgresService = postgresDeployment.exposeViaService();
 
   const deployment = new Deployment(chart, "bitmagnet", {
     replicas: 1,
@@ -122,8 +65,8 @@ export function createBitmagnetDeployment(chart: Chart) {
         ensureNonRoot: false,
       },
       envVariables: {
-        POSTGRES_HOST: EnvValue.fromValue(postgresService.name),
-        POSTGRES_PASSWORD: postgresPassword,
+        POSTGRES_HOST: EnvValue.fromValue(postgres.service.name),
+        POSTGRES_PASSWORD: postgres.passwordEnvValue,
         REDIS_ADDR: EnvValue.fromValue(
           `${redisService.name}:${redisService.port}`,
         ),

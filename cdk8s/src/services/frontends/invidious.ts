@@ -1,62 +1,38 @@
 import {
+  ConfigMap,
   Deployment,
   DeploymentStrategy,
   EnvValue,
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart } from "npm:cdk8s";
+import { Chart, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
-import { LonghornVolume } from "../../utils/longhorn.ts";
+import { Postgres } from "../common/postgres.ts";
+import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 
 export function createInvidiousDeployment(chart: Chart) {
-  const postgresDeployment = new Deployment(chart, "invidious-postgres", {
-    replicas: 1,
-    strategy: DeploymentStrategy.recreate(),
-    securityContext: {
-      fsGroup: 1000,
-    },
+  const postgres = new Postgres(chart, "invidious-postgres", {
+    itemPath:
+      "vaults/v64ocnykdqju4ui6j6pua56xw4/items/l7quccusjzdh4ww5rhutqpaf2m",
+    database: "invidious",
+    size: Size.gibibytes(10),
   });
 
-  const postgresLonghornVolume = new LonghornVolume(
+  const invidiousOnePasswordItem = new OnePasswordItem(
     chart,
-    "invidious-postgres-longhorn",
-    {},
-  );
-
-  // TODO: use real password
-  // this is a bit complicated because we need to give invidious a config
-  // maybe store the entire config in 1P as a secret/configmap
-  postgresDeployment.addContainer(
-    withCommonProps({
-      image: "postgres",
-      portNumber: 5432,
-      envVariables: {
-        POSTGRES_PASSWORD: EnvValue.fromValue("password"),
-        PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
-        POSTGRES_DB: EnvValue.fromValue("invidious"),
+    "invidious-onepassword",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/akpdkfv3c5b7j7vfxcm3tulvzy",
       },
-      securityContext: {
-        user: 1000,
-        group: 1000,
-        // pg fails to start without this
-        readOnlyRootFilesystem: false,
+      metadata: {
+        name: "invidious-onepassword",
       },
-      volumeMounts: [
-        {
-          path: "/var/lib/postgresql/data",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "invidious-postgres-volume",
-            postgresLonghornVolume.claim,
-          ),
-        },
-      ],
-    }),
+    },
   );
-
-  const postgresService = postgresDeployment.exposeViaService();
 
   const invidiousDeployment = new Deployment(chart, "invidious", {
     replicas: 1,
@@ -66,21 +42,48 @@ export function createInvidiousDeployment(chart: Chart) {
     },
   });
 
+  const contents = Deno.readTextFileSync("config/invidious.yml.tmpl");
+
+  const config = new ConfigMap(chart, "invidious-config-map");
+  config.addData("config.yml.tmpl", contents);
+
+  invidiousDeployment.addInitContainer(
+    withCommonProps({
+      image: "k8spatterns/gomplate",
+      envVariables: {
+        POSTGRES_PASSWORD: postgres.passwordEnvValue,
+        POSTGRES_HOST: EnvValue.fromValue(postgres.service.name),
+        HMAC_KEY: EnvValue.fromSecretValue({
+          secret: invidiousOnePasswordItem,
+          key: "hmac",
+        }),
+      },
+      command: [
+        "gomplate",
+        "/invidious/config/config.yml.tmpl",
+        "-o",
+        "/invidious/config/config.yml",
+      ],
+      volumeMounts: [
+        {
+          path: "/invidious/config/config.yml.tmpl",
+          subPath: "config.yml.tmpl",
+          volume: Volume.fromConfigMap(chart, "invidious-config", config, {
+            items: {
+              "config.yml.tmpl": {
+                path: "config.yml.tmpl",
+              },
+            },
+          }),
+        },
+      ],
+    }),
+  );
+
   invidiousDeployment.addContainer(
     withCommonProps({
       image: "quay.io/invidious/invidious",
-      envVariables: {
-        INVIDIOUS_CONFIG: EnvValue.fromValue(`
-db:
-  dbname: invidious
-  user: postgres
-  password: password
-  host: ${postgresService.name}
-  port: 5432
-check_tables: true
-hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
-    `),
-      },
+      name: "invidious",
       portNumber: 3000,
       securityContext: {
         user: 1000,
@@ -88,8 +91,6 @@ hmac_key: "rVA6+87s6d8 7f56S4A6S5Df46 advs"
       },
     }),
   );
-
-  postgresDeployment.connections.allowFrom(invidiousDeployment);
 
   const service = new Service(chart, "invidious-service", {
     selector: invidiousDeployment,

@@ -1,0 +1,8 @@
+db:
+  dbname: invidious
+  user: postgres
+  password: "{{ .Env.POSTGRES_PASSWORD }}"
+  host: "{{ .Env.POSTGRES_HOST }}"
+  port: 5432
+check_tables: true
+hmac_key: "{{ .Env.HMAC_KEY }}"
