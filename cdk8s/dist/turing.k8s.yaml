@@ -449,10 +449,10 @@ spec:
       dnsPolicy: ClusterFirst
       hostNetwork: false
       initContainers:
-        - command:
-            - gomplate
+        - args:
+            - --file
             - /invidious/config/config.yml.tmpl
-            - -o
+            - --out
             - /invidious/config/config.yml
           env:
             - name: TZ
@@ -471,12 +471,14 @@ spec:
                   name: invidious-onepassword
           image: k8spatterns/gomplate
           imagePullPolicy: Always
-          name: init-0
+          name: gomplate
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
+            runAsGroup: 1000
             runAsNonRoot: true
+            runAsUser: 1000
           volumeMounts:
             - mountPath: /invidious/config/config.yml.tmpl
               name: configmap-turing-invidious-config-map

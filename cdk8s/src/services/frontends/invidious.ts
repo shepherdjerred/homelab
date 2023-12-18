@@ -3,6 +3,7 @@ import {
   Deployment,
   DeploymentStrategy,
   EnvValue,
+  Secret,
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
@@ -49,19 +50,29 @@ export function createInvidiousDeployment(chart: Chart) {
 
   invidiousDeployment.addInitContainer(
     withCommonProps({
+      name: "gomplate",
       image: "k8spatterns/gomplate",
+      securityContext: {
+        user: 1000,
+        group: 1000,
+        readOnlyRootFilesystem: false,
+      },
       envVariables: {
         POSTGRES_PASSWORD: postgres.passwordEnvValue,
         POSTGRES_HOST: EnvValue.fromValue(postgres.service.name),
         HMAC_KEY: EnvValue.fromSecretValue({
-          secret: invidiousOnePasswordItem,
+          secret: Secret.fromSecretName(
+            chart,
+            "invidious-onepassword-secret",
+            invidiousOnePasswordItem.name,
+          ),
           key: "hmac",
         }),
       },
-      command: [
-        "gomplate",
+      args: [
+        "--file",
         "/invidious/config/config.yml.tmpl",
-        "-o",
+        "--out",
         "/invidious/config/config.yml",
       ],
       volumeMounts: [
