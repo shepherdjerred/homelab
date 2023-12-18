@@ -1,32 +1,11 @@
-import {
-  ConfigMap,
-  Deployment,
-  DeploymentStrategy,
-  Service,
-  Volume,
-} from "npm:cdk8s-plus-27";
+import { ConfigMap, Deployment, Service, Volume } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
+import { Redis } from "../common/redis.ts";
 
 export function createNitterDeployment(chart: Chart) {
-  const redisDeployment = new Deployment(chart, "nitter-redis", {
-    replicas: 1,
-    strategy: DeploymentStrategy.recreate(),
-  });
-
-  redisDeployment.addContainer(
-    withCommonProps({
-      image: "redis",
-      portNumber: 6379,
-      securityContext: {
-        user: 999,
-        group: 999,
-      },
-    }),
-  );
-
-  const redisService = redisDeployment.exposeViaService();
+  const redis = new Redis(chart, "nitter-redis");
 
   const deployment = new Deployment(chart, "nitter", {
     replicas: 1,
@@ -37,8 +16,8 @@ export function createNitterDeployment(chart: Chart) {
   });
 
   let contents = Deno.readTextFileSync("config/nitter.conf");
-  contents = contents.replaceAll("<REDIS HOST>", redisService.name);
-  contents = contents.replaceAll("<REDIS PORT>", redisService.port.toString());
+  contents = contents.replaceAll("<REDIS HOST>", redis.service.name);
+  contents = contents.replaceAll("<REDIS PORT>", redis.service.port.toString());
 
   const config = new ConfigMap(chart, "nitter-conf");
   config.addData("nitter.conf", contents);

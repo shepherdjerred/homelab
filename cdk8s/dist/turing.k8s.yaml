@@ -555,7 +555,7 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-teddit-redis
+  name: turing-teddis-redis-deployment
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -563,13 +563,13 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-teddit-redis-c880213d
+      cdk8s.io/metadata.addr: turing-teddis-redis-deployment-c8d1ca5d
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-teddit-redis-c880213d
+        cdk8s.io/metadata.addr: turing-teddis-redis-deployment-c8d1ca5d
     spec:
       automountServiceAccountToken: false
       containers:
@@ -606,7 +606,7 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-teddit-redis-service
+  name: turing-teddis-redis-deployment-service
   namespace: turing
 spec:
   externalIPs: []
@@ -614,7 +614,7 @@ spec:
     - port: 6379
       targetPort: 6379
   selector:
-    cdk8s.io/metadata.addr: turing-teddit-redis-c880213d
+    cdk8s.io/metadata.addr: turing-teddis-redis-deployment-c8d1ca5d
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -644,7 +644,7 @@ spec:
             - name: TZ
               value: America/Los_Angeles
             - name: REDIS_HOST
-              value: turing-teddit-redis-service
+              value: turing-teddis-redis-deployment-service
           image: teddit/teddit
           imagePullPolicy: Always
           name: main
@@ -1335,7 +1335,7 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-nitter-redis
+  name: turing-nitter-redis-deployment
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -1343,13 +1343,13 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-nitter-redis-c85a5d16
+      cdk8s.io/metadata.addr: turing-nitter-redis-deployment-c86eb1e7
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-nitter-redis-c85a5d16
+        cdk8s.io/metadata.addr: turing-nitter-redis-deployment-c86eb1e7
     spec:
       automountServiceAccountToken: false
       containers:
@@ -1386,7 +1386,7 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-nitter-redis-service
+  name: turing-nitter-redis-deployment-service
   namespace: turing
 spec:
   externalIPs: []
@@ -1394,7 +1394,7 @@ spec:
     - port: 6379
       targetPort: 6379
   selector:
-    cdk8s.io/metadata.addr: turing-nitter-redis-c85a5d16
+    cdk8s.io/metadata.addr: turing-nitter-redis-deployment-c86eb1e7
   type: ClusterIP
 ---
 apiVersion: apps/v1
@@ -1483,7 +1483,7 @@ data:
     [Cache]
     listMinutes = 240  # how long to cache list info (not the tweets, so keep it high)
     rssMinutes = 10  # how long to cache rss queries
-    redisHost = "turing-nitter-redis-service"  # Change to "nitter-redis" if using docker-compose
+    redisHost = "turing-nitter-redis-deployment-service"  # Change to "nitter-redis" if using docker-compose
     redisPort = 6379
     redisPassword = ""
     redisConnections = 20  # connection pool size
@@ -2174,7 +2174,7 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-redis
+  name: turing-bitmagnet-redis-deployment
   namespace: turing
 spec:
   minReadySeconds: 0
@@ -2182,13 +2182,13 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-bitmagnet-redis-c81e926b
+      cdk8s.io/metadata.addr: turing-bitmagnet-redis-deployment-c81582cd
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-bitmagnet-redis-c81e926b
+        cdk8s.io/metadata.addr: turing-bitmagnet-redis-deployment-c81582cd
     spec:
       automountServiceAccountToken: false
       containers:
@@ -2225,7 +2225,7 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-redis-service
+  name: turing-bitmagnet-redis-deployment-service
   namespace: turing
 spec:
   externalIPs: []
@@ -2233,7 +2233,7 @@ spec:
     - port: 6379
       targetPort: 6379
   selector:
-    cdk8s.io/metadata.addr: turing-bitmagnet-redis-c81e926b
+    cdk8s.io/metadata.addr: turing-bitmagnet-redis-deployment-c81582cd
   type: ClusterIP
 ---
 apiVersion: onepassword.com/v1
@@ -2388,7 +2388,7 @@ spec:
                   key: password
                   name: bitmagnet-postgres-onepassword
             - name: REDIS_ADDR
-              value: turing-bitmagnet-redis-service:6379
+              value: turing-bitmagnet-redis-deployment-service:6379
             - name: TMDB_API_KEY
               valueFrom:
                 secretKeyRef:

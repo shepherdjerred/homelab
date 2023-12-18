@@ -12,6 +12,7 @@ import { withCommonProps } from "../../utils/common.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { Postgres } from "../common/postgres.ts";
+import { Redis } from "../common/redis.ts";
 
 export function createBitmagnetDeployment(chart: Chart) {
   const tmdbItem = new OnePasswordItem(chart, "tmdb-api-key-onepassword", {
@@ -24,23 +25,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     },
   });
 
-  const redisDeployment = new Deployment(chart, "bitmagnet-redis", {
-    replicas: 1,
-    strategy: DeploymentStrategy.recreate(),
-  });
-
-  redisDeployment.addContainer(
-    withCommonProps({
-      image: "redis",
-      portNumber: 6379,
-      securityContext: {
-        user: 999,
-        group: 999,
-      },
-    }),
-  );
-
-  const redisService = redisDeployment.exposeViaService();
+  const redis = new Redis(chart, "bitmagnet-redis");
 
   const postgres = new Postgres(chart, "bitmagnet-postgres", {
     itemPath:
@@ -68,7 +53,7 @@ export function createBitmagnetDeployment(chart: Chart) {
         POSTGRES_HOST: EnvValue.fromValue(postgres.service.name),
         POSTGRES_PASSWORD: postgres.passwordEnvValue,
         REDIS_ADDR: EnvValue.fromValue(
-          `${redisService.name}:${redisService.port}`,
+          `${redis.service.name}:${redis.service.port}`,
         ),
         TMDB_API_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "tmdb-api-key", tmdbItem.name),

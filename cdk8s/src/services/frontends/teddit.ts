@@ -7,25 +7,10 @@ import {
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
+import { Redis } from "../common/redis.ts";
 
 export function createTedditDeployment(chart: Chart) {
-  const redisDeployment = new Deployment(chart, "teddit-redis", {
-    replicas: 1,
-    strategy: DeploymentStrategy.recreate(),
-  });
-
-  redisDeployment.addContainer(
-    withCommonProps({
-      image: "redis",
-      portNumber: 6379,
-      securityContext: {
-        user: 999,
-        group: 999,
-      },
-    }),
-  );
-
-  const redisService = redisDeployment.exposeViaService();
+  const redis = new Redis(chart, "teddis-redis");
 
   const tedditDeployment = new Deployment(chart, "teddit", {
     replicas: 1,
@@ -40,7 +25,7 @@ export function createTedditDeployment(chart: Chart) {
     withCommonProps({
       image: "teddit/teddit",
       envVariables: {
-        REDIS_HOST: EnvValue.fromValue(redisService.name),
+        REDIS_HOST: EnvValue.fromValue(redis.service.name),
       },
       securityContext: {
         readOnlyRootFilesystem: false,
