@@ -82,7 +82,7 @@ spec:
   source:
     chart: datadog-operator
     repoURL: https://helm.datadoghq.com
-    targetRevision: 1.2.2
+    targetRevision: 1.4.0
   syncPolicy:
     automated: {}
     syncOptions:
