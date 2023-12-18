@@ -1,8 +1,8 @@
+import merge from "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/merge.js";
 import { ContainerProps, EnvValue } from "npm:cdk8s-plus-27";
-import { merge } from "npm:remeda";
 
 const commonEnv = {
-  TZ: EnvValue.fromValue("US/Los_Angeles"),
+  TZ: EnvValue.fromValue("America/Los_Angeles"),
 };
 
 export const commonProps: Partial<ContainerProps> = {
@@ -11,5 +11,5 @@ export const commonProps: Partial<ContainerProps> = {
 };
 
 export function withCommonProps(props: ContainerProps): ContainerProps {
-  return merge(commonProps, props);
+  return merge({}, commonProps, props);
 }

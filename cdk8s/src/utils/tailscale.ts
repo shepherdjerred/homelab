@@ -38,7 +38,7 @@ export function createTailscaleIngress(
     };
   }
 
-  const ingress = new Ingress(scope, id, merge(base, props));
+  const ingress = new Ingress(scope, id, merge({}, base, props));
 
   ApiObject.of(ingress).addJsonPatch(
     JsonPatch.add("/spec/ingressClassName", "tailscale"),

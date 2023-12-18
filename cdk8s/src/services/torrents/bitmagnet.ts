@@ -70,7 +70,7 @@ export function createBitmagnetDeployment(chart: Chart) {
 
   const postgresLonghornVolume = new LonghornVolume(
     chart,
-    "bitmagnet-postgres-pvc",
+    "bitmagnet-postgres-longhorn",
     {
       storage: Size.gibibytes(10),
     },

@@ -16,16 +16,19 @@ export class LonghornVolume extends Construct {
     props: Omit<PersistentVolumeClaimProps, "storageClassName">,
   ) {
     super(scope, id);
-    const baseProps = {
+    const baseProps: PersistentVolumeClaimProps = {
       storage: Size.gibibytes(2),
       accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
       storageClassName: "longhorn",
+      metadata: {
+        name: `${id}`,
+      },
     };
     this.claim = new PersistentVolumeClaim(
       scope,
       `${id}-pvc`,
-      merge(baseProps, props),
+      merge({}, baseProps, props),
     );
   }
 }

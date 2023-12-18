@@ -186,7 +186,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
             - name: PUID
               value: "1000"
             - name: PGID
@@ -208,12 +208,8 @@ spec:
             tcpSocket:
               port: 8181
           volumeMounts:
-            - mountPath: /var/syncthing/
-              name: pvc-turing-syncthing-longhorn-pvc
-            - mountPath: /syncthing
-              name: syncthing-bind-mount
-            - mountPath: /tv
-              name: sonarr-movies-bind-mount
+            - mountPath: /config
+              name: pvc-tautulli-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -223,25 +219,17 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-syncthing-longhorn-pvc
+        - name: pvc-tautulli-longhorn
           persistentVolumeClaim:
-            claimName: turing-syncthing-longhorn-pvc
+            claimName: tautulli-longhorn
             readOnly: false
-        - hostPath:
-            path: /mnt/storage/syncthing
-            type: ""
-          name: syncthing-bind-mount
-        - hostPath:
-            path: /mnt/storage/media/tv
-            type: ""
-          name: sonarr-movies-bind-mount
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-tautulli-longhorn-pvc
+  name: tautulli-longhorn
   namespace: turing
 spec:
   accessModes:
@@ -309,6 +297,8 @@ spec:
       automountServiceAccountToken: false
       containers:
         - env:
+            - name: TZ
+              value: America/Los_Angeles
             - name: POSTGRES_PASSWORD
               value: password
             - name: PGDATA
@@ -333,7 +323,7 @@ spec:
               port: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: pvc-turing-invidious-postgres-longhorn-pvc
+              name: pvc-invidious-postgres-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -344,9 +334,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-invidious-postgres-longhorn-pvc
+        - name: pvc-invidious-postgres-longhorn
           persistentVolumeClaim:
-            claimName: turing-invidious-postgres-longhorn-pvc
+            claimName: invidious-postgres-longhorn
             readOnly: false
 ---
 apiVersion: v1
@@ -420,7 +410,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-invidious-postgres-longhorn-pvc
+  name: invidious-postgres-longhorn
   namespace: turing
 spec:
   accessModes:
@@ -455,6 +445,8 @@ spec:
       automountServiceAccountToken: false
       containers:
         - env:
+            - name: TZ
+              value: America/Los_Angeles
             - name: INVIDIOUS_CONFIG
               value: "
 
@@ -559,7 +551,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
           image: redis
           imagePullPolicy: Always
           name: main
@@ -625,6 +617,8 @@ spec:
       automountServiceAccountToken: false
       containers:
         - env:
+            - name: TZ
+              value: America/Los_Angeles
             - name: REDIS_HOST
               value: turing-teddit-redis-service
           image: teddit/teddit
@@ -709,6 +703,8 @@ spec:
       automountServiceAccountToken: false
       containers:
         - env:
+            - name: TZ
+              value: America/Los_Angeles
             - name: ADVERTISE_IP
               value: https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red
             - name: NVIDIA_DRIVER_CAPABILITIES
@@ -879,7 +875,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
             - name: PUID
               value: "1000"
             - name: PGID
@@ -901,12 +897,12 @@ spec:
             tcpSocket:
               port: 7878
           volumeMounts:
-            - mountPath: /var/syncthing/
-              name: pvc-turing-syncthing-longhorn-pvc
-            - mountPath: /syncthing
-              name: syncthing-bind-mount
-            - mountPath: /tv
-              name: sonarr-movies-bind-mount
+            - mountPath: /config
+              name: pvc-radarr-longhorn
+            - mountPath: /downloads
+              name: radarr-torrents-bind-mount
+            - mountPath: /movies
+              name: radarr-movies-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -917,25 +913,25 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-syncthing-longhorn-pvc
+        - name: pvc-radarr-longhorn
           persistentVolumeClaim:
-            claimName: turing-syncthing-longhorn-pvc
+            claimName: radarr-longhorn
             readOnly: false
         - hostPath:
-            path: /mnt/storage/syncthing
+            path: /mnt/storage/downloads/torrents
             type: ""
-          name: syncthing-bind-mount
+          name: radarr-torrents-bind-mount
         - hostPath:
-            path: /mnt/storage/media/tv
+            path: /mnt/storage/media/movies
             type: ""
-          name: sonarr-movies-bind-mount
+          name: radarr-movies-bind-mount
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-radarr-longhorn-pvc
+  name: radarr-longhorn
   namespace: turing
 spec:
   accessModes:
@@ -1004,7 +1000,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: ""
             - name: PUID
               value: "1000"
             - name: PGID
@@ -1026,12 +1022,8 @@ spec:
             tcpSocket:
               port: 6767
           volumeMounts:
-            - mountPath: /var/syncthing/
-              name: pvc-turing-syncthing-longhorn-pvc
-            - mountPath: /syncthing
-              name: syncthing-bind-mount
-            - mountPath: /tv
-              name: sonarr-movies-bind-mount
+            - mountPath: /config
+              name: pvc-bazarr-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1041,25 +1033,17 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-syncthing-longhorn-pvc
+        - name: pvc-bazarr-longhorn
           persistentVolumeClaim:
-            claimName: turing-syncthing-longhorn-pvc
+            claimName: bazarr-longhorn
             readOnly: false
-        - hostPath:
-            path: /mnt/storage/syncthing
-            type: ""
-          name: syncthing-bind-mount
-        - hostPath:
-            path: /mnt/storage/media/tv
-            type: ""
-          name: sonarr-movies-bind-mount
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bazarr-longhorn-pvc
+  name: bazarr-longhorn
   namespace: turing
 spec:
   accessModes:
@@ -1128,7 +1112,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
           image: ghcr.io/home-assistant/home-assistant:stable
           imagePullPolicy: Always
           name: main
@@ -1235,7 +1219,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
             - name: PUID
               value: "1000"
             - name: PGID
@@ -1257,12 +1241,8 @@ spec:
             tcpSocket:
               port: 9117
           volumeMounts:
-            - mountPath: /var/syncthing/
-              name: pvc-turing-syncthing-longhorn-pvc
-            - mountPath: /syncthing
-              name: syncthing-bind-mount
-            - mountPath: /tv
-              name: sonarr-movies-bind-mount
+            - mountPath: /config
+              name: pvc-jackett-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1272,25 +1252,17 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-syncthing-longhorn-pvc
+        - name: pvc-jackett-longhorn
           persistentVolumeClaim:
-            claimName: turing-syncthing-longhorn-pvc
+            claimName: jackett-longhorn
             readOnly: false
-        - hostPath:
-            path: /mnt/storage/syncthing
-            type: ""
-          name: syncthing-bind-mount
-        - hostPath:
-            path: /mnt/storage/media/tv
-            type: ""
-          name: sonarr-movies-bind-mount
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-jackett-longhorn-pvc
+  name: jackett-longhorn
   namespace: turing
 spec:
   accessModes:
@@ -1359,7 +1331,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
           image: redis
           imagePullPolicy: Always
           name: main
@@ -1429,7 +1401,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
           image: zedeus/nitter
           imagePullPolicy: Always
           name: main
@@ -1580,7 +1552,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
             - name: PUID
               value: "1000"
             - name: PGID
@@ -1602,12 +1574,8 @@ spec:
             tcpSocket:
               port: 5055
           volumeMounts:
-            - mountPath: /var/syncthing/
-              name: pvc-turing-syncthing-longhorn-pvc
-            - mountPath: /syncthing
-              name: syncthing-bind-mount
-            - mountPath: /tv
-              name: sonarr-movies-bind-mount
+            - mountPath: /config
+              name: pvc-overseerr-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1617,25 +1585,17 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-syncthing-longhorn-pvc
+        - name: pvc-overseerr-longhorn
           persistentVolumeClaim:
-            claimName: turing-syncthing-longhorn-pvc
+            claimName: overseerr-longhorn
             readOnly: false
-        - hostPath:
-            path: /mnt/storage/syncthing
-            type: ""
-          name: syncthing-bind-mount
-        - hostPath:
-            path: /mnt/storage/media/tv
-            type: ""
-          name: sonarr-movies-bind-mount
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-overseerr-longhorn-pvc
+  name: overseerr-longhorn
   namespace: turing
 spec:
   accessModes:
@@ -1706,7 +1666,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
             - name: PUID
               value: "1000"
             - name: PGID
@@ -1728,12 +1688,10 @@ spec:
             tcpSocket:
               port: 8080
           volumeMounts:
-            - mountPath: /var/syncthing/
-              name: pvc-turing-syncthing-longhorn-pvc
-            - mountPath: /syncthing
-              name: syncthing-bind-mount
-            - mountPath: /tv
-              name: sonarr-movies-bind-mount
+            - mountPath: /config
+              name: pvc-qbittorrent-longhorn
+            - mountPath: /downloads
+              name: qbittorrent-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1743,25 +1701,21 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-syncthing-longhorn-pvc
+        - name: pvc-qbittorrent-longhorn
           persistentVolumeClaim:
-            claimName: turing-syncthing-longhorn-pvc
+            claimName: qbittorrent-longhorn
             readOnly: false
         - hostPath:
-            path: /mnt/storage/syncthing
+            path: /mnt/storage/downloads/torrents
             type: ""
-          name: syncthing-bind-mount
-        - hostPath:
-            path: /mnt/storage/media/tv
-            type: ""
-          name: sonarr-movies-bind-mount
+          name: qbittorrent-bind-mount
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-qbittorrent-longhorn-pvc
+  name: qbittorrent-longhorn
   namespace: turing
 spec:
   accessModes:
@@ -1830,7 +1784,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
             - name: PUID
               value: "1000"
             - name: PGID
@@ -1852,10 +1806,10 @@ spec:
             tcpSocket:
               port: 8989
           volumeMounts:
-            - mountPath: /var/syncthing/
-              name: pvc-turing-syncthing-longhorn-pvc
-            - mountPath: /syncthing
-              name: syncthing-bind-mount
+            - mountPath: /config
+              name: pvc-sonarr-longhorn
+            - mountPath: /downloads
+              name: sonarr-torrents-bind-mount
             - mountPath: /tv
               name: sonarr-movies-bind-mount
       dnsPolicy: ClusterFirst
@@ -1868,14 +1822,14 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-syncthing-longhorn-pvc
+        - name: pvc-sonarr-longhorn
           persistentVolumeClaim:
-            claimName: turing-syncthing-longhorn-pvc
+            claimName: sonarr-longhorn
             readOnly: false
         - hostPath:
-            path: /mnt/storage/syncthing
+            path: /mnt/storage/downloads/torrents
             type: ""
-          name: syncthing-bind-mount
+          name: sonarr-torrents-bind-mount
         - hostPath:
             path: /mnt/storage/media/tv
             type: ""
@@ -1886,7 +1840,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-sonarr-longhorn-pvc
+  name: sonarr-longhorn
   namespace: turing
 spec:
   accessModes:
@@ -1955,7 +1909,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
             - name: PUID
               value: "1000"
             - name: PGID
@@ -1978,11 +1932,9 @@ spec:
               port: 8384
           volumeMounts:
             - mountPath: /var/syncthing/
-              name: pvc-turing-syncthing-longhorn-pvc
+              name: pvc-syncthing-longhorn
             - mountPath: /syncthing
               name: syncthing-bind-mount
-            - mountPath: /tv
-              name: sonarr-movies-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1992,25 +1944,21 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-syncthing-longhorn-pvc
+        - name: pvc-syncthing-longhorn
           persistentVolumeClaim:
-            claimName: turing-syncthing-longhorn-pvc
+            claimName: syncthing-longhorn
             readOnly: false
         - hostPath:
             path: /mnt/storage/syncthing
             type: ""
           name: syncthing-bind-mount
-        - hostPath:
-            path: /mnt/storage/media/tv
-            type: ""
-          name: sonarr-movies-bind-mount
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-syncthing-longhorn-pvc
+  name: syncthing-longhorn
   namespace: turing
 spec:
   accessModes:
@@ -2078,6 +2026,8 @@ spec:
       automountServiceAccountToken: false
       containers:
         - env:
+            - name: TZ
+              value: America/Los_Angeles
             - name: TS_AUTH_KEY
               valueFrom:
                 secretKeyRef:
@@ -2095,7 +2045,7 @@ spec:
             runAsUser: 65532
           volumeMounts:
             - mountPath: /home/nonroot
-              name: pvc-turing-golink-pvc-longhorn-pvc
+              name: pvc-golink-pvc-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2106,9 +2056,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-golink-pvc-longhorn-pvc
+        - name: pvc-golink-pvc-longhorn
           persistentVolumeClaim:
-            claimName: turing-golink-pvc-longhorn-pvc
+            claimName: golink-pvc-longhorn
             readOnly: false
 ---
 apiVersion: v1
@@ -2116,7 +2066,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-golink-pvc-longhorn-pvc
+  name: golink-pvc-longhorn
   namespace: turing
 spec:
   accessModes:
@@ -2172,7 +2122,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: US/Los_Angeles
+              value: America/Los_Angeles
           image: redis
           imagePullPolicy: Always
           name: main
@@ -2238,6 +2188,8 @@ spec:
       automountServiceAccountToken: false
       containers:
         - env:
+            - name: TZ
+              value: America/Los_Angeles
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -2265,7 +2217,7 @@ spec:
               port: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: pvc-turing-bitmagnet-postgres-pvc-pvc
+              name: pvc-bitmagnet-postgres-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2276,9 +2228,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-bitmagnet-postgres-pvc-pvc
+        - name: pvc-bitmagnet-postgres-longhorn
           persistentVolumeClaim:
-            claimName: turing-bitmagnet-postgres-pvc-pvc
+            claimName: bitmagnet-postgres-longhorn
             readOnly: false
 ---
 apiVersion: v1
@@ -2302,7 +2254,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-postgres-pvc-pvc
+  name: bitmagnet-postgres-longhorn
   namespace: turing
 spec:
   accessModes:
@@ -2344,6 +2296,8 @@ spec:
             - --keys=queue_server
             - --keys=dht_crawler
           env:
+            - name: TZ
+              value: America/Los_Angeles
             - name: POSTGRES_HOST
               value: turing-bitmagnet-postgres-service
             - name: POSTGRES_PASSWORD
@@ -2376,7 +2330,7 @@ spec:
               port: 3333
           volumeMounts:
             - mountPath: /app
-              name: pvc-turing-bitmagnet-longhorn-pvc
+              name: pvc-bitmagnet-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2386,9 +2340,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-bitmagnet-longhorn-pvc
+        - name: pvc-bitmagnet-longhorn
           persistentVolumeClaim:
-            claimName: turing-bitmagnet-longhorn-pvc
+            claimName: bitmagnet-longhorn
             readOnly: false
 ---
 apiVersion: v1
@@ -2396,7 +2350,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-longhorn-pvc
+  name: bitmagnet-longhorn
   namespace: turing
 spec:
   accessModes:
