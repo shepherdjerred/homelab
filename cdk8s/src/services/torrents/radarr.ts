@@ -6,8 +6,8 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { createLonghornVolume } from "../../utils/longhorn.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
+import { LonghornVolume } from "../../utils/longhorn.ts";
 
 export function createRadarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "radarr", {
@@ -18,7 +18,7 @@ export function createRadarrDeployment(chart: Chart) {
     },
   });
 
-  const claim = createLonghornVolume(chart, "radarr-pvc");
+  const longhornVolume = new LonghornVolume(chart, "radarr-longhorn", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -30,7 +30,7 @@ export function createRadarrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "radarr-volume",
-            claim,
+            longhornVolume.claim,
           ),
         },
         {

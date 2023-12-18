@@ -6,8 +6,8 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
-import { createLonghornVolume } from "../utils/longhorn.ts";
 import { withCommonProps } from "../utils/common.ts";
+import { LonghornVolume } from "../utils/longhorn.ts";
 
 export function createGolinkDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "golink", {
@@ -18,7 +18,7 @@ export function createGolinkDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const claim = createLonghornVolume(chart, "golink-pvc");
+  const longhornVolume = new LonghornVolume(chart, "golink-pvc-longhorn", {});
 
   deployment.addContainer(
     withCommonProps({
@@ -43,7 +43,7 @@ export function createGolinkDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "golink-volume",
-            claim,
+            longhornVolume.claim,
           ),
         },
       ],

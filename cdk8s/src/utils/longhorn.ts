@@ -8,16 +8,24 @@ import {
 import { Construct } from "npm:constructs";
 import { Size } from "npm:cdk8s";
 
-export function createLonghornVolume(
-  scope: Construct,
-  id: string,
-  props: Omit<PersistentVolumeClaimProps, "storageClassName"> = {},
-) {
-  const base = {
-    storage: Size.gibibytes(2),
-    accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
-    volumeMode: PersistentVolumeMode.FILE_SYSTEM,
-    storageClassName: "longhorn",
-  };
-  return new PersistentVolumeClaim(scope, id, merge(base, props));
+export class LonghornVolume extends Construct {
+  public readonly claim: PersistentVolumeClaim;
+  constructor(
+    scope: Construct,
+    id: string,
+    props: Omit<PersistentVolumeClaimProps, "storageClassName">,
+  ) {
+    super(scope, id);
+    const baseProps = {
+      storage: Size.gibibytes(2),
+      accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
+      volumeMode: PersistentVolumeMode.FILE_SYSTEM,
+      storageClassName: "longhorn",
+    };
+    this.claim = new PersistentVolumeClaim(
+      scope,
+      `${id}-pvc`,
+      merge(baseProps, props),
+    );
+  }
 }

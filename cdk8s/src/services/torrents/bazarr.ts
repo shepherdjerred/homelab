@@ -5,9 +5,9 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
-import { createLonghornVolume } from "../../utils/longhorn.ts";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
+import { LonghornVolume } from "../../utils/longhorn.ts";
 
 export function createBazarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "bazarr", {
@@ -15,7 +15,7 @@ export function createBazarrDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const claim = createLonghornVolume(chart, "bazarr-pvc");
+  const longhornVolume = new LonghornVolume(chart, "bazarr-longhorn", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -27,7 +27,7 @@ export function createBazarrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "bazarr-volume",
-            claim,
+            longhornVolume.claim,
           ),
         },
       ],

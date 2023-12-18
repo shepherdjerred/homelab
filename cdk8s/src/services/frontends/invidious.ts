@@ -8,7 +8,7 @@ import {
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
-import { createLonghornVolume } from "../../utils/longhorn.ts";
+import { LonghornVolume } from "../../utils/longhorn.ts";
 
 export function createInvidiousDeployment(chart: Chart) {
   const postgresDeployment = new Deployment(chart, "invidious-postgres", {
@@ -19,7 +19,11 @@ export function createInvidiousDeployment(chart: Chart) {
     },
   });
 
-  const postgresClaim = createLonghornVolume(chart, "invidious-postgres-pvc");
+  const postgresLonghornVolume = new LonghornVolume(
+    chart,
+    "invidious-postgres-longhorn",
+    {},
+  );
 
   // TODO: use real password
   // this is a bit complicated because we need to give invidious a config
@@ -45,7 +49,7 @@ export function createInvidiousDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "invidious-postgres-volume",
-            postgresClaim,
+            postgresLonghornVolume.claim,
           ),
         },
       ],

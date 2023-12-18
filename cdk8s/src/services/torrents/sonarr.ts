@@ -6,7 +6,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { createLonghornVolume } from "../../utils/longhorn.ts";
+import { LonghornVolume } from "../../utils/longhorn.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createSonarrDeployment(chart: Chart) {
@@ -18,7 +18,7 @@ export function createSonarrDeployment(chart: Chart) {
     },
   });
 
-  const claim = createLonghornVolume(chart, "sonarr-pvc");
+  const longhornVolume = new LonghornVolume(chart, "sonarr-longhorn", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -30,7 +30,7 @@ export function createSonarrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "sonarr-volume",
-            claim,
+            longhornVolume.claim,
           ),
         },
         {

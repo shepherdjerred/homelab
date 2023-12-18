@@ -209,7 +209,7 @@ spec:
               port: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: pvc-turing-invidious-postgres-pvc
+              name: pvc-turing-invidious-postgres-longhorn-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -220,9 +220,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-invidious-postgres-pvc
+        - name: pvc-turing-invidious-postgres-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-invidious-postgres-pvc
+            claimName: turing-invidious-postgres-longhorn-pvc
             readOnly: false
 ---
 apiVersion: v1
@@ -296,7 +296,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-invidious-postgres-pvc
+  name: turing-invidious-postgres-longhorn-pvc
   namespace: turing
 spec:
   accessModes:
@@ -778,7 +778,7 @@ spec:
               port: 7878
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc
+              name: pvc-turing-tautulli-longhorn-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -793,9 +793,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc
+        - name: pvc-turing-tautulli-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc
+            claimName: turing-tautulli-longhorn-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -811,7 +811,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-radarr-pvc
+  name: turing-radarr-longhorn-pvc
   namespace: turing
 spec:
   accessModes:
@@ -903,7 +903,7 @@ spec:
               port: 6767
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc
+              name: pvc-turing-tautulli-longhorn-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -917,9 +917,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc
+        - name: pvc-turing-tautulli-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc
+            claimName: turing-tautulli-longhorn-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -935,7 +935,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bazarr-pvc
+  name: turing-bazarr-longhorn-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1134,7 +1134,7 @@ spec:
               port: 9117
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc
+              name: pvc-turing-tautulli-longhorn-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -1148,9 +1148,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc
+        - name: pvc-turing-tautulli-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc
+            claimName: turing-tautulli-longhorn-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -1166,7 +1166,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-jackett-pvc
+  name: turing-jackett-longhorn-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1479,7 +1479,7 @@ spec:
               port: 5055
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc
+              name: pvc-turing-tautulli-longhorn-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -1493,9 +1493,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc
+        - name: pvc-turing-tautulli-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc
+            claimName: turing-tautulli-longhorn-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -1511,7 +1511,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-overseerr-pvc
+  name: turing-overseerr-longhorn-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1605,7 +1605,7 @@ spec:
               port: 8080
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc
+              name: pvc-turing-tautulli-longhorn-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -1619,9 +1619,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc
+        - name: pvc-turing-tautulli-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc
+            claimName: turing-tautulli-longhorn-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -1637,7 +1637,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-qbittorrent-pvc
+  name: turing-qbittorrent-longhorn-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1729,7 +1729,7 @@ spec:
               port: 8989
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc
+              name: pvc-turing-tautulli-longhorn-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -1744,9 +1744,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc
+        - name: pvc-turing-tautulli-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc
+            claimName: turing-tautulli-longhorn-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -1762,7 +1762,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-sonarr-pvc
+  name: turing-sonarr-longhorn-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1854,7 +1854,7 @@ spec:
               port: 8384
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc
+              name: pvc-turing-tautulli-longhorn-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -1868,9 +1868,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc
+        - name: pvc-turing-tautulli-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc
+            claimName: turing-tautulli-longhorn-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -1886,7 +1886,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-syncthing-pvc
+  name: turing-syncthing-longhorn-pvc
   namespace: turing
 spec:
   accessModes:
@@ -1978,7 +1978,7 @@ spec:
               port: 8181
           volumeMounts:
             - mountPath: /config
-              name: pvc-turing-tautulli-pvc
+              name: pvc-turing-tautulli-longhorn-pvc
             - mountPath: /plex_logs
               name: tautulli-bind-mount
             - mountPath: /tv
@@ -1992,9 +1992,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-tautulli-pvc
+        - name: pvc-turing-tautulli-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-tautulli-pvc
+            claimName: turing-tautulli-longhorn-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/plex/Plex Media Server/Logs
@@ -2010,7 +2010,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-tautulli-pvc
+  name: turing-tautulli-longhorn-pvc
   namespace: turing
 spec:
   accessModes:
@@ -2095,7 +2095,7 @@ spec:
             runAsUser: 65532
           volumeMounts:
             - mountPath: /home/nonroot
-              name: pvc-turing-golink-pvc
+              name: pvc-turing-golink-pvc-longhorn-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2106,9 +2106,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-golink-pvc
+        - name: pvc-turing-golink-pvc-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-golink-pvc
+            claimName: turing-golink-pvc-longhorn-pvc
             readOnly: false
 ---
 apiVersion: v1
@@ -2116,7 +2116,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-golink-pvc
+  name: turing-golink-pvc-longhorn-pvc
   namespace: turing
 spec:
   accessModes:
@@ -2265,7 +2265,7 @@ spec:
               port: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: pvc-turing-bitmagnet-postgres-pvc
+              name: pvc-turing-bitmagnet-postgres-pvc-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2276,9 +2276,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-bitmagnet-postgres-pvc
+        - name: pvc-turing-bitmagnet-postgres-pvc-pvc
           persistentVolumeClaim:
-            claimName: turing-bitmagnet-postgres-pvc
+            claimName: turing-bitmagnet-postgres-pvc-pvc
             readOnly: false
 ---
 apiVersion: v1
@@ -2302,7 +2302,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-postgres-pvc
+  name: turing-bitmagnet-postgres-pvc-pvc
   namespace: turing
 spec:
   accessModes:
@@ -2376,7 +2376,7 @@ spec:
               port: 3333
           volumeMounts:
             - mountPath: /app
-              name: pvc-turing-bitmagnet-pvc
+              name: pvc-turing-bitmagnet-longhorn-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2386,9 +2386,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-turing-bitmagnet-pvc
+        - name: pvc-turing-bitmagnet-longhorn-pvc
           persistentVolumeClaim:
-            claimName: turing-bitmagnet-pvc
+            claimName: turing-bitmagnet-longhorn-pvc
             readOnly: false
 ---
 apiVersion: v1
@@ -2396,7 +2396,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-pvc
+  name: turing-bitmagnet-longhorn-pvc
   namespace: turing
 spec:
   accessModes:

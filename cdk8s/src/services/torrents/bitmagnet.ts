@@ -7,7 +7,7 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
-import { createLonghornVolume } from "../../utils/longhorn.ts";
+import { LonghornVolume } from "../../utils/longhorn.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
@@ -68,9 +68,13 @@ export function createBitmagnetDeployment(chart: Chart) {
     key: "password",
   });
 
-  const postgresClaim = createLonghornVolume(chart, "bitmagnet-postgres-pvc", {
-    storage: Size.gibibytes(10),
-  });
+  const postgresLonghornVolume = new LonghornVolume(
+    chart,
+    "bitmagnet-postgres-pvc",
+    {
+      storage: Size.gibibytes(10),
+    },
+  );
 
   postgresDeployment.addContainer(
     withCommonProps({
@@ -93,7 +97,7 @@ export function createBitmagnetDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "bitmagnet-postgres-volume",
-            postgresClaim,
+            postgresLonghornVolume.claim,
           ),
         },
       ],
@@ -107,7 +111,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const claim = createLonghornVolume(chart, "bitmagnet-pvc");
+  const longhornVolume = new LonghornVolume(chart, "bitmagnet-longhorn", {});
 
   deployment.addContainer(
     withCommonProps({
@@ -143,7 +147,7 @@ export function createBitmagnetDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "bitmagnet-volume",
-            claim,
+            longhornVolume.claim,
           ),
         },
       ],

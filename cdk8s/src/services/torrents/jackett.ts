@@ -5,9 +5,9 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
-import { createLonghornVolume } from "../../utils/longhorn.ts";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
+import { LonghornVolume } from "../../utils/longhorn.ts";
 
 export function createJackettDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "jackett", {
@@ -15,7 +15,7 @@ export function createJackettDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const claim = createLonghornVolume(chart, "jackett-pvc");
+  const longhornVolume = new LonghornVolume(chart, "jackett-longhorn", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -27,7 +27,7 @@ export function createJackettDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "jackett-volume",
-            claim,
+            longhornVolume.claim,
           ),
         },
       ],

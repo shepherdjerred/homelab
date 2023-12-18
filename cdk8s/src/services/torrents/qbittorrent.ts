@@ -5,9 +5,9 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
-import { createLonghornVolume } from "../../utils/longhorn.ts";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
+import { LonghornVolume } from "../../utils/longhorn.ts";
 
 export function createQBitTorrentDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "qbittorrent", {
@@ -15,7 +15,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const claim = createLonghornVolume(chart, "qbittorrent-pvc", {
+  const longhornVolume = new LonghornVolume(chart, "qbittorrent-longhorn", {
     storage: Size.gibibytes(10),
   });
 
@@ -29,7 +29,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "qbittorrent-volume",
-            claim,
+            longhornVolume.claim,
           ),
         },
         {
