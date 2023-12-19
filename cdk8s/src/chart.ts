@@ -3,7 +3,6 @@ import { createInvidiousDeployment } from "./services/frontends/invidious.ts";
 import { createTedditDeployment } from "./services/frontends/teddit.ts";
 import { createPlexDeployment } from "./services/media/plex.ts";
 import { createRadarrDeployment } from "./services/torrents/radarr.ts";
-import { createBazarrDeployment } from "./services/torrents/bazarr.ts";
 import { createHomeAssistantDeployment } from "./services/homeassistant.ts";
 import { createJackettDeployment } from "./services/torrents/jackett.ts";
 import { createNitterDeployment } from "./services/frontends/nitter.ts";
@@ -25,6 +24,7 @@ import { createLonghornApp } from "./apps/longhorn.ts";
 import { createTailscaleApp } from "./apps/tailscale.ts";
 import { createTuringApp } from "./apps/turing.ts";
 import { createProject } from "./apps/project.ts";
+import { createProwlarrDeployment } from "./services/torrents/prowlarr.ts";
 
 const app = new App();
 const chart = new Chart(app, "turing", {
@@ -49,7 +49,6 @@ createInvidiousDeployment(chart);
 createTedditDeployment(chart);
 createPlexDeployment(chart);
 createRadarrDeployment(chart);
-createBazarrDeployment(chart);
 createHomeAssistantDeployment(chart);
 createJackettDeployment(chart);
 createNitterDeployment(chart);
@@ -59,6 +58,7 @@ createSonarrDeployment(chart);
 createSyncthingDeployment(chart);
 createGolinkDeployment(chart);
 createBitmagnetDeployment(chart);
+createProwlarrDeployment(chart);
 
 createDatadogResources(chart);
 createLonghornResources(chart);

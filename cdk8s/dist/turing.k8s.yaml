@@ -1004,118 +1004,6 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bazarr
-  namespace: turing
-spec:
-  minReadySeconds: 0
-  progressDeadlineSeconds: 600
-  replicas: 1
-  selector:
-    matchLabels:
-      cdk8s.io/metadata.addr: turing-bazarr-c802be67
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        cdk8s.io/metadata.addr: turing-bazarr-c802be67
-    spec:
-      automountServiceAccountToken: false
-      containers:
-        - env:
-            - name: TZ
-              value: ""
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
-          image: lscr.io/linuxserver/bazarr
-          imagePullPolicy: Always
-          name: main
-          ports:
-            - containerPort: 6767
-          securityContext:
-            allowPrivilegeEscalation: false
-            privileged: false
-            readOnlyRootFilesystem: false
-            runAsGroup: 0
-            runAsNonRoot: false
-            runAsUser: 0
-          startupProbe:
-            failureThreshold: 3
-            tcpSocket:
-              port: 6767
-          volumeMounts:
-            - mountPath: /config
-              name: pvc-bazarr-longhorn
-      dnsPolicy: ClusterFirst
-      hostNetwork: false
-      restartPolicy: Always
-      securityContext:
-        fsGroupChangePolicy: Always
-        runAsNonRoot: true
-      setHostnameAsFQDN: false
-      terminationGracePeriodSeconds: 30
-      volumes:
-        - name: pvc-bazarr-longhorn
-          persistentVolumeClaim:
-            claimName: bazarr-longhorn
-            readOnly: false
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: bazarr-longhorn
-  namespace: turing
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
-  storageClassName: longhorn
-  volumeMode: Filesystem
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bazarr-service
-  namespace: turing
-spec:
-  externalIPs: []
-  ports:
-    - port: 6767
-  selector:
-    cdk8s.io/metadata.addr: turing-bazarr-c802be67
-  type: ClusterIP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bazarr-ingress
-  namespace: turing
-spec:
-  defaultBackend:
-    service:
-      name: turing-bazarr-service
-      port:
-        number: 6767
-  ingressClassName: tailscale
-  tls:
-    - hosts:
-        - bazarr
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
   name: turing-homeassistant
   namespace: turing
 spec:
@@ -2475,6 +2363,118 @@ spec:
   tls:
     - hosts:
         - bitmagnet
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-prowlarr
+  namespace: turing
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-prowlarr-c860cf1e
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-prowlarr-c860cf1e
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          image: lscr.io/linuxserver/prowlarr
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 9696
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 9696
+          volumeMounts:
+            - mountPath: /config
+              name: pvc-prowlarr-longhorn
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-prowlarr-longhorn
+          persistentVolumeClaim:
+            claimName: prowlarr-longhorn
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: prowlarr-longhorn
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-prowlarr-service
+  namespace: turing
+spec:
+  externalIPs: []
+  ports:
+    - port: 9696
+  selector:
+    cdk8s.io/metadata.addr: turing-prowlarr-c860cf1e
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-prowlarr-ingress
+  namespace: turing
+spec:
+  defaultBackend:
+    service:
+      name: turing-prowlarr-service
+      port:
+        number: 9696
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - prowlarr
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem

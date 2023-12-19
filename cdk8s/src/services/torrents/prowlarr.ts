@@ -1,7 +1,6 @@
 import {
   Deployment,
   DeploymentStrategy,
-  EnvValue,
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
@@ -10,27 +9,24 @@ import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { LonghornVolume } from "../../utils/longhorn.ts";
 
-export function createBazarrDeployment(chart: Chart) {
-  const deployment = new Deployment(chart, "bazarr", {
+export function createProwlarrDeployment(chart: Chart) {
+  const deployment = new Deployment(chart, "prowlarr", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(chart, "bazarr-longhorn", {});
+  const longhornVolume = new LonghornVolume(chart, "prowlarr-longhorn", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: "lscr.io/linuxserver/bazarr",
-      envVariables: {
-        TZ: EnvValue.fromValue(""),
-      },
-      portNumber: 6767,
+      image: "lscr.io/linuxserver/prowlarr",
+      portNumber: 9696,
       volumeMounts: [
         {
           path: "/config",
           volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "bazarr-volume",
+            "prowlarr-volume",
             longhornVolume.claim,
           ),
         },
@@ -38,10 +34,13 @@ export function createBazarrDeployment(chart: Chart) {
     }),
   );
 
-  const service = new Service(chart, "bazarr-service", {
+  const service = new Service(chart, "prowlarr-service", {
     selector: deployment,
-    ports: [{ port: 6767 }],
+    ports: [{ port: 9696 }],
   });
 
-  createTailscaleIngress(chart, "bazarr-ingress", { service, host: "bazarr" });
+  createTailscaleIngress(chart, "prowlarr-ingress", {
+    service,
+    host: "prowlarr",
+  });
 }
