@@ -1591,7 +1591,7 @@ spec:
             - name: TZ
               value: America/Los_Angeles
             - name: VPN_SERVICE_PROVIDER
-              value: mullvad
+              value: airvpn
             - name: VPN_TYPE
               value: wireguard
             - name: WIREGUARD_PRIVATE_KEY
@@ -1599,8 +1599,15 @@ spec:
                 secretKeyRef:
                   key: private-key
                   name: turing-mullvad
+            - name: WIREGUARD_PRESHARED_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: preshared-key
+                  name: turing-mullvad
             - name: WIREGUARD_ADDRESSES
-              value: 10.65.91.92/32
+              value: 10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128
+            - name: FIREWALL_VPN_INPUT_PORTS
+              value: "16793"
           image: ghcr.io/qdm12/gluetun
           imagePullPolicy: Always
           name: gluetun

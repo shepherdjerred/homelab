@@ -48,17 +48,28 @@ export function createQBitTorrentDeployment(chart: Chart) {
         readOnlyRootFilesystem: false,
       },
       envVariables: {
-        VPN_SERVICE_PROVIDER: EnvValue.fromValue("mullvad"),
+        VPN_SERVICE_PROVIDER: EnvValue.fromValue("airvpn"),
         VPN_TYPE: EnvValue.fromValue("wireguard"),
         WIREGUARD_PRIVATE_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(
             chart,
-            "mullvad-private-key",
+            "airvpn-private-key",
             item.name,
           ),
           key: "private-key",
         }),
-        WIREGUARD_ADDRESSES: EnvValue.fromValue("10.65.91.92/32"),
+        WIREGUARD_PRESHARED_KEY: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(
+            chart,
+            "airvpn-preshared-key",
+            item.name,
+          ),
+          key: "preshared-key",
+        }),
+        WIREGUARD_ADDRESSES: EnvValue.fromValue(
+          "10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128",
+        ),
+        FIREWALL_VPN_INPUT_PORTS: EnvValue.fromValue("16793"),
       },
       volumeMounts: [
         {
