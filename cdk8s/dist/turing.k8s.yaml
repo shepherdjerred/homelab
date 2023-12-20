@@ -1146,20 +1146,21 @@ spec:
             - containerPort: 8123
               name: port-8123-web
               protocol: TCP
-            - containerPort: 5353
-              name: port-5353
+            - containerPort: 31063
+              hostPort: 31063
+              name: port-31063
               protocol: TCP
-            - containerPort: 21063
-              name: port-21063
+            - containerPort: 31064
+              hostPort: 31064
+              name: port-31064
               protocol: TCP
-            - containerPort: 21064
-              name: port-21064
+            - containerPort: 31065
+              hostPort: 31065
+              name: port-31065
               protocol: TCP
-            - containerPort: 21065
-              name: port-21065
-              protocol: TCP
-            - containerPort: 21066
-              name: port-21066
+            - containerPort: 31066
+              hostPort: 31066
+              name: port-31066
               protocol: TCP
           securityContext:
             allowPrivilegeEscalation: false

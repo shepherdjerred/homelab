@@ -34,32 +34,30 @@ export function createHomeAssistantDeployment(chart: Chart) {
         },
         {
           // homekit
-          name: "port-5353",
-          number: 5353,
+          name: "port-31063",
+          number: 31063,
+          hostPort: 31063,
           protocol: Protocol.TCP,
         },
         {
           // homekit
-          name: "port-21063",
-          number: 21063,
+          name: "port-31064",
+          number: 31064,
+          hostPort: 31064,
           protocol: Protocol.TCP,
         },
         {
           // homekit
-          name: "port-21064",
-          number: 21064,
+          name: "port-31065",
+          number: 31065,
+          hostPort: 31065,
           protocol: Protocol.TCP,
         },
         {
           // homekit
-          name: "port-21065",
-          number: 21065,
-          protocol: Protocol.TCP,
-        },
-        {
-          // homekit
-          name: "port-21066",
-          number: 21066,
+          name: "port-31066",
+          number: 31066,
+          hostPort: 31066,
           protocol: Protocol.TCP,
         },
       ],
