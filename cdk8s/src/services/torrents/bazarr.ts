@@ -1,6 +1,7 @@
 import {
   Deployment,
   DeploymentStrategy,
+  EnvValue,
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
@@ -9,24 +10,27 @@ import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { LonghornVolume } from "../../utils/longhorn.ts";
 
-export function createJackettDeployment(chart: Chart) {
-  const deployment = new Deployment(chart, "jackett", {
+export function createBazarrDeployment(chart: Chart) {
+  const deployment = new Deployment(chart, "bazarr", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(chart, "jackett-longhorn", {});
+  const longhornVolume = new LonghornVolume(chart, "bazarr-longhorn", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: "lscr.io/linuxserver/jackett",
-      portNumber: 9117,
+      image: "lscr.io/linuxserver/bazarr",
+      envVariables: {
+        TZ: EnvValue.fromValue(""),
+      },
+      portNumber: 6767,
       volumeMounts: [
         {
           path: "/config",
           volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "jackett-volume",
+            "bazarr-volume",
             longhornVolume.claim,
           ),
         },
@@ -34,13 +38,10 @@ export function createJackettDeployment(chart: Chart) {
     }),
   );
 
-  const service = new Service(chart, "jackett-service", {
+  const service = new Service(chart, "bazarr-service", {
     selector: deployment,
-    ports: [{ port: 9117 }],
+    ports: [{ port: 6767 }],
   });
 
-  createTailscaleIngress(chart, "jackett-ingress", {
-    service,
-    host: "jackett",
-  });
+  createTailscaleIngress(chart, "bazarr-ingress", { service, host: "bazarr" });
 }

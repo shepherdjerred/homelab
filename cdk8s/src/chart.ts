@@ -4,7 +4,6 @@ import { createTedditDeployment } from "./services/frontends/teddit.ts";
 import { createPlexDeployment } from "./services/media/plex.ts";
 import { createRadarrDeployment } from "./services/torrents/radarr.ts";
 import { createHomeAssistantDeployment } from "./services/homeassistant.ts";
-import { createJackettDeployment } from "./services/torrents/jackett.ts";
 import { createNitterDeployment } from "./services/frontends/nitter.ts";
 import { createOverseerrDeployment } from "./services/torrents/overseerr.ts";
 import { createQBitTorrentDeployment } from "./services/torrents/qbittorrent.ts";
@@ -25,6 +24,7 @@ import { createTailscaleApp } from "./apps/tailscale.ts";
 import { createTuringApp } from "./apps/turing.ts";
 import { createProject } from "./apps/project.ts";
 import { createProwlarrDeployment } from "./services/torrents/prowlarr.ts";
+import { createBazarrDeployment } from "./services/torrents/bazarr.ts";
 
 const app = new App();
 const chart = new Chart(app, "turing", {
@@ -44,13 +44,13 @@ createLonghornApp(chart);
 createTailscaleApp(chart);
 createTuringApp(chart);
 
+createBazarrDeployment(chart);
 createTautulliDeployment(chart);
 createInvidiousDeployment(chart);
 createTedditDeployment(chart);
 createPlexDeployment(chart);
 createRadarrDeployment(chart);
 createHomeAssistantDeployment(chart);
-createJackettDeployment(chart);
 createNitterDeployment(chart);
 createOverseerrDeployment(chart);
 createQBitTorrentDeployment(chart);
