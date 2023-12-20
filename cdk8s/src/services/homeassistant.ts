@@ -48,6 +48,8 @@ export function createHomeAssistantDeployment(chart: Chart) {
     }),
   );
 
+  // this simplifies mDNS
+  // TODO: remove host networking
   ApiObject.of(deployment).addJsonPatch(
     JsonPatch.add("/spec/template/spec/hostNetwork", true),
   );
