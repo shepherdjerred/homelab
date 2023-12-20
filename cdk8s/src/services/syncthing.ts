@@ -61,6 +61,6 @@ export function createSyncthingDeployment(chart: Chart) {
 
   new TailscaleIngress(chart, "syncthing-tailscale-ingress", {
     service,
-    host: "syncthing-gui",
+    host: "syncthing",
   });
 }
