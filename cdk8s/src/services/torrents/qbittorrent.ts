@@ -98,6 +98,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
             longhornVolume.claim,
           ),
         },
+        // TODO: replace this with a shared volume on the RAID array
         {
           volume: Volume.fromHostPath(
             chart,

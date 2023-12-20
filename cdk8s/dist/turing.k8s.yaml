@@ -844,7 +844,7 @@ spec:
             - name: TZ
               value: America/Los_Angeles
             - name: ADVERTISE_IP
-              value: https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red
+              value: https://plex.tailnet-1a49.ts.net
             - name: NVIDIA_DRIVER_CAPABILITIES
               value: all
             - name: NVIDIA_VISIBLE_DEVICES
@@ -901,7 +901,7 @@ spec:
             runAsNonRoot: false
           volumeMounts:
             - mountPath: /config
-              name: plex-config-bind-mount
+              name: pvc-plex-pvc-longhorn
             - mountPath: /data/tv
               name: plex-tv-bind-mount
             - mountPath: /data/movies
@@ -919,15 +919,16 @@ spec:
       restartPolicy: Always
       runtimeClassName: nvidia
       securityContext:
+        fsGroup: 1000
         fsGroupChangePolicy: Always
         runAsNonRoot: true
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - hostPath:
-            path: /mnt/storage/plex
-            type: ""
-          name: plex-config-bind-mount
+        - name: pvc-plex-pvc-longhorn
+          persistentVolumeClaim:
+            claimName: plex-pvc-longhorn
+            readOnly: false
         - hostPath:
             path: /mnt/storage/media/tv
             type: ""
@@ -952,6 +953,22 @@ spec:
             path: /dev/dvb
             type: ""
           name: plex-dev-dvb-bind-mount
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: plex-pvc-longhorn
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 30Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
@@ -1155,7 +1172,7 @@ spec:
             runAsUser: 0
           volumeMounts:
             - mountPath: /config
-              name: homeassistant-bind-mount
+              name: pvc-homeassistant-pvc-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: true
       restartPolicy: Always
@@ -1165,10 +1182,26 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - hostPath:
-            path: /mnt/storage/data/homeassistant-config
-            type: ""
-          name: homeassistant-bind-mount
+        - name: pvc-homeassistant-pvc-longhorn
+          persistentVolumeClaim:
+            claimName: homeassistant-pvc-longhorn
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: homeassistant-pvc-longhorn
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
@@ -1897,8 +1930,8 @@ spec:
           volumeMounts:
             - mountPath: /var/syncthing/
               name: pvc-syncthing-longhorn
-            - mountPath: /syncthing
-              name: syncthing-bind-mount
+            - mountPath: /sync
+              name: pvc-syncthing-data-longhorn
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1912,10 +1945,10 @@ spec:
           persistentVolumeClaim:
             claimName: syncthing-longhorn
             readOnly: false
-        - hostPath:
-            path: /mnt/storage/syncthing
-            type: ""
-          name: syncthing-bind-mount
+        - name: pvc-syncthing-data-longhorn
+          persistentVolumeClaim:
+            claimName: syncthing-data-longhorn
+            readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -1930,6 +1963,22 @@ spec:
   resources:
     requests:
       storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: syncthing-data-longhorn
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
   storageClassName: longhorn
   volumeMode: Filesystem
 ---

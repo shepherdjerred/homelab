@@ -10,20 +10,31 @@ import {
 import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { createTailscaleIngress } from "../../utils/tailscale.ts";
+import { LonghornVolume } from "../../utils/longhorn.ts";
 
 export function createPlexDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "plex", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
-    securityContext: {},
+    securityContext: {
+      fsGroup: 1000,
+    },
   });
+
+  const longhornVolume = new LonghornVolume(
+    chart,
+    "plex-pvc-longhorn",
+    {
+      storage: Size.gibibytes(30),
+    },
+  );
 
   deployment.addContainer(
     withCommonProps({
       image: "plexinc/pms-docker",
       envVariables: {
         ADVERTISE_IP: EnvValue.fromValue(
-          "https://plex.ts.zeus.sjer.red,https://plex.public.zeus.sjer.red",
+          "https://plex.tailnet-1a49.ts.net",
         ),
         NVIDIA_DRIVER_CAPABILITIES: EnvValue.fromValue("all"),
         NVIDIA_VISIBLE_DEVICES: EnvValue.fromValue("all"),
@@ -104,15 +115,12 @@ export function createPlexDeployment(chart: Chart) {
       },
       volumeMounts: [
         {
-          volume: Volume.fromHostPath(
-            chart,
-            "plex-config-bind-mount",
-            "plex-config-bind-mount",
-            {
-              path: "/mnt/storage/plex",
-            },
-          ),
           path: "/config",
+          volume: Volume.fromPersistentVolumeClaim(
+            chart,
+            "plex-volume",
+            longhornVolume.claim,
+          ),
         },
         {
           volume: Volume.fromHostPath(

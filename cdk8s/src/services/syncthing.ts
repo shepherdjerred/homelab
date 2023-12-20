@@ -4,7 +4,7 @@ import {
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart } from "npm:cdk8s";
+import { Chart, Size } from "npm:cdk8s";
 import { LonghornVolume } from "../utils/longhorn.ts";
 import { withCommonLinuxServerProps } from "../utils/linuxserver.ts";
 import { createTailscaleIngress } from "../utils/tailscale.ts";
@@ -15,7 +15,19 @@ export function createSyncthingDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(chart, "syncthing-longhorn", {});
+  const configLonghornVolume = new LonghornVolume(
+    chart,
+    "syncthing-longhorn",
+    {},
+  );
+
+  const dataLonghornVolume = new LonghornVolume(
+    chart,
+    "syncthing-data-longhorn",
+    {
+      storage: Size.gibibytes(20),
+    },
+  );
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -27,19 +39,16 @@ export function createSyncthingDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "syncthing-volume",
-            longhornVolume.claim,
+            configLonghornVolume.claim,
           ),
         },
         {
-          volume: Volume.fromHostPath(
+          path: "/sync",
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "syncthing-bind-mount",
-            "syncthing-bind-mount",
-            {
-              path: "/mnt/storage/syncthing",
-            },
+            "syncthing-data-volume",
+            dataLonghornVolume.claim,
           ),
-          path: "/syncthing",
         },
       ],
     }),
