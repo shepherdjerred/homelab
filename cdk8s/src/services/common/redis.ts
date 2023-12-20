@@ -10,6 +10,9 @@ export class Redis extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
+    const UID = 999;
+    const GID = 999;
+
     this.deployment = new Deployment(scope, `${id}-deployment`, {
       replicas: 1,
       strategy: DeploymentStrategy.recreate(),
@@ -20,8 +23,8 @@ export class Redis extends Construct {
         image: "redis",
         portNumber: 6379,
         securityContext: {
-          user: 999,
-          group: 999,
+          user: UID,
+          group: GID,
         },
       }),
     );

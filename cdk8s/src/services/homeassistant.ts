@@ -6,7 +6,7 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
-import { withCommonProps } from "../utils/common.ts";
+import { ROOT_GID, ROOT_UID, withCommonProps } from "../utils/common.ts";
 import { LonghornVolume } from "../utils/longhorn.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
 
@@ -26,8 +26,8 @@ export function createHomeAssistantDeployment(chart: Chart) {
     withCommonProps({
       securityContext: {
         ensureNonRoot: false,
-        user: 0,
-        group: 0,
+        user: ROOT_UID,
+        group: ROOT_GID,
         // required
         readOnlyRootFilesystem: false,
       },

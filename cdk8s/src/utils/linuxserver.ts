@@ -1,5 +1,5 @@
 import { ContainerProps, EnvValue } from "npm:cdk8s-plus-27";
-import { commonProps } from "./common.ts";
+import { commonProps, ROOT_GID, ROOT_UID } from "./common.ts";
 import { merge } from "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/lodash.js";
 
 export const LINUXSERVER_UID = 1000;
@@ -17,8 +17,8 @@ const commonLinuxServerProps: Partial<ContainerProps> = {
     // linuxserver.io images initially run as root, and require a writable filesystem
     ensureNonRoot: false,
     readOnlyRootFilesystem: false,
-    user: 0,
-    group: 0,
+    user: ROOT_UID,
+    group: ROOT_GID,
   },
 };
 

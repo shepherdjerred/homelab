@@ -11,10 +11,13 @@ import { LonghornVolume } from "../utils/longhorn.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createGolinkDeployment(chart: Chart) {
+  const UID = 65532;
+  const GID = 65532;
+
   const deployment = new Deployment(chart, "golink", {
     replicas: 1,
     securityContext: {
-      fsGroup: 65532,
+      fsGroup: GID,
     },
     strategy: DeploymentStrategy.recreate(),
   });
@@ -45,8 +48,8 @@ export function createGolinkDeployment(chart: Chart) {
         }),
       },
       securityContext: {
-        user: 65532,
-        group: 65532,
+        user: UID,
+        group: GID,
       },
       volumeMounts: [
         {

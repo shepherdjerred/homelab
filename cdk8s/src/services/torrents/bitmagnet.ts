@@ -8,7 +8,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
 import { LonghornVolume } from "../../utils/longhorn.ts";
-import { withCommonProps } from "../../utils/common.ts";
+import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { Postgres } from "../common/postgres.ts";
 import { Redis } from "../common/redis.ts";
@@ -45,8 +45,8 @@ export function createBitmagnetDeployment(chart: Chart) {
     withCommonProps({
       image: "ghcr.io/bitmagnet-io/bitmagnet:latest",
       securityContext: {
-        user: 0,
-        group: 0,
+        user: ROOT_UID,
+        group: ROOT_GID,
         ensureNonRoot: false,
       },
       envVariables: {
