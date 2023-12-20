@@ -1146,22 +1146,6 @@ spec:
             - containerPort: 8123
               name: port-8123-web
               protocol: TCP
-            - containerPort: 31063
-              hostPort: 31063
-              name: port-31063
-              protocol: TCP
-            - containerPort: 31064
-              hostPort: 31064
-              name: port-31064
-              protocol: TCP
-            - containerPort: 31065
-              hostPort: 31065
-              name: port-31065
-              protocol: TCP
-            - containerPort: 31066
-              hostPort: 31066
-              name: port-31066
-              protocol: TCP
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -1173,7 +1157,7 @@ spec:
             - mountPath: /config
               name: homeassistant-bind-mount
       dnsPolicy: ClusterFirst
-      hostNetwork: false
+      hostNetwork: true
       restartPolicy: Always
       securityContext:
         fsGroupChangePolicy: Always

@@ -7,3 +7,4 @@ checks:
     - "no-read-only-root-fs"
     - "privileged-container"
     - "privilege-escalation-container"
+    - "host-network"
