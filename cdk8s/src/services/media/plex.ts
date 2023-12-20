@@ -9,15 +9,17 @@ import {
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
-import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { LonghornVolume } from "../../utils/longhorn.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createPlexDeployment(chart: Chart) {
+  const GID = 1000;
+
   const deployment = new Deployment(chart, "plex", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
-      fsGroup: 1000,
+      fsGroup: GID,
     },
   });
 
@@ -198,7 +200,7 @@ export function createPlexDeployment(chart: Chart) {
     ports: [{ port: 32400 }],
   });
 
-  createTailscaleIngress(chart, "plex-ingress", {
+  new TailscaleIngress(chart, "plex-tailscale-ingress", {
     service,
     host: "plex",
     funnel: true,

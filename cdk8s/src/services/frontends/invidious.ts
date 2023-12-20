@@ -9,9 +9,9 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
-import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { Postgres } from "../common/postgres.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createInvidiousDeployment(chart: Chart) {
   const postgres = new Postgres(chart, "invidious-postgres", {
@@ -20,6 +20,9 @@ export function createInvidiousDeployment(chart: Chart) {
     database: "invidious",
     size: Size.gibibytes(10),
   });
+
+  const UID = 1000;
+  const GID = 1000;
 
   const invidiousOnePasswordItem = new OnePasswordItem(
     chart,
@@ -39,7 +42,7 @@ export function createInvidiousDeployment(chart: Chart) {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
-      fsGroup: 1000,
+      fsGroup: GID,
     },
   });
 
@@ -53,8 +56,8 @@ export function createInvidiousDeployment(chart: Chart) {
       name: "gomplate",
       image: "k8spatterns/gomplate",
       securityContext: {
-        user: 1000,
-        group: 1000,
+        user: UID,
+        group: GID,
         readOnlyRootFilesystem: false,
       },
       envVariables: {
@@ -97,8 +100,8 @@ export function createInvidiousDeployment(chart: Chart) {
       name: "invidious",
       portNumber: 3000,
       securityContext: {
-        user: 1000,
-        group: 1000,
+        user: UID,
+        group: GID,
       },
     }),
   );
@@ -108,7 +111,7 @@ export function createInvidiousDeployment(chart: Chart) {
     ports: [{ port: 3000 }],
   });
 
-  createTailscaleIngress(chart, "invidious-ingress", {
+  new TailscaleIngress(chart, "invidious-tailscale-ingress", {
     service,
     host: "invidious",
   });

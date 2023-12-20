@@ -28,6 +28,9 @@ export class Postgres extends Construct {
   }) {
     super(scope, name);
 
+    const UID = 1000;
+    const GID = 1000;
+
     this.passwordItem = new OnePasswordItem(scope, `${name}-onepassword`, {
       spec: {
         itemPath: props.itemPath,
@@ -41,7 +44,7 @@ export class Postgres extends Construct {
       replicas: 1,
       strategy: DeploymentStrategy.recreate(),
       securityContext: {
-        fsGroup: 1000,
+        fsGroup: GID,
       },
     });
 
@@ -74,8 +77,8 @@ export class Postgres extends Construct {
           POSTGRES_DB: EnvValue.fromValue(props.database),
         },
         securityContext: {
-          user: 1000,
-          group: 1000,
+          user: UID,
+          group: GID,
           // pg fails to start without this
           readOnlyRootFilesystem: false,
         },

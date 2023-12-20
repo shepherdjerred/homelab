@@ -6,8 +6,8 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { LonghornVolume } from "../../utils/longhorn.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createProwlarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "prowlarr", {
@@ -39,7 +39,7 @@ export function createProwlarrDeployment(chart: Chart) {
     ports: [{ port: 9696 }],
   });
 
-  createTailscaleIngress(chart, "prowlarr-ingress", {
+  new TailscaleIngress(chart, "prowlarr-tailscale-ingress", {
     service,
     host: "prowlarr",
   });

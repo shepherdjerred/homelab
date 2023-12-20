@@ -6,8 +6,8 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { LonghornVolume } from "../../utils/longhorn.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createOverseerrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "overseerr", {
@@ -39,7 +39,7 @@ export function createOverseerrDeployment(chart: Chart) {
     ports: [{ port: 5055 }],
   });
 
-  createTailscaleIngress(chart, "overseerr-ingress", {
+  new TailscaleIngress(chart, "overseerr-tailscale-ingress", {
     service,
     host: "overseerr",
     funnel: true,

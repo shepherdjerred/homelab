@@ -6,8 +6,8 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { LonghornVolume } from "../../utils/longhorn.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createTautulliDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "tautulli", {
@@ -39,7 +39,7 @@ export function createTautulliDeployment(chart: Chart) {
     ports: [{ port: 8181 }],
   });
 
-  createTailscaleIngress(chart, "tautulli-ingress", {
+  new TailscaleIngress(chart, "tautulli-tailscale-ingress", {
     service,
     host: "tautulli",
   });

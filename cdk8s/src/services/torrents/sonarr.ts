@@ -5,16 +5,19 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
-import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
+import {
+  LINUXSERVER_GID,
+  withCommonLinuxServerProps,
+} from "../../utils/linuxserver.ts";
 import { LonghornVolume } from "../../utils/longhorn.ts";
-import { createTailscaleIngress } from "../../utils/tailscale.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createSonarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "sonarr", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
-      fsGroup: 1000,
+      fsGroup: LINUXSERVER_GID,
     },
   });
 
@@ -64,7 +67,7 @@ export function createSonarrDeployment(chart: Chart) {
     ports: [{ port: 8989 }],
   });
 
-  createTailscaleIngress(chart, "sonarr-ingress", {
+  new TailscaleIngress(chart, "sonarr-tailscale-ingress", {
     service,
     host: "sonarr",
   });

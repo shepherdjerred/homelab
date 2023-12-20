@@ -8,6 +8,7 @@ import {
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { LonghornVolume } from "../utils/longhorn.ts";
+import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createGolinkDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "golink", {
@@ -20,6 +21,16 @@ export function createGolinkDeployment(chart: Chart) {
 
   const longhornVolume = new LonghornVolume(chart, "golink-pvc-longhorn", {});
 
+  const item = new OnePasswordItem(chart, "tailscale-auth-key-onepassword", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/t5scpnlhnxvu25dneg6jdd7c7q",
+    },
+    metadata: {
+      name: "tailscale-auth-key",
+    },
+  });
+
   deployment.addContainer(
     withCommonProps({
       image: "ghcr.io/tailscale/golink:main",
@@ -28,7 +39,7 @@ export function createGolinkDeployment(chart: Chart) {
           secret: Secret.fromSecretName(
             chart,
             "tailscale-auth-key",
-            "tailscale-auth-key",
+            item.name,
           ),
           key: "credential",
         }),

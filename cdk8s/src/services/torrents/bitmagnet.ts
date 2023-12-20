@@ -9,10 +9,10 @@ import {
 import { Chart, Size } from "npm:cdk8s";
 import { LonghornVolume } from "../../utils/longhorn.ts";
 import { withCommonProps } from "../../utils/common.ts";
-import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { Postgres } from "../common/postgres.ts";
 import { Redis } from "../common/redis.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createBitmagnetDeployment(chart: Chart) {
   const tmdbItem = new OnePasswordItem(chart, "tmdb-api-key-onepassword", {
@@ -87,7 +87,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     ports: [{ port: 3333 }],
   });
 
-  createTailscaleIngress(chart, "bitmagnet-ingress", {
+  new TailscaleIngress(chart, "bitmagnet-tailscale-ingress", {
     service,
     host: "bitmagnet",
   });

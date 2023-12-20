@@ -93,6 +93,41 @@ kind: OnePasswordItem
 metadata:
   labels:
     app.kubernetes.io/instance: turing
+  name: turing-datadog-secret
+  namespace: datadog
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/jn4difq4yuehvaif6va3zxrvle
+---
+apiVersion: datadoghq.com/v2alpha1
+kind: DatadogAgent
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-datadog-agent
+  namespace: turing
+spec:
+  global:
+    credentials:
+      apiSecret:
+        keyName: api-key
+        secretName: turing-datadog-secret
+      appSecret:
+        keyName: app-key
+        secretName: turing-datadog-secret
+    site: datadoghq.com
+  override:
+    clusterAgent:
+      image:
+        name: gcr.io/datadoghq/cluster-agent:latest
+    nodeAgent:
+      image:
+        name: gcr.io/datadoghq/agent:latest
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: aws-secret
   namespace: longhorn
 spec:
@@ -128,6 +163,31 @@ spec:
     automated: {}
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-longhorn-recurring-job
+  namespace: longhorn
+spec:
+  concurrency: 4
+  cron: 0 0 * * *
+  labels: {}
+  name: longhorn-recurring-job
+  retain: 3
+  task: backup
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: operator-oauth
+  namespace: tailscale
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/mboftvs4fyptyqvg3anrfjy6vu
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -270,7 +330,7 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bazarr-ingress
+  name: turing-bazarr-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -382,7 +442,7 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-tautulli-ingress
+  name: turing-tautulli-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -649,7 +709,7 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-invidious-ingress
+  name: turing-invidious-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -804,7 +864,7 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-teddit-ingress
+  name: turing-teddit-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -992,7 +1052,7 @@ metadata:
     tailscale.com/funnel: "true"
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-plex-ingress
+  name: turing-plex-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -1117,7 +1177,7 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-radarr-ingress
+  name: turing-radarr-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -1225,7 +1285,7 @@ metadata:
     tailscale.com/funnel: "true"
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-homeassistant-ingress
+  name: turing-homeassistant-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -1447,7 +1507,7 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-nitter-ingress
+  name: turing-nitter-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -1561,7 +1621,7 @@ metadata:
     tailscale.com/funnel: "true"
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-overseerr-ingress
+  name: turing-overseerr-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -1743,7 +1803,7 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-qbittorrent-ingress
+  name: turing-qbittorrent-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -1868,7 +1928,7 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-sonarr-ingress
+  name: turing-sonarr-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -2002,7 +2062,7 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-syncthing-ingress
+  name: turing-syncthing-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -2013,7 +2073,7 @@ spec:
   ingressClassName: tailscale
   tls:
     - hosts:
-        - syncthing
+        - syncthing-gui
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -2089,6 +2149,16 @@ spec:
       storage: 2Gi
   storageClassName: longhorn
   volumeMode: Filesystem
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: tailscale-auth-key
+  namespace: turing
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/t5scpnlhnxvu25dneg6jdd7c7q
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
@@ -2394,7 +2464,7 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-ingress
+  name: turing-bitmagnet-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -2506,7 +2576,7 @@ kind: Ingress
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-prowlarr-ingress
+  name: turing-prowlarr-tailscale-ingress-ingress
   namespace: turing
 spec:
   defaultBackend:
@@ -2519,56 +2589,6 @@ spec:
     - hosts:
         - prowlarr
 ---
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-datadog-secret
-  namespace: datadog
-spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/jn4difq4yuehvaif6va3zxrvle
----
-apiVersion: datadoghq.com/v2alpha1
-kind: DatadogAgent
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-datadog-agent
-  namespace: turing
-spec:
-  global:
-    credentials:
-      apiSecret:
-        keyName: api-key
-        secretName: turing-datadog-secret
-      appSecret:
-        keyName: app-key
-        secretName: turing-datadog-secret
-    site: datadoghq.com
-  override:
-    clusterAgent:
-      image:
-        name: gcr.io/datadoghq/cluster-agent:latest
-    nodeAgent:
-      image:
-        name: gcr.io/datadoghq/agent:latest
----
-apiVersion: longhorn.io/v1beta2
-kind: RecurringJob
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-longhorn-recurring-job
-  namespace: longhorn
-spec:
-  concurrency: 4
-  cron: 0 0 * * *
-  labels: {}
-  name: longhorn-recurring-job
-  retain: 3
-  task: backup
----
 apiVersion: node.k8s.io/v1
 kind: RuntimeClass
 metadata:
@@ -2577,23 +2597,3 @@ metadata:
   name: nvidia
   namespace: turing
 handler: nvidia
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: tailscale-auth-key
-  namespace: turing
-spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/t5scpnlhnxvu25dneg6jdd7c7q
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: operator-oauth
-  namespace: tailscale
-spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/mboftvs4fyptyqvg3anrfjy6vu

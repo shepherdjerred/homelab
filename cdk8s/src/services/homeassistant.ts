@@ -7,8 +7,8 @@ import {
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
-import { createTailscaleIngress } from "../utils/tailscale.ts";
 import { LonghornVolume } from "../utils/longhorn.ts";
+import { TailscaleIngress } from "../utils/tailscale.ts";
 
 export function createHomeAssistantDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "homeassistant", {
@@ -63,7 +63,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
     ports: [{ port: 8123 }],
   });
 
-  createTailscaleIngress(chart, "homeassistant-ingress", {
+  new TailscaleIngress(chart, "homeassistant-tailscale-ingress", {
     service,
     host: "homeassistant",
     funnel: true,

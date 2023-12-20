@@ -6,18 +6,21 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
-import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { Redis } from "../common/redis.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createTedditDeployment(chart: Chart) {
   const redis = new Redis(chart, "teddis-redis");
+
+  const UID = 1000;
+  const GID = 1000;
 
   const tedditDeployment = new Deployment(chart, "teddit", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
-      user: 1000,
-      group: 1000,
+      user: UID,
+      group: GID,
     },
   });
 
@@ -40,7 +43,7 @@ export function createTedditDeployment(chart: Chart) {
     ports: [{ port: 8080 }],
   });
 
-  createTailscaleIngress(chart, "teddit-ingress", {
+  new TailscaleIngress(chart, "teddit-tailscale-ingress", {
     service,
     host: "teddit",
   });

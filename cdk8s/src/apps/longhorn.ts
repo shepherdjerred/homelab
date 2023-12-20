@@ -1,6 +1,10 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import {
+  RecurringJobV1Beta2,
+  RecurringJobV1Beta2SpecTask,
+} from "../../imports/longhorn.io.ts";
 
 export function createLonghornApp(chart: Chart) {
   const item = new OnePasswordItem(chart, "longhorn-secret", {
@@ -14,7 +18,7 @@ export function createLonghornApp(chart: Chart) {
     },
   });
 
-  return new Application(chart, "longhorn-app", {
+  new Application(chart, "longhorn-app", {
     metadata: {
       name: "longhorn",
       namespace: "argocd",
@@ -54,6 +58,20 @@ export function createLonghornApp(chart: Chart) {
         automated: {},
         syncOptions: ["CreateNamespace=true"],
       },
+    },
+  });
+
+  new RecurringJobV1Beta2(chart, "longhorn-recurring-job", {
+    spec: {
+      cron: "0 0 * * *",
+      task: RecurringJobV1Beta2SpecTask.BACKUP,
+      labels: {},
+      retain: 3,
+      concurrency: 4,
+      name: "longhorn-recurring-job",
+    },
+    metadata: {
+      namespace: "longhorn",
     },
   });
 }

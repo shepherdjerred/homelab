@@ -7,7 +7,7 @@ import {
 import { Chart, Size } from "npm:cdk8s";
 import { LonghornVolume } from "../utils/longhorn.ts";
 import { withCommonLinuxServerProps } from "../utils/linuxserver.ts";
-import { createTailscaleIngress } from "../utils/tailscale.ts";
+import { TailscaleIngress } from "../utils/tailscale.ts";
 
 export function createSyncthingDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "syncthing", {
@@ -59,8 +59,8 @@ export function createSyncthingDeployment(chart: Chart) {
     ports: [{ port: 8384 }],
   });
 
-  createTailscaleIngress(chart, "syncthing-ingress", {
+  new TailscaleIngress(chart, "syncthing-tailscale-ingress", {
     service,
-    host: "syncthing",
+    host: "syncthing-gui",
   });
 }

@@ -1,8 +1,8 @@
 import { ConfigMap, Deployment, Service, Volume } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
-import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { Redis } from "../common/redis.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createNitterDeployment(chart: Chart) {
   const redis = new Redis(chart, "nitter-redis");
@@ -47,7 +47,7 @@ export function createNitterDeployment(chart: Chart) {
     ports: [{ port: 8080 }],
   });
 
-  createTailscaleIngress(chart, "nitter-ingress", {
+  new TailscaleIngress(chart, "nitter-tailscale-ingress", {
     service,
     host: "nitter",
   });

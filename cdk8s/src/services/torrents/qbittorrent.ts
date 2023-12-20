@@ -8,10 +8,10 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { createTailscaleIngress } from "../../utils/tailscale.ts";
 import { LonghornVolume } from "../../utils/longhorn.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createQBitTorrentDeployment(chart: Chart) {
   const item = new OnePasswordItem(chart, "mullvad", {
@@ -125,7 +125,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
     ports: [{ port: 8080 }],
   });
 
-  createTailscaleIngress(chart, "qbittorrent-ingress", {
+  new TailscaleIngress(chart, "qbittorrent-tailscale-ingress", {
     service,
     host: "qbittorrent",
   });

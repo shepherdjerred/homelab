@@ -12,10 +12,7 @@ import { createSyncthingDeployment } from "./services/syncthing.ts";
 import { createTautulliDeployment } from "./services/media/tautulli.ts";
 import { createGolinkDeployment } from "./services/golink.ts";
 import { createBitmagnetDeployment } from "./services/torrents/bitmagnet.ts";
-import { createDatadogResources } from "./datadog.ts";
-import { createLonghornResources } from "./longhorn.ts";
 import { createNvidiaResources } from "./nvidia.ts";
-import { createTailscaleResources } from "./tailscale.ts";
 import { createOnePasswordApp } from "./apps/1password.ts";
 import { createArgoCdApp } from "./apps/argocd.ts";
 import { createDatadogApp } from "./apps/datadog.ts";
@@ -60,9 +57,6 @@ createGolinkDeployment(chart);
 createBitmagnetDeployment(chart);
 createProwlarrDeployment(chart);
 
-createDatadogResources(chart);
-createLonghornResources(chart);
 createNvidiaResources(chart);
-createTailscaleResources(chart);
 
 app.synth();
