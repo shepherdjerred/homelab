@@ -236,6 +236,114 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/instance: turing
+  name: turing-esphome
+  namespace: turing
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-esphome-c82c7ff4
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-esphome-c82c7ff4
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
+          image: esphome/esphome
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 6052
+              name: port-6052-web
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
+          volumeMounts:
+            - mountPath: /config
+              name: pvc-esphome-pvc-longhorn
+      dnsPolicy: ClusterFirst
+      hostNetwork: true
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-esphome-pvc-longhorn
+          persistentVolumeClaim:
+            claimName: esphome-pvc-longhorn
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: esphome-pvc-longhorn
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-esphome-service
+  namespace: turing
+spec:
+  externalIPs: []
+  ports:
+    - port: 6052
+  selector:
+    cdk8s.io/metadata.addr: turing-esphome-c82c7ff4
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-esphome-tailscale-ingress-ingress
+  namespace: turing
+spec:
+  defaultBackend:
+    service:
+      name: turing-esphome-service
+      port:
+        number: 6052
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - esphome
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-bazarr
   namespace: turing
 spec:

@@ -22,6 +22,7 @@ import { createTuringApp } from "./apps/turing.ts";
 import { createProject } from "./apps/project.ts";
 import { createProwlarrDeployment } from "./services/torrents/prowlarr.ts";
 import { createBazarrDeployment } from "./services/torrents/bazarr.ts";
+import { createEspHomeDeployment } from "./services/esphome.ts";
 
 const app = new App();
 const chart = new Chart(app, "turing", {
@@ -41,6 +42,7 @@ createLonghornApp(chart);
 createTailscaleApp(chart);
 createTuringApp(chart);
 
+createEspHomeDeployment(chart);
 createBazarrDeployment(chart);
 createTautulliDeployment(chart);
 createInvidiousDeployment(chart);
