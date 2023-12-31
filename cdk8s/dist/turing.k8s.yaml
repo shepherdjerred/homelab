@@ -236,6 +236,114 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/instance: turing
+  name: turing-pikaraoke
+  namespace: turing
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-pikaraoke-c8efdeaa
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-pikaraoke-c8efdeaa
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
+          image: ghcr.io/shepherdjerred/pikaraoke
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 5555
+              name: port-5555-web
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
+          volumeMounts:
+            - mountPath: /root/pikaraoke-songs
+              name: pvc-pikaraoke-longhorn
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-pikaraoke-longhorn
+          persistentVolumeClaim:
+            claimName: pikaraoke-longhorn
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: pikaraoke-longhorn
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-pikaraoke-service
+  namespace: turing
+spec:
+  externalIPs: []
+  ports:
+    - port: 5555
+  selector:
+    cdk8s.io/metadata.addr: turing-pikaraoke-c8efdeaa
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-pikaraoke-tailscale-ingress-ingress
+  namespace: turing
+spec:
+  defaultBackend:
+    service:
+      name: turing-pikaraoke-service
+      port:
+        number: 5555
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - pikaraoke
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
   name: turing-esphome
   namespace: turing
 spec:
@@ -2452,7 +2560,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 30Gi
+      storage: 60Gi
   storageClassName: longhorn
   volumeMode: Filesystem
 ---
