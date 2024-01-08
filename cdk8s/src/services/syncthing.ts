@@ -6,13 +6,19 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
 import { LonghornVolume } from "../utils/longhorn.ts";
-import { withCommonLinuxServerProps } from "../utils/linuxserver.ts";
+import {
+  LINUXSERVER_GID,
+  withCommonLinuxServerProps,
+} from "../utils/linuxserver.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
 
 export function createSyncthingDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "syncthing", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    securityContext: {
+      fsGroup: LINUXSERVER_GID,
+    },
   });
 
   const configLonghornVolume = new LonghornVolume(

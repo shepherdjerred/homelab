@@ -23,7 +23,6 @@ import { createProject } from "./apps/project.ts";
 import { createProwlarrDeployment } from "./services/torrents/prowlarr.ts";
 import { createBazarrDeployment } from "./services/torrents/bazarr.ts";
 import { createEspHomeDeployment } from "./services/esphome.ts";
-import { createPikaraokeDeployment } from "./services/pikaraoke.ts";
 
 const app = new App();
 const chart = new Chart(app, "turing", {
@@ -43,7 +42,6 @@ createLonghornApp(chart);
 createTailscaleApp(chart);
 createTuringApp(chart);
 
-createPikaraokeDeployment(chart);
 createEspHomeDeployment(chart);
 createBazarrDeployment(chart);
 createTautulliDeployment(chart);
