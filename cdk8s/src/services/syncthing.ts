@@ -41,7 +41,7 @@ export function createSyncthingDeployment(chart: Chart) {
       portNumber: 8384,
       volumeMounts: [
         {
-          path: "/var/syncthing/",
+          path: "/config",
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "syncthing-volume",

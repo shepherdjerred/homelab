@@ -2096,7 +2096,7 @@ spec:
             tcpSocket:
               port: 8384
           volumeMounts:
-            - mountPath: /var/syncthing/
+            - mountPath: /config
               name: pvc-syncthing-longhorn
             - mountPath: /sync
               name: pvc-syncthing-data-longhorn
