@@ -34,6 +34,28 @@ export function createBazarrDeployment(chart: Chart) {
             longhornVolume.claim,
           ),
         },
+        {
+          volume: Volume.fromHostPath(
+            chart,
+            "bazarr-movies-bind-mount",
+            "bazarr-movies-bind-mount",
+            {
+              path: "/mnt/storage/media/movies",
+            },
+          ),
+          path: "/movies",
+        },
+        {
+          volume: Volume.fromHostPath(
+            chart,
+            "bazarr-tv-bind-mount",
+            "bazarr-tv-bind-mount",
+            {
+              path: "/mnt/storage/media/tv",
+            },
+          ),
+          path: "/tv",
+        },
       ],
     }),
   );

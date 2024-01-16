@@ -50,8 +50,8 @@ export function createSonarrDeployment(chart: Chart) {
         {
           volume: Volume.fromHostPath(
             chart,
-            "sonarr-movies-bind-mount",
-            "sonarr-movies-bind-mount",
+            "sonarr-tv-bind-mount",
+            "sonarr-tv-bind-mount",
             {
               path: "/mnt/storage/media/tv",
             },

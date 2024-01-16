@@ -388,6 +388,10 @@ spec:
           volumeMounts:
             - mountPath: /config
               name: pvc-bazarr-longhorn
+            - mountPath: /movies
+              name: bazarr-movies-bind-mount
+            - mountPath: /tv
+              name: bazarr-tv-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -401,6 +405,14 @@ spec:
           persistentVolumeClaim:
             claimName: bazarr-longhorn
             readOnly: false
+        - hostPath:
+            path: /mnt/storage/media/movies
+            type: ""
+          name: bazarr-movies-bind-mount
+        - hostPath:
+            path: /mnt/storage/media/tv
+            type: ""
+          name: bazarr-tv-bind-mount
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -1976,7 +1988,7 @@ spec:
             - mountPath: /downloads
               name: sonarr-torrents-bind-mount
             - mountPath: /tv
-              name: sonarr-movies-bind-mount
+              name: sonarr-tv-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1998,7 +2010,7 @@ spec:
         - hostPath:
             path: /mnt/storage/media/tv
             type: ""
-          name: sonarr-movies-bind-mount
+          name: sonarr-tv-bind-mount
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
