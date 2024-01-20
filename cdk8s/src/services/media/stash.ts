@@ -1,10 +1,11 @@
 import {
   Deployment,
   DeploymentStrategy,
+  EnvValue,
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart } from "npm:cdk8s";
+import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { LonghornVolume } from "../../utils/longhorn.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
@@ -41,6 +42,10 @@ export function createStashDeployment(chart: Chart) {
     withCommonLinuxServerProps({
       image: "stashapp/stash",
       portNumber: 9999,
+      envVariables: {
+        NVIDIA_DRIVER_CAPABILITIES: EnvValue.fromValue("all"),
+        NVIDIA_VISIBLE_DEVICES: EnvValue.fromValue("all"),
+      },
       volumeMounts: [
         {
           path: "/data",
@@ -106,4 +111,8 @@ export function createStashDeployment(chart: Chart) {
     service,
     host: "stash",
   });
+
+  ApiObject.of(deployment).addJsonPatch(
+    JsonPatch.add("/spec/template/spec/runtimeClassName", "nvidia"),
+  );
 }

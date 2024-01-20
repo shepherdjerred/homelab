@@ -2740,6 +2740,10 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
+            - name: NVIDIA_DRIVER_CAPABILITIES
+              value: all
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: all
           image: stashapp/stash
           imagePullPolicy: Always
           name: main
@@ -2772,6 +2776,7 @@ spec:
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
+      runtimeClassName: nvidia
       securityContext:
         fsGroupChangePolicy: Always
         runAsNonRoot: true
