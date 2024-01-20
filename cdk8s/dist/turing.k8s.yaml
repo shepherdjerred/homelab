@@ -964,7 +964,7 @@ spec:
               value: America/Los_Angeles
             - name: REDIS_HOST
               value: turing-teddis-redis-deployment-service
-            - name: domain
+            - name: DOMAIN
               value: teddit.tailnet-1a49.ts.net
           image: teddit/teddit
           imagePullPolicy: Always
