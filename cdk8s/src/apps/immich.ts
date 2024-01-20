@@ -10,7 +10,7 @@ export function createImmichApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
-        repoUrl: "https://github.com/immich-app/immich-charts/tree/main/",
+        repoUrl: "https://github.com/immich-app/immich-charts/",
         path: "charts/immich",
         targetRevision: "immich-0.3.1",
         helm: {

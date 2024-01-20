@@ -251,7 +251,7 @@ spec:
         - name: redis.enabled
           value: "true"
     path: charts/immich
-    repoURL: https://github.com/immich-app/immich-charts/tree/main/
+    repoURL: https://github.com/immich-app/immich-charts/
     targetRevision: immich-0.3.1
   syncPolicy:
     automated: {}
