@@ -2710,6 +2710,206 @@ spec:
     - hosts:
         - prowlarr
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-stash
+  namespace: turing
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-stash-c8c2ad97
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-stash-c8c2ad97
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          image: stashapp/stash
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 9999
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 9999
+          volumeMounts:
+            - mountPath: /data
+              name: pvc-stash-data
+            - mountPath: /generated
+              name: pvc-stash-generated
+            - mountPath: /metadata
+              name: pvc-stash-metadata
+            - mountPath: /blobs
+              name: pvc-stash-blobs
+            - mountPath: /root/.stash
+              name: pvc-stash-config
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-stash-data
+          persistentVolumeClaim:
+            claimName: stash-data
+            readOnly: false
+        - name: pvc-stash-generated
+          persistentVolumeClaim:
+            claimName: stash-generated
+            readOnly: false
+        - name: pvc-stash-metadata
+          persistentVolumeClaim:
+            claimName: stash-metadata
+            readOnly: false
+        - name: pvc-stash-blobs
+          persistentVolumeClaim:
+            claimName: stash-blobs
+            readOnly: false
+        - name: pvc-stash-config
+          persistentVolumeClaim:
+            claimName: stash-config
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: stash-data
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: stash-generated
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: stash-metadata
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: stash-blobs
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: stash-config
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-stash-service
+  namespace: turing
+spec:
+  externalIPs: []
+  ports:
+    - port: 9999
+  selector:
+    cdk8s.io/metadata.addr: turing-stash-c8c2ad97
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-stash-tailscale-ingress-ingress
+  namespace: turing
+spec:
+  defaultBackend:
+    service:
+      name: turing-stash-service
+      port:
+        number: 9999
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - stash
+---
 apiVersion: node.k8s.io/v1
 kind: RuntimeClass
 metadata:
