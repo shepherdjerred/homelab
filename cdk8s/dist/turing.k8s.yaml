@@ -2767,6 +2767,8 @@ spec:
               name: pvc-stash-blobs
             - mountPath: /root/.stash
               name: pvc-stash-config
+            - mountPath: /data/secret
+              name: stash-secret-bind-mount
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2796,6 +2798,10 @@ spec:
           persistentVolumeClaim:
             claimName: stash-config
             readOnly: false
+        - hostPath:
+            path: /mnt/storage/media/secret
+            type: ""
+          name: stash-secret-bind-mount
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

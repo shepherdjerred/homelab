@@ -82,6 +82,17 @@ export function createStashDeployment(chart: Chart) {
             longhornVolumeConfig.claim,
           ),
         },
+        {
+          volume: Volume.fromHostPath(
+            chart,
+            "stash-secret-bind-mount",
+            "stash-secret-bind-mount",
+            {
+              path: "/mnt/storage/media/secret",
+            },
+          ),
+          path: "/data/secret",
+        },
       ],
     }),
   );
