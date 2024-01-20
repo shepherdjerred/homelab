@@ -24,6 +24,7 @@ import { createProwlarrDeployment } from "./services/torrents/prowlarr.ts";
 import { createBazarrDeployment } from "./services/torrents/bazarr.ts";
 import { createEspHomeDeployment } from "./services/esphome.ts";
 import { createStashDeployment } from "./services/media/stash.ts";
+import { createImmichApp } from "./apps/immich.ts";
 
 const app = new App();
 const chart = new Chart(app, "turing", {
@@ -42,6 +43,7 @@ createDatadogApp(chart);
 createLonghornApp(chart);
 createTailscaleApp(chart);
 createTuringApp(chart);
+createImmichApp(chart);
 
 createEspHomeDeployment(chart);
 createBazarrDeployment(chart);

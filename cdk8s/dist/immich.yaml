@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: immich-ingress
+  namespace: immich
+spec:
+  defaultBackend:
+    service:
+      name: immich-frontend
+      port:
+        number: 3001
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - immich
