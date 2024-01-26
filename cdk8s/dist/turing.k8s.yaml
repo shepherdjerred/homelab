@@ -1173,7 +1173,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 30Gi
+      storage: 40Gi
   storageClassName: longhorn
   volumeMode: Filesystem
 ---
@@ -2492,7 +2492,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 200Gi
+      storage: 100Gi
   storageClassName: longhorn
   volumeMode: Filesystem
 ---
@@ -2956,3 +2956,123 @@ metadata:
   name: nvidia
   namespace: turing
 handler: nvidia
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-palworld
+  namespace: turing
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: turing-palworld-c89e0183
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: turing-palworld-c89e0183
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: PORT
+              value: "8211"
+            - name: PLAYERS
+              value: "16"
+            - name: SERVER_PASSWORD
+              value: blohsh
+            - name: MULTITHREADING
+              value: "true"
+            - name: RCON_ENABLED
+              value: "true"
+            - name: RCON_PORT
+              value: "25575"
+            - name: ADMIN_PASSWORD
+              value: 34wfg4g43g4
+            - name: COMMUNITY
+              value: "false"
+            - name: SERVER_NAME
+              value: glitter
+          image: thijsvanloef/palworld-server-docker
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8211
+              protocol: UDP
+            - containerPort: 27015
+              protocol: UDP
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          volumeMounts:
+            - mountPath: /palworld
+              name: pvc-palworld-longhorn
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-palworld-longhorn
+          persistentVolumeClaim:
+            claimName: palworld-longhorn
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: palworld-longhorn
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-palworld-game-service
+  namespace: turing
+spec:
+  externalIPs: []
+  ports:
+    - port: 8211
+  selector:
+    cdk8s.io/metadata.addr: turing-palworld-c89e0183
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: turing-palworld-query-service
+  namespace: turing
+spec:
+  externalIPs: []
+  ports:
+    - port: 27015
+  selector:
+    cdk8s.io/metadata.addr: turing-palworld-c89e0183
+  type: NodePort
