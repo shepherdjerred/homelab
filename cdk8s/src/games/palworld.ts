@@ -10,7 +10,7 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Service } from "npm:cdk8s-plus-27";
-import { Chart } from "npm:cdk8s";
+import { Chart, Size } from "npm:cdk8s";
 import { LonghornVolume } from "../utils/longhorn.ts";
 import { withCommonProps } from "../utils/common.ts";
 
@@ -20,7 +20,9 @@ export function createPalworldDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(chart, "palworld-longhorn", {});
+  const longhornVolume = new LonghornVolume(chart, "palworld-longhorn", {
+    storage: Size.gibibytes(10),
+  });
 
   deployment.addContainer(
     withCommonProps({
@@ -29,6 +31,10 @@ export function createPalworldDeployment(chart: Chart) {
         number: 27015,
         protocol: Protocol.UDP,
       }],
+      securityContext: {
+        ensureNonRoot: false,
+        readOnlyRootFilesystem: false,
+      },
       envVariables: {
         PORT: EnvValue.fromValue("8211"),
         PLAYERS: EnvValue.fromValue("16"),
@@ -57,13 +63,13 @@ export function createPalworldDeployment(chart: Chart) {
 
   new Service(chart, "palworld-game-service", {
     selector: deployment,
-    ports: [{ port: 8211 }],
+    ports: [{ port: 8211, nodePort: 30000, protocol: Protocol.UDP }],
     type: ServiceType.NODE_PORT,
   });
 
   new Service(chart, "palworld-query-service", {
     selector: deployment,
-    ports: [{ port: 27015 }],
+    ports: [{ port: 27015, nodePort: 30001, protocol: Protocol.UDP }],
     type: ServiceType.NODE_PORT,
   });
 }
