@@ -13,6 +13,7 @@ export type LonghornStorageClass = "longhorn" | "longhorn-ssd" | "longhorn-hdd";
 type props = Omit<PersistentVolumeClaimProps, "storageClassName"> & {
   storageClassName?: LonghornStorageClass;
   backup?: boolean;
+  namespace?: string;
 };
 
 export class LonghornVolume extends Construct {
@@ -30,6 +31,7 @@ export class LonghornVolume extends Construct {
       storageClassName: props.storageClassName ?? "longhorn",
       metadata: {
         name: `${id}`,
+        namespace: props.namespace ?? "turing",
       },
     };
 

@@ -5,5 +5,6 @@ export function createImmichResources(chart: Chart) {
   new LonghornVolume(chart, "immich-volume", {
     storageClassName: "longhorn-hdd",
     storage: Size.gibibytes(50),
+    namespace: "immich",
   });
 }
