@@ -2980,8 +2980,7 @@ metadata:
   name: longhorn-hdd
   namespace: turing
 parameters:
-  diskSelector: hhd
-  nodeSelector: ""
+  diskSelector: hdd
   numberOfReplicas: "1"
   staleReplicaTimeout: "480"
 provisioner: driver.longhorn.io

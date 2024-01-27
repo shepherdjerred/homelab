@@ -32,8 +32,7 @@ export function createLonghornStorageClasses(chart: Chart) {
     parameters: {
       numberOfReplicas: "1",
       staleReplicaTimeout: "480",
-      diskSelector: "hhd",
-      nodeSelector: "",
+      diskSelector: "hdd",
     },
   });
 }
