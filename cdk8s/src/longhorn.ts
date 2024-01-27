@@ -10,20 +10,6 @@ export function createLonghornStorageClasses(chart: Chart) {
     },
   ];
 
-  new KubeStorageClass(chart, "longhorn-standard", {
-    metadata: {
-      name: "longhorn",
-    },
-    provisioner: "driver.longhorn.io",
-    parameters: {
-      numberOfReplicas: "1",
-      staleReplicaTimeout: "480",
-      diskSelector: "ssd",
-      nodeSelector: "",
-      recurringJobSelector: JSON.stringify(selector),
-    },
-  });
-
   new KubeStorageClass(chart, "longhorn-ssd", {
     metadata: {
       name: "longhorn-ssd",
@@ -34,6 +20,7 @@ export function createLonghornStorageClasses(chart: Chart) {
       staleReplicaTimeout: "480",
       diskSelector: "ssd",
       nodeSelector: "",
+      recurringJobSelector: JSON.stringify(selector),
     },
   });
 

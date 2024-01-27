@@ -26,6 +26,7 @@ import { createEspHomeDeployment } from "./services/esphome.ts";
 import { createStashDeployment } from "./services/media/stash.ts";
 import { createImmichApp } from "./apps/immich.ts";
 import { createPalworldDeployment } from "./games/palworld.ts";
+import { createLonghornStorageClasses } from "./longhorn.ts";
 
 const app = new App();
 const chart = new Chart(app, "turing", {
@@ -65,6 +66,7 @@ createProwlarrDeployment(chart);
 createStashDeployment(chart);
 
 createNvidiaResources(chart);
+createLonghornStorageClasses(chart);
 
 createPalworldDeployment(chart);
 
