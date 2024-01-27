@@ -27,6 +27,7 @@ import { createStashDeployment } from "./services/media/stash.ts";
 import { createImmichApp } from "./apps/immich.ts";
 import { createPalworldDeployment } from "./games/palworld.ts";
 import { createLonghornStorageClasses } from "./longhorn.ts";
+import { createImmichResources } from "./immich.ts";
 
 const app = new App();
 const chart = new Chart(app, "turing", {
@@ -69,5 +70,6 @@ createNvidiaResources(chart);
 createLonghornStorageClasses(chart);
 
 createPalworldDeployment(chart);
+createImmichResources(chart);
 
 app.synth();

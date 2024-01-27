@@ -250,6 +250,8 @@ spec:
           value: "true"
         - name: redis.enabled
           value: "true"
+        - name: immich.persistence.library.existingClaim
+          value: pvc-7fb21d64-ca32-4f83-bf78-45cab85e31fa
     path: charts/immich
     repoURL: https://github.com/immich-app/immich-charts/
     targetRevision: immich-0.3.1
@@ -3108,3 +3110,19 @@ spec:
   selector:
     cdk8s.io/metadata.addr: turing-palworld-c89e0183
   type: NodePort
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: immich-volume
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: longhorn-hdd
+  volumeMode: Filesystem

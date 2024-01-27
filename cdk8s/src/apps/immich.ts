@@ -17,6 +17,10 @@ export function createImmichApp(chart: Chart) {
           parameters: [
             { name: "postgresql.enabled", value: "true" },
             { name: "redis.enabled", value: "true" },
+            {
+              name: "immich.persistence.library.existingClaim",
+              value: "pvc-7fb21d64-ca32-4f83-bf78-45cab85e31fa",
+            },
           ],
         },
       },
