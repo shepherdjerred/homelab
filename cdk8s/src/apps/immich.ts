@@ -19,7 +19,7 @@ export function createImmichApp(chart: Chart) {
             { name: "redis.enabled", value: "true" },
             {
               name: "immich.persistence.library.existingClaim",
-              value: "pvc-7fb21d64-ca32-4f83-bf78-45cab85e31fa",
+              value: "immich-volume",
             },
           ],
         },

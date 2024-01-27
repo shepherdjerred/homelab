@@ -251,7 +251,7 @@ spec:
         - name: redis.enabled
           value: "true"
         - name: immich.persistence.library.existingClaim
-          value: pvc-7fb21d64-ca32-4f83-bf78-45cab85e31fa
+          value: immich-volume
     path: charts/immich
     repoURL: https://github.com/immich-app/immich-charts/
     targetRevision: immich-0.3.1
