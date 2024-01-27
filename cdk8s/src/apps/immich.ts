@@ -1,7 +1,14 @@
-import { Chart } from "npm:cdk8s";
+import { Chart, Size } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import { LonghornVolume } from "../utils/longhorn.ts";
 
 export function createImmichApp(chart: Chart) {
+  new LonghornVolume(chart, "immich-volume", {
+    storageClassName: "longhorn-hdd",
+    storage: Size.gibibytes(50),
+    namespace: "immich",
+  });
+
   return new Application(chart, "immich-app", {
     metadata: {
       name: "immich",

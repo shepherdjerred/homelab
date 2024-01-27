@@ -2,7 +2,7 @@ import { Chart } from "npm:cdk8s";
 import { KubeStorageClass } from "../imports/k8s.ts";
 import { recurringJobName } from "./apps/longhorn.ts";
 
-export function createLonghornStorageClasses(chart: Chart) {
+export function createLonghornResources(chart: Chart) {
   const selector = [
     {
       "name": recurringJobName,

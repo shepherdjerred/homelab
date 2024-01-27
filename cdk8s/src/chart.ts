@@ -26,8 +26,7 @@ import { createEspHomeDeployment } from "./services/esphome.ts";
 import { createStashDeployment } from "./services/media/stash.ts";
 import { createImmichApp } from "./apps/immich.ts";
 import { createPalworldDeployment } from "./games/palworld.ts";
-import { createLonghornStorageClasses } from "./longhorn.ts";
-import { createImmichResources } from "./immich.ts";
+import { createLonghornResources } from "./longhorn.ts";
 
 const app = new App();
 const chart = new Chart(app, "turing", {
@@ -39,6 +38,9 @@ const chart = new Chart(app, "turing", {
 });
 
 createProject(chart);
+
+createNvidiaResources(chart);
+createLonghornResources(chart);
 
 createOnePasswordApp(chart);
 createArgoCdApp(chart);
@@ -65,11 +67,6 @@ createGolinkDeployment(chart);
 createBitmagnetDeployment(chart);
 createProwlarrDeployment(chart);
 createStashDeployment(chart);
-
-createNvidiaResources(chart);
-createLonghornStorageClasses(chart);
-
 createPalworldDeployment(chart);
-createImmichResources(chart);
 
 app.synth();
