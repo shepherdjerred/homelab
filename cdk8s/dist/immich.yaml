@@ -6,7 +6,7 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: immich-frontend
+      name: immich-server
       port:
         number: 3001
   ingressClassName: tailscale
