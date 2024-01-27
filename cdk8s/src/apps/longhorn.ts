@@ -6,6 +6,9 @@ import {
   RecurringJobV1Beta2SpecTask,
 } from "../../imports/longhorn.io.ts";
 
+const recurringJobSuffix = "longhorn-recurring-job";
+export const recurringJobName = `turing-${recurringJobSuffix}`;
+
 export function createLonghornApp(chart: Chart) {
   const item = new OnePasswordItem(chart, "longhorn-secret", {
     spec: {
@@ -68,7 +71,7 @@ export function createLonghornApp(chart: Chart) {
       labels: {},
       retain: 3,
       concurrency: 4,
-      name: "longhorn-recurring-job",
+      name: recurringJobSuffix,
     },
     metadata: {
       namespace: "longhorn",

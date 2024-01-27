@@ -8,23 +8,31 @@ import {
 import { Construct } from "npm:constructs";
 import { Size } from "npm:cdk8s";
 
+export type LonghornStorageClass = "longhorn" | "longhorn-ssd" | "longhorn-hdd";
+
+type props = Omit<PersistentVolumeClaimProps, "storageClassName"> & {
+  storageClassName?: LonghornStorageClass;
+  backup?: boolean;
+};
+
 export class LonghornVolume extends Construct {
   public readonly claim: PersistentVolumeClaim;
   constructor(
     scope: Construct,
     id: string,
-    props: Omit<PersistentVolumeClaimProps, "storageClassName">,
+    props: props,
   ) {
     super(scope, id);
     const baseProps: PersistentVolumeClaimProps = {
       storage: Size.gibibytes(2),
       accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
-      storageClassName: "longhorn",
+      storageClassName: props.storageClassName ?? "longhorn",
       metadata: {
         name: `${id}`,
       },
     };
+
     this.claim = new PersistentVolumeClaim(
       scope,
       `${id}-pvc`,

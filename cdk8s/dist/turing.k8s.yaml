@@ -2492,8 +2492,8 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Gi
-  storageClassName: longhorn
+      storage: 500Gi
+  storageClassName: longhorn-hdd
   volumeMode: Filesystem
 ---
 apiVersion: apps/v1

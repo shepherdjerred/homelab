@@ -10,7 +10,7 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { withCommonProps } from "../../utils/common.ts";
-import { LonghornVolume } from "../../utils/longhorn.ts";
+import { LonghornStorageClass, LonghornVolume } from "../../utils/longhorn.ts";
 import { Size } from "npm:cdk8s";
 
 export class Postgres extends Construct {
@@ -25,6 +25,7 @@ export class Postgres extends Construct {
     itemPath: string;
     database: string;
     size: Size;
+    storageClass?: LonghornStorageClass;
   }) {
     super(scope, name);
 
@@ -64,6 +65,7 @@ export class Postgres extends Construct {
       `${name}-longhorn`,
       {
         storage: props.size,
+        storageClassName: props.storageClass,
       },
     );
 
