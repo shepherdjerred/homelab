@@ -3132,7 +3132,7 @@ metadata:
   name: turing-palworld-item
   namespace: turing
 spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/f23hqa3u2ndupunxpgvsluqqti
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/yrlyezq2axgfkdfchtl7n7o6b4
 ---
 apiVersion: v1
 kind: Service

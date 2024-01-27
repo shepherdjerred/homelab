@@ -31,7 +31,7 @@ export function createPalworldDeployment(chart: Chart) {
   const item = new OnePasswordItem(chart, "palworld-item", {
     spec: {
       itemPath:
-        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/f23hqa3u2ndupunxpgvsluqqti",
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/yrlyezq2axgfkdfchtl7n7o6b4",
     },
   });
 
