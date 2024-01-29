@@ -67,6 +67,7 @@ export function createPalworldDeployment(chart: Chart) {
         SERVER_NAME: EnvValue.fromValue("glitter"),
         SERVER_DESCRIPTION: EnvValue.fromValue("whats up guys"),
         DEATH_PENALTY: EnvValue.fromValue("Item"),
+        PAL_STOMACH_DECREASE_RATE: EnvValue.fromValue("-1.000000"),
       },
       volumeMounts: [
         {
