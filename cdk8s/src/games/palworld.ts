@@ -66,7 +66,7 @@ export function createPalworldDeployment(chart: Chart) {
         COMMUNITY: EnvValue.fromValue("false"),
         SERVER_NAME: EnvValue.fromValue("glitter"),
         SERVER_DESCRIPTION: EnvValue.fromValue("whats up guys"),
-        DEATH_PENALTY: EnvValue.fromValue("Items"),
+        DEATH_PENALTY: EnvValue.fromValue("Item"),
         PAL_EGG_DEFAULT_HATCHING_TIME: EnvValue.fromValue("1.0"),
         ENABLE_INVADER_ENEMY: EnvValue.fromValue("False"),
       },
