@@ -3054,7 +3054,7 @@ spec:
             - name: SERVER_NAME
               value: glitter
             - name: SERVER_DESCRIPTION
-              value: what's up guys
+              value: whats up guys
             - name: DEATH_PENALTY
               value: Item
           image: thijsvanloef/palworld-server-docker
