@@ -23,7 +23,6 @@ import { createProject } from "./apps/project.ts";
 import { createProwlarrDeployment } from "./services/torrents/prowlarr.ts";
 import { createBazarrDeployment } from "./services/torrents/bazarr.ts";
 import { createEspHomeDeployment } from "./services/esphome.ts";
-import { createStashDeployment } from "./services/media/stash.ts";
 import { createImmichApp } from "./apps/immich.ts";
 import { createPalworldDeployment } from "./games/palworld.ts";
 import { createLonghornResources } from "./longhorn.ts";
@@ -66,7 +65,6 @@ createSyncthingDeployment(chart);
 createGolinkDeployment(chart);
 createBitmagnetDeployment(chart);
 createProwlarrDeployment(chart);
-createStashDeployment(chart);
 createPalworldDeployment(chart);
 
 app.synth();
