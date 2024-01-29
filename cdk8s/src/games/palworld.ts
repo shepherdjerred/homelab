@@ -1,5 +1,4 @@
 import {
-  ConfigMap,
   Deployment,
   DeploymentStrategy,
   EnvValue,
@@ -23,10 +22,6 @@ export function createPalworldDeployment(chart: Chart) {
   const longhornVolume = new LonghornVolume(chart, "palworld-longhorn", {
     storage: Size.gibibytes(10),
   });
-
-  const contents = Deno.readTextFileSync("config/PalWorldSettings.ini");
-  const config = new ConfigMap(chart, "palworld-conf");
-  config.addData("PalWorldSettings.ini", contents);
 
   const item = new OnePasswordItem(chart, "palworld-item", {
     spec: {
@@ -70,6 +65,8 @@ export function createPalworldDeployment(chart: Chart) {
         }),
         COMMUNITY: EnvValue.fromValue("false"),
         SERVER_NAME: EnvValue.fromValue("glitter"),
+        SERVER_DESCRIPTION: EnvValue.fromValue("what's up guys"),
+        DEATH_PENALTY: EnvValue.fromValue("Item"),
       },
       volumeMounts: [
         {
@@ -79,17 +76,6 @@ export function createPalworldDeployment(chart: Chart) {
             "palworld-volume",
             longhornVolume.claim,
           ),
-        },
-        {
-          path: "/palworld/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini",
-          subPath: "PalWorldSettings.ini",
-          volume: Volume.fromConfigMap(chart, "palworld-config", config, {
-            items: {
-              "PalWorldSettings.ini": {
-                path: "PalWorldSettings.ini",
-              },
-            },
-          }),
         },
       ],
     }),
