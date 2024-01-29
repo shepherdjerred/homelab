@@ -81,7 +81,7 @@ export function createPalworldDeployment(chart: Chart) {
           ),
         },
         {
-          path: "/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini",
+          path: "/palworld/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini",
           subPath: "PalWorldSettings.ini",
           volume: Volume.fromConfigMap(chart, "palworld-config", config, {
             items: {

@@ -3069,7 +3069,7 @@ spec:
           volumeMounts:
             - mountPath: /palworld
               name: pvc-palworld-longhorn
-            - mountPath: /Pal/Saved/Config/LinuxServer/PalWorldSettings.ini
+            - mountPath: /palworld/Pal/Saved/Config/LinuxServer/PalWorldSettings.ini
               name: configmap-turing-palworld-conf
               subPath: PalWorldSettings.ini
       dnsPolicy: ClusterFirst
