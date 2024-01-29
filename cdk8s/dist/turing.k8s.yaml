@@ -3057,6 +3057,8 @@ spec:
               value: whats up guys
             - name: DEATH_PENALTY
               value: Item
+            - name: BACKUP_ENABLED
+              value: "false"
           image: thijsvanloef/palworld-server-docker
           imagePullPolicy: Always
           name: main

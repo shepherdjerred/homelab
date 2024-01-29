@@ -67,6 +67,7 @@ export function createPalworldDeployment(chart: Chart) {
         SERVER_NAME: EnvValue.fromValue("glitter"),
         SERVER_DESCRIPTION: EnvValue.fromValue("whats up guys"),
         DEATH_PENALTY: EnvValue.fromValue("Item"),
+        BACKUP_ENABLED: EnvValue.fromValue("false"),
       },
       volumeMounts: [
         {
