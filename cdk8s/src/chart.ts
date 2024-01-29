@@ -24,7 +24,7 @@ import { createProwlarrDeployment } from "./services/torrents/prowlarr.ts";
 import { createBazarrDeployment } from "./services/torrents/bazarr.ts";
 import { createEspHomeDeployment } from "./services/esphome.ts";
 import { createImmichApp } from "./apps/immich.ts";
-import { createPalworldDeployment } from "./games/palworld.ts";
+import { createPalworldDeployment } from "./services/games/palworld.ts";
 import { createLonghornResources } from "./longhorn.ts";
 
 const app = new App();

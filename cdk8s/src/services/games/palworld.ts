@@ -9,9 +9,9 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Service } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
-import { LonghornVolume } from "../utils/longhorn.ts";
-import { withCommonProps } from "../utils/common.ts";
-import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import { LonghornVolume } from "../../utils/longhorn.ts";
+import { withCommonProps } from "../../utils/common.ts";
+import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 
 export function createPalworldDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "palworld", {
@@ -66,8 +66,11 @@ export function createPalworldDeployment(chart: Chart) {
         COMMUNITY: EnvValue.fromValue("false"),
         SERVER_NAME: EnvValue.fromValue("glitter"),
         SERVER_DESCRIPTION: EnvValue.fromValue("whats up guys"),
-        DEATH_PENALTY: EnvValue.fromValue("Item"),
+        DEATH_PENALTY: EnvValue.fromValue("ItemAndEquipment"),
         BACKUP_ENABLED: EnvValue.fromValue("false"),
+        PAL_EGG_DEFAULT_HATCHING_TIME: EnvValue.fromValue("1.000000"),
+        ENABLE_INVADER_ENEMY: EnvValue.fromValue("False"),
+        PAL_STOMACH_DECREASE_RATE: EnvValue.fromValue("-1.000000"),
       },
       volumeMounts: [
         {

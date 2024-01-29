@@ -2845,9 +2845,15 @@ spec:
             - name: SERVER_DESCRIPTION
               value: whats up guys
             - name: DEATH_PENALTY
-              value: Item
+              value: ItemAndEquipment
             - name: BACKUP_ENABLED
               value: "false"
+            - name: PAL_EGG_DEFAULT_HATCHING_TIME
+              value: "1.000000"
+            - name: ENABLE_INVADER_ENEMY
+              value: "False"
+            - name: PAL_STOMACH_DECREASE_RATE
+              value: "-1.000000"
           image: thijsvanloef/palworld-server-docker
           imagePullPolicy: Always
           name: main
