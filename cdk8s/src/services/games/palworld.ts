@@ -71,6 +71,7 @@ export function createPalworldDeployment(chart: Chart) {
         PAL_EGG_DEFAULT_HATCHING_TIME: EnvValue.fromValue("1.000000"),
         ENABLE_INVADER_ENEMY: EnvValue.fromValue("False"),
         PAL_STOMACH_DECREASE_RATE: EnvValue.fromValue("-1.000000"),
+        UPDATE_ON_BOOT: EnvValue.fromValue("true"),
       },
       volumeMounts: [
         {

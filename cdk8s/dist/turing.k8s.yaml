@@ -2854,6 +2854,8 @@ spec:
               value: "False"
             - name: PAL_STOMACH_DECREASE_RATE
               value: "-1.000000"
+            - name: UPDATE_ON_BOOT
+              value: "true"
           image: thijsvanloef/palworld-server-docker
           imagePullPolicy: Always
           name: main
