@@ -72,6 +72,7 @@ export function createPalworldDeployment(chart: Chart) {
         ENABLE_INVADER_ENEMY: EnvValue.fromValue("False"),
         PAL_STOMACH_DECREASE_RATE: EnvValue.fromValue("-1.000000"),
         UPDATE_ON_BOOT: EnvValue.fromValue("true"),
+        BUILD_OBJECT_DETERIORATION_DAMAGE_RATE: EnvValue.fromValue("0"),
       },
       volumeMounts: [
         {
