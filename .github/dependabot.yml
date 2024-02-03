@@ -10,3 +10,12 @@ updates:
       - shepherdjerred
     reviewers:
       - shepherdjerred
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    assignees:
+      - shepherdjerred
+    reviewers:
+      - shepherdjerred
