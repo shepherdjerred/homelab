@@ -839,7 +839,7 @@ metadata:
   name: turing-invidious-conf
   namespace: turing
 data:
-  nitter.conf: |
+  config.yml: |
     db:
       dbname: invidious
       user: postgres

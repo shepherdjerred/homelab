@@ -33,7 +33,7 @@ export function createInvidiousDeployment(chart: Chart) {
   contents = contents.replaceAll("<POSTGRES HOST>", postgres.service.name);
 
   const config = new ConfigMap(chart, "invidious-conf");
-  config.addData("nitter.conf", contents);
+  config.addData("config.yml", contents);
 
   invidiousDeployment.addContainer(
     withCommonProps({
