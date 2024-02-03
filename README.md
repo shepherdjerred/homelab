@@ -1,7 +1,5 @@
 # Servers
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/shepherdjerred/servers)
-
 [![pre-commit](https://github.com/shepherdjerred/servers/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/shepherdjerred/servers/actions/workflows/pre-commit.yml)
 
 This repository contains resources related to my home server, currently called
