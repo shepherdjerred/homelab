@@ -2818,7 +2818,7 @@ spec:
             - name: UPDATE_ON_BOOT
               value: "true"
             - name: BUILD_OBJECT_DETERIORATION_DAMAGE_RATE
-              value: "1"
+              value: "3"
           image: thijsvanloef/palworld-server-docker
           imagePullPolicy: Always
           name: main
