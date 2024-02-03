@@ -27,7 +27,7 @@ export function createPlexDeployment(chart: Chart) {
     chart,
     "plex-pvc-longhorn",
     {
-      storage: Size.gibibytes(40),
+      storage: Size.gibibytes(50),
     },
   );
 

@@ -13,7 +13,7 @@ export function createDatadogApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://helm.datadoghq.com",
-        targetRevision: "1.4.0",
+        targetRevision: "1.4.1",
         chart: "datadog-operator",
       },
       destination: {

@@ -119,7 +119,7 @@ spec:
   source:
     chart: datadog-operator
     repoURL: https://helm.datadoghq.com
-    targetRevision: 1.4.0
+    targetRevision: 1.4.1
   syncPolicy:
     automated: {}
     syncOptions:
@@ -195,7 +195,7 @@ spec:
         - name: defaultSettings.backupTargetCredentialSecret
           value: aws-secret
     repoURL: https://charts.longhorn.io
-    targetRevision: 1.5.3
+    targetRevision: 1.6.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -768,16 +768,6 @@ spec:
   storageClassName: longhorn
   volumeMode: Filesystem
 ---
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: invidious-onepassword
-  namespace: turing
-spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/akpdkfv3c5b7j7vfxcm3tulvzy
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -820,43 +810,12 @@ spec:
             failureThreshold: 3
             tcpSocket:
               port: 3000
+          volumeMounts:
+            - mountPath: /invidious/config/config.yml
+              name: configmap-turing-invidious-conf
+              subPath: config.yml
       dnsPolicy: ClusterFirst
       hostNetwork: false
-      initContainers:
-        - args:
-            - --file
-            - /invidious/config/config.yml.tmpl
-            - --out
-            - /invidious/config/config.yml
-          env:
-            - name: TZ
-              value: America/Los_Angeles
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: invidious-postgres-onepassword
-            - name: POSTGRES_HOST
-              value: turing-invidious-postgres-deployment-service
-            - name: HMAC_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: hmac
-                  name: invidious-onepassword
-          image: k8spatterns/gomplate
-          imagePullPolicy: Always
-          name: gomplate
-          securityContext:
-            allowPrivilegeEscalation: false
-            privileged: false
-            readOnlyRootFilesystem: false
-            runAsGroup: 1000
-            runAsNonRoot: true
-            runAsUser: 1000
-          volumeMounts:
-            - mountPath: /invidious/config/config.yml.tmpl
-              name: configmap-turing-invidious-config-map
-              subPath: config.yml.tmpl
       restartPolicy: Always
       securityContext:
         fsGroup: 1000
@@ -867,28 +826,30 @@ spec:
       volumes:
         - configMap:
             items:
-              - key: config.yml.tmpl
-                path: config.yml.tmpl
-            name: turing-invidious-config-map
-          name: configmap-turing-invidious-config-map
+              - key: config.yml
+                path: config.yml
+            name: turing-invidious-conf
+          name: configmap-turing-invidious-conf
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: turing-invidious-config-map
+  name: turing-invidious-conf
   namespace: turing
 data:
-  config.yml.tmpl: |
+  nitter.conf: |
     db:
       dbname: invidious
       user: postgres
-      password: "{{ .Env.POSTGRES_PASSWORD }}"
-      host: "{{ .Env.POSTGRES_HOST }}"
+      # not exposed to outside of the cluster, so this should be OK
+      # ideally this should be a secret
+      password: "orJ.U8QskAB3szvUK-8*"
+      host: "turing-invidious-postgres-deployment-service"
       port: 5432
     check_tables: true
-    hmac_key: "{{ .Env.HMAC_KEY }}"
+    hmac_key: "f.3_RvweD9yDyxnfvgfA
 immutable: false
 ---
 apiVersion: v1
@@ -1228,7 +1189,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 40Gi
+      storage: 50Gi
   storageClassName: longhorn
   volumeMode: Filesystem
 ---
@@ -2241,7 +2202,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 20Gi
+      storage: 40Gi
   storageClassName: longhorn
   volumeMode: Filesystem
 ---
@@ -2802,7 +2763,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: turing-palworld-c89e0183

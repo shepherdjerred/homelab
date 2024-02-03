@@ -2,15 +2,12 @@ import {
   ConfigMap,
   Deployment,
   DeploymentStrategy,
-  EnvValue,
-  Secret,
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { Postgres } from "../common/postgres.ts";
-import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createInvidiousDeployment(chart: Chart) {
@@ -24,20 +21,6 @@ export function createInvidiousDeployment(chart: Chart) {
   const UID = 1000;
   const GID = 1000;
 
-  const invidiousOnePasswordItem = new OnePasswordItem(
-    chart,
-    "invidious-onepassword",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/akpdkfv3c5b7j7vfxcm3tulvzy",
-      },
-      metadata: {
-        name: "invidious-onepassword",
-      },
-    },
-  );
-
   const invidiousDeployment = new Deployment(chart, "invidious", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
@@ -46,53 +29,11 @@ export function createInvidiousDeployment(chart: Chart) {
     },
   });
 
-  const contents = Deno.readTextFileSync("config/invidious.yml.tmpl");
+  let contents = Deno.readTextFileSync("config/invidious.yml");
+  contents = contents.replaceAll("<POSTGRES HOST>", postgres.service.name);
 
-  const config = new ConfigMap(chart, "invidious-config-map");
-  config.addData("config.yml.tmpl", contents);
-
-  invidiousDeployment.addInitContainer(
-    withCommonProps({
-      name: "gomplate",
-      image: "k8spatterns/gomplate",
-      securityContext: {
-        user: UID,
-        group: GID,
-        readOnlyRootFilesystem: false,
-      },
-      envVariables: {
-        POSTGRES_PASSWORD: postgres.passwordEnvValue,
-        POSTGRES_HOST: EnvValue.fromValue(postgres.service.name),
-        HMAC_KEY: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(
-            chart,
-            "invidious-onepassword-secret",
-            invidiousOnePasswordItem.name,
-          ),
-          key: "hmac",
-        }),
-      },
-      args: [
-        "--file",
-        "/invidious/config/config.yml.tmpl",
-        "--out",
-        "/invidious/config/config.yml",
-      ],
-      volumeMounts: [
-        {
-          path: "/invidious/config/config.yml.tmpl",
-          subPath: "config.yml.tmpl",
-          volume: Volume.fromConfigMap(chart, "invidious-config", config, {
-            items: {
-              "config.yml.tmpl": {
-                path: "config.yml.tmpl",
-              },
-            },
-          }),
-        },
-      ],
-    }),
-  );
+  const config = new ConfigMap(chart, "invidious-conf");
+  config.addData("nitter.conf", contents);
 
   invidiousDeployment.addContainer(
     withCommonProps({
@@ -103,6 +44,19 @@ export function createInvidiousDeployment(chart: Chart) {
         user: UID,
         group: GID,
       },
+      volumeMounts: [
+        {
+          path: "/invidious/config/config.yml",
+          subPath: "config.yml",
+          volume: Volume.fromConfigMap(chart, "invidious-config", config, {
+            items: {
+              "config.yml": {
+                path: "config.yml",
+              },
+            },
+          }),
+        },
+      ],
     }),
   );
 

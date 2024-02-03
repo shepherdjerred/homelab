@@ -30,7 +30,7 @@ export function createLonghornApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://charts.longhorn.io",
-        targetRevision: "1.5.3",
+        targetRevision: "1.6.0",
         chart: "longhorn",
         helm: {
           parameters: [
