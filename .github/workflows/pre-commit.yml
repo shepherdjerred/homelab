@@ -15,7 +15,7 @@ jobs:
         with:
           deno-version: v1.x
       - uses: pre-commit/action@v3.0.0
-      - run: pre-commit run --all-files
       - uses: reviewdog/action-suggester@v1
+        if: always()
         with:
           tool_name: pre-commit
