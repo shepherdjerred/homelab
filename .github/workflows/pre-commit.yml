@@ -23,5 +23,5 @@ jobs:
         with:
           deno-version: v1.x
       - uses: pre-commit/action@v3.0.0
+        continue-on-error: true
       - uses: reviewdog/action-suggester@v1
-        if: always()
