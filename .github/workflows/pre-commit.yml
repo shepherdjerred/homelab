@@ -27,4 +27,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           commit-message: "chore: fix pre-commit"
-          author: "Pre-Commit <pre-commit@sjer.red>"
+          author: "pre-commit <pre-commit@sjer.red>"
+          branch: ${{ github.head_ref }}
