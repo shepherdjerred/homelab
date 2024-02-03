@@ -5,11 +5,7 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: read
-  checks: write
-  issues: write
-  pull-requests: write
+permissions: write-all
 
 jobs:
   pre-commit:
@@ -25,3 +21,4 @@ jobs:
       - uses: pre-commit/action@v3.0.0
         continue-on-error: true
       - uses: reviewdog/action-suggester@v1
+        with:
