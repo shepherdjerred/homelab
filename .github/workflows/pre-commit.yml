@@ -5,17 +5,15 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: read
-  checks: write
-  issues: write
-  pull-requests: write
+permissions: write-all
 
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
@@ -23,5 +21,10 @@ jobs:
         with:
           deno-version: v1.x
       - uses: pre-commit/action@v3.0.0
-        continue-on-error: true
-      - uses: reviewdog/action-suggester@v1
+      - uses: gr2m/create-or-update-pull-request-action@v1
+        if: always() && github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commit-message: "chore: fix pre-commit"
+          author: "Pre-Commit <pre-commit@sjer.red>"
