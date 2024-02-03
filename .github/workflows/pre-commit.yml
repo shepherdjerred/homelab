@@ -25,5 +25,3 @@ jobs:
       - uses: pre-commit/action@v3.0.0
       - uses: reviewdog/action-suggester@v1
         if: always()
-        with:
-          tool_name: pre-commit
