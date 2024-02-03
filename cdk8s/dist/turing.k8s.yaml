@@ -849,7 +849,7 @@ data:
       host: "turing-invidious-postgres-deployment-service"
       port: 5432
     check_tables: true
-    hmac_key: "f.3_RvweD9yDyxnfvgfA
+    hmac_key: "f.3_RvweD9yDyxnfvgfA"
 immutable: false
 ---
 apiVersion: v1
