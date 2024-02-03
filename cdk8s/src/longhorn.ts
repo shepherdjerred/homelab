@@ -10,6 +10,7 @@ export function createLonghornResources(chart: Chart) {
     },
   ];
 
+  // TODO: support resize
   new KubeStorageClass(chart, "longhorn-ssd", {
     metadata: {
       name: "longhorn-ssd",
@@ -24,6 +25,7 @@ export function createLonghornResources(chart: Chart) {
     },
   });
 
+  // TODO: support resize
   new KubeStorageClass(chart, "longhorn-hdd", {
     metadata: {
       name: "longhorn-hdd",

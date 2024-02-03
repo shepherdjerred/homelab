@@ -280,7 +280,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 50Gi
+      storage: 70Gi
   storageClassName: longhorn-hdd
   volumeMode: Filesystem
 ---
@@ -2763,7 +2763,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: turing-palworld-c89e0183
