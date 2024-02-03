@@ -7,4 +7,4 @@ db:
   host: "<POSTGRES HOST>"
   port: 5432
 check_tables: true
-hmac_key: "f.3_RvweD9yDyxnfvgfA
+hmac_key: "f.3_RvweD9yDyxnfvgfA"
