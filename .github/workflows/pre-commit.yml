@@ -6,20 +6,8 @@ on:
     branches: [main]
 
 jobs:
-  pre-commit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
-      - uses: pre-commit/action@v3.0.0
   pre-commit-fix:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,10 +21,25 @@ jobs:
           deno-version: v1.x
       - uses: pre-commit/action@v3.0.0
       - uses: gr2m/create-or-update-pull-request-action@v1
-        if: always() && github.event_name == 'pull_request'
+        if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           commit-message: "chore: fix pre-commit"
           author: "pre-commit <pre-commit@sjer.red>"
           branch: ${{ github.head_ref }}
+  pre-commit:
+    # depend on pre-commit-fix only if it's a pull request
+    needs: pre-commit-fix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - uses: pre-commit/action@v3.0.0
