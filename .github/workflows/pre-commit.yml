@@ -1,7 +1,7 @@
 on:
   pull_request:
   push:
-    branches: [main, test-me-*]
+    branches: [main]
 
 jobs:
   main:
@@ -15,5 +15,7 @@ jobs:
         with:
           deno-version: v1.x
       - uses: pre-commit/action@v3.0.0
-      - uses: pre-commit-ci/lite-action@v1.0.1
-        if: always()
+      - run: pre-commit run --all-files
+      - uses: reviewdog/action-suggester@v1
+        with:
+          tool_name: pre-commit
