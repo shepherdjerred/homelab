@@ -29,8 +29,8 @@ jobs:
           author: "pre-commit <pre-commit@sjer.red>"
           branch: ${{ github.head_ref }}
   pre-commit:
-    # depend on pre-commit-fix only if it's a pull request
     needs: pre-commit-fix
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
