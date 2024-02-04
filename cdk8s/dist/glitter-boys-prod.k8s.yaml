@@ -60,7 +60,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: true
+            runAsGroup: 1000
             runAsNonRoot: true
+            runAsUser: 1000
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always

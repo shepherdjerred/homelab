@@ -65,6 +65,8 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
   let awsKeyPath: string;
   let discordTokenPath: string;
 
+  // TODO: mount players JSON
+
   if (stage === "beta") {
     awsKeyPath =
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/5myu3mawbmyhgog5jebzxrk5ay";

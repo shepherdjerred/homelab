@@ -25,6 +25,10 @@ export function createLavalinkDeployment(
 
   deployment.addContainer(withCommonProps({
     image: "ghcr.io/lavalink-devs/lavalink:4",
+    securityContext: {
+      user: 1000,
+      group: 1000,
+    },
     ports: [
       {
         name: "port-2333",
