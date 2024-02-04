@@ -56,7 +56,7 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(chart, "glitter-data", {
+  const longhornVolume = new LonghornVolume(chart, `glitter-data-${stage}`, {
     storageClassName: "longhorn-ssd",
   });
 

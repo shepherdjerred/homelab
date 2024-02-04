@@ -181,7 +181,7 @@ spec:
             runAsNonRoot: true
           volumeMounts:
             - mountPath: /data
-              name: pvc-glitter-data
+              name: pvc-glitter-data-beta
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -191,9 +191,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-glitter-data
+        - name: pvc-glitter-data-beta
           persistentVolumeClaim:
-            claimName: glitter-data
+            claimName: glitter-data-beta
             readOnly: false
 ---
 apiVersion: v1
@@ -201,7 +201,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app.kubernetes.io/instance: glitter-boys-beta
-  name: glitter-data
+  name: glitter-data-beta
   namespace: turing
 spec:
   accessModes:
