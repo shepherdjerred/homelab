@@ -5,7 +5,7 @@ import { LonghornVolume } from "../utils/longhorn.ts";
 export function createImmichApp(chart: Chart) {
   new LonghornVolume(chart, "immich-volume", {
     storageClassName: "longhorn-hdd",
-    storage: Size.gibibytes(70),
+    storage: Size.gibibytes(50),
     namespace: "immich",
   });
 

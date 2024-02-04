@@ -12,7 +12,6 @@ export type LonghornStorageClass = "longhorn" | "longhorn-ssd" | "longhorn-hdd";
 
 type props = Omit<PersistentVolumeClaimProps, "storageClassName"> & {
   storageClassName?: LonghornStorageClass;
-  backup?: boolean;
   namespace?: string;
 };
 

@@ -1,0 +1,266 @@
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: glitter-boys-prod
+  name: glitter-boys-prod-lavalink-password
+  namespace: glitter-boys-prod
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/lvcjg2hn2bafskjrlsxgi4oq44
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: glitter-boys-prod
+  name: glitter-boys-prod-lavalink
+  namespace: glitter-boys-prod
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: glitter-boys-prod-lavalink-c84c49a4
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: glitter-boys-prod-lavalink-c84c49a4
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: SERVER_PORT
+              value: "2333"
+            - name: LAVALINK_SERVER_SOURCES_YOUTUBE
+              value: "true"
+            - name: LAVALINK_SERVER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: glitter-boys-prod-lavalink-password
+          image: ghcr.io/lavalink-devs/lavalink:4
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 2333
+              name: port-2333
+              protocol: TCP
+            - containerPort: 80
+              name: port-80
+              protocol: TCP
+            - containerPort: 443
+              name: port-443
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: glitter-boys-prod
+  name: glitter-boys-prod-lavalink-service
+  namespace: glitter-boys-prod
+spec:
+  externalIPs: []
+  ports:
+    - name: port-2333
+      port: 2333
+      protocol: TCP
+      targetPort: 2333
+    - name: port-80
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    - name: port-443
+      port: 443
+      protocol: TCP
+      targetPort: 443
+  selector:
+    cdk8s.io/metadata.addr: glitter-boys-prod-lavalink-c84c49a4
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: glitter-boys-prod
+  name: glitter-boys-prod-glitter-backend
+  namespace: glitter-boys-prod
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: glitter-boys-prod-glitter-backend-c8cbcc79
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: glitter-boys-prod-glitter-backend-c8cbcc79
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: APPLICATION_ID
+              value: "716834761418735638"
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: access-key-id
+                  name: glitter-boys-prod-aws-access-key
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: secret-access-key
+                  name: glitter-boys-prod-aws-access-key
+            - name: AWS_ENDPOINT_URL
+              value: https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com
+            - name: AWS_REGION
+              value: auto
+            - name: DISCORD_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: credential
+                  name: vaults/v64ocnykdqju4ui6j6pua56xw4/items/plb6l2bksn56zfmmwtogu3yvp4
+            - name: GUILD_ID
+              value: "208425771172102144"
+            - name: LAVALINK_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: glitter-boys-prod-lavalink-password
+            - name: LAVALINK_URL
+              value: glitter-boys-prod-lavalink-service
+            - name: LEADERBOARD_ROLE_ID
+              value: "1179152455657865318"
+            - name: LEAGUE_CHANNEL_ID
+              value: "1194779777589059656"
+            - name: RIOT_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: credential
+                  name: glitter-boys-prod-riot-api-key
+            - name: S3_BUCKET_NAME
+              value: glitter-boys-prod
+            - name: DATA_DIR
+              value: /data
+          image: glitter/backend:latest
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8000
+              name: port-8000
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          volumeMounts:
+            - mountPath: /data
+              name: pvc-glitter-data
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-glitter-data
+          persistentVolumeClaim:
+            claimName: glitter-data
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: glitter-boys-prod
+  name: glitter-data
+  namespace: turing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: longhorn-ssd
+  volumeMode: Filesystem
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: glitter-boys-prod
+  name: glitter-boys-prod-aws-access-key
+  namespace: glitter-boys-prod
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/udz24xozhp25yt6cm355brgo5u
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: glitter-boys-prod
+  name: glitter-boys-prod-riot-api-key
+  namespace: glitter-boys-prod
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/oyn2omqw5z5vmg4vcvihleq4fm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: glitter-boys-prod
+  name: glitter-boys-prod-glitter-boys-service
+  namespace: glitter-boys-prod
+spec:
+  externalIPs: []
+  ports:
+    - port: 8000
+  selector:
+    cdk8s.io/metadata.addr: glitter-boys-prod-glitter-backend-c8cbcc79
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  labels:
+    app.kubernetes.io/instance: glitter-boys-prod
+  name: glitter-boys-prod-glitter-boys-ingress-ingress
+  namespace: glitter-boys-prod
+spec:
+  defaultBackend:
+    service:
+      name: glitter-boys-prod-glitter-boys-service
+      port:
+        number: 8000
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - glitter-boys-prod

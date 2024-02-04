@@ -10,7 +10,7 @@ export function createLonghornResources(chart: Chart) {
     },
   ];
 
-  // TODO: support resize
+  // TODO: remove the normal "longhorn" storage class if possible
   new KubeStorageClass(chart, "longhorn-ssd", {
     metadata: {
       name: "longhorn-ssd",
@@ -22,10 +22,10 @@ export function createLonghornResources(chart: Chart) {
       diskSelector: "ssd",
       nodeSelector: "",
       recurringJobSelector: JSON.stringify(selector),
+      // allowVolumeExpansion: "true",
     },
   });
 
-  // TODO: support resize
   new KubeStorageClass(chart, "longhorn-hdd", {
     metadata: {
       name: "longhorn-hdd",
@@ -35,6 +35,7 @@ export function createLonghornResources(chart: Chart) {
       numberOfReplicas: "1",
       staleReplicaTimeout: "480",
       diskSelector: "hdd",
+      // allowVolumeExpansion: "true",
     },
   });
 }

@@ -1,0 +1,277 @@
+[
+  {
+    "name": "Jerred",
+    "league": {
+      "leagueAccount": {
+        "id": "T0unTFnLyDJ5TVfhWOQNBI2aZIjDBEw9F73oHrE5idNNZAo",
+        "accountId": "f9SPdxzjg93nJ8W4F44u36cfrldmHzX6IQvKLFKb2J1piw",
+        "puuid": "EjRmQ1H7E1md8UNw_9BwqcIxN3QqKMkP7aPQFLOrIcV5HoH5qulKRCBAT1ibn5EgrljZ82RT1sjccg"
+      }
+    },
+    "discordAccount": { "id": "160509172704739328" }
+  },
+  {
+    "name": "Lisa",
+    "league": {
+      "leagueAccount": {
+        "id": "CcHNuKQIHTWx10iSkKTLu3T25-foRAEchK6YOxVkkprw8no",
+        "accountId": "JEL8EcTQKAnxhhSYwjfaDEJCULiABNOLASrmnnG5QuNMy3c",
+        "puuid": "f_OAYIvQvsXSU26klci-enHHgZKOBuoU2xg3SBestTxyVOFg_PaufjklzhrPwe90kF0itR55jwy_sQ"
+      }
+    },
+    "discordAccount": { "id": "138906561895464960" }
+  },
+  {
+    "name": "Hirza",
+    "league": {
+      "leagueAccount": {
+        "id": "wXR4_k21Av0OwvxsLjJ5IiFkEuC0OnrsXR3X_WUWCEFD5Nk",
+        "accountId": "yqyw1c7LrHLq8S38ByFOKCkQFxNBE-xbF_gHPwjglW5DWDw",
+        "puuid": "x1Ci6fUozKWiZYrqO-Q2f3zt46gCD8Hvte5RqHOKcdmH-1VBHr6-X60Klz2zsqnTO7bF2QxLl60fRA"
+      }
+    },
+    "discordAccount": { "id": "528096854831792159" }
+  },
+  {
+    "name": "Justin",
+    "league": {
+      "leagueAccount": {
+        "id": "Da3sZ07dKgUOSeg5bpCKtOT_LLvpkeZsDFl7AttZUS_3C-4",
+        "accountId": "APQ1qsXDKxhA7oSlM2PGuTBt6goOrubkskPx1UVC7YYly-E",
+        "puuid": "2n5udsJWrMZOEkQm8KbL22syLuwk9cWGN9809KL3vaLImOAMZgMLn7YI-iBaJYW12DE5jdyM71EJ3w"
+      }
+    },
+    "discordAccount": { "id": "189534213391908865" }
+  },
+  {
+    "name": "Nathan",
+    "league": {
+      "leagueAccount": {
+        "id": "HSWRh_aZE6YJc7sTwvcxUisHLFOfjlHyr6VpAnaXMqAUBVg",
+        "accountId": "Vad_2osVJ24CUewLaALXXMIPDfK3P7OT9gW_igxec4EU89Y",
+        "puuid": "kX9vu-HMTuwqbk1O6HQa1EcGdhKeqcpJ53QEVanqHk6-B-f4dhRQ1mXO_fOH1TjXoVYBLTOrGD_esA"
+      }
+    },
+    "discordAccount": { "id": "327908907714478080" }
+  },
+  {
+    "name": "Virmel",
+    "league": {
+      "leagueAccount": {
+        "id": "Mv2ExMQFAchYyFc2eUaJn2Q62p8sKCOAWX85A8xZm3Ef",
+        "accountId": "Sn8wbtiSKpJTrgYSFbZsd9CVepf3XuzM-33JW6_BWms",
+        "puuid": "okVQL80zjnT_HMuDoqR3QiuGTKHQNKPDTbRcjeLjhgprfPeWdMPJXTA_sbK3rxDt2tyIdv9SG2V_Lw"
+      }
+    },
+    "discordAccount": { "id": "208425244128444418" }
+  },
+  {
+    "name": "Danny",
+    "league": {
+      "leagueAccount": {
+        "id": "pleftlYNvBPZS2aSkv-AoMo-NcrT6C5qavkD3jkELULiPbM",
+        "accountId": "h0YBZPKSBXV-TGYeFMWGigZPOI9ervu2z168uhTlYe9u24w",
+        "puuid": "PFmOO4HVmc2U_UhEzEjgAiZORKxWRxpdu4YyqI0uEa9PZqSLhg7sABnCuGBiPHd7BwVl6x4OSEK-fQ"
+      }
+    },
+    "discordAccount": { "id": "263577791105073152" }
+  },
+  {
+    "name": "Irfan",
+    "league": {
+      "leagueAccount": {
+        "id": "BTJvZNnOUHFnEICbwyq-5A2ZG-7JOGvbw-87juNrEaSr6PTc",
+        "accountId": "h0YBZPKSBXV-TGYeFMWGigZPOI9ervu2z168uhTlYe9u24w",
+        "puuid": "beA95KLRaBvnFQt6MhKJniDOH0vp9mhpdCtlOH8tPrvAYO3RLgyPyf1CPmxTZJA_wKjZw6Gv03Yhmg"
+      }
+    },
+    "discordAccount": { "id": "410595870380392458" }
+  },
+  {
+    "name": "Caitlyn",
+    "league": {
+      "leagueAccount": {
+        "id": "BB7ZBInbKvaE-LvGEwFEhEo9zvkZGcqDDKJcd5W1bS0Vlxb1VtylUWLpNw",
+        "accountId": "EBRpyLP2o-vFiEtrR30rcycJ6Frpu3yCKuTAdWbV5ngvwI0wErx6YZZA",
+        "puuid": "GksNHpwZi2ICy9ccgifFytu9DvPtRYxmGmnGxcbe8shr4IFwa0hajbgj0eblVRYyL6oaqil5znDgGg"
+      }
+    },
+    "discordAccount": { "id": "331238905619677185" }
+  },
+  {
+    "name": "Richard",
+    "league": {
+      "leagueAccount": {
+        "id": "JZZnBhL1Nn2ReEa-lx3TLEAgQEEnLQbWqO3wWq9ROhuLhtc",
+        "accountId": "iZ1INU3eb0Epj65zC_9uK4Hff0XtrIB9ZWCucoQ-AU4S-A",
+        "puuid": "6PZP5dzoGkczMn7HGATMCsjYFRLhRktGm11H9rbLyeg_YnlS0yea1C_kZ83JFADHsSEqAbEckBbnNg"
+      }
+    },
+    "discordAccount": { "id": "121887985896521732" }
+  },
+  {
+    "name": "Neko Ryan",
+    "league": {
+      "leagueAccount": {
+        "id": "VnpSeVl5vk6l7qNtmTRUGc4UdqHaN7C49U6ZdTTJiqCRc2c",
+        "accountId": "gUpqEIRW0I7S8ugSEM0FPh8Qml_5U6m3Pjh2ziTymMflgg",
+        "puuid": "4UZQqglJjZd33aWVcOHExc6yhc83iguRmkoCDnxPATBDVqGF_B3YVCp7U0OVfwGvWVn4uURVIvkHQw"
+      }
+    },
+    "discordAccount": { "id": "200067001035653131" }
+  },
+  {
+    "name": "Long",
+    "league": {
+      "leagueAccount": {
+        "id": "z27c2dEA_YQ1TikXh-NpWpy7XN-FUHYVAg1VymYZGdI4NOw",
+        "accountId": "A-qxB7HUhtqWLLcPEh1gik6VOqgK3QvmMMN1BHLxlHjlkX4",
+        "puuid": "ZF_grAnZjpHTTmh-RyVax-LCwZVCVLRJMLgTU2BJiUN2UcLYpeq6RZxvRBXlcQpwNVqg-OFNr41qXA"
+      }
+    },
+    "discordAccount": { "id": "251485022429642752" }
+  },
+  {
+    "name": "Edward",
+    "league": {
+      "leagueAccount": {
+        "id": "Fxy1jC65qZCtDoUaey1faJGJWMQV55hgHOYF4JwtrATIcSw",
+        "accountId": "bI-vI8U5USEuY0AP6y_fHdMF31sGlEXgvGflw3dmwig_0Q",
+        "puuid": "aLw-CHkfMnmlaeCR9Mdavh0UusuEitdttlIL-mBqW_NyhwXGbKuq1FVMNv2maN-imIa3r-xLHxRDGw"
+      }
+    },
+    "discordAccount": { "id": "208404668026454016" }
+  },
+  {
+    "name": "Aaron",
+    "league": {
+      "leagueAccount": {
+        "id": "8DBRLP2D8LcfyagWJ0-q5WEM0ALDsfgHZaNOr8ZSaSHyvwY",
+        "accountId": "1opmqlc_OR9DOpK4wPrdv3eSAtgboJURSZ47dHKkS72K2g",
+        "puuid": "YIBj-FbOFri3kZjbXGigzwOmJx1ljY9cVRXWIp6gPO4VqZ5Qdvt4CbmIIZoq6XHwgKLdDNVZPX8H6w"
+      }
+    },
+    "discordAccount": { "id": "186665676134547461" }
+  },
+  {
+    "name": "Colin",
+    "league": {
+      "leagueAccount": {
+        "id": "vpNHCw_gthZSgcxbhMlx6vPc2CV-BbxbIsOQRwPOObxWjyM",
+        "accountId": "tN2WnLPZ0ypBjR5UD9wgFQXqAYeOmve7rkZxGFj1y1ihgg",
+        "puuid": "4hc-2NPRPyApehzZ48mKwYHk9I08NJWP41Z3fCZQfEdJjspyS96SJpV1InZwAy2OOj5Y-B_JVGCX5A"
+      }
+    },
+    "discordAccount": { "id": "171455587517857796" }
+  },
+  {
+    "name": "Wanye",
+    "league": {
+      "leagueAccount": {
+        "id": "Tgo7M5lQS2ELTQd3N3Xfb7kxO6OOZaiAnQuzQtQ71yIr8n0",
+        "accountId": "LMjECS0JDNdakn2ftv4O-Ic5FN679WyjULM_i7ICFMtuyJE",
+        "puuid": "JvbEey_NM465IzI92Iu-lyO1vuCrM5Uv28eCXnAkY6X6_8fB_gq8MngCWN8uGbw-TpNH_JP73Oo-Gg"
+      }
+    },
+    "discordAccount": { "id": "327894775103750154" }
+  },
+  {
+    "name": "Jeff",
+    "league": {
+      "leagueAccount": {
+        "id": "tlKA2ghauB_HrNpZJUidamBoRhuXWsc1s6HW7mEJPthdAthr",
+        "accountId": "lATx-_ZB9pRypymY-QnneIBQ8xWq7qDJTuHxZ72NVGbwa0kBvk_GvcRk",
+        "puuid": "97fYJdl3sP_NNmju5p6Y2YkwQaZTYXjdOaKDR9J6J-3bHQf5RAts1Y1nyarnP3Ez9tB8SJnEqAD8Gw"
+      }
+    },
+    "discordAccount": { "id": "378335152331554836" }
+  },
+  {
+    "name": "Joel",
+    "league": {
+      "leagueAccount": {
+        "id": "nm0GrBxItUSP_OIGPc7nVpBgJWsQvu3nAhJMAScu2d1KvsY",
+        "accountId": "WYMGna0Vz03WKvh7q1Lc2xfNWrJOxXn3bCERVppaawa_Pg",
+        "puuid": "beyeGCFvx9bxEqv67MAC8i_CrlBde5JNvNjFKD1OGvKsfZzP9m1nx2u_Lj5-TVHTENHu_MKfIwCp6A"
+      }
+    },
+    "discordAccount": { "id": "282716540053225472" }
+  },
+  {
+    "name": "Sci",
+    "league": {
+      "leagueAccount": {
+        "id": "G2UKtwQkBLDS5aXCZgtcg7wHHzoRMwvixCjYX9wwSFvMdqQ",
+        "accountId": "2KnCpndbI12PY41fjMWAfJ6e0VlMUfmnIidcPPXqXsRZuQ",
+        "puuid": "aFuA89_GVPHTsJreh5od3_zrVwBjd3NNPXvAqQvGJ7gQErDqOn-tLjMOIMps2v86xbdVmRKl0hyh_g"
+      }
+    },
+    "discordAccount": { "id": "177669150062149633" }
+  },
+  {
+    "name": "Jake",
+    "league": {
+      "leagueAccount": {
+        "id": "zWmZRsnC6szqQHT5zTVVEtS0Sps4PaGBf-PD93MPOC9tMpU",
+        "accountId": "Df8AzcdGVYvw7nWkoJmmQf3MIsEL8ugzRbKufT35f815T7E",
+        "puuid": "P14duZWshXWprvjn1u_sAblNYARfpvbxiv7PvcWPYKSlSGVUUd850GLSCpexkNVazR3KlRI8RgD9tA"
+      }
+    },
+    "discordAccount": { "id": "108659981309468672" }
+  },
+  {
+    "name": "Dan Kim",
+    "league": {
+      "leagueAccount": {
+        "id": "Jf9vbzXSisNKszzFeCxq0gjKC6dETktHMK4cXb-vSvcKy3a3OzeMrX0zRQ",
+        "accountId": "s5KEx4YaQhCxQXrazSp-HUa6MpvJI6zALUnvkd97_m7vm5ibk30fuTED",
+        "puuid": "11IzbDvjaiZ3x4zZX0luM1ILxSr26o5NAhee2nBaEJvAVm9mFJ9VhxRkQyZ5hkX-JQs5Y5bHMnzmCg"
+      }
+    },
+    "discordAccount": { "id": "688107056846209150" }
+  },
+  {
+    "name": "Kendrick",
+    "league": {
+      "leagueAccount": {
+        "id": "q4BjYY-8XDE-YXDUXiHCNbjN5biTnqNuMseHDxcTqIanpjE",
+        "accountId": "RF_kmDh3U1NvY_Lr2NW1lzmwgHBLFAwGcqcX35-l-kklqA",
+        "puuid": "BxEyY6sX-bWFvtXtRD3IWIbmm5Wa7WFSfwOUjOsbhcxDknt8tK8VzfSTBsoGnllxsqqaIV8qTRr8nQ"
+      }
+    },
+    "discordAccount": { "id": "89243433385881600" }
+  },
+  {
+    "name": "Brandon",
+    "league": {
+      "leagueAccount": {
+        "id": "xeGfv3o7hUEKA8DE4gEIIb16EhXVov-vao-FkqWPnmK5DK4",
+        "accountId": "eCsEgIP3QXpIkGMY8wRIEBNvu6w2C2OdxOu2WPxx2BwJJg",
+        "puuid": "eNfkTOITU7rdr3a_DEWZBE14PLXXIC7h8oM6UkwGO8nl8cxdRjtaLuzroqVWjg4x0d3EyfqNATvZUQ"
+      }
+    },
+    "discordAccount": { "id": "89800891070164992" }
+  },
+  {
+    "name": "Francesca",
+    "league": {
+      "leagueAccount": {
+        "id": "0nIYxTM9CAaXq2P9kyL_4g4SsQBxFdTujPt6KXxHE5JJKWqY",
+        "accountId": "3pRa7FvfKfQO_JEH7pKoV4I0OOqd21kuAUjOuPdGvS9cyTdbOdgU4mFy",
+        "puuid": "ZMBA-U0W4MV5Ouab2jDMjgbTq22Y8wiwV4SunypYSjvuNo8itRx87tZtGyN9tdQwsDEHSUE6VkiE8g"
+      }
+    },
+    "discordAccount": { "id": "1016111302453768196" }
+  },
+  {
+    "name": "Sean",
+    "league": {
+      "leagueAccount": {
+        "id": "EuNtjpJ3MeGk0FlNeCacXH7--osods1zZ0_NzqpTn5zqB8Q",
+        "accountId": "N2CMkF6N1OANuGWgG6uERDVdTeTMKqEb_d-ql73_T2LUTdI",
+        "puuid": "iW0QqUuzfP54yuoV_XmZUZDBp4BGRLp9xZmo72Gb0Dk9GWIYoLMOpAik4re3D9KGMsSgroM6UibW6g"
+      }
+    },
+    "discordAccount": { "id": "328301941048344577" }
+  }
+]
