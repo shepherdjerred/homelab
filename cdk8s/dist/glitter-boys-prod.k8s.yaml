@@ -144,7 +144,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: credential
-                  name: vaults/v64ocnykdqju4ui6j6pua56xw4/items/plb6l2bksn56zfmmwtogu3yvp4
+                  name: glitter-boys-prod-discord-token
             - name: GUILD_ID
               value: "208425771172102144"
             - name: LAVALINK_PASSWORD
@@ -211,6 +211,16 @@ spec:
       storage: 2Gi
   storageClassName: longhorn-ssd
   volumeMode: Filesystem
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  labels:
+    app.kubernetes.io/instance: glitter-boys-prod
+  name: glitter-boys-prod-discord-token
+  namespace: glitter-boys-prod
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/plb6l2bksn56zfmmwtogu3yvp4
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem

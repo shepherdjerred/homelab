@@ -79,6 +79,12 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/plb6l2bksn56zfmmwtogu3yvp4";
   }
 
+  const discordTokenItem = new OnePasswordItem(chart, "discord-token", {
+    spec: {
+      itemPath: discordTokenPath,
+    },
+  });
+
   const awsAccessKeyItem = new OnePasswordItem(chart, "aws-access-key", {
     spec: {
       itemPath: awsKeyPath,
@@ -127,7 +133,7 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
         secret: Secret.fromSecretName(
           chart,
           "discord-token-secret",
-          discordTokenPath,
+          discordTokenItem.name,
         ),
         key: "credential",
       }),
