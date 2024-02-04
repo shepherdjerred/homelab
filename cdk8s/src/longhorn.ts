@@ -20,7 +20,6 @@ export function createLonghornResources(chart: Chart) {
       numberOfReplicas: "1",
       staleReplicaTimeout: "480",
       diskSelector: "ssd",
-      nodeSelector: "",
       recurringJobSelector: JSON.stringify(selector),
       // allowVolumeExpansion: "true",
     },

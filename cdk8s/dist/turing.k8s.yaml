@@ -35,7 +35,6 @@ metadata:
   namespace: turing
 parameters:
   diskSelector: ssd
-  nodeSelector: ""
   numberOfReplicas: "1"
   recurringJobSelector: '[{"name":"turing-longhorn-recurring-job","isGroup":false}]'
   staleReplicaTimeout: "480"
