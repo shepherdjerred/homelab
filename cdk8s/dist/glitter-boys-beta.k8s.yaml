@@ -209,7 +209,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn-ssd
+  storageClassName: longhorn
   volumeMode: Filesystem
 ---
 apiVersion: onepassword.com/v1
