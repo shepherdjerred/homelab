@@ -28,6 +28,7 @@ export function createLavalinkDeployment(
     securityContext: {
       user: 1000,
       group: 1000,
+      readOnlyRootFilesystem: false,
     },
     ports: [
       {
