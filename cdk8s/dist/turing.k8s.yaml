@@ -269,6 +269,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
+    chart: grafana
     helm:
       parameters:
         - name: service.enabled
@@ -279,7 +280,6 @@ spec:
           value: 50Gi
         - name: persistence.storageClassName
           value: longhorn-hdd
-    path: grafana/grafana
     repoURL: https://grafana.github.io/helm-charts/
     targetRevision: grafana-7.3.0
   syncPolicy:

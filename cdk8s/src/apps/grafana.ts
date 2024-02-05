@@ -11,7 +11,7 @@ export function createGrafanaApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://grafana.github.io/helm-charts/",
-        path: "grafana/grafana",
+        chart: "grafana",
         targetRevision: "grafana-7.3.0",
         helm: {
           parameters: [
