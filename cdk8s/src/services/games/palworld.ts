@@ -43,7 +43,7 @@ export function createPalworldDeployment(chart: Chart) {
       },
       resources: {
         memory: {
-          limit: Size.gibibytes(16),
+          limit: Size.gibibytes(12),
         },
       },
       envVariables: {
