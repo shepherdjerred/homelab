@@ -156,7 +156,7 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
         ),
         key: "password",
       }),
-      LAVALINK_URL: EnvValue.fromValue(lavalinkService.name),
+      LAVALINK_URL: EnvValue.fromValue(lavalinkService.name + ":2333"),
       LEADERBOARD_ROLE_ID: EnvValue.fromValue(
         settings.LEADERBOARD_ROLE_ID[stage],
       ),

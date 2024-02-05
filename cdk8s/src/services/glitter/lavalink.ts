@@ -62,6 +62,9 @@ export function createLavalinkDeployment(
   }));
 
   return deployment.exposeViaService({
+    ports: [{
+      port: 2333,
+    }],
     serviceType: ServiceType.CLUSTER_IP,
   });
 }
