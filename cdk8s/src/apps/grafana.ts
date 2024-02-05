@@ -15,7 +15,7 @@ export function createGrafanaApp(chart: Chart) {
         targetRevision: "7.3.0",
         helm: {
           parameters: [
-            { name: "service.enabled", value: "false" },
+            { name: "service.enabled", value: "true" },
             { name: "persistence.enabled", value: "true" },
             { name: "persistence.size", value: "50Gi" },
             { name: "persistence.storageClassName", value: "longhorn-hdd" },
