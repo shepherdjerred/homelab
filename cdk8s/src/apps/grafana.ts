@@ -12,7 +12,7 @@ export function createGrafanaApp(chart: Chart) {
       source: {
         repoUrl: "https://grafana.github.io/helm-charts/",
         chart: "grafana",
-        targetRevision: "grafana-7.3.0",
+        targetRevision: "7.3.0",
         helm: {
           parameters: [
             { name: "service.enabled", value: "false" },
