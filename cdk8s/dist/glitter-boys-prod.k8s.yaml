@@ -230,7 +230,7 @@ metadata:
   name: glitter-boys-prod-aws-access-key
   namespace: glitter-boys-prod
 spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/udz24xozhp25yt6cm355brgo5u
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/auced424ojvxlkszvredtmllsu
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem

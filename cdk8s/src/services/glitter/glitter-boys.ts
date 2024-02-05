@@ -1,6 +1,3 @@
-// app = "glitter-boys-beta"
-// primary_region = "sea"
-
 import {
   Deployment,
   DeploymentStrategy,
@@ -70,14 +67,16 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
 
   if (stage === "beta") {
     awsKeyPath =
-      "vaults/v64ocnykdqju4ui6j6pua56xw4/items/5myu3mawbmyhgog5jebzxrk5ay";
+      "vaults/v64ocnykdqju4ui6j6pua56xw4/items/notpwwhbxlo3oxy5lovyw26dmm";
     discordTokenPath =
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/engsfwzpbbt3gsfcsjib7en4iu";
-  } else {
+  } else if (stage === "prod") {
     awsKeyPath =
-      "vaults/v64ocnykdqju4ui6j6pua56xw4/items/udz24xozhp25yt6cm355brgo5u";
+      "vaults/v64ocnykdqju4ui6j6pua56xw4/items/auced424ojvxlkszvredtmllsu";
     discordTokenPath =
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/plb6l2bksn56zfmmwtogu3yvp4";
+  } else {
+    throw new Error(`Unsupported stage: ${stage}`);
   }
 
   const discordTokenItem = new OnePasswordItem(chart, "discord-token", {
