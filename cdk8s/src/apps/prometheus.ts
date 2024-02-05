@@ -18,7 +18,7 @@ export function createPrometheusApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://prometheus-community.github.io/helm-charts",
-        path: "/",
+        chart: "kube-prometheus-stack",
         targetRevision: "56.6.2",
         helm: {
           parameters: [
