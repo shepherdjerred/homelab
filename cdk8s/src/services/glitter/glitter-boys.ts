@@ -107,6 +107,9 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
         protocol: Protocol.TCP,
       },
     ],
+    securityContext: {
+      ensureNonRoot: false,
+    },
     envVariables: {
       APPLICATION_ID: EnvValue.fromValue(settings.APPLICATION_ID[stage]),
       AWS_ACCESS_KEY_ID: EnvValue.fromSecretValue({
