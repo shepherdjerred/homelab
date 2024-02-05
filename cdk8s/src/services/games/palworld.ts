@@ -1,4 +1,5 @@
 import {
+  Cpu,
   Deployment,
   DeploymentStrategy,
   EnvValue,
@@ -44,6 +45,9 @@ export function createPalworldDeployment(chart: Chart) {
       resources: {
         memory: {
           limit: Size.gibibytes(12),
+        },
+        cpu: {
+          limit: Cpu.units(4),
         },
       },
       envVariables: {

@@ -2828,6 +2828,7 @@ spec:
               protocol: UDP
           resources:
             limits:
+              cpu: "4"
               memory: 12288Mi
           securityContext:
             allowPrivilegeEscalation: false
