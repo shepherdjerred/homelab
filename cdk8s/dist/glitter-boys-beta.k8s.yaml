@@ -167,7 +167,7 @@ spec:
               value: glitter-boys-beta
             - name: DATA_DIR
               value: /data
-          image: glitter/backend:latest
+          image: ghcr.io/shepherdjerred/glitter-boys:latest
           imagePullPolicy: Always
           name: main
           ports:
