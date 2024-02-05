@@ -6,10 +6,10 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: grafana
+      name: grafana-6f688bc46-t7hqp
       port:
         number: 80
   ingressClassName: tailscale
   tls:
     - hosts:
-        - immich
+        - grafana
