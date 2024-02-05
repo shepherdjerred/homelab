@@ -280,7 +280,7 @@ spec:
         - name: persistence.storageClassName
           value: longhorn-hdd
     path: grafana/grafana
-    repoURL: https://grafana.github.io/helm-charts
+    repoURL: https://grafana.github.io/helm-charts/
     targetRevision: grafana-7.3.0
   syncPolicy:
     automated: {}
