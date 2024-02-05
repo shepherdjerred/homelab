@@ -58,6 +58,7 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
 
   const longhornVolume = new LonghornVolume(chart, `glitter-data-${stage}`, {
     storageClassName: "longhorn-ssd",
+    namespace: chart.namespace,
   });
 
   const dataDir = "/data";

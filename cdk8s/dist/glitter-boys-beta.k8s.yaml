@@ -202,7 +202,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-data-beta
-  namespace: turing
+  namespace: glitter-boys-beta
 spec:
   accessModes:
     - ReadWriteOnce
