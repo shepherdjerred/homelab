@@ -1,4 +1,5 @@
 import {
+  ConfigMap,
   Deployment,
   DeploymentStrategy,
   EnvValue,
@@ -62,6 +63,7 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
 
   let awsKeyPath: string;
   let discordTokenPath: string;
+  let players: string;
 
   // TODO: mount players JSON
 
@@ -70,14 +72,19 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/notpwwhbxlo3oxy5lovyw26dmm";
     discordTokenPath =
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/engsfwzpbbt3gsfcsjib7en4iu";
+    players = Deno.readTextFileSync("config/glitter-boys/players.beta.json");
   } else if (stage === "prod") {
     awsKeyPath =
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/auced424ojvxlkszvredtmllsu";
     discordTokenPath =
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/plb6l2bksn56zfmmwtogu3yvp4";
+    players = Deno.readTextFileSync("config/glitter-boys/players.prod.json");
   } else {
     throw new Error(`Unsupported stage: ${stage}`);
   }
+
+  const config = new ConfigMap(chart, "glitter-players");
+  config.addData("players.json", players);
 
   const discordTokenItem = new OnePasswordItem(chart, "discord-token", {
     spec: {
@@ -173,6 +180,17 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
           "glitter-boys-data-volume",
           longhornVolume.claim,
         ),
+      },
+      {
+        path: "/workspace/packages/backend/players.json",
+        subPath: "players.json",
+        volume: Volume.fromConfigMap(chart, "players-json-volume", config, {
+          items: {
+            "players.json": {
+              path: "players.json",
+            },
+          },
+        }),
       },
     ],
   }));
