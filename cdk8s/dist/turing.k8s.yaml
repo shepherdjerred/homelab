@@ -103,62 +103,6 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ---
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: datadog
-  namespace: argocd
-spec:
-  destination:
-    namespace: datadog
-    server: https://kubernetes.default.svc
-  project: default
-  source:
-    chart: datadog-operator
-    repoURL: https://helm.datadoghq.com
-    targetRevision: 1.4.1
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-datadog-secret
-  namespace: datadog
-spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/jn4difq4yuehvaif6va3zxrvle
----
-apiVersion: datadoghq.com/v2alpha1
-kind: DatadogAgent
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-datadog-agent
-  namespace: turing
-spec:
-  global:
-    credentials:
-      apiSecret:
-        keyName: api-key
-        secretName: turing-datadog-secret
-      appSecret:
-        keyName: app-key
-        secretName: turing-datadog-secret
-    site: datadoghq.com
-  override:
-    clusterAgent:
-      image:
-        name: gcr.io/datadoghq/cluster-agent:latest
-    nodeAgent:
-      image:
-        name: gcr.io/datadoghq/agent:latest
----
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
@@ -307,6 +251,37 @@ spec:
     path: charts/immich
     repoURL: https://github.com/immich-app/immich-charts/
     targetRevision: immich-0.3.1
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: grafana
+  namespace: argocd
+spec:
+  destination:
+    namespace: grafana
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      parameters:
+        - name: service.enabled
+          value: "false"
+        - name: persistence.enabled
+          value: "true"
+        - name: persistence.size
+          value: 50Gi
+        - name: persistence.storageClassName
+          value: longhorn-hdd
+    path: grafana/grafana
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: grafana-7.3.0
   syncPolicy:
     automated: {}
     syncOptions:

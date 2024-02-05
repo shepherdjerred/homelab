@@ -1,7 +1,6 @@
 import { App, Chart } from "npm:cdk8s";
 import { createOnePasswordApp } from "../apps/1password.ts";
 import { createArgoCdApp } from "../apps/argocd.ts";
-import { createDatadogApp } from "../apps/datadog.ts";
 import { createImmichApp } from "../apps/immich.ts";
 import { createLonghornApp } from "../apps/longhorn.ts";
 import { createProject } from "../apps/project.ts";
@@ -26,6 +25,7 @@ import { createProwlarrDeployment } from "../services/torrents/prowlarr.ts";
 import { createQBitTorrentDeployment } from "../services/torrents/qbittorrent.ts";
 import { createRadarrDeployment } from "../services/torrents/radarr.ts";
 import { createSonarrDeployment } from "../services/torrents/sonarr.ts";
+import { createGrafanaApp } from "../apps/grafana.ts";
 
 export function createTuringChart(app: App) {
   const chart = new Chart(app, "turing", {
@@ -43,11 +43,11 @@ export function createTuringChart(app: App) {
 
   createOnePasswordApp(chart);
   createArgoCdApp(chart);
-  createDatadogApp(chart);
   createLonghornApp(chart);
   createTailscaleApp(chart);
   createTuringApp(chart);
   createImmichApp(chart);
+  createGrafanaApp(chart);
 
   createEspHomeDeployment(chart);
   createBazarrDeployment(chart);
