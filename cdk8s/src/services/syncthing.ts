@@ -31,7 +31,7 @@ export function createSyncthingDeployment(chart: Chart) {
     chart,
     "syncthing-data-longhorn",
     {
-      storage: Size.gibibytes(40),
+      storage: Size.gibibytes(50),
     },
   );
 

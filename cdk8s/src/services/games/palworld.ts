@@ -41,6 +41,11 @@ export function createPalworldDeployment(chart: Chart) {
         ensureNonRoot: false,
         readOnlyRootFilesystem: false,
       },
+      resources: {
+        memory: {
+          limit: Size.gibibytes(16),
+        },
+      },
       envVariables: {
         PORT: EnvValue.fromValue("8211"),
         PLAYERS: EnvValue.fromValue("16"),

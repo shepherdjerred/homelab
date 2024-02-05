@@ -2201,7 +2201,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 40Gi
+      storage: 50Gi
   storageClassName: longhorn
   volumeMode: Filesystem
 ---
@@ -2826,6 +2826,9 @@ spec:
               protocol: UDP
             - containerPort: 27015
               protocol: UDP
+          resources:
+            limits:
+              memory: 16384Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
