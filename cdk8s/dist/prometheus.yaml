@@ -17,12 +17,12 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: prometheus-grafana
+  name: grafana
   namespace: prometheus
 spec:
   defaultBackend:
     service:
-      name: grafana
+      name: prometheus-grafana
       port:
         number: 80
   ingressClassName: tailscale
