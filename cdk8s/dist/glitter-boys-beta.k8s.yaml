@@ -97,7 +97,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: glitter-boys-beta-glitter-backend-c8469dca

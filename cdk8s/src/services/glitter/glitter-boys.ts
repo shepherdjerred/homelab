@@ -50,7 +50,7 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
   const lavalinkService = createLavalinkDeployment(chart, lavalinkItem);
 
   const deployment = new Deployment(chart, "glitter-backend", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
   });
 
