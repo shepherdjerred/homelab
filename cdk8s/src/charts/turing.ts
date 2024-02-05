@@ -25,7 +25,7 @@ import { createProwlarrDeployment } from "../services/torrents/prowlarr.ts";
 import { createQBitTorrentDeployment } from "../services/torrents/qbittorrent.ts";
 import { createRadarrDeployment } from "../services/torrents/radarr.ts";
 import { createSonarrDeployment } from "../services/torrents/sonarr.ts";
-import { createGrafanaApp } from "../apps/grafana.ts";
+import { createPrometheusApp } from "../apps/prometheus.ts";
 
 export function createTuringChart(app: App) {
   const chart = new Chart(app, "turing", {
@@ -47,7 +47,7 @@ export function createTuringChart(app: App) {
   createTailscaleApp(chart);
   createTuringApp(chart);
   createImmichApp(chart);
-  createGrafanaApp(chart);
+  createPrometheusApp(chart);
 
   createEspHomeDeployment(chart);
   createBazarrDeployment(chart);

@@ -256,32 +256,42 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: turing
+  name: prometheus-volume
+  namespace: prometheus
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: longhorn-hdd
+  volumeMode: Filesystem
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   labels:
     app.kubernetes.io/instance: turing
-  name: grafana
+  name: prometheus
   namespace: argocd
 spec:
   destination:
-    namespace: grafana
+    namespace: prometheus
     server: https://kubernetes.default.svc
   project: default
   source:
-    chart: grafana
     helm:
       parameters:
-        - name: service.enabled
-          value: "true"
-        - name: persistence.enabled
-          value: "true"
-        - name: persistence.size
-          value: 50Gi
-        - name: persistence.storageClassName
-          value: longhorn-hdd
-    repoURL: https://grafana.github.io/helm-charts/
-    targetRevision: 7.3.0
+        - name: grafana.persistence.library.existingClaim
+          value: prometheus-volume
+    path: /
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 56.6.2
   syncPolicy:
     automated: {}
     syncOptions:
