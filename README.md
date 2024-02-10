@@ -112,3 +112,9 @@ Cluster Setup:
    - https://docs.k3s.io/security/hardening-guide
 
 1. Increase number of file watchers
+
+   ```
+   sudo sysctl -w fs.inotify.max_user_watches=1990692
+   sudo sysctl -w fs.inotify.max_user_instances=512
+   sudo sysctl -w fs.inotify.max_queued_events=65536
+   ```

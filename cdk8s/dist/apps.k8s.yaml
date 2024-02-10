@@ -135,3 +135,64 @@ spec:
     automated: {}
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: intel-device-plugin-operator
+  namespace: argocd
+spec:
+  destination:
+    namespace: intel-device-plugin-operator
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: device-plugin-operator
+    repoURL: https://intel.github.io/helm-charts/
+    targetRevision: 0.29.0
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: intel-gpu-device-plugin
+  namespace: argocd
+spec:
+  destination:
+    namespace: gpu-device-plugin
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: gpu-device-plugin
+    repoURL: https://intel.github.io/helm-charts/
+    targetRevision: 0.29.0
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  destination:
+    namespace: cert-manager
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: cert-manager
+    helm:
+      parameters:
+        - name: installCRDs
+          value: "true"
+    repoURL: https://charts.jetstack.io
+    targetRevision: v1.14.2
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true

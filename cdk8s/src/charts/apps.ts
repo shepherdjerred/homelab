@@ -6,6 +6,9 @@ import { createImmichApp } from "../apps/immich.ts";
 import { createPrometheusApp } from "../apps/prometheus.ts";
 import { createTailscaleApp } from "../apps/tailscale.ts";
 import { createLamportApp } from "../apps/lamport.ts";
+import { createIntelDevicePluginOperatorApp } from "../apps/intel-device-plugin-operator.ts";
+import { createIntelGpuDevicePluginApp } from "../apps/intel-gpu-device-plugin.ts";
+import { createCertManagerApp } from "../apps/cert-manager.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -19,4 +22,7 @@ export function createAppsChart(app: App) {
   createLamportApp(chart);
   createImmichApp(chart);
   createPrometheusApp(chart);
+  createIntelDevicePluginOperatorApp(chart);
+  createIntelGpuDevicePluginApp(chart);
+  createCertManagerApp(chart);
 }
