@@ -49,13 +49,11 @@ dotfiles, ansible, etc.
    curl -sfL https://get.k3s.io | sh -
    ```
 
-   - Configure:
-
-     ```
-     rm -rfv ~/.kube && mkdir ~/.kube && sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && sudo chown $USER:$USER ~/.kube/config && chmod 600 ~/.kube/config
-     ```
-
 1. Copy the Kubernetes configuration
+
+   ```
+   rm -rfv ~/.kube && mkdir ~/.kube && sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && sudo chown $USER:$USER ~/.kube/config && chmod 600 ~/.kube/config
+   ```
 
 1. Install `helm` and `argocd`.
 
@@ -73,30 +71,7 @@ dotfiles, ansible, etc.
    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
    ```
 
-1. Port-forward Argo CD to access the UI.
-
-   ```
-   kubectl port-forward svc/argocd-server -n argocd 8080:443 --address 0.0.0.0
-   ```
-
-1. Get the initial Argo CD `admin` password.
-
-   ```
-   argocd admin initial-password -n argocd
-   ```
-
-1. Go to the Argo CD UI at `http://<host>:8080`. Change the `admin` password.
-
-1. Add `apps/` directory in this repository to argocd.
-1. Sync the `apps` Application.
-1. Create the `1password` namespace.
-
-   ```
-   kubectl create namespace 1password
-   ```
-
-1. Set the credentials in the `secrets` directory. Create these resources using
-   `kubectl apply`.
+1. Set the credentials in the `secrets` directory.
 
    - Be sure not to commit any changes to these files so that secrets don't
      leak.
@@ -108,6 +83,26 @@ dotfiles, ansible, etc.
      ```
      cat 1password-credentials.json | base64 -w 0
      ```
+
+     ```
+     kubectl create namespace 1password
+     kubectl apply -f secrets/1password-secret.yaml
+     kubectl apply -f secrets/1password-token.yaml
+     ```
+
+1. Deploy the manifests in this repo
+
+   ```
+   kubectl apply -f cdk8s/dist/apps.k8s.yaml
+   ```
+
+1. Get the initial Argo CD `admin` password.
+
+   ```
+   argocd admin initial-password -n argocd
+   ```
+
+1. Change Argo CD the `admin` password.
 
 1. Install Hauppauge Drivers for Hauppauge TV tuners.
 

@@ -2,9 +2,8 @@
 tls-san:
   - "lamport.tailnet-1a49.ts.net"
 cluster-init: true
-# TODO: uncomment to use IPv6
-cluster-cidr: 10.42.0.0/16 #,2001:cafe:42::/56
-service-cidr: 10.43.0.0/16 #,2001:cafe:43::/112
+cluster-cidr: 10.42.0.0/16,2001:cafe:42::/56
+service-cidr: 10.43.0.0/16,2001:cafe:43::/112
 embedded-registry: true
 secrets-encryption: true
 node-name: "lamport"
