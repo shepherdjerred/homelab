@@ -10,7 +10,7 @@ export function createIntelDevicePluginOperatorApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://intel.github.io/helm-charts/",
-        targetRevision: "vg0.29.0",
+        targetRevision: "v0.29.0",
         chart: "device-plugin-operator",
       },
       destination: {
