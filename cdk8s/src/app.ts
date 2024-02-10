@@ -7,11 +7,11 @@ import { createImmichChart } from "./charts/immich.ts";
 
 const app = new App();
 
-createGlitterBoysChart(app, "beta");
-createGlitterBoysChart(app, "prod");
-createLamportChart(app);
 createProjectChart(app);
 createAppsChart(app);
+createLamportChart(app);
+createGlitterBoysChart(app, "beta");
+createGlitterBoysChart(app, "prod");
 createImmichChart(app);
 
 app.synth();

@@ -1,3 +1,4 @@
+# /etc/rancher/k3s/k3s.yaml
 tls-san:
   - "lamport.sjer.red"
 cluster-init: true
@@ -6,3 +7,4 @@ service-cidr: 10.43.0.0/16,2001:cafe:43::/112
 embedded-registry: true
 secrets-encryption: true
 node-name: "lamport.sjer.red"
+protect-kernel-defaults: true
