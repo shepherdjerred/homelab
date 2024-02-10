@@ -4,7 +4,7 @@ import {
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart, Size } from "npm:cdk8s";
+import { Chart } from "npm:cdk8s";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import {
   LINUXSERVER_GID,
@@ -14,7 +14,7 @@ import { TailscaleIngress } from "../utils/tailscale.ts";
 
 export function createSyncthingDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "syncthing", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       fsGroup: LINUXSERVER_GID,

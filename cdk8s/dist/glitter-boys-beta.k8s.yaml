@@ -14,7 +14,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: glitter-boys-beta-lavalink-c8f6d1a8
@@ -89,7 +89,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: glitter-boys-beta-glitter-backend-c8469dca

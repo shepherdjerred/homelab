@@ -10,11 +10,7 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { withCommonProps } from "../../utils/common.ts";
-import {
-  LocalPathStorageClass,
-  LocalPathVolume,
-} from "../../utils/localPathVolume.ts";
-import { Size } from "npm:cdk8s";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 
 export class Postgres extends Construct {
   public readonly passwordItem: OnePasswordItem;
@@ -27,7 +23,6 @@ export class Postgres extends Construct {
   constructor(scope: Construct, name: string, props: {
     itemPath: string;
     database: string;
-    storageClass: LocalPathStorageClass;
   }) {
     super(scope, name);
 
@@ -44,7 +39,7 @@ export class Postgres extends Construct {
     });
 
     this.deployment = new Deployment(scope, `${name}-deployment`, {
-      replicas: 0,
+      replicas: 1,
       strategy: DeploymentStrategy.recreate(),
       securityContext: {
         fsGroup: GID,

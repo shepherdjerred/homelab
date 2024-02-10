@@ -1,5 +1,4 @@
 import {
-  Cpu,
   Deployment,
   DeploymentStrategy,
   EnvValue,
@@ -16,7 +15,7 @@ import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 
 export function createPalworldDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "palworld", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
 
@@ -42,10 +41,7 @@ export function createPalworldDeployment(chart: Chart) {
       },
       resources: {
         memory: {
-          limit: Size.gibibytes(12),
-        },
-        cpu: {
-          limit: Cpu.units(4),
+          limit: Size.gibibytes(20),
         },
       },
       envVariables: {

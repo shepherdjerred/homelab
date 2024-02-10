@@ -7,7 +7,7 @@ import {
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
+import { Chart, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
@@ -16,7 +16,7 @@ export function createPlexDeployment(chart: Chart) {
   const GID = 1000;
 
   const deployment = new Deployment(chart, "plex", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       fsGroup: GID,

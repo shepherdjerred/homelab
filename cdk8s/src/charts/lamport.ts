@@ -1,9 +1,4 @@
 import { App, Chart } from "npm:cdk8s";
-import { createOnePasswordApp } from "../apps/1password.ts";
-import { createArgoCdApp } from "../apps/argocd.ts";
-import { createImmichApp } from "../apps/immich.ts";
-import { createTailscaleApp } from "../apps/tailscale.ts";
-import { createLamportApp } from "../apps/lamport.ts";
 import { createEspHomeDeployment } from "../services/esphome.ts";
 import { createInvidiousDeployment } from "../services/frontends/invidious.ts";
 import { createNitterDeployment } from "../services/frontends/nitter.ts";

@@ -11,7 +11,7 @@ import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createOverseerrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "overseerr", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
 

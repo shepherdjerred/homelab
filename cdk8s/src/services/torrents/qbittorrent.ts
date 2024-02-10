@@ -6,7 +6,7 @@ import {
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart, Size } from "npm:cdk8s";
+import { Chart } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
@@ -22,7 +22,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
   });
 
   const deployment = new Deployment(chart, "qbittorrent", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
 

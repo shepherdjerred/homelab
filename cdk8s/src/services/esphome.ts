@@ -5,14 +5,14 @@ import {
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
+import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../utils/common.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
 
 export function createEspHomeDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "esphome", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
 
