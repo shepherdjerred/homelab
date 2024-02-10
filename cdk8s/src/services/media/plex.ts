@@ -7,7 +7,7 @@ import {
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart, Size } from "npm:cdk8s";
+import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
@@ -202,14 +202,14 @@ export function createPlexDeployment(chart: Chart) {
     funnel: true,
   });
 
-  // ApiObject.of(deployment).addJsonPatch(
-  //   JsonPatch.add(
-  //     "/spec/template/spec/containers/0/resources",
-  //     {
-  //       limits: {
-  //         "gpu.intel.com/i915": 1,
-  //       },
-  //     },
-  //   ),
-  // );
+  ApiObject.of(deployment).addJsonPatch(
+    JsonPatch.add(
+      "/spec/template/spec/containers/0/resources",
+      {
+        limits: {
+          "gpu.intel.com/i915": 1,
+        },
+      },
+    ),
+  );
 }
