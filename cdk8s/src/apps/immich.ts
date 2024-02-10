@@ -22,11 +22,12 @@ export function createImmichApp(chart: Chart) {
               name: "immich.persistence.library.existingClaim",
               value: immichVolumeName,
             },
-            {
-              name:
-                'microservices.resources.requests.limits."gpu\\.intel\\.com/i915"',
-              value: "1",
-            },
+            // quantities must match the regular expression '^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$'
+            // {
+            //   name:
+            //     'microservices.resources.requests.limits."gpu\\.intel\\.com/i915"',
+            //   value: "1",
+            // },
           ],
         },
       },
