@@ -7,15 +7,9 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Construct } from "npm:constructs";
 import { Size } from "npm:cdk8s";
-import { HddStorageClass, SsdStorageClass } from "./localPathProvisioner.ts";
-
-export type LocalPathStorageClass =
-  | typeof HddStorageClass
-  | typeof SsdStorageClass;
 
 type props = {
   namespace?: string;
-  storageClassName: LocalPathStorageClass;
 };
 
 export class LocalPathVolume extends Construct {
@@ -31,7 +25,7 @@ export class LocalPathVolume extends Construct {
       storage: Size.gibibytes(2),
       accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
-      storageClassName: props.storageClassName,
+      storageClassName: "local-path",
       metadata: {
         name: `${id}`,
       },
