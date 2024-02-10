@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "build": "deno run --allow-write=dist --allow-read=config src/app.ts",
+    "build": "deno run --allow-write=dist --allow-read=config src/app.ts && sed -i 's/gpu.intel.com\\/i915: null/gpu.intel.com\\/i915: 1/g' dist/lamport.k8s.yaml",
     "up": "deno task build && kubectl apply -f dist",
     "diff": "KUBECTL_EXTERNAL_DIFF=delta DELTA_PAGER=bat BAT_PAGER=/home/linuxbrew/.linuxbrew/bin/less kubectl diff -f dist/lamport.k8s.yaml"
   }

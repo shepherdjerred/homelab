@@ -7,7 +7,7 @@ import {
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart, Size } from "npm:cdk8s";
+import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
@@ -36,8 +36,6 @@ export function createPlexDeployment(chart: Chart) {
         ADVERTISE_IP: EnvValue.fromValue(
           "https://plex.tailnet-1a49.ts.net",
         ),
-        // NVIDIA_DRIVER_CAPABILITIES: EnvValue.fromValue("all"),
-        // NVIDIA_VISIBLE_DEVICES: EnvValue.fromValue("all"),
       },
       // https://support.plex.tv/articles/201543147-what-network-ports-do-i-need-to-allow-through-my-firewall/
       ports: [
@@ -204,7 +202,14 @@ export function createPlexDeployment(chart: Chart) {
     funnel: true,
   });
 
-  // ApiObject.of(deployment).addJsonPatch(
-  //   JsonPatch.add("/spec/template/spec/runtimeClassName", "nvidia"),
-  // );
+  ApiObject.of(deployment).addJsonPatch(
+    JsonPatch.add(
+      "/spec/template/spec/containers/0/resources",
+      {
+        requests: {
+          "gpu.intel.com/i915": 1,
+        },
+      },
+    ),
+  );
 }

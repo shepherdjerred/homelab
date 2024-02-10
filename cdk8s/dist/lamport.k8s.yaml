@@ -754,6 +754,9 @@ spec:
               hostPort: 32414
               name: port-32414-gdm
               protocol: UDP
+          resources:
+            requests:
+              gpu.intel.com/i915: 1
           securityContext:
             allowPrivilegeEscalation: true
             privileged: true
