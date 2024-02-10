@@ -27,14 +27,14 @@ export function createQBitTorrentDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "qbittorrent-pvc", {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   const gluetunlocalPathVolume = new LocalPathVolume(
     chart,
     "qbittorrent-gluetun-pvc",
     {
-      storageClassName: "ssd-local-path",
+      storageClassName: "local-path",
     },
   );
 

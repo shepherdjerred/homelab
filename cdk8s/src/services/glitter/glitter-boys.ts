@@ -55,7 +55,7 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, `glitter-data-${stage}`, {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   const dataDir = "/data";

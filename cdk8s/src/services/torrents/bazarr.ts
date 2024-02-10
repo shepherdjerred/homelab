@@ -17,7 +17,7 @@ export function createBazarrDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "bazarr-pvc", {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   deployment.addContainer(

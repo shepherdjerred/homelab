@@ -20,7 +20,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
     chart,
     "homeassistant-pvc",
     {
-      storageClassName: "ssd-local-path",
+      storageClassName: "local-path",
     },
   );
 

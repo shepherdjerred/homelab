@@ -22,7 +22,7 @@ export function createRadarrDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "radarr-pvc", {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   deployment.addContainer(

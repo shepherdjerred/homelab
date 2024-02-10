@@ -16,7 +16,7 @@ export function createOverseerrDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "overseerr-pvc", {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   deployment.addContainer(

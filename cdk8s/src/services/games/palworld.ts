@@ -21,7 +21,7 @@ export function createPalworldDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "palworld-pvc", {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   const item = new OnePasswordItem(chart, "palworld-item", {

@@ -25,7 +25,7 @@ export function createSyncthingDeployment(chart: Chart) {
     chart,
     "syncthing-config",
     {
-      storageClassName: "ssd-local-path",
+      storageClassName: "local-path",
     },
   );
 
@@ -33,7 +33,7 @@ export function createSyncthingDeployment(chart: Chart) {
     chart,
     "syncthing-data",
     {
-      storageClassName: "ssd-local-path",
+      storageClassName: "local-path",
     },
   );
 

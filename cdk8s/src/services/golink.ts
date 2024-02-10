@@ -23,7 +23,7 @@ export function createGolinkDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "golink-pvc", {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   const item = new OnePasswordItem(chart, "tailscale-auth-key-onepassword", {

@@ -76,7 +76,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -194,7 +194,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -298,7 +298,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -827,7 +827,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -946,7 +946,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -1044,7 +1044,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -1360,7 +1360,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -1516,7 +1516,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -1530,7 +1530,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -1649,7 +1649,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -1760,7 +1760,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -1774,7 +1774,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -1874,7 +1874,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: onepassword.com/v1
@@ -2056,7 +2056,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: hdd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: apps/v1
@@ -2148,7 +2148,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -2252,7 +2252,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -2393,7 +2393,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: ssd-local-path
+  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: onepassword.com/v1

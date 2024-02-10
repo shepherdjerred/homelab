@@ -27,7 +27,7 @@ export function createPlexDeployment(chart: Chart) {
     chart,
     "plex-pvc",
     {
-      storageClassName: "ssd-local-path",
+      storageClassName: "local-path",
     },
   );
 

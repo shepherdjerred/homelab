@@ -16,7 +16,7 @@ export function createTautulliDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "tautulli-pvc", {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   deployment.addContainer(

@@ -5,7 +5,7 @@ import { LocalPathVolume } from "../utils/localPathVolume.ts";
 export function createImmichApp(chart: Chart) {
   const volumeName = "immich-volume";
   new LocalPathVolume(chart, volumeName, {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   return new Application(chart, "immich-app", {

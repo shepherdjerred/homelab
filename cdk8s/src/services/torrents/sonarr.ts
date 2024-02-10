@@ -22,7 +22,7 @@ export function createSonarrDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "sonarr-pvc", {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   deployment.addContainer(

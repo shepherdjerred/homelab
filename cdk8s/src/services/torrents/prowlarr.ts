@@ -16,7 +16,7 @@ export function createProwlarrDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "prowlarr-pvc", {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   deployment.addContainer(

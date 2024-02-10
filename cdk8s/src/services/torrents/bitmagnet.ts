@@ -31,7 +31,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     itemPath:
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m",
     database: "bitmagnet",
-    storageClass: "hdd-local-path",
+    storageClass: "local-path",
   });
 
   const deployment = new Deployment(chart, "bitmagnet", {
@@ -40,7 +40,7 @@ export function createBitmagnetDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "bitmagnet-pvc", {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   deployment.addContainer(

@@ -20,7 +20,7 @@ export function createEspHomeDeployment(chart: Chart) {
     chart,
     "esphome-pvc",
     {
-      storageClassName: "ssd-local-path",
+      storageClassName: "local-path",
     },
   );
 

@@ -6,7 +6,7 @@ export function createPrometheusApp(chart: Chart) {
   const volumeName = "prometheus-volume";
 
   new LocalPathVolume(chart, volumeName, {
-    storageClassName: "ssd-local-path",
+    storageClassName: "local-path",
   });
 
   return new Application(chart, "prometheus-app", {
