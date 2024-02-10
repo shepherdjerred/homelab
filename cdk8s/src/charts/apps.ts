@@ -9,6 +9,8 @@ import { createLamportApp } from "../apps/lamport.ts";
 import { createIntelDevicePluginOperatorApp } from "../apps/intel-device-plugin-operator.ts";
 import { createIntelGpuDevicePluginApp } from "../apps/intel-gpu-device-plugin.ts";
 import { createCertManagerApp } from "../apps/cert-manager.ts";
+import { createNfdApp } from "../apps/nfd.ts";
+import { createMinioApp } from "../apps/minio.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -25,4 +27,6 @@ export function createAppsChart(app: App) {
   createIntelDevicePluginOperatorApp(chart);
   createIntelGpuDevicePluginApp(chart);
   createCertManagerApp(chart);
+  createNfdApp(chart);
+  createMinioApp(chart);
 }
