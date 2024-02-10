@@ -22,9 +22,7 @@ export function createGolinkDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "golink-pvc", {
-    storageClassName: "local-path",
-  });
+  const localPathVolume = new LocalPathVolume(chart, "golink-pvc", {});
 
   const item = new OnePasswordItem(chart, "tailscale-auth-key-onepassword", {
     spec: {

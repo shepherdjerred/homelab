@@ -16,9 +16,7 @@ export function createBazarrDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "bazarr-pvc", {
-    storageClassName: "local-path",
-  });
+  const localPathVolume = new LocalPathVolume(chart, "bazarr-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({

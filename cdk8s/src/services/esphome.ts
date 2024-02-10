@@ -19,9 +19,7 @@ export function createEspHomeDeployment(chart: Chart) {
   const localPathVolume = new LocalPathVolume(
     chart,
     "esphome-pvc",
-    {
-      storageClassName: "local-path",
-    },
+    {},
   );
 
   deployment.addContainer(

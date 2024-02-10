@@ -65,9 +65,7 @@ export class Postgres extends Construct {
     this.localPathVolume = new LocalPathVolume(
       scope,
       `${name}-volume`,
-      {
-        storageClassName: props.storageClass,
-      },
+      {},
     );
 
     this.deployment.addContainer(

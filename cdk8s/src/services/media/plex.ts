@@ -26,9 +26,7 @@ export function createPlexDeployment(chart: Chart) {
   const localPathVolume = new LocalPathVolume(
     chart,
     "plex-pvc",
-    {
-      storageClassName: "local-path",
-    },
+    {},
   );
 
   deployment.addContainer(

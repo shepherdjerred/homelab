@@ -20,9 +20,7 @@ export function createPalworldDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "palworld-pvc", {
-    storageClassName: "local-path",
-  });
+  const localPathVolume = new LocalPathVolume(chart, "palworld-pvc", {});
 
   const item = new OnePasswordItem(chart, "palworld-item", {
     spec: {

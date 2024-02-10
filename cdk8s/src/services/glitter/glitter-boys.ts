@@ -54,9 +54,11 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, `glitter-data-${stage}`, {
-    storageClassName: "local-path",
-  });
+  const localPathVolume = new LocalPathVolume(
+    chart,
+    `glitter-data-${stage}`,
+    {},
+  );
 
   const dataDir = "/data";
 

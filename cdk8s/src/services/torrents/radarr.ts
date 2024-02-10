@@ -21,9 +21,7 @@ export function createRadarrDeployment(chart: Chart) {
     },
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "radarr-pvc", {
-    storageClassName: "local-path",
-  });
+  const localPathVolume = new LocalPathVolume(chart, "radarr-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({

@@ -101,7 +101,6 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -142,7 +141,6 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: argoproj.io/v1alpha1

@@ -15,9 +15,7 @@ export function createTautulliDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "tautulli-pvc", {
-    storageClassName: "local-path",
-  });
+  const localPathVolume = new LocalPathVolume(chart, "tautulli-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({

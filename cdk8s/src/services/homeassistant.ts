@@ -19,9 +19,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
   const localPathVolume = new LocalPathVolume(
     chart,
     "homeassistant-pvc",
-    {
-      storageClassName: "local-path",
-    },
+    {},
   );
 
   deployment.addContainer(

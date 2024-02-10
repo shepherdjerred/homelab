@@ -21,9 +21,7 @@ export function createSonarrDeployment(chart: Chart) {
     },
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "sonarr-pvc", {
-    storageClassName: "local-path",
-  });
+  const localPathVolume = new LocalPathVolume(chart, "sonarr-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({

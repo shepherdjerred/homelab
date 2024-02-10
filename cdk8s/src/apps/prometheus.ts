@@ -5,9 +5,7 @@ import { LocalPathVolume } from "../utils/localPathVolume.ts";
 export function createPrometheusApp(chart: Chart) {
   const volumeName = "prometheus-volume";
 
-  new LocalPathVolume(chart, volumeName, {
-    storageClassName: "local-path",
-  });
+  new LocalPathVolume(chart, volumeName, {});
 
   return new Application(chart, "prometheus-app", {
     metadata: {

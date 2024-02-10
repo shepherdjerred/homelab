@@ -26,16 +26,12 @@ export function createQBitTorrentDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "qbittorrent-pvc", {
-    storageClassName: "local-path",
-  });
+  const localPathVolume = new LocalPathVolume(chart, "qbittorrent-pvc", {});
 
   const gluetunlocalPathVolume = new LocalPathVolume(
     chart,
     "qbittorrent-gluetun-pvc",
-    {
-      storageClassName: "local-path",
-    },
+    {},
   );
 
   deployment.addContainer(

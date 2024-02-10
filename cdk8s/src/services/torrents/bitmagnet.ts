@@ -39,9 +39,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "bitmagnet-pvc", {
-    storageClassName: "local-path",
-  });
+  const localPathVolume = new LocalPathVolume(chart, "bitmagnet-pvc", {});
 
   deployment.addContainer(
     withCommonProps({

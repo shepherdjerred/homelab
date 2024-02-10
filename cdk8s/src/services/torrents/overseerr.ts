@@ -15,9 +15,7 @@ export function createOverseerrDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "overseerr-pvc", {
-    storageClassName: "local-path",
-  });
+  const localPathVolume = new LocalPathVolume(chart, "overseerr-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({

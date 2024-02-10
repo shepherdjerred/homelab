@@ -24,17 +24,13 @@ export function createSyncthingDeployment(chart: Chart) {
   const configLocalPathVolume = new LocalPathVolume(
     chart,
     "syncthing-config",
-    {
-      storageClassName: "local-path",
-    },
+    {},
   );
 
   const dataLocalPathVolume = new LocalPathVolume(
     chart,
     "syncthing-data",
-    {
-      storageClassName: "local-path",
-    },
+    {},
   );
 
   deployment.addContainer(

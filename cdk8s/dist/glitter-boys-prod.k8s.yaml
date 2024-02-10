@@ -197,7 +197,6 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1

@@ -15,9 +15,7 @@ export function createProwlarrDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "prowlarr-pvc", {
-    storageClassName: "local-path",
-  });
+  const localPathVolume = new LocalPathVolume(chart, "prowlarr-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({
