@@ -6,7 +6,7 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: minio-api
+      name: minio
       port:
         number: 9000
   ingressClassName: tailscale
@@ -22,7 +22,7 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: minio-console
+      name: minio
       port:
         number: 9001
   ingressClassName: tailscale
