@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: glitter-boys-beta
+  namespace: lamport
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: glitter-boys-prod
+  namespace: lamport
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

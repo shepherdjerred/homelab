@@ -21,11 +21,24 @@ import { createProwlarrDeployment } from "../services/torrents/prowlarr.ts";
 import { createQBitTorrentDeployment } from "../services/torrents/qbittorrent.ts";
 import { createRadarrDeployment } from "../services/torrents/radarr.ts";
 import { createSonarrDeployment } from "../services/torrents/sonarr.ts";
+import { KubeNamespace } from "../../imports/k8s.ts";
 
 export function createLamportChart(app: App) {
   const chart = new Chart(app, "lamport", {
     namespace: "lamport",
     disableResourceNameHashes: true,
+  });
+
+  new KubeNamespace(chart, "glitter-boys-beta", {
+    metadata: {
+      name: "glitter-boys-beta",
+    },
+  });
+
+  new KubeNamespace(chart, "glitter-boys-prod", {
+    metadata: {
+      name: "glitter-boys-prod",
+    },
   });
 
   createEspHomeDeployment(chart);
