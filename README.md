@@ -15,17 +15,34 @@ think it's overall worthwhile since the ecosystem is so rich.
 These instructions are for future me, so that I can re-create my cluster from
 scratch if needed.
 
-Host Setup:
+### Host Setup
+
+At some point I should automate these steps, either as a part of a script, my
+dotfiles, ansible, etc.
 
 - Install Tailscale
 - Install Linuxbrew
-- Install fish, vim, helix, rtx, languages, etc.
+- Install fish, vim, helix, rtx, languages (Deno), etc.
+- Set fish as the default shell
+- Configure fish
 - Setup auto-updates with Ubuntu
 
   - https://help.ubuntu.com/community/AutomaticSecurityUpdates
 
-Cluster Setup:
+- Set KUBE_CONFIG
+- Update kernel parameters:
+  https://docs.k3s.io/security/hardening-guide#set-kernel-parameters
+- Increase number of file watchers
 
+  ```
+  sudo sysctl -w fs.inotify.max_user_watches=1990692
+  sudo sysctl -w fs.inotify.max_user_instances=512
+  sudo sysctl -w fs.inotify.max_queued_events=65536
+  ```
+
+### Cluster Setup
+
+1. Copy `k3s` to `/etc/rancher/k3s/`
 1. Install k3s.
 
    ```
@@ -38,20 +55,25 @@ Cluster Setup:
      rm -rfv ~/.kube && mkdir ~/.kube && sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && sudo chown $USER:$USER ~/.kube/config && chmod 600 ~/.kube/config
      ```
 
+1. Copy the Kubernetes configuration
+
 1. Install `helm` and `argocd`.
 
    ```
    brew install helm argocd
    ```
 
-1. Install argocd.
+1. Install Argo CD manually.
+
+   > [!NOTE] This will be imported into Argo CD itself as part of the CDK8s
+   > manifest
 
    ```
    kubectl create namespace argocd
    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
    ```
 
-1. Port-forward argocd to access the UI.
+1. Port-forward Argo CD to access the UI.
 
    ```
    kubectl port-forward svc/argocd-server -n argocd 8080:443 --address 0.0.0.0
@@ -87,18 +109,6 @@ Cluster Setup:
      cat 1password-credentials.json | base64 -w 0
      ```
 
-1. Sync the 1Password application.
-1. Sync all of the applications.
-1. Install Nvidia Drivers for Plex GPU acceleration.
-
-   - Follow these instructions:
-
-     - https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html
-     - https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html
-
-   - Note: it seems that the k8s operator is _not_ required for things to work
-     properly.
-
 1. Install Hauppauge Drivers for Hauppauge TV tuners.
 
    - https://www.hauppauge.com/pages/support/support_linux.html
@@ -110,11 +120,3 @@ Cluster Setup:
 1. Follow the K3s hardening guide.
 
    - https://docs.k3s.io/security/hardening-guide
-
-1. Increase number of file watchers
-
-   ```
-   sudo sysctl -w fs.inotify.max_user_watches=1990692
-   sudo sysctl -w fs.inotify.max_user_instances=512
-   sudo sysctl -w fs.inotify.max_queued_events=65536
-   ```
