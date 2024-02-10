@@ -12,6 +12,11 @@ export function createIntelGpuDevicePluginApp(chart: Chart) {
         repoUrl: "https://intel.github.io/helm-charts/",
         chart: "intel-device-plugins-gpu",
         targetRevision: "0.29.0",
+        helm: {
+          parameters: [
+            { name: "sharedDevNum", value: "10" },
+          ],
+        },
       },
       destination: {
         server: "https://kubernetes.default.svc",

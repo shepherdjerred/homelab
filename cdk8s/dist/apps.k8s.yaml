@@ -167,6 +167,10 @@ spec:
   project: default
   source:
     chart: intel-device-plugins-gpu
+    helm:
+      parameters:
+        - name: sharedDevNum
+          value: "10"
     repoURL: https://intel.github.io/helm-charts/
     targetRevision: 0.29.0
   syncPolicy:
