@@ -755,7 +755,7 @@ spec:
               name: port-32414-gdm
               protocol: UDP
           resources:
-            requests:
+            limits:
               gpu.intel.com/i915: 1
           securityContext:
             allowPrivilegeEscalation: true

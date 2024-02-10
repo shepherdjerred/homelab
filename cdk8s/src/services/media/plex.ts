@@ -206,7 +206,7 @@ export function createPlexDeployment(chart: Chart) {
     JsonPatch.add(
       "/spec/template/spec/containers/0/resources",
       {
-        requests: {
+        limits: {
           "gpu.intel.com/i915": 1,
         },
       },
