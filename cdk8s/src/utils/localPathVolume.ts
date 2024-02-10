@@ -25,7 +25,6 @@ export class LocalPathVolume extends Construct {
       storage: Size.gibibytes(2),
       accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
-      storageClassName: "local-path",
       metadata: {
         name: `${id}`,
       },
