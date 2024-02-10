@@ -8,10 +8,6 @@ import {
 import { Construct } from "npm:constructs";
 import { Size } from "npm:cdk8s";
 
-type props = {
-  namespace?: string;
-};
-
 export class LocalPathVolume extends Construct {
   public readonly claim: PersistentVolumeClaim;
   constructor(

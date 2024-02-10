@@ -90,19 +90,6 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: immich-volume
-  namespace: argocd
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
-  volumeMode: Filesystem
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

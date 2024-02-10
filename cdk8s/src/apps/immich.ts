@@ -1,11 +1,9 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
-import { LocalPathVolume } from "../utils/localPathVolume.ts";
+
+export const immichVolumeName = "immich-volume";
 
 export function createImmichApp(chart: Chart) {
-  const volumeName = "immich-volume";
-  new LocalPathVolume(chart, volumeName, {});
-
   return new Application(chart, "immich-app", {
     metadata: {
       name: "immich",
@@ -22,7 +20,7 @@ export function createImmichApp(chart: Chart) {
             { name: "redis.enabled", value: "true" },
             {
               name: "immich.persistence.library.existingClaim",
-              value: volumeName,
+              value: immichVolumeName,
             },
           ],
         },
