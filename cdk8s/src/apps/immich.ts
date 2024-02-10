@@ -16,6 +16,7 @@ export function createImmichApp(chart: Chart) {
         targetRevision: "immich-0.3.1",
         helm: {
           parameters: [
+            { name: "gpu", value: "1" },
             { name: "postgresql.enabled", value: "true" },
             { name: "redis.enabled", value: "true" },
             {
@@ -25,7 +26,7 @@ export function createImmichApp(chart: Chart) {
             {
               name:
                 'microservices.resources.requests.limits."gpu\\.intel\\.com/i915"',
-              value: "1",
+              value: "{{inputs.parameters.gpu}}",
             },
           ],
         },
