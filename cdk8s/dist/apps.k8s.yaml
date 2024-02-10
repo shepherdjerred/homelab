@@ -147,7 +147,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    chart: device-plugin-operator
+    chart: intel-device-plugins-operator
     repoURL: https://intel.github.io/helm-charts/
     targetRevision: 0.29.0
   syncPolicy:
@@ -166,7 +166,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    chart: gpu-device-plugin
+    chart: intel-device-plugins-gpu
     repoURL: https://intel.github.io/helm-charts/
     targetRevision: 0.29.0
   syncPolicy:
