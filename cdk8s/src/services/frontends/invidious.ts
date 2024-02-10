@@ -22,7 +22,7 @@ export function createInvidiousDeployment(chart: Chart) {
   const GID = 1000;
 
   const invidiousDeployment = new Deployment(chart, "invidious", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       fsGroup: GID,

@@ -16,7 +16,7 @@ export function createPlexDeployment(chart: Chart) {
   const GID = 1000;
 
   const deployment = new Deployment(chart, "plex", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       fsGroup: GID,

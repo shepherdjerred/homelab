@@ -16,7 +16,7 @@ export function createTedditDeployment(chart: Chart) {
   const GID = 1000;
 
   const tedditDeployment = new Deployment(chart, "teddit", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       user: UID,

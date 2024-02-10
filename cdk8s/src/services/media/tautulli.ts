@@ -11,7 +11,7 @@ import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createTautulliDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "tautulli", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
   });
 

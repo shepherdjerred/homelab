@@ -16,7 +16,7 @@ import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 
 export function createPalworldDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "palworld", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
   });
 
