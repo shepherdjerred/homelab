@@ -22,6 +22,11 @@ export function createImmichApp(chart: Chart) {
               name: "immich.persistence.library.existingClaim",
               value: immichVolumeName,
             },
+            {
+              name:
+                "microservices.resources.requests.limits.gpu\\.intel\\.com/i915",
+              value: "1",
+            },
           ],
         },
       },
