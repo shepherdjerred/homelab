@@ -149,7 +149,7 @@ spec:
   source:
     chart: device-plugin-operator
     repoURL: https://intel.github.io/helm-charts/
-    targetRevision: 0.29.0
+    targetRevision: vg0.29.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -168,7 +168,7 @@ spec:
   source:
     chart: gpu-device-plugin
     repoURL: https://intel.github.io/helm-charts/
-    targetRevision: 0.29.0
+    targetRevision: v0.29.0
   syncPolicy:
     automated: {}
     syncOptions:
