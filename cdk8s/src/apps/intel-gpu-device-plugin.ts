@@ -15,6 +15,7 @@ export function createIntelGpuDevicePluginApp(chart: Chart) {
         helm: {
           parameters: [
             { name: "sharedDevNum", value: "10" },
+            { name: "nodeFeatureRule", value: "true" },
           ],
         },
       },
