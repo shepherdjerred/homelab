@@ -9,7 +9,7 @@ export function createMinioApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
-        repoUrl: "oci://registry-1.docker.io/bitnamicharts/minio",
+        repoUrl: "https://charts.bitnami.com/bitnami",
         chart: "minio",
         targetRevision: "13.4.5",
       },

@@ -232,7 +232,7 @@ spec:
   project: default
   source:
     chart: minio
-    repoURL: oci://registry-1.docker.io/bitnamicharts/minio
+    repoURL: https://charts.bitnami.com/bitnami
     targetRevision: 13.4.5
   syncPolicy:
     automated: {}
