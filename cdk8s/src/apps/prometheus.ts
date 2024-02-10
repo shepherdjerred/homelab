@@ -1,12 +1,7 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
-import { LocalPathVolume } from "../utils/localPathVolume.ts";
 
 export function createPrometheusApp(chart: Chart) {
-  const volumeName = "prometheus-volume";
-
-  new LocalPathVolume(chart, volumeName, {});
-
   return new Application(chart, "prometheus-app", {
     metadata: {
       name: "prometheus",
@@ -19,10 +14,7 @@ export function createPrometheusApp(chart: Chart) {
         targetRevision: "56.6.2",
         helm: {
           parameters: [
-            {
-              name: "grafana.persistence.library.existingClaim",
-              value: volumeName,
-            },
+            // TODO: add volume??
           ],
         },
       },
