@@ -3,7 +3,7 @@
 [![pre-commit](https://github.com/shepherdjerred/servers/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/shepherdjerred/servers/actions/workflows/pre-commit.yml)
 
 This repository contains resources related to my home server, currently called
-`turing`. I give each of my servers a unique name so that I can keep track of
+`lamport`. I give each of my servers a unique name so that I can keep track of
 them over time.
 
 Currently my server is managed with Kubernetes. I've used Docker, Ansible, and
@@ -73,7 +73,7 @@ Cluster Setup:
    kubectl create namespace 1password
    ```
 
-1. Set the credentials in the `manual` directory. Create these resources using
+1. Set the credentials in the `secrets` directory. Create these resources using
    `kubectl apply`.
 
    - Be sure not to commit any changes to these files so that secrets don't

@@ -2,12 +2,8 @@ import { App, Chart } from "npm:cdk8s";
 import { createOnePasswordApp } from "../apps/1password.ts";
 import { createArgoCdApp } from "../apps/argocd.ts";
 import { createImmichApp } from "../apps/immich.ts";
-import { createLonghornApp } from "../apps/longhorn.ts";
-import { createProject } from "../apps/project.ts";
 import { createTailscaleApp } from "../apps/tailscale.ts";
-import { createTuringApp } from "../apps/turing.ts";
-import { createLonghornResources } from "../longhorn.ts";
-import { createNvidiaResources } from "../nvidia.ts";
+import { createLamportApp } from "../apps/lamport.ts";
 import { createEspHomeDeployment } from "../services/esphome.ts";
 import { createInvidiousDeployment } from "../services/frontends/invidious.ts";
 import { createNitterDeployment } from "../services/frontends/nitter.ts";
@@ -25,29 +21,12 @@ import { createProwlarrDeployment } from "../services/torrents/prowlarr.ts";
 import { createQBitTorrentDeployment } from "../services/torrents/qbittorrent.ts";
 import { createRadarrDeployment } from "../services/torrents/radarr.ts";
 import { createSonarrDeployment } from "../services/torrents/sonarr.ts";
-import { createPrometheusApp } from "../apps/prometheus.ts";
 
-export function createTuringChart(app: App) {
-  const chart = new Chart(app, "turing", {
-    namespace: "turing",
+export function createLamportChart(app: App) {
+  const chart = new Chart(app, "lamport", {
+    namespace: "lamport",
     disableResourceNameHashes: true,
-    labels: {
-      "app.kubernetes.io/instance": "turing",
-    },
   });
-
-  createProject(chart);
-
-  createNvidiaResources(chart);
-  createLonghornResources(chart);
-
-  createOnePasswordApp(chart);
-  createArgoCdApp(chart);
-  createLonghornApp(chart);
-  createTailscaleApp(chart);
-  createTuringApp(chart);
-  createImmichApp(chart);
-  createPrometheusApp(chart);
 
   createEspHomeDeployment(chart);
   createBazarrDeployment(chart);

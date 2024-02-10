@@ -5,7 +5,6 @@ export function createProject(chart: Chart) {
   new AppProject(chart, "project", {
     metadata: {
       name: "default",
-      namespace: "argocd",
     },
     spec: {
       orphanedResources: {

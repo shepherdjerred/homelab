@@ -6,7 +6,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { LonghornVolume } from "../../utils/longhorn.ts";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createProwlarrDeployment(chart: Chart) {
@@ -15,7 +15,9 @@ export function createProwlarrDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(chart, "prowlarr-longhorn", {});
+  const localPathVolume = new LocalPathVolume(chart, "prowlarr-pvc", {
+    storageClassName: "ssd-local-path",
+  });
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -27,7 +29,7 @@ export function createProwlarrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "prowlarr-volume",
-            longhornVolume.claim,
+            localPathVolume.claim,
           ),
         },
       ],

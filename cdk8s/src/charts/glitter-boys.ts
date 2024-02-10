@@ -8,9 +8,6 @@ export function createGlitterBoysChart(app: App, stage: Stage) {
   const chart = new Chart(app, `glitter-boys-${stage}`, {
     namespace: `glitter-boys-${stage}`,
     disableResourceNameHashes: true,
-    labels: {
-      "app.kubernetes.io/instance": `glitter-boys-${stage}`,
-    },
   });
 
   createBackendDeployment(chart, stage);

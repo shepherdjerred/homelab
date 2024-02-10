@@ -5,7 +5,7 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
-import { LonghornVolume } from "../utils/longhorn.ts";
+import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import {
   LINUXSERVER_GID,
   withCommonLinuxServerProps,
@@ -21,17 +21,19 @@ export function createSyncthingDeployment(chart: Chart) {
     },
   });
 
-  const configLonghornVolume = new LonghornVolume(
+  const configLocalPathVolume = new LocalPathVolume(
     chart,
-    "syncthing-longhorn",
-    {},
+    "syncthing-config",
+    {
+      storageClassName: "ssd-local-path",
+    },
   );
 
-  const dataLonghornVolume = new LonghornVolume(
+  const dataLocalPathVolume = new LocalPathVolume(
     chart,
-    "syncthing-data-longhorn",
+    "syncthing-data",
     {
-      storage: Size.gibibytes(50),
+      storageClassName: "ssd-local-path",
     },
   );
 
@@ -45,7 +47,7 @@ export function createSyncthingDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "syncthing-volume",
-            configLonghornVolume.claim,
+            configLocalPathVolume.claim,
           ),
         },
         {
@@ -53,7 +55,7 @@ export function createSyncthingDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "syncthing-data-volume",
-            dataLonghornVolume.claim,
+            dataLocalPathVolume.claim,
           ),
         },
       ],

@@ -8,7 +8,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { LonghornVolume } from "../../utils/longhorn.ts";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
@@ -26,14 +26,16 @@ export function createQBitTorrentDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(chart, "qbittorrent-longhorn", {
-    storage: Size.gibibytes(10),
+  const localPathVolume = new LocalPathVolume(chart, "qbittorrent-pvc", {
+    storageClassName: "ssd-local-path",
   });
 
-  const gluetunLonghornVolume = new LonghornVolume(
+  const gluetunlocalPathVolume = new LocalPathVolume(
     chart,
-    "qbittorrent-gluetun-longhorn",
-    {},
+    "qbittorrent-gluetun-pvc",
+    {
+      storageClassName: "ssd-local-path",
+    },
   );
 
   deployment.addContainer(
@@ -78,7 +80,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "qbittorrent-gluetun-volume",
-            gluetunLonghornVolume.claim,
+            gluetunlocalPathVolume.claim,
           ),
         },
       ],
@@ -95,7 +97,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "qbittorrent-volume",
-            longhornVolume.claim,
+            localPathVolume.claim,
           ),
         },
         // TODO: replace this with a shared volume on the RAID array

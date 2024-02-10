@@ -7,7 +7,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../utils/common.ts";
-import { LonghornVolume } from "../utils/longhorn.ts";
+import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createGolinkDeployment(chart: Chart) {
@@ -22,7 +22,9 @@ export function createGolinkDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(chart, "golink-pvc-longhorn", {});
+  const localPathVolume = new LocalPathVolume(chart, "golink-pvc", {
+    storageClassName: "ssd-local-path",
+  });
 
   const item = new OnePasswordItem(chart, "tailscale-auth-key-onepassword", {
     spec: {
@@ -57,7 +59,7 @@ export function createGolinkDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "golink-volume",
-            longhornVolume.claim,
+            localPathVolume.claim,
           ),
         },
       ],

@@ -1,11 +1,10 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 
-export function createTuringApp(chart: Chart) {
-  return new Application(chart, "turing-app", {
+export function createLamportApp(chart: Chart) {
+  return new Application(chart, "lamport-app", {
     metadata: {
-      name: "turing",
-      namespace: "argocd",
+      name: "lamport",
     },
     spec: {
       project: "default",
@@ -16,7 +15,7 @@ export function createTuringApp(chart: Chart) {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "turing",
+        namespace: "lamport",
       },
       syncPolicy: {
         automated: {},

@@ -9,7 +9,7 @@ import {
   LINUXSERVER_GID,
   withCommonLinuxServerProps,
 } from "../../utils/linuxserver.ts";
-import { LonghornVolume } from "../../utils/longhorn.ts";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createRadarrDeployment(chart: Chart) {
@@ -21,7 +21,9 @@ export function createRadarrDeployment(chart: Chart) {
     },
   });
 
-  const longhornVolume = new LonghornVolume(chart, "radarr-longhorn", {});
+  const localPathVolume = new LocalPathVolume(chart, "radarr-pvc", {
+    storageClassName: "ssd-local-path",
+  });
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -33,7 +35,7 @@ export function createRadarrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "radarr-volume",
-            longhornVolume.claim,
+            localPathVolume.claim,
           ),
         },
         {

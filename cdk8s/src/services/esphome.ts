@@ -7,7 +7,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../utils/common.ts";
-import { LonghornVolume } from "../utils/longhorn.ts";
+import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
 
 export function createEspHomeDeployment(chart: Chart) {
@@ -16,11 +16,11 @@ export function createEspHomeDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(
+  const localPathVolume = new LocalPathVolume(
     chart,
-    "esphome-pvc-longhorn",
+    "esphome-pvc",
     {
-      storage: Size.gibibytes(10),
+      storageClassName: "ssd-local-path",
     },
   );
 
@@ -47,7 +47,7 @@ export function createEspHomeDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "esphome-volume",
-            longhornVolume.claim,
+            localPathVolume.claim,
           ),
         },
       ],

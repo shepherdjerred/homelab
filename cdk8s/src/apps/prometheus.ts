@@ -1,18 +1,17 @@
-import { Chart, Size } from "npm:cdk8s";
+import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
-import { LonghornVolume } from "../utils/longhorn.ts";
+import { LocalPathVolume } from "../utils/localPathVolume.ts";
 
 export function createPrometheusApp(chart: Chart) {
-  new LonghornVolume(chart, "prometheus-volume", {
-    storageClassName: "longhorn-hdd",
-    storage: Size.gibibytes(50),
-    namespace: "prometheus",
+  const volumeName = "prometheus-volume";
+
+  new LocalPathVolume(chart, volumeName, {
+    storageClassName: "ssd-local-path",
   });
 
   return new Application(chart, "prometheus-app", {
     metadata: {
       name: "prometheus",
-      namespace: "argocd",
     },
     spec: {
       project: "default",
@@ -24,7 +23,7 @@ export function createPrometheusApp(chart: Chart) {
           parameters: [
             {
               name: "grafana.persistence.library.existingClaim",
-              value: "prometheus-volume",
+              value: volumeName,
             },
           ],
         },

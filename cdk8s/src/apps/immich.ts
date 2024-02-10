@@ -1,18 +1,16 @@
-import { Chart, Size } from "npm:cdk8s";
+import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
-import { LonghornVolume } from "../utils/longhorn.ts";
+import { LocalPathVolume } from "../utils/localPathVolume.ts";
 
 export function createImmichApp(chart: Chart) {
-  new LonghornVolume(chart, "immich-volume", {
-    storageClassName: "longhorn-hdd",
-    storage: Size.gibibytes(50),
-    namespace: "immich",
+  const volumeName = "immich-volume";
+  new LocalPathVolume(chart, volumeName, {
+    storageClassName: "ssd-local-path",
   });
 
   return new Application(chart, "immich-app", {
     metadata: {
       name: "immich",
-      namespace: "argocd",
     },
     spec: {
       project: "default",
@@ -26,7 +24,7 @@ export function createImmichApp(chart: Chart) {
             { name: "redis.enabled", value: "true" },
             {
               name: "immich.persistence.library.existingClaim",
-              value: "immich-volume",
+              value: volumeName,
             },
           ],
         },

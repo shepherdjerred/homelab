@@ -7,7 +7,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../utils/common.ts";
-import { LonghornVolume } from "../utils/longhorn.ts";
+import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
 
 export function createHomeAssistantDeployment(chart: Chart) {
@@ -16,10 +16,12 @@ export function createHomeAssistantDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(
+  const localPathVolume = new LocalPathVolume(
     chart,
-    "homeassistant-pvc-longhorn",
-    {},
+    "homeassistant-pvc",
+    {
+      storageClassName: "ssd-local-path",
+    },
   );
 
   deployment.addContainer(
@@ -45,7 +47,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "homeassistant-volume",
-            longhornVolume.claim,
+            localPathVolume.claim,
           ),
         },
       ],

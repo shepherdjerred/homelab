@@ -10,7 +10,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Service } from "npm:cdk8s-plus-27";
 import { Chart, Size } from "npm:cdk8s";
-import { LonghornVolume } from "../../utils/longhorn.ts";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 
@@ -20,8 +20,8 @@ export function createPalworldDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(chart, "palworld-longhorn", {
-    storage: Size.gibibytes(10),
+  const localPathVolume = new LocalPathVolume(chart, "palworld-pvc", {
+    storageClassName: "ssd-local-path",
   });
 
   const item = new OnePasswordItem(chart, "palworld-item", {
@@ -89,7 +89,7 @@ export function createPalworldDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "palworld-volume",
-            longhornVolume.claim,
+            localPathVolume.claim,
           ),
         },
       ],

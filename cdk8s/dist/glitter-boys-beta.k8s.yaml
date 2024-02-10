@@ -1,8 +1,6 @@
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  labels:
-    app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-boys-beta-lavalink-password
   namespace: glitter-boys-beta
 spec:
@@ -11,8 +9,6 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-boys-beta-lavalink
   namespace: glitter-boys-beta
 spec:
@@ -75,8 +71,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-boys-beta-lavalink-service
   namespace: glitter-boys-beta
 spec:
@@ -90,8 +84,6 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-boys-beta-glitter-backend
   namespace: glitter-boys-beta
 spec:
@@ -197,8 +189,6 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-data-beta
   namespace: glitter-boys-beta
 spec:
@@ -207,14 +197,12 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn-ssd
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  labels:
-    app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-boys-beta-glitter-players
   namespace: glitter-boys-beta
 data:
@@ -237,8 +225,6 @@ immutable: false
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  labels:
-    app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-boys-beta-discord-token
   namespace: glitter-boys-beta
 spec:
@@ -247,8 +233,6 @@ spec:
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  labels:
-    app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-boys-beta-aws-access-key
   namespace: glitter-boys-beta
 spec:
@@ -257,8 +241,6 @@ spec:
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  labels:
-    app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-boys-beta-riot-api-key
   namespace: glitter-boys-beta
 spec:
@@ -267,8 +249,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-boys-beta-glitter-boys-service
   namespace: glitter-boys-beta
 spec:
@@ -284,8 +264,6 @@ kind: Ingress
 metadata:
   annotations:
     tailscale.com/funnel: "true"
-  labels:
-    app.kubernetes.io/instance: glitter-boys-beta
   name: glitter-boys-beta-glitter-boys-ingress-ingress
   namespace: glitter-boys-beta
 spec:

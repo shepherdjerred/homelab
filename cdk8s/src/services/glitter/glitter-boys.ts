@@ -9,7 +9,7 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
-import { LonghornVolume } from "../../utils/longhorn.ts";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { Stage } from "../../charts/glitter-boys.ts";
 import { createLavalinkDeployment } from "./lavalink.ts";
 import { withCommonProps } from "../../utils/common.ts";
@@ -54,9 +54,8 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(chart, `glitter-data-${stage}`, {
-    storageClassName: "longhorn-ssd",
-    namespace: chart.namespace,
+  const localPathVolume = new LocalPathVolume(chart, `glitter-data-${stage}`, {
+    storageClassName: "ssd-local-path",
   });
 
   const dataDir = "/data";
@@ -178,7 +177,7 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
         volume: Volume.fromPersistentVolumeClaim(
           chart,
           "glitter-boys-data-volume",
-          longhornVolume.claim,
+          localPathVolume.claim,
         ),
       },
       {

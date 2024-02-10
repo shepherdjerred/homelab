@@ -6,8 +6,8 @@ import {
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart, Size } from "npm:cdk8s";
-import { LonghornVolume } from "../../utils/longhorn.ts";
+import { Chart } from "npm:cdk8s";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { Postgres } from "../common/postgres.ts";
@@ -31,8 +31,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     itemPath:
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m",
     database: "bitmagnet",
-    size: Size.gibibytes(500),
-    storageClass: "longhorn-hdd",
+    storageClass: "hdd-local-path",
   });
 
   const deployment = new Deployment(chart, "bitmagnet", {
@@ -40,7 +39,9 @@ export function createBitmagnetDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolume = new LonghornVolume(chart, "bitmagnet-longhorn", {});
+  const localPathVolume = new LocalPathVolume(chart, "bitmagnet-pvc", {
+    storageClassName: "ssd-local-path",
+  });
 
   deployment.addContainer(
     withCommonProps({
@@ -76,7 +77,7 @@ export function createBitmagnetDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "bitmagnet-volume",
-            longhornVolume.claim,
+            localPathVolume.claim,
           ),
         },
       ],

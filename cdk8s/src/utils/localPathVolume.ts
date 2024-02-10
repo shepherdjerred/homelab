@@ -7,15 +7,18 @@ import {
 } from "npm:cdk8s-plus-27";
 import { Construct } from "npm:constructs";
 import { Size } from "npm:cdk8s";
+import { HddStorageClass, SsdStorageClass } from "./localPathProvisioner.ts";
 
-export type LonghornStorageClass = "longhorn" | "longhorn-ssd" | "longhorn-hdd";
+export type LocalPathStorageClass =
+  | typeof HddStorageClass
+  | typeof SsdStorageClass;
 
-type props = Omit<PersistentVolumeClaimProps, "storageClassName"> & {
-  storageClassName?: LonghornStorageClass;
+type props = {
   namespace?: string;
+  storageClassName: LocalPathStorageClass;
 };
 
-export class LonghornVolume extends Construct {
+export class LocalPathVolume extends Construct {
   public readonly claim: PersistentVolumeClaim;
   constructor(
     scope: Construct,
@@ -24,13 +27,13 @@ export class LonghornVolume extends Construct {
   ) {
     super(scope, id);
     const baseProps: PersistentVolumeClaimProps = {
+      // storage size doesn't matter for local-path
       storage: Size.gibibytes(2),
       accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
-      storageClassName: props.storageClassName ?? "longhorn",
+      storageClassName: props.storageClassName,
       metadata: {
         name: `${id}`,
-        namespace: props.namespace ?? "turing",
       },
     };
 

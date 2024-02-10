@@ -1,322 +1,21 @@
-apiVersion: argoproj.io/v1alpha1
-kind: AppProject
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: default
-  namespace: argocd
-spec:
-  clusterResourceWhitelist:
-    - group: "*"
-      kind: "*"
-  destinations:
-    - namespace: "*"
-      server: "*"
-  orphanedResources:
-    warn: true
-  sourceRepos:
-    - "*"
----
-apiVersion: node.k8s.io/v1
-kind: RuntimeClass
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: nvidia
-  namespace: turing
-handler: nvidia
----
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: longhorn-ssd
-  namespace: turing
-parameters:
-  diskSelector: ssd
-  numberOfReplicas: "1"
-  recurringJobSelector: '[{"name":"turing-longhorn-recurring-job","isGroup":false}]'
-  staleReplicaTimeout: "480"
-provisioner: driver.longhorn.io
----
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: longhorn-hdd
-  namespace: turing
-parameters:
-  diskSelector: hdd
-  numberOfReplicas: "1"
-  staleReplicaTimeout: "480"
-provisioner: driver.longhorn.io
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: 1password
-  namespace: argocd
-spec:
-  destination:
-    namespace: 1password
-    server: https://kubernetes.default.svc
-  project: default
-  source:
-    chart: connect
-    helm:
-      parameters:
-        - name: operator.autoRestart
-          value: "true"
-        - name: operator.create
-          value: "true"
-        - name: operator.pollingInterval
-          value: "60"
-    repoURL: https://1password.github.io/connect-helm-charts/
-    targetRevision: 1.14.0
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: argocd
-  namespace: argocd
-spec:
-  destination:
-    namespace: argocd
-    server: https://kubernetes.default.svc
-  project: default
-  source:
-    path: manifests/
-    repoURL: https://github.com/argoproj/argo-cd
-    targetRevision: stable
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: aws-secret
-  namespace: longhorn
-spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/47zgh2s2tj4ite3gujflgqiwsq
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: longhorn
-  namespace: argocd
-spec:
-  destination:
-    namespace: longhorn
-    server: https://kubernetes.default.svc
-  project: default
-  source:
-    chart: longhorn
-    helm:
-      parameters:
-        - name: helmPreUpgradeCheckerJob.enabled
-          value: "false"
-        - name: persistence.defaultClassReplicaCount
-          value: "1"
-        - name: defaultSettings.backupTarget
-          value: s3://longhorn-backup@auto/
-        - name: defaultSettings.backupTargetCredentialSecret
-          value: aws-secret
-    repoURL: https://charts.longhorn.io
-    targetRevision: 1.6.0
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
----
-apiVersion: longhorn.io/v1beta2
-kind: RecurringJob
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-longhorn-recurring-job
-  namespace: longhorn
-spec:
-  concurrency: 4
-  cron: 0 0 * * *
-  labels: {}
-  name: longhorn-recurring-job
-  retain: 3
-  task: backup
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: operator-oauth
-  namespace: tailscale
-spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/mboftvs4fyptyqvg3anrfjy6vu
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: tailscale
-  namespace: argocd
-spec:
-  destination:
-    namespace: tailscale
-    server: https://kubernetes.default.svc
-  project: default
-  source:
-    path: cmd/k8s-operator/deploy/chart
-    repoURL: https://github.com/tailscale/tailscale
-    targetRevision: HEAD
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing
-  namespace: argocd
-spec:
-  destination:
-    namespace: turing
-    server: https://kubernetes.default.svc
-  project: default
-  source:
-    path: cdk8s/dist/
-    repoURL: https://github.com/shepherdjerred/servers
-    targetRevision: main
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: immich-volume
-  namespace: immich
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 50Gi
-  storageClassName: longhorn-hdd
-  volumeMode: Filesystem
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: immich
-  namespace: argocd
-spec:
-  destination:
-    namespace: immich
-    server: https://kubernetes.default.svc
-  project: default
-  source:
-    helm:
-      parameters:
-        - name: postgresql.enabled
-          value: "true"
-        - name: redis.enabled
-          value: "true"
-        - name: immich.persistence.library.existingClaim
-          value: immich-volume
-    path: charts/immich
-    repoURL: https://github.com/immich-app/immich-charts/
-    targetRevision: immich-0.3.1
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: prometheus-volume
-  namespace: prometheus
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 50Gi
-  storageClassName: longhorn-hdd
-  volumeMode: Filesystem
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: prometheus
-  namespace: argocd
-spec:
-  destination:
-    namespace: prometheus
-    server: https://kubernetes.default.svc
-  project: default
-  source:
-    chart: kube-prometheus-stack
-    helm:
-      parameters:
-        - name: grafana.persistence.library.existingClaim
-          value: prometheus-volume
-    repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 56.6.2
-  syncPolicy:
-    automated: {}
-    syncOptions:
-      - CreateNamespace=true
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-esphome
-  namespace: turing
+  name: lamport-esphome
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-esphome-c82c7ff4
+      cdk8s.io/metadata.addr: lamport-esphome-c87859eb
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-esphome-c82c7ff4
+        cdk8s.io/metadata.addr: lamport-esphome-c87859eb
     spec:
       automountServiceAccountToken: false
       containers:
@@ -339,7 +38,7 @@ spec:
             runAsUser: 0
           volumeMounts:
             - mountPath: /config
-              name: pvc-esphome-pvc-longhorn
+              name: pvc-esphome-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: true
       restartPolicy: Always
@@ -349,40 +48,36 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-esphome-pvc-longhorn
+        - name: pvc-esphome-pvc
           persistentVolumeClaim:
-            claimName: esphome-pvc-longhorn
+            claimName: esphome-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: esphome-pvc-longhorn
-  namespace: turing
+  name: esphome-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
-  storageClassName: longhorn
+      storage: 2Gi
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-esphome-service
-  namespace: turing
+  name: lamport-esphome-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 6052
   selector:
-    cdk8s.io/metadata.addr: turing-esphome-c82c7ff4
+    cdk8s.io/metadata.addr: lamport-esphome-c87859eb
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
@@ -390,14 +85,12 @@ kind: Ingress
 metadata:
   annotations:
     tailscale.com/funnel: "true"
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-esphome-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-esphome-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-esphome-service
+      name: lamport-esphome-service
       port:
         number: 6052
   ingressClassName: tailscale
@@ -408,23 +101,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bazarr
-  namespace: turing
+  name: lamport-bazarr
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-bazarr-c802be67
+      cdk8s.io/metadata.addr: lamport-bazarr-c8584962
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-bazarr-c802be67
+        cdk8s.io/metadata.addr: lamport-bazarr-c8584962
     spec:
       automountServiceAccountToken: false
       containers:
@@ -453,7 +144,7 @@ spec:
               port: 6767
           volumeMounts:
             - mountPath: /config
-              name: pvc-bazarr-longhorn
+              name: pvc-bazarr-pvc
             - mountPath: /movies
               name: bazarr-movies-bind-mount
             - mountPath: /tv
@@ -467,9 +158,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-bazarr-longhorn
+        - name: pvc-bazarr-pvc
           persistentVolumeClaim:
-            claimName: bazarr-longhorn
+            claimName: bazarr-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/media/movies
@@ -483,45 +174,39 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: bazarr-longhorn
-  namespace: turing
+  name: bazarr-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bazarr-service
-  namespace: turing
+  name: lamport-bazarr-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 6767
   selector:
-    cdk8s.io/metadata.addr: turing-bazarr-c802be67
+    cdk8s.io/metadata.addr: lamport-bazarr-c8584962
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bazarr-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-bazarr-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-bazarr-service
+      name: lamport-bazarr-service
       port:
         number: 6767
   ingressClassName: tailscale
@@ -532,23 +217,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-tautulli
-  namespace: turing
+  name: lamport-tautulli
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-tautulli-c8df029b
+      cdk8s.io/metadata.addr: lamport-tautulli-c827b506
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-tautulli-c8df029b
+        cdk8s.io/metadata.addr: lamport-tautulli-c827b506
     spec:
       automountServiceAccountToken: false
       containers:
@@ -577,7 +260,7 @@ spec:
               port: 8181
           volumeMounts:
             - mountPath: /config
-              name: pvc-tautulli-longhorn
+              name: pvc-tautulli-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -587,53 +270,47 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-tautulli-longhorn
+        - name: pvc-tautulli-pvc
           persistentVolumeClaim:
-            claimName: tautulli-longhorn
+            claimName: tautulli-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: tautulli-longhorn
-  namespace: turing
+  name: tautulli-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-tautulli-service
-  namespace: turing
+  name: lamport-tautulli-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 8181
   selector:
-    cdk8s.io/metadata.addr: turing-tautulli-c8df029b
+    cdk8s.io/metadata.addr: lamport-tautulli-c827b506
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-tautulli-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-tautulli-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-tautulli-service
+      name: lamport-tautulli-service
       port:
         number: 8181
   ingressClassName: tailscale
@@ -644,33 +321,29 @@ spec:
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
   name: invidious-postgres-onepassword
-  namespace: turing
+  namespace: lamport
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/l7quccusjzdh4ww5rhutqpaf2m
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-invidious-postgres-deployment
-  namespace: turing
+  name: lamport-invidious-postgres-deployment
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-invidious-postgres-deployment-c8cf5dfb
+      cdk8s.io/metadata.addr: lamport-invidious-postgres-deployment-c8d65c94
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-invidious-postgres-deployment-c8cf5dfb
+        cdk8s.io/metadata.addr: lamport-invidious-postgres-deployment-c8d65c94
     spec:
       automountServiceAccountToken: false
       containers:
@@ -704,7 +377,7 @@ spec:
               port: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: pvc-invidious-postgres-longhorn
+              name: pvc-invidious-postgres-volume
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -715,63 +388,56 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-invidious-postgres-longhorn
+        - name: pvc-invidious-postgres-volume
           persistentVolumeClaim:
-            claimName: invidious-postgres-longhorn
+            claimName: invidious-postgres-volume
             readOnly: false
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-invidious-postgres-deployment-service
-  namespace: turing
+  name: lamport-invidious-postgres-deployment-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 5432
       targetPort: 5432
   selector:
-    cdk8s.io/metadata.addr: turing-invidious-postgres-deployment-c8cf5dfb
+    cdk8s.io/metadata.addr: lamport-invidious-postgres-deployment-c8d65c94
   type: ClusterIP
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: invidious-postgres-longhorn
-  namespace: turing
+  name: invidious-postgres-volume
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
-  storageClassName: longhorn
+      storage: 2Gi
   volumeMode: Filesystem
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-invidious
-  namespace: turing
+  name: lamport-invidious
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
+      cdk8s.io/metadata.addr: lamport-invidious-c896b883
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
+        cdk8s.io/metadata.addr: lamport-invidious-c896b883
     spec:
       automountServiceAccountToken: false
       containers:
@@ -796,7 +462,7 @@ spec:
               port: 3000
           volumeMounts:
             - mountPath: /invidious/config/config.yml
-              name: configmap-turing-invidious-conf
+              name: configmap-lamport-invidious-conf
               subPath: config.yml
       dnsPolicy: ClusterFirst
       hostNetwork: false
@@ -812,16 +478,14 @@ spec:
             items:
               - key: config.yml
                 path: config.yml
-            name: turing-invidious-conf
-          name: configmap-turing-invidious-conf
+            name: lamport-invidious-conf
+          name: configmap-lamport-invidious-conf
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-invidious-conf
-  namespace: turing
+  name: lamport-invidious-conf
+  namespace: lamport
 data:
   config.yml: |
     db:
@@ -830,7 +494,7 @@ data:
       # not exposed to outside of the cluster, so this should be OK
       # ideally this should be a secret
       password: "orJ.U8QskAB3szvUK-8*"
-      host: "turing-invidious-postgres-deployment-service"
+      host: "lamport-invidious-postgres-deployment-service"
       port: 5432
     check_tables: true
     hmac_key: "f.3_RvweD9yDyxnfvgfA"
@@ -839,29 +503,25 @@ immutable: false
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-invidious-service
-  namespace: turing
+  name: lamport-invidious-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 3000
   selector:
-    cdk8s.io/metadata.addr: turing-invidious-c8ca4b09
+    cdk8s.io/metadata.addr: lamport-invidious-c896b883
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-invidious-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-invidious-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-invidious-service
+      name: lamport-invidious-service
       port:
         number: 3000
   ingressClassName: tailscale
@@ -872,23 +532,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-teddis-redis-deployment
-  namespace: turing
+  name: lamport-teddis-redis-deployment
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-teddis-redis-deployment-c8d1ca5d
+      cdk8s.io/metadata.addr: lamport-teddis-redis-deployment-c853563b
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-teddis-redis-deployment-c8d1ca5d
+        cdk8s.io/metadata.addr: lamport-teddis-redis-deployment-c853563b
     spec:
       automountServiceAccountToken: false
       containers:
@@ -923,39 +581,35 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-teddis-redis-deployment-service
-  namespace: turing
+  name: lamport-teddis-redis-deployment-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 6379
       targetPort: 6379
   selector:
-    cdk8s.io/metadata.addr: turing-teddis-redis-deployment-c8d1ca5d
+    cdk8s.io/metadata.addr: lamport-teddis-redis-deployment-c853563b
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-teddit
-  namespace: turing
+  name: lamport-teddit
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-teddit-c85c9da1
+      cdk8s.io/metadata.addr: lamport-teddit-c82b0ffa
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-teddit-c85c9da1
+        cdk8s.io/metadata.addr: lamport-teddit-c82b0ffa
     spec:
       automountServiceAccountToken: false
       containers:
@@ -963,7 +617,7 @@ spec:
             - name: TZ
               value: America/Los_Angeles
             - name: REDIS_HOST
-              value: turing-teddis-redis-deployment-service
+              value: lamport-teddis-redis-deployment-service
             - name: DOMAIN
               value: teddit.tailnet-1a49.ts.net
           image: teddit/teddit
@@ -994,29 +648,25 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-teddit-service
-  namespace: turing
+  name: lamport-teddit-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 8080
   selector:
-    cdk8s.io/metadata.addr: turing-teddit-c85c9da1
+    cdk8s.io/metadata.addr: lamport-teddit-c82b0ffa
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-teddit-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-teddit-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-teddit-service
+      name: lamport-teddit-service
       port:
         number: 8080
   ingressClassName: tailscale
@@ -1027,23 +677,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-plex
-  namespace: turing
+  name: lamport-plex
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-plex-c8e0eac9
+      cdk8s.io/metadata.addr: lamport-plex-c853a5e2
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-plex-c8e0eac9
+        cdk8s.io/metadata.addr: lamport-plex-c853a5e2
     spec:
       automountServiceAccountToken: false
       containers:
@@ -1052,10 +700,6 @@ spec:
               value: America/Los_Angeles
             - name: ADVERTISE_IP
               value: https://plex.tailnet-1a49.ts.net
-            - name: NVIDIA_DRIVER_CAPABILITIES
-              value: all
-            - name: NVIDIA_VISIBLE_DEVICES
-              value: all
           image: plexinc/pms-docker
           imagePullPolicy: Always
           name: main
@@ -1108,7 +752,7 @@ spec:
             runAsNonRoot: false
           volumeMounts:
             - mountPath: /config
-              name: pvc-plex-pvc-longhorn
+              name: pvc-plex-pvc
             - mountPath: /data/tv
               name: plex-tv-bind-mount
             - mountPath: /data/movies
@@ -1124,7 +768,6 @@ spec:
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
-      runtimeClassName: nvidia
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: Always
@@ -1132,9 +775,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-plex-pvc-longhorn
+        - name: pvc-plex-pvc
           persistentVolumeClaim:
-            claimName: plex-pvc-longhorn
+            claimName: plex-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/media/tv
@@ -1164,32 +807,28 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: plex-pvc-longhorn
-  namespace: turing
+  name: plex-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 50Gi
-  storageClassName: longhorn
+      storage: 2Gi
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-plex-service
-  namespace: turing
+  name: lamport-plex-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 32400
   selector:
-    cdk8s.io/metadata.addr: turing-plex-c8e0eac9
+    cdk8s.io/metadata.addr: lamport-plex-c853a5e2
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
@@ -1197,14 +836,12 @@ kind: Ingress
 metadata:
   annotations:
     tailscale.com/funnel: "true"
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-plex-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-plex-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-plex-service
+      name: lamport-plex-service
       port:
         number: 32400
   ingressClassName: tailscale
@@ -1215,23 +852,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-radarr
-  namespace: turing
+  name: lamport-radarr
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-radarr-c889326d
+      cdk8s.io/metadata.addr: lamport-radarr-c88a1752
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-radarr-c889326d
+        cdk8s.io/metadata.addr: lamport-radarr-c88a1752
     spec:
       automountServiceAccountToken: false
       containers:
@@ -1260,7 +895,7 @@ spec:
               port: 7878
           volumeMounts:
             - mountPath: /config
-              name: pvc-radarr-longhorn
+              name: pvc-radarr-pvc
             - mountPath: /downloads
               name: radarr-torrents-bind-mount
             - mountPath: /movies
@@ -1275,9 +910,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-radarr-longhorn
+        - name: pvc-radarr-pvc
           persistentVolumeClaim:
-            claimName: radarr-longhorn
+            claimName: radarr-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/downloads/torrents
@@ -1291,45 +926,39 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: radarr-longhorn
-  namespace: turing
+  name: radarr-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-radarr-service
-  namespace: turing
+  name: lamport-radarr-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 7878
   selector:
-    cdk8s.io/metadata.addr: turing-radarr-c889326d
+    cdk8s.io/metadata.addr: lamport-radarr-c88a1752
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-radarr-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-radarr-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-radarr-service
+      name: lamport-radarr-service
       port:
         number: 7878
   ingressClassName: tailscale
@@ -1340,23 +969,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-homeassistant
-  namespace: turing
+  name: lamport-homeassistant
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-homeassistant-c8dec317
+      cdk8s.io/metadata.addr: lamport-homeassistant-c8e21976
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-homeassistant-c8dec317
+        cdk8s.io/metadata.addr: lamport-homeassistant-c8e21976
     spec:
       automountServiceAccountToken: false
       containers:
@@ -1379,7 +1006,7 @@ spec:
             runAsUser: 0
           volumeMounts:
             - mountPath: /config
-              name: pvc-homeassistant-pvc-longhorn
+              name: pvc-homeassistant-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: true
       restartPolicy: Always
@@ -1389,40 +1016,36 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-homeassistant-pvc-longhorn
+        - name: pvc-homeassistant-pvc
           persistentVolumeClaim:
-            claimName: homeassistant-pvc-longhorn
+            claimName: homeassistant-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: homeassistant-pvc-longhorn
-  namespace: turing
+  name: homeassistant-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-homeassistant-service
-  namespace: turing
+  name: lamport-homeassistant-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 8123
   selector:
-    cdk8s.io/metadata.addr: turing-homeassistant-c8dec317
+    cdk8s.io/metadata.addr: lamport-homeassistant-c8e21976
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
@@ -1430,14 +1053,12 @@ kind: Ingress
 metadata:
   annotations:
     tailscale.com/funnel: "true"
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-homeassistant-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-homeassistant-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-homeassistant-service
+      name: lamport-homeassistant-service
       port:
         number: 8123
   ingressClassName: tailscale
@@ -1448,23 +1069,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-nitter-redis-deployment
-  namespace: turing
+  name: lamport-nitter-redis-deployment
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-nitter-redis-deployment-c86eb1e7
+      cdk8s.io/metadata.addr: lamport-nitter-redis-deployment-c80fc429
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-nitter-redis-deployment-c86eb1e7
+        cdk8s.io/metadata.addr: lamport-nitter-redis-deployment-c80fc429
     spec:
       automountServiceAccountToken: false
       containers:
@@ -1499,33 +1118,29 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-nitter-redis-deployment-service
-  namespace: turing
+  name: lamport-nitter-redis-deployment-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 6379
       targetPort: 6379
   selector:
-    cdk8s.io/metadata.addr: turing-nitter-redis-deployment-c86eb1e7
+    cdk8s.io/metadata.addr: lamport-nitter-redis-deployment-c80fc429
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-nitter
-  namespace: turing
+  name: lamport-nitter
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-nitter-c8547ba1
+      cdk8s.io/metadata.addr: lamport-nitter-c8fb0a68
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -1534,7 +1149,7 @@ spec:
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-nitter-c8547ba1
+        cdk8s.io/metadata.addr: lamport-nitter-c8fb0a68
     spec:
       automountServiceAccountToken: false
       containers:
@@ -1557,7 +1172,7 @@ spec:
               port: 8080
           volumeMounts:
             - mountPath: /src/nitter.conf
-              name: configmap-turing-nitter-conf
+              name: configmap-lamport-nitter-conf
               subPath: nitter.conf
       dnsPolicy: ClusterFirst
       hostNetwork: false
@@ -1574,16 +1189,14 @@ spec:
             items:
               - key: nitter.conf
                 path: nitter.conf
-            name: turing-nitter-conf
-          name: configmap-turing-nitter-conf
+            name: lamport-nitter-conf
+          name: configmap-lamport-nitter-conf
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-nitter-conf
-  namespace: turing
+  name: lamport-nitter-conf
+  namespace: lamport
 data:
   nitter.conf: |
     [Server]
@@ -1598,7 +1211,7 @@ data:
     [Cache]
     listMinutes = 240  # how long to cache list info (not the tweets, so keep it high)
     rssMinutes = 10  # how long to cache rss queries
-    redisHost = "turing-nitter-redis-deployment-service"  # Change to "nitter-redis" if using docker-compose
+    redisHost = "lamport-nitter-redis-deployment-service"  # Change to "nitter-redis" if using docker-compose
     redisPort = 6379
     redisPassword = ""
     redisConnections = 20  # connection pool size
@@ -1637,29 +1250,25 @@ immutable: false
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-nitter-service
-  namespace: turing
+  name: lamport-nitter-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 8080
   selector:
-    cdk8s.io/metadata.addr: turing-nitter-c8547ba1
+    cdk8s.io/metadata.addr: lamport-nitter-c8fb0a68
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-nitter-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-nitter-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-nitter-service
+      name: lamport-nitter-service
       port:
         number: 8080
   ingressClassName: tailscale
@@ -1670,23 +1279,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-overseerr
-  namespace: turing
+  name: lamport-overseerr
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-overseerr-c8da0376
+      cdk8s.io/metadata.addr: lamport-overseerr-c87596e1
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-overseerr-c8da0376
+        cdk8s.io/metadata.addr: lamport-overseerr-c87596e1
     spec:
       automountServiceAccountToken: false
       containers:
@@ -1715,7 +1322,7 @@ spec:
               port: 5055
           volumeMounts:
             - mountPath: /config
-              name: pvc-overseerr-longhorn
+              name: pvc-overseerr-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1725,40 +1332,36 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-overseerr-longhorn
+        - name: pvc-overseerr-pvc
           persistentVolumeClaim:
-            claimName: overseerr-longhorn
+            claimName: overseerr-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: overseerr-longhorn
-  namespace: turing
+  name: overseerr-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-overseerr-service
-  namespace: turing
+  name: lamport-overseerr-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 5055
   selector:
-    cdk8s.io/metadata.addr: turing-overseerr-c8da0376
+    cdk8s.io/metadata.addr: lamport-overseerr-c87596e1
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
@@ -1766,14 +1369,12 @@ kind: Ingress
 metadata:
   annotations:
     tailscale.com/funnel: "true"
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-overseerr-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-overseerr-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-overseerr-service
+      name: lamport-overseerr-service
       port:
         number: 5055
   ingressClassName: tailscale
@@ -1784,33 +1385,29 @@ spec:
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-mullvad
-  namespace: turing
+  name: lamport-mullvad
+  namespace: lamport
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/74rqjncejp7rpgelymnmul5ssm
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-qbittorrent
-  namespace: turing
+  name: lamport-qbittorrent
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
+      cdk8s.io/metadata.addr: lamport-qbittorrent-c8a4a28f
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
+        cdk8s.io/metadata.addr: lamport-qbittorrent-c8a4a28f
     spec:
       automountServiceAccountToken: false
       containers:
@@ -1825,12 +1422,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: private-key
-                  name: turing-mullvad
+                  name: lamport-mullvad
             - name: WIREGUARD_PRESHARED_KEY
               valueFrom:
                 secretKeyRef:
                   key: preshared-key
-                  name: turing-mullvad
+                  name: lamport-mullvad
             - name: WIREGUARD_ADDRESSES
               value: 10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128
             - name: FIREWALL_VPN_INPUT_PORTS
@@ -1845,7 +1442,7 @@ spec:
             runAsNonRoot: false
           volumeMounts:
             - mountPath: /gluetun
-              name: pvc-qbittorrent-gluetun-longhorn
+              name: pvc-qbittorrent-gluetun-pvc
         - env:
             - name: TZ
               value: America/Los_Angeles
@@ -1871,7 +1468,7 @@ spec:
               port: 8080
           volumeMounts:
             - mountPath: /config
-              name: pvc-qbittorrent-longhorn
+              name: pvc-qbittorrent-pvc
             - mountPath: /downloads
               name: qbittorrent-bind-mount
       dnsPolicy: ClusterFirst
@@ -1883,13 +1480,13 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-qbittorrent-gluetun-longhorn
+        - name: pvc-qbittorrent-gluetun-pvc
           persistentVolumeClaim:
-            claimName: qbittorrent-gluetun-longhorn
+            claimName: qbittorrent-gluetun-pvc
             readOnly: false
-        - name: pvc-qbittorrent-longhorn
+        - name: pvc-qbittorrent-pvc
           persistentVolumeClaim:
-            claimName: qbittorrent-longhorn
+            claimName: qbittorrent-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/downloads/torrents
@@ -1899,33 +1496,29 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: qbittorrent-longhorn
-  namespace: turing
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: longhorn
-  volumeMode: Filesystem
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: qbittorrent-gluetun-longhorn
-  namespace: turing
+  name: qbittorrent-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn
+  storageClassName: ssd-local-path
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qbittorrent-gluetun-pvc
+  namespace: lamport
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
@@ -1933,29 +1526,25 @@ kind: Service
 metadata:
   annotations:
     metallb.universe.tf/allow-shared-ip: gluetun
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-qbittorrent-service
-  namespace: turing
+  name: lamport-qbittorrent-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 8080
   selector:
-    cdk8s.io/metadata.addr: turing-qbittorrent-c8390277
+    cdk8s.io/metadata.addr: lamport-qbittorrent-c8a4a28f
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-qbittorrent-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-qbittorrent-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-qbittorrent-service
+      name: lamport-qbittorrent-service
       port:
         number: 8080
   ingressClassName: tailscale
@@ -1966,23 +1555,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-sonarr
-  namespace: turing
+  name: lamport-sonarr
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-sonarr-c8f9699c
+      cdk8s.io/metadata.addr: lamport-sonarr-c829f3bd
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-sonarr-c8f9699c
+        cdk8s.io/metadata.addr: lamport-sonarr-c829f3bd
     spec:
       automountServiceAccountToken: false
       containers:
@@ -2011,7 +1598,7 @@ spec:
               port: 8989
           volumeMounts:
             - mountPath: /config
-              name: pvc-sonarr-longhorn
+              name: pvc-sonarr-pvc
             - mountPath: /downloads
               name: sonarr-torrents-bind-mount
             - mountPath: /tv
@@ -2026,9 +1613,9 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-sonarr-longhorn
+        - name: pvc-sonarr-pvc
           persistentVolumeClaim:
-            claimName: sonarr-longhorn
+            claimName: sonarr-pvc
             readOnly: false
         - hostPath:
             path: /mnt/storage/downloads/torrents
@@ -2042,45 +1629,39 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: sonarr-longhorn
-  namespace: turing
+  name: sonarr-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-sonarr-service
-  namespace: turing
+  name: lamport-sonarr-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 8989
   selector:
-    cdk8s.io/metadata.addr: turing-sonarr-c8f9699c
+    cdk8s.io/metadata.addr: lamport-sonarr-c829f3bd
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-sonarr-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-sonarr-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-sonarr-service
+      name: lamport-sonarr-service
       port:
         number: 8989
   ingressClassName: tailscale
@@ -2091,23 +1672,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-syncthing
-  namespace: turing
+  name: lamport-syncthing
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-syncthing-c84725cd
+      cdk8s.io/metadata.addr: lamport-syncthing-c8119c20
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-syncthing-c84725cd
+        cdk8s.io/metadata.addr: lamport-syncthing-c8119c20
     spec:
       automountServiceAccountToken: false
       containers:
@@ -2136,9 +1715,9 @@ spec:
               port: 8384
           volumeMounts:
             - mountPath: /config
-              name: pvc-syncthing-longhorn
+              name: pvc-syncthing-config
             - mountPath: /sync
-              name: pvc-syncthing-data-longhorn
+              name: pvc-syncthing-data
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2149,73 +1728,65 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-syncthing-longhorn
+        - name: pvc-syncthing-config
           persistentVolumeClaim:
-            claimName: syncthing-longhorn
+            claimName: syncthing-config
             readOnly: false
-        - name: pvc-syncthing-data-longhorn
+        - name: pvc-syncthing-data
           persistentVolumeClaim:
-            claimName: syncthing-data-longhorn
+            claimName: syncthing-data
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: syncthing-longhorn
-  namespace: turing
+  name: syncthing-config
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: syncthing-data-longhorn
-  namespace: turing
+  name: syncthing-data
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 50Gi
-  storageClassName: longhorn
+      storage: 2Gi
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-syncthing-service
-  namespace: turing
+  name: lamport-syncthing-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 8384
   selector:
-    cdk8s.io/metadata.addr: turing-syncthing-c84725cd
+    cdk8s.io/metadata.addr: lamport-syncthing-c8119c20
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-syncthing-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-syncthing-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-syncthing-service
+      name: lamport-syncthing-service
       port:
         number: 8384
   ingressClassName: tailscale
@@ -2226,23 +1797,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-golink
-  namespace: turing
+  name: lamport-golink
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-golink-c8ad5c7c
+      cdk8s.io/metadata.addr: lamport-golink-c8950952
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-golink-c8ad5c7c
+        cdk8s.io/metadata.addr: lamport-golink-c8950952
     spec:
       automountServiceAccountToken: false
       containers:
@@ -2266,7 +1835,7 @@ spec:
             runAsUser: 65532
           volumeMounts:
             - mountPath: /home/nonroot
-              name: pvc-golink-pvc-longhorn
+              name: pvc-golink-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2277,67 +1846,59 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-golink-pvc-longhorn
+        - name: pvc-golink-pvc
           persistentVolumeClaim:
-            claimName: golink-pvc-longhorn
+            claimName: golink-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: golink-pvc-longhorn
-  namespace: turing
+  name: golink-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
   name: tailscale-auth-key
-  namespace: turing
+  namespace: lamport
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/t5scpnlhnxvu25dneg6jdd7c7q
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
   name: tmdb-api-key
-  namespace: turing
+  namespace: lamport
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/z5a3jfyku5hvfxjzmvzm4ma3b4
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-redis-deployment
-  namespace: turing
+  name: lamport-bitmagnet-redis-deployment
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-bitmagnet-redis-deployment-c81582cd
+      cdk8s.io/metadata.addr: lamport-bitmagnet-redis-deployment-c8a1bca7
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-bitmagnet-redis-deployment-c81582cd
+        cdk8s.io/metadata.addr: lamport-bitmagnet-redis-deployment-c8a1bca7
     spec:
       automountServiceAccountToken: false
       containers:
@@ -2372,49 +1933,43 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-redis-deployment-service
-  namespace: turing
+  name: lamport-bitmagnet-redis-deployment-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 6379
       targetPort: 6379
   selector:
-    cdk8s.io/metadata.addr: turing-bitmagnet-redis-deployment-c81582cd
+    cdk8s.io/metadata.addr: lamport-bitmagnet-redis-deployment-c8a1bca7
   type: ClusterIP
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
   name: bitmagnet-postgres-onepassword
-  namespace: turing
+  namespace: lamport
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-postgres-deployment
-  namespace: turing
+  name: lamport-bitmagnet-postgres-deployment
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-bitmagnet-postgres-deployment-c88c7f8b
+      cdk8s.io/metadata.addr: lamport-bitmagnet-postgres-deployment-c8cacff2
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-bitmagnet-postgres-deployment-c88c7f8b
+        cdk8s.io/metadata.addr: lamport-bitmagnet-postgres-deployment-c8cacff2
     spec:
       automountServiceAccountToken: false
       containers:
@@ -2448,7 +2003,7 @@ spec:
               port: 5432
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: pvc-bitmagnet-postgres-longhorn
+              name: pvc-bitmagnet-postgres-volume
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2459,63 +2014,57 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-bitmagnet-postgres-longhorn
+        - name: pvc-bitmagnet-postgres-volume
           persistentVolumeClaim:
-            claimName: bitmagnet-postgres-longhorn
+            claimName: bitmagnet-postgres-volume
             readOnly: false
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-postgres-deployment-service
-  namespace: turing
+  name: lamport-bitmagnet-postgres-deployment-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 5432
       targetPort: 5432
   selector:
-    cdk8s.io/metadata.addr: turing-bitmagnet-postgres-deployment-c88c7f8b
+    cdk8s.io/metadata.addr: lamport-bitmagnet-postgres-deployment-c8cacff2
   type: ClusterIP
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: bitmagnet-postgres-longhorn
-  namespace: turing
+  name: bitmagnet-postgres-volume
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 500Gi
-  storageClassName: longhorn-hdd
+      storage: 2Gi
+  storageClassName: hdd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bitmagnet
-  namespace: turing
+  name: lamport-bitmagnet
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-bitmagnet-c80fe8d5
+      cdk8s.io/metadata.addr: lamport-bitmagnet-c8718e1d
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-bitmagnet-c80fe8d5
+        cdk8s.io/metadata.addr: lamport-bitmagnet-c8718e1d
     spec:
       automountServiceAccountToken: false
       containers:
@@ -2530,14 +2079,14 @@ spec:
             - name: TZ
               value: America/Los_Angeles
             - name: POSTGRES_HOST
-              value: turing-bitmagnet-postgres-deployment-service
+              value: lamport-bitmagnet-postgres-deployment-service
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: bitmagnet-postgres-onepassword
             - name: REDIS_ADDR
-              value: turing-bitmagnet-redis-deployment-service:6379
+              value: lamport-bitmagnet-redis-deployment-service:6379
             - name: TMDB_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -2561,7 +2110,7 @@ spec:
               port: 3333
           volumeMounts:
             - mountPath: /app
-              name: pvc-bitmagnet-longhorn
+              name: pvc-bitmagnet-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2571,53 +2120,47 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-bitmagnet-longhorn
+        - name: pvc-bitmagnet-pvc
           persistentVolumeClaim:
-            claimName: bitmagnet-longhorn
+            claimName: bitmagnet-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: bitmagnet-longhorn
-  namespace: turing
+  name: bitmagnet-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-service
-  namespace: turing
+  name: lamport-bitmagnet-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 3333
   selector:
-    cdk8s.io/metadata.addr: turing-bitmagnet-c80fe8d5
+    cdk8s.io/metadata.addr: lamport-bitmagnet-c8718e1d
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-bitmagnet-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-bitmagnet-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-bitmagnet-service
+      name: lamport-bitmagnet-service
       port:
         number: 3333
   ingressClassName: tailscale
@@ -2628,23 +2171,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-prowlarr
-  namespace: turing
+  name: lamport-prowlarr
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-prowlarr-c860cf1e
+      cdk8s.io/metadata.addr: lamport-prowlarr-c8f63e06
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-prowlarr-c860cf1e
+        cdk8s.io/metadata.addr: lamport-prowlarr-c8f63e06
     spec:
       automountServiceAccountToken: false
       containers:
@@ -2673,7 +2214,7 @@ spec:
               port: 9696
           volumeMounts:
             - mountPath: /config
-              name: pvc-prowlarr-longhorn
+              name: pvc-prowlarr-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2683,53 +2224,47 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-prowlarr-longhorn
+        - name: pvc-prowlarr-pvc
           persistentVolumeClaim:
-            claimName: prowlarr-longhorn
+            claimName: prowlarr-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: prowlarr-longhorn
-  namespace: turing
+  name: prowlarr-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  storageClassName: longhorn
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-prowlarr-service
-  namespace: turing
+  name: lamport-prowlarr-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
     - port: 9696
   selector:
-    cdk8s.io/metadata.addr: turing-prowlarr-c860cf1e
+    cdk8s.io/metadata.addr: lamport-prowlarr-c8f63e06
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-prowlarr-tailscale-ingress-ingress
-  namespace: turing
+  name: lamport-prowlarr-tailscale-ingress-ingress
+  namespace: lamport
 spec:
   defaultBackend:
     service:
-      name: turing-prowlarr-service
+      name: lamport-prowlarr-service
       port:
         number: 9696
   ingressClassName: tailscale
@@ -2740,23 +2275,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-palworld
-  namespace: turing
+  name: lamport-palworld
+  namespace: lamport
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
   replicas: 1
   selector:
     matchLabels:
-      cdk8s.io/metadata.addr: turing-palworld-c89e0183
+      cdk8s.io/metadata.addr: lamport-palworld-c897ee52
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        cdk8s.io/metadata.addr: turing-palworld-c89e0183
+        cdk8s.io/metadata.addr: lamport-palworld-c897ee52
     spec:
       automountServiceAccountToken: false
       containers:
@@ -2771,7 +2304,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: turing-palworld-item
+                  name: lamport-palworld-item
             - name: MULTITHREADING
               value: "true"
             - name: RCON_ENABLED
@@ -2782,7 +2315,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: rcon-password
-                  name: turing-palworld-item
+                  name: lamport-palworld-item
             - name: COMMUNITY
               value: "false"
             - name: SERVER_NAME
@@ -2822,7 +2355,7 @@ spec:
             runAsNonRoot: false
           volumeMounts:
             - mountPath: /palworld
-              name: pvc-palworld-longhorn
+              name: pvc-palworld-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -2832,44 +2365,38 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-palworld-longhorn
+        - name: pvc-palworld-pvc
           persistentVolumeClaim:
-            claimName: palworld-longhorn
+            claimName: palworld-pvc
             readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: palworld-longhorn
-  namespace: turing
+  name: palworld-pvc
+  namespace: lamport
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
-  storageClassName: longhorn
+      storage: 2Gi
+  storageClassName: ssd-local-path
   volumeMode: Filesystem
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-palworld-item
-  namespace: turing
+  name: lamport-palworld-item
+  namespace: lamport
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/yrlyezq2axgfkdfchtl7n7o6b4
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-palworld-game-service
-  namespace: turing
+  name: lamport-palworld-game-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
@@ -2877,16 +2404,14 @@ spec:
       port: 8211
       protocol: UDP
   selector:
-    cdk8s.io/metadata.addr: turing-palworld-c89e0183
+    cdk8s.io/metadata.addr: lamport-palworld-c897ee52
   type: NodePort
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: turing
-  name: turing-palworld-query-service
-  namespace: turing
+  name: lamport-palworld-query-service
+  namespace: lamport
 spec:
   externalIPs: []
   ports:
@@ -2894,5 +2419,5 @@ spec:
       port: 27015
       protocol: UDP
   selector:
-    cdk8s.io/metadata.addr: turing-palworld-c89e0183
+    cdk8s.io/metadata.addr: lamport-palworld-c897ee52
   type: NodePort

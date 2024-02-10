@@ -9,7 +9,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
-import { LonghornVolume } from "../../utils/longhorn.ts";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createPlexDeployment(chart: Chart) {
@@ -23,11 +23,11 @@ export function createPlexDeployment(chart: Chart) {
     },
   });
 
-  const longhornVolume = new LonghornVolume(
+  const localPathVolume = new LocalPathVolume(
     chart,
-    "plex-pvc-longhorn",
+    "plex-pvc",
     {
-      storage: Size.gibibytes(50),
+      storageClassName: "ssd-local-path",
     },
   );
 
@@ -38,8 +38,8 @@ export function createPlexDeployment(chart: Chart) {
         ADVERTISE_IP: EnvValue.fromValue(
           "https://plex.tailnet-1a49.ts.net",
         ),
-        NVIDIA_DRIVER_CAPABILITIES: EnvValue.fromValue("all"),
-        NVIDIA_VISIBLE_DEVICES: EnvValue.fromValue("all"),
+        // NVIDIA_DRIVER_CAPABILITIES: EnvValue.fromValue("all"),
+        // NVIDIA_VISIBLE_DEVICES: EnvValue.fromValue("all"),
       },
       // https://support.plex.tv/articles/201543147-what-network-ports-do-i-need-to-allow-through-my-firewall/
       ports: [
@@ -121,7 +121,7 @@ export function createPlexDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "plex-volume",
-            longhornVolume.claim,
+            localPathVolume.claim,
           ),
         },
         {
@@ -206,7 +206,7 @@ export function createPlexDeployment(chart: Chart) {
     funnel: true,
   });
 
-  ApiObject.of(deployment).addJsonPatch(
-    JsonPatch.add("/spec/template/spec/runtimeClassName", "nvidia"),
-  );
+  // ApiObject.of(deployment).addJsonPatch(
+  //   JsonPatch.add("/spec/template/spec/runtimeClassName", "nvidia"),
+  // );
 }

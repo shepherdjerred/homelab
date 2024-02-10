@@ -10,7 +10,10 @@ import {
   Volume,
 } from "npm:cdk8s-plus-27";
 import { withCommonProps } from "../../utils/common.ts";
-import { LonghornStorageClass, LonghornVolume } from "../../utils/longhorn.ts";
+import {
+  LocalPathStorageClass,
+  LocalPathVolume,
+} from "../../utils/localPathVolume.ts";
 import { Size } from "npm:cdk8s";
 
 export class Postgres extends Construct {
@@ -18,14 +21,13 @@ export class Postgres extends Construct {
   public readonly passwordSecret: ISecret;
   public readonly passwordEnvValue: EnvValue;
   public readonly deployment: Deployment;
-  public readonly longhornVolume: LonghornVolume;
+  public readonly localPathVolume: LocalPathVolume;
   public readonly service: Service;
 
   constructor(scope: Construct, name: string, props: {
     itemPath: string;
     database: string;
-    size: Size;
-    storageClass?: LonghornStorageClass;
+    storageClass: LocalPathStorageClass;
   }) {
     super(scope, name);
 
@@ -60,11 +62,10 @@ export class Postgres extends Construct {
       key: "password",
     });
 
-    this.longhornVolume = new LonghornVolume(
+    this.localPathVolume = new LocalPathVolume(
       scope,
-      `${name}-longhorn`,
+      `${name}-volume`,
       {
-        storage: props.size,
         storageClassName: props.storageClass,
       },
     );
@@ -90,7 +91,7 @@ export class Postgres extends Construct {
             volume: Volume.fromPersistentVolumeClaim(
               scope,
               `${name}-pvc`,
-              this.longhornVolume.claim,
+              this.localPathVolume.claim,
             ),
           },
         ],

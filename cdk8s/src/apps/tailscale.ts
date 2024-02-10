@@ -17,7 +17,6 @@ export function createTailscaleApp(chart: Chart) {
   return new Application(chart, "tailscale-app", {
     metadata: {
       name: "tailscale",
-      namespace: "argocd",
     },
     spec: {
       project: "default",
