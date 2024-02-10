@@ -12,11 +12,11 @@ export function createPrometheusApp(chart: Chart) {
         repoUrl: "https://prometheus-community.github.io/helm-charts",
         chart: "kube-prometheus-stack",
         targetRevision: "56.6.2",
-        helm: {
-          parameters: [
-            // TODO: add volume??
-          ],
-        },
+        // helm: {
+        //   parameters: [
+        //     // TODO: add volume??
+        //   ],
+        // },
       },
       destination: {
         server: "https://kubernetes.default.svc",
