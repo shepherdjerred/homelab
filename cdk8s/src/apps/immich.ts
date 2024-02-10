@@ -29,7 +29,7 @@ export function createImmichApp(chart: Chart) {
             // },
             {
               name: "microservices.resources.requests.limits",
-              value: "{'gpu.intel.com/i915': '1'}",
+              value: '{"gpu.intel.com/i915": "1"}',
             },
           ],
         },
