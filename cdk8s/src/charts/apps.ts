@@ -11,6 +11,7 @@ import { createIntelGpuDevicePluginApp } from "../apps/intel-gpu-device-plugin.t
 import { createCertManagerApp } from "../apps/cert-manager.ts";
 import { createNfdApp } from "../apps/nfd.ts";
 import { createMinioApp } from "../apps/minio.ts";
+import { createSystemUpgradeControllerApp } from "../apps/system-upgrade-controller.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -29,4 +30,5 @@ export function createAppsChart(app: App) {
   createCertManagerApp(chart);
   createNfdApp(chart);
   createMinioApp(chart);
+  createSystemUpgradeControllerApp(chart);
 }
