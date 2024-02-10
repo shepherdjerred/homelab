@@ -1,10 +1,31 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
+import { Deployment, Volume } from "npm:cdk8s-plus-27";
 
 export function createImmichApp(chart: Chart) {
   const volumeName = "immich-volume";
-  new LocalPathVolume(chart, volumeName, {});
+  const claim = new LocalPathVolume(chart, volumeName, {});
+
+  new Deployment(chart, "immich", {
+    replicas: 1,
+    containers: [
+      {
+        name: "ubuntu",
+        image: "ubuntu",
+        volumeMounts: [
+          {
+            path: "/config",
+            volume: Volume.fromPersistentVolumeClaim(
+              chart,
+              "esphome-volume",
+              claim.claim,
+            ),
+          },
+        ],
+      },
+    ],
+  });
 
   return new Application(chart, "immich-app", {
     metadata: {

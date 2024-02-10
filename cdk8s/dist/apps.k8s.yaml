@@ -103,6 +103,62 @@ spec:
       storage: 2Gi
   volumeMode: Filesystem
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apps-immich
+  namespace: argocd
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: apps-immich-c81dad19
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: apps-immich-c81dad19
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - image: ubuntu
+          imagePullPolicy: Always
+          name: ubuntu
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          volumeMounts:
+            - mountPath: /config
+              name: pvc-immich-volume
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-immich-volume
+          persistentVolumeClaim:
+            claimName: immich-volume
+            readOnly: false
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
