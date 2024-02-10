@@ -109,8 +109,8 @@ spec:
           value: "true"
         - name: immich.persistence.library.existingClaim
           value: immich-volume
-        - name: microservices.resources.requests.limits."gpu\.intel\.com/i915"
-          value: "1"
+        - name: microservices.resources.requests.limits
+          value: "{'gpu.intel.com/i915': '1'}"
     path: charts/immich
     repoURL: https://github.com/immich-app/immich-charts/
     targetRevision: immich-0.3.1
