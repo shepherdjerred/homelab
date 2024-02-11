@@ -1230,7 +1230,6 @@ data:
     # you receive tons of requests per second
 
     [Config]
-    # TODO: replace with gomplate
     hmacKey = "vwr5hpc.ATE-puw-tuw"  # random key for cryptographic signing of video urls
     base64Media = false  # use base64 encoding for proxied media urls
     enableRSS = true  # set this to false to disable RSS feeds
