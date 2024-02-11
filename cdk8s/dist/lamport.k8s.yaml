@@ -137,7 +137,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: lscr.io/linuxserver/bazarr:1.3.1
+          image: lscr.io/linuxserver/bazarr
           imagePullPolicy: Always
           name: main
           ports:
@@ -154,6 +154,8 @@ spec:
             tcpSocket:
               port: 6767
           volumeMounts:
+            - mountPath: /config
+              name: pvc-bazarr-pvc
             - mountPath: /movies
               name: bazarr-movies-bind-mount
             - mountPath: /tv
@@ -167,6 +169,10 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
+        - name: pvc-bazarr-pvc
+          persistentVolumeClaim:
+            claimName: bazarr-pvc
+            readOnly: false
         - hostPath:
             path: /mnt/storage/media/movies
             type: ""

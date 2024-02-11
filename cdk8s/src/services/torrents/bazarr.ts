@@ -15,22 +15,21 @@ export function createBazarrDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const _localPathVolume = new LocalPathVolume(chart, "bazarr-pvc", {});
+  const localPathVolume = new LocalPathVolume(chart, "bazarr-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: "lscr.io/linuxserver/bazarr:1.3.1",
-      envVariables: {},
+      image: "lscr.io/linuxserver/bazarr",
       portNumber: 6767,
       volumeMounts: [
-        // {
-        //   path: "/config",
-        //   volume: Volume.fromPersistentVolumeClaim(
-        //     chart,
-        //     "bazarr-volume",
-        //     localPathVolume.claim,
-        //   ),
-        // },
+        {
+          path: "/config",
+          volume: Volume.fromPersistentVolumeClaim(
+            chart,
+            "bazarr-volume",
+            localPathVolume.claim,
+          ),
+        },
         {
           volume: Volume.fromHostPath(
             chart,
