@@ -43,6 +43,11 @@ dotfiles, ansible, etc.
 ### Cluster Setup
 
 1. Copy `k3s` to `/etc/rancher/k3s/`
+
+   ```
+   sudo cp -r k3s/. /etc/rancher/k3s/
+   ```
+
 1. Install k3s.
 
    ```
