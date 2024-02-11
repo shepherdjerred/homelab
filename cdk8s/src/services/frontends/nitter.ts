@@ -11,7 +11,7 @@ export function createNitterDeployment(chart: Chart) {
   const GID = 999;
 
   const deployment = new Deployment(chart, "nitter", {
-    replicas: 1,
+    replicas: 0,
     securityContext: {
       user: UID,
       group: GID,

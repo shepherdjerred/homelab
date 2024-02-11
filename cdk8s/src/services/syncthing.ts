@@ -14,7 +14,7 @@ import { TailscaleIngress } from "../utils/tailscale.ts";
 
 export function createSyncthingDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "syncthing", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       fsGroup: LINUXSERVER_GID,

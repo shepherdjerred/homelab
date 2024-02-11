@@ -22,7 +22,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
   });
 
   const deployment = new Deployment(chart, "qbittorrent", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
   });
 

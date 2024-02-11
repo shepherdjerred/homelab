@@ -35,7 +35,7 @@ export function createBitmagnetDeployment(chart: Chart) {
   });
 
   const deployment = new Deployment(chart, "bitmagnet", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
   });
 

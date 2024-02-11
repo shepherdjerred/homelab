@@ -39,7 +39,7 @@ export class Postgres extends Construct {
     });
 
     this.deployment = new Deployment(scope, `${name}-deployment`, {
-      replicas: 1,
+      replicas: 0,
       strategy: DeploymentStrategy.recreate(),
       securityContext: {
         fsGroup: GID,
