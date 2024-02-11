@@ -154,8 +154,6 @@ spec:
             tcpSocket:
               port: 6767
           volumeMounts:
-            - mountPath: /config
-              name: pvc-bazarr-pvc
             - mountPath: /movies
               name: bazarr-movies-bind-mount
             - mountPath: /tv
@@ -169,10 +167,6 @@ spec:
       setHostnameAsFQDN: false
       terminationGracePeriodSeconds: 30
       volumes:
-        - name: pvc-bazarr-pvc
-          persistentVolumeClaim:
-            claimName: bazarr-pvc
-            readOnly: false
         - hostPath:
             path: /mnt/storage/media/movies
             type: ""
