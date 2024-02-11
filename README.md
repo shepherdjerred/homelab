@@ -108,15 +108,3 @@ dotfiles, ansible, etc.
    ```
 
 1. Change Argo CD the `admin` password.
-
-1. Install Hauppauge Drivers for Hauppauge TV tuners.
-
-   - https://www.hauppauge.com/pages/support/support_linux.html
-
-1. Setup encryption at rest.
-
-   - https://docs.k3s.io/security/secrets-encryption
-
-1. Follow the K3s hardening guide.
-
-   - https://docs.k3s.io/security/hardening-guide
