@@ -4,7 +4,7 @@ import {
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
-import { Chart } from "npm:cdk8s";
+import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
@@ -60,6 +60,11 @@ export function createBazarrDeployment(chart: Chart) {
     selector: deployment,
     ports: [{ port: 6767 }],
   });
+
+  // set `ipFamilyPolicy: PreferDualStack` on the service
+  ApiObject.of(service).addJsonPatch(
+    JsonPatch.add("/spec/ipFamilyPolicy", "PreferDualStack"),
+  );
 
   new TailscaleIngress(chart, "bazarr-tailscale-ingress", {
     service,
