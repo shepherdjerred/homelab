@@ -20,7 +20,7 @@ export function createBazarrDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: "lscr.io/linuxserver/bazarr",
+      image: "lscr.io/linuxserver/bazarr:1.4.0",
       envVariables: {
         TZ: EnvValue.fromValue(""),
       },

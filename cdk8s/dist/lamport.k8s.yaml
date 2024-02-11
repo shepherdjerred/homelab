@@ -137,7 +137,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: lscr.io/linuxserver/bazarr
+          image: lscr.io/linuxserver/bazarr:1.4.0
           imagePullPolicy: Always
           name: main
           ports:
