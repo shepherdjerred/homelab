@@ -202,7 +202,7 @@ metadata:
   namespace: lamport
 spec:
   externalIPs: []
-  ipFamilyPolicy: PreferDualStack
+  ipFamilyPolicy: RequireDualStack
   ports:
     - port: 6767
   selector:
