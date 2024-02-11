@@ -18,7 +18,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-esphome-c87859eb
@@ -117,7 +117,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-bazarr-c8584962
@@ -232,7 +232,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-tautulli-c827b506
@@ -343,7 +343,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-invidious-postgres-deployment-c8d65c94
@@ -437,7 +437,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-invidious-c896b883
@@ -546,7 +546,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-teddis-redis-deployment-c853563b
@@ -609,7 +609,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-teddit-c82b0ffa
@@ -691,7 +691,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-plex-c853a5e2
@@ -868,7 +868,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-radarr-c88a1752
@@ -984,7 +984,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-homeassistant-c8e21976
@@ -1083,7 +1083,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-nitter-redis-deployment-c80fc429
@@ -1146,7 +1146,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-nitter-c8fb0a68
@@ -1292,7 +1292,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-overseerr-c87596e1
@@ -1405,7 +1405,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-qbittorrent-c8a4a28f
@@ -1565,7 +1565,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-sonarr-c829f3bd
@@ -1681,7 +1681,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-syncthing-c8119c20
@@ -1804,7 +1804,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-golink-c8950952
@@ -1890,7 +1890,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-bitmagnet-redis-deployment-c8a1bca7
@@ -1961,7 +1961,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-bitmagnet-postgres-deployment-c8cacff2
@@ -2055,7 +2055,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-bitmagnet-c8718e1d
@@ -2175,7 +2175,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-prowlarr-c8f63e06
@@ -2278,7 +2278,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-palworld-c897ee52

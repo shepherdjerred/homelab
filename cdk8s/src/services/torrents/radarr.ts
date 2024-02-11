@@ -14,7 +14,7 @@ import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createRadarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "radarr", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       fsGroup: LINUXSERVER_GID,

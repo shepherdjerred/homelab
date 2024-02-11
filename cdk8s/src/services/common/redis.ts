@@ -14,7 +14,7 @@ export class Redis extends Construct {
     const GID = 999;
 
     this.deployment = new Deployment(scope, `${id}-deployment`, {
-      replicas: 0,
+      replicas: 1,
       strategy: DeploymentStrategy.recreate(),
     });
 

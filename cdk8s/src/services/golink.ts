@@ -15,7 +15,7 @@ export function createGolinkDeployment(chart: Chart) {
   const GID = 65532;
 
   const deployment = new Deployment(chart, "golink", {
-    replicas: 0,
+    replicas: 1,
     securityContext: {
       fsGroup: GID,
     },

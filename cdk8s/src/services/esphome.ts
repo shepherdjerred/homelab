@@ -12,7 +12,7 @@ import { TailscaleIngress } from "../utils/tailscale.ts";
 
 export function createEspHomeDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "esphome", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
 

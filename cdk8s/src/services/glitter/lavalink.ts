@@ -19,7 +19,7 @@ export function createLavalinkDeployment(
   item: OnePasswordItem,
 ): Service {
   const deployment = new Deployment(chart, "lavalink", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
 
