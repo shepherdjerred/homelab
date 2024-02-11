@@ -34,6 +34,12 @@ export function createQBitTorrentDeployment(chart: Chart) {
     {},
   );
 
+  const downloadPathVolume = new LocalPathVolume(
+    chart,
+    "qbittorrent-download-pvc",
+    {},
+  );
+
   deployment.addContainer(
     withCommonProps({
       name: "gluetun",
@@ -96,17 +102,13 @@ export function createQBitTorrentDeployment(chart: Chart) {
             localPathVolume.claim,
           ),
         },
-        // TODO: replace this with a shared volume on the RAID array
         {
-          volume: Volume.fromHostPath(
-            chart,
-            "qbittorrent-bind-mount",
-            "qbittorrent-bind-mount",
-            {
-              path: "/mnt/storage/downloads/torrents",
-            },
-          ),
           path: "/downloads",
+          volume: Volume.fromPersistentVolumeClaim(
+            chart,
+            "qbittorrent-downloads-volume",
+            downloadPathVolume.claim,
+          ),
         },
       ],
     }),

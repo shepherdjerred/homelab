@@ -1478,7 +1478,7 @@ spec:
             - mountPath: /config
               name: pvc-qbittorrent-pvc
             - mountPath: /downloads
-              name: qbittorrent-bind-mount
+              name: pvc-qbittorrent-download-pvc
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1496,10 +1496,10 @@ spec:
           persistentVolumeClaim:
             claimName: qbittorrent-pvc
             readOnly: false
-        - hostPath:
-            path: /mnt/storage/downloads/torrents
-            type: ""
-          name: qbittorrent-bind-mount
+        - name: pvc-qbittorrent-download-pvc
+          persistentVolumeClaim:
+            claimName: qbittorrent-download-pvc
+            readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -1518,6 +1518,19 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: qbittorrent-gluetun-pvc
+  namespace: lamport
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qbittorrent-download-pvc
   namespace: lamport
 spec:
   accessModes:
