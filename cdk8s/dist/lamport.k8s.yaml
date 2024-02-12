@@ -132,7 +132,7 @@ spec:
       containers:
         - env:
             - name: TZ
-              value: America/Los_Angeles
+              value: ""
             - name: PUID
               value: "1000"
             - name: PGID

@@ -1,6 +1,7 @@
 import {
   Deployment,
   DeploymentStrategy,
+  EnvValue,
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
@@ -21,6 +22,9 @@ export function createBazarrDeployment(chart: Chart) {
     withCommonLinuxServerProps({
       image: "lscr.io/linuxserver/bazarr",
       portNumber: 6767,
+      envVariables: {
+        TZ: EnvValue.fromValue(""),
+      },
       volumeMounts: [
         {
           path: "/config",
