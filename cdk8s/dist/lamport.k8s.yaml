@@ -2524,7 +2524,9 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - port: 8372
+    - nodePort: 8372
+      port: 8372
+      protocol: TCP
   selector:
     cdk8s.io/metadata.addr: lamport-earthly-c8d12215
   type: NodePort

@@ -2,6 +2,7 @@ import {
   Deployment,
   DeploymentStrategy,
   EnvValue,
+  Protocol,
   Secret,
   ServiceType,
 } from "npm:cdk8s-plus-27";
@@ -72,7 +73,7 @@ export function createEarthlyDeployment(chart: Chart) {
 
   new Service(chart, "earthly-service", {
     selector: deployment,
-    ports: [{ port: 8372 }],
+    ports: [{ port: 8372, nodePort: 8372, protocol: Protocol.TCP }],
     type: ServiceType.NODE_PORT,
   });
 }
