@@ -12,6 +12,7 @@ import { createCertManagerApp } from "../apps/cert-manager.ts";
 import { createNfdApp } from "../apps/nfd.ts";
 import { createMinioApp } from "../apps/minio.ts";
 import { createSystemUpgradeControllerApp } from "../apps/system-upgrade-controller.ts";
+import { createJenkinsApp } from "../apps/jenkins.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -31,4 +32,5 @@ export function createAppsChart(app: App) {
   createNfdApp(chart);
   createMinioApp(chart);
   createSystemUpgradeControllerApp(chart);
+  createJenkinsApp(chart);
 }

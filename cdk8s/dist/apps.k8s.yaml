@@ -259,3 +259,22 @@ spec:
     automated: {}
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins
+  namespace: argocd
+spec:
+  destination:
+    namespace: jenkins
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: jenkinsci
+    repoURL: https://charts.jenkins.io
+    targetRevision: lts
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
