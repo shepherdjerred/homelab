@@ -2458,6 +2458,10 @@ spec:
               value: lamport
             - name: SATELLITE_HOST
               value: earthly.tailnet-1a49.ts.net
+            - name: CACHE_SIZE_PCT
+              value: "10"
+            - name: BUILDKIT_MAX_PARALLELISM
+              value: "24"
           image: earthly/earthly
           imagePullPolicy: Always
           name: main
