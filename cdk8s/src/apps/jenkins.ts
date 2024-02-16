@@ -11,7 +11,7 @@ export function createJenkinsApp(chart: Chart) {
       source: {
         repoUrl: "https://charts.jenkins.io",
         targetRevision: "lts",
-        chart: "jenkinsci",
+        chart: "5.0.13",
       },
       destination: {
         server: "https://kubernetes.default.svc",
