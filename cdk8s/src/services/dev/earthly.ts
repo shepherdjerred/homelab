@@ -3,13 +3,13 @@ import {
   DeploymentStrategy,
   EnvValue,
   Secret,
+  ServiceType,
 } from "npm:cdk8s-plus-27";
 import { Service } from "npm:cdk8s-plus-27";
 import { Volume } from "npm:cdk8s-plus-27";
 import { Chart } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
-import { TailscaleIngress } from "../../utils/tailscale.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 
 export function createEarthlyDeployment(chart: Chart) {
@@ -53,7 +53,7 @@ export function createEarthlyDeployment(chart: Chart) {
         EARTHLY_ORG: EnvValue.fromValue("sjerred"),
         EARTHLY_TOKEN: tokenEnvValue,
         SATELLITE_NAME: EnvValue.fromValue("lamport"),
-        SATELLITE_HOST: EnvValue.fromValue("earthly.tailnet-1a49.ts.net"),
+        SATELLITE_HOST: EnvValue.fromValue("lamport.tailnet-1a49.ts.net"),
         CACHE_SIZE_PCT: EnvValue.fromValue("10"),
         BUILDKIT_MAX_PARALLELISM: EnvValue.fromValue("24"),
       },
@@ -70,13 +70,9 @@ export function createEarthlyDeployment(chart: Chart) {
     }),
   );
 
-  const service = new Service(chart, "earthly-service", {
+  new Service(chart, "earthly-service", {
     selector: deployment,
     ports: [{ port: 8372 }],
-  });
-
-  new TailscaleIngress(chart, "earthly-tailscale-ingress", {
-    service,
-    host: "earthly",
+    type: ServiceType.NODE_PORT,
   });
 }

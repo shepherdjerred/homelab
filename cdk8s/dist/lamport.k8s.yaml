@@ -2457,7 +2457,7 @@ spec:
             - name: SATELLITE_NAME
               value: lamport
             - name: SATELLITE_HOST
-              value: earthly.tailnet-1a49.ts.net
+              value: lamport.tailnet-1a49.ts.net
             - name: CACHE_SIZE_PCT
               value: "10"
             - name: BUILDKIT_MAX_PARALLELISM
@@ -2527,20 +2527,4 @@ spec:
     - port: 8372
   selector:
     cdk8s.io/metadata.addr: lamport-earthly-c8d12215
-  type: ClusterIP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: lamport-earthly-tailscale-ingress-ingress
-  namespace: lamport
-spec:
-  defaultBackend:
-    service:
-      name: lamport-earthly-service
-      port:
-        number: 8372
-  ingressClassName: tailscale
-  tls:
-    - hosts:
-        - earthly
+  type: NodePort
