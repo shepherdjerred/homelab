@@ -43,7 +43,7 @@ export function createEarthlyDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: "earthly/satellite",
+      image: "earthly/satellite:v0.8.3",
       portNumber: 8372,
       securityContext: {
         privileged: true,

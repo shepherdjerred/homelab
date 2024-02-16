@@ -2462,7 +2462,7 @@ spec:
               value: "10"
             - name: BUILDKIT_MAX_PARALLELISM
               value: "24"
-          image: earthly/satellite
+          image: earthly/satellite:v0.8.3
           imagePullPolicy: Always
           name: main
           ports:
