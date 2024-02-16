@@ -2418,3 +2418,125 @@ spec:
   selector:
     cdk8s.io/metadata.addr: lamport-palworld-c897ee52
   type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lamport-earthly
+  namespace: lamport
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: lamport-earthly-c8d12215
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: lamport-earthly-c8d12215
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: EARTHLY_ORG
+              value: sjerred
+            - name: EARTHLY_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: earthly-onepassword
+            - name: SATELLITE_NAME
+              value: lamport
+            - name: SATELLITE_HOST
+              value: earthly.tailnet-1a49.ts.net
+          image: earthly/earthly
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 8372
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: true
+            readOnlyRootFilesystem: false
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 8372
+          volumeMounts:
+            - mountPath: /tmp/earthly
+              name: pvc-earthly-pvc
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-earthly-pvc
+          persistentVolumeClaim:
+            claimName: earthly-pvc
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: earthly-pvc
+  namespace: lamport
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  volumeMode: Filesystem
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: earthly-onepassword
+  namespace: lamport
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/sbjrtou6h3f5w2uhj4uluywsre
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lamport-earthly-service
+  namespace: lamport
+spec:
+  externalIPs: []
+  ports:
+    - port: 8372
+  selector:
+    cdk8s.io/metadata.addr: lamport-earthly-c8d12215
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lamport-earthly-tailscale-ingress-ingress
+  namespace: lamport
+spec:
+  defaultBackend:
+    service:
+      name: lamport-earthly-service
+      port:
+        number: 8372
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - earthly

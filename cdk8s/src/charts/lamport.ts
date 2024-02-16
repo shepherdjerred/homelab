@@ -17,6 +17,7 @@ import { createQBitTorrentDeployment } from "../services/torrents/qbittorrent.ts
 import { createRadarrDeployment } from "../services/torrents/radarr.ts";
 import { createSonarrDeployment } from "../services/torrents/sonarr.ts";
 import { KubeNamespace } from "../../imports/k8s.ts";
+import { createEarthlyDeployment } from "../services/dev/earthly.ts";
 
 export function createLamportChart(app: App) {
   const chart = new Chart(app, "lamport", {
@@ -53,4 +54,5 @@ export function createLamportChart(app: App) {
   createBitmagnetDeployment(chart);
   createProwlarrDeployment(chart);
   createPalworldDeployment(chart);
+  createEarthlyDeployment(chart);
 }
