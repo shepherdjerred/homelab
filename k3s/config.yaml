@@ -8,3 +8,4 @@ embedded-registry: true
 secrets-encryption: true
 node-name: "lamport"
 protect-kernel-defaults: true
+service-node-port-range: 0-32767
