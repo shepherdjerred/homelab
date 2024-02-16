@@ -47,6 +47,7 @@ export function createEarthlyDeployment(chart: Chart) {
       portNumber: 8372,
       securityContext: {
         privileged: true,
+        allowPrivilegeEscalation: true,
       },
       envVariables: {
         EARTHLY_ORG: EnvValue.fromValue("sjerred"),

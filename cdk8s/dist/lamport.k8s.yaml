@@ -2464,7 +2464,7 @@ spec:
           ports:
             - containerPort: 8372
           securityContext:
-            allowPrivilegeEscalation: false
+            allowPrivilegeEscalation: true
             privileged: true
             readOnlyRootFilesystem: false
             runAsGroup: 0
