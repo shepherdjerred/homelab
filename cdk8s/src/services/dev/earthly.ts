@@ -38,7 +38,7 @@ export function createEarthlyDeployment(chart: Chart) {
 
   const tokenEnvValue = EnvValue.fromSecretValue({
     secret: tokenSecret,
-    key: "password",
+    key: "credential",
   });
 
   deployment.addContainer(
