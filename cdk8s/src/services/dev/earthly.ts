@@ -2,7 +2,6 @@ import {
   Deployment,
   DeploymentStrategy,
   EnvValue,
-  Protocol,
   Secret,
   ServiceType,
 } from "npm:cdk8s-plus-27";
@@ -54,7 +53,7 @@ export function createEarthlyDeployment(chart: Chart) {
         EARTHLY_ORG: EnvValue.fromValue("sjerred"),
         EARTHLY_TOKEN: tokenEnvValue,
         SATELLITE_NAME: EnvValue.fromValue("lamport"),
-        SATELLITE_HOST: EnvValue.fromValue("100.87.206.22"),
+        SATELLITE_HOST: EnvValue.fromValue("lamport.tailnet-1a49.ts.net"),
         CACHE_SIZE_PCT: EnvValue.fromValue("10"),
         BUILDKIT_MAX_PARALLELISM: EnvValue.fromValue("24"),
       },
@@ -73,7 +72,7 @@ export function createEarthlyDeployment(chart: Chart) {
 
   new Service(chart, "earthly-service", {
     selector: deployment,
-    ports: [{ port: 8372, nodePort: 8372, protocol: Protocol.TCP }],
+    ports: [{ port: 8372 }],
     type: ServiceType.NODE_PORT,
   });
 }
