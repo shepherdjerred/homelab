@@ -271,9 +271,9 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    chart: 5.0.13
+    chart: jenkins
     repoURL: https://charts.jenkins.io
-    targetRevision: lts
+    targetRevision: 5.0.13
   syncPolicy:
     automated: {}
     syncOptions:
