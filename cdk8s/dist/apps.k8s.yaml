@@ -271,7 +271,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: jenkinsci
+    chart: jenkinsci
     repoURL: https://charts.jenkins.io
     targetRevision: lts
   syncPolicy:
