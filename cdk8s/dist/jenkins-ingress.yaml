@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: jenkins-ingress
   namespace: jenkins
+  annotations:
+    tailscale.com/funnel: "true"
 spec:
   defaultBackend:
     service:
