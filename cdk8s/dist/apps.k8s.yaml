@@ -260,6 +260,14 @@ spec:
     syncOptions:
       - CreateNamespace=true
 ---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: tailscale-auth-key
+  namespace: jenkins
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/pl26aljvglq2twmx64kohlqdja
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
