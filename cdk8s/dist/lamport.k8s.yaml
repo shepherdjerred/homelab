@@ -2467,7 +2467,7 @@ spec:
             allowPrivilegeEscalation: true
             privileged: true
             readOnlyRootFilesystem: true
-            runAsNonRoot: true
+            runAsNonRoot: false
           startupProbe:
             failureThreshold: 3
             tcpSocket:

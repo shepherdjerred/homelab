@@ -48,6 +48,7 @@ export function createEarthlyDeployment(chart: Chart) {
       securityContext: {
         privileged: true,
         allowPrivilegeEscalation: true,
+        ensureNonRoot: false,
       },
       envVariables: {
         EARTHLY_ORG: EnvValue.fromValue("sjerred"),
