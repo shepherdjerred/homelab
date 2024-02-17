@@ -2466,7 +2466,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: true
             privileged: true
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
             runAsNonRoot: false
           startupProbe:
             failureThreshold: 3

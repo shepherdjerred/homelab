@@ -49,6 +49,7 @@ export function createEarthlyDeployment(chart: Chart) {
         privileged: true,
         allowPrivilegeEscalation: true,
         ensureNonRoot: false,
+        readOnlyRootFilesystem: false,
       },
       envVariables: {
         EARTHLY_ORG: EnvValue.fromValue("sjerred"),
