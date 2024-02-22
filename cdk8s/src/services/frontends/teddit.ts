@@ -30,7 +30,6 @@ export function createTedditDeployment(chart: Chart) {
       envVariables: {
         REDIS_HOST: EnvValue.fromValue(redis.service.name),
         DOMAIN: EnvValue.fromValue("teddit.tailnet-1a49.ts.net"),
-        HTTPS_ENABLED: EnvValue.fromValue("true"),
       },
       securityContext: {
         readOnlyRootFilesystem: false,

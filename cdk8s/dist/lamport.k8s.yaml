@@ -630,8 +630,6 @@ spec:
               value: lamport-teddis-redis-deployment-service
             - name: DOMAIN
               value: teddit.tailnet-1a49.ts.net
-            - name: HTTPS_ENABLED
-              value: "true"
           image: teddit/teddit
           imagePullPolicy: Always
           name: main
