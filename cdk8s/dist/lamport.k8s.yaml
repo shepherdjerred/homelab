@@ -629,7 +629,7 @@ spec:
             - name: REDIS_HOST
               value: lamport-teddis-redis-deployment-service
             - name: DOMAIN
-              value: teddit.tailnet-1a49.ts.net
+              value: https://teddit.tailnet-1a49.ts.net
           image: teddit/teddit
           imagePullPolicy: Always
           name: main
