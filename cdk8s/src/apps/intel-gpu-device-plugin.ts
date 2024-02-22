@@ -16,6 +16,7 @@ export function createIntelGpuDevicePluginApp(chart: Chart) {
           parameters: [
             { name: "sharedDevNum", value: "10" },
             { name: "nodeFeatureRule", value: "true" },
+            { name: "resourceManager", value: "false" },
           ],
         },
       },
