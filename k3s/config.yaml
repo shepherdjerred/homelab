@@ -1,4 +1,4 @@
-# /etc/rancher/k3s/k3s.yaml
+# /etc/rancher/k3s/config.yaml
 tls-san:
   - "lamport.tailnet-1a49.ts.net"
 cluster-init: true
@@ -9,3 +9,4 @@ secrets-encryption: true
 node-name: "lamport"
 protect-kernel-defaults: true
 service-node-port-range: 0-32767
+flannel-ipv6-masq: true
