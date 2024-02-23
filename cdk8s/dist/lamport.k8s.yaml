@@ -2622,8 +2622,8 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - nodePort: 25525
-      port: 25525
+    - nodePort: 25565
+      port: 25526
       protocol: TCP
   selector:
     cdk8s.io/metadata.addr: lamport-minecraft-c8e86859
