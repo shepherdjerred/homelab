@@ -2556,7 +2556,7 @@ spec:
             - name: CF_API_KEY
               valueFrom:
                 secretKeyRef:
-                  key: password
+                  key: credential
                   name: lamport-curseforge-item
             - name: CF_PAGE_URL
               value: https://www.curseforge.com/minecraft/modpacks/all-the-mods-8

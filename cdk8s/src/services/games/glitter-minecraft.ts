@@ -56,7 +56,7 @@ export function createMinecraftDeployment(chart: Chart) {
           "minecraft-password-secret",
           item.name,
         ),
-        key: "password",
+        key: "credential",
       }),
       CF_PAGE_URL: EnvValue.fromValue(
         "https://www.curseforge.com/minecraft/modpacks/all-the-mods-8",
