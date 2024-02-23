@@ -2574,7 +2574,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
             runAsNonRoot: false
           volumeMounts:
             - mountPath: /data

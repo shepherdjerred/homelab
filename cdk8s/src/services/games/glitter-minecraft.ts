@@ -48,6 +48,7 @@ export function createMinecraftDeployment(chart: Chart) {
     },
     securityContext: {
       ensureNonRoot: false,
+      readOnlyRootFilesystem: false,
     },
     envVariables: {
       EULA: EnvValue.fromValue("true"),
