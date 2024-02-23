@@ -71,7 +71,7 @@ export function createMinecraftDeployment(chart: Chart) {
 
   new Service(chart, "minecraft-game-service", {
     selector: deployment,
-    ports: [{ port: 25525, nodePort: 25525, protocol: Protocol.UDP }],
+    ports: [{ port: 25525, nodePort: 25525, protocol: Protocol.TCP }],
     type: ServiceType.NODE_PORT,
   });
 }

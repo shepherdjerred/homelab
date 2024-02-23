@@ -2624,7 +2624,7 @@ spec:
   ports:
     - nodePort: 25525
       port: 25525
-      protocol: UDP
+      protocol: TCP
   selector:
     cdk8s.io/metadata.addr: lamport-minecraft-c8e86859
   type: NodePort
