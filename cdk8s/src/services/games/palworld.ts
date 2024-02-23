@@ -92,13 +92,13 @@ export function createPalworldDeployment(chart: Chart) {
 
   new Service(chart, "palworld-game-service", {
     selector: deployment,
-    ports: [{ port: 8211, nodePort: 30000, protocol: Protocol.UDP }],
+    ports: [{ port: 8211, nodePort: 8211, protocol: Protocol.UDP }],
     type: ServiceType.NODE_PORT,
   });
 
   new Service(chart, "palworld-query-service", {
     selector: deployment,
-    ports: [{ port: 27015, nodePort: 30001, protocol: Protocol.UDP }],
+    ports: [{ port: 27015, nodePort: 27015, protocol: Protocol.UDP }],
     type: ServiceType.NODE_PORT,
   });
 }
