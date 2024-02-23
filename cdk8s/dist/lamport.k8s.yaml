@@ -2550,7 +2550,7 @@ spec:
             - name: EULA
               value: "true"
             - name: MEMORY
-              value: 6G
+              value: 10G
             - name: MOD_PLATFORM
               value: AUTO_CURSEFORGE
             - name: CF_API_KEY
@@ -2570,7 +2570,7 @@ spec:
               protocol: TCP
           resources:
             limits:
-              memory: 8192Mi
+              memory: 12288Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false

@@ -43,7 +43,7 @@ export function createMinecraftDeployment(chart: Chart) {
     ],
     resources: {
       memory: {
-        limit: Size.gibibytes(8),
+        limit: Size.gibibytes(12),
       },
     },
     securityContext: {
@@ -52,7 +52,7 @@ export function createMinecraftDeployment(chart: Chart) {
     },
     envVariables: {
       EULA: EnvValue.fromValue("true"),
-      MEMORY: EnvValue.fromValue("6G"),
+      MEMORY: EnvValue.fromValue("10G"),
       MOD_PLATFORM: EnvValue.fromValue("AUTO_CURSEFORGE"),
       CF_API_KEY: EnvValue.fromSecretValue({
         secret: Secret.fromSecretName(
