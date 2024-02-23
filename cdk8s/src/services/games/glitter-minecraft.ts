@@ -46,6 +46,9 @@ export function createMinecraftDeployment(chart: Chart) {
         limit: Size.gibibytes(8),
       },
     },
+    securityContext: {
+      ensureNonRoot: false,
+    },
     envVariables: {
       EULA: EnvValue.fromValue("true"),
       MEMORY: EnvValue.fromValue("6G"),
