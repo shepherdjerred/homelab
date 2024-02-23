@@ -2623,7 +2623,7 @@ spec:
   externalIPs: []
   ports:
     - nodePort: 25565
-      port: 25526
+      port: 25565
       protocol: TCP
   selector:
     cdk8s.io/metadata.addr: lamport-minecraft-c8e86859
