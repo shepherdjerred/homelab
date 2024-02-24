@@ -49,7 +49,7 @@ export function createMinecraftDeployment(chart: Chart) {
     spec: {
       sourcePvc: localPathVolume.claim.name,
       trigger: {
-        schedule: "0 0 * * *",
+        schedule: "0 * * * *",
       },
       restic: {
         repository: resticSecret.name,

@@ -1069,7 +1069,7 @@ spec:
       weekly: 4
   sourcePVC: homeassistant-pvc
   trigger:
-    schedule: "*/30 * * * *"
+    schedule: "*/15 * * * *"
 ---
 apiVersion: v1
 kind: Service
@@ -2656,7 +2656,7 @@ spec:
       weekly: 4
   sourcePVC: minecraft-pvc
   trigger:
-    schedule: 0 0 * * *
+    schedule: 0 * * * *
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
