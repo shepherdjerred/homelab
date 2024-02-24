@@ -26,7 +26,7 @@ export function createJenkinsApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://charts.jenkins.io",
-        targetRevision: "5.0.13",
+        targetRevision: "5.0.16",
         chart: "jenkins",
       },
       destination: {

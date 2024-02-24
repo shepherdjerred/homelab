@@ -11,7 +11,7 @@ export function createCertManagerApp(chart: Chart) {
       source: {
         repoUrl: "https://charts.jetstack.io",
         chart: "cert-manager",
-        targetRevision: "v1.14.2",
+        targetRevision: "v1.14.3",
         helm: {
           parameters: [
             { name: "installCRDs", value: "true" },

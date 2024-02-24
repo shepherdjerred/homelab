@@ -11,7 +11,7 @@ export function createPrometheusApp(chart: Chart) {
       source: {
         repoUrl: "https://prometheus-community.github.io/helm-charts",
         chart: "kube-prometheus-stack",
-        targetRevision: "56.6.2",
+        targetRevision: "56.9.0",
         // helm: {
         //   parameters: [
         //     // TODO: add volume??
@@ -24,7 +24,7 @@ export function createPrometheusApp(chart: Chart) {
       },
       syncPolicy: {
         automated: {},
-        syncOptions: ["CreateNamespace=true"],
+        syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
       },
     },
   });

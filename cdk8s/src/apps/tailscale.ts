@@ -23,7 +23,7 @@ export function createTailscaleApp(chart: Chart) {
       source: {
         repoUrl: "https://pkgs.tailscale.com/helmcharts",
         chart: "tailscale-operator",
-        targetRevision: "1.58.2",
+        targetRevision: "1.61.11",
       },
       destination: {
         server: "https://kubernetes.default.svc",

@@ -11,7 +11,7 @@ export function createMinioApp(chart: Chart) {
       source: {
         repoUrl: "https://charts.bitnami.com/bitnami",
         chart: "minio",
-        targetRevision: "13.4.5",
+        targetRevision: "13.6.2",
       },
       destination: {
         server: "https://kubernetes.default.svc",
