@@ -30,6 +30,9 @@ export function createDdnsDeployment(chart: Chart) {
   deployment.addContainer(
     withCommonProps({
       image: "timothyjmiller/cloudflare-ddns",
+      securityContext: {
+        ensureNonRoot: false,
+      },
       volumeMounts: [
         {
           path: "/config.json",
