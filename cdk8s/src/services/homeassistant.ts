@@ -58,8 +58,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
     spec: {
       sourcePvc: claim.claim.name,
       trigger: {
-        // every 30 minutes
-        schedule: "30 * * * *",
+        schedule: "*/30 * * * *",
       },
       restic: {
         repository: resticSecret.name,
