@@ -31,7 +31,6 @@ export function createBitmagnetDeployment(chart: Chart) {
     itemPath:
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m",
     database: "bitmagnet",
-    storageClass: "local-path",
   });
 
   const deployment = new Deployment(chart, "bitmagnet", {
