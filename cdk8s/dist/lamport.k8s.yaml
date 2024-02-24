@@ -1045,6 +1045,32 @@ spec:
       storage: 2Gi
   volumeMode: Filesystem
 ---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: restic-onepassword-item
+  namespace: lamport
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/qtttm5re4xqpaivyohzkpznwsy
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: lamport-homeassistant-replication-source
+  namespace: lamport
+spec:
+  restic:
+    copyMethod: Direct
+    pruneIntervalDays: 7
+    repository: restic-onepassword-item
+    retain:
+      daily: 7
+      monthly: 12
+      weekly: 4
+  sourcePVC: pvc-homeassistant-pvc
+  trigger:
+    schedule: 0 0 * * *
+---
 apiVersion: v1
 kind: Service
 metadata:

@@ -2,6 +2,7 @@ import {
   Deployment,
   DeploymentStrategy,
   Protocol,
+  Secret,
   Service,
   Volume,
 } from "npm:cdk8s-plus-27";
@@ -9,6 +10,11 @@ import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../utils/common.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
+import {
+  ReplicationSource,
+  ReplicationSourceSpecResticCopyMethod,
+} from "../../imports/volsync.backube.ts";
+import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createHomeAssistantDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "homeassistant", {
@@ -16,11 +22,57 @@ export function createHomeAssistantDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(
+  const claim = new LocalPathVolume(
     chart,
     "homeassistant-pvc",
     {},
   );
+
+  const volume = Volume.fromPersistentVolumeClaim(
+    chart,
+    "homeassistant-volume",
+    claim.claim,
+  );
+
+  const resticOnepasswordItem = new OnePasswordItem(
+    chart,
+    "homeassistant-restic-onepassword",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/qtttm5re4xqpaivyohzkpznwsy",
+      },
+      metadata: {
+        name: "restic-onepassword-item",
+      },
+    },
+  );
+
+  const resticSecret = Secret.fromSecretName(
+    chart,
+    "restic-secret",
+    resticOnepasswordItem.name,
+  );
+
+  new ReplicationSource(chart, "homeassistant-replication-source", {
+    spec: {
+      sourcePvc: volume.name,
+      trigger: {
+        // every day at midnight
+        schedule: "0 0 * * *",
+      },
+      restic: {
+        repository: resticSecret.name,
+        copyMethod: ReplicationSourceSpecResticCopyMethod.DIRECT,
+        pruneIntervalDays: 7,
+        retain: {
+          daily: 7,
+          weekly: 4,
+          monthly: 12,
+        },
+      },
+    },
+  });
 
   deployment.addContainer(
     withCommonProps({
@@ -42,11 +94,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
       volumeMounts: [
         {
           path: "/config",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "homeassistant-volume",
-            localPathVolume.claim,
-          ),
+          volume,
         },
       ],
     }),

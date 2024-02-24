@@ -13,7 +13,7 @@ export class LocalPathVolume extends Construct {
   constructor(
     scope: Construct,
     id: string,
-    props: props,
+    props: PersistentVolumeClaimProps,
   ) {
     super(scope, id);
     const baseProps: PersistentVolumeClaimProps = {
