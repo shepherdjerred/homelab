@@ -34,7 +34,7 @@ export function createDdnsDeployment(chart: Chart) {
         {
           path: "/config.json",
           subPath: "config.json",
-          volume: Volume.fromSecret(chart, "cloudflare-ddns-secret", secret, {
+          volume: Volume.fromSecret(chart, "cloudflare-ddns-volume", secret, {
             items: {
               "config.json": {
                 path: "config.json",

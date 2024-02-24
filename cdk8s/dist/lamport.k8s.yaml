@@ -2628,3 +2628,63 @@ spec:
   selector:
     cdk8s.io/metadata.addr: lamport-minecraft-c8e86859
   type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lamport-ddns
+  namespace: lamport
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 1
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: lamport-ddns-c820791e
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: lamport-ddns-c820791e
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
+          image: timothyjmiller/cloudflare-ddns
+          imagePullPolicy: Always
+          name: main
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          volumeMounts:
+            - mountPath: /config.json
+              name: secret-lamport-ddns-config
+              subPath: config.json
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: secret-lamport-ddns-config
+          secret:
+            items:
+              - key: config.json
+                path: config.json
+            secretName: lamport-ddns-config
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: lamport-ddns-config
+  namespace: lamport
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/nhyb6lnjpvjsau2gkmb7n42oeq

@@ -19,6 +19,7 @@ import { createSonarrDeployment } from "../services/torrents/sonarr.ts";
 import { KubeNamespace } from "../../imports/k8s.ts";
 import { createEarthlyDeployment } from "../services/dev/earthly.ts";
 import { createMinecraftDeployment } from "../services/games/glitter-minecraft.ts";
+import { createDdnsDeployment } from "../services/ddns.ts";
 
 export function createLamportChart(app: App) {
   const chart = new Chart(app, "lamport", {
@@ -57,4 +58,5 @@ export function createLamportChart(app: App) {
   createPalworldDeployment(chart);
   createEarthlyDeployment(chart);
   createMinecraftDeployment(chart);
+  createDdnsDeployment(chart);
 }
