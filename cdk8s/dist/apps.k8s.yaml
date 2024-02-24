@@ -289,3 +289,22 @@ spec:
     automated: {}
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: volsync
+  namespace: argocd
+spec:
+  destination:
+    namespace: volsync-system
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: volsync
+    repoURL: https://backube.github.io/helm-charts/
+    targetRevision: 0.8.0
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true

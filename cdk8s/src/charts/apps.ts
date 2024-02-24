@@ -13,6 +13,7 @@ import { createNfdApp } from "../apps/nfd.ts";
 import { createMinioApp } from "../apps/minio.ts";
 import { createSystemUpgradeControllerApp } from "../apps/system-upgrade-controller.ts";
 import { createJenkinsApp } from "../apps/jenkins.ts";
+import { createVolsyncApp } from "../apps/volsync.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -33,4 +34,5 @@ export function createAppsChart(app: App) {
   createMinioApp(chart);
   createSystemUpgradeControllerApp(chart);
   createJenkinsApp(chart);
+  createVolsyncApp(chart);
 }
