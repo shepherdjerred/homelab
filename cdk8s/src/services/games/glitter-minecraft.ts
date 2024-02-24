@@ -12,6 +12,10 @@ import {
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
+import {
+  ReplicationSource,
+  ReplicationSourceSpecResticCopyMethod,
+} from "../../../imports/volsync.backube.ts";
 
 export function createMinecraftDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "minecraft", {
@@ -20,6 +24,45 @@ export function createMinecraftDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "minecraft-pvc", {});
+
+  const resticOnepasswordItem = new OnePasswordItem(
+    chart,
+    "minecraft-restic-onepassword",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/qtttm5re4xqpaivyohzkpznwsy",
+      },
+      metadata: {
+        name: "minecraft-restic-onepassword-item",
+      },
+    },
+  );
+
+  const resticSecret = Secret.fromSecretName(
+    chart,
+    "minecraft-restic-secret",
+    resticOnepasswordItem.name,
+  );
+
+  new ReplicationSource(chart, "minecraft-replication-source", {
+    spec: {
+      sourcePvc: localPathVolume.claim.name,
+      trigger: {
+        schedule: "0 0 * * *",
+      },
+      restic: {
+        repository: resticSecret.name,
+        copyMethod: ReplicationSourceSpecResticCopyMethod.DIRECT,
+        pruneIntervalDays: 7,
+        retain: {
+          daily: 7,
+          weekly: 4,
+          monthly: 12,
+        },
+      },
+    },
+  });
 
   const item = new OnePasswordItem(chart, "curseforge-item", {
     spec: {

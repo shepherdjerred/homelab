@@ -43,14 +43,14 @@ export function createHomeAssistantDeployment(chart: Chart) {
           "vaults/v64ocnykdqju4ui6j6pua56xw4/items/qtttm5re4xqpaivyohzkpznwsy",
       },
       metadata: {
-        name: "restic-onepassword-item",
+        name: "homeassistant-restic-onepassword-item",
       },
     },
   );
 
   const resticSecret = Secret.fromSecretName(
     chart,
-    "restic-secret",
+    "homeassistant-restic-secret",
     resticOnepasswordItem.name,
   );
 
@@ -58,7 +58,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
     spec: {
       sourcePvc: claim.claim.name,
       trigger: {
-        // every day at midnight
+        // every 30 minutes
         schedule: "30 * * * *",
       },
       restic: {

@@ -1048,7 +1048,7 @@ spec:
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  name: restic-onepassword-item
+  name: homeassistant-restic-onepassword-item
   namespace: lamport
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/qtttm5re4xqpaivyohzkpznwsy
@@ -1062,7 +1062,7 @@ spec:
   restic:
     copyMethod: Direct
     pruneIntervalDays: 7
-    repository: restic-onepassword-item
+    repository: homeassistant-restic-onepassword-item
     retain:
       daily: 7
       monthly: 12
@@ -2631,6 +2631,32 @@ spec:
     requests:
       storage: 2Gi
   volumeMode: Filesystem
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: minecraft-restic-onepassword-item
+  namespace: lamport
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/qtttm5re4xqpaivyohzkpznwsy
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: lamport-minecraft-replication-source
+  namespace: lamport
+spec:
+  restic:
+    copyMethod: Direct
+    pruneIntervalDays: 7
+    repository: minecraft-restic-onepassword-item
+    retain:
+      daily: 7
+      monthly: 12
+      weekly: 4
+  sourcePVC: minecraft-pvc
+  trigger:
+    schedule: 0 0 * * *
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
