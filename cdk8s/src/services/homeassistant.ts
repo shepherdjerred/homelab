@@ -40,7 +40,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
     {
       spec: {
         itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/qtttm5re4xqpaivyohzkpznwsy",
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/rm4mkzt3quaa7x2digkkfbamou",
       },
       metadata: {
         name: "homeassistant-restic-onepassword-item",

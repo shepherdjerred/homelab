@@ -1051,7 +1051,7 @@ metadata:
   name: homeassistant-restic-onepassword-item
   namespace: lamport
 spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/qtttm5re4xqpaivyohzkpznwsy
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/rm4mkzt3quaa7x2digkkfbamou
 ---
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
@@ -1900,6 +1900,32 @@ metadata:
   namespace: lamport
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/t5scpnlhnxvu25dneg6jdd7c7q
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: golink-restic-onepassword-item
+  namespace: lamport
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/55dd4k7uxlbtayhzxkxfxu7aqm
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: lamport-golink-replication-source
+  namespace: lamport
+spec:
+  restic:
+    copyMethod: Direct
+    pruneIntervalDays: 7
+    repository: golink-restic-onepassword-item
+    retain:
+      daily: 7
+      monthly: 12
+      weekly: 4
+  sourcePVC: golink-pvc
+  trigger:
+    schedule: "*/15 * * * *"
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
