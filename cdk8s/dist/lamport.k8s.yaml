@@ -1069,7 +1069,7 @@ spec:
       weekly: 4
   sourcePVC: pvc-homeassistant-pvc
   trigger:
-    schedule: 0 0 * * *
+    schedule: 30 * * * *
 ---
 apiVersion: v1
 kind: Service

@@ -59,7 +59,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
       sourcePvc: volume.name,
       trigger: {
         // every day at midnight
-        schedule: "0 0 * * *",
+        schedule: "30 * * * *",
       },
       restic: {
         repository: resticSecret.name,
