@@ -1,6 +1,7 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 
+// required for volsync
 export function createExternalSnapshotterCrdsApp(chart: Chart) {
   return new Application(chart, "external-snapshotter-crds-app", {
     metadata: {

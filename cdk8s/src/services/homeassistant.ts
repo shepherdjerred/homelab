@@ -56,7 +56,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
 
   new ReplicationSource(chart, "homeassistant-replication-source", {
     spec: {
-      sourcePvc: volume.name,
+      sourcePvc: claim.claim.name,
       trigger: {
         // every day at midnight
         schedule: "30 * * * *",

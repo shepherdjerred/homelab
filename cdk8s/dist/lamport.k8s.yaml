@@ -1067,7 +1067,7 @@ spec:
       daily: 7
       monthly: 12
       weekly: 4
-  sourcePVC: pvc-homeassistant-pvc
+  sourcePVC: homeassistant-pvc
   trigger:
     schedule: 30 * * * *
 ---
