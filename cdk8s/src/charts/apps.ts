@@ -14,6 +14,7 @@ import { createMinioApp } from "../apps/minio.ts";
 import { createSystemUpgradeControllerApp } from "../apps/system-upgrade-controller.ts";
 import { createJenkinsApp } from "../apps/jenkins.ts";
 import { createVolsyncApp } from "../apps/volsync.ts";
+import { createExternalSnapshotterCrdsApp } from "../apps/external-snapshotter-crds.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -35,4 +36,5 @@ export function createAppsChart(app: App) {
   createSystemUpgradeControllerApp(chart);
   createJenkinsApp(chart);
   createVolsyncApp(chart);
+  createExternalSnapshotterCrdsApp(chart);
 }
