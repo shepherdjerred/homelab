@@ -2623,7 +2623,7 @@ spec:
             - name: ENABLE_WHITELIST
               value: "true"
             - name: WHITELIST
-              value: RiotShielder,gexboy8,BubbaLeFett,lolopToaster,BillBuchness,Bill_Buchness
+              value: RiotShielder,gexboy8,BubbaLeFett,lolopToaster,Bill_Buchness
             - name: OVERRIDE_WHITELIST
               value: "true"
             - name: MAX_PLAYERS

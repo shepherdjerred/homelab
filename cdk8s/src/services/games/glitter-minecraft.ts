@@ -114,7 +114,7 @@ export function createMinecraftDeployment(chart: Chart) {
       DIFFICULTY: EnvValue.fromValue("hard"),
       ENABLE_WHITELIST: EnvValue.fromValue("true"),
       WHITELIST: EnvValue.fromValue(
-        "RiotShielder,gexboy8,BubbaLeFett,lolopToaster,BillBuchness,Bill_Buchness",
+        "RiotShielder,gexboy8,BubbaLeFett,lolopToaster,Bill_Buchness",
       ),
       OVERRIDE_WHITELIST: EnvValue.fromValue("true"),
       MAX_PLAYERS: EnvValue.fromValue("10"),
