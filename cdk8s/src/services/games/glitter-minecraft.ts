@@ -95,7 +95,7 @@ export function createMinecraftDeployment(chart: Chart) {
     },
     envVariables: {
       EULA: EnvValue.fromValue("true"),
-      MEMORY: EnvValue.fromValue("10G"),
+      MEMORY: EnvValue.fromValue("12G"),
       MOD_PLATFORM: EnvValue.fromValue("AUTO_CURSEFORGE"),
       CF_API_KEY: EnvValue.fromSecretValue({
         secret: Secret.fromSecretName(
@@ -109,6 +109,19 @@ export function createMinecraftDeployment(chart: Chart) {
         "https://www.curseforge.com/minecraft/modpacks/all-the-mods-8",
       ),
       VERSION: EnvValue.fromValue("1.19.2"),
+      ALLOW_FLIGHT: EnvValue.fromValue("true"),
+      MOTD: EnvValue.fromValue("what's up guys"),
+      DIFFICULTY: EnvValue.fromValue("hard"),
+      ENABLE_WHITELIST: EnvValue.fromValue("true"),
+      WHITELIST: EnvValue.fromValue(
+        "RiotShielder,gexboy8,BubbaLeFett,lolopToaster,BillBuchness,Bill_Buchness",
+      ),
+      MAX_PLAYERS: EnvValue.fromValue("10"),
+      FORCE_GAMEMODE: EnvValue.fromValue("true"),
+      VIEW_DISTANCE: EnvValue.fromValue("20"),
+      SERVER_NAME: EnvValue.fromValue("glitter boys"),
+      ENABLE_ROLLING_LOGS: EnvValue.fromValue("true"),
+      STOP_SERVER_ANNOUNCE_DELAY: EnvValue.fromValue("10"),
     },
   }));
 

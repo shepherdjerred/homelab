@@ -2602,7 +2602,7 @@ spec:
             - name: EULA
               value: "true"
             - name: MEMORY
-              value: 10G
+              value: 12G
             - name: MOD_PLATFORM
               value: AUTO_CURSEFORGE
             - name: CF_API_KEY
@@ -2614,6 +2614,28 @@ spec:
               value: https://www.curseforge.com/minecraft/modpacks/all-the-mods-8
             - name: VERSION
               value: 1.19.2
+            - name: ALLOW_FLIGHT
+              value: "true"
+            - name: MOTD
+              value: what's up guys
+            - name: DIFFICULTY
+              value: hard
+            - name: ENABLE_WHITELIST
+              value: "true"
+            - name: WHITELIST
+              value: RiotShielder,gexboy8,BubbaLeFett,lolopToaster,BillBuchness,Bill_Buchness
+            - name: MAX_PLAYERS
+              value: "10"
+            - name: FORCE_GAMEMODE
+              value: "true"
+            - name: VIEW_DISTANCE
+              value: "20"
+            - name: SERVER_NAME
+              value: glitter boys
+            - name: ENABLE_ROLLING_LOGS
+              value: "true"
+            - name: STOP_SERVER_ANNOUNCE_DELAY
+              value: "10"
           image: itzg/minecraft-server
           imagePullPolicy: Always
           name: main
