@@ -2624,6 +2624,8 @@ spec:
               value: "true"
             - name: WHITELIST
               value: RiotShielder,gexboy8,BubbaLeFett,lolopToaster,BillBuchness,Bill_Buchness
+            - name: OVERRIDE_WHITELIST
+              value: "true"
             - name: MAX_PLAYERS
               value: "10"
             - name: FORCE_GAMEMODE

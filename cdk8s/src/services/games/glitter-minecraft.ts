@@ -116,6 +116,7 @@ export function createMinecraftDeployment(chart: Chart) {
       WHITELIST: EnvValue.fromValue(
         "RiotShielder,gexboy8,BubbaLeFett,lolopToaster,BillBuchness,Bill_Buchness",
       ),
+      OVERRIDE_WHITELIST: EnvValue.fromValue("true"),
       MAX_PLAYERS: EnvValue.fromValue("10"),
       FORCE_GAMEMODE: EnvValue.fromValue("true"),
       VIEW_DISTANCE: EnvValue.fromValue("20"),
