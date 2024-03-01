@@ -115,6 +115,7 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
     ],
     securityContext: {
       ensureNonRoot: false,
+      readOnlyRootFilesystem: false,
     },
     envVariables: {
       APPLICATION_ID: EnvValue.fromValue(settings.APPLICATION_ID[stage]),
