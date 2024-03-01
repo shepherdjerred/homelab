@@ -2631,7 +2631,7 @@ spec:
             - name: FORCE_GAMEMODE
               value: "true"
             - name: VIEW_DISTANCE
-              value: "20"
+              value: "10"
             - name: SERVER_NAME
               value: glitter boys
             - name: ENABLE_ROLLING_LOGS

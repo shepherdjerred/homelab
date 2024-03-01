@@ -119,7 +119,7 @@ export function createMinecraftDeployment(chart: Chart) {
       OVERRIDE_WHITELIST: EnvValue.fromValue("true"),
       MAX_PLAYERS: EnvValue.fromValue("10"),
       FORCE_GAMEMODE: EnvValue.fromValue("true"),
-      VIEW_DISTANCE: EnvValue.fromValue("20"),
+      VIEW_DISTANCE: EnvValue.fromValue("10"),
       SERVER_NAME: EnvValue.fromValue("glitter boys"),
       ENABLE_ROLLING_LOGS: EnvValue.fromValue("true"),
       STOP_SERVER_ANNOUNCE_DELAY: EnvValue.fromValue("10"),
