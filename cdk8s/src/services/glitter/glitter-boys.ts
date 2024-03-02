@@ -172,6 +172,9 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
       }),
       S3_BUCKET_NAME: EnvValue.fromValue(settings.S3_BUCKET_NAME[stage]),
       DATA_DIR: EnvValue.fromValue(dataDir),
+      SENTRY_DSN: EnvValue.fromValue(
+        "https://bd27a021788f532b6c679d4977f5acc3@o92742.ingest.sentry.io/4506843178991616",
+      ),
     },
     volumeMounts: [
       {
