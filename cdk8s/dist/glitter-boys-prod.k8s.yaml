@@ -150,7 +150,7 @@ spec:
               value: /data
             - name: SENTRY_DSN
               value: https://bd27a021788f532b6c679d4977f5acc3@o92742.ingest.sentry.io/4506843178991616
-          image: ghcr.io/shepherdjerred/glitter-boys:c141889414af5290b852b016bdbbfc4219cb4dae
+          image: ghcr.io/shepherdjerred/glitter-boys:f63b88e808d1019122fb0d709ea8a49492af3269
           imagePullPolicy: Always
           name: main
           ports:
