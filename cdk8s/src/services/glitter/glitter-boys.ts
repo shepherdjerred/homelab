@@ -106,7 +106,7 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
 
   deployment.addContainer(withCommonProps({
     image:
-      "ghcr.io/shepherdjerred/glitter-boys:d7caeecd95e9d1a47063e3d41206001dedbb5945",
+      "ghcr.io/shepherdjerred/glitter-boys:3ee895fe9d012762fde4450b8319991c1b2b1bbf",
     ports: [
       {
         name: "port-8000",
