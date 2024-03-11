@@ -19,7 +19,7 @@ import {
 
 export function createMinecraftDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "minecraft", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
   });
 
