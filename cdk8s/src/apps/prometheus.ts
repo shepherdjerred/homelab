@@ -9,9 +9,10 @@ export function createPrometheusApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
+        // https://github.com/prometheus-community/helm-charts/
         repoUrl: "https://prometheus-community.github.io/helm-charts",
         chart: "kube-prometheus-stack",
-        targetRevision: "56.9.0",
+        targetRevision: "57.1.0",
         // helm: {
         //   parameters: [
         //     // TODO: add volume??

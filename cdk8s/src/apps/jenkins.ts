@@ -25,8 +25,9 @@ export function createJenkinsApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
+        // https://github.com/jenkinsci/helm-charts
         repoUrl: "https://charts.jenkins.io",
-        targetRevision: "5.0.16",
+        targetRevision: "5.1.0",
         chart: "jenkins",
       },
       destination: {

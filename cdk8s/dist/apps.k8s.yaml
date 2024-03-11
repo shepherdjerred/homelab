@@ -19,7 +19,7 @@ spec:
         - name: operator.pollingInterval
           value: "60"
     repoURL: https://1password.github.io/connect-helm-charts/
-    targetRevision: 1.14.0
+    targetRevision: 1.15.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -111,7 +111,7 @@ spec:
           value: immich-volume
     path: charts/immich
     repoURL: https://github.com/immich-app/immich-charts/
-    targetRevision: immich-0.3.1
+    targetRevision: immich-0.4.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -130,7 +130,7 @@ spec:
   source:
     chart: kube-prometheus-stack
     repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 56.9.0
+    targetRevision: 57.1.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -200,7 +200,7 @@ spec:
         - name: installCRDs
           value: "true"
     repoURL: https://charts.jetstack.io
-    targetRevision: v1.14.3
+    targetRevision: v1.14.4
   syncPolicy:
     automated: {}
     syncOptions:
@@ -238,7 +238,7 @@ spec:
   source:
     chart: minio
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 13.6.2
+    targetRevision: 13.8.3
   syncPolicy:
     automated: {}
     syncOptions:
@@ -257,7 +257,7 @@ spec:
   source:
     path: manifests/
     repoURL: https://github.com/rancher/system-upgrade-controller/
-    targetRevision: v0.13.2
+    targetRevision: v0.13.4
   syncPolicy:
     automated: {}
     syncOptions:
@@ -284,7 +284,7 @@ spec:
   source:
     chart: jenkins
     repoURL: https://charts.jenkins.io
-    targetRevision: 5.0.16
+    targetRevision: 5.1.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -303,7 +303,7 @@ spec:
   source:
     chart: volsync
     repoURL: https://backube.github.io/helm-charts/
-    targetRevision: 0.8.0
+    targetRevision: 0.8.1
   syncPolicy:
     automated: {}
     syncOptions:
@@ -322,7 +322,7 @@ spec:
   source:
     path: client/config/crd/
     repoURL: https://github.com/kubernetes-csi/external-snapshotter
-    targetRevision: release-4.0
+    targetRevision: release-7.0
   syncPolicy:
     automated: {}
     syncOptions:

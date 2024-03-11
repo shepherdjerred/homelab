@@ -10,9 +10,10 @@ export function createExternalSnapshotterCrdsApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
+        // https://github.com/kubernetes-csi/external-snapshotter
         repoUrl: "https://github.com/kubernetes-csi/external-snapshotter",
         path: "client/config/crd/",
-        targetRevision: "release-4.0",
+        targetRevision: "release-7.0",
       },
       destination: {
         server: "https://kubernetes.default.svc",

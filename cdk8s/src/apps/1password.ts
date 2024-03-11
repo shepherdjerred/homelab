@@ -9,8 +9,9 @@ export function createOnePasswordApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
+        // https://github.com/1Password/connect-helm-charts
         repoUrl: "https://1password.github.io/connect-helm-charts/",
-        targetRevision: "1.14.0",
+        targetRevision: "1.15.0",
         chart: "connect",
         helm: {
           parameters: [

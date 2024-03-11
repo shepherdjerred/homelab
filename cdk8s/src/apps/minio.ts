@@ -9,9 +9,10 @@ export function createMinioApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
+        // https://github.com/bitnami/charts/tree/main/bitnami/minio
         repoUrl: "https://charts.bitnami.com/bitnami",
         chart: "minio",
-        targetRevision: "13.6.2",
+        targetRevision: "13.8.3",
       },
       destination: {
         server: "https://kubernetes.default.svc",

@@ -9,9 +9,10 @@ export function createVolsyncApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
+        // https://github.com/backube/helm-charts
         repoUrl: "https://backube.github.io/helm-charts/",
         chart: "volsync",
-        targetRevision: "0.8.0",
+        targetRevision: "0.8.1",
       },
       destination: {
         server: "https://kubernetes.default.svc",

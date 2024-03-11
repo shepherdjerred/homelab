@@ -9,6 +9,7 @@ export function createIntelGpuDevicePluginApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
+        // https://github.com/intel/helm-charts/tree/main/charts/gpu-device-plugin
         repoUrl: "https://intel.github.io/helm-charts/",
         chart: "intel-device-plugins-gpu",
         targetRevision: "0.29.0",
