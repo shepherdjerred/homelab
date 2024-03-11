@@ -12,7 +12,7 @@ export function createPrometheusApp(chart: Chart) {
         // https://github.com/prometheus-community/helm-charts/
         repoUrl: "https://prometheus-community.github.io/helm-charts",
         chart: "kube-prometheus-stack",
-        targetRevision: "57.0.1.",
+        targetRevision: "57.0.1",
         // helm: {
         //   parameters: [
         //     // TODO: add volume??
