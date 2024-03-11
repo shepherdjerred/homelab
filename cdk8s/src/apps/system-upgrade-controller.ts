@@ -9,10 +9,10 @@ export function createSystemUpgradeControllerApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
-        // https://github.com/rancher/system-upgrade-controller/
+        // https://github.com/rancher/system-upgrade-controller
         repoUrl: "https://github.com/rancher/system-upgrade-controller/",
         path: "manifests/",
-        targetRevision: "v0.13.4",
+        targetRevision: "v0.13.2",
       },
       destination: {
         server: "https://kubernetes.default.svc",
