@@ -283,6 +283,10 @@ spec:
   project: default
   source:
     chart: jenkins
+    helm:
+      parameters:
+        - name: controller.jenkinsUrl
+          value: https://jenkins.tailnet-1a49.ts.net
     repoURL: https://charts.jenkins.io
     targetRevision: 5.1.0
   syncPolicy:

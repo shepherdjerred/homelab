@@ -29,6 +29,14 @@ export function createJenkinsApp(chart: Chart) {
         repoUrl: "https://charts.jenkins.io",
         targetRevision: "5.1.0",
         chart: "jenkins",
+        helm: {
+          parameters: [
+            {
+              name: "controller.jenkinsUrl",
+              value: "https://jenkins.tailnet-1a49.ts.net",
+            },
+          ],
+        },
       },
       destination: {
         server: "https://kubernetes.default.svc",
