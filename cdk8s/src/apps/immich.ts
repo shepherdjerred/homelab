@@ -22,6 +22,10 @@ export function createImmichApp(chart: Chart) {
               name: "immich.persistence.library.existingClaim",
               value: immichVolumeName,
             },
+            {
+              name: "image.tag",
+              value: "v1.99.0",
+            },
             // quantities must match the regular expression '^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$'
             // {
             //   name:
