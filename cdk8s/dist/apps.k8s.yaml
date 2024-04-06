@@ -65,7 +65,7 @@ spec:
   source:
     chart: tailscale-operator
     repoURL: https://pkgs.tailscale.com/helmcharts
-    targetRevision: 1.61.11
+    targetRevision: 1.62.1
   syncPolicy:
     automated: {}
     syncOptions:
@@ -110,10 +110,10 @@ spec:
         - name: immich.persistence.library.existingClaim
           value: immich-volume
         - name: image.tag
-          value: v1.99.0
+          value: v1.101.0
     path: charts/immich
     repoURL: https://github.com/immich-app/immich-charts/
-    targetRevision: 0.4.0
+    targetRevision: 0.5.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -132,7 +132,7 @@ spec:
   source:
     chart: kube-prometheus-stack
     repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 57.0.1
+    targetRevision: 58.0.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -221,7 +221,7 @@ spec:
   source:
     chart: node-feature-discovery
     repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
-    targetRevision: 0.15.1
+    targetRevision: 0.15.4
   syncPolicy:
     automated: {}
     syncOptions:
@@ -240,7 +240,7 @@ spec:
   source:
     chart: minio
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 13.8.3
+    targetRevision: 14.1.7
   syncPolicy:
     automated: {}
     syncOptions:
@@ -259,7 +259,7 @@ spec:
   source:
     path: manifests/
     repoURL: https://github.com/rancher/system-upgrade-controller/
-    targetRevision: v0.13.2
+    targetRevision: v0.13.4
   syncPolicy:
     automated: {}
     syncOptions:
@@ -290,7 +290,7 @@ spec:
         - name: controller.jenkinsUrl
           value: https://jenkins.tailnet-1a49.ts.net
     repoURL: https://charts.jenkins.io
-    targetRevision: 5.1.0
+    targetRevision: 5.1.5
   syncPolicy:
     automated: {}
     syncOptions:
@@ -309,7 +309,7 @@ spec:
   source:
     chart: volsync
     repoURL: https://backube.github.io/helm-charts/
-    targetRevision: 0.8.1
+    targetRevision: 0.9.0
   syncPolicy:
     automated: {}
     syncOptions:
