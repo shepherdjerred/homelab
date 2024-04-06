@@ -11,6 +11,7 @@ import { Chart } from "npm:cdk8s";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { withCommonProps } from "../../utils/common.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export function createEarthlyDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "earthly", {
@@ -43,7 +44,7 @@ export function createEarthlyDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: "earthly/satellite:v0.8.4",
+      image: versions["earthly"],
       portNumber: 8372,
       securityContext: {
         privileged: true,

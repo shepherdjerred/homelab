@@ -16,6 +16,7 @@ import {
   ReplicationSource,
   ReplicationSourceSpecResticCopyMethod,
 } from "../../../imports/volsync.backube.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export function createMinecraftDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "minecraft", {
@@ -72,7 +73,7 @@ export function createMinecraftDeployment(chart: Chart) {
   });
 
   deployment.addContainer(withCommonProps({
-    image: "itzg/minecraft-server",
+    image: versions["minecraft"],
     ports: [{ number: 25565, protocol: Protocol.TCP }],
     volumeMounts: [
       {

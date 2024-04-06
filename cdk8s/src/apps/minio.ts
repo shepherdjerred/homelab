@@ -1,5 +1,6 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createMinioApp(chart: Chart) {
   new Application(chart, "minio-app", {
@@ -12,7 +13,7 @@ export function createMinioApp(chart: Chart) {
         // https://github.com/bitnami/charts/tree/main/bitnami/minio
         repoUrl: "https://charts.bitnami.com/bitnami",
         chart: "minio",
-        targetRevision: "13.8.3",
+        targetRevision: versions["https://charts.bitnami.com/bitnami"],
       },
       destination: {
         server: "https://kubernetes.default.svc",

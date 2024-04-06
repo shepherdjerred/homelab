@@ -11,6 +11,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { withCommonProps } from "../../utils/common.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export class Postgres extends Construct {
   public readonly passwordItem: OnePasswordItem;
@@ -65,7 +66,7 @@ export class Postgres extends Construct {
 
     this.deployment.addContainer(
       withCommonProps({
-        image: "postgres",
+        image: versions["postgres"],
         portNumber: 5432,
         envVariables: {
           POSTGRES_PASSWORD: this.passwordEnvValue,

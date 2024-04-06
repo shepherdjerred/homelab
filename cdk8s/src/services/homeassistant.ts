@@ -15,6 +15,7 @@ import {
   ReplicationSourceSpecResticCopyMethod,
 } from "../../imports/volsync.backube.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createHomeAssistantDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "homeassistant", {
@@ -82,7 +83,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
         // required
         readOnlyRootFilesystem: false,
       },
-      image: "ghcr.io/home-assistant/home-assistant:stable",
+      image: versions["homeassistant"],
       ports: [
         {
           name: "port-8123-web",

@@ -11,6 +11,7 @@ import {
 } from "../../utils/linuxserver.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export function createSonarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "sonarr", {
@@ -25,7 +26,7 @@ export function createSonarrDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: "lscr.io/linuxserver/sonarr",
+      image: versions["sonarr"],
       portNumber: 8989,
       volumeMounts: [
         {

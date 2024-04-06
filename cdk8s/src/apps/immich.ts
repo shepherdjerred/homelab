@@ -1,5 +1,6 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export const immichVolumeName = "immich-volume";
 
@@ -13,7 +14,8 @@ export function createImmichApp(chart: Chart) {
       source: {
         repoUrl: "https://github.com/immich-app/immich-charts/",
         path: "charts/immich",
-        targetRevision: "immich-0.4.0",
+        targetRevision:
+          versions["https://github.com/immich-app/immich-charts/"],
         helm: {
           parameters: [
             { name: "postgresql.enabled", value: "true" },
@@ -24,7 +26,7 @@ export function createImmichApp(chart: Chart) {
             },
             {
               name: "image.tag",
-              value: "v1.99.0",
+              value: versions["immich"],
             },
             // quantities must match the regular expression '^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$'
             // {

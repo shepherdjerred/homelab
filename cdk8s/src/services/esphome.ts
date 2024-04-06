@@ -9,6 +9,7 @@ import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../utils/common.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createEspHomeDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "esphome", {
@@ -31,7 +32,7 @@ export function createEspHomeDeployment(chart: Chart) {
         // required
         readOnlyRootFilesystem: false,
       },
-      image: "esphome/esphome",
+      image: versions["esphome"],
       ports: [
         {
           name: "port-6052-web",

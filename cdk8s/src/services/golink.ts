@@ -13,6 +13,7 @@ import {
   ReplicationSource,
   ReplicationSourceSpecResticCopyMethod,
 } from "../../imports/volsync.backube.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createGolinkDeployment(chart: Chart) {
   const UID = 65532;
@@ -79,7 +80,7 @@ export function createGolinkDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: "ghcr.io/tailscale/golink:main",
+      image: versions["golink"],
       envVariables: {
         TS_AUTH_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(

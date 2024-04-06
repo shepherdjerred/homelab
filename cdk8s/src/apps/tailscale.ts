@@ -1,6 +1,7 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createTailscaleApp(chart: Chart) {
   new OnePasswordItem(chart, "tailscale-operator-oauth-onepassword", {
@@ -23,7 +24,7 @@ export function createTailscaleApp(chart: Chart) {
       source: {
         repoUrl: "https://pkgs.tailscale.com/helmcharts",
         chart: "tailscale-operator",
-        targetRevision: "1.61.11",
+        targetRevision: versions["https://pkgs.tailscale.com/helmcharts"],
       },
       destination: {
         server: "https://kubernetes.default.svc",

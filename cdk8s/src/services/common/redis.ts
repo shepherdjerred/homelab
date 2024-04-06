@@ -2,6 +2,7 @@ import { Construct } from "npm:constructs";
 import { Deployment, DeploymentStrategy } from "npm:cdk8s-plus-27";
 import { Service } from "npm:cdk8s-plus-27";
 import { withCommonProps } from "../../utils/common.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export class Redis extends Construct {
   public readonly service: Service;
@@ -20,7 +21,7 @@ export class Redis extends Construct {
 
     this.deployment.addContainer(
       withCommonProps({
-        image: "redis",
+        image: versions["redis"],
         portNumber: 6379,
         securityContext: {
           user: UID,

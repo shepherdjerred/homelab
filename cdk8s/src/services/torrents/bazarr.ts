@@ -9,6 +9,7 @@ import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export function createBazarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "bazarr", {
@@ -20,7 +21,7 @@ export function createBazarrDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: "lscr.io/linuxserver/bazarr",
+      image: versions["bazarr"],
       portNumber: 6767,
       envVariables: {
         TZ: EnvValue.fromValue(""),

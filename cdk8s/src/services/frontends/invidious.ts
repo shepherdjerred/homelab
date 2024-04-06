@@ -9,6 +9,7 @@ import { Chart, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { Postgres } from "../common/postgres.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export function createInvidiousDeployment(chart: Chart) {
   const postgres = new Postgres(chart, "invidious-postgres", {
@@ -37,7 +38,7 @@ export function createInvidiousDeployment(chart: Chart) {
 
   invidiousDeployment.addContainer(
     withCommonProps({
-      image: "quay.io/invidious/invidious",
+      image: versions["invidious"],
       name: "invidious",
       portNumber: 3000,
       securityContext: {

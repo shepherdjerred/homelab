@@ -11,6 +11,7 @@ import {
   withCommonLinuxServerProps,
 } from "../utils/linuxserver.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createSyncthingDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "syncthing", {
@@ -35,7 +36,7 @@ export function createSyncthingDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: "lscr.io/linuxserver/syncthing",
+      image: versions["syncthing"],
       portNumber: 8384,
       volumeMounts: [
         {

@@ -1,5 +1,6 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createIntelDevicePluginOperatorApp(chart: Chart) {
   new Application(chart, "intel-plugins-app", {
@@ -12,7 +13,7 @@ export function createIntelDevicePluginOperatorApp(chart: Chart) {
         // https://github.com/intel/helm-charts/tree/main/charts/device-plugin-operator
         repoUrl: "https://intel.github.io/helm-charts/",
         chart: "intel-device-plugins-operator",
-        targetRevision: "0.29.0",
+        targetRevision: versions["https://intel.github.io/helm-charts/"],
       },
       destination: {
         server: "https://kubernetes.default.svc",

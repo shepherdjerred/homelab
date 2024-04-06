@@ -15,6 +15,7 @@ import { createLavalinkDeployment } from "./lavalink.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 const settings = {
   "LEAGUE_CHANNEL_ID": {
@@ -105,7 +106,7 @@ export function createBackendDeployment(chart: Chart, stage: Stage) {
   });
 
   deployment.addContainer(withCommonProps({
-    image: "ghcr.io/shepherdjerred/glitter-boys:1.1.28",
+    image: versions["glitter"],
     ports: [
       {
         name: "port-8000",

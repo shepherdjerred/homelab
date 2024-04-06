@@ -1,6 +1,7 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createJenkinsApp(chart: Chart) {
   new OnePasswordItem(
@@ -27,7 +28,7 @@ export function createJenkinsApp(chart: Chart) {
       source: {
         // https://github.com/jenkinsci/helm-charts
         repoUrl: "https://charts.jenkins.io",
-        targetRevision: "5.1.0",
+        targetRevision: versions["https://charts.jenkins.io"],
         chart: "jenkins",
         helm: {
           parameters: [

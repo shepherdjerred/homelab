@@ -1,5 +1,6 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createCertManagerApp(chart: Chart) {
   new Application(chart, "cert-manager-app", {
@@ -12,7 +13,7 @@ export function createCertManagerApp(chart: Chart) {
         // https://artifacthub.io/packages/search?org=cert-manager
         repoUrl: "https://charts.jetstack.io",
         chart: "cert-manager",
-        targetRevision: "v1.14.4",
+        targetRevision: versions["https://charts.jetstack.io"],
         helm: {
           parameters: [
             { name: "installCRDs", value: "true" },

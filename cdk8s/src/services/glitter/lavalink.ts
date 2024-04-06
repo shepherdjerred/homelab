@@ -1,6 +1,3 @@
-// app = "lavalink-prod"
-// primary_region = "sea"
-
 import {
   Deployment,
   DeploymentStrategy,
@@ -13,6 +10,7 @@ import {
 import { Chart } from "npm:cdk8s";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { withCommonProps } from "../../utils/common.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export function createLavalinkDeployment(
   chart: Chart,
@@ -24,7 +22,7 @@ export function createLavalinkDeployment(
   });
 
   deployment.addContainer(withCommonProps({
-    image: "ghcr.io/lavalink-devs/lavalink:4",
+    image: versions["lavalink"],
     securityContext: {
       user: 1000,
       group: 1000,

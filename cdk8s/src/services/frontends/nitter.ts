@@ -3,6 +3,7 @@ import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { Redis } from "../common/redis.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export function createNitterDeployment(chart: Chart) {
   const redis = new Redis(chart, "nitter-redis");
@@ -27,7 +28,7 @@ export function createNitterDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: "zedeus/nitter",
+      image: versions["nitter"],
       portNumber: 8080,
       volumeMounts: [
         {

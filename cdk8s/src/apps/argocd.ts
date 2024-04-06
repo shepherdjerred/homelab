@@ -1,5 +1,6 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createArgoCdApp(chart: Chart) {
   new Application(chart, "argocd-app", {
@@ -10,7 +11,7 @@ export function createArgoCdApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://github.com/argoproj/argo-cd",
-        targetRevision: "stable",
+        targetRevision: versions["https://github.com/argoproj/argo-cd"],
         path: "manifests/",
       },
       destination: {

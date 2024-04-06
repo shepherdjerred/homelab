@@ -1,5 +1,6 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createVolsyncApp(chart: Chart) {
   return new Application(chart, "volsync-app", {
@@ -12,7 +13,7 @@ export function createVolsyncApp(chart: Chart) {
         // https://github.com/backube/helm-charts
         repoUrl: "https://backube.github.io/helm-charts/",
         chart: "volsync",
-        targetRevision: "0.8.1",
+        targetRevision: versions["https://backube.github.io/helm-charts/"],
       },
       destination: {
         server: "https://kubernetes.default.svc",

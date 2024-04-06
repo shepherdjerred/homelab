@@ -1,5 +1,6 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createOnePasswordApp(chart: Chart) {
   new Application(chart, "1password-app", {
@@ -11,7 +12,8 @@ export function createOnePasswordApp(chart: Chart) {
       source: {
         // https://github.com/1Password/connect-helm-charts
         repoUrl: "https://1password.github.io/connect-helm-charts/",
-        targetRevision: "1.15.0",
+        targetRevision:
+          versions["https://1password.github.io/connect-helm-charts/"],
         chart: "connect",
         helm: {
           parameters: [

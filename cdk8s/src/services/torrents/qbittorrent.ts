@@ -12,6 +12,7 @@ import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export function createQBitTorrentDeployment(chart: Chart) {
   const item = new OnePasswordItem(chart, "mullvad", {
@@ -37,7 +38,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
   deployment.addContainer(
     withCommonProps({
       name: "gluetun",
-      image: "ghcr.io/qdm12/gluetun",
+      image: versions["gluetun"],
       // TODO: replace this with capability to run as non-root
       // this is mostly required right now to setup the VPN
       securityContext: {
@@ -85,7 +86,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
   deployment.addContainer(
     withCommonLinuxServerProps({
       name: "qbittorrent",
-      image: "lscr.io/linuxserver/qbittorrent",
+      image: versions["qbittorrent"],
       portNumber: 8080,
       volumeMounts: [
         {

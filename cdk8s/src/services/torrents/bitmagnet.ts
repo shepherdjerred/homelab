@@ -13,6 +13,7 @@ import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { Postgres } from "../common/postgres.ts";
 import { Redis } from "../common/redis.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export function createBitmagnetDeployment(chart: Chart) {
   const tmdbItem = new OnePasswordItem(chart, "tmdb-api-key-onepassword", {
@@ -42,7 +43,7 @@ export function createBitmagnetDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: "ghcr.io/bitmagnet-io/bitmagnet:latest",
+      image: versions["bitmagnet"],
       securityContext: {
         user: ROOT_UID,
         group: ROOT_GID,

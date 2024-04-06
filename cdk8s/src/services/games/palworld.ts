@@ -12,6 +12,7 @@ import { Chart, Size } from "npm:cdk8s";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export function createPalworldDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "palworld", {
@@ -30,7 +31,7 @@ export function createPalworldDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: "thijsvanloef/palworld-server-docker",
+      image: versions["palworld"],
       ports: [{ number: 8211, protocol: Protocol.UDP }, {
         number: 27015,
         protocol: Protocol.UDP,

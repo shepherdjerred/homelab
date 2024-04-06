@@ -7,6 +7,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { withCommonProps } from "../utils/common.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createDdnsDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "ddns", {
@@ -29,7 +30,7 @@ export function createDdnsDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: "timothyjmiller/cloudflare-ddns",
+      image: versions["ddns"],
       securityContext: {
         ensureNonRoot: false,
       },

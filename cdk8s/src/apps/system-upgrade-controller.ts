@@ -1,5 +1,6 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import versions from "../versions/versions.json" with { type: "json" };
 
 export function createSystemUpgradeControllerApp(chart: Chart) {
   return new Application(chart, "system-upgrade-controller-app", {
@@ -12,7 +13,8 @@ export function createSystemUpgradeControllerApp(chart: Chart) {
         // https://github.com/rancher/system-upgrade-controller
         repoUrl: "https://github.com/rancher/system-upgrade-controller/",
         path: "manifests/",
-        targetRevision: "v0.13.2",
+        targetRevision:
+          versions["https://github.com/rancher/system-upgrade-controller/"],
       },
       destination: {
         server: "https://kubernetes.default.svc",

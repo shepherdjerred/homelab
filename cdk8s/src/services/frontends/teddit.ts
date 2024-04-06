@@ -8,6 +8,7 @@ import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { Redis } from "../common/redis.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
+import versions from "../../versions/versions.json" with { type: "json" };
 
 export function createTedditDeployment(chart: Chart) {
   const redis = new Redis(chart, "teddis-redis");
@@ -26,7 +27,7 @@ export function createTedditDeployment(chart: Chart) {
 
   tedditDeployment.addContainer(
     withCommonProps({
-      image: "teddit/teddit",
+      image: versions.teddit,
       envVariables: {
         REDIS_HOST: EnvValue.fromValue(redis.service.name),
         DOMAIN: EnvValue.fromValue("teddit.tailnet-1a49.ts.net"),
