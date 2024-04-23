@@ -110,10 +110,10 @@ spec:
         - name: immich.persistence.library.existingClaim
           value: immich-volume
         - name: image.tag
-          value: v1.101.0
+          value: v1.102.3
     path: charts/immich
     repoURL: https://github.com/immich-app/immich-charts/
-    targetRevision: immich-0.5.0
+    targetRevision: immich-0.6.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -290,7 +290,7 @@ spec:
         - name: controller.jenkinsUrl
           value: https://jenkins.tailnet-1a49.ts.net
     repoURL: https://charts.jenkins.io
-    targetRevision: 5.1.5
+    targetRevision: 5.1.6
   syncPolicy:
     automated: {}
     syncOptions:
@@ -309,7 +309,7 @@ spec:
   source:
     chart: volsync
     repoURL: https://backube.github.io/helm-charts/
-    targetRevision: 0.9.0
+    targetRevision: 0.9.1
   syncPolicy:
     automated: {}
     syncOptions:
