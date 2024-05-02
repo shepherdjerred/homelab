@@ -38,5 +38,5 @@ export function createAppsChart(app: App) {
   createJenkinsApp(chart);
   createVolsyncApp(chart);
   createExternalSnapshotterCrdsApp(chart);
-  createSupabaseApp(chart);
+  // createSupabaseApp(chart);
 }
