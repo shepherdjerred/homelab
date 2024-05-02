@@ -357,6 +357,28 @@ spec:
           value: https://supabase-api.tailnet-1a49.ts.net
         - name: auth.environment.GOTRUE_SITE_URL
           value: https://supabase-gotrue.tailnet-1a49.ts.net
+        - name: secret.jwt.secretRef
+          value: supabase-secret
+        - name: secret.jwt.secretRef.anonKey
+          value: jwt_anon_key
+        - name: secret.jwt.secretRef.serviceKey
+          value: jwt_service_key
+        - name: secret.jwt.secretRef.secret
+          value: jwt_secret
+        - name: secret.db.secretRef
+          value: supabase-secret
+        - name: secret.db.secretRef.password
+          value: db_password
+        - name: secret.db.secretRef.username
+          value: supabase
+        - name: secret.db.database
+          value: supabase
+        - name: secret.dashboard.secretRef
+          value: supabase-secret
+        - name: secret.dashboard.secretRefKey.password
+          value: dashboard_password
+        - name: secret.dashboard.username
+          value: supabase
     path: charts/supabase
     repoURL: https://github.com/supabase-community/supabase-kubernetes
     targetRevision: main
