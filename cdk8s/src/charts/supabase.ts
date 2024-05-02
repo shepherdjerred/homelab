@@ -5,7 +5,7 @@ import { supabaseVolumeName } from "../apps/supabase.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { Secret } from "npm:cdk8s-plus-27";
 
-export function createSupabaseApp(app: App) {
+export function createSupabaseChart(app: App) {
   const chart = new Chart(app, "supabase", {
     namespace: "supabase",
     disableResourceNameHashes: true,
