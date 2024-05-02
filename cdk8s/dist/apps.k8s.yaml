@@ -359,7 +359,7 @@ spec:
           value: https://supabase-gotrue.tailnet-1a49.ts.net
     path: supabase-kubernetes/charts/supabase/
     repoURL: https://github.com/supabase-community/supabase-kubernetes
-    targetRevision: 0.1.1
+    targetRevision: main
   syncPolicy:
     automated: {}
     syncOptions:
