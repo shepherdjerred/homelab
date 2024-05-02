@@ -4,7 +4,6 @@ import { createGlitterBoysChart } from "./charts/glitter-boys.ts";
 import { createProjectChart } from "./charts/project.ts";
 import { createAppsChart } from "./charts/apps.ts";
 import { createImmichChart } from "./charts/immich.ts";
-import { createSupabaseChart } from "./charts/supabase.ts";
 
 const app = new App();
 
@@ -14,6 +13,5 @@ createLamportChart(app);
 createGlitterBoysChart(app, "beta");
 createGlitterBoysChart(app, "prod");
 createImmichChart(app);
-createSupabaseChart(app);
 
 app.synth();
