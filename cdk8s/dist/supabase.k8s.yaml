@@ -14,7 +14,7 @@ spec:
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
 metadata:
-  name: supabase-supabase-onepassword-item
+  name: supabase-secret
   namespace: supabase
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/oenguooxbrs6ftxa6xrgtanxy4
