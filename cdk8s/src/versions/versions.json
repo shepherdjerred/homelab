@@ -37,5 +37,6 @@
   "esphome": "esphome/esphome",
   "golink": "ghcr.io/tailscale/golink:main",
   "homeassistant": "ghcr.io/home-assistant/home-assistant:stable",
-  "syncthing": "lscr.io/linuxserver/syncthing"
+  "syncthing": "lscr.io/linuxserver/syncthing",
+  "supabase": "0.1.1"
 }
