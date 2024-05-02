@@ -82,6 +82,26 @@ export function createSupabaseApp(chart: Chart) {
               value: "dashboard_username",
             },
             {
+              name: "secret.analytics.secretRef",
+              value: "supabase-secret",
+            },
+            {
+              name: "smtp.secretRef",
+              value: "supabase-secret",
+            },
+            {
+              name: "smtp.secretRefKey.username",
+              value: "smtp_username",
+            },
+            {
+              name: "smtp.secretRefKey.password",
+              value: "smtp_password",
+            },
+            {
+              name: "secret.analytics.secretRefKey.apiKey",
+              value: "analytics_api_key",
+            },
+            {
               name: "db.image.tag",
               value: versions["supabase-db"],
             },
@@ -112,6 +132,10 @@ export function createSupabaseApp(chart: Chart) {
             {
               name: "functions.image.tag",
               value: versions["supabase-functions"],
+            },
+            {
+              name: "vector.image.repository",
+              value: versions["supabase-vector"],
             },
           ],
         },

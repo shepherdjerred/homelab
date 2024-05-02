@@ -46,5 +46,6 @@
   "supabase-auth": "v2.150.1",
   "supabase-db": "15.1.1.46",
   "supabase-studio": "20240429-7341b30",
-  "supabase-realtime": "v2.28.32"
+  "supabase-realtime": "v2.28.32",
+  "supabase-vector": "0.38.0.custom.c128e6f-debian"
 }

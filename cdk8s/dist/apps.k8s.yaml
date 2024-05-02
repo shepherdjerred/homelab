@@ -379,6 +379,16 @@ spec:
           value: dashboard_password
         - name: secret.dashboard.secretRefKey.username
           value: dashboard_username
+        - name: secret.analytics.secretRef
+          value: supabase-secret
+        - name: smtp.secretRef
+          value: supabase-secret
+        - name: smtp.secretRefKey.username
+          value: smtp_username
+        - name: smtp.secretRefKey.password
+          value: smtp_password
+        - name: secret.analytics.secretRefKey.apiKey
+          value: analytics_api_key
         - name: db.image.tag
           value: 15.1.1.46
         - name: studio.image.tag
@@ -395,6 +405,8 @@ spec:
           value: 1.6.5
         - name: functions.image.tag
           value: v1.46.3
+        - name: vector.image.repository
+          value: 0.38.0.custom.c128e6f-debian
     path: charts/supabase
     repoURL: https://github.com/supabase-community/supabase-kubernetes
     targetRevision: main
