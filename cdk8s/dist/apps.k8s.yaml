@@ -369,16 +369,16 @@ spec:
           value: supabase-secret
         - name: secret.db.secretRefKey.password
           value: db_password
-        - name: secret.db.username
-          value: supabase
-        - name: secret.db.database
-          value: supabase
+        - name: secret.db.secretRefKey.username
+          value: db_username
+        - name: secret.db.secretRefKey.database
+          value: db_database
         - name: secret.dashboard.secretRef
           value: supabase-secret
         - name: secret.dashboard.secretRefKey.password
           value: dashboard_password
-        - name: secret.dashboard.username
-          value: supabase
+        - name: secret.dashboard.secretRefKey.username
+          value: dashboard_username
     path: charts/supabase
     repoURL: https://github.com/supabase-community/supabase-kubernetes
     targetRevision: main

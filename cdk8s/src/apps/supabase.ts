@@ -62,12 +62,12 @@ export function createSupabaseApp(chart: Chart) {
               value: "db_password",
             },
             {
-              name: "secret.db.username",
-              value: "supabase",
+              name: "secret.db.secretRefKey.username",
+              value: "db_username",
             },
             {
-              name: "secret.db.database",
-              value: "supabase",
+              name: "secret.db.secretRefKey.database",
+              value: "db_database",
             },
             {
               name: "secret.dashboard.secretRef",
@@ -78,8 +78,8 @@ export function createSupabaseApp(chart: Chart) {
               value: "dashboard_password",
             },
             {
-              name: "secret.dashboard.username",
-              value: "supabase",
+              name: "secret.dashboard.secretRefKey.username",
+              value: "dashboard_username",
             },
           ],
         },
