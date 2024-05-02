@@ -26,6 +26,21 @@ export function createSupabaseChart(app: App) {
     },
   );
 
+  // analytics uses a hard-coded secret name :/
+  new OnePasswordItem(
+    chart,
+    "supabase-analytics-onepassword-item",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/oenguooxbrs6ftxa6xrgtanxy4",
+      },
+      metadata: {
+        name: "supabase-analytics",
+      },
+    },
+  );
+
   // storage persistence
 
   // image persistence

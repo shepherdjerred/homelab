@@ -18,3 +18,11 @@ metadata:
   namespace: supabase
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/oenguooxbrs6ftxa6xrgtanxy4
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: supabase-analytics
+  namespace: supabase
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/oenguooxbrs6ftxa6xrgtanxy4
