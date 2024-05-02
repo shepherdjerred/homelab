@@ -27,6 +27,7 @@ export function createSupabaseChart(app: App) {
   );
 
   // analytics uses a hard-coded secret name :/
+  // https://github.com/supabase-community/supabase-kubernetes/blob/main/charts/supabase/templates/studio/deployment.yaml#L76-L77
   new OnePasswordItem(
     chart,
     "supabase-analytics-onepassword-item",
@@ -37,6 +38,20 @@ export function createSupabaseChart(app: App) {
       },
       metadata: {
         name: "supabase-analytics",
+      },
+    },
+  );
+
+  new OnePasswordItem(
+    chart,
+    "supabase-smtp-onepassword-item",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/oenguooxbrs6ftxa6xrgtanxy4",
+      },
+      metadata: {
+        name: "supabase-smtp",
       },
     },
   );
