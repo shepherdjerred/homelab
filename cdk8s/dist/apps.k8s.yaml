@@ -379,6 +379,22 @@ spec:
           value: dashboard_password
         - name: secret.dashboard.secretRefKey.username
           value: dashboard_username
+        - name: db.image.tag
+          value: 15.1.1.46
+        - name: studio.image.tag
+          value: 20240429-7341b30
+        - name: auth.image.tag
+          value: v2.150.1
+        - name: realtime.image.tag
+          value: v2.28.32
+        - name: meta.image.tag
+          value: v0.80.1
+        - name: storage.image.tag
+          value: v1.2.1
+        - name: analytics.image.tag
+          value: 1.6.5
+        - name: functions.image.tag
+          value: v1.46.3
     path: charts/supabase
     repoURL: https://github.com/supabase-community/supabase-kubernetes
     targetRevision: main

@@ -81,6 +81,38 @@ export function createSupabaseApp(chart: Chart) {
               name: "secret.dashboard.secretRefKey.username",
               value: "dashboard_username",
             },
+            {
+              name: "db.image.tag",
+              value: versions["supabase-db"],
+            },
+            {
+              name: "studio.image.tag",
+              value: versions["supabase-studio"],
+            },
+            {
+              name: "auth.image.tag",
+              value: versions["supabase-auth"],
+            },
+            {
+              name: "realtime.image.tag",
+              value: versions["supabase-realtime"],
+            },
+            {
+              name: "meta.image.tag",
+              value: versions["supabase-meta"],
+            },
+            {
+              name: "storage.image.tag",
+              value: versions["supabase-storage"],
+            },
+            {
+              name: "analytics.image.tag",
+              value: versions["supabase-analytics"],
+            },
+            {
+              name: "functions.image.tag",
+              value: versions["supabase-functions"],
+            },
           ],
         },
       },

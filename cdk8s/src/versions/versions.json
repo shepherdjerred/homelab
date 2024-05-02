@@ -38,5 +38,13 @@
   "golink": "ghcr.io/tailscale/golink:main",
   "homeassistant": "ghcr.io/home-assistant/home-assistant:stable",
   "syncthing": "lscr.io/linuxserver/syncthing",
-  "supabase": "main"
+  "supabase": "main",
+  "supabase-storage": "v1.2.1",
+  "supabase-analytics": "1.6.5",
+  "supabase-functions": "v1.46.3",
+  "supabase-meta": "v0.80.1",
+  "supabase-auth": "v2.150.1",
+  "supabase-db": "15.1.1.46",
+  "supabase-studio": "20240429-7341b30",
+  "supabase-realtime": "v2.28.32"
 }
