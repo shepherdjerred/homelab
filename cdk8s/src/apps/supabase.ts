@@ -134,7 +134,7 @@ export function createSupabaseApp(chart: Chart) {
               value: versions["supabase-functions"],
             },
             {
-              name: "vector.image.repository",
+              name: "vector.image.tag",
               value: versions["supabase-vector"],
             },
           ],

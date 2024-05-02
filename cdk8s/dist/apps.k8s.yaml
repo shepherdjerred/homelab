@@ -405,7 +405,7 @@ spec:
           value: 1.6.5
         - name: functions.image.tag
           value: v1.46.3
-        - name: vector.image.repository
+        - name: vector.image.tag
           value: 0.38.0.custom.c128e6f-debian
     path: charts/supabase
     repoURL: https://github.com/supabase-community/supabase-kubernetes
