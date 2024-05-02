@@ -42,15 +42,15 @@ export function createSupabaseApp(chart: Chart) {
               value: "supabase-secret",
             },
             {
-              name: "secret.jwt.secretRef.anonKey",
+              name: "secret.jwt.secretRefKey.anonKey",
               value: "jwt_anon_key",
             },
             {
-              name: "secret.jwt.secretRef.serviceKey",
+              name: "secret.jwt.secretRefKey.serviceKey",
               value: "jwt_service_key",
             },
             {
-              name: "secret.jwt.secretRef.secret",
+              name: "secret.jwt.secretRefKey.secret",
               value: "jwt_secret",
             },
             {
@@ -58,11 +58,11 @@ export function createSupabaseApp(chart: Chart) {
               value: "supabase-secret",
             },
             {
-              name: "secret.db.secretRef.password",
+              name: "secret.db.secretRefKey.password",
               value: "db_password",
             },
             {
-              name: "secret.db.secretRef.username",
+              name: "secret.db.username",
               value: "supabase",
             },
             {
