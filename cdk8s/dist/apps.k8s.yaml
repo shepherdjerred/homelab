@@ -381,14 +381,14 @@ spec:
           value: dashboard_username
         - name: secret.analytics.secretRef
           value: supabase-secret
+        - name: secret.analytics.secretRefKey.apiKey
+          value: analytics_api_key
         - name: smtp.secretRef
           value: supabase-secret
         - name: smtp.secretRefKey.username
           value: smtp_username
         - name: smtp.secretRefKey.password
           value: smtp_password
-        - name: secret.analytics.secretRefKey.apiKey
-          value: analytics_api_key
         - name: db.image.tag
           value: 15.1.1.46
         - name: studio.image.tag

@@ -86,6 +86,10 @@ export function createSupabaseApp(chart: Chart) {
               value: "supabase-secret",
             },
             {
+              name: "secret.analytics.secretRefKey.apiKey",
+              value: "analytics_api_key",
+            },
+            {
               name: "smtp.secretRef",
               value: "supabase-secret",
             },
@@ -96,10 +100,6 @@ export function createSupabaseApp(chart: Chart) {
             {
               name: "smtp.secretRefKey.password",
               value: "smtp_password",
-            },
-            {
-              name: "secret.analytics.secretRefKey.apiKey",
-              value: "analytics_api_key",
             },
             {
               name: "db.image.tag",
