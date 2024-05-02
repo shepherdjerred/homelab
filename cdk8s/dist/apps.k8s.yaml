@@ -357,7 +357,7 @@ spec:
           value: https://supabase-api.tailnet-1a49.ts.net
         - name: auth.environment.GOTRUE_SITE_URL
           value: https://supabase-gotrue.tailnet-1a49.ts.net
-    path: supabase-kubernetes/charts/supabase/
+    path: charts/supabase
     repoURL: https://github.com/supabase-community/supabase-kubernetes
     targetRevision: main
   syncPolicy:

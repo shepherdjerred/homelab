@@ -13,7 +13,7 @@ export function createSupabaseApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://github.com/supabase-community/supabase-kubernetes",
-        path: "supabase-kubernetes/charts/supabase/",
+        path: "charts/supabase",
         targetRevision: versions["supabase"],
         helm: {
           parameters: [
