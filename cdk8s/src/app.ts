@@ -14,6 +14,6 @@ createLamportChart(app);
 createGlitterBoysChart(app, "beta");
 createGlitterBoysChart(app, "prod");
 createImmichChart(app);
-// createSupabaseChart(app);
+createSupabaseChart(app);
 
 app.synth();

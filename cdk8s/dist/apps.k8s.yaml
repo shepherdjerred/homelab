@@ -333,3 +333,84 @@ spec:
     automated: {}
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: supabase
+  namespace: argocd
+spec:
+  destination:
+    namespace: supabase
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      parameters:
+        - name: studio.envrionment.STUDIO_DEFAULT_ORGANIZATION
+          value: sjerred
+        - name: studio.envrionment.STUDIO_DEFAULT_PROJECT
+          value: sjerred
+        - name: studio.envrionment.SUPABASE_PUBLIC_URL
+          value: https://supabase.tailnet-1a49.ts.net
+        - name: auth.environment.API_EXTERNAL_URL
+          value: https://supabase-api.tailnet-1a49.ts.net
+        - name: auth.environment.GOTRUE_SITE_URL
+          value: https://supabase-gotrue.tailnet-1a49.ts.net
+        - name: secret.jwt.secretRef
+          value: supabase-secret
+        - name: secret.jwt.secretRefKey.anonKey
+          value: jwt_anon_key
+        - name: secret.jwt.secretRefKey.serviceKey
+          value: jwt_service_key
+        - name: secret.jwt.secretRefKey.secret
+          value: jwt_secret
+        - name: secret.db.secretRef
+          value: supabase-secret
+        - name: secret.db.secretRefKey.password
+          value: db_password
+        - name: secret.db.secretRefKey.username
+          value: db_username
+        - name: secret.db.secretRefKey.database
+          value: db_database
+        - name: secret.dashboard.secretRef
+          value: supabase-secret
+        - name: secret.dashboard.secretRefKey.password
+          value: dashboard_password
+        - name: secret.dashboard.secretRefKey.username
+          value: dashboard_username
+        - name: secret.analytics.secretRef
+          value: supabase-secret
+        - name: secret.analytics.secretRefKey.apiKey
+          value: analytics_api_key
+        - name: smtp.secretRef
+          value: supabase-secret
+        - name: smtp.secretRefKey.username
+          value: smtp_username
+        - name: smtp.secretRefKey.password
+          value: smtp_password
+        - name: db.image.tag
+          value: 15.1.1.46
+        - name: studio.image.tag
+          value: 20240429-7341b30
+        - name: auth.image.tag
+          value: v2.150.1
+        - name: realtime.image.tag
+          value: v2.28.32
+        - name: meta.image.tag
+          value: v0.80.1
+        - name: storage.image.tag
+          value: v1.2.1
+        - name: analytics.image.tag
+          value: 1.6.5
+        - name: functions.image.tag
+          value: v1.46.3
+        - name: vector.image.tag
+          value: 0.38.0.custom.c128e6f-debian
+    path: charts/supabase
+    repoURL: https://github.com/supabase-community/supabase-kubernetes
+    targetRevision: main
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
