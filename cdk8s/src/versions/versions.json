@@ -28,7 +28,7 @@
   "bitmagnet": "ghcr.io/bitmagnet-io/bitmagnet:latest",
   "overseerr": "lscr.io/linuxserver/overseerr",
   "prowlarr": "lscr.io/linuxserver/prowlarr",
-  "gluetun": "ghcr.io/qdm12/gluetun:3.37.0",
+  "gluetun": "ghcr.io/qdm12/gluetun:v3.37.0",
   "qbittorrent": "lscr.io/linuxserver/qbittorrent",
   "radarr": "lscr.io/linuxserver/radarr",
   "sonarr": "lscr.io/linuxserver/sonarr",
