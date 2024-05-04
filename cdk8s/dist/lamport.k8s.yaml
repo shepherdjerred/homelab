@@ -1259,7 +1259,7 @@ spec:
               value: 10.154.174.240,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde
             - name: FIREWALL_VPN_INPUT_PORTS
               value: "16793"
-          image: ghcr.io/qdm12/gluetun:3.37.0
+          image: ghcr.io/qdm12/gluetun:v3.37.0
           imagePullPolicy: Always
           name: gluetun
           securityContext:
