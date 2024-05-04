@@ -1,7 +1,6 @@
 import { App, Chart } from "npm:cdk8s";
 import { createEspHomeDeployment } from "../services/esphome.ts";
 import { createInvidiousDeployment } from "../services/frontends/invidious.ts";
-import { createNitterDeployment } from "../services/frontends/nitter.ts";
 import { createTedditDeployment } from "../services/frontends/teddit.ts";
 import { createPalworldDeployment } from "../services/games/palworld.ts";
 import { createGolinkDeployment } from "../services/golink.ts";
@@ -47,7 +46,6 @@ export function createLamportChart(app: App) {
   createPlexDeployment(chart);
   createRadarrDeployment(chart);
   createHomeAssistantDeployment(chart);
-  createNitterDeployment(chart);
   createOverseerrDeployment(chart);
   createQBitTorrentDeployment(chart);
   createSonarrDeployment(chart);
