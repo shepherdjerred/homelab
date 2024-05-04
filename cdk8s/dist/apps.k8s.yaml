@@ -110,7 +110,7 @@ spec:
         - name: immich.persistence.library.existingClaim
           value: immich-volume
         - name: image.tag
-          value: v1.102.3
+          value: v1.103.1
     path: charts/immich
     repoURL: https://github.com/immich-app/immich-charts/
     targetRevision: immich-0.6.0
