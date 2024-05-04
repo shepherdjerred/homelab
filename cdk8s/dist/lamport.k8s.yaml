@@ -1256,7 +1256,7 @@ spec:
                   key: preshared-key
                   name: lamport-mullvad
             - name: WIREGUARD_ADDRESSES
-              value: 10.154.174.240,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde
+              value: 10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128
             - name: FIREWALL_VPN_INPUT_PORTS
               value: "16793"
           image: ghcr.io/qdm12/gluetun:v3.37.0
