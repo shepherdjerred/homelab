@@ -350,7 +350,7 @@ spec:
         - name: minio.enabled
           value: "true"
     path: charts/windmill
-    repoURL: https://windmill-labs.github.io/windmill-helm-charts/
+    repoURL: https://github.com/windmill-labs/windmill-helm-charts
     targetRevision: windmill-2.0.181
   syncPolicy:
     automated: {}

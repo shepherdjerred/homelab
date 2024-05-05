@@ -10,7 +10,7 @@ export function createWindmillApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
-        repoUrl: "https://windmill-labs.github.io/windmill-helm-charts/",
+        repoUrl: "https://github.com/windmill-labs/windmill-helm-charts",
         path: "charts/windmill",
         targetRevision: versions["windmill"],
         helm: {
