@@ -6,9 +6,9 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: windmill-server
+      name: windmill-app
       port:
-        number: 3001
+        number: 8000
   ingressClassName: tailscale
   tls:
     - hosts:
