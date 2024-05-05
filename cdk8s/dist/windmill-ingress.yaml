@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: windmill-ingress
+  namespace: windmill
+spec:
+  defaultBackend:
+    service:
+      name: windmill-server
+      port:
+        number: 3001
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - windmill
