@@ -36,5 +36,6 @@
   "esphome": "esphome/esphome",
   "golink": "ghcr.io/tailscale/golink:main",
   "homeassistant": "ghcr.io/home-assistant/home-assistant:stable",
-  "syncthing": "lscr.io/linuxserver/syncthing"
+  "syncthing": "lscr.io/linuxserver/syncthing",
+  "windmill": "windmill-2.0.181"
 }
