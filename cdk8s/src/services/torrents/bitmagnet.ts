@@ -32,6 +32,7 @@ export function createBitmagnetDeployment(chart: Chart) {
     itemPath:
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m",
     database: "bitmagnet",
+    walTmpfs: true,
   });
 
   const deployment = new Deployment(chart, "bitmagnet", {
@@ -59,7 +60,6 @@ export function createBitmagnetDeployment(chart: Chart) {
           secret: Secret.fromSecretName(chart, "tmdb-api-key", tmdbItem.name),
           key: "api-key",
         }),
-        DHT_CRAWLER_SCALING_FACTOR: EnvValue.fromValue("0"),
       },
       command: [
         "bitmagnet",

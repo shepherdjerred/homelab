@@ -3,6 +3,7 @@ import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import {
   Deployment,
   DeploymentStrategy,
+  EmptyDirMedium,
   EnvValue,
   ISecret,
   Secret,
@@ -24,6 +25,7 @@ export class Postgres extends Construct {
   constructor(scope: Construct, name: string, props: {
     itemPath: string;
     database: string;
+    walTmpfs?: boolean;
   }) {
     super(scope, name);
 
@@ -64,6 +66,31 @@ export class Postgres extends Construct {
       {},
     );
 
+    const volumeMounts = [
+      {
+        path: "/var/lib/postgresql/data",
+        volume: Volume.fromPersistentVolumeClaim(
+          scope,
+          `${name}-pvc`,
+          this.localPathVolume.claim,
+        ),
+      },
+    ];
+
+    if (props.walTmpfs) {
+      volumeMounts.push({
+        path: "/var/lib/postgresql/data/pgdata/pg_wal",
+        volume: Volume.fromEmptyDir(
+          scope,
+          `${name}-wal-tmpfs`,
+          `${name}-wal-tmpfs`,
+          {
+            medium: EmptyDirMedium.MEMORY,
+          },
+        ),
+      });
+    }
+
     this.deployment.addContainer(
       withCommonProps({
         image: versions["postgres"],
@@ -79,16 +106,7 @@ export class Postgres extends Construct {
           // pg fails to start without this
           readOnlyRootFilesystem: false,
         },
-        volumeMounts: [
-          {
-            path: "/var/lib/postgresql/data",
-            volume: Volume.fromPersistentVolumeClaim(
-              scope,
-              `${name}-pvc`,
-              this.localPathVolume.claim,
-            ),
-          },
-        ],
+        volumeMounts,
       }),
     );
 

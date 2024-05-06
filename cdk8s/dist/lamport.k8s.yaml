@@ -1851,6 +1851,8 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: pvc-bitmagnet-postgres-volume
+            - mountPath: /var/lib/postgresql/data/pgdata/pg_wal
+              name: bitmagnet-postgres-wal-tmpfs
       dnsPolicy: ClusterFirst
       hostNetwork: false
       restartPolicy: Always
@@ -1865,6 +1867,9 @@ spec:
           persistentVolumeClaim:
             claimName: bitmagnet-postgres-volume
             readOnly: false
+        - emptyDir:
+            medium: Memory
+          name: bitmagnet-postgres-wal-tmpfs
 ---
 apiVersion: v1
 kind: Service
@@ -1938,8 +1943,6 @@ spec:
                 secretKeyRef:
                   key: api-key
                   name: tmdb-api-key
-            - name: DHT_CRAWLER_SCALING_FACTOR
-              value: "0"
           image: ghcr.io/bitmagnet-io/bitmagnet:latest
           imagePullPolicy: Always
           name: main
