@@ -59,6 +59,7 @@ export function createBitmagnetDeployment(chart: Chart) {
           secret: Secret.fromSecretName(chart, "tmdb-api-key", tmdbItem.name),
           key: "api-key",
         }),
+        DHT_CRAWLER_SCALING_FACTOR: EnvValue.fromValue("0"),
       },
       command: [
         "bitmagnet",

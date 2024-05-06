@@ -1938,6 +1938,8 @@ spec:
                 secretKeyRef:
                   key: api-key
                   name: tmdb-api-key
+            - name: DHT_CRAWLER_SCALING_FACTOR
+              value: "0"
           image: ghcr.io/bitmagnet-io/bitmagnet:latest
           imagePullPolicy: Always
           name: main
