@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: immich-ingress
   namespace: immich
+  annotations:
+    tailscale.com/funnel: "true"
 spec:
   defaultBackend:
     service:
