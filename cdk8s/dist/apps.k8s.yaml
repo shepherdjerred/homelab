@@ -65,7 +65,7 @@ spec:
   source:
     chart: tailscale-operator
     repoURL: https://pkgs.tailscale.com/helmcharts
-    targetRevision: 1.62.1
+    targetRevision: 1.66.3
   syncPolicy:
     automated: {}
     syncOptions:

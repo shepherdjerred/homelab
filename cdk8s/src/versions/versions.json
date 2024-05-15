@@ -11,7 +11,7 @@
   "https://kubernetes-sigs.github.io/node-feature-discovery/charts": "0.15.4",
   "https://prometheus-community.github.io/helm-charts": "58.0.0",
   "https://github.com/rancher/system-upgrade-controller/": "v0.13.4",
-  "https://pkgs.tailscale.com/helmcharts": "1.62.1",
+  "https://pkgs.tailscale.com/helmcharts": "1.66.3",
   "https://backube.github.io/helm-charts/": "0.9.1",
   "postgres": "postgres:16.2",
   "redis": "redis:7.2",
