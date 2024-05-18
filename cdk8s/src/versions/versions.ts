@@ -1,6 +1,7 @@
 const versions = {
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=helm
-  "connect": "1.15.0",
+  "connect": "1.14.0",
+  // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=helm
   "https://github.com/argoproj/argo-cd": "stable",
   "https://charts.jetstack.io": "v1.14.4",
   "https://github.com/kubernetes-csi/external-snapshotter": "release-7.0",
