@@ -38,9 +38,7 @@ export function createInvidiousDeployment(chart: Chart) {
 
   invidiousDeployment.addContainer(
     withCommonProps({
-      image: `https://quay.io/invidious/invidious:${
-        versions["invidious/invidious"]
-      }`,
+      image: `quay.io/invidious/invidious:${versions["invidious/invidious"]}`,
       name: "invidious",
       portNumber: 3000,
       securityContext: {
