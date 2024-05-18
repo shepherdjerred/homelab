@@ -38,6 +38,7 @@ spec:
   source:
     path: manifests/
     repoURL: https://github.com/argoproj/argo-cd
+    targetRevision: v2.11.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -112,6 +113,7 @@ spec:
           value: v1.105.1
     path: charts/immich
     repoURL: https://github.com/immich-app/immich-charts/
+    targetRevision: immich-0.6.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -326,6 +328,7 @@ spec:
   source:
     path: client/config/crd/
     repoURL: https://github.com/kubernetes-csi/external-snapshotter
+    targetRevision: v7.0.2
   syncPolicy:
     automated: {}
     syncOptions:

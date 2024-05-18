@@ -11,7 +11,7 @@ export function createArgoCdApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://github.com/argoproj/argo-cd",
-        targetRevision: versions["https://github.com/argoproj/argo-cd"],
+        targetRevision: versions["argoproj/argo-cd"],
         path: "manifests/",
       },
       destination: {
