@@ -17,10 +17,5 @@
       "matchDatasources": ["docker"],
       "pinDigests": true
     }
-  ],
-  "postUpgradeTasks": {
-    "commands": ["cd cdk8s && deno task build"],
-    "fileFilters": ["cdk8s/dist/**"],
-    "executionMode": "update"
-  }
+  ]
 }
