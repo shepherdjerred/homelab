@@ -13,9 +13,6 @@
   ],
   "packageRules": [
     {
-      "automerge": true
-    },
-    {
       "matchDatasources": ["docker"],
       "pinDigests": true
     }
