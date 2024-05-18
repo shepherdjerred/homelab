@@ -37,7 +37,8 @@ const versions = {
   "earthly/satellite":
     "v0.8.11@sha256:6fd2b6b388405474bd85d9a0203ae8e5ff4ae7859d099b8a84978007dc0d2ebf",
   // renovate: datasource=docker registryUrl=https://quay.io/ versioning=docker
-  "invidious/invidious": "latest",
+  "invidious/invidious":
+    "latest@sha256:a91a307a3ece8468aa88d6b91a601a0453cf76589f434ffdce643f968d3825cc",
   // renovate: datasource=docker versioning=docker
   "teddit/teddit":
     "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
