@@ -177,7 +177,7 @@ spec:
         - name: nodeFeatureRule
           value: "true"
         - name: resourceManager
-          value: "false"
+          value: "true"
     repoURL: https://intel.github.io/helm-charts/
     targetRevision: 0.30.0
   syncPolicy:
@@ -257,6 +257,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
+    kustomize: {}
     path: manifests/
     repoURL: https://github.com/rancher/system-upgrade-controller/
     targetRevision: v0.13.4

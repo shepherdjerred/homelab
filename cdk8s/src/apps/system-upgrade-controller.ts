@@ -14,6 +14,7 @@ export function createSystemUpgradeControllerApp(chart: Chart) {
         repoUrl: "https://github.com/rancher/system-upgrade-controller/",
         path: "manifests/",
         targetRevision: versions["rancher/system-upgrade-controller"],
+        kustomize: {},
       },
       destination: {
         server: "https://kubernetes.default.svc",
