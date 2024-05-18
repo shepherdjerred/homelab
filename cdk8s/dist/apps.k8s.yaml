@@ -38,7 +38,6 @@ spec:
   source:
     path: manifests/
     repoURL: https://github.com/argoproj/argo-cd
-    targetRevision: stable
   syncPolicy:
     automated: {}
     syncOptions:
@@ -113,7 +112,6 @@ spec:
           value: v1.105.1
     path: charts/immich
     repoURL: https://github.com/immich-app/immich-charts/
-    targetRevision: immich-0.6.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -202,7 +200,7 @@ spec:
         - name: installCRDs
           value: "true"
     repoURL: https://charts.jetstack.io
-    targetRevision: v1.14.4
+    targetRevision: v1.14.5
   syncPolicy:
     automated: {}
     syncOptions:
@@ -328,7 +326,6 @@ spec:
   source:
     path: client/config/crd/
     repoURL: https://github.com/kubernetes-csi/external-snapshotter
-    targetRevision: release-7.0
   syncPolicy:
     automated: {}
     syncOptions:
