@@ -12,7 +12,7 @@ export function createWindmillApp(chart: Chart) {
       source: {
         repoUrl: "https://github.com/windmill-labs/windmill-helm-charts",
         path: "charts/windmill",
-        targetRevision: versions["windmill"],
+        targetRevision: versions["windmill-labs/windmill-helm-charts"],
         helm: {
           parameters: [
             { name: "minio.enabled", value: "true" },

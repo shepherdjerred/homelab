@@ -152,7 +152,7 @@ spec:
   source:
     chart: intel-device-plugins-operator
     repoURL: https://intel.github.io/helm-charts/
-    targetRevision: 0.29.0
+    targetRevision: 0.30.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -239,7 +239,7 @@ spec:
   source:
     chart: minio
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 14.1.7
+    targetRevision: 14.4.3
   syncPolicy:
     automated: {}
     syncOptions:
@@ -289,7 +289,7 @@ spec:
         - name: controller.jenkinsUrl
           value: https://jenkins.tailnet-1a49.ts.net
     repoURL: https://charts.jenkins.io
-    targetRevision: 5.1.6
+    targetRevision: 5.1.18
   syncPolicy:
     automated: {}
     syncOptions:

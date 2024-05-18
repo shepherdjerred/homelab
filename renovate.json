@@ -10,5 +10,8 @@
         "\\/\\/ renovate: datasource=(?<datasource>[a-z-]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?))?\\s*.\"(?<packageName>.+?)\": \"(?<currentValue>.+?)\""
       ]
     }
-  ]
+  ],
+  "docker": {
+    "pinDigests": true
+  }
 }

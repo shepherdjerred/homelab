@@ -34,7 +34,6 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: esphome/esphome
           imagePullPolicy: Always
           name: main
           ports:
@@ -137,7 +136,6 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: lscr.io/linuxserver/bazarr
           imagePullPolicy: Always
           name: main
           ports:
@@ -253,7 +251,6 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: lscr.io/linuxserver/tautulli
           imagePullPolicy: Always
           name: main
           ports:
@@ -454,7 +451,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: quay.io/invidious/invidious
+          image: quay.io/invidious/invidious:undefined
           imagePullPolicy: Always
           name: invidious
           ports:
@@ -630,7 +627,6 @@ spec:
               value: lamport-teddis-redis-deployment-service
             - name: DOMAIN
               value: teddit.tailnet-1a49.ts.net
-          image: teddit/teddit
           imagePullPolicy: Always
           name: main
           ports:
@@ -710,7 +706,6 @@ spec:
               value: America/Los_Angeles
             - name: ADVERTISE_IP
               value: https://plex.tailnet-1a49.ts.net
-          image: plexinc/pms-docker
           imagePullPolicy: Always
           name: main
           ports:
@@ -889,7 +884,6 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: lscr.io/linuxserver/radarr
           imagePullPolicy: Always
           name: main
           ports:
@@ -1001,7 +995,6 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: ghcr.io/home-assistant/home-assistant:stable
           imagePullPolicy: Always
           name: main
           ports:
@@ -1130,7 +1123,6 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: lscr.io/linuxserver/overseerr
           imagePullPolicy: Always
           name: main
           ports:
@@ -1259,7 +1251,6 @@ spec:
               value: 10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128
             - name: FIREWALL_VPN_INPUT_PORTS
               value: "16793"
-          image: ghcr.io/qdm12/gluetun:v3.37.0
           imagePullPolicy: Always
           name: gluetun
           securityContext:
@@ -1277,7 +1268,6 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: lscr.io/linuxserver/qbittorrent
           imagePullPolicy: Always
           name: qbittorrent
           ports:
@@ -1405,7 +1395,6 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: lscr.io/linuxserver/sonarr
           imagePullPolicy: Always
           name: main
           ports:
@@ -1521,7 +1510,6 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: lscr.io/linuxserver/syncthing
           imagePullPolicy: Always
           name: main
           ports:
@@ -1645,7 +1633,6 @@ spec:
                 secretKeyRef:
                   key: credential
                   name: tailscale-auth-key
-          image: ghcr.io/tailscale/golink:main
           imagePullPolicy: Always
           name: main
           securityContext:
@@ -1943,7 +1930,6 @@ spec:
                 secretKeyRef:
                   key: api-key
                   name: tmdb-api-key
-          image: ghcr.io/bitmagnet-io/bitmagnet:latest
           imagePullPolicy: Always
           name: main
           ports:
@@ -2046,7 +2032,6 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: lscr.io/linuxserver/prowlarr
           imagePullPolicy: Always
           name: main
           ports:
@@ -2185,7 +2170,6 @@ spec:
               value: "true"
             - name: BUILD_OBJECT_DETERIORATION_DAMAGE_RATE
               value: "0"
-          image: thijsvanloef/palworld-server-docker
           imagePullPolicy: Always
           name: main
           ports:
@@ -2308,7 +2292,7 @@ spec:
               value: "10"
             - name: BUILDKIT_MAX_PARALLELISM
               value: "24"
-          image: earthly/satellite:v0.8.8
+          image: earthly-satellite:undefined
           imagePullPolicy: Always
           name: main
           ports:
@@ -2436,7 +2420,6 @@ spec:
               value: "true"
             - name: STOP_SERVER_ANNOUNCE_DELAY
               value: "10"
-          image: itzg/minecraft-server
           imagePullPolicy: Always
           name: main
           ports:
@@ -2553,7 +2536,6 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: timothyjmiller/cloudflare-ddns
           imagePullPolicy: Always
           name: main
           securityContext:

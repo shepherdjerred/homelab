@@ -13,7 +13,7 @@ export function createVolsyncApp(chart: Chart) {
         // https://github.com/backube/helm-charts
         repoUrl: "https://backube.github.io/helm-charts/",
         chart: "volsync",
-        targetRevision: versions["https://backube.github.io/helm-charts/"],
+        targetRevision: versions["volsync"],
       },
       destination: {
         server: "https://kubernetes.default.svc",

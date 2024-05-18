@@ -44,7 +44,7 @@ export function createEarthlyDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: versions["earthly"],
+      image: `earthly-satellite:${versions["earthly"]}`,
       portNumber: 8372,
       securityContext: {
         privileged: true,
