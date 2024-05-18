@@ -38,7 +38,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
   deployment.addContainer(
     withCommonProps({
       name: "gluetun",
-      image: versions["gluetun"],
+      image: `https://ghcr.io/qdm12/gluetun:${versions["qdm12/gluetun"]}`,
       // TODO: replace this with capability to run as non-root
       // this is mostly required right now to setup the VPN
       securityContext: {
