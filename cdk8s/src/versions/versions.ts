@@ -69,7 +69,7 @@ const versions = {
   "linuxserver/sonarr": "latest",
   // renovate: datasource=docker versioning=loose
   "timothyjmiller/cloudflare-ddns": "latest",
-  // renovate: datasource=docker versioning=loose
+  //- renovate: datasource=docker versioning=loose
   "esphome/esphome": "2024.5.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=loose
   "tailscale/golink": "main",
