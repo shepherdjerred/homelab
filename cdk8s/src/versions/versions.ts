@@ -1,12 +1,16 @@
 const versions = {
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=helm
   "connect": "1.14.0",
-  // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=helm
-  "https://github.com/argoproj/argo-cd": "stable",
-  "https://charts.jetstack.io": "v1.14.4",
-  "https://github.com/kubernetes-csi/external-snapshotter": "release-7.0",
+  // renovate: datasource=github-releases
+  "https://github.com/argoproj/argo-cd": "v2.11.0",
+  // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=helm
+  "cert-manager": "v1.14.4",
+  // renovate: datasource=github-releases versioning=helm
+  "https://github.com/kubernetes-csi/external-snapshotter": "v7.0.2",
+  // renovate: datasource=github-releases versioning=helm
   "https://github.com/immich-app/immich-charts/": "immich-0.6.0",
-  "immich": "v1.105.1",
+  // renovate: datasource=docker versioning=docker
+  "immich-server": "v1.105.1",
   "https://intel.github.io/helm-charts/": "0.29.0",
   "https://charts.jenkins.io": "5.1.6",
   "https://charts.bitnami.com/bitnami": "14.1.7",
