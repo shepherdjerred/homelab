@@ -12,6 +12,7 @@ export function createSystemUpgradeControllerApp(chart: Chart) {
       source: {
         // https://github.com/rancher/system-upgrade-controller
         repoUrl: "https://github.com/rancher/system-upgrade-controller/",
+        path: ".",
         targetRevision: versions["rancher/system-upgrade-controller"],
         kustomize: {},
       },
