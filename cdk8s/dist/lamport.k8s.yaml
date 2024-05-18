@@ -369,7 +369,7 @@ spec:
               value: /var/lib/postgresql/data/pgdata
             - name: POSTGRES_DB
               value: invidious
-          image: postgres:16.2
+          image: "16.2"
           imagePullPolicy: Always
           name: main
           ports:
@@ -454,7 +454,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: quay.io/invidious/invidious
+          image: latest
           imagePullPolicy: Always
           name: invidious
           ports:
@@ -563,7 +563,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: redis:7.2
+          image: "7.2"
           imagePullPolicy: Always
           name: main
           ports:
@@ -1752,7 +1752,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: redis:7.2
+          image: "7.2"
           imagePullPolicy: Always
           name: main
           ports:
@@ -1832,7 +1832,7 @@ spec:
               value: /var/lib/postgresql/data/pgdata
             - name: POSTGRES_DB
               value: bitmagnet
-          image: postgres:16.2
+          image: "16.2"
           imagePullPolicy: Always
           name: main
           ports:
@@ -2308,7 +2308,7 @@ spec:
               value: "10"
             - name: BUILDKIT_MAX_PARALLELISM
               value: "24"
-          image: earthly/satellite:v0.8.8
+          image: v0.8.8
           imagePullPolicy: Always
           name: main
           ports:

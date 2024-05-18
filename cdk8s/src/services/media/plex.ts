@@ -11,7 +11,7 @@ import { ApiObject, Chart, JsonPatch, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
-import versions from "../../versions/versions.json" with { type: "json" };
+import versions from "../../versions/versions.ts";
 
 export function createPlexDeployment(chart: Chart) {
   const GID = 1000;

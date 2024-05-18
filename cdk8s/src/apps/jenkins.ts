@@ -1,7 +1,7 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import versions from "../versions/versions.json" with { type: "json" };
+import versions from "../versions/versions.ts";
 
 export function createJenkinsApp(chart: Chart) {
   new OnePasswordItem(

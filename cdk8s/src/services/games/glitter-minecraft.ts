@@ -16,7 +16,7 @@ import {
   ReplicationSource,
   ReplicationSourceSpecResticCopyMethod,
 } from "../../../imports/volsync.backube.ts";
-import versions from "../../versions/versions.json" with { type: "json" };
+import versions from "../../versions/versions.ts";
 
 export function createMinecraftDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "minecraft", {

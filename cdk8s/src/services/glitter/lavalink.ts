@@ -10,7 +10,7 @@ import {
 import { Chart } from "npm:cdk8s";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { withCommonProps } from "../../utils/common.ts";
-import versions from "../../versions/versions.json" with { type: "json" };
+import versions from "../../versions/versions.ts";
 
 export function createLavalinkDeployment(
   chart: Chart,

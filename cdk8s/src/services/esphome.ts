@@ -9,7 +9,7 @@ import { ApiObject, Chart, JsonPatch } from "npm:cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../utils/common.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
-import versions from "../versions/versions.json" with { type: "json" };
+import versions from "../versions/versions.ts";
 
 export function createEspHomeDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "esphome", {

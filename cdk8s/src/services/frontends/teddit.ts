@@ -8,7 +8,7 @@ import { Chart } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { Redis } from "../common/redis.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
-import versions from "../../versions/versions.json" with { type: "json" };
+import versions from "../../versions/versions.ts";
 
 export function createTedditDeployment(chart: Chart) {
   const redis = new Redis(chart, "teddis-redis");
