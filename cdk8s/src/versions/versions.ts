@@ -12,7 +12,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=semver
   "immich-app/immich-server": "v1.105.1",
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver-coerced
-  "intel-device-plugins-operator": "0.29.0",
+  "intel-device-plugins-operator": "0.30.0",
   // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver-coerced
   "jenkins": "5.1.6",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver-coerced
