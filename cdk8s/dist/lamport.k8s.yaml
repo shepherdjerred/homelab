@@ -2046,7 +2046,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/powlarr:latest@sha256:b0dabccc49b6e994665ae8751224aa3ca4c31b29b18815394a330d591e5f8ed8
+          image: ghcr.io/linuxserver/prowlarr:latest@sha256:b0dabccc49b6e994665ae8751224aa3ca4c31b29b18815394a330d591e5f8ed8
           imagePullPolicy: Always
           name: main
           ports:
