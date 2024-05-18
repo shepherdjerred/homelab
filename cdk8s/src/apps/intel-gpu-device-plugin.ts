@@ -13,7 +13,7 @@ export function createIntelGpuDevicePluginApp(chart: Chart) {
         // https://github.com/intel/helm-charts/tree/main/charts/gpu-device-plugin
         repoUrl: "https://intel.github.io/helm-charts/",
         chart: "intel-device-plugins-gpu",
-        targetRevision: versions["https://intel.github.io/helm-charts/"],
+        targetRevision: versions["intel-device-plugins-operator"],
         helm: {
           parameters: [
             { name: "sharedDevNum", value: "10" },
