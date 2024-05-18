@@ -83,7 +83,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
         // required
         readOnlyRootFilesystem: false,
       },
-      image: `https://ghcr.io/home-assistant/home-assistant:${
+      image: `ghcr.io/home-assistant/home-assistant:${
         versions["home-assistant/home-assistant"]
       }`,
       ports: [

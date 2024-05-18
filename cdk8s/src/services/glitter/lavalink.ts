@@ -22,7 +22,7 @@ export function createLavalinkDeployment(
   });
 
   deployment.addContainer(withCommonProps({
-    image: `https://ghcr.io/lavalink-devs/lavalink:${
+    image: `ghcr.io/lavalink-devs/lavalink:${
       versions["lavalink-devs/lavalink"]
     }`,
     securityContext: {

@@ -36,7 +36,7 @@ export function createSyncthingDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: `https://ghcr.io/linuxserver/syncthing:${
+      image: `ghcr.io/linuxserver/syncthing:${
         versions["linuxserver/syncthing"]
       }`,
       portNumber: 8384,

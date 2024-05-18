@@ -20,7 +20,7 @@ export function createOverseerrDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: `https://ghcr.io/linuxserver/overseerr:${
+      image: `ghcr.io/linuxserver/overseerr:${
         versions["linuxserver/overseerr"]
       }`,
       portNumber: 5055,

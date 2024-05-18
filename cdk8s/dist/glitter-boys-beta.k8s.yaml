@@ -39,7 +39,7 @@ spec:
                 secretKeyRef:
                   key: password
                   name: glitter-boys-beta-lavalink-password
-          image: https://ghcr.io/lavalink-devs/lavalink:4@sha256:715fedceb9be556c7dec07774a6c41fa1cf4ac2fc582992783a0c78a2ec31312
+          image: ghcr.io/lavalink-devs/lavalink:4@sha256:715fedceb9be556c7dec07774a6c41fa1cf4ac2fc582992783a0c78a2ec31312
           imagePullPolicy: Always
           name: main
           ports:
@@ -150,7 +150,7 @@ spec:
               value: /data
             - name: SENTRY_DSN
               value: https://bd27a021788f532b6c679d4977f5acc3@o92742.ingest.sentry.io/4506843178991616
-          image: https://ghcr.io/shepherdjerred/glitter-boys:1.1.30@sha256:a47becb4545d1080c42b8f46105de89f111abf39423880309e88bc0adc05f2c9
+          image: ghcr.io/shepherdjerred/glitter-boys:1.1.30@sha256:a47becb4545d1080c42b8f46105de89f111abf39423880309e88bc0adc05f2c9
           imagePullPolicy: Always
           name: main
           ports:

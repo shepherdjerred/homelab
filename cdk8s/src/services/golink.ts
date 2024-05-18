@@ -80,7 +80,7 @@ export function createGolinkDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: `https://ghcr.io/tailscale/golink:${versions["tailscale/golink"]}`,
+      image: `ghcr.io/tailscale/golink:${versions["tailscale/golink"]}`,
       envVariables: {
         TS_AUTH_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(

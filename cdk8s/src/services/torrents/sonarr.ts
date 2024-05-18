@@ -26,9 +26,7 @@ export function createSonarrDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: `https://ghcr.io/linuxserver/sonarr:${
-        versions["linuxserver/sonarr"]
-      }`,
+      image: `ghcr.io/linuxserver/sonarr:${versions["linuxserver/sonarr"]}`,
       portNumber: 8989,
       volumeMounts: [
         {
