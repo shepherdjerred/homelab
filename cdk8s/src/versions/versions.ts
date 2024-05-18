@@ -58,7 +58,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=loose
   "linuxserver/prowlarr": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=semver-coerced
-  "qdm12/gluetun": "v3.37.0",
+  "qdm12/gluetun": "v3.38",
   // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=loose
   "linuxserver/qbittorrent": "latest",
   // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=loose
