@@ -30,7 +30,9 @@ export function createDdnsDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: versions["ddns"],
+      image: `timothyjmiller/cloudflare-ddns:${
+        versions["timothyjmiller/cloudflare-ddns"]
+      }`,
       securityContext: {
         ensureNonRoot: false,
       },

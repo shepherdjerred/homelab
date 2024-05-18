@@ -20,7 +20,9 @@ export function createOverseerrDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: versions["overseerr"],
+      image: `https://lscr.io/linuxserver/overseerr:${
+        versions["linuxserver/overseerr"]
+      }`,
       portNumber: 5055,
       volumeMounts: [
         {

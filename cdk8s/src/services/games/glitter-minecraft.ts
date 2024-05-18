@@ -73,7 +73,7 @@ export function createMinecraftDeployment(chart: Chart) {
   });
 
   deployment.addContainer(withCommonProps({
-    image: versions["minecraft"],
+    image: `itzg/minecraft-server:${versions["itzg/minecraft-server"]}`,
     ports: [{ number: 25565, protocol: Protocol.TCP }],
     volumeMounts: [
       {

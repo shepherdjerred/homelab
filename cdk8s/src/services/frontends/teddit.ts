@@ -27,7 +27,7 @@ export function createTedditDeployment(chart: Chart) {
 
   tedditDeployment.addContainer(
     withCommonProps({
-      image: versions.teddit,
+      image: `teddit/teddit:${versions["teddit/teddit"]}`,
       envVariables: {
         REDIS_HOST: EnvValue.fromValue(redis.service.name),
         DOMAIN: EnvValue.fromValue("teddit.tailnet-1a49.ts.net"),

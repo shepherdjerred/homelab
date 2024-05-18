@@ -32,7 +32,7 @@ export function createEspHomeDeployment(chart: Chart) {
         // required
         readOnlyRootFilesystem: false,
       },
-      image: versions["esphome"],
+      image: `esphome/esphome:${versions["esphome/esphome"]}`,
       ports: [
         {
           name: "port-6052-web",

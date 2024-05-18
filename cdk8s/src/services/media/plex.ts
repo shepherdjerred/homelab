@@ -32,7 +32,7 @@ export function createPlexDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: versions["plex"],
+      image: `plexinc/pms-docker:${versions["plexinc/pms-docker"]}`,
       envVariables: {
         ADVERTISE_IP: EnvValue.fromValue(
           "https://plex.tailnet-1a49.ts.net",

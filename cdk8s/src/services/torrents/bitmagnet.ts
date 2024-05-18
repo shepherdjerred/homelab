@@ -44,7 +44,9 @@ export function createBitmagnetDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: versions["bitmagnet"],
+      image: `https://ghcr.io/bitmagnet-io/bitmagnet:${
+        versions["bitmagnet-io/bitmagnet"]
+      }`,
       securityContext: {
         user: ROOT_UID,
         group: ROOT_GID,

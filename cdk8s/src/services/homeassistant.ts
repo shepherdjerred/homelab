@@ -83,7 +83,9 @@ export function createHomeAssistantDeployment(chart: Chart) {
         // required
         readOnlyRootFilesystem: false,
       },
-      image: versions["homeassistant"],
+      image: `https://ghcr.io/home-assistant/home-assistant:${
+        versions["home-assistant/home-assistant"]
+      }`,
       ports: [
         {
           name: "port-8123-web",

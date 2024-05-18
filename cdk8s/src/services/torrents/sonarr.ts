@@ -26,7 +26,9 @@ export function createSonarrDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: versions["sonarr"],
+      image: `https://lscr.io/linuxserver/sonarr:${
+        versions["linuxserver/sonarr"]
+      }`,
       portNumber: 8989,
       volumeMounts: [
         {

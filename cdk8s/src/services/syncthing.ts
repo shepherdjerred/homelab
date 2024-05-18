@@ -36,7 +36,9 @@ export function createSyncthingDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: versions["syncthing"],
+      image: `https://lscr.io/linuxserver/syncthing:${
+        versions["linuxserver/syncthing"]
+      }`,
       portNumber: 8384,
       volumeMounts: [
         {

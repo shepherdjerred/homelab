@@ -21,7 +21,9 @@ export function createBazarrDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: versions["bazarr"],
+      image: `https://lscr.io/linuxserver/bazarr:${
+        versions["linuxserver/bazarr"]
+      }`,
       portNumber: 6767,
       envVariables: {
         TZ: EnvValue.fromValue(""),

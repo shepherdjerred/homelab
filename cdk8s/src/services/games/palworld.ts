@@ -31,7 +31,9 @@ export function createPalworldDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: versions["palworld"],
+      image: `https://ghcr.io/thijsvanloef/palworld-server-docke:${
+        versions["thijsvanloef/palworld-server-docker"]
+      }`,
       ports: [{ number: 8211, protocol: Protocol.UDP }, {
         number: 27015,
         protocol: Protocol.UDP,
