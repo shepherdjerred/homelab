@@ -7,14 +7,22 @@
       "description": "Update versions.ts",
       "fileMatch": ["cdk8s/src/versions/versions.ts"],
       "matchStrings": [
-        "\\/\\/ renovate: datasource=(?<datasource>[a-z-]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?))?\\s*.\"(?<packageName>.+?)\": \"(?<currentValue>.+?)\""
+        "\\/\\/ renovate: datasource=(?<datasource>[a-z-]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?))?\\s*\"(?<packageName>.+?)\":\\s*\"(?<currentValue>.+?)\""
       ]
     }
   ],
   "packageRules": [
     {
+      "automerge": true
+    },
+    {
       "matchDatasources": ["docker"],
       "pinDigests": true
     }
-  ]
+  ],
+  "postUpgradeTasks": {
+    "commands": ["cd cdk8s && deno task build"],
+    "fileFilters": ["cdk8s/src/versions/versions.ts"],
+    "executionMode": "update"
+  }
 }
