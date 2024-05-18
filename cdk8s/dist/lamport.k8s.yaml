@@ -34,7 +34,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: esphome/esphome:2024.5.0
+          image: esphome/esphome:2024.5.0@sha256:917bf34d17c54f64914b5a3a9a320c59272ee4690411299ff447dc6bafdff527
           imagePullPolicy: Always
           name: main
           ports:
@@ -137,7 +137,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/bazarr:latest
+          image: https://lscr.io/linuxserver/bazarr:latest@sha256:b10948cb32e293afd0278074b8bde922dbffb5ebe9da72434c7525d4abb5f145
           imagePullPolicy: Always
           name: main
           ports:
@@ -253,7 +253,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/tautulli:latest
+          image: https://lscr.io/linuxserver/tautulli:latest@sha256:f9582696fb6af30e78988a655e4f105dc73c1878e02f12afd3e4de037a1b3ca0
           imagePullPolicy: Always
           name: main
           ports:
@@ -369,7 +369,7 @@ spec:
               value: /var/lib/postgresql/data/pgdata
             - name: POSTGRES_DB
               value: invidious
-          image: postgres:16.2
+          image: postgres:16.2@sha256:4aea012537edfad80f98d870a36e6b90b4c09b27be7f4b4759d72db863baeebb
           imagePullPolicy: Always
           name: main
           ports:
@@ -563,7 +563,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: redis:7.2
+          image: redis:7.2@sha256:5a93f6b2e391b78e8bd3f9e7e1e1e06aeb5295043b4703fb88392835cec924a0
           imagePullPolicy: Always
           name: main
           ports:
@@ -630,7 +630,7 @@ spec:
               value: lamport-teddis-redis-deployment-service
             - name: DOMAIN
               value: teddit.tailnet-1a49.ts.net
-          image: teddit/teddit:latest
+          image: teddit/teddit:latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea
           imagePullPolicy: Always
           name: main
           ports:
@@ -710,7 +710,7 @@ spec:
               value: America/Los_Angeles
             - name: ADVERTISE_IP
               value: https://plex.tailnet-1a49.ts.net
-          image: plexinc/pms-docker:latest
+          image: plexinc/pms-docker:latest@sha256:88c77d86087699f79da9907107243d2b31ed1e0f37e6cfde4cb3082180702ba1
           imagePullPolicy: Always
           name: main
           ports:
@@ -889,7 +889,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/radarr:latest
+          image: https://lscr.io/linuxserver/radarr:latest@sha256:9ea26fed9da394d719ae6790418337510a9c824d0253cbd07d3db70b3aa503be
           imagePullPolicy: Always
           name: main
           ports:
@@ -1001,7 +1001,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: https://ghcr.io/home-assistant/home-assistant:stable
+          image: https://ghcr.io/home-assistant/home-assistant:stable@sha256:6f5eeb8360d9d58ff096c7259366993b4b01ebe11251c2b83c9329daad441b00
           imagePullPolicy: Always
           name: main
           ports:
@@ -1130,7 +1130,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/overseerr:latest
+          image: https://lscr.io/linuxserver/overseerr:latest@sha256:176a757cfee7307d40bf99ab2bcbe1642d943892f75639ad02b6d24485c2b021
           imagePullPolicy: Always
           name: main
           ports:
@@ -1276,7 +1276,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/qbittorrent:latest
+          image: https://lscr.io/linuxserver/qbittorrent:latest@sha256:bc39549ede4f4d092e1030b89a0e9ea294c26a7aa5ed7e7e5be6d615f5ea293b
           imagePullPolicy: Always
           name: qbittorrent
           ports:
@@ -1404,7 +1404,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/sonarr:latest
+          image: https://lscr.io/linuxserver/sonarr:latest@sha256:25e0f3b3741cf8df6c322d6c9016b5be91ca6e154653b4d01c8c125bf1ce75c0
           imagePullPolicy: Always
           name: main
           ports:
@@ -1520,7 +1520,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/syncthing:latest
+          image: https://lscr.io/linuxserver/syncthing:latest@sha256:5606a1fe483c7f98c9a5e110fc52000d22337218cd458ff07791f80febe687dc
           imagePullPolicy: Always
           name: main
           ports:
@@ -1644,7 +1644,7 @@ spec:
                 secretKeyRef:
                   key: credential
                   name: tailscale-auth-key
-          image: https://ghcr.io/tailscale/golink:main
+          image: https://ghcr.io/tailscale/golink:main@sha256:ef29beb71f86ea265e3038e69521a6f21d1281b30cd1f2d32ea1b4ed79d3f1f5
           imagePullPolicy: Always
           name: main
           securityContext:
@@ -1751,7 +1751,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: redis:7.2
+          image: redis:7.2@sha256:5a93f6b2e391b78e8bd3f9e7e1e1e06aeb5295043b4703fb88392835cec924a0
           imagePullPolicy: Always
           name: main
           ports:
@@ -1831,7 +1831,7 @@ spec:
               value: /var/lib/postgresql/data/pgdata
             - name: POSTGRES_DB
               value: bitmagnet
-          image: postgres:16.2
+          image: postgres:16.2@sha256:4aea012537edfad80f98d870a36e6b90b4c09b27be7f4b4759d72db863baeebb
           imagePullPolicy: Always
           name: main
           ports:
@@ -2045,7 +2045,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/powlarr:latest
+          image: https://lscr.io/linuxserver/powlarr:latest@sha256:b0dabccc49b6e994665ae8751224aa3ca4c31b29b18815394a330d591e5f8ed8
           imagePullPolicy: Always
           name: main
           ports:
@@ -2184,7 +2184,7 @@ spec:
               value: "true"
             - name: BUILD_OBJECT_DETERIORATION_DAMAGE_RATE
               value: "0"
-          image: https://ghcr.io/thijsvanloef/palworld-server-docke:latest
+          image: https://ghcr.io/thijsvanloef/palworld-server-docke:latest@sha256:40930091c4a264a6b6f36bce432805383cc3dfd577c72471d76e55dece8a1ad5
           imagePullPolicy: Always
           name: main
           ports:
@@ -2435,7 +2435,7 @@ spec:
               value: "true"
             - name: STOP_SERVER_ANNOUNCE_DELAY
               value: "10"
-          image: itzg/minecraft-server:latest
+          image: itzg/minecraft-server:latest@sha256:1f656569543820d36586f95cbdd4818793e2311e36d333cc0a16d1a9f377fc1b
           imagePullPolicy: Always
           name: main
           ports:
@@ -2552,7 +2552,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: timothyjmiller/cloudflare-ddns:latest
+          image: timothyjmiller/cloudflare-ddns:latest@sha256:479bbc53f9f8d547413305e003fe7480cc45c12008cbca2cec5a0c5d30c72ad9
           imagePullPolicy: Always
           name: main
           securityContext:
