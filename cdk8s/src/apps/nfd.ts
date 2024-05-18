@@ -14,7 +14,7 @@ export function createNfdApp(chart: Chart) {
           "https://kubernetes-sigs.github.io/node-feature-discovery/charts",
         chart: "node-feature-discovery",
         targetRevision: versions[
-          "https://kubernetes-sigs.github.io/node-feature-discovery/charts"
+          "node-feature-discovery"
         ],
       },
       destination: {

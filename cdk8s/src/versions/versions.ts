@@ -11,10 +11,14 @@ const versions = {
   "immich-app/immich-charts/": "immich-0.6.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=semver
   "immich-app/immich-server": "v1.105.1",
-  "https://intel.github.io/helm-charts/": "0.29.0",
-  "https://charts.jenkins.io": "5.1.6",
-  "https://charts.bitnami.com/bitnami": "14.1.7",
-  "https://kubernetes-sigs.github.io/node-feature-discovery/charts": "0.15.4",
+  // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver-coerced
+  "intel-device-plugins-operator": "0.29.0",
+  // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver-coerced
+  "jenkins": "5.1.6",
+  // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver-coerced
+  "minio": "14.1.7",
+  // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver-coerced
+  "node-feature-discovery": "0.15.4",
   "https://prometheus-community.github.io/helm-charts": "58.0.0",
   "https://github.com/rancher/system-upgrade-controller/": "v0.13.4",
   "https://pkgs.tailscale.com/helmcharts": "1.66.3",

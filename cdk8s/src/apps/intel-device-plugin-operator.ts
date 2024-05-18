@@ -13,7 +13,7 @@ export function createIntelDevicePluginOperatorApp(chart: Chart) {
         // https://github.com/intel/helm-charts/tree/main/charts/device-plugin-operator
         repoUrl: "https://intel.github.io/helm-charts/",
         chart: "intel-device-plugins-operator",
-        targetRevision: versions["https://intel.github.io/helm-charts/"],
+        targetRevision: versions["intel-device-plugins-operator"],
       },
       destination: {
         server: "https://kubernetes.default.svc",
