@@ -253,7 +253,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/tautulli:2.14.2@sha256:f9582696fb6af30e78988a655e4f105dc73c1878e02f12afd3e4de037a1b3ca0
+          image: ghcr.io/linuxserver/tautulli:2.14.2@sha256:99ff955b1b4ffbb2738aa3b0b612c9f59ab9d05730d38f95684189036429b509
           imagePullPolicy: Always
           name: main
           ports:
@@ -2436,7 +2436,7 @@ spec:
               value: "true"
             - name: STOP_SERVER_ANNOUNCE_DELAY
               value: "10"
-          image: itzg/minecraft-server:2024.5.0-java21@sha256:1f656569543820d36586f95cbdd4818793e2311e36d333cc0a16d1a9f377fc1b
+          image: itzg/minecraft-server:2024.5.0-java21@sha256:1ff47453ce66194927313d628c32a485c34d0acc9c01c9dbd643584c50cf89e6
           imagePullPolicy: Always
           name: main
           ports:

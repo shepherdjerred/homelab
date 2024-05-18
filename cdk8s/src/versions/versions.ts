@@ -58,7 +58,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "plexinc/pms-docker":
     "1.40.2.8395-c67dce28e@sha256:88c77d86087699f79da9907107243d2b31ed1e0f37e6cfde4cb3082180702ba1",
-  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/tautulli":
     "2.14.2@sha256:99ff955b1b4ffbb2738aa3b0b612c9f59ab9d05730d38f95684189036429b509",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
@@ -67,7 +67,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver-coerced
   "bitmagnet-io/bitmagnet":
     "v0.8.0@sha256:c638773151d97e6bd2e19f181f0845be4c82893974975037aa06665c711e4466",
-  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/overseerr":
     "1.33.2@sha256:176a757cfee7307d40bf99ab2bcbe1642d943892f75639ad02b6d24485c2b021",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
@@ -76,7 +76,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver-coerced
   "qdm12/gluetun":
     "v3.38@sha256:5522794f5cce6d84bc7f06b1e3a3b836ede9100c64aec94543cb503bb2ecb72f",
-  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/qbittorrent":
     "4.6.4@sha256:bc39549ede4f4d092e1030b89a0e9ea294c26a7aa5ed7e7e5be6d615f5ea293b",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
