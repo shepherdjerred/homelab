@@ -11,6 +11,7 @@
       ]
     }
   ],
+  "automerge": true,
   "packageRules": [
     {
       "matchDatasources": ["docker"],
