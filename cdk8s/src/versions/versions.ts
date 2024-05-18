@@ -32,7 +32,7 @@ const versions = {
   // renovate: datasource=docker versioning=semver
   "redis": "7.2",
   // renovate: datasource=docker versioning=semver-coerced
-  "earthly/satellite": "v0.8.8",
+  "earthly/satellite": "v0.8.11",
   // renovate: datasource=docker versioning=loose
   "invidious/invidious": "latest",
   // renovate: datasource=docker versioning=loose
