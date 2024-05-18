@@ -20,7 +20,7 @@ export function createTautulliDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: `https://lscr.io/linuxserver/tautulli:${
+      image: `https://ghcr.io/linuxserver/tautulli:${
         versions["linuxserver/tautulli"]
       }`,
       portNumber: 8181,

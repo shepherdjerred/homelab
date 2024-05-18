@@ -20,7 +20,7 @@ export function createProwlarrDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: `https://lscr.io/linuxserver/powlarr:${
+      image: `https://ghcr.io/linuxserver/powlarr:${
         versions["linuxserver/prowlarr"]
       }`,
       portNumber: 9696,

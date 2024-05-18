@@ -58,31 +58,31 @@ const versions = {
   // renovate: datasource=docker versioning=docker
   "plexinc/pms-docker":
     "latest@sha256:88c77d86087699f79da9907107243d2b31ed1e0f37e6cfde4cb3082180702ba1",
-  // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=docker
+  // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=docker
   "linuxserver/tautulli":
     "latest@sha256:f9582696fb6af30e78988a655e4f105dc73c1878e02f12afd3e4de037a1b3ca0",
-  // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=docker
+  // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=docker
   "linuxserver/bazarr":
     "latest@sha256:b10948cb32e293afd0278074b8bde922dbffb5ebe9da72434c7525d4abb5f145",
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=docker
   "bitmagnet-io/bitmagnet":
     "latest@sha256:c638773151d97e6bd2e19f181f0845be4c82893974975037aa06665c711e4466",
-  // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=docker
+  // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=docker
   "linuxserver/overseerr":
     "latest@sha256:176a757cfee7307d40bf99ab2bcbe1642d943892f75639ad02b6d24485c2b021",
-  // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=docker
+  // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=docker
   "linuxserver/prowlarr":
     "latest@sha256:b0dabccc49b6e994665ae8751224aa3ca4c31b29b18815394a330d591e5f8ed8",
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=semver-coerced
   "qdm12/gluetun":
     "v3.38@sha256:5522794f5cce6d84bc7f06b1e3a3b836ede9100c64aec94543cb503bb2ecb72f",
-  // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=docker
+  // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=docker
   "linuxserver/qbittorrent":
     "latest@sha256:bc39549ede4f4d092e1030b89a0e9ea294c26a7aa5ed7e7e5be6d615f5ea293b",
-  // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=docker
+  // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=docker
   "linuxserver/radarr":
     "latest@sha256:9ea26fed9da394d719ae6790418337510a9c824d0253cbd07d3db70b3aa503be",
-  // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=docker
+  // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=docker
   "linuxserver/sonarr":
     "latest@sha256:25e0f3b3741cf8df6c322d6c9016b5be91ca6e154653b4d01c8c125bf1ce75c0",
   // renovate: datasource=docker versioning=docker
@@ -97,7 +97,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=docker
   "home-assistant/home-assistant":
     "stable@sha256:6f5eeb8360d9d58ff096c7259366993b4b01ebe11251c2b83c9329daad441b00",
-  // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=docker
+  // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=docker
   "linuxserver/syncthing":
     "latest@sha256:5606a1fe483c7f98c9a5e110fc52000d22337218cd458ff07791f80febe687dc",
   // renovate: datasource=github-releases versioning=semver-coerced

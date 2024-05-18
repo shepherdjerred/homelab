@@ -137,7 +137,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/bazarr:latest@sha256:b10948cb32e293afd0278074b8bde922dbffb5ebe9da72434c7525d4abb5f145
+          image: https://ghcr.io/linuxserver/bazarr:latest@sha256:b10948cb32e293afd0278074b8bde922dbffb5ebe9da72434c7525d4abb5f145
           imagePullPolicy: Always
           name: main
           ports:
@@ -253,7 +253,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/tautulli:latest@sha256:f9582696fb6af30e78988a655e4f105dc73c1878e02f12afd3e4de037a1b3ca0
+          image: https://ghcr.io/linuxserver/tautulli:latest@sha256:f9582696fb6af30e78988a655e4f105dc73c1878e02f12afd3e4de037a1b3ca0
           imagePullPolicy: Always
           name: main
           ports:
@@ -889,7 +889,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/radarr:latest@sha256:9ea26fed9da394d719ae6790418337510a9c824d0253cbd07d3db70b3aa503be
+          image: https://ghcr.io/linuxserver/radarr:latest@sha256:9ea26fed9da394d719ae6790418337510a9c824d0253cbd07d3db70b3aa503be
           imagePullPolicy: Always
           name: main
           ports:
@@ -1130,7 +1130,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/overseerr:latest@sha256:176a757cfee7307d40bf99ab2bcbe1642d943892f75639ad02b6d24485c2b021
+          image: https://ghcr.io/linuxserver/overseerr:latest@sha256:176a757cfee7307d40bf99ab2bcbe1642d943892f75639ad02b6d24485c2b021
           imagePullPolicy: Always
           name: main
           ports:
@@ -1277,7 +1277,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/qbittorrent:latest@sha256:bc39549ede4f4d092e1030b89a0e9ea294c26a7aa5ed7e7e5be6d615f5ea293b
+          image: https://ghcr.io/linuxserver/qbittorrent:latest@sha256:bc39549ede4f4d092e1030b89a0e9ea294c26a7aa5ed7e7e5be6d615f5ea293b
           imagePullPolicy: Always
           name: qbittorrent
           ports:
@@ -1405,7 +1405,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/sonarr:latest@sha256:25e0f3b3741cf8df6c322d6c9016b5be91ca6e154653b4d01c8c125bf1ce75c0
+          image: https://ghcr.io/linuxserver/sonarr:latest@sha256:25e0f3b3741cf8df6c322d6c9016b5be91ca6e154653b4d01c8c125bf1ce75c0
           imagePullPolicy: Always
           name: main
           ports:
@@ -1521,7 +1521,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/syncthing:latest@sha256:5606a1fe483c7f98c9a5e110fc52000d22337218cd458ff07791f80febe687dc
+          image: https://ghcr.io/linuxserver/syncthing:latest@sha256:5606a1fe483c7f98c9a5e110fc52000d22337218cd458ff07791f80febe687dc
           imagePullPolicy: Always
           name: main
           ports:
@@ -2046,7 +2046,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: https://lscr.io/linuxserver/powlarr:latest@sha256:b0dabccc49b6e994665ae8751224aa3ca4c31b29b18815394a330d591e5f8ed8
+          image: https://ghcr.io/linuxserver/powlarr:latest@sha256:b0dabccc49b6e994665ae8751224aa3ca4c31b29b18815394a330d591e5f8ed8
           imagePullPolicy: Always
           name: main
           ports:

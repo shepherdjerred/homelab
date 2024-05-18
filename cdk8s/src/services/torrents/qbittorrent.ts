@@ -87,7 +87,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
   deployment.addContainer(
     withCommonLinuxServerProps({
       name: "qbittorrent",
-      image: `https://lscr.io/linuxserver/qbittorrent:${
+      image: `https://ghcr.io/linuxserver/qbittorrent:${
         versions["linuxserver/qbittorrent"]
       }`,
       portNumber: 8080,

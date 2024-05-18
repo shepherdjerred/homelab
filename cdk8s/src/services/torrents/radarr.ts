@@ -26,7 +26,7 @@ export function createRadarrDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: `https://lscr.io/linuxserver/radarr:${
+      image: `https://ghcr.io/linuxserver/radarr:${
         versions["linuxserver/radarr"]
       }`,
       portNumber: 7878,
