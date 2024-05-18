@@ -52,7 +52,8 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=loose
   "linuxserver/bazarr": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=loose
-  "bitmagnet-io/bitmagnet": "latest",
+  "bitmagnet-io/bitmagnet":
+    "latest@sha256:c638773151d97e6bd2e19f181f0845be4c82893974975037aa06665c711e4466",
   // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=loose
   "linuxserver/overseerr": "latest",
   // renovate: datasource=docker registryUrl=https://lscr.io/ versioning=loose

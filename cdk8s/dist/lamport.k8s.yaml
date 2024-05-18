@@ -1942,7 +1942,7 @@ spec:
                 secretKeyRef:
                   key: api-key
                   name: tmdb-api-key
-          image: https://ghcr.io/bitmagnet-io/bitmagnet:latest
+          image: https://ghcr.io/bitmagnet-io/bitmagnet:latest@sha256:c638773151d97e6bd2e19f181f0845be4c82893974975037aa06665c711e4466
           imagePullPolicy: Always
           name: main
           ports:
@@ -2307,7 +2307,7 @@ spec:
               value: "10"
             - name: BUILDKIT_MAX_PARALLELISM
               value: "24"
-          image: earthly/satellite:v0.8.8
+          image: earthly/satellite:v0.8.11
           imagePullPolicy: Always
           name: main
           ports:
