@@ -1,6 +1,6 @@
 import { Chart } from "npm:cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
-import versions from "../versions/versions.json" with { type: "json" };
+import versions from "../versions/versions.ts";
 
 export function createPrometheusApp(chart: Chart) {
   return new Application(chart, "prometheus-app", {

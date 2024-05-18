@@ -15,7 +15,7 @@ import {
   ReplicationSourceSpecResticCopyMethod,
 } from "../../imports/volsync.backube.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import versions from "../versions/versions.json" with { type: "json" };
+import versions from "../versions/versions.ts";
 
 export function createHomeAssistantDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "homeassistant", {

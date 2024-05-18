@@ -12,7 +12,7 @@ import { Chart, Size } from "npm:cdk8s";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
-import versions from "../../versions/versions.json" with { type: "json" };
+import versions from "../../versions/versions.ts";
 
 export function createPalworldDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "palworld", {

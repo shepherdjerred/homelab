@@ -7,7 +7,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { withCommonProps } from "../utils/common.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import versions from "../versions/versions.json" with { type: "json" };
+import versions from "../versions/versions.ts";
 
 export function createDdnsDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "ddns", {

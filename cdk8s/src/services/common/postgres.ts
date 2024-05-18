@@ -12,7 +12,7 @@ import {
 } from "npm:cdk8s-plus-27";
 import { withCommonProps } from "../../utils/common.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
-import versions from "../../versions/versions.json" with { type: "json" };
+import versions from "../../versions/versions.ts";
 
 export class Postgres extends Construct {
   public readonly passwordItem: OnePasswordItem;

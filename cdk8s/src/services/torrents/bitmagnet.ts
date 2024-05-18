@@ -13,7 +13,7 @@ import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { Postgres } from "../common/postgres.ts";
 import { Redis } from "../common/redis.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
-import versions from "../../versions/versions.json" with { type: "json" };
+import versions from "../../versions/versions.ts";
 
 export function createBitmagnetDeployment(chart: Chart) {
   const tmdbItem = new OnePasswordItem(chart, "tmdb-api-key-onepassword", {

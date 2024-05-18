@@ -2,7 +2,7 @@ import { Construct } from "npm:constructs";
 import { Deployment, DeploymentStrategy } from "npm:cdk8s-plus-27";
 import { Service } from "npm:cdk8s-plus-27";
 import { withCommonProps } from "../../utils/common.ts";
-import versions from "../../versions/versions.json" with { type: "json" };
+import versions from "../../versions/versions.ts";
 
 export class Redis extends Construct {
   public readonly service: Service;

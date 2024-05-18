@@ -9,7 +9,7 @@ import { Chart, Size } from "npm:cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { Postgres } from "../common/postgres.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
-import versions from "../../versions/versions.json" with { type: "json" };
+import versions from "../../versions/versions.ts";
 
 export function createInvidiousDeployment(chart: Chart) {
   const postgres = new Postgres(chart, "invidious-postgres", {
