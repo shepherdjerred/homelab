@@ -70,8 +70,7 @@ const versions = {
   // renovate: datasource=docker versioning=loose
   "timothyjmiller/cloudflare-ddns": "latest",
   // renovate: datasource=docker versioning=loose
-  "esphome/esphome":
-    "latest@sha256:917bf34d17c54f64914b5a3a9a320c59272ee4690411299ff447dc6bafdff527",
+  "esphome/esphome": "2024.5.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=loose
   "tailscale/golink": "main",
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=loose

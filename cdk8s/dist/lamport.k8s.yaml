@@ -34,7 +34,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: esphome/esphome:latest@sha256:917bf34d17c54f64914b5a3a9a320c59272ee4690411299ff447dc6bafdff527
+          image: esphome/esphome:2024.5.0
           imagePullPolicy: Always
           name: main
           ports:
