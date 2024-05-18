@@ -369,7 +369,7 @@ spec:
               value: /var/lib/postgresql/data/pgdata
             - name: POSTGRES_DB
               value: invidious
-          image: postgres:undefined
+          image: postgres:16.2@sha256:4aea012537edfad80f98d870a36e6b90b4c09b27be7f4b4759d72db863baeebb
           imagePullPolicy: Always
           name: main
           ports:
@@ -563,7 +563,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: redis:undefined
+          image: redis:7.2@sha256:5a93f6b2e391b78e8bd3f9e7e1e1e06aeb5295043b4703fb88392835cec924a0
           imagePullPolicy: Always
           name: main
           ports:
@@ -1752,7 +1752,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: redis:undefined
+          image: redis:7.2@sha256:5a93f6b2e391b78e8bd3f9e7e1e1e06aeb5295043b4703fb88392835cec924a0
           imagePullPolicy: Always
           name: main
           ports:
@@ -1832,7 +1832,7 @@ spec:
               value: /var/lib/postgresql/data/pgdata
             - name: POSTGRES_DB
               value: bitmagnet
-          image: postgres:undefined
+          image: postgres:16.2@sha256:4aea012537edfad80f98d870a36e6b90b4c09b27be7f4b4759d72db863baeebb
           imagePullPolicy: Always
           name: main
           ports:

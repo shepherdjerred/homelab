@@ -93,7 +93,7 @@ export class Postgres extends Construct {
 
     this.deployment.addContainer(
       withCommonProps({
-        image: `postgres:${versions["postgres"]}`,
+        image: `postgres:${versions["library/postgres"]}`,
         portNumber: 5432,
         envVariables: {
           POSTGRES_PASSWORD: this.passwordEnvValue,

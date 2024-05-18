@@ -21,7 +21,7 @@ export class Redis extends Construct {
 
     this.deployment.addContainer(
       withCommonProps({
-        image: `redis:${versions["redis"]}`,
+        image: `redis:${versions["library/redis"]}`,
         portNumber: 6379,
         securityContext: {
           user: UID,
