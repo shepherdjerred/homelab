@@ -9,7 +9,7 @@ const versions = {
   "kubernetes-csi/external-snapshotter": "v7.0.2",
   // renovate: datasource=github-releases versioning=semver-coerced
   "immich-app/immich-charts/": "immich-0.6.0",
-  // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=semver-coerced
+  // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=semver
   "immich-app/immich-server": "v1.105.1",
   "https://intel.github.io/helm-charts/": "0.29.0",
   "https://charts.jenkins.io": "5.1.6",
