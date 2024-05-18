@@ -10,7 +10,7 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver-coerced
   "immich-app/immich-charts/": "immich-0.6.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=semver-coerced
-  "immich-server": "v1.105.1",
+  "immich-app/immich-server": "v1.105.1",
   "https://intel.github.io/helm-charts/": "0.29.0",
   "https://charts.jenkins.io": "5.1.6",
   "https://charts.bitnami.com/bitnami": "14.1.7",

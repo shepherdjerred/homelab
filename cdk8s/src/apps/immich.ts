@@ -25,7 +25,7 @@ export function createImmichApp(chart: Chart) {
             },
             {
               name: "image.tag",
-              value: versions["immich-server"],
+              value: versions["immich-app/immich-server"],
             },
             // quantities must match the regular expression '^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$'
             // {
