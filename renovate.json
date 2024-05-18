@@ -22,7 +22,7 @@
   ],
   "postUpgradeTasks": {
     "commands": ["cd cdk8s && deno task build"],
-    "fileFilters": ["cdk8s/src/versions/versions.ts"],
+    "fileFilters": ["cdk8s/dist/**"],
     "executionMode": "update"
   }
 }
