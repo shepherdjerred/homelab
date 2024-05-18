@@ -42,7 +42,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=loose
   "thijsvanloef/palworld-server-docker": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=semver
-  "shepherdjerred/glitter-boys": "1.1.28",
+  "shepherdjerred/glitter-boys": "1.1.30",
   // renovate: datasource=docker registryUrl=https://ghcr.io/ versioning=semver
   "lavalink-devs/lavalink": "4",
   // renovate: datasource=docker versioning=loose
