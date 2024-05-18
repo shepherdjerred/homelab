@@ -28,22 +28,22 @@ const versions = {
   "tailscale-operator": "1.66.3",
   // renovate: datasource=helm registryUrl=https://backube.github.io/helm-charts/ versioning=semver
   "volsync": "0.9.1",
-  // renovate: datasource=docker versioning=semver
-  "postgres":
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
+  "library/postgres":
     "16.2@sha256:4aea012537edfad80f98d870a36e6b90b4c09b27be7f4b4759d72db863baeebb",
-  // renovate: datasource=docker versioning=semver
-  "redis":
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
+  "library/redis":
     "7.2@sha256:5a93f6b2e391b78e8bd3f9e7e1e1e06aeb5295043b4703fb88392835cec924a0",
-  // renovate: datasource=docker versioning=semver-coerced
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver-coerced
   "earthly/satellite":
     "v0.8.11@sha256:6fd2b6b388405474bd85d9a0203ae8e5ff4ae7859d099b8a84978007dc0d2ebf",
   // renovate: datasource=docker registryUrl=https://quay.io versioning=docker
   "invidious/invidious":
     "latest@sha256:a91a307a3ece8468aa88d6b91a601a0453cf76589f434ffdce643f968d3825cc",
-  // renovate: datasource=docker versioning=docker
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "teddit/teddit":
     "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
-  // renovate: datasource=docker versioning=docker
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "itzg/minecraft-server":
     "latest@sha256:1f656569543820d36586f95cbdd4818793e2311e36d333cc0a16d1a9f377fc1b",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
@@ -55,7 +55,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "lavalink-devs/lavalink":
     "4@sha256:715fedceb9be556c7dec07774a6c41fa1cf4ac2fc582992783a0c78a2ec31312",
-  // renovate: datasource=docker versioning=docker
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "plexinc/pms-docker":
     "latest@sha256:88c77d86087699f79da9907107243d2b31ed1e0f37e6cfde4cb3082180702ba1",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
@@ -85,10 +85,10 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/sonarr":
     "latest@sha256:25e0f3b3741cf8df6c322d6c9016b5be91ca6e154653b4d01c8c125bf1ce75c0",
-  // renovate: datasource=docker versioning=docker
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "timothyjmiller/cloudflare-ddns":
     "latest@sha256:479bbc53f9f8d547413305e003fe7480cc45c12008cbca2cec5a0c5d30c72ad9",
-  // renovate: datasource=docker versioning=docker
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "esphome/esphome":
     "2024.5.0@sha256:917bf34d17c54f64914b5a3a9a320c59272ee4690411299ff447dc6bafdff527",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
