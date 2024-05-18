@@ -258,7 +258,6 @@ spec:
   project: default
   source:
     kustomize: {}
-    path: manifests/
     repoURL: https://github.com/rancher/system-upgrade-controller/
     targetRevision: v0.13.4
   syncPolicy:
