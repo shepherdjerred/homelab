@@ -13,7 +13,7 @@ export function createCertManagerApp(chart: Chart) {
         // https://artifacthub.io/packages/search?org=cert-manager
         repoUrl: "https://charts.jetstack.io",
         chart: "cert-manager",
-        targetRevision: versions["https://charts.jetstack.io"],
+        targetRevision: versions["cert-manager"],
         helm: {
           parameters: [
             { name: "installCRDs", value: "true" },
