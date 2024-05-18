@@ -137,7 +137,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/bazarr:latest@sha256:b10948cb32e293afd0278074b8bde922dbffb5ebe9da72434c7525d4abb5f145
+          image: ghcr.io/linuxserver/bazarr:1.4.2@sha256:b10948cb32e293afd0278074b8bde922dbffb5ebe9da72434c7525d4abb5f145
           imagePullPolicy: Always
           name: main
           ports:
@@ -253,7 +253,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/tautulli:latest@sha256:f9582696fb6af30e78988a655e4f105dc73c1878e02f12afd3e4de037a1b3ca0
+          image: ghcr.io/linuxserver/tautulli:2.14.2@sha256:f9582696fb6af30e78988a655e4f105dc73c1878e02f12afd3e4de037a1b3ca0
           imagePullPolicy: Always
           name: main
           ports:
@@ -454,7 +454,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: quay.io/invidious/invidious:latest@sha256:a91a307a3ece8468aa88d6b91a601a0453cf76589f434ffdce643f968d3825cc
+          image: quay.io/invidious/invidious:2024.04.26-eda7444@sha256:a91a307a3ece8468aa88d6b91a601a0453cf76589f434ffdce643f968d3825cc
           imagePullPolicy: Always
           name: invidious
           ports:
@@ -710,7 +710,7 @@ spec:
               value: America/Los_Angeles
             - name: ADVERTISE_IP
               value: https://plex.tailnet-1a49.ts.net
-          image: plexinc/pms-docker:latest@sha256:88c77d86087699f79da9907107243d2b31ed1e0f37e6cfde4cb3082180702ba1
+          image: plexinc/pms-docker:1.40.2.8395-c67dce28e@sha256:88c77d86087699f79da9907107243d2b31ed1e0f37e6cfde4cb3082180702ba1
           imagePullPolicy: Always
           name: main
           ports:
@@ -889,7 +889,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/radarr:latest@sha256:9ea26fed9da394d719ae6790418337510a9c824d0253cbd07d3db70b3aa503be
+          image: ghcr.io/linuxserver/radarr:5.6.0@sha256:9ea26fed9da394d719ae6790418337510a9c824d0253cbd07d3db70b3aa503be
           imagePullPolicy: Always
           name: main
           ports:
@@ -1001,7 +1001,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: ghcr.io/home-assistant/home-assistant:stable@sha256:6f5eeb8360d9d58ff096c7259366993b4b01ebe11251c2b83c9329daad441b00
+          image: ghcr.io/home-assistant/home-assistant:2024.5.4@sha256:6f5eeb8360d9d58ff096c7259366993b4b01ebe11251c2b83c9329daad441b00
           imagePullPolicy: Always
           name: main
           ports:
@@ -1130,7 +1130,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/overseerr:latest@sha256:176a757cfee7307d40bf99ab2bcbe1642d943892f75639ad02b6d24485c2b021
+          image: ghcr.io/linuxserver/overseerr:1.33.2@sha256:176a757cfee7307d40bf99ab2bcbe1642d943892f75639ad02b6d24485c2b021
           imagePullPolicy: Always
           name: main
           ports:
@@ -1277,7 +1277,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/qbittorrent:latest@sha256:bc39549ede4f4d092e1030b89a0e9ea294c26a7aa5ed7e7e5be6d615f5ea293b
+          image: ghcr.io/linuxserver/qbittorrent:4.6.4@sha256:bc39549ede4f4d092e1030b89a0e9ea294c26a7aa5ed7e7e5be6d615f5ea293b
           imagePullPolicy: Always
           name: qbittorrent
           ports:
@@ -1405,7 +1405,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/sonarr:latest@sha256:25e0f3b3741cf8df6c322d6c9016b5be91ca6e154653b4d01c8c125bf1ce75c0
+          image: ghcr.io/linuxserver/sonarr:4.0.4@sha256:25e0f3b3741cf8df6c322d6c9016b5be91ca6e154653b4d01c8c125bf1ce75c0
           imagePullPolicy: Always
           name: main
           ports:
@@ -1521,7 +1521,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/syncthing:latest@sha256:5606a1fe483c7f98c9a5e110fc52000d22337218cd458ff07791f80febe687dc
+          image: ghcr.io/linuxserver/syncthing:1.27.7@sha256:5606a1fe483c7f98c9a5e110fc52000d22337218cd458ff07791f80febe687dc
           imagePullPolicy: Always
           name: main
           ports:
@@ -1943,7 +1943,7 @@ spec:
                 secretKeyRef:
                   key: api-key
                   name: tmdb-api-key
-          image: ghcr.io/bitmagnet-io/bitmagnet:latest@sha256:c638773151d97e6bd2e19f181f0845be4c82893974975037aa06665c711e4466
+          image: ghcr.io/bitmagnet-io/bitmagnet:v0.8.0@sha256:c638773151d97e6bd2e19f181f0845be4c82893974975037aa06665c711e4466
           imagePullPolicy: Always
           name: main
           ports:
@@ -2046,7 +2046,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/prowlarr:latest@sha256:b0dabccc49b6e994665ae8751224aa3ca4c31b29b18815394a330d591e5f8ed8
+          image: ghcr.io/linuxserver/prowlarr:1.17.2@sha256:b0dabccc49b6e994665ae8751224aa3ca4c31b29b18815394a330d591e5f8ed8
           imagePullPolicy: Always
           name: main
           ports:
@@ -2185,7 +2185,7 @@ spec:
               value: "true"
             - name: BUILD_OBJECT_DETERIORATION_DAMAGE_RATE
               value: "0"
-          image: ghcr.io/thijsvanloef/palworld-server-docke:latest@sha256:40930091c4a264a6b6f36bce432805383cc3dfd577c72471d76e55dece8a1ad5
+          image: ghcr.io/thijsvanloef/palworld-server-docke:v0.37.0@sha256:40930091c4a264a6b6f36bce432805383cc3dfd577c72471d76e55dece8a1ad5
           imagePullPolicy: Always
           name: main
           ports:
@@ -2436,7 +2436,7 @@ spec:
               value: "true"
             - name: STOP_SERVER_ANNOUNCE_DELAY
               value: "10"
-          image: itzg/minecraft-server:latest@sha256:1f656569543820d36586f95cbdd4818793e2311e36d333cc0a16d1a9f377fc1b
+          image: itzg/minecraft-server:2024.5.0-java21@sha256:1f656569543820d36586f95cbdd4818793e2311e36d333cc0a16d1a9f377fc1b
           imagePullPolicy: Always
           name: main
           ports:

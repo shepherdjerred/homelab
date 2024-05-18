@@ -39,7 +39,7 @@ spec:
                 secretKeyRef:
                   key: password
                   name: glitter-boys-beta-lavalink-password
-          image: ghcr.io/lavalink-devs/lavalink:4@sha256:715fedceb9be556c7dec07774a6c41fa1cf4ac2fc582992783a0c78a2ec31312
+          image: ghcr.io/lavalink-devs/lavalink:4.0.5@sha256:715fedceb9be556c7dec07774a6c41fa1cf4ac2fc582992783a0c78a2ec31312
           imagePullPolicy: Always
           name: main
           ports:
