@@ -7,7 +7,7 @@
       "description": "Update versions.ts",
       "fileMatch": ["cdk8s/src/versions/versions.ts"],
       "matchStrings": [
-        "// renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s. \"(?<packageName>.+?)\": \"(?<currentValue>.+?)\",\\s"
+        "\\/\\/ renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))?(?: registryUrl=(?<registryUrl>.*?)? versioning=(?<versioning>[a-z-]+?))?\\s*.\"(?<packageName>.+?)\": \"(?<currentValue>.+?)\""
       ]
     }
   ]
