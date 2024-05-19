@@ -29,8 +29,8 @@ export class Postgres extends Construct {
   }) {
     super(scope, name);
 
-    const UID = 1000;
-    const GID = 1000;
+    const UID = 999;
+    const GID = 999;
 
     this.passwordItem = new OnePasswordItem(scope, `${name}-onepassword`, {
       spec: {
