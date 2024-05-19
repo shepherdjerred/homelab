@@ -177,7 +177,7 @@ spec:
         - name: nodeFeatureRule
           value: "true"
         - name: resourceManager
-          value: "true"
+          value: "false"
     repoURL: https://intel.github.io/helm-charts/
     targetRevision: 0.30.0
   syncPolicy:
