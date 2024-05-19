@@ -8,7 +8,7 @@ import {
   Volume,
 } from "https://esm.sh/cdk8s-plus-27@2.9.3";
 import { Service } from "https://esm.sh/cdk8s-plus-27@2.9.3";
-import { Chart, Size } from "https://esm.sh/cdk8s@2.68.58";
+import { Chart } from "https://esm.sh/cdk8s@2.68.58";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
@@ -41,11 +41,6 @@ export function createValheimDeployment(chart: Chart) {
       securityContext: {
         ensureNonRoot: false,
         readOnlyRootFilesystem: false,
-      },
-      resources: {
-        memory: {
-          limit: Size.gibibytes(20),
-        },
       },
       envVariables: {
         PORT: EnvValue.fromValue("8211"),

@@ -2645,9 +2645,6 @@ spec:
               protocol: UDP
             - containerPort: 2457
               protocol: UDP
-          resources:
-            limits:
-              memory: 20480Mi
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
