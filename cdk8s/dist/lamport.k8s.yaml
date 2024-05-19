@@ -2627,8 +2627,6 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-            - name: PLAYERS
-              value: "16"
             - name: SERVER_NAME
               value: Erkin's Cousin
             - name: WORLD_NAME
@@ -2707,7 +2705,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: lamport-valheim-query-service
+  name: lamport-valheim-game-service-2
   namespace: lamport
 spec:
   externalIPs: []

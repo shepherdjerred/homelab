@@ -43,7 +43,6 @@ export function createValheimDeployment(chart: Chart) {
         readOnlyRootFilesystem: false,
       },
       envVariables: {
-        PLAYERS: EnvValue.fromValue("16"),
         SERVER_NAME: EnvValue.fromValue("Erkin's Cousin"),
         WORLD_NAME: EnvValue.fromValue("world"),
         SERVER_PASS: EnvValue.fromSecretValue({
@@ -74,7 +73,7 @@ export function createValheimDeployment(chart: Chart) {
     type: ServiceType.NODE_PORT,
   });
 
-  new Service(chart, "valheim-query-service", {
+  new Service(chart, "valheim-game-service-2", {
     selector: deployment,
     ports: [{ port: 2457, nodePort: 2457, protocol: Protocol.UDP }],
     type: ServiceType.NODE_PORT,
