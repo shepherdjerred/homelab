@@ -5,7 +5,8 @@
   "deno.codeLens.implementations": true,
   "deno.cacheOnSave": true,
   "search.exclude": {
-    "**/imports/*.ts": true
+    "**/imports/*.ts": true,
+    "**/dist/*.yaml": true
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[typescript]": {

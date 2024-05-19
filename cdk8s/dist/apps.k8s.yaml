@@ -357,3 +357,137 @@ spec:
     automated: {}
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  name: apps-argocd-ingress
+  namespace: argocd
+spec:
+  defaultBackend:
+    service:
+      name: argocd-server
+      port:
+        number: 443
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - argocd
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  name: apps-jenkins-ingress
+  namespace: jenkins
+spec:
+  defaultBackend:
+    service:
+      name: jenkins
+      port:
+        number: 8080
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - jenkins
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-minio-api-ingress
+  namespace: minio
+spec:
+  defaultBackend:
+    service:
+      name: minio
+      port:
+        number: 9000
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - minio-api
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-minio-console-ingress
+  namespace: minio
+spec:
+  defaultBackend:
+    service:
+      name: minio
+      port:
+        number: 9001
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - minio-console
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-prometheus-ingress
+  namespace: prometheus
+spec:
+  defaultBackend:
+    service:
+      name: prometheus-kube-prometheus-prometheus
+      port:
+        number: 9090
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - prometheus
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-grafana-ingress
+  namespace: prometheus
+spec:
+  defaultBackend:
+    service:
+      name: prometheus-grafana
+      port:
+        number: 80
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - grafana
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-windmill-ingress
+  namespace: windmill
+spec:
+  defaultBackend:
+    service:
+      name: windmill-app
+      port:
+        number: 8000
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - windmill
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  name: apps-immich-ingress
+  namespace: immich
+spec:
+  defaultBackend:
+    service:
+      name: immich-server
+      port:
+        number: 3001
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - immich

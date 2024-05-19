@@ -16,6 +16,7 @@ import { createJenkinsApp } from "../apps/jenkins.ts";
 import { createVolsyncApp } from "../apps/volsync.ts";
 import { createExternalSnapshotterCrdsApp } from "../apps/external-snapshotter-crds.ts";
 import { createWindmillApp } from "../apps/windmill.ts";
+import { createAppIngresses } from "../apps/ingress.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -39,4 +40,5 @@ export function createAppsChart(app: App) {
   createVolsyncApp(chart);
   createExternalSnapshotterCrdsApp(chart);
   createWindmillApp(chart);
+  createAppIngresses(chart);
 }
