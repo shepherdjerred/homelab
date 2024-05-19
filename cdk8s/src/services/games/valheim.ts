@@ -43,7 +43,6 @@ export function createValheimDeployment(chart: Chart) {
         readOnlyRootFilesystem: false,
       },
       envVariables: {
-        PORT: EnvValue.fromValue("8211"),
         PLAYERS: EnvValue.fromValue("16"),
         SERVER_NAME: EnvValue.fromValue("Erkin's Cousin"),
         WORLD_NAME: EnvValue.fromValue("world"),

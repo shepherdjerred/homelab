@@ -386,9 +386,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
-            runAsGroup: 999
+            runAsGroup: 1000
             runAsNonRoot: true
-            runAsUser: 999
+            runAsUser: 1000
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -400,7 +400,7 @@ spec:
       hostNetwork: false
       restartPolicy: Always
       securityContext:
-        fsGroup: 999
+        fsGroup: 1000
         fsGroupChangePolicy: Always
         runAsNonRoot: true
       setHostnameAsFQDN: false
@@ -1855,9 +1855,9 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: false
-            runAsGroup: 999
+            runAsGroup: 1000
             runAsNonRoot: true
-            runAsUser: 999
+            runAsUser: 1000
           startupProbe:
             failureThreshold: 3
             tcpSocket:
@@ -1871,7 +1871,7 @@ spec:
       hostNetwork: false
       restartPolicy: Always
       securityContext:
-        fsGroup: 999
+        fsGroup: 1000
         fsGroupChangePolicy: Always
         runAsNonRoot: true
       setHostnameAsFQDN: false
@@ -2627,8 +2627,6 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-            - name: PORT
-              value: "8211"
             - name: PLAYERS
               value: "16"
             - name: SERVER_NAME
