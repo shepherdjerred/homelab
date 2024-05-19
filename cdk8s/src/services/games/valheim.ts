@@ -16,7 +16,7 @@ import versions from "../../versions/versions.ts";
 
 export function createValheimDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "valheim", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
 
