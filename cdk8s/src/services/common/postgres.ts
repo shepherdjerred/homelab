@@ -100,8 +100,12 @@ export class Postgres extends Construct {
           PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
           POSTGRES_DB: EnvValue.fromValue(props.database),
         },
-        // if walTmpfs is true, set aargs to sleep 1000
-        args: props.walTmpfs ? ["sleep", "1000"] : undefined,
+        // - args:
+        // - pg_resetwal
+        // - /var/lib/postgresql/data
+        args: props.walTmpfs
+          ? ["pg_resetwal", "/var/lib/postgresql/data"]
+          : undefined,
         securityContext: {
           user: UID,
           group: GID,

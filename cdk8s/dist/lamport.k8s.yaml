@@ -1832,8 +1832,8 @@ spec:
       automountServiceAccountToken: false
       containers:
         - args:
-            - sleep
-            - "1000"
+            - pg_resetwal
+            - /var/lib/postgresql/data
           env:
             - name: TZ
               value: America/Los_Angeles
