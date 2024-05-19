@@ -36,6 +36,12 @@ export function createJenkinsApp(chart: Chart) {
               name: "controller.jenkinsUrl",
               value: "https://jenkins.tailnet-1a49.ts.net",
             },
+            {
+              name: "controller.JCasC.configScripts",
+              value: `welcome-message: |
+                jenkins:
+                  systemMessage: Welcome to our CI\\CD server.`,
+            },
           ],
         },
       },
