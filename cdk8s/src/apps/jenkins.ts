@@ -39,7 +39,7 @@ export function createJenkinsApp(chart: Chart) {
             {
               name: "controller.JCasC.configScripts.welcome-message",
               value: `jenkins:
-                  systemMessage: Welcome to our CI\\CD server.`,
+                  systemMessage: My Jenkins Instance`,
             },
           ],
         },

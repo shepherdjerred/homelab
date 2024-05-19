@@ -293,7 +293,7 @@ spec:
         - name: controller.JCasC.configScripts.welcome-message
           value: |-
             jenkins:
-                              systemMessage: Welcome to our CI\CD server.
+                              systemMessage: My Jenkins Instance
     repoURL: https://charts.jenkins.io
     targetRevision: 5.1.18
   syncPolicy:
