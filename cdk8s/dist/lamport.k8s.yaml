@@ -1277,7 +1277,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/qbittorrent:4.6.4@sha256:bc39549ede4f4d092e1030b89a0e9ea294c26a7aa5ed7e7e5be6d615f5ea293b
+          image: ghcr.io/linuxserver/qbittorrent:4.6.4@sha256:8e03090acc0b53f27fe085fbf04e132607cc2b6b2497cfe1b3bd6343833a7069
           imagePullPolicy: Always
           name: qbittorrent
           ports:
@@ -2185,7 +2185,7 @@ spec:
               value: "true"
             - name: BUILD_OBJECT_DETERIORATION_DAMAGE_RATE
               value: "0"
-          image: ghcr.io/thijsvanloef/palworld-server-docke:v0.37.0@sha256:40930091c4a264a6b6f36bce432805383cc3dfd577c72471d76e55dece8a1ad5
+          image: ghcr.io/thijsvanloef/palworld-server-docker:v0.37.0@sha256:40930091c4a264a6b6f36bce432805383cc3dfd577c72471d76e55dece8a1ad5
           imagePullPolicy: Always
           name: main
           ports:
@@ -2588,3 +2588,124 @@ metadata:
   namespace: lamport
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/nhyb6lnjpvjsau2gkmb7n42oeq
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lamport-valheim
+  namespace: lamport
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 0
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: lamport-valheim-c81b6975
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: lamport-valheim-c81b6975
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: PORT
+              value: "8211"
+            - name: PLAYERS
+              value: "16"
+            - name: SERVER_NAME
+              value: Erkin's Cousin
+            - name: WORLD_NAME
+              value: world
+            - name: SERVER_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: lamport-valheim-item
+          image: "ghcr.io/lloesche/valheim-server:latest@sha256:85ab5dbb0e538cd7c711231384a1b78357ac6f85611219022e1be22e856d922f "
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 2456
+              protocol: UDP
+            - containerPort: 2457
+              protocol: UDP
+          resources:
+            limits:
+              memory: 20480Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          volumeMounts:
+            - mountPath: /config
+              name: pvc-valheim-pvc
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: pvc-valheim-pvc
+          persistentVolumeClaim:
+            claimName: valheim-pvc
+            readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: valheim-pvc
+  namespace: lamport
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  volumeMode: Filesystem
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: lamport-valheim-item
+  namespace: lamport
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/dqukjzskwmpt6gurjfaeuxau7i
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lamport-valheim-game-service
+  namespace: lamport
+spec:
+  externalIPs: []
+  ports:
+    - nodePort: 2456
+      port: 2456
+      protocol: UDP
+  selector:
+    cdk8s.io/metadata.addr: lamport-valheim-c81b6975
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lamport-valheim-query-service
+  namespace: lamport
+spec:
+  externalIPs: []
+  ports:
+    - nodePort: 2457
+      port: 2457
+      protocol: UDP
+  selector:
+    cdk8s.io/metadata.addr: lamport-valheim-c81b6975
+  type: NodePort

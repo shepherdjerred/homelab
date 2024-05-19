@@ -102,6 +102,9 @@ const versions = {
     "1.27.7@sha256:5606a1fe483c7f98c9a5e110fc52000d22337218cd458ff07791f80febe687dc",
   // renovate: datasource=github-releases versioning=semver-coerced
   "windmill-labs/windmill-helm-charts": "windmill-2.0.181",
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
+  "lloesche/valheim-server":
+    "latest@sha256:85ab5dbb0e538cd7c711231384a1b78357ac6f85611219022e1be22e856d922f ",
 };
 
 export default versions;

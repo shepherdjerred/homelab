@@ -19,6 +19,7 @@ import { KubeNamespace } from "../../imports/k8s.ts";
 import { createEarthlyDeployment } from "../services/dev/earthly.ts";
 import { createMinecraftDeployment } from "../services/games/glitter-minecraft.ts";
 import { createDdnsDeployment } from "../services/ddns.ts";
+import { createValheimDeployment } from "../services/games/valheim.ts";
 
 export function createLamportChart(app: App) {
   const chart = new Chart(app, "lamport", {
@@ -57,4 +58,5 @@ export function createLamportChart(app: App) {
   createEarthlyDeployment(chart);
   createMinecraftDeployment(chart);
   createDdnsDeployment(chart);
+  createValheimDeployment(chart);
 }
