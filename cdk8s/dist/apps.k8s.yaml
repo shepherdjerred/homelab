@@ -290,10 +290,9 @@ spec:
       parameters:
         - name: controller.jenkinsUrl
           value: https://jenkins.tailnet-1a49.ts.net
-        - name: controller.JCasC.configScripts
+        - name: controller.JCasC.configScripts.welcome-message
           value: |-
-            welcome-message: |
-                            jenkins:
+            jenkins:
                               systemMessage: Welcome to our CI\CD server.
     repoURL: https://charts.jenkins.io
     targetRevision: 5.1.18
