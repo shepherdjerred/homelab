@@ -2720,3 +2720,44 @@ spec:
   selector:
     cdk8s.io/metadata.addr: lamport-valheim-c81b6975
   type: NodePort
+---
+apiVersion: upgrade.cattle.io/v1
+kind: Plan
+metadata:
+  name: lamport-server-plan
+  namespace: system-upgrade
+spec:
+  channel: https://update.k3s.io/v1-release/channels/stable
+  concurrency: 1
+  cordon: true
+  nodeSelector:
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: In
+        values:
+          - "true"
+  serviceAccountName: system-upgrade
+  upgrade:
+    image: rancher/k3s-upgrade
+---
+apiVersion: upgrade.cattle.io/v1
+kind: Plan
+metadata:
+  name: lamport-agent-plan
+  namespace: system-upgrade
+spec:
+  channel: https://update.k3s.io/v1-release/channels/stable
+  concurrency: 1
+  cordon: true
+  nodeSelector:
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: DoesNotExist
+  prepare:
+    args:
+      - prepare
+      - server-plan
+    image: rancher/k3s-upgrade
+  serviceAccountName: system-upgrade
+  upgrade:
+    image: rancher/k3s-upgrade

@@ -7,6 +7,7 @@
     "https://esm.sh/v135/balanced-match@1.0.2/denonext/balanced-match.mjs": "b2f9737a6fb330aedd4a444eb85ba127d757c49032a528400fc0e2efb70ddca3",
     "https://esm.sh/v135/brace-expansion@1.1.11/denonext/brace-expansion.mjs": "37804872dca2bd08f67fee3ab0a1c56b0612243fc46e5792b1f9d2a53bdb79c8",
     "https://esm.sh/v135/cdk8s-plus-27@2.9.3/denonext/cdk8s-plus-27.mjs": "385f816db16ee92419bdd85bb8709f0c2d28619c0fd5f538927b88b192771bcc",
+    "https://esm.sh/v135/cdk8s@2.68.58/": "6de95e95b360ee6e5143b32716d99402ceb80450770c7a822f6855e56a083c0c",
     "https://esm.sh/v135/cdk8s@2.68.58/denonext/cdk8s.mjs": "8113e589c10cdd3cf9b889c77c4f94aff7b195754343f178f97f16bb1a21ba6d",
     "https://esm.sh/v135/concat-map@0.0.1/denonext/concat-map.mjs": "1a5a143263db86cb520387e65d8ce2fde374b66cf64aed488b5138836b1d5674",
     "https://esm.sh/v135/constructs@10.3.0/denonext/constructs.mjs": "6dba76dd7e1f43093bb130a57a56796178e7700a6d226f334d4a68af215ff340",

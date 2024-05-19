@@ -20,6 +20,7 @@ import { createEarthlyDeployment } from "../services/dev/earthly.ts";
 import { createMinecraftDeployment } from "../services/games/glitter-minecraft.ts";
 import { createDdnsDeployment } from "../services/ddns.ts";
 import { createValheimDeployment } from "../services/games/valheim.ts";
+import { createUpgradePlan } from "../plan.ts";
 
 export function createLamportChart(app: App) {
   const chart = new Chart(app, "lamport", {
@@ -69,4 +70,5 @@ export function createLamportChart(app: App) {
   createMinecraftDeployment(chart);
   createDdnsDeployment(chart);
   createValheimDeployment(chart);
+  createUpgradePlan(chart);
 }
