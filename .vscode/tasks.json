@@ -4,7 +4,7 @@
     {
       "label": "watch",
       "type": "shell",
-      "command": "deno run -A --unstable https://deno.land/x/denon/denon.ts diff",
+      "command": "deno run -A --unstable https://deno.land/x/denon/denon.ts build",
       "presentation": {
         "reveal": "always",
         "panel": "new"
