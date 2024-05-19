@@ -74,6 +74,12 @@ export function createGolinkDeployment(chart: Chart) {
           weekly: 4,
           monthly: 12,
         },
+        // match up with the UID/GID of the container
+        // https://volsync.readthedocs.io/en/stable/usage/permissionmodel.html#mover-s-security-context
+        moverSecurityContext: {
+          runAsUser: UID,
+          runAsGroup: GID,
+        },
       },
     },
   });

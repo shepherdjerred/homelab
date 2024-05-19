@@ -26,6 +26,8 @@ export function createImmichApp(chart: Chart) {
             {
               name: "image.tag",
               // remove the sha256 part
+              // this tag is used for multiple images, so the sha
+              // doesn't always match up :/
               value: versions["immich-app/immich-server"].split("@")[0],
             },
             // quantities must match the regular expression '^([+-]?[0-9.]+)([eEinumkKMGTP]*[-+]?[0-9]*)$'

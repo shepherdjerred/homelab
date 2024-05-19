@@ -27,6 +27,16 @@ export function createLamportChart(app: App) {
     disableResourceNameHashes: true,
   });
 
+  new KubeNamespace(chart, "lamport", {
+    metadata: {
+      name: "lamport",
+      annotations: {
+        // https://volsync.readthedocs.io/en/stable/usage/permissionmodel.html#controlling-mover-permissions
+        "volsync.backube/privileged-movers": "true",
+      },
+    },
+  });
+
   new KubeNamespace(chart, "glitter-boys-beta", {
     metadata: {
       name: "glitter-boys-beta",

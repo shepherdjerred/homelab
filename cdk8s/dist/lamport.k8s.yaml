@@ -1,6 +1,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
+  annotations:
+    volsync.backube/privileged-movers: "true"
+  name: lamport
+  namespace: lamport
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: glitter-boys-beta
   namespace: lamport
 ---
@@ -889,7 +897,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/radarr:5.6.0@sha256:9ea26fed9da394d719ae6790418337510a9c824d0253cbd07d3db70b3aa503be
+          image: ghcr.io/linuxserver/radarr:5.6.0@sha256:b84ed4a003c459df9675198e64053a2e9c0a3d5dd76587415b16c6902b8543f2
           imagePullPolicy: Always
           name: main
           ports:
@@ -1710,6 +1718,9 @@ metadata:
 spec:
   restic:
     copyMethod: Direct
+    moverSecurityContext:
+      runAsGroup: 65532
+      runAsUser: 65532
     pruneIntervalDays: 7
     repository: golink-restic-onepassword-item
     retain:
