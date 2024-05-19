@@ -2626,7 +2626,7 @@ spec:
                 secretKeyRef:
                   key: password
                   name: lamport-valheim-item
-          image: "ghcr.io/lloesche/valheim-server:latest@sha256:85ab5dbb0e538cd7c711231384a1b78357ac6f85611219022e1be22e856d922f "
+          image: ghcr.io/lloesche/valheim-server:latest@sha256:85ab5dbb0e538cd7c711231384a1b78357ac6f85611219022e1be22e856d922f
           imagePullPolicy: Always
           name: main
           ports:
