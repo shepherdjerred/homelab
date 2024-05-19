@@ -1831,7 +1831,10 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - env:
+        - args:
+            - sleep
+            - "1000"
+          env:
             - name: TZ
               value: America/Los_Angeles
             - name: POSTGRES_PASSWORD
