@@ -1834,7 +1834,7 @@ spec:
         - args:
             - sh
             - -c
-            - pg_resetwal /var/lib/postgresql/data/pgdata && postgres
+            - (pg_resetwal /var/lib/postgresql/data/pgdata || true) && postgres
           env:
             - name: TZ
               value: America/Los_Angeles

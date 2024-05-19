@@ -107,7 +107,7 @@ export class Postgres extends Construct {
           ? [
             "sh",
             "-c",
-            "pg_resetwal /var/lib/postgresql/data/pgdata && postgres",
+            "(pg_resetwal /var/lib/postgresql/data/pgdata || true) && postgres",
           ]
           : undefined,
         // args: props.walTmpfs ? ["sleep", "infinity"] : undefined,
