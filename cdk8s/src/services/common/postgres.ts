@@ -104,7 +104,7 @@ export class Postgres extends Construct {
         // - pg_resetwal
         // - /var/lib/postgresql/data
         args: props.walTmpfs
-          ? ["pg_resetwal", "/var/lib/postgresql/data"]
+          ? ["pg_resetwal", "/var/lib/postgresql/data/pgdata"]
           : undefined,
         securityContext: {
           user: UID,

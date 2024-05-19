@@ -1833,7 +1833,7 @@ spec:
       containers:
         - args:
             - pg_resetwal
-            - /var/lib/postgresql/data
+            - /var/lib/postgresql/data/pgdata
           env:
             - name: TZ
               value: America/Los_Angeles
