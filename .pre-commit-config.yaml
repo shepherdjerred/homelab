@@ -1,11 +1,13 @@
 repos:
+  - repo: https://github.com/renovatebot/pre-commit-hooks
+    rev: 37.368.7
+    hooks:
+      - id: renovate-config-validator
   - repo: https://github.com/nozaq/pre-commit-deno
     rev: 0.1.0
     hooks:
       - id: deno-fmt
       - id: deno-lint
-      # TODO: uncomment if/when I add tests
-      # - id: deno-test
   - repo: https://github.com/stackrox/kube-linter
     rev: v0.6.7
     hooks:

@@ -17,5 +17,8 @@
       "matchDatasources": ["docker"],
       "pinDigests": true
     }
-  ]
+  ],
+  "pre-commit": {
+    "enabled": true
+  }
 }
