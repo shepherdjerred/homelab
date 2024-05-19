@@ -1,5 +1,5 @@
-import { App } from "npm:cdk8s";
-import { Chart } from "npm:cdk8s";
+import { App } from "https://esm.sh/cdk8s@2.68.58";
+import { Chart } from "https://esm.sh/cdk8s@2.68.58";
 import { createOnePasswordApp } from "../apps/1password.ts";
 import { createArgoCdApp } from "../apps/argocd.ts";
 import { createImmichApp } from "../apps/immich.ts";

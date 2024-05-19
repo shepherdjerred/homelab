@@ -4,9 +4,9 @@ import {
   PersistentVolumeClaim,
   PersistentVolumeClaimProps,
   PersistentVolumeMode,
-} from "npm:cdk8s-plus-27";
-import { Construct } from "npm:constructs";
-import { Size } from "npm:cdk8s";
+} from "https://esm.sh/cdk8s-plus-27@2.9.3";
+import { Construct } from "https://esm.sh/constructs@10.3.0";
+import { Size } from "https://esm.sh/cdk8s@2.68.58";
 
 export class LocalPathVolume extends Construct {
   public readonly claim: PersistentVolumeClaim;

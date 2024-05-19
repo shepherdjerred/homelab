@@ -1,4 +1,4 @@
-import { Construct } from "npm:constructs";
+import { Construct } from "https://esm.sh/constructs@10.3.0";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import {
   Deployment,
@@ -9,7 +9,7 @@ import {
   Secret,
   Service,
   Volume,
-} from "npm:cdk8s-plus-27";
+} from "https://esm.sh/cdk8s-plus-27@2.9.3";
 import { withCommonProps } from "../../utils/common.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import versions from "../../versions/versions.ts";

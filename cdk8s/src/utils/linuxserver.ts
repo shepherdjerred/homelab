@@ -1,4 +1,4 @@
-import { ContainerProps, EnvValue } from "npm:cdk8s-plus-27";
+import { ContainerProps, EnvValue } from "https://esm.sh/cdk8s-plus-27@2.9.3";
 import { commonProps, ROOT_GID, ROOT_UID } from "./common.ts";
 import { merge } from "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/lodash.js";
 

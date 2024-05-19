@@ -6,8 +6,8 @@ import {
   Secret,
   Service,
   ServiceType,
-} from "npm:cdk8s-plus-27";
-import { Chart } from "npm:cdk8s";
+} from "https://esm.sh/cdk8s-plus-27@2.9.3";
+import { Chart } from "https://esm.sh/cdk8s@2.68.58";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import versions from "../../versions/versions.ts";

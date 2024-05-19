@@ -1,10 +1,10 @@
-import { Chart } from "npm:cdk8s";
+import { Chart } from "https://esm.sh/cdk8s@2.68.58";
 import {
   Deployment,
   DeploymentStrategy,
   Secret,
   Volume,
-} from "npm:cdk8s-plus-27";
+} from "https://esm.sh/cdk8s-plus-27@2.9.3";
 import { withCommonProps } from "../utils/common.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import versions from "../versions/versions.ts";

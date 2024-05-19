@@ -1,6 +1,9 @@
-import { Construct } from "npm:constructs";
-import { Deployment, DeploymentStrategy } from "npm:cdk8s-plus-27";
-import { Service } from "npm:cdk8s-plus-27";
+import { Construct } from "https://esm.sh/constructs@10.3.0";
+import {
+  Deployment,
+  DeploymentStrategy,
+} from "https://esm.sh/cdk8s-plus-27@2.9.3";
+import { Service } from "https://esm.sh/cdk8s-plus-27@2.9.3";
 import { withCommonProps } from "../../utils/common.ts";
 import versions from "../../versions/versions.ts";
 

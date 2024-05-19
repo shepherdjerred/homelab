@@ -3,11 +3,16 @@ import {
   IngressBackend,
   IngressProps,
   Service,
-} from "npm:cdk8s-plus-27";
-import { ApiObject } from "npm:cdk8s";
-import { JsonPatch } from "npm:cdk8s";
-import { Construct } from "npm:constructs";
+} from "https://esm.sh/cdk8s-plus-27@2.9.3";
+import { ApiObject } from "https://esm.sh/cdk8s@2.68.58";
+import { JsonPatch } from "https://esm.sh/cdk8s@2.68.58";
+import { Construct } from "https://esm.sh/constructs@10.3.0";
 import merge from "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/merge.js";
+
+type ServiceObject = {
+  name: string;
+  port: number;
+};
 
 export class TailscaleIngress extends Construct {
   constructor(
@@ -16,7 +21,7 @@ export class TailscaleIngress extends Construct {
     props: Partial<IngressProps> & {
       host: string;
       funnel?: boolean;
-      service: Service;
+      service: Service | ServiceObject;
     },
   ) {
     super(scope, id);
