@@ -103,9 +103,10 @@ export class Postgres extends Construct {
         // - args:
         // - pg_resetwal
         // - /var/lib/postgresql/data
-        args: props.walTmpfs
-          ? ["pg_resetwal", "/var/lib/postgresql/data/pgdata"]
-          : undefined,
+        // args: props.walTmpfs
+        //   ? ["pg_resetwal", "/var/lib/postgresql/data/pgdata"]
+        //   : undefined,
+        args: props.walTmpfs ? ["sleep", "infinity"] : undefined,
         securityContext: {
           user: UID,
           group: GID,
