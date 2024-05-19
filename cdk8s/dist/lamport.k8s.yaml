@@ -1831,10 +1831,7 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - args:
-            - pg_resetwal
-            - /var/lib/postgresql/data/pgdata
-          env:
+        - env:
             - name: TZ
               value: America/Los_Angeles
             - name: POSTGRES_PASSWORD
