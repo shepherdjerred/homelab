@@ -18,7 +18,7 @@ export function createPrometheusApp(chart: Chart) {
           valuesObject: {
             prometheus: {
               prometheusSpec: {
-                storage: {
+                storageSpec: {
                   volumeClaimTemplate: {
                     spec: {
                       storageClassName: "local-path",

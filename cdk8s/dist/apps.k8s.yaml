@@ -135,7 +135,7 @@ spec:
       valuesObject:
         prometheus:
           prometheusSpec:
-            storage:
+            storageSpec:
               volumeClaimTemplate:
                 spec:
                   accessModes:
