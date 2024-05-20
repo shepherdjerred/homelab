@@ -28,6 +28,7 @@ export function createPrometheusApp(chart: Chart) {
                           storage: "8Gi",
                         },
                       },
+                      selector: null,
                     },
                   },
                 },
