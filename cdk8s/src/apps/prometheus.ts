@@ -14,11 +14,27 @@ export function createPrometheusApp(chart: Chart) {
         repoUrl: "https://prometheus-community.github.io/helm-charts",
         chart: "kube-prometheus-stack",
         targetRevision: versions["kube-prometheus-stack"],
-        // helm: {
-        //   parameters: [
-        //     // TODO: add volume??
-        //   ],
-        // },
+        helm: {
+          parameters: [
+            {
+              name: "prometheus.prometheusSpec.storageSpec",
+              value: JSON.stringify({
+                volumeClaimTemplate: {
+                  spec: {
+                    storageClassName: "local-path",
+                    accessModes: ["ReadWriteOnce"],
+                    resources: {
+                      requests: {
+                        storage: "8Gi",
+                      },
+                    },
+                  },
+                  selector: {},
+                },
+              }),
+            },
+          ],
+        },
       },
       destination: {
         server: "https://kubernetes.default.svc",

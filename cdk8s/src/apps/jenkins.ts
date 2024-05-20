@@ -38,8 +38,11 @@ export function createJenkinsApp(chart: Chart) {
             },
             {
               name: "controller.JCasC.configScripts.welcome-message",
-              value: `jenkins:
-                  systemMessage: My Jenkins Instance`,
+              value: JSON.stringify({
+                jenkins: {
+                  systemMessage: "My Jenkins Instance",
+                },
+              }),
             },
           ],
         },
