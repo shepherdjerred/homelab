@@ -15,10 +15,9 @@ export function createPrometheusApp(chart: Chart) {
         chart: "kube-prometheus-stack",
         targetRevision: versions["kube-prometheus-stack"],
         helm: {
-          parameters: [
-            {
-              name: "prometheus.prometheusSpec.storageSpec",
-              value: JSON.stringify({
+          valuesObject: {
+            prometheus: {
+              prometheusSpec: {
                 volumeClaimTemplate: {
                   spec: {
                     storageClassName: "local-path",
@@ -31,9 +30,9 @@ export function createPrometheusApp(chart: Chart) {
                   },
                   selector: {},
                 },
-              }),
+              },
             },
-          ],
+          },
         },
       },
       destination: {
