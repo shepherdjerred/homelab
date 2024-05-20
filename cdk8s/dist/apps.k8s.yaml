@@ -300,11 +300,14 @@ spec:
   source:
     chart: jenkins
     helm:
-      parameters:
-        - name: controller.jenkinsUrl
-          value: https://jenkins.tailnet-1a49.ts.net
-        - name: controller.JCasC.configScripts.welcome-message
-          value: '{"jenkins":{"systemMessage":"My Jenkins Instance"}}'
+      valuesObject:
+        controller:
+          JCasC:
+            configScripts:
+              welcome-message:
+                jenkins:
+                  systemMessage: My Jenkins Instance
+          jenkinsUrl: https://jenkins.tailnet-1a49.ts.net
     repoURL: https://charts.jenkins.io
     targetRevision: 5.1.18
   syncPolicy:

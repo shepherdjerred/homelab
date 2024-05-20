@@ -31,20 +31,20 @@ export function createJenkinsApp(chart: Chart) {
         targetRevision: versions["jenkins"],
         chart: "jenkins",
         helm: {
-          parameters: [
-            {
-              name: "controller.jenkinsUrl",
-              value: "https://jenkins.tailnet-1a49.ts.net",
-            },
-            {
-              name: "controller.JCasC.configScripts.welcome-message",
-              value: JSON.stringify({
-                jenkins: {
-                  systemMessage: "My Jenkins Instance",
+          valuesObject: {
+            controller: {
+              jenkinsUrl: "https://jenkins.tailnet-1a49.ts.net",
+              JCasC: {
+                configScripts: {
+                  "welcome-message": {
+                    jenkins: {
+                      systemMessage: "My Jenkins Instance",
+                    },
+                  },
                 },
-              }),
+              },
             },
-          ],
+          },
         },
       },
       destination: {
