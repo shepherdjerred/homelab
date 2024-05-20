@@ -16,6 +16,15 @@ export function createPrometheusApp(chart: Chart) {
         targetRevision: versions["kube-prometheus-stack"],
         helm: {
           valuesObject: {
+            grafana: {
+              persistence: {
+                enabled: true,
+                type: "pvc",
+                storageClassName: "local-path",
+                accessModes: ["ReadWriteOnce"],
+                size: "8Gi",
+              },
+            },
             prometheus: {
               prometheusSpec: {
                 storageSpec: {

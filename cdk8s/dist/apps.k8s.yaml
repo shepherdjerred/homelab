@@ -133,6 +133,14 @@ spec:
     chart: kube-prometheus-stack
     helm:
       valuesObject:
+        grafana:
+          persistence:
+            accessModes:
+              - ReadWriteOnce
+            enabled: true
+            size: 8Gi
+            storageClassName: local-path
+            type: pvc
         prometheus:
           prometheusSpec:
             storageSpec:
