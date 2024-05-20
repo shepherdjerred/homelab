@@ -137,13 +137,13 @@ spec:
           prometheusSpec:
             storage:
               volumeClaimTemplate:
-                selector: {}
                 spec:
                   accessModes:
                     - ReadWriteOnce
                   resources:
                     requests:
                       storage: 8Gi
+                  selector: {}
                   storageClassName: local-path
     repoURL: https://prometheus-community.github.io/helm-charts
     targetRevision: 58.6.0
