@@ -17,6 +17,7 @@ import { createVolsyncApp } from "../apps/volsync.ts";
 import { createExternalSnapshotterCrdsApp } from "../apps/external-snapshotter-crds.ts";
 import { createWindmillApp } from "../apps/windmill.ts";
 import { createAppIngresses } from "../apps/ingresses.ts";
+import { createGrafanaApp } from "../apps/grafana.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -41,4 +42,5 @@ export function createAppsChart(app: App) {
   createExternalSnapshotterCrdsApp(chart);
   createWindmillApp(chart);
   createAppIngresses(chart);
+  createGrafanaApp(chart);
 }

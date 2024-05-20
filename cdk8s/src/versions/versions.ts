@@ -105,6 +105,8 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "lloesche/valheim-server":
     "latest@sha256:85ab5dbb0e538cd7c711231384a1b78357ac6f85611219022e1be22e856d922f",
+  // renovate: datasource=github-releases versioning=semver-coerced
+  "dotdc/grafana-dashboards-kubernetes": "v2.1.1",
 };
 
 export default versions;
