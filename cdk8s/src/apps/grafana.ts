@@ -17,7 +17,7 @@ export function createGrafanaApp(chart: Chart) {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "grafana",
+        namespace: "prometheus",
       },
       syncPolicy: {
         automated: {},

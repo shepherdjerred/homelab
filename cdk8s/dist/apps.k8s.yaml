@@ -525,7 +525,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: grafana
+    namespace: prometheus
     server: https://kubernetes.default.svc
   project: default
   source:
