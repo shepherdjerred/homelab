@@ -18,17 +18,19 @@ export function createPrometheusApp(chart: Chart) {
           valuesObject: {
             prometheus: {
               prometheusSpec: {
-                volumeClaimTemplate: {
-                  spec: {
-                    storageClassName: "local-path",
-                    accessModes: ["ReadWriteOnce"],
-                    resources: {
-                      requests: {
-                        storage: "8Gi",
+                storage: {
+                  volumeClaimTemplate: {
+                    spec: {
+                      storageClassName: "local-path",
+                      accessModes: ["ReadWriteOnce"],
+                      resources: {
+                        requests: {
+                          storage: "8Gi",
+                        },
                       },
                     },
+                    selector: {},
                   },
-                  selector: {},
                 },
               },
             },
