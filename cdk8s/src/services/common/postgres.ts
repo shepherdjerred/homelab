@@ -26,6 +26,7 @@ export class Postgres extends Construct {
     itemPath: string;
     database: string;
     walTmpfs?: boolean;
+    replicas?: number;
   }) {
     super(scope, name);
 
@@ -42,7 +43,7 @@ export class Postgres extends Construct {
     });
 
     this.deployment = new Deployment(scope, `${name}-deployment`, {
-      replicas: 1,
+      replicas: props.replicas ?? 1,
       strategy: DeploymentStrategy.recreate(),
       securityContext: {
         fsGroup: GID,
