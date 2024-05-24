@@ -16,9 +16,14 @@
     {
       "matchDatasources": ["docker"],
       "pinDigests": true
+    },
+    {
+      "matchDatasources": ["regex"],
+      "groupName": "cdk8s"
     }
   ],
   "pre-commit": {
     "enabled": true
-  }
+  },
+  "schedule": ["after 3am on Sunday"]
 }
