@@ -2,7 +2,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
   "connect": "1.15.0",
   // renovate: datasource=github-releases versioning=semver-coerced
-  "argoproj/argo-cd": "v2.11.0",
+  "argoproj/argo-cd": "v2.11.2",
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
   "cert-manager": "v1.14.5",
   // renovate: datasource=github-releases versioning=semver-coerced
