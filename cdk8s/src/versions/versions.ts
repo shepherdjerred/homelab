@@ -6,7 +6,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
   "cert-manager": "v1.14.5",
   // renovate: datasource=github-releases versioning=semver-coerced
-  "kubernetes-csi/external-snapshotter": "v7.0.2",
+  "kubernetes-csi/external-snapshotter": "v8.0.0",
   // renovate: datasource=github-releases versioning=semver-coerced
   "immich-app/immich-charts/": "immich-0.6.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
