@@ -42,7 +42,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: esphome/esphome:2024.5.0@sha256:917bf34d17c54f64914b5a3a9a320c59272ee4690411299ff447dc6bafdff527
+          image: esphome/esphome:2024.5.2@sha256:78cbbf3fc5bea68d96107357b5f78e4fe9f543c4a77086cdace5223c6b63904f
           imagePullPolicy: Always
           name: main
           ports:
@@ -145,7 +145,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/bazarr:1.4.2@sha256:b10948cb32e293afd0278074b8bde922dbffb5ebe9da72434c7525d4abb5f145
+          image: ghcr.io/linuxserver/bazarr:1.4.2@sha256:7387c96ca4ee75eb93b198c9fc1b168904f4371e8ab5963604074714f4e0efc6
           imagePullPolicy: Always
           name: main
           ports:
@@ -261,7 +261,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/tautulli:2.14.2@sha256:99ff955b1b4ffbb2738aa3b0b612c9f59ab9d05730d38f95684189036429b509
+          image: ghcr.io/linuxserver/tautulli:2.14.2@sha256:a63bed3fff29eefededc437b38ac57e657e0d196d90a45196d7a4b97f894cfe9
           imagePullPolicy: Always
           name: main
           ports:
@@ -571,7 +571,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: redis:7.2@sha256:5a93f6b2e391b78e8bd3f9e7e1e1e06aeb5295043b4703fb88392835cec924a0
+          image: redis:7.2@sha256:b32ea6ea4d5b38496c6e93d02083e97f461cb09d6b8672462b53071236ef4b12
           imagePullPolicy: Always
           name: main
           ports:
@@ -1138,7 +1138,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/overseerr:1.33.2@sha256:176a757cfee7307d40bf99ab2bcbe1642d943892f75639ad02b6d24485c2b021
+          image: ghcr.io/linuxserver/overseerr:1.33.2@sha256:a8917b8e1d9ebf100c2b1a75cb037396ddc04adaf5f50217f59e382dfc1e3900
           imagePullPolicy: Always
           name: main
           ports:
@@ -1763,7 +1763,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: redis:7.2@sha256:5a93f6b2e391b78e8bd3f9e7e1e1e06aeb5295043b4703fb88392835cec924a0
+          image: redis:7.2@sha256:b32ea6ea4d5b38496c6e93d02083e97f461cb09d6b8672462b53071236ef4b12
           imagePullPolicy: Always
           name: main
           ports:
@@ -2061,7 +2061,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/prowlarr:1.17.2@sha256:b0dabccc49b6e994665ae8751224aa3ca4c31b29b18815394a330d591e5f8ed8
+          image: ghcr.io/linuxserver/prowlarr:1.17.2@sha256:664812ebccd668d1771f6daf6ce03309b1b3587022a7bd540ecb90d0d2a8f003
           imagePullPolicy: Always
           name: main
           ports:
@@ -2323,7 +2323,7 @@ spec:
               value: "10"
             - name: BUILDKIT_MAX_PARALLELISM
               value: "24"
-          image: earthly/satellite:v0.8.11@sha256:6fd2b6b388405474bd85d9a0203ae8e5ff4ae7859d099b8a84978007dc0d2ebf
+          image: earthly/satellite:v0.8.12@sha256:4f5bca28e9f72342da8167596d71c3e727b5d17244ef6768c5c12b6e31b70a85
           imagePullPolicy: Always
           name: main
           ports:
@@ -2637,7 +2637,7 @@ spec:
                 secretKeyRef:
                   key: password
                   name: lamport-valheim-item
-          image: ghcr.io/lloesche/valheim-server:latest@sha256:85ab5dbb0e538cd7c711231384a1b78357ac6f85611219022e1be22e856d922f
+          image: ghcr.io/lloesche/valheim-server:latest@sha256:b97da1038714e5156cf28d042422a1c5af41e03189572025e615bde61395c678
           imagePullPolicy: Always
           name: main
           ports:
