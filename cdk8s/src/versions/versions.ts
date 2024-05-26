@@ -15,7 +15,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
   "intel-device-plugins-operator": "0.30.0",
   // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver
-  "jenkins": "5.1.22",
+  "jenkins": "5.1.23",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
   "minio": "14.6.0",
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
