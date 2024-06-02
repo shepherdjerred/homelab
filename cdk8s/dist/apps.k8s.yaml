@@ -65,7 +65,7 @@ spec:
   source:
     chart: tailscale-operator
     repoURL: https://pkgs.tailscale.com/helmcharts
-    targetRevision: 1.66.3
+    targetRevision: 1.66.4
   syncPolicy:
     automated: {}
     syncOptions:
@@ -153,7 +153,7 @@ spec:
                       storage: 8Gi
                   storageClassName: local-path
     repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 58.7.0
+    targetRevision: 59.1.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -242,7 +242,7 @@ spec:
   source:
     chart: node-feature-discovery
     repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
-    targetRevision: 0.15.4
+    targetRevision: 0.16.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -261,7 +261,7 @@ spec:
   source:
     chart: minio
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 14.6.0
+    targetRevision: 14.6.2
   syncPolicy:
     automated: {}
     syncOptions:
@@ -317,7 +317,7 @@ spec:
                   systemMessage: My Jenkins Instance
           jenkinsUrl: https://jenkins.tailnet-1a49.ts.net
     repoURL: https://charts.jenkins.io
-    targetRevision: 5.1.22
+    targetRevision: 5.1.26
   syncPolicy:
     automated: {}
     syncOptions:
