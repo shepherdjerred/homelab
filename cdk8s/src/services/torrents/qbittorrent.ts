@@ -70,7 +70,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
         WIREGUARD_ADDRESSES: EnvValue.fromValue(
           "10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128",
         ),
-        FIREWALL_VPN_INPUT_PORTS: EnvValue.fromValue("16793"),
+        FIREWALL_VPN_INPUT_PORTS: EnvValue.fromValue("17826"),
       },
       volumeMounts: [
         {
