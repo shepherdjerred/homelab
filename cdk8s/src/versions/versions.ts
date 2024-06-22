@@ -63,7 +63,7 @@ const versions = {
     "2.14.2@sha256:22328b7ec50d9e005a96805ad67cd9ace138960eae9dcda6265ef7baad5263e9",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/bazarr":
-    "1.4.3@sha256:d2ec8002f118b22f03ed314cf866a196464ad4977142457c9401b542cf192bd7",
+    "1.4.3@sha256:6fb83511c0dca70a400fde79cb45ed59c4f66ea30dcba8c6f9274f01d77e5aef",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver-coerced
   "bitmagnet-io/bitmagnet":
     "v0.8.0@sha256:c638773151d97e6bd2e19f181f0845be4c82893974975037aa06665c711e4466",
