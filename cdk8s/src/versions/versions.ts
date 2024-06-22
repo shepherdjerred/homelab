@@ -4,7 +4,7 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver-coerced
   "argoproj/argo-cd": "v2.11.3",
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
-  "cert-manager": "v1.14.5",
+  "cert-manager": "v1.15.0",
   // renovate: datasource=github-releases versioning=semver-coerced
   "kubernetes-csi/external-snapshotter": "v8.0.0",
   // renovate: datasource=github-releases versioning=semver-coerced
