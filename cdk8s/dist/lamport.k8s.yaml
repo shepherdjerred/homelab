@@ -765,7 +765,7 @@ spec:
               protocol: UDP
           resources:
             limits:
-              gpu.intel.com/i915: null
+              gpu.intel.com/i915: 1
           securityContext:
             allowPrivilegeEscalation: true
             privileged: true
