@@ -42,7 +42,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: esphome/esphome:2024.5.4@sha256:29e21efe64d03646530025d056d545485ab9c40a35f3d99e8e0a90d79bde2356
+          image: esphome/esphome:2024.6.1@sha256:0c1e1adc51df8752d1ef88bba7e5b76b518884867342397336f5430a21083c45
           imagePullPolicy: Always
           name: main
           ports:
@@ -261,7 +261,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/tautulli:2.14.2@sha256:b1cf616b4cf17e5229e860ae8111ece3dfda018b9c5b769c8e84ca2e86b28279
+          image: ghcr.io/linuxserver/tautulli:2.14.2@sha256:22328b7ec50d9e005a96805ad67cd9ace138960eae9dcda6265ef7baad5263e9
           imagePullPolicy: Always
           name: main
           ports:
@@ -765,7 +765,7 @@ spec:
               protocol: UDP
           resources:
             limits:
-              gpu.intel.com/i915: 1
+              gpu.intel.com/i915: null
           securityContext:
             allowPrivilegeEscalation: true
             privileged: true
@@ -1009,7 +1009,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: ghcr.io/home-assistant/home-assistant:2024.5.5@sha256:031d355a2e52e82fc33cd6854753fb19fc5d6a31af6f0f54c277d6f118ad993e
+          image: ghcr.io/home-assistant/home-assistant:2024.6.4@sha256:17d159928122e6f374bd39b0e75904522bc7d7c2a64e88b248948734e4c4d444
           imagePullPolicy: Always
           name: main
           ports:
@@ -1529,7 +1529,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/syncthing:1.27.7@sha256:3a1a983bd5c0cfc685f5421b374bcf175ccb2df86710bfc454bc76a047a8884f
+          image: ghcr.io/linuxserver/syncthing:1.27.8@sha256:6e70dd0cc0ddb038a8f58cf0945d6659b13c984f11d708407469bf16d520574c
           imagePullPolicy: Always
           name: main
           ports:
@@ -1653,7 +1653,7 @@ spec:
                 secretKeyRef:
                   key: credential
                   name: tailscale-auth-key
-          image: ghcr.io/tailscale/golink:main@sha256:b03cda6fe15cf836242e2c1378fc53fb59095daf5b8ca0700e3e729f675f0ab6
+          image: ghcr.io/tailscale/golink:main@sha256:f3a81bf7dcc56b8837db2de745d105888a144be457fe20108c253bc1f702bdd4
           imagePullPolicy: Always
           name: main
           securityContext:
@@ -2323,7 +2323,7 @@ spec:
               value: "10"
             - name: BUILDKIT_MAX_PARALLELISM
               value: "24"
-          image: earthly/satellite:v0.8.13@sha256:a99e0e4732561c7f0904b778901e5cb431128b41751217cb84add24c7fca648d
+          image: earthly/satellite:v0.8.13@sha256:b7a073e6b22707497fadf5c8739fd497382093173435b4243b3f06baad8f8c0e
           imagePullPolicy: Always
           name: main
           ports:
@@ -2451,7 +2451,7 @@ spec:
               value: "true"
             - name: STOP_SERVER_ANNOUNCE_DELAY
               value: "10"
-          image: itzg/minecraft-server:2024.5.0-java21@sha256:1ff47453ce66194927313d628c32a485c34d0acc9c01c9dbd643584c50cf89e6
+          image: itzg/minecraft-server:2024.6.1-java21@sha256:69f655b868cee46474ce56c78c6488fa230518448c2ff12fd6ebd231db27805c
           imagePullPolicy: Always
           name: main
           ports:

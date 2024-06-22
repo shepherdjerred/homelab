@@ -38,7 +38,7 @@ spec:
   source:
     path: manifests/
     repoURL: https://github.com/argoproj/argo-cd
-    targetRevision: v2.11.2
+    targetRevision: v2.11.3
   syncPolicy:
     automated: {}
     syncOptions:
@@ -153,7 +153,7 @@ spec:
                       storage: 8Gi
                   storageClassName: local-path
     repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 59.1.0
+    targetRevision: 60.3.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -223,7 +223,7 @@ spec:
         - name: installCRDs
           value: "true"
     repoURL: https://charts.jetstack.io
-    targetRevision: v1.14.5
+    targetRevision: v1.15.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -261,7 +261,7 @@ spec:
   source:
     chart: minio
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 14.6.2
+    targetRevision: 14.6.11
   syncPolicy:
     automated: {}
     syncOptions:
@@ -317,7 +317,7 @@ spec:
                   systemMessage: My Jenkins Instance
           jenkinsUrl: https://jenkins.tailnet-1a49.ts.net
     repoURL: https://charts.jenkins.io
-    targetRevision: 5.1.26
+    targetRevision: 5.3.1
   syncPolicy:
     automated: {}
     syncOptions:
@@ -355,7 +355,7 @@ spec:
   source:
     path: client/config/crd/
     repoURL: https://github.com/kubernetes-csi/external-snapshotter
-    targetRevision: v8.0.0
+    targetRevision: v8.0.1
   syncPolicy:
     automated: {}
     syncOptions:
