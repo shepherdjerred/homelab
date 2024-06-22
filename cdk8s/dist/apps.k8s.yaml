@@ -65,7 +65,7 @@ spec:
   source:
     chart: tailscale-operator
     repoURL: https://pkgs.tailscale.com/helmcharts
-    targetRevision: 1.66.4
+    targetRevision: 1.68.1
   syncPolicy:
     automated: {}
     syncOptions:
@@ -110,7 +110,7 @@ spec:
         - name: immich.persistence.library.existingClaim
           value: immich-volume
         - name: image.tag
-          value: v1.105.1
+          value: v1.106.4
     path: charts/immich
     repoURL: https://github.com/immich-app/immich-charts/
     targetRevision: immich-0.6.0
@@ -532,7 +532,7 @@ spec:
     kustomize: {}
     path: "."
     repoURL: https://github.com/dotdc/grafana-dashboards-kubernetes
-    targetRevision: v2.1.1
+    targetRevision: v2.2.0
   syncPolicy:
     automated: {}
     syncOptions:
