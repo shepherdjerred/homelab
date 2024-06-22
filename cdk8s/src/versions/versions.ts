@@ -45,7 +45,7 @@ const versions = {
     "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "itzg/minecraft-server":
-    "2024.5.0-java21@sha256:1ff47453ce66194927313d628c32a485c34d0acc9c01c9dbd643584c50cf89e6",
+    "2024.6.1-java21@sha256:69f655b868cee46474ce56c78c6488fa230518448c2ff12fd6ebd231db27805c",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver-coerced
   "thijsvanloef/palworld-server-docker":
     "v0.37.1@sha256:acd351759a6129d2f868be5d0ac020abd9c740f697c4cb605046c9b3b1c8586a",
