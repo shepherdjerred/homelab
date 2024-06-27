@@ -34,15 +34,15 @@ export function createJenkinsApp(chart: Chart) {
           valuesObject: {
             controller: {
               jenkinsUrl: "https://jenkins.tailnet-1a49.ts.net",
-              JCasC: {
-                configScripts: {
-                  "welcome-message": {
-                    jenkins: {
-                      systemMessage: "My Jenkins Instance",
-                    },
-                  },
-                },
-              },
+              // JCasC: {
+              //   configScripts: {
+              //     "welcome-message": {
+              //       jenkins: {
+              //         systemMessage: "My Jenkins Instance",
+              //       },
+              //     },
+              //   },
+              // },
             },
           },
         },

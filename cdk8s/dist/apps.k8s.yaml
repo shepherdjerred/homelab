@@ -310,11 +310,6 @@ spec:
     helm:
       valuesObject:
         controller:
-          JCasC:
-            configScripts:
-              welcome-message:
-                jenkins:
-                  systemMessage: My Jenkins Instance
           jenkinsUrl: https://jenkins.tailnet-1a49.ts.net
     repoURL: https://charts.jenkins.io
     targetRevision: 5.3.1
