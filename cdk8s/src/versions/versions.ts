@@ -55,7 +55,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "lavalink-devs/lavalink":
     "4.0.6@sha256:a6398b7937063d83b9c35477623c0f461878be5ed053c92d5f9c06b702a30194",
-  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=loose
   "plexinc/pms-docker":
     "1.40.2.8395-c67dce28e@sha256:88c77d86087699f79da9907107243d2b31ed1e0f37e6cfde4cb3082180702ba1",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker

@@ -897,7 +897,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/radarr:5.7.0@sha256:40f10a3d826f6c231d338738c3c86bf0d23a9546f20f8b1b504c6c579b79992c
+          image: ghcr.io/linuxserver/radarr:5.7.0@sha256:3e64efcc14f9b21b30e78c39203e754d1d1a897d0f76ffb92450cd5c8ae16c9a
           imagePullPolicy: Always
           name: main
           ports:
@@ -1285,7 +1285,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/qbittorrent:4.6.5@sha256:e46f9b5daf0435c24b238211c06b3fb669830a464ef2b8538328332ff48206a3
+          image: ghcr.io/linuxserver/qbittorrent:4.6.5@sha256:6373e7aa04e428990cc760525a50a510cbe5348453c5485f84068c9a0198a485
           imagePullPolicy: Always
           name: qbittorrent
           ports:
@@ -2061,7 +2061,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/prowlarr:1.18.0@sha256:237e9a72c11c5350bf22e355759436ecd4fd660e820d5b556d9a9e436f25f6b9
+          image: ghcr.io/linuxserver/prowlarr:1.19.0@sha256:3061e68afda543202ee7382cbfe3bfa94a1ab7d03ebaa242c732ffe2f73088f0
           imagePullPolicy: Always
           name: main
           ports:
