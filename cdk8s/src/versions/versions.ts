@@ -99,7 +99,7 @@ const versions = {
     "2024.6.4@sha256:17d159928122e6f374bd39b0e75904522bc7d7c2a64e88b248948734e4c4d444",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing":
-    "1.27.8@sha256:6e70dd0cc0ddb038a8f58cf0945d6659b13c984f11d708407469bf16d520574c",
+    "1.27.8@sha256:77e01f31c68b6a0877222b538c976e0df1e2ba1137bbf7a496f6a70148239929",
   // renovate: datasource=github-releases versioning=semver-coerced
   "windmill-labs/windmill-helm-charts": "windmill-2.0.181",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
