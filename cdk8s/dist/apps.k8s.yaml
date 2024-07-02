@@ -570,7 +570,7 @@ spec:
         - name: persistence.storageClass
           value: local-path
     repoURL: https://chartmuseum.github.io/charts
-    targetRevision: 0.16.2
+    targetRevision: 3.10.3
   syncPolicy:
     automated: {}
     syncOptions:
