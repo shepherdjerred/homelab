@@ -11,8 +11,8 @@ export function createChartMuseumApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://chartmuseum.github.io/charts",
-        targetRevision: versions["chartmuseum/chartmuseum"],
-        chart: "chartmuseum/chartmuseum",
+        targetRevision: versions["chartmuseum"],
+        chart: "chartmuseum",
         helm: {
           parameters: [
             { name: "persistence.enabled", value: "true" },

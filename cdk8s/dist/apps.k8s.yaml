@@ -560,7 +560,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    chart: chartmuseum/chartmuseum
+    chart: chartmuseum
     helm:
       parameters:
         - name: persistence.enabled
