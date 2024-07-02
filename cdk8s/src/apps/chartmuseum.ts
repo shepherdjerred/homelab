@@ -12,7 +12,7 @@ export function createChartMuseumApp(chart: Chart) {
       source: {
         repoUrl: "https://chartmuseum.github.io/charts",
         targetRevision: versions["chartmuseum/chartmuseum"],
-        chart: "chartmuseum",
+        chart: "chartmuseum/chartmuseum",
         helm: {
           parameters: [
             { name: "persistence.enabled", value: "true" },
