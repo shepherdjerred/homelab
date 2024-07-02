@@ -18,6 +18,7 @@ import { createExternalSnapshotterCrdsApp } from "../apps/external-snapshotter-c
 import { createWindmillApp } from "../apps/windmill.ts";
 import { createAppIngresses } from "../apps/ingresses.ts";
 import { createGrafanaApp } from "../apps/grafana.ts";
+import { createChartMuseumApp } from "../apps/chartmuseum.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -43,4 +44,5 @@ export function createAppsChart(app: App) {
   createWindmillApp(chart);
   createAppIngresses(chart);
   createGrafanaApp(chart);
+  createChartMuseumApp(chart);
 }

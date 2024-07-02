@@ -550,3 +550,28 @@ spec:
     automated: {}
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chartmuseum
+  namespace: argocd
+spec:
+  destination:
+    namespace: chartmuseum
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      parameters:
+        - name: persistence.enabled
+          value: "true"
+        - name: persistence.storageClass
+          value: local-path
+    path: "."
+    repoURL: https://chartmuseum.github.io/charts
+    targetRevision: v0.16.2
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true

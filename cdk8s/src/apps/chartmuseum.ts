@@ -2,10 +2,10 @@ import { Chart } from "https://esm.sh/cdk8s@2.68.58";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions/versions.ts";
 
-export function createGrafanaApp(chart: Chart) {
-  return new Application(chart, "grafana-app", {
+export function createChartMuseumApp(chart: Chart) {
+  return new Application(chart, "chartmuseum-app", {
     metadata: {
-      name: "grafana",
+      name: "chartmuseum",
     },
     spec: {
       project: "default",
