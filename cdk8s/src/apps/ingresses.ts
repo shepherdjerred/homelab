@@ -90,7 +90,7 @@ export function createAppIngresses(chart: Chart) {
     "chartmuseum",
     8080,
     ["chartmuseum"],
-    true,
+    false,
   );
 }
 
