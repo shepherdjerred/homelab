@@ -562,13 +562,13 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
+    chart: chartmuseum
     helm:
       parameters:
         - name: persistence.enabled
           value: "true"
         - name: persistence.storageClass
           value: local-path
-    path: "."
     repoURL: https://chartmuseum.github.io/charts
     targetRevision: v0.16.2
   syncPolicy:
