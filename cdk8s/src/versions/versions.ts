@@ -108,7 +108,7 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v2.2.0",
   // renovate: datasource=helm registry=https://chartmuseum.github.io/charts versioning=semver
-  "chartmuseum/chartmuseum": "v0.16.2",
+  "chartmuseum/chartmuseum": "0.16.2",
 };
 
 export default versions;
