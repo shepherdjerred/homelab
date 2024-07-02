@@ -153,7 +153,7 @@ spec:
                       storage: 8Gi
                   storageClassName: local-path
     repoURL: https://prometheus-community.github.io/helm-charts
-    targetRevision: 60.3.0
+    targetRevision: 61.1.0
   syncPolicy:
     automated: {}
     syncOptions:
@@ -223,7 +223,7 @@ spec:
         - name: installCRDs
           value: "true"
     repoURL: https://charts.jetstack.io
-    targetRevision: v1.15.0
+    targetRevision: v1.15.1
   syncPolicy:
     automated: {}
     syncOptions:
@@ -261,7 +261,7 @@ spec:
   source:
     chart: minio
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 14.6.11
+    targetRevision: 14.6.16
   syncPolicy:
     automated: {}
     syncOptions:
@@ -312,7 +312,7 @@ spec:
         controller:
           jenkinsUrl: https://jenkins.tailnet-1a49.ts.net
     repoURL: https://charts.jenkins.io
-    targetRevision: 5.3.1
+    targetRevision: 5.3.3
   syncPolicy:
     automated: {}
     syncOptions:
@@ -512,6 +512,24 @@ spec:
   tls:
     - hosts:
         - immich
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  name: apps-chartmusuem-ingress
+  namespace: chartmuseum
+spec:
+  defaultBackend:
+    service:
+      name: chartmuseum
+      port:
+        number: 8080
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - chartmuseum
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application

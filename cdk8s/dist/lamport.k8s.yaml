@@ -42,7 +42,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: esphome/esphome:2024.6.1@sha256:0c1e1adc51df8752d1ef88bba7e5b76b518884867342397336f5430a21083c45
+          image: esphome/esphome:2024.6.4@sha256:3f563c6faa36baa52b5125d29535278f0c11c04d806be640ad060c46026c3b8c
           imagePullPolicy: Always
           name: main
           ports:
@@ -261,7 +261,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/tautulli:2.14.3@sha256:4bc52f93a1c0e2bb7204b685f47a7b0324ab39a46182c39c3caaf0db889e69b6
+          image: ghcr.io/linuxserver/tautulli:2.14.3@sha256:f25b902c4fa015657f08392c3169ab06d55bb0467789f427e599917264decebc
           imagePullPolicy: Always
           name: main
           ports:
@@ -897,7 +897,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/radarr:5.7.0@sha256:3e64efcc14f9b21b30e78c39203e754d1d1a897d0f76ffb92450cd5c8ae16c9a
+          image: ghcr.io/linuxserver/radarr:5.7.0@sha256:c5b78b1f1e8556d781788194c4ee2b87ca7e3620b701bfce31499e60ee50eca3
           imagePullPolicy: Always
           name: main
           ports:
@@ -1138,7 +1138,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/overseerr:1.33.2@sha256:a21b9f6cce4fa7040a32a9feb77a1902e792cd3716acf695ee416862dc22c6a4
+          image: ghcr.io/linuxserver/overseerr:1.33.2@sha256:5d192198a316e3cebe8fbbc0e59cd3d4102b6a0b303cb55b44854b888d9b8a0e
           imagePullPolicy: Always
           name: main
           ports:
@@ -1285,7 +1285,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/qbittorrent:4.6.5@sha256:6373e7aa04e428990cc760525a50a510cbe5348453c5485f84068c9a0198a485
+          image: ghcr.io/linuxserver/qbittorrent:4.6.5@sha256:89b78fe6a5553d1bf4bdf2b158671b86142ec57ffecbdf0a4ab9da62a8dabd8a
           imagePullPolicy: Always
           name: qbittorrent
           ports:
@@ -1413,7 +1413,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/sonarr:4.0.5@sha256:275467ba17d990bbc6301dec3cc76b042969836749de39067818759d0f3b407f
+          image: ghcr.io/linuxserver/sonarr:4.0.5@sha256:782a911f0f3e9ad3a9cf39292e1d43b8a184cb989d7edc4abc8d8480b221b5aa
           imagePullPolicy: Always
           name: main
           ports:
@@ -1529,7 +1529,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/syncthing:1.27.8@sha256:6e70dd0cc0ddb038a8f58cf0945d6659b13c984f11d708407469bf16d520574c
+          image: ghcr.io/linuxserver/syncthing:1.27.8@sha256:77e01f31c68b6a0877222b538c976e0df1e2ba1137bbf7a496f6a70148239929
           imagePullPolicy: Always
           name: main
           ports:
@@ -2200,7 +2200,7 @@ spec:
               value: "true"
             - name: BUILD_OBJECT_DETERIORATION_DAMAGE_RATE
               value: "0"
-          image: ghcr.io/thijsvanloef/palworld-server-docker:v0.37.2@sha256:bb9c4e4bde4508deedec08f309b121527e7431fe05b9a2a84f5953a80eb9ee1f
+          image: ghcr.io/thijsvanloef/palworld-server-docker:v0.38.1@sha256:7253574f656ab70e2413fb92d8100fd10a5430803b895941ce0ef2614ffb1978
           imagePullPolicy: Always
           name: main
           ports:

@@ -82,6 +82,16 @@ export function createAppIngresses(chart: Chart) {
     ["immich"],
     true,
   );
+
+  createIngress(
+    chart,
+    "chartmusuem-ingress",
+    "chartmuseum",
+    "chartmuseum",
+    8080,
+    ["chartmuseum"],
+    true,
+  );
 }
 
 function createIngress(
