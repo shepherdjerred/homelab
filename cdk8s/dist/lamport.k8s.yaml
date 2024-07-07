@@ -1009,7 +1009,7 @@ spec:
         - env:
             - name: TZ
               value: America/Los_Angeles
-          image: ghcr.io/home-assistant/home-assistant:2024.6.4@sha256:17d159928122e6f374bd39b0e75904522bc7d7c2a64e88b248948734e4c4d444
+          image: ghcr.io/home-assistant/home-assistant:2024.7.1@sha256:dbbb63d9e9e69cd7f0d33ecc3135bff21044f48f00e29ba96a43e0793155ba67
           imagePullPolicy: Always
           name: main
           ports:
@@ -1413,7 +1413,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/sonarr:4.0.5@sha256:782a911f0f3e9ad3a9cf39292e1d43b8a184cb989d7edc4abc8d8480b221b5aa
+          image: ghcr.io/linuxserver/sonarr:4.0.6@sha256:3f193d343c1225676c1ea0547c5022fd83c4459a493870179dff9e87c54dbbc9
           imagePullPolicy: Always
           name: main
           ports:
@@ -1529,7 +1529,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/syncthing:1.27.8@sha256:77e01f31c68b6a0877222b538c976e0df1e2ba1137bbf7a496f6a70148239929
+          image: ghcr.io/linuxserver/syncthing:1.27.9@sha256:bc97605a1d7d07ca221a05949ea0f56a0585feb5db375b756b1f2bca0354600f
           imagePullPolicy: Always
           name: main
           ports:
@@ -2061,7 +2061,7 @@ spec:
               value: "1000"
             - name: PGID
               value: "1000"
-          image: ghcr.io/linuxserver/prowlarr:1.19.0@sha256:211cfc5b99e14dee7d49190b6ac8cceee3183a58240d522fb1937847ee4518e4
+          image: ghcr.io/linuxserver/prowlarr:1.20.1@sha256:3e23c577e77a92dfdddcccb8988bccc89d142dfd3669c616c5b3ce1cdc500022
           imagePullPolicy: Always
           name: main
           ports:
