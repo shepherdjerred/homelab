@@ -1,0 +1,53 @@
+version: v1.0
+name: Initial Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+global_job_config:
+  prologue:
+    commands:
+      - "sudo /bin/sh -c 'wget https://github.com/earthly/earthly/releases/latest/download/earthly-linux-amd64 -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly && /usr/local/bin/earthly bootstrap --with-autocomplete'"
+blocks:
+  - name: Build
+    task:
+      jobs:
+        - name: Build
+          commands:
+            - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
+            - checkout
+            - cache restore
+            - earthly --ci +build
+            - cache store
+      secrets:
+        - name: dockerhub
+  - name: Tests
+    task:
+      jobs:
+        - name: Unit
+          commands:
+            - earthly --ci +tests
+        - name: Lint
+          commands:
+            - earthly --ci +lint
+      prologue:
+        commands:
+          - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
+          - checkout
+          - cache restore
+      secrets:
+        - name: dockerhub
+  - name: Integrate
+    task:
+      jobs:
+        - name: Integration
+          commands:
+            - 'echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin'
+            - checkout
+            - cache restore
+            - earthly --ci -P +integration-tests
+      secrets:
+        - name: dockerhub
+promotions:
+  - name: Push Image
+    pipeline_file: pipeline_2.yml
