@@ -25,6 +25,7 @@ export class TailscaleIngress extends Construct {
     },
   ) {
     super(scope, id);
+
     let base: IngressProps = {
       defaultBackend: IngressBackend.fromService(props.service),
       tls: [

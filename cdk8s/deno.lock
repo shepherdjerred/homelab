@@ -1,5 +1,16 @@
 {
   "version": "3",
+  "packages": {
+    "specifiers": {
+      "npm:@types/node": "npm:@types/node@18.16.19"
+    },
+    "npm": {
+      "@types/node@18.16.19": {
+        "integrity": "sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==",
+        "dependencies": {}
+      }
+    }
+  },
   "remote": {
     "https://esm.sh/cdk8s-plus-27@2.9.3": "ce6b1d1c68e05f4b8f70e5bae502bbf5440b27b3f9df6e2dd3ecc1d051fff333",
     "https://esm.sh/cdk8s@2.68.58": "6de95e95b360ee6e5143b32716d99402ceb80450770c7a822f6855e56a083c0c",

@@ -56,8 +56,7 @@ export function createEarthlyDeployment(chart: Chart) {
         EARTHLY_ORG: EnvValue.fromValue("sjerred"),
         EARTHLY_TOKEN: tokenEnvValue,
         SATELLITE_NAME: EnvValue.fromValue("lamport"),
-        SATELLITE_HOST: EnvValue.fromValue("earthly.tailnet-1a49.ts.net"),
-        SATELLITE_PORT: EnvValue.fromValue("443"),
+        SATELLITE_HOST: EnvValue.fromValue("lamport.tailnet-1a49.ts.net"),
         CACHE_SIZE_PCT: EnvValue.fromValue("10"),
         BUILDKIT_MAX_PARALLELISM: EnvValue.fromValue("24"),
       },
@@ -77,7 +76,6 @@ export function createEarthlyDeployment(chart: Chart) {
   const service = new Service(chart, "earthly-service", {
     selector: deployment,
     ports: [{ port: 443 }],
-    protocol: "TCP",
   });
 
   new TailscaleIngress(chart, "earthly-tailscale-ingress", {

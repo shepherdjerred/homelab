@@ -2318,9 +2318,7 @@ spec:
             - name: SATELLITE_NAME
               value: lamport
             - name: SATELLITE_HOST
-              value: earthly.tailnet-1a49.ts.net
-            - name: SATELLITE_PORT
-              value: "443"
+              value: lamport.tailnet-1a49.ts.net
             - name: CACHE_SIZE_PCT
               value: "10"
             - name: BUILDKIT_MAX_PARALLELISM
