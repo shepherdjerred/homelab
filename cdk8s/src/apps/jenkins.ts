@@ -56,6 +56,7 @@ export function createJenkinsApp(chart: Chart) {
           valuesObject: {
             controller: {
               additionalExistingSecrets: [
+                // TODO: programatically create Earthly token & GitHub token
                 {
                   name: jenkinsPasswordSecret.name,
                   keyName: "password",
