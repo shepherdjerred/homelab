@@ -5,7 +5,7 @@ import {
   Service,
   Volume,
 } from "https://esm.sh/cdk8s-plus-27@2.9.3";
-import { Chart, Size } from "https://esm.sh/cdk8s@2.68.58";
+import { Chart } from "https://esm.sh/cdk8s@2.68.58";
 import { withCommonProps } from "../../utils/common.ts";
 import { Postgres } from "../common/postgres.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
@@ -16,7 +16,6 @@ export function createInvidiousDeployment(chart: Chart) {
     itemPath:
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/l7quccusjzdh4ww5rhutqpaf2m",
     database: "invidious",
-    size: Size.gibibytes(10),
   });
 
   const UID = 1000;

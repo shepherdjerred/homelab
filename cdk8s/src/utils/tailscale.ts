@@ -27,7 +27,8 @@ export class TailscaleIngress extends Construct {
     super(scope, id);
 
     let base: IngressProps = {
-      defaultBackend: IngressBackend.fromService(props.service),
+      // unsafe cast, but we know that Ingress only needs the name and port
+      defaultBackend: IngressBackend.fromService(props.service as Service),
       tls: [
         {
           hosts: [props.host],

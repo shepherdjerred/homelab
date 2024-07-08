@@ -1,7 +1,5 @@
 # Servers
 
-[![pre-commit](https://github.com/shepherdjerred/homelab/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/shepherdjerred/homelab/actions/workflows/pre-commit.yml)
-
 This repository contains resources related to my home server, currently called
 `lamport`. I give each of my servers a unique name so that I can keep track of
 them over time.

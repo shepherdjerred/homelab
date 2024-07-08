@@ -1,0 +1,22 @@
+VERSION 0.8
+FROM alpine/helm:3.15.2
+WORKDIR /workspace
+
+build:
+  ARG --required version
+  COPY . .
+  COPY ../+build/* tmp/
+  # combine the YAML files into one
+  RUN cat tmp/* > lamport.yml
+
+  RUN sed -i "s/^version:.*$/version: $version/" Chart.yaml
+  RUN sed -i "s/^appVersion:.*$/appVersion: $version/" Chart.yaml
+  RUN helm package .
+  SAVE ARTIFACT lamport-$version.tgz AS LOCAL dist/
+
+publish:
+  ARG repo=https://chartmuseum.tailnet-1a49.ts.net
+  ARG --required version
+  COPY +build/ .
+  RUN false
+  RUN --push curl --data-binary "@lamport-$version.tgz" $repo/api/charts

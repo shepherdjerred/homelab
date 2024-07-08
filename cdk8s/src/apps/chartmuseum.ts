@@ -17,6 +17,7 @@ export function createChartMuseumApp(chart: Chart) {
           parameters: [
             { name: "persistence.enabled", value: "true" },
             { name: "persistence.storageClass", value: "local-path" },
+            { name: "env.open.DISABLE_API", value: "false" },
           ],
         },
       },
