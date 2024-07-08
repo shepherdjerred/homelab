@@ -18,5 +18,4 @@ publish:
   ARG repo=https://chartmuseum.tailnet-1a49.ts.net
   ARG --required version
   COPY +build/ .
-  RUN false
   RUN --push curl --data-binary "@lamport-$version.tgz" $repo/api/charts

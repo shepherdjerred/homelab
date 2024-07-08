@@ -1,9 +1,11 @@
 VERSION 0.8
 
 ci:
+  ARG --required version
   BUILD ./cdk8s+check
   BUILD ./cdk8s+build
   BUILD +pre-commit
+  BUILD ./cdk8s/helm+publish --version=$version
 
 pre-commit:
   FROM python
