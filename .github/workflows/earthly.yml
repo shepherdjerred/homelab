@@ -6,7 +6,7 @@ on:
 
 jobs:
   earthly-job:
-    runs-on: [earthly-satellite#my-gha-satellite]
+    runs-on: [earthly-satellite#lamport]
     env:
       FORCE_COLOR: 1
       EARTHLY_TOKEN: "${{ secrets.EARTHLY_TOKEN }}"
