@@ -12,7 +12,6 @@ import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import versions from "../../versions/versions.ts";
-import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createEarthlyDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "earthly", {
