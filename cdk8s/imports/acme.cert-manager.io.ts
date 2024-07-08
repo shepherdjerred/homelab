@@ -103,63 +103,81 @@ export function toJson_ChallengeProps(
  */
 export interface ChallengeSpec {
   /**
-   * The URL to the ACME Authorization resource that this challenge is a part of.
+   * The URL to the ACME Authorization resource that this
+   * challenge is a part of.
    *
    * @schema ChallengeSpec#authorizationURL
    */
   readonly authorizationUrl: string;
 
   /**
-   * dnsName is the identifier that this challenge is for, e.g. example.com. If the requested DNSName is a 'wildcard', this field MUST be set to the non-wildcard domain, e.g. for `*.example.com`, it must be `example.com`.
+   * dnsName is the identifier that this challenge is for, e.g. example.com.
+   * If the requested DNSName is a 'wildcard', this field MUST be set to the
+   * non-wildcard domain, e.g. for `*.example.com`, it must be `example.com`.
    *
    * @schema ChallengeSpec#dnsName
    */
   readonly dnsName: string;
 
   /**
-   * References a properly configured ACME-type Issuer which should be used to create this Challenge. If the Issuer does not exist, processing will be retried. If the Issuer is not an 'ACME' Issuer, an error will be returned and the Challenge will be marked as failed.
+   * References a properly configured ACME-type Issuer which should
+   * be used to create this Challenge.
+   * If the Issuer does not exist, processing will be retried.
+   * If the Issuer is not an 'ACME' Issuer, an error will be returned and the
+   * Challenge will be marked as failed.
    *
    * @schema ChallengeSpec#issuerRef
    */
   readonly issuerRef: ChallengeSpecIssuerRef;
 
   /**
-   * The ACME challenge key for this challenge For HTTP01 challenges, this is the value that must be responded with to complete the HTTP01 challenge in the format: `<private key JWK thumbprint>.<key from acme server for challenge>`. For DNS01 challenges, this is the base64 encoded SHA256 sum of the `<private key JWK thumbprint>.<key from acme server for challenge>` text that must be set as the TXT record content.
+   * The ACME challenge key for this challenge
+   * For HTTP01 challenges, this is the value that must be responded with to
+   * complete the HTTP01 challenge in the format:
+   * `<private key JWK thumbprint>.<key from acme server for challenge>`.
+   * For DNS01 challenges, this is the base64 encoded SHA256 sum of the
+   * `<private key JWK thumbprint>.<key from acme server for challenge>`
+   * text that must be set as the TXT record content.
    *
    * @schema ChallengeSpec#key
    */
   readonly key: string;
 
   /**
-   * Contains the domain solving configuration that should be used to solve this challenge resource.
+   * Contains the domain solving configuration that should be used to
+   * solve this challenge resource.
    *
    * @schema ChallengeSpec#solver
    */
   readonly solver: ChallengeSpecSolver;
 
   /**
-   * The ACME challenge token for this challenge. This is the raw value returned from the ACME server.
+   * The ACME challenge token for this challenge.
+   * This is the raw value returned from the ACME server.
    *
    * @schema ChallengeSpec#token
    */
   readonly token: string;
 
   /**
-   * The type of ACME challenge this resource represents. One of "HTTP-01" or "DNS-01".
+   * The type of ACME challenge this resource represents.
+   * One of "HTTP-01" or "DNS-01".
    *
    * @schema ChallengeSpec#type
    */
   readonly type: ChallengeSpecType;
 
   /**
-   * The URL of the ACME Challenge resource for this challenge. This can be used to lookup details about the status of this challenge.
+   * The URL of the ACME Challenge resource for this challenge.
+   * This can be used to lookup details about the status of this challenge.
    *
    * @schema ChallengeSpec#url
    */
   readonly url: string;
 
   /**
-   * wildcard will be true if this challenge is for a wildcard identifier, for example '*.example.com'.
+   * wildcard will be true if this challenge is for a wildcard identifier,
+   * for example '*.example.com'.
    *
    * @schema ChallengeSpec#wildcard
    */
@@ -194,7 +212,11 @@ export function toJson_ChallengeSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
- * References a properly configured ACME-type Issuer which should be used to create this Challenge. If the Issuer does not exist, processing will be retried. If the Issuer is not an 'ACME' Issuer, an error will be returned and the Challenge will be marked as failed.
+ * References a properly configured ACME-type Issuer which should
+ * be used to create this Challenge.
+ * If the Issuer does not exist, processing will be retried.
+ * If the Issuer is not an 'ACME' Issuer, an error will be returned and the
+ * Challenge will be marked as failed.
  *
  * @schema ChallengeSpecIssuerRef
  */
@@ -243,27 +265,36 @@ export function toJson_ChallengeSpecIssuerRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Contains the domain solving configuration that should be used to solve this challenge resource.
+ * Contains the domain solving configuration that should be used to
+ * solve this challenge resource.
  *
  * @schema ChallengeSpecSolver
  */
 export interface ChallengeSpecSolver {
   /**
-   * Configures cert-manager to attempt to complete authorizations by performing the DNS01 challenge flow.
+   * Configures cert-manager to attempt to complete authorizations by
+   * performing the DNS01 challenge flow.
    *
    * @schema ChallengeSpecSolver#dns01
    */
   readonly dns01?: ChallengeSpecSolverDns01;
 
   /**
-   * Configures cert-manager to attempt to complete authorizations by performing the HTTP01 challenge flow. It is not possible to obtain certificates for wildcard domain names (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
+   * Configures cert-manager to attempt to complete authorizations by
+   * performing the HTTP01 challenge flow.
+   * It is not possible to obtain certificates for wildcard domain names
+   * (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
    *
    * @schema ChallengeSpecSolver#http01
    */
   readonly http01?: ChallengeSpecSolverHttp01;
 
   /**
-   * Selector selects a set of DNSNames on the Certificate resource that should be solved using this challenge solver. If not specified, the solver will be treated as the 'default' solver with the lowest priority, i.e. if any other solver has a more specific match, it will be used instead.
+   * Selector selects a set of DNSNames on the Certificate resource that
+   * should be solved using this challenge solver.
+   * If not specified, the solver will be treated as the 'default' solver
+   * with the lowest priority, i.e. if any other solver has a more specific
+   * match, it will be used instead.
    *
    * @schema ChallengeSpecSolver#selector
    */
@@ -292,7 +323,8 @@ export function toJson_ChallengeSpecSolver(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The type of ACME challenge this resource represents. One of "HTTP-01" or "DNS-01".
+ * The type of ACME challenge this resource represents.
+ * One of "HTTP-01" or "DNS-01".
  *
  * @schema ChallengeSpecType
  */
@@ -304,13 +336,15 @@ export enum ChallengeSpecType {
 }
 
 /**
- * Configures cert-manager to attempt to complete authorizations by performing the DNS01 challenge flow.
+ * Configures cert-manager to attempt to complete authorizations by
+ * performing the DNS01 challenge flow.
  *
  * @schema ChallengeSpecSolverDns01
  */
 export interface ChallengeSpecSolverDns01 {
   /**
-   * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
+   * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage
+   * DNS01 challenge records.
    *
    * @schema ChallengeSpecSolverDns01#acmeDNS
    */
@@ -345,7 +379,8 @@ export interface ChallengeSpecSolverDns01 {
   readonly cloudflare?: ChallengeSpecSolverDns01Cloudflare;
 
   /**
-   * CNAMEStrategy configures how the DNS01 provider should handle CNAME records when found in DNS zones.
+   * CNAMEStrategy configures how the DNS01 provider should handle CNAME
+   * records when found in DNS zones.
    *
    * @schema ChallengeSpecSolverDns01#cnameStrategy
    */
@@ -359,7 +394,8 @@ export interface ChallengeSpecSolverDns01 {
   readonly digitalocean?: ChallengeSpecSolverDns01Digitalocean;
 
   /**
-   * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/) to manage DNS01 challenge records.
+   * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/)
+   * to manage DNS01 challenge records.
    *
    * @schema ChallengeSpecSolverDns01#rfc2136
    */
@@ -373,7 +409,8 @@ export interface ChallengeSpecSolverDns01 {
   readonly route53?: ChallengeSpecSolverDns01Route53;
 
   /**
-   * Configure an external webhook based DNS01 challenge solver to manage DNS01 challenge records.
+   * Configure an external webhook based DNS01 challenge solver to manage
+   * DNS01 challenge records.
    *
    * @schema ChallengeSpecSolverDns01#webhook
    */
@@ -411,20 +448,29 @@ export function toJson_ChallengeSpecSolverDns01(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configures cert-manager to attempt to complete authorizations by performing the HTTP01 challenge flow. It is not possible to obtain certificates for wildcard domain names (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
+ * Configures cert-manager to attempt to complete authorizations by
+ * performing the HTTP01 challenge flow.
+ * It is not possible to obtain certificates for wildcard domain names
+ * (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
  *
  * @schema ChallengeSpecSolverHttp01
  */
 export interface ChallengeSpecSolverHttp01 {
   /**
-   * The Gateway API is a sig-network community API that models service networking in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will create HTTPRoutes with the specified labels in the same namespace as the challenge. This solver is experimental, and fields / behaviour may change in the future.
+   * The Gateway API is a sig-network community API that models service networking
+   * in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will
+   * create HTTPRoutes with the specified labels in the same namespace as the challenge.
+   * This solver is experimental, and fields / behaviour may change in the future.
    *
    * @schema ChallengeSpecSolverHttp01#gatewayHTTPRoute
    */
   readonly gatewayHttpRoute?: ChallengeSpecSolverHttp01GatewayHttpRoute;
 
   /**
-   * The ingress based HTTP01 challenge solver will solve challenges by creating or modifying Ingress resources in order to route requests for '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are provisioned by cert-manager for each Challenge to be completed.
+   * The ingress based HTTP01 challenge solver will solve challenges by
+   * creating or modifying Ingress resources in order to route requests for
+   * '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are
+   * provisioned by cert-manager for each Challenge to be completed.
    *
    * @schema ChallengeSpecSolverHttp01#ingress
    */
@@ -454,27 +500,46 @@ export function toJson_ChallengeSpecSolverHttp01(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Selector selects a set of DNSNames on the Certificate resource that should be solved using this challenge solver. If not specified, the solver will be treated as the 'default' solver with the lowest priority, i.e. if any other solver has a more specific match, it will be used instead.
+ * Selector selects a set of DNSNames on the Certificate resource that
+ * should be solved using this challenge solver.
+ * If not specified, the solver will be treated as the 'default' solver
+ * with the lowest priority, i.e. if any other solver has a more specific
+ * match, it will be used instead.
  *
  * @schema ChallengeSpecSolverSelector
  */
 export interface ChallengeSpecSolverSelector {
   /**
-   * List of DNSNames that this solver will be used to solve. If specified and a match is found, a dnsNames selector will take precedence over a dnsZones selector. If multiple solvers match with the same dnsNames value, the solver with the most matching labels in matchLabels will be selected. If neither has more matches, the solver defined earlier in the list will be selected.
+   * List of DNSNames that this solver will be used to solve.
+   * If specified and a match is found, a dnsNames selector will take
+   * precedence over a dnsZones selector.
+   * If multiple solvers match with the same dnsNames value, the solver
+   * with the most matching labels in matchLabels will be selected.
+   * If neither has more matches, the solver defined earlier in the list
+   * will be selected.
    *
    * @schema ChallengeSpecSolverSelector#dnsNames
    */
   readonly dnsNames?: string[];
 
   /**
-   * List of DNSZones that this solver will be used to solve. The most specific DNS zone match specified here will take precedence over other DNS zone matches, so a solver specifying sys.example.com will be selected over one specifying example.com for the domain www.sys.example.com. If multiple solvers match with the same dnsZones value, the solver with the most matching labels in matchLabels will be selected. If neither has more matches, the solver defined earlier in the list will be selected.
+   * List of DNSZones that this solver will be used to solve.
+   * The most specific DNS zone match specified here will take precedence
+   * over other DNS zone matches, so a solver specifying sys.example.com
+   * will be selected over one specifying example.com for the domain
+   * www.sys.example.com.
+   * If multiple solvers match with the same dnsZones value, the solver
+   * with the most matching labels in matchLabels will be selected.
+   * If neither has more matches, the solver defined earlier in the list
+   * will be selected.
    *
    * @schema ChallengeSpecSolverSelector#dnsZones
    */
   readonly dnsZones?: string[];
 
   /**
-   * A label selector that is used to refine the set of certificate's that this challenge solver will apply to.
+   * A label selector that is used to refine the set of certificate's that
+   * this challenge solver will apply to.
    *
    * @schema ChallengeSpecSolverSelector#matchLabels
    */
@@ -508,13 +573,15 @@ export function toJson_ChallengeSpecSolverSelector(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
+ * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage
+ * DNS01 challenge records.
  *
  * @schema ChallengeSpecSolverDns01AcmeDns
  */
 export interface ChallengeSpecSolverDns01AcmeDns {
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ChallengeSpecSolverDns01AcmeDns#accountSecretRef
    */
@@ -555,7 +622,8 @@ export function toJson_ChallengeSpecSolverDns01AcmeDns(
  */
 export interface ChallengeSpecSolverDns01Akamai {
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ChallengeSpecSolverDns01Akamai#accessTokenSecretRef
    */
@@ -563,7 +631,8 @@ export interface ChallengeSpecSolverDns01Akamai {
     ChallengeSpecSolverDns01AkamaiAccessTokenSecretRef;
 
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ChallengeSpecSolverDns01Akamai#clientSecretSecretRef
    */
@@ -571,7 +640,8 @@ export interface ChallengeSpecSolverDns01Akamai {
     ChallengeSpecSolverDns01AkamaiClientSecretSecretRef;
 
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ChallengeSpecSolverDns01Akamai#clientTokenSecretRef
    */
@@ -622,14 +692,18 @@ export function toJson_ChallengeSpecSolverDns01Akamai(
  */
 export interface ChallengeSpecSolverDns01AzureDns {
   /**
-   * Auth: Azure Service Principal: The ClientID of the Azure Service Principal used to authenticate with Azure DNS. If set, ClientSecret and TenantID must also be set.
+   * Auth: Azure Service Principal:
+   * The ClientID of the Azure Service Principal used to authenticate with Azure DNS.
+   * If set, ClientSecret and TenantID must also be set.
    *
    * @schema ChallengeSpecSolverDns01AzureDns#clientID
    */
   readonly clientId?: string;
 
   /**
-   * Auth: Azure Service Principal: A reference to a Secret containing the password associated with the Service Principal. If set, ClientID and TenantID must also be set.
+   * Auth: Azure Service Principal:
+   * A reference to a Secret containing the password associated with the Service Principal.
+   * If set, ClientID and TenantID must also be set.
    *
    * @schema ChallengeSpecSolverDns01AzureDns#clientSecretSecretRef
    */
@@ -651,7 +725,9 @@ export interface ChallengeSpecSolverDns01AzureDns {
   readonly hostedZoneName?: string;
 
   /**
-   * Auth: Azure Workload Identity or Azure Managed Service Identity: Settings to enable Azure Workload Identity or Azure Managed Service Identity If set, ClientID, ClientSecret and TenantID must not be set.
+   * Auth: Azure Workload Identity or Azure Managed Service Identity:
+   * Settings to enable Azure Workload Identity or Azure Managed Service Identity
+   * If set, ClientID, ClientSecret and TenantID must not be set.
    *
    * @schema ChallengeSpecSolverDns01AzureDns#managedIdentity
    */
@@ -672,7 +748,9 @@ export interface ChallengeSpecSolverDns01AzureDns {
   readonly subscriptionId: string;
 
   /**
-   * Auth: Azure Service Principal: The TenantID of the Azure Service Principal used to authenticate with Azure DNS. If set, ClientID and ClientSecret must also be set.
+   * Auth: Azure Service Principal:
+   * The TenantID of the Azure Service Principal used to authenticate with Azure DNS.
+   * If set, ClientID and ClientSecret must also be set.
    *
    * @schema ChallengeSpecSolverDns01AzureDns#tenantID
    */
@@ -717,7 +795,9 @@ export function toJson_ChallengeSpecSolverDns01AzureDns(
  */
 export interface ChallengeSpecSolverDns01CloudDns {
   /**
-   * HostedZoneName is an optional field that tells cert-manager in which Cloud DNS zone the challenge record has to be created. If left empty cert-manager will automatically choose a zone.
+   * HostedZoneName is an optional field that tells cert-manager in which
+   * Cloud DNS zone the challenge record has to be created.
+   * If left empty cert-manager will automatically choose a zone.
    *
    * @schema ChallengeSpecSolverDns01CloudDns#hostedZoneName
    */
@@ -729,7 +809,8 @@ export interface ChallengeSpecSolverDns01CloudDns {
   readonly project: string;
 
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ChallengeSpecSolverDns01CloudDns#serviceAccountSecretRef
    */
@@ -768,7 +849,9 @@ export function toJson_ChallengeSpecSolverDns01CloudDns(
  */
 export interface ChallengeSpecSolverDns01Cloudflare {
   /**
-   * API key to use to authenticate with Cloudflare. Note: using an API token to authenticate is now the recommended method as it allows greater control of permissions.
+   * API key to use to authenticate with Cloudflare.
+   * Note: using an API token to authenticate is now the recommended method
+   * as it allows greater control of permissions.
    *
    * @schema ChallengeSpecSolverDns01Cloudflare#apiKeySecretRef
    */
@@ -817,7 +900,8 @@ export function toJson_ChallengeSpecSolverDns01Cloudflare(
 /* eslint-enable max-len, quote-props */
 
 /**
- * CNAMEStrategy configures how the DNS01 provider should handle CNAME records when found in DNS zones.
+ * CNAMEStrategy configures how the DNS01 provider should handle CNAME
+ * records when found in DNS zones.
  *
  * @schema ChallengeSpecSolverDns01CnameStrategy
  */
@@ -835,7 +919,8 @@ export enum ChallengeSpecSolverDns01CnameStrategy {
  */
 export interface ChallengeSpecSolverDns01Digitalocean {
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ChallengeSpecSolverDns01Digitalocean#tokenSecretRef
    */
@@ -864,34 +949,43 @@ export function toJson_ChallengeSpecSolverDns01Digitalocean(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/) to manage DNS01 challenge records.
+ * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/)
+ * to manage DNS01 challenge records.
  *
  * @schema ChallengeSpecSolverDns01Rfc2136
  */
 export interface ChallengeSpecSolverDns01Rfc2136 {
   /**
-   * The IP address or hostname of an authoritative DNS server supporting RFC2136 in the form host:port. If the host is an IPv6 address it must be enclosed in square brackets (e.g [2001:db8::1]) ; port is optional. This field is required.
+   * The IP address or hostname of an authoritative DNS server supporting
+   * RFC2136 in the form host:port. If the host is an IPv6 address it must be
+   * enclosed in square brackets (e.g [2001:db8::1]) ; port is optional.
+   * This field is required.
    *
    * @schema ChallengeSpecSolverDns01Rfc2136#nameserver
    */
   readonly nameserver: string;
 
   /**
-   * The TSIG Algorithm configured in the DNS supporting RFC2136. Used only when ``tsigSecretSecretRef`` and ``tsigKeyName`` are defined. Supported values are (case-insensitive): ``HMACMD5`` (default), ``HMACSHA1``, ``HMACSHA256`` or ``HMACSHA512``.
+   * The TSIG Algorithm configured in the DNS supporting RFC2136. Used only
+   * when ``tsigSecretSecretRef`` and ``tsigKeyName`` are defined.
+   * Supported values are (case-insensitive): ``HMACMD5`` (default),
+   * ``HMACSHA1``, ``HMACSHA256`` or ``HMACSHA512``.
    *
    * @schema ChallengeSpecSolverDns01Rfc2136#tsigAlgorithm
    */
   readonly tsigAlgorithm?: string;
 
   /**
-   * The TSIG Key name configured in the DNS. If ``tsigSecretSecretRef`` is defined, this field is required.
+   * The TSIG Key name configured in the DNS.
+   * If ``tsigSecretSecretRef`` is defined, this field is required.
    *
    * @schema ChallengeSpecSolverDns01Rfc2136#tsigKeyName
    */
   readonly tsigKeyName?: string;
 
   /**
-   * The name of the secret containing the TSIG value. If ``tsigKeyName`` is defined, this field is required.
+   * The name of the secret containing the TSIG value.
+   * If ``tsigKeyName`` is defined, this field is required.
    *
    * @schema ChallengeSpecSolverDns01Rfc2136#tsigSecretSecretRef
    */
@@ -931,19 +1025,35 @@ export function toJson_ChallengeSpecSolverDns01Rfc2136(
  */
 export interface ChallengeSpecSolverDns01Route53 {
   /**
-   * The AccessKeyID is used for authentication. Cannot be set when SecretAccessKeyID is set. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+   * The AccessKeyID is used for authentication.
+   * Cannot be set when SecretAccessKeyID is set.
+   * If neither the Access Key nor Key ID are set, we fall-back to using env
+   * vars, shared credentials file or AWS Instance metadata,
+   * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
    *
    * @schema ChallengeSpecSolverDns01Route53#accessKeyID
    */
   readonly accessKeyId?: string;
 
   /**
-   * The SecretAccessKey is used for authentication. If set, pull the AWS access key ID from a key within a Kubernetes Secret. Cannot be set when AccessKeyID is set. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+   * The SecretAccessKey is used for authentication. If set, pull the AWS
+   * access key ID from a key within a Kubernetes Secret.
+   * Cannot be set when AccessKeyID is set.
+   * If neither the Access Key nor Key ID are set, we fall-back to using env
+   * vars, shared credentials file or AWS Instance metadata,
+   * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
    *
    * @schema ChallengeSpecSolverDns01Route53#accessKeyIDSecretRef
    */
   readonly accessKeyIdSecretRef?:
     ChallengeSpecSolverDns01Route53AccessKeyIdSecretRef;
+
+  /**
+   * Auth configures how cert-manager authenticates.
+   *
+   * @schema ChallengeSpecSolverDns01Route53#auth
+   */
+  readonly auth?: ChallengeSpecSolverDns01Route53Auth;
 
   /**
    * If set, the provider will manage only this zone in Route53 and will not do an lookup using the route53:ListHostedZonesByName api call.
@@ -960,14 +1070,18 @@ export interface ChallengeSpecSolverDns01Route53 {
   readonly region: string;
 
   /**
-   * Role is a Role ARN which the Route53 provider will assume using either the explicit credentials AccessKeyID/SecretAccessKey or the inferred credentials from environment variables, shared credentials file or AWS Instance metadata
+   * Role is a Role ARN which the Route53 provider will assume using either the explicit credentials AccessKeyID/SecretAccessKey
+   * or the inferred credentials from environment variables, shared credentials file or AWS Instance metadata
    *
    * @schema ChallengeSpecSolverDns01Route53#role
    */
   readonly role?: string;
 
   /**
-   * The SecretAccessKey is used for authentication. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+   * The SecretAccessKey is used for authentication.
+   * If neither the Access Key nor Key ID are set, we fall-back to using env
+   * vars, shared credentials file or AWS Instance metadata,
+   * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
    *
    * @schema ChallengeSpecSolverDns01Route53#secretAccessKeySecretRef
    */
@@ -989,6 +1103,7 @@ export function toJson_ChallengeSpecSolverDns01Route53(
       toJson_ChallengeSpecSolverDns01Route53AccessKeyIdSecretRef(
         obj.accessKeyIdSecretRef,
       ),
+    "auth": toJson_ChallengeSpecSolverDns01Route53Auth(obj.auth),
     "hostedZoneID": obj.hostedZoneId,
     "region": obj.region,
     "role": obj.role,
@@ -1006,27 +1121,40 @@ export function toJson_ChallengeSpecSolverDns01Route53(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configure an external webhook based DNS01 challenge solver to manage DNS01 challenge records.
+ * Configure an external webhook based DNS01 challenge solver to manage
+ * DNS01 challenge records.
  *
  * @schema ChallengeSpecSolverDns01Webhook
  */
 export interface ChallengeSpecSolverDns01Webhook {
   /**
-   * Additional configuration that should be passed to the webhook apiserver when challenges are processed. This can contain arbitrary JSON data. Secret values should not be specified in this stanza. If secret values are needed (e.g. credentials for a DNS service), you should use a SecretKeySelector to reference a Secret resource. For details on the schema of this field, consult the webhook provider implementation's documentation.
+   * Additional configuration that should be passed to the webhook apiserver
+   * when challenges are processed.
+   * This can contain arbitrary JSON data.
+   * Secret values should not be specified in this stanza.
+   * If secret values are needed (e.g. credentials for a DNS service), you
+   * should use a SecretKeySelector to reference a Secret resource.
+   * For details on the schema of this field, consult the webhook provider
+   * implementation's documentation.
    *
    * @schema ChallengeSpecSolverDns01Webhook#config
    */
   readonly config?: any;
 
   /**
-   * The API group name that should be used when POSTing ChallengePayload resources to the webhook apiserver. This should be the same as the GroupName specified in the webhook provider implementation.
+   * The API group name that should be used when POSTing ChallengePayload
+   * resources to the webhook apiserver.
+   * This should be the same as the GroupName specified in the webhook
+   * provider implementation.
    *
    * @schema ChallengeSpecSolverDns01Webhook#groupName
    */
   readonly groupName: string;
 
   /**
-   * The name of the solver to use, as defined in the webhook provider implementation. This will typically be the name of the provider, e.g. 'cloudflare'.
+   * The name of the solver to use, as defined in the webhook provider
+   * implementation.
+   * This will typically be the name of the provider, e.g. 'cloudflare'.
    *
    * @schema ChallengeSpecSolverDns01Webhook#solverName
    */
@@ -1055,27 +1183,35 @@ export function toJson_ChallengeSpecSolverDns01Webhook(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Gateway API is a sig-network community API that models service networking in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will create HTTPRoutes with the specified labels in the same namespace as the challenge. This solver is experimental, and fields / behaviour may change in the future.
+ * The Gateway API is a sig-network community API that models service networking
+ * in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will
+ * create HTTPRoutes with the specified labels in the same namespace as the challenge.
+ * This solver is experimental, and fields / behaviour may change in the future.
  *
  * @schema ChallengeSpecSolverHttp01GatewayHttpRoute
  */
 export interface ChallengeSpecSolverHttp01GatewayHttpRoute {
   /**
-   * Custom labels that will be applied to HTTPRoutes created by cert-manager while solving HTTP-01 challenges.
+   * Custom labels that will be applied to HTTPRoutes created by cert-manager
+   * while solving HTTP-01 challenges.
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoute#labels
    */
   readonly labels?: { [key: string]: string };
 
   /**
-   * When solving an HTTP-01 challenge, cert-manager creates an HTTPRoute. cert-manager needs to know which parentRefs should be used when creating the HTTPRoute. Usually, the parentRef references a Gateway. See: https://gateway-api.sigs.k8s.io/api-types/httproute/#attaching-to-gateways
+   * When solving an HTTP-01 challenge, cert-manager creates an HTTPRoute.
+   * cert-manager needs to know which parentRefs should be used when creating
+   * the HTTPRoute. Usually, the parentRef references a Gateway. See:
+   * https://gateway-api.sigs.k8s.io/api-types/httproute/#attaching-to-gateways
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoute#parentRefs
    */
   readonly parentRefs?: ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs[];
 
   /**
-   * Optional service type for Kubernetes solver service. Supported values are NodePort or ClusterIP. If unset, defaults to NodePort.
+   * Optional service type for Kubernetes solver service. Supported values
+   * are NodePort or ClusterIP. If unset, defaults to NodePort.
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoute#serviceType
    */
@@ -1111,48 +1247,65 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoute(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The ingress based HTTP01 challenge solver will solve challenges by creating or modifying Ingress resources in order to route requests for '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are provisioned by cert-manager for each Challenge to be completed.
+ * The ingress based HTTP01 challenge solver will solve challenges by
+ * creating or modifying Ingress resources in order to route requests for
+ * '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are
+ * provisioned by cert-manager for each Challenge to be completed.
  *
  * @schema ChallengeSpecSolverHttp01Ingress
  */
 export interface ChallengeSpecSolverHttp01Ingress {
   /**
-   * This field configures the annotation `kubernetes.io/ingress.class` when creating Ingress resources to solve ACME challenges that use this challenge solver. Only one of `class`, `name` or `ingressClassName` may be specified.
+   * This field configures the annotation `kubernetes.io/ingress.class` when
+   * creating Ingress resources to solve ACME challenges that use this
+   * challenge solver. Only one of `class`, `name` or `ingressClassName` may
+   * be specified.
    *
    * @schema ChallengeSpecSolverHttp01Ingress#class
    */
   readonly class?: string;
 
   /**
-   * This field configures the field `ingressClassName` on the created Ingress resources used to solve ACME challenges that use this challenge solver. This is the recommended way of configuring the ingress class. Only one of `class`, `name` or `ingressClassName` may be specified.
+   * This field configures the field `ingressClassName` on the created Ingress
+   * resources used to solve ACME challenges that use this challenge solver.
+   * This is the recommended way of configuring the ingress class. Only one of
+   * `class`, `name` or `ingressClassName` may be specified.
    *
    * @schema ChallengeSpecSolverHttp01Ingress#ingressClassName
    */
   readonly ingressClassName?: string;
 
   /**
-   * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
+   * Optional ingress template used to configure the ACME challenge solver
+   * ingress used for HTTP01 challenges.
    *
    * @schema ChallengeSpecSolverHttp01Ingress#ingressTemplate
    */
   readonly ingressTemplate?: ChallengeSpecSolverHttp01IngressIngressTemplate;
 
   /**
-   * The name of the ingress resource that should have ACME challenge solving routes inserted into it in order to solve HTTP01 challenges. This is typically used in conjunction with ingress controllers like ingress-gce, which maintains a 1:1 mapping between external IPs and ingress resources. Only one of `class`, `name` or `ingressClassName` may be specified.
+   * The name of the ingress resource that should have ACME challenge solving
+   * routes inserted into it in order to solve HTTP01 challenges.
+   * This is typically used in conjunction with ingress controllers like
+   * ingress-gce, which maintains a 1:1 mapping between external IPs and
+   * ingress resources. Only one of `class`, `name` or `ingressClassName` may
+   * be specified.
    *
    * @schema ChallengeSpecSolverHttp01Ingress#name
    */
   readonly name?: string;
 
   /**
-   * Optional pod template used to configure the ACME challenge solver pods used for HTTP01 challenges.
+   * Optional pod template used to configure the ACME challenge solver pods
+   * used for HTTP01 challenges.
    *
    * @schema ChallengeSpecSolverHttp01Ingress#podTemplate
    */
   readonly podTemplate?: ChallengeSpecSolverHttp01IngressPodTemplate;
 
   /**
-   * Optional service type for Kubernetes solver service. Supported values are NodePort or ClusterIP. If unset, defaults to NodePort.
+   * Optional service type for Kubernetes solver service. Supported values
+   * are NodePort or ClusterIP. If unset, defaults to NodePort.
    *
    * @schema ChallengeSpecSolverHttp01Ingress#serviceType
    */
@@ -1188,20 +1341,24 @@ export function toJson_ChallengeSpecSolverHttp01Ingress(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ChallengeSpecSolverDns01AcmeDnsAccountSecretRef
  */
 export interface ChallengeSpecSolverDns01AcmeDnsAccountSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01AcmeDnsAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01AcmeDnsAccountSecretRef#name
    */
@@ -1229,20 +1386,24 @@ export function toJson_ChallengeSpecSolverDns01AcmeDnsAccountSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ChallengeSpecSolverDns01AkamaiAccessTokenSecretRef
  */
 export interface ChallengeSpecSolverDns01AkamaiAccessTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01AkamaiAccessTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01AkamaiAccessTokenSecretRef#name
    */
@@ -1270,20 +1431,24 @@ export function toJson_ChallengeSpecSolverDns01AkamaiAccessTokenSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ChallengeSpecSolverDns01AkamaiClientSecretSecretRef
  */
 export interface ChallengeSpecSolverDns01AkamaiClientSecretSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01AkamaiClientSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01AkamaiClientSecretSecretRef#name
    */
@@ -1311,20 +1476,24 @@ export function toJson_ChallengeSpecSolverDns01AkamaiClientSecretSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ChallengeSpecSolverDns01AkamaiClientTokenSecretRef
  */
 export interface ChallengeSpecSolverDns01AkamaiClientTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01AkamaiClientTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01AkamaiClientTokenSecretRef#name
    */
@@ -1352,20 +1521,25 @@ export function toJson_ChallengeSpecSolverDns01AkamaiClientTokenSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Auth: Azure Service Principal: A reference to a Secret containing the password associated with the Service Principal. If set, ClientID and TenantID must also be set.
+ * Auth: Azure Service Principal:
+ * A reference to a Secret containing the password associated with the Service Principal.
+ * If set, ClientID and TenantID must also be set.
  *
  * @schema ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef
  */
 export interface ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef#name
    */
@@ -1409,7 +1583,9 @@ export enum ChallengeSpecSolverDns01AzureDnsEnvironment {
 }
 
 /**
- * Auth: Azure Workload Identity or Azure Managed Service Identity: Settings to enable Azure Workload Identity or Azure Managed Service Identity If set, ClientID, ClientSecret and TenantID must not be set.
+ * Auth: Azure Workload Identity or Azure Managed Service Identity:
+ * Settings to enable Azure Workload Identity or Azure Managed Service Identity
+ * If set, ClientID, ClientSecret and TenantID must not be set.
  *
  * @schema ChallengeSpecSolverDns01AzureDnsManagedIdentity
  */
@@ -1422,7 +1598,8 @@ export interface ChallengeSpecSolverDns01AzureDnsManagedIdentity {
   readonly clientId?: string;
 
   /**
-   * resource ID of the managed identity, can not be used at the same time as clientID Cannot be used for Azure Managed Service Identity
+   * resource ID of the managed identity, can not be used at the same time as clientID
+   * Cannot be used for Azure Managed Service Identity
    *
    * @schema ChallengeSpecSolverDns01AzureDnsManagedIdentity#resourceID
    */
@@ -1450,20 +1627,24 @@ export function toJson_ChallengeSpecSolverDns01AzureDnsManagedIdentity(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef
  */
 export interface ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef#name
    */
@@ -1491,20 +1672,25 @@ export function toJson_ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * API key to use to authenticate with Cloudflare. Note: using an API token to authenticate is now the recommended method as it allows greater control of permissions.
+ * API key to use to authenticate with Cloudflare.
+ * Note: using an API token to authenticate is now the recommended method
+ * as it allows greater control of permissions.
  *
  * @schema ChallengeSpecSolverDns01CloudflareApiKeySecretRef
  */
 export interface ChallengeSpecSolverDns01CloudflareApiKeySecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01CloudflareApiKeySecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01CloudflareApiKeySecretRef#name
    */
@@ -1538,14 +1724,17 @@ export function toJson_ChallengeSpecSolverDns01CloudflareApiKeySecretRef(
  */
 export interface ChallengeSpecSolverDns01CloudflareApiTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01CloudflareApiTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01CloudflareApiTokenSecretRef#name
    */
@@ -1573,20 +1762,24 @@ export function toJson_ChallengeSpecSolverDns01CloudflareApiTokenSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ChallengeSpecSolverDns01DigitaloceanTokenSecretRef
  */
 export interface ChallengeSpecSolverDns01DigitaloceanTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01DigitaloceanTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01DigitaloceanTokenSecretRef#name
    */
@@ -1614,20 +1807,24 @@ export function toJson_ChallengeSpecSolverDns01DigitaloceanTokenSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The name of the secret containing the TSIG value. If ``tsigKeyName`` is defined, this field is required.
+ * The name of the secret containing the TSIG value.
+ * If ``tsigKeyName`` is defined, this field is required.
  *
  * @schema ChallengeSpecSolverDns01Rfc2136TsigSecretSecretRef
  */
 export interface ChallengeSpecSolverDns01Rfc2136TsigSecretSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01Rfc2136TsigSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01Rfc2136TsigSecretSecretRef#name
    */
@@ -1655,20 +1852,28 @@ export function toJson_ChallengeSpecSolverDns01Rfc2136TsigSecretSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The SecretAccessKey is used for authentication. If set, pull the AWS access key ID from a key within a Kubernetes Secret. Cannot be set when AccessKeyID is set. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+ * The SecretAccessKey is used for authentication. If set, pull the AWS
+ * access key ID from a key within a Kubernetes Secret.
+ * Cannot be set when AccessKeyID is set.
+ * If neither the Access Key nor Key ID are set, we fall-back to using env
+ * vars, shared credentials file or AWS Instance metadata,
+ * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
  *
  * @schema ChallengeSpecSolverDns01Route53AccessKeyIdSecretRef
  */
 export interface ChallengeSpecSolverDns01Route53AccessKeyIdSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01Route53AccessKeyIdSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01Route53AccessKeyIdSecretRef#name
    */
@@ -1696,20 +1901,62 @@ export function toJson_ChallengeSpecSolverDns01Route53AccessKeyIdSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The SecretAccessKey is used for authentication. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+ * Auth configures how cert-manager authenticates.
+ *
+ * @schema ChallengeSpecSolverDns01Route53Auth
+ */
+export interface ChallengeSpecSolverDns01Route53Auth {
+  /**
+   * Kubernetes authenticates with Route53 using AssumeRoleWithWebIdentity
+   * by passing a bound ServiceAccount token.
+   *
+   * @schema ChallengeSpecSolverDns01Route53Auth#kubernetes
+   */
+  readonly kubernetes: ChallengeSpecSolverDns01Route53AuthKubernetes;
+}
+
+/**
+ * Converts an object of type 'ChallengeSpecSolverDns01Route53Auth' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ChallengeSpecSolverDns01Route53Auth(
+  obj: ChallengeSpecSolverDns01Route53Auth | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "kubernetes": toJson_ChallengeSpecSolverDns01Route53AuthKubernetes(
+      obj.kubernetes,
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The SecretAccessKey is used for authentication.
+ * If neither the Access Key nor Key ID are set, we fall-back to using env
+ * vars, shared credentials file or AWS Instance metadata,
+ * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
  *
  * @schema ChallengeSpecSolverDns01Route53SecretAccessKeySecretRef
  */
 export interface ChallengeSpecSolverDns01Route53SecretAccessKeySecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ChallengeSpecSolverDns01Route53SecretAccessKeySecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ChallengeSpecSolverDns01Route53SecretAccessKeySecretRef#name
    */
@@ -1737,16 +1984,28 @@ export function toJson_ChallengeSpecSolverDns01Route53SecretAccessKeySecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * ParentReference identifies an API object (usually a Gateway) that can be considered a parent of this resource (usually a route). There are two kinds of parent resources with "Core" support:
- * * Gateway (Gateway conformance profile) * Service (Mesh conformance profile, experimental, ClusterIP Services only)
- * This API may be extended in the future to support additional kinds of parent resources.
- * The API object must be valid in the cluster; the Group and Kind must be registered in the cluster for this reference to be valid.
+ * ParentReference identifies an API object (usually a Gateway) that can be considered
+ * a parent of this resource (usually a route). There are two kinds of parent resources
+ * with "Core" support:
+ *
+ * * Gateway (Gateway conformance profile)
+ * * Service (Mesh conformance profile, ClusterIP Services only)
+ *
+ * This API may be extended in the future to support additional kinds of parent
+ * resources.
+ *
+ * The API object must be valid in the cluster; the Group and Kind must
+ * be registered in the cluster for this reference to be valid.
  *
  * @schema ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs
  */
 export interface ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs {
   /**
-   * Group is the group of the referent. When unspecified, "gateway.networking.k8s.io" is inferred. To set the core API group (such as for a "Service" kind referent), Group must be explicitly set to "" (empty string).
+   * Group is the group of the referent.
+   * When unspecified, "gateway.networking.k8s.io" is inferred.
+   * To set the core API group (such as for a "Service" kind referent),
+   * Group must be explicitly set to "" (empty string).
+   *
    * Support: Core
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs#group
@@ -1755,8 +2014,12 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs {
 
   /**
    * Kind is kind of the referent.
+   *
    * There are two kinds of parent resources with "Core" support:
-   * * Gateway (Gateway conformance profile) * Service (Mesh conformance profile, experimental, ClusterIP Services only)
+   *
+   * * Gateway (Gateway conformance profile)
+   * * Service (Mesh conformance profile, ClusterIP Services only)
+   *
    * Support for other resources is Implementation-Specific.
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs#kind
@@ -1765,6 +2028,7 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs {
 
   /**
    * Name is the name of the referent.
+   *
    * Support: Core
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs#name
@@ -1772,10 +2036,27 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs {
   readonly name: string;
 
   /**
-   * Namespace is the namespace of the referent. When unspecified, this refers to the local namespace of the Route.
-   * Note that there are specific rules for ParentRefs which cross namespace boundaries. Cross-namespace references are only valid if they are explicitly allowed by something in the namespace they are referring to. For example: Gateway has the AllowedRoutes field, and ReferenceGrant provides a generic way to enable any other kind of cross-namespace reference.
-   * <gateway:experimental:description> ParentRefs from a Route to a Service in the same namespace are "producer" routes, which apply default routing rules to inbound connections from any namespace to the Service.
-   * ParentRefs from a Route to a Service in a different namespace are "consumer" routes, and these routing rules are only applied to outbound connections originating from the same namespace as the Route, for which the intended destination of the connections are a Service targeted as a ParentRef of the Route. </gateway:experimental:description>
+   * Namespace is the namespace of the referent. When unspecified, this refers
+   * to the local namespace of the Route.
+   *
+   * Note that there are specific rules for ParentRefs which cross namespace
+   * boundaries. Cross-namespace references are only valid if they are explicitly
+   * allowed by something in the namespace they are referring to. For example:
+   * Gateway has the AllowedRoutes field, and ReferenceGrant provides a
+   * generic way to enable any other kind of cross-namespace reference.
+   *
+   * <gateway:experimental:description>
+   * ParentRefs from a Route to a Service in the same namespace are "producer"
+   * routes, which apply default routing rules to inbound connections from
+   * any namespace to the Service.
+   *
+   * ParentRefs from a Route to a Service in a different namespace are
+   * "consumer" routes, and these routing rules are only applied to outbound
+   * connections originating from the same namespace as the Route, for which
+   * the intended destination of the connections are a Service targeted as a
+   * ParentRef of the Route.
+   * </gateway:experimental:description>
+   *
    * Support: Core
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs#namespace
@@ -1783,23 +2064,65 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs {
   readonly namespace?: string;
 
   /**
-   * Port is the network port this Route targets. It can be interpreted differently based on the type of parent resource.
-   * When the parent resource is a Gateway, this targets all listeners listening on the specified port that also support this kind of Route(and select this Route). It's not recommended to set `Port` unless the networking behaviors specified in a Route must apply to a specific port as opposed to a listener(s) whose port(s) may be changed. When both Port and SectionName are specified, the name and port of the selected listener must match both specified values.
-   * <gateway:experimental:description> When the parent resource is a Service, this targets a specific port in the Service spec. When both Port (experimental) and SectionName are specified, the name and port of the selected port must match both specified values. </gateway:experimental:description>
-   * Implementations MAY choose to support other parent resources. Implementations supporting other types of parent resources MUST clearly document how/if Port is interpreted.
-   * For the purpose of status, an attachment is considered successful as long as the parent resource accepts it partially. For example, Gateway listeners can restrict which Routes can attach to them by Route kind, namespace, or hostname. If 1 of 2 Gateway listeners accept attachment from the referencing Route, the Route MUST be considered successfully attached. If no Gateway listeners accept attachment from this Route, the Route MUST be considered detached from the Gateway.
+   * Port is the network port this Route targets. It can be interpreted
+   * differently based on the type of parent resource.
+   *
+   * When the parent resource is a Gateway, this targets all listeners
+   * listening on the specified port that also support this kind of Route(and
+   * select this Route). It's not recommended to set `Port` unless the
+   * networking behaviors specified in a Route must apply to a specific port
+   * as opposed to a listener(s) whose port(s) may be changed. When both Port
+   * and SectionName are specified, the name and port of the selected listener
+   * must match both specified values.
+   *
+   * <gateway:experimental:description>
+   * When the parent resource is a Service, this targets a specific port in the
+   * Service spec. When both Port (experimental) and SectionName are specified,
+   * the name and port of the selected port must match both specified values.
+   * </gateway:experimental:description>
+   *
+   * Implementations MAY choose to support other parent resources.
+   * Implementations supporting other types of parent resources MUST clearly
+   * document how/if Port is interpreted.
+   *
+   * For the purpose of status, an attachment is considered successful as
+   * long as the parent resource accepts it partially. For example, Gateway
+   * listeners can restrict which Routes can attach to them by Route kind,
+   * namespace, or hostname. If 1 of 2 Gateway listeners accept attachment
+   * from the referencing Route, the Route MUST be considered successfully
+   * attached. If no Gateway listeners accept attachment from this Route,
+   * the Route MUST be considered detached from the Gateway.
+   *
    * Support: Extended
-   * <gateway:experimental>
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs#port
    */
   readonly port?: number;
 
   /**
-   * SectionName is the name of a section within the target resource. In the following resources, SectionName is interpreted as the following:
-   * * Gateway: Listener Name. When both Port (experimental) and SectionName are specified, the name and port of the selected listener must match both specified values. * Service: Port Name. When both Port (experimental) and SectionName are specified, the name and port of the selected listener must match both specified values. Note that attaching Routes to Services as Parents is part of experimental Mesh support and is not supported for any other purpose.
-   * Implementations MAY choose to support attaching Routes to other resources. If that is the case, they MUST clearly document how SectionName is interpreted.
-   * When unspecified (empty string), this will reference the entire resource. For the purpose of status, an attachment is considered successful if at least one section in the parent resource accepts it. For example, Gateway listeners can restrict which Routes can attach to them by Route kind, namespace, or hostname. If 1 of 2 Gateway listeners accept attachment from the referencing Route, the Route MUST be considered successfully attached. If no Gateway listeners accept attachment from this Route, the Route MUST be considered detached from the Gateway.
+   * SectionName is the name of a section within the target resource. In the
+   * following resources, SectionName is interpreted as the following:
+   *
+   * * Gateway: Listener name. When both Port (experimental) and SectionName
+   * are specified, the name and port of the selected listener must match
+   * both specified values.
+   * * Service: Port name. When both Port (experimental) and SectionName
+   * are specified, the name and port of the selected listener must match
+   * both specified values.
+   *
+   * Implementations MAY choose to support attaching Routes to other resources.
+   * If that is the case, they MUST clearly document how SectionName is
+   * interpreted.
+   *
+   * When unspecified (empty string), this will reference the entire resource.
+   * For the purpose of status, an attachment is considered successful if at
+   * least one section in the parent resource accepts it. For example, Gateway
+   * listeners can restrict which Routes can attach to them by Route kind,
+   * namespace, or hostname. If 1 of 2 Gateway listeners accept attachment from
+   * the referencing Route, the Route MUST be considered successfully
+   * attached. If no Gateway listeners accept attachment from this Route, the
+   * Route MUST be considered detached from the Gateway.
+   *
    * Support: Core
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs#sectionName
@@ -1832,13 +2155,17 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
+ * Optional ingress template used to configure the ACME challenge solver
+ * ingress used for HTTP01 challenges.
  *
  * @schema ChallengeSpecSolverHttp01IngressIngressTemplate
  */
 export interface ChallengeSpecSolverHttp01IngressIngressTemplate {
   /**
-   * ObjectMeta overrides for the ingress used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+   * ObjectMeta overrides for the ingress used to solve HTTP01 challenges.
+   * Only the 'labels' and 'annotations' fields may be set.
+   * If labels or annotations overlap with in-built values, the values here
+   * will override the in-built values.
    *
    * @schema ChallengeSpecSolverHttp01IngressIngressTemplate#metadata
    */
@@ -1867,20 +2194,26 @@ export function toJson_ChallengeSpecSolverHttp01IngressIngressTemplate(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Optional pod template used to configure the ACME challenge solver pods used for HTTP01 challenges.
+ * Optional pod template used to configure the ACME challenge solver pods
+ * used for HTTP01 challenges.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplate
  */
 export interface ChallengeSpecSolverHttp01IngressPodTemplate {
   /**
-   * ObjectMeta overrides for the pod used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+   * ObjectMeta overrides for the pod used to solve HTTP01 challenges.
+   * Only the 'labels' and 'annotations' fields may be set.
+   * If labels or annotations overlap with in-built values, the values here
+   * will override the in-built values.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplate#metadata
    */
   readonly metadata?: ChallengeSpecSolverHttp01IngressPodTemplateMetadata;
 
   /**
-   * PodSpec defines overrides for the HTTP01 challenge solver pod. Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields. All other fields will be ignored.
+   * PodSpec defines overrides for the HTTP01 challenge solver pod.
+   * Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields.
+   * All other fields will be ignored.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplate#spec
    */
@@ -1910,7 +2243,50 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplate(
 /* eslint-enable max-len, quote-props */
 
 /**
- * ObjectMeta overrides for the ingress used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+ * Kubernetes authenticates with Route53 using AssumeRoleWithWebIdentity
+ * by passing a bound ServiceAccount token.
+ *
+ * @schema ChallengeSpecSolverDns01Route53AuthKubernetes
+ */
+export interface ChallengeSpecSolverDns01Route53AuthKubernetes {
+  /**
+   * A reference to a service account that will be used to request a bound
+   * token (also known as "projected token"). To use this field, you must
+   * configure an RBAC rule to let cert-manager request a token.
+   *
+   * @schema ChallengeSpecSolverDns01Route53AuthKubernetes#serviceAccountRef
+   */
+  readonly serviceAccountRef:
+    ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef;
+}
+
+/**
+ * Converts an object of type 'ChallengeSpecSolverDns01Route53AuthKubernetes' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ChallengeSpecSolverDns01Route53AuthKubernetes(
+  obj: ChallengeSpecSolverDns01Route53AuthKubernetes | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "serviceAccountRef":
+      toJson_ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef(
+        obj.serviceAccountRef,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * ObjectMeta overrides for the ingress used to solve HTTP01 challenges.
+ * Only the 'labels' and 'annotations' fields may be set.
+ * If labels or annotations overlap with in-built values, the values here
+ * will override the in-built values.
  *
  * @schema ChallengeSpecSolverHttp01IngressIngressTemplateMetadata
  */
@@ -1961,7 +2337,10 @@ export function toJson_ChallengeSpecSolverHttp01IngressIngressTemplateMetadata(
 /* eslint-enable max-len, quote-props */
 
 /**
- * ObjectMeta overrides for the pod used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+ * ObjectMeta overrides for the pod used to solve HTTP01 challenges.
+ * Only the 'labels' and 'annotations' fields may be set.
+ * If labels or annotations overlap with in-built values, the values here
+ * will override the in-built values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateMetadata
  */
@@ -2012,7 +2391,9 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateMetadata(
 /* eslint-enable max-len, quote-props */
 
 /**
- * PodSpec defines overrides for the HTTP01 challenge solver pod. Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields. All other fields will be ignored.
+ * PodSpec defines overrides for the HTTP01 challenge solver pod.
+ * Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields.
+ * All other fields will be ignored.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpec
  */
@@ -2033,7 +2414,9 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpec {
     ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullSecrets[];
 
   /**
-   * NodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+   * NodeSelector is a selector which must be true for the pod to fit on a node.
+   * Selector which must match a node's labels for the pod to be scheduled on that node.
+   * More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpec#nodeSelector
    */
@@ -2088,6 +2471,54 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpec(
     "tolerations": obj.tolerations?.map((y) =>
       toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecTolerations(y)
     ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A reference to a service account that will be used to request a bound
+ * token (also known as "projected token"). To use this field, you must
+ * configure an RBAC rule to let cert-manager request a token.
+ *
+ * @schema ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef
+ */
+export interface ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef {
+  /**
+   * TokenAudiences is an optional list of audiences to include in the
+   * token passed to AWS. The default token consisting of the issuer's namespace
+   * and name is always included.
+   * If unset the audience defaults to `sts.amazonaws.com`.
+   *
+   * @schema ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef#audiences
+   */
+  readonly audiences?: string[];
+
+  /**
+   * Name of the ServiceAccount used to request a token.
+   *
+   * @schema ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef#name
+   */
+  readonly name: string;
+}
+
+/**
+ * Converts an object of type 'ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef(
+  obj:
+    | ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "audiences": obj.audiences?.map((y) => y),
+    "name": obj.name,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -2159,13 +2590,20 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinity(
 /* eslint-enable max-len, quote-props */
 
 /**
- * LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.
+ * LocalObjectReference contains enough information to let you locate the
+ * referenced object inside the same namespace.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullSecrets
  */
 export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullSecrets {
   /**
-   * Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?
+   * Name of the referent.
+   * This field is effectively required, but due to backwards compatibility is
+   * allowed to be empty. Instances of this type with an empty value here are
+   * almost certainly wrong.
+   * TODO: Add other useful fields. apiVersion, kind, uid?
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullSecrets#name
    */
@@ -2194,42 +2632,52 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullS
 /* eslint-enable max-len, quote-props */
 
 /**
- * The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>.
+ * The pod this Toleration is attached to tolerates any taint that matches
+ * the triple <key,value,effect> using the matching operator <operator>.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecTolerations
  */
 export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecTolerations {
   /**
-   * Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
+   * Effect indicates the taint effect to match. Empty means match all taint effects.
+   * When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecTolerations#effect
    */
   readonly effect?: string;
 
   /**
-   * Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+   * Key is the taint key that the toleration applies to. Empty means match all taint keys.
+   * If the key is empty, operator must be Exists; this combination means to match all values and all keys.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecTolerations#key
    */
   readonly key?: string;
 
   /**
-   * Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.
+   * Operator represents a key's relationship to the value.
+   * Valid operators are Exists and Equal. Defaults to Equal.
+   * Exists is equivalent to wildcard for value, so that a pod can
+   * tolerate all taints of a particular category.
    *
-   * @default Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.
+   * @default Equal.
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecTolerations#operator
    */
   readonly operator?: string;
 
   /**
-   * TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.
+   * TolerationSeconds represents the period of time the toleration (which must be
+   * of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,
+   * it is not set, which means tolerate the taint forever (do not evict). Zero and
+   * negative values will be treated as 0 (evict immediately) by the system.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecTolerations#tolerationSeconds
    */
   readonly tolerationSeconds?: number;
 
   /**
-   * Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+   * Value is the taint value the toleration matches to.
+   * If the operator is Exists, the value should be empty, otherwise just a regular string.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecTolerations#value
    */
@@ -2266,7 +2714,15 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecToleration
  */
 export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node matches the corresponding matchExpressions; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node matches the corresponding matchExpressions; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -2274,7 +2730,11 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffi
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node.
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to an update), the system
+   * may or may not try to eventually evict the pod from its node.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -2319,7 +2779,15 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
  */
 export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -2327,7 +2795,13 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -2374,7 +2848,15 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
  */
 export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the anti-affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling anti-affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -2382,7 +2864,13 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   * If the anti-affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the anti-affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -2423,7 +2911,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * An empty preferred scheduling term matches all objects with implicit weight 0 (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
+ * An empty preferred scheduling term matches all objects with implicit weight 0
+ * (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
  */
@@ -2470,7 +2959,11 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
 /* eslint-enable max-len, quote-props */
 
 /**
- * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node.
+ * If the affinity requirements specified by this field are not met at
+ * scheduling time, the pod will not be scheduled onto the node.
+ * If the affinity requirements specified by this field cease to be met
+ * at some point during pod execution (e.g. due to an update), the system
+ * may or may not try to eventually evict the pod from its node.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
@@ -2524,7 +3017,8 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
 
   /**
-   * weight associated with matching the corresponding podAffinityTerm, in the range 1-100.
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
    */
@@ -2557,13 +3051,19 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
 export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
    */
@@ -2571,21 +3071,41 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
    */
@@ -2593,14 +3113,21 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
    */
@@ -2654,7 +3181,8 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
 
   /**
-   * weight associated with matching the corresponding podAffinityTerm, in the range 1-100.
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
    */
@@ -2687,13 +3215,19 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
 export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
    */
@@ -2701,21 +3235,41 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
    */
@@ -2723,14 +3277,21 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
    */
@@ -2823,7 +3384,9 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A null or empty node selector term matches no objects. The requirements of them are ANDed. The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
+ * A null or empty node selector term matches no objects. The requirements of
+ * them are ANDed.
+ * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
  */
@@ -2882,7 +3445,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
  */
 export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
    */
@@ -2890,21 +3454,41 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
    */
@@ -2912,14 +3496,21 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
    */
@@ -2959,7 +3550,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
  */
@@ -2973,7 +3565,9 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
    */
@@ -3012,7 +3606,11 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
  */
@@ -3026,7 +3624,9 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
    */
@@ -3071,7 +3671,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
  */
 export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
    */
@@ -3079,21 +3680,41 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
    */
@@ -3101,14 +3722,21 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
    */
@@ -3148,7 +3776,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
  */
@@ -3162,7 +3791,9 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
    */
@@ -3201,7 +3832,11 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
  */
@@ -3215,7 +3850,9 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
    */
@@ -3254,7 +3891,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
  */
@@ -3267,14 +3905,19 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffi
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
    */
@@ -3305,7 +3948,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
  */
@@ -3318,14 +3962,19 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffi
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
    */
@@ -3356,7 +4005,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
  */
@@ -3369,14 +4019,19 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffi
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
    */
@@ -3407,7 +4062,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
  */
@@ -3420,14 +4076,19 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffi
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
    */
@@ -3458,7 +4119,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
  */
@@ -3472,7 +4134,9 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
    */
@@ -3511,7 +4175,11 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
  */
@@ -3525,7 +4193,9 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
    */
@@ -3564,7 +4234,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
  */
@@ -3577,14 +4248,18 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
    */
@@ -3615,7 +4290,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
  */
@@ -3628,14 +4304,18 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
    */
@@ -3666,7 +4346,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
  */
@@ -3680,7 +4361,9 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
    */
@@ -3719,7 +4402,11 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
  */
@@ -3733,7 +4420,9 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
     ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
    */
@@ -3772,7 +4461,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
  */
@@ -3785,14 +4475,18 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
    */
@@ -3823,7 +4517,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
  */
@@ -3836,14 +4531,18 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
    */
@@ -3874,7 +4573,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
  */
@@ -3887,14 +4587,18 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
    */
@@ -3925,7 +4629,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
  */
@@ -3938,14 +4643,18 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
    */
@@ -3976,7 +4685,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
  */
@@ -3989,14 +4699,18 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
    */
@@ -4027,7 +4741,8 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
  */
@@ -4040,14 +4755,18 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
    */
@@ -4173,42 +4892,55 @@ export function toJson_OrderProps(
  */
 export interface OrderSpec {
   /**
-   * CommonName is the common name as specified on the DER encoded CSR. If specified, this value must also be present in `dnsNames` or `ipAddresses`. This field must match the corresponding field on the DER encoded CSR.
+   * CommonName is the common name as specified on the DER encoded CSR.
+   * If specified, this value must also be present in `dnsNames` or `ipAddresses`.
+   * This field must match the corresponding field on the DER encoded CSR.
    *
    * @schema OrderSpec#commonName
    */
   readonly commonName?: string;
 
   /**
-   * DNSNames is a list of DNS names that should be included as part of the Order validation process. This field must match the corresponding field on the DER encoded CSR.
+   * DNSNames is a list of DNS names that should be included as part of the Order
+   * validation process.
+   * This field must match the corresponding field on the DER encoded CSR.
    *
    * @schema OrderSpec#dnsNames
    */
   readonly dnsNames?: string[];
 
   /**
-   * Duration is the duration for the not after date for the requested certificate. this is set on order creation as pe the ACME spec.
+   * Duration is the duration for the not after date for the requested certificate.
+   * this is set on order creation as pe the ACME spec.
    *
    * @schema OrderSpec#duration
    */
   readonly duration?: string;
 
   /**
-   * IPAddresses is a list of IP addresses that should be included as part of the Order validation process. This field must match the corresponding field on the DER encoded CSR.
+   * IPAddresses is a list of IP addresses that should be included as part of the Order
+   * validation process.
+   * This field must match the corresponding field on the DER encoded CSR.
    *
    * @schema OrderSpec#ipAddresses
    */
   readonly ipAddresses?: string[];
 
   /**
-   * IssuerRef references a properly configured ACME-type Issuer which should be used to create this Order. If the Issuer does not exist, processing will be retried. If the Issuer is not an 'ACME' Issuer, an error will be returned and the Order will be marked as failed.
+   * IssuerRef references a properly configured ACME-type Issuer which should
+   * be used to create this Order.
+   * If the Issuer does not exist, processing will be retried.
+   * If the Issuer is not an 'ACME' Issuer, an error will be returned and the
+   * Order will be marked as failed.
    *
    * @schema OrderSpec#issuerRef
    */
   readonly issuerRef: OrderSpecIssuerRef;
 
   /**
-   * Certificate signing request bytes in DER encoding. This will be used when finalizing the order. This field must be set on the order.
+   * Certificate signing request bytes in DER encoding.
+   * This will be used when finalizing the order.
+   * This field must be set on the order.
    *
    * @schema OrderSpec#request
    */
@@ -4240,7 +4972,11 @@ export function toJson_OrderSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
- * IssuerRef references a properly configured ACME-type Issuer which should be used to create this Order. If the Issuer does not exist, processing will be retried. If the Issuer is not an 'ACME' Issuer, an error will be returned and the Order will be marked as failed.
+ * IssuerRef references a properly configured ACME-type Issuer which should
+ * be used to create this Order.
+ * If the Issuer does not exist, processing will be retried.
+ * If the Issuer is not an 'ACME' Issuer, an error will be returned and the
+ * Order will be marked as failed.
  *
  * @schema OrderSpecIssuerRef
  */

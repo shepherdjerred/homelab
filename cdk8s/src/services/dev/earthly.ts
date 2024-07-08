@@ -3,7 +3,6 @@ import {
   DeploymentStrategy,
   EnvValue,
   Secret,
-  ServiceType,
 } from "https://esm.sh/cdk8s-plus-27@2.9.3";
 import { Service } from "https://esm.sh/cdk8s-plus-27@2.9.3";
 import { Volume } from "https://esm.sh/cdk8s-plus-27@2.9.3";
@@ -12,6 +11,7 @@ import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import versions from "../../versions/versions.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createEarthlyDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "earthly", {
@@ -42,6 +42,27 @@ export function createEarthlyDeployment(chart: Chart) {
     key: "credential",
   });
 
+  const ghToken = new OnePasswordItem(chart, "earthly-gh-onepassword", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/a5rmkj3pchbfaggkj6iaooma4q",
+    },
+    metadata: {
+      name: "earthly-gh-onepassword",
+    },
+  });
+
+  const ghTokenSecret = Secret.fromSecretName(
+    chart,
+    `earthly-gh-token-secret`,
+    ghToken.name,
+  );
+
+  const ghTokenEnvValue = EnvValue.fromSecretValue({
+    secret: ghTokenSecret,
+    key: "credential",
+  });
+
   deployment.addContainer(
     withCommonProps({
       image: `earthly/satellite:${versions["earthly/satellite"]}`,
@@ -55,6 +76,8 @@ export function createEarthlyDeployment(chart: Chart) {
       envVariables: {
         EARTHLY_ORG: EnvValue.fromValue("sjerred"),
         EARTHLY_TOKEN: tokenEnvValue,
+        EARTHLY_GH_ORG: EnvValue.fromValue("shepherdjerred"),
+        EARTHLY_GH_TOKEN: ghTokenEnvValue,
         SATELLITE_NAME: EnvValue.fromValue("lamport"),
         SATELLITE_HOST: EnvValue.fromValue("lamport.tailnet-1a49.ts.net"),
         CACHE_SIZE_PCT: EnvValue.fromValue("10"),
@@ -73,9 +96,14 @@ export function createEarthlyDeployment(chart: Chart) {
     }),
   );
 
-  new Service(chart, "earthly-service", {
+  const service = new Service(chart, "earthly-service", {
     selector: deployment,
     ports: [{ port: 8372 }],
-    type: ServiceType.NODE_PORT,
+  });
+
+  new TailscaleIngress(chart, "earthly-tailscale-ingress", {
+    service,
+    host: "earthly",
+    funnel: true,
   });
 }

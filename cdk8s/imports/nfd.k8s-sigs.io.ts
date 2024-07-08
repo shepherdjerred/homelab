@@ -8,7 +8,8 @@ import {
 import { Construct } from "https://esm.sh/constructs@10.3.0";
 
 /**
- * NodeFeature resource holds the features discovered for one node in the cluster.
+ * NodeFeature resource holds the features discovered for one node in the
+cluster.
  *
  * @schema NodeFeature
  */
@@ -62,7 +63,8 @@ export class NodeFeature extends ApiObject {
 }
 
 /**
- * NodeFeature resource holds the features discovered for one node in the cluster.
+ * NodeFeature resource holds the features discovered for one node in the
+ * cluster.
  *
  * @schema NodeFeature
  */
@@ -73,7 +75,7 @@ export interface NodeFeatureProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * NodeFeatureSpec describes a NodeFeature object.
+   * Specification of the NodeFeature, containing features discovered for a node.
    *
    * @schema NodeFeature#spec
    */
@@ -101,7 +103,7 @@ export function toJson_NodeFeatureProps(
 /* eslint-enable max-len, quote-props */
 
 /**
- * NodeFeatureSpec describes a NodeFeature object.
+ * Specification of the NodeFeature, containing features discovered for a node.
  *
  * @schema NodeFeatureSpec
  */
@@ -224,6 +226,8 @@ export function toJson_NodeFeatureSpecFeatures(
  */
 export interface NodeFeatureSpecFeaturesAttributes {
   /**
+   * Individual features of the feature set.
+   *
    * @schema NodeFeatureSpecFeaturesAttributes#elements
    */
   readonly elements: { [key: string]: string };
@@ -260,6 +264,8 @@ export function toJson_NodeFeatureSpecFeaturesAttributes(
  */
 export interface NodeFeatureSpecFeaturesFlags {
   /**
+   * Individual features of the feature set.
+   *
    * @schema NodeFeatureSpecFeaturesFlags#elements
    */
   readonly elements: { [key: string]: any };
@@ -296,6 +302,8 @@ export function toJson_NodeFeatureSpecFeaturesFlags(
  */
 export interface NodeFeatureSpecFeaturesInstances {
   /**
+   * Individual features of the feature set.
+   *
    * @schema NodeFeatureSpecFeaturesInstances#elements
    */
   readonly elements: NodeFeatureSpecFeaturesInstancesElements[];
@@ -329,6 +337,8 @@ export function toJson_NodeFeatureSpecFeaturesInstances(
  */
 export interface NodeFeatureSpecFeaturesInstancesElements {
   /**
+   * Attributes of the instance feature.
+   *
    * @schema NodeFeatureSpecFeaturesInstancesElements#attributes
    */
   readonly attributes: { [key: string]: string };
@@ -359,7 +369,674 @@ export function toJson_NodeFeatureSpecFeaturesInstancesElements(
 /* eslint-enable max-len, quote-props */
 
 /**
- * NodeFeatureRule resource specifies a configuration for feature-based customization of node objects, such as node labeling.
+ * NodeFeatureGroup resource holds Node pools by featureGroup
+ *
+ * @schema NodeFeatureGroup
+ */
+export class NodeFeatureGroup extends ApiObject {
+  /**
+   * Returns the apiVersion and kind for "NodeFeatureGroup"
+   */
+  public static readonly GVK: GroupVersionKind = {
+    apiVersion: "nfd.k8s-sigs.io/v1alpha1",
+    kind: "NodeFeatureGroup",
+  };
+
+  /**
+   * Renders a Kubernetes manifest for "NodeFeatureGroup".
+   *
+   * This can be used to inline resource manifests inside other objects (e.g. as templates).
+   *
+   * @param props initialization props
+   */
+  public static manifest(props: NodeFeatureGroupProps): any {
+    return {
+      ...NodeFeatureGroup.GVK,
+      ...toJson_NodeFeatureGroupProps(props),
+    };
+  }
+
+  /**
+   * Defines a "NodeFeatureGroup" API object
+   * @param scope the scope in which to define this object
+   * @param id a scope-local name for the object
+   * @param props initialization props
+   */
+  public constructor(
+    scope: Construct,
+    id: string,
+    props: NodeFeatureGroupProps,
+  ) {
+    super(scope, id, {
+      ...NodeFeatureGroup.GVK,
+      ...props,
+    });
+  }
+
+  /**
+   * Renders the object to Kubernetes JSON.
+   */
+  public toJson(): any {
+    const resolved = super.toJson();
+
+    return {
+      ...NodeFeatureGroup.GVK,
+      ...toJson_NodeFeatureGroupProps(resolved),
+    };
+  }
+}
+
+/**
+ * NodeFeatureGroup resource holds Node pools by featureGroup
+ *
+ * @schema NodeFeatureGroup
+ */
+export interface NodeFeatureGroupProps {
+  /**
+   * @schema NodeFeatureGroup#metadata
+   */
+  readonly metadata?: ApiObjectMetadata;
+
+  /**
+   * Spec defines the rules to be evaluated.
+   *
+   * @schema NodeFeatureGroup#spec
+   */
+  readonly spec: NodeFeatureGroupSpec;
+}
+
+/**
+ * Converts an object of type 'NodeFeatureGroupProps' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_NodeFeatureGroupProps(
+  obj: NodeFeatureGroupProps | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "metadata": obj.metadata,
+    "spec": toJson_NodeFeatureGroupSpec(obj.spec),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Spec defines the rules to be evaluated.
+ *
+ * @schema NodeFeatureGroupSpec
+ */
+export interface NodeFeatureGroupSpec {
+  /**
+   * List of rules to evaluate to determine nodes that belong in this group.
+   *
+   * @schema NodeFeatureGroupSpec#featureGroupRules
+   */
+  readonly featureGroupRules: NodeFeatureGroupSpecFeatureGroupRules[];
+}
+
+/**
+ * Converts an object of type 'NodeFeatureGroupSpec' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_NodeFeatureGroupSpec(
+  obj: NodeFeatureGroupSpec | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "featureGroupRules": obj.featureGroupRules?.map((y) =>
+      toJson_NodeFeatureGroupSpecFeatureGroupRules(y)
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * GroupRule defines a rule for nodegroup filtering.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRules
+ */
+export interface NodeFeatureGroupSpecFeatureGroupRules {
+  /**
+   * MatchAny specifies a list of matchers one of which must match.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRules#matchAny
+   */
+  readonly matchAny?: NodeFeatureGroupSpecFeatureGroupRulesMatchAny[];
+
+  /**
+   * MatchFeatures specifies a set of matcher terms all of which must match.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRules#matchFeatures
+   */
+  readonly matchFeatures?: NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures[];
+
+  /**
+   * Name of the rule.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRules#name
+   */
+  readonly name: string;
+}
+
+/**
+ * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRules' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_NodeFeatureGroupSpecFeatureGroupRules(
+  obj: NodeFeatureGroupSpecFeatureGroupRules | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchAny": obj.matchAny?.map((y) =>
+      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAny(y)
+    ),
+    "matchFeatures": obj.matchFeatures?.map((y) =>
+      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures(y)
+    ),
+    "name": obj.name,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * MatchAnyElem specifies one sub-matcher of MatchAny.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAny
+ */
+export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAny {
+  /**
+   * MatchFeatures specifies a set of matcher terms all of which must match.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAny#matchFeatures
+   */
+  readonly matchFeatures:
+    NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures[];
+}
+
+/**
+ * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchAny' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAny(
+  obj: NodeFeatureGroupSpecFeatureGroupRulesMatchAny | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchFeatures": obj.matchFeatures?.map((y) =>
+      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures(y)
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * FeatureMatcherTerm defines requirements against one feature set. All
+ * requirements (specified as MatchExpressions) are evaluated against each
+ * element in the feature set.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures
+ */
+export interface NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures {
+  /**
+   * Feature is the name of the feature set to match against.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures#feature
+   */
+  readonly feature: string;
+
+  /**
+   * MatchExpressions is the set of per-element expressions evaluated. These
+   * match against the value of the specified elements.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures#matchExpressions
+   */
+  readonly matchExpressions?: {
+    [key: string]:
+      NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions;
+  };
+
+  /**
+   * MatchName in an expression that is matched against the name of each
+   * element in the feature set.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures#matchName
+   */
+  readonly matchName?:
+    NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName;
+}
+
+/**
+ * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures(
+  obj: NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "feature": obj.feature,
+    "matchExpressions": ((obj.matchExpressions) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchExpressions).reduce((r, i) =>
+        (i[1] === undefined) ? r : ({
+          ...r,
+          [i[0]]:
+            toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions(
+              i[1],
+            ),
+        }), {})),
+    "matchName":
+      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName(
+        obj.matchName,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * FeatureMatcherTerm defines requirements against one feature set. All
+ * requirements (specified as MatchExpressions) are evaluated against each
+ * element in the feature set.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures
+ */
+export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures {
+  /**
+   * Feature is the name of the feature set to match against.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures#feature
+   */
+  readonly feature: string;
+
+  /**
+   * MatchExpressions is the set of per-element expressions evaluated. These
+   * match against the value of the specified elements.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures#matchExpressions
+   */
+  readonly matchExpressions?: {
+    [key: string]:
+      NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions;
+  };
+
+  /**
+   * MatchName in an expression that is matched against the name of each
+   * element in the feature set.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures#matchName
+   */
+  readonly matchName?:
+    NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName;
+}
+
+/**
+ * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures(
+  obj: NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "feature": obj.feature,
+    "matchExpressions": ((obj.matchExpressions) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchExpressions).reduce((r, i) =>
+        (i[1] === undefined) ? r : ({
+          ...r,
+          [i[0]]:
+            toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions(
+              i[1],
+            ),
+        }), {})),
+    "matchName":
+      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName(
+        obj.matchName,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * MatchExpression specifies an expression to evaluate against a set of input
+ * values. It contains an operator that is applied when matching the input and
+ * an array of values that the operator evaluates the input against.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions
+ */
+export interface NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions {
+  /**
+   * Op is the operator to be applied.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions#op
+   */
+  readonly op:
+    NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressionsOp;
+
+  /**
+   * Value is the list of values that the operand evaluates the input
+   * against. Value should be empty if the operator is Exists, DoesNotExist,
+   * IsTrue or IsFalse. Value should contain exactly one element if the
+   * operator is Gt or Lt and exactly two elements if the operator is GtLt.
+   * In other cases Value should contain at least one element.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions#value
+   */
+  readonly value?: string[];
+}
+
+/**
+ * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions(
+  obj:
+    | NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "op": obj.op,
+    "value": obj.value?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * MatchName in an expression that is matched against the name of each
+ * element in the feature set.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName
+ */
+export interface NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName {
+  /**
+   * Op is the operator to be applied.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName#op
+   */
+  readonly op: NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchNameOp;
+
+  /**
+   * Value is the list of values that the operand evaluates the input
+   * against. Value should be empty if the operator is Exists, DoesNotExist,
+   * IsTrue or IsFalse. Value should contain exactly one element if the
+   * operator is Gt or Lt and exactly two elements if the operator is GtLt.
+   * In other cases Value should contain at least one element.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName#value
+   */
+  readonly value?: string[];
+}
+
+/**
+ * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName(
+  obj: NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "op": obj.op,
+    "value": obj.value?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * MatchExpression specifies an expression to evaluate against a set of input
+ * values. It contains an operator that is applied when matching the input and
+ * an array of values that the operator evaluates the input against.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions
+ */
+export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions {
+  /**
+   * Op is the operator to be applied.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions#op
+   */
+  readonly op:
+    NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressionsOp;
+
+  /**
+   * Value is the list of values that the operand evaluates the input
+   * against. Value should be empty if the operator is Exists, DoesNotExist,
+   * IsTrue or IsFalse. Value should contain exactly one element if the
+   * operator is Gt or Lt and exactly two elements if the operator is GtLt.
+   * In other cases Value should contain at least one element.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions#value
+   */
+  readonly value?: string[];
+}
+
+/**
+ * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions(
+  obj:
+    | NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "op": obj.op,
+    "value": obj.value?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * MatchName in an expression that is matched against the name of each
+ * element in the feature set.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName
+ */
+export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName {
+  /**
+   * Op is the operator to be applied.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName#op
+   */
+  readonly op:
+    NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchNameOp;
+
+  /**
+   * Value is the list of values that the operand evaluates the input
+   * against. Value should be empty if the operator is Exists, DoesNotExist,
+   * IsTrue or IsFalse. Value should contain exactly one element if the
+   * operator is Gt or Lt and exactly two elements if the operator is GtLt.
+   * In other cases Value should contain at least one element.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName#value
+   */
+  readonly value?: string[];
+}
+
+/**
+ * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName(
+  obj:
+    | NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "op": obj.op,
+    "value": obj.value?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Op is the operator to be applied.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressionsOp
+ */
+export enum NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressionsOp {
+  /** In */
+  IN = "In",
+  /** NotIn */
+  NOT_IN = "NotIn",
+  /** InRegexp */
+  IN_REGEXP = "InRegexp",
+  /** Exists */
+  EXISTS = "Exists",
+  /** DoesNotExist */
+  DOES_NOT_EXIST = "DoesNotExist",
+  /** Gt */
+  GT = "Gt",
+  /** Lt */
+  LT = "Lt",
+  /** GtLt */
+  GT_LT = "GtLt",
+  /** IsTrue */
+  IS_TRUE = "IsTrue",
+  /** IsFalse */
+  IS_FALSE = "IsFalse",
+}
+
+/**
+ * Op is the operator to be applied.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchNameOp
+ */
+export enum NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchNameOp {
+  /** In */
+  IN = "In",
+  /** NotIn */
+  NOT_IN = "NotIn",
+  /** InRegexp */
+  IN_REGEXP = "InRegexp",
+  /** Exists */
+  EXISTS = "Exists",
+  /** DoesNotExist */
+  DOES_NOT_EXIST = "DoesNotExist",
+  /** Gt */
+  GT = "Gt",
+  /** Lt */
+  LT = "Lt",
+  /** GtLt */
+  GT_LT = "GtLt",
+  /** IsTrue */
+  IS_TRUE = "IsTrue",
+  /** IsFalse */
+  IS_FALSE = "IsFalse",
+}
+
+/**
+ * Op is the operator to be applied.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressionsOp
+ */
+export enum NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressionsOp {
+  /** In */
+  IN = "In",
+  /** NotIn */
+  NOT_IN = "NotIn",
+  /** InRegexp */
+  IN_REGEXP = "InRegexp",
+  /** Exists */
+  EXISTS = "Exists",
+  /** DoesNotExist */
+  DOES_NOT_EXIST = "DoesNotExist",
+  /** Gt */
+  GT = "Gt",
+  /** Lt */
+  LT = "Lt",
+  /** GtLt */
+  GT_LT = "GtLt",
+  /** IsTrue */
+  IS_TRUE = "IsTrue",
+  /** IsFalse */
+  IS_FALSE = "IsFalse",
+}
+
+/**
+ * Op is the operator to be applied.
+ *
+ * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchNameOp
+ */
+export enum NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchNameOp {
+  /** In */
+  IN = "In",
+  /** NotIn */
+  NOT_IN = "NotIn",
+  /** InRegexp */
+  IN_REGEXP = "InRegexp",
+  /** Exists */
+  EXISTS = "Exists",
+  /** DoesNotExist */
+  DOES_NOT_EXIST = "DoesNotExist",
+  /** Gt */
+  GT = "Gt",
+  /** Lt */
+  LT = "Lt",
+  /** GtLt */
+  GT_LT = "GtLt",
+  /** IsTrue */
+  IS_TRUE = "IsTrue",
+  /** IsFalse */
+  IS_FALSE = "IsFalse",
+}
+
+/**
+ * NodeFeatureRule resource specifies a configuration for feature-based
+customization of node objects, such as node labeling.
  *
  * @schema NodeFeatureRule
  */
@@ -417,7 +1094,8 @@ export class NodeFeatureRule extends ApiObject {
 }
 
 /**
- * NodeFeatureRule resource specifies a configuration for feature-based customization of node objects, such as node labeling.
+ * NodeFeatureRule resource specifies a configuration for feature-based
+ * customization of node objects, such as node labeling.
  *
  * @schema NodeFeatureRule
  */
@@ -428,7 +1106,7 @@ export interface NodeFeatureRuleProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * NodeFeatureRuleSpec describes a NodeFeatureRule.
+   * Spec defines the rules to be evaluated.
    *
    * @schema NodeFeatureRule#spec
    */
@@ -456,7 +1134,7 @@ export function toJson_NodeFeatureRuleProps(
 /* eslint-enable max-len, quote-props */
 
 /**
- * NodeFeatureRuleSpec describes a NodeFeatureRule.
+ * Spec defines the rules to be evaluated.
  *
  * @schema NodeFeatureRuleSpec
  */
@@ -516,7 +1194,9 @@ export interface NodeFeatureRuleSpecRules {
   readonly labels?: { [key: string]: string };
 
   /**
-   * LabelsTemplate specifies a template to expand for dynamically generating multiple labels. Data (after template expansion) must be keys with an optional value (<key>[=<value>]) separated by newlines.
+   * LabelsTemplate specifies a template to expand for dynamically generating
+   * multiple labels. Data (after template expansion) must be keys with an
+   * optional value (<key>[=<value>]) separated by newlines.
    *
    * @schema NodeFeatureRuleSpecRules#labelsTemplate
    */
@@ -551,14 +1231,19 @@ export interface NodeFeatureRuleSpecRules {
   readonly taints?: NodeFeatureRuleSpecRulesTaints[];
 
   /**
-   * Vars is the variables to store if the rule matches. Variables do not directly inflict any changes in the node object. However, they can be referenced from other rules enabling more complex rule hierarchies, without exposing intermediary output values as labels.
+   * Vars is the variables to store if the rule matches. Variables do not
+   * directly inflict any changes in the node object. However, they can be
+   * referenced from other rules enabling more complex rule hierarchies,
+   * without exposing intermediary output values as labels.
    *
    * @schema NodeFeatureRuleSpecRules#vars
    */
   readonly vars?: { [key: string]: string };
 
   /**
-   * VarsTemplate specifies a template to expand for dynamically generating multiple variables. Data (after template expansion) must be keys with an optional value (<key>[=<value>]) separated by newlines.
+   * VarsTemplate specifies a template to expand for dynamically generating
+   * multiple variables. Data (after template expansion) must be keys with an
+   * optional value (<key>[=<value>]) separated by newlines.
    *
    * @schema NodeFeatureRuleSpecRules#varsTemplate
    */
@@ -653,7 +1338,9 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAny(
 /* eslint-enable max-len, quote-props */
 
 /**
- * FeatureMatcherTerm defines requirements against one feature set. All requirements (specified as MatchExpressions) are evaluated against each element in the feature set.
+ * FeatureMatcherTerm defines requirements against one feature set. All
+ * requirements (specified as MatchExpressions) are evaluated against each
+ * element in the feature set.
  *
  * @schema NodeFeatureRuleSpecRulesMatchFeatures
  */
@@ -666,7 +1353,8 @@ export interface NodeFeatureRuleSpecRulesMatchFeatures {
   readonly feature: string;
 
   /**
-   * MatchExpressions is the set of per-element expressions evaluated. These match against the value of the specified elements.
+   * MatchExpressions is the set of per-element expressions evaluated. These
+   * match against the value of the specified elements.
    *
    * @schema NodeFeatureRuleSpecRulesMatchFeatures#matchExpressions
    */
@@ -675,7 +1363,8 @@ export interface NodeFeatureRuleSpecRulesMatchFeatures {
   };
 
   /**
-   * MatchName in an expression that is matched against the name of each element in the feature set.
+   * MatchName in an expression that is matched against the name of each
+   * element in the feature set.
    *
    * @schema NodeFeatureRuleSpecRulesMatchFeatures#matchName
    */
@@ -714,13 +1403,16 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeatures(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The node this Taint is attached to has the "effect" on any pod that does not tolerate the Taint.
+ * The node this Taint is attached to has the "effect" on
+ * any pod that does not tolerate the Taint.
  *
  * @schema NodeFeatureRuleSpecRulesTaints
  */
 export interface NodeFeatureRuleSpecRulesTaints {
   /**
-   * Required. The effect of the taint on pods that do not tolerate the taint. Valid effects are NoSchedule, PreferNoSchedule and NoExecute.
+   * Required. The effect of the taint on pods
+   * that do not tolerate the taint.
+   * Valid effects are NoSchedule, PreferNoSchedule and NoExecute.
    *
    * @schema NodeFeatureRuleSpecRulesTaints#effect
    */
@@ -734,7 +1426,8 @@ export interface NodeFeatureRuleSpecRulesTaints {
   readonly key: string;
 
   /**
-   * TimeAdded represents the time at which the taint was added. It is only written for NoExecute taints.
+   * TimeAdded represents the time at which the taint was added.
+   * It is only written for NoExecute taints.
    *
    * @schema NodeFeatureRuleSpecRulesTaints#timeAdded
    */
@@ -771,7 +1464,9 @@ export function toJson_NodeFeatureRuleSpecRulesTaints(
 /* eslint-enable max-len, quote-props */
 
 /**
- * FeatureMatcherTerm defines requirements against one feature set. All requirements (specified as MatchExpressions) are evaluated against each element in the feature set.
+ * FeatureMatcherTerm defines requirements against one feature set. All
+ * requirements (specified as MatchExpressions) are evaluated against each
+ * element in the feature set.
  *
  * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeatures
  */
@@ -784,7 +1479,8 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeatures {
   readonly feature: string;
 
   /**
-   * MatchExpressions is the set of per-element expressions evaluated. These match against the value of the specified elements.
+   * MatchExpressions is the set of per-element expressions evaluated. These
+   * match against the value of the specified elements.
    *
    * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeatures#matchExpressions
    */
@@ -794,7 +1490,8 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeatures {
   };
 
   /**
-   * MatchName in an expression that is matched against the name of each element in the feature set.
+   * MatchName in an expression that is matched against the name of each
+   * element in the feature set.
    *
    * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeatures#matchName
    */
@@ -834,7 +1531,9 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeatures(
 /* eslint-enable max-len, quote-props */
 
 /**
- * MatchExpression specifies an expression to evaluate against a set of input values. It contains an operator that is applied when matching the input and an array of values that the operator evaluates the input against.
+ * MatchExpression specifies an expression to evaluate against a set of input
+ * values. It contains an operator that is applied when matching the input and
+ * an array of values that the operator evaluates the input against.
  *
  * @schema NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions
  */
@@ -847,7 +1546,11 @@ export interface NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions {
   readonly op: NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressionsOp;
 
   /**
-   * Value is the list of values that the operand evaluates the input against. Value should be empty if the operator is Exists, DoesNotExist, IsTrue or IsFalse. Value should contain exactly one element if the operator is Gt or Lt and exactly two elements if the operator is GtLt. In other cases Value should contain at least one element.
+   * Value is the list of values that the operand evaluates the input
+   * against. Value should be empty if the operator is Exists, DoesNotExist,
+   * IsTrue or IsFalse. Value should contain exactly one element if the
+   * operator is Gt or Lt and exactly two elements if the operator is GtLt.
+   * In other cases Value should contain at least one element.
    *
    * @schema NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions#value
    */
@@ -875,7 +1578,8 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions(
 /* eslint-enable max-len, quote-props */
 
 /**
- * MatchName in an expression that is matched against the name of each element in the feature set.
+ * MatchName in an expression that is matched against the name of each
+ * element in the feature set.
  *
  * @schema NodeFeatureRuleSpecRulesMatchFeaturesMatchName
  */
@@ -888,7 +1592,11 @@ export interface NodeFeatureRuleSpecRulesMatchFeaturesMatchName {
   readonly op: NodeFeatureRuleSpecRulesMatchFeaturesMatchNameOp;
 
   /**
-   * Value is the list of values that the operand evaluates the input against. Value should be empty if the operator is Exists, DoesNotExist, IsTrue or IsFalse. Value should contain exactly one element if the operator is Gt or Lt and exactly two elements if the operator is GtLt. In other cases Value should contain at least one element.
+   * Value is the list of values that the operand evaluates the input
+   * against. Value should be empty if the operator is Exists, DoesNotExist,
+   * IsTrue or IsFalse. Value should contain exactly one element if the
+   * operator is Gt or Lt and exactly two elements if the operator is GtLt.
+   * In other cases Value should contain at least one element.
    *
    * @schema NodeFeatureRuleSpecRulesMatchFeaturesMatchName#value
    */
@@ -916,7 +1624,9 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchName(
 /* eslint-enable max-len, quote-props */
 
 /**
- * MatchExpression specifies an expression to evaluate against a set of input values. It contains an operator that is applied when matching the input and an array of values that the operator evaluates the input against.
+ * MatchExpression specifies an expression to evaluate against a set of input
+ * values. It contains an operator that is applied when matching the input and
+ * an array of values that the operator evaluates the input against.
  *
  * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions
  */
@@ -929,7 +1639,11 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions {
   readonly op: NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressionsOp;
 
   /**
-   * Value is the list of values that the operand evaluates the input against. Value should be empty if the operator is Exists, DoesNotExist, IsTrue or IsFalse. Value should contain exactly one element if the operator is Gt or Lt and exactly two elements if the operator is GtLt. In other cases Value should contain at least one element.
+   * Value is the list of values that the operand evaluates the input
+   * against. Value should be empty if the operator is Exists, DoesNotExist,
+   * IsTrue or IsFalse. Value should contain exactly one element if the
+   * operator is Gt or Lt and exactly two elements if the operator is GtLt.
+   * In other cases Value should contain at least one element.
    *
    * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions#value
    */
@@ -959,7 +1673,8 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpress
 /* eslint-enable max-len, quote-props */
 
 /**
- * MatchName in an expression that is matched against the name of each element in the feature set.
+ * MatchName in an expression that is matched against the name of each
+ * element in the feature set.
  *
  * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName
  */
@@ -972,7 +1687,11 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName {
   readonly op: NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchNameOp;
 
   /**
-   * Value is the list of values that the operand evaluates the input against. Value should be empty if the operator is Exists, DoesNotExist, IsTrue or IsFalse. Value should contain exactly one element if the operator is Gt or Lt and exactly two elements if the operator is GtLt. In other cases Value should contain at least one element.
+   * Value is the list of values that the operand evaluates the input
+   * against. Value should be empty if the operator is Exists, DoesNotExist,
+   * IsTrue or IsFalse. Value should contain exactly one element if the
+   * operator is Gt or Lt and exactly two elements if the operator is GtLt.
+   * In other cases Value should contain at least one element.
    *
    * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName#value
    */

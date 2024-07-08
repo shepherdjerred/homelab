@@ -201,6 +201,8 @@ export function toJson_ConnectorSpecSubnetRouter(
 /* eslint-enable max-len, quote-props */
 
 /**
+ * DNSConfig can be deployed to cluster to make a subset of Tailscale MagicDNS names resolvable by cluster workloads. Use this if: A) you need to refer to tailnet services, exposed to cluster via Tailscale Kubernetes operator egress proxies by the MagicDNS names of those tailnet services (usually because the services run over HTTPS) B) you have exposed a cluster workload to the tailnet using Tailscale Ingress and you also want to refer to the workload from within the cluster over the Ingress's MagicDNS name (usually because you have some callback component that needs to use the same URL as that used by a non-cluster client on tailnet). When a DNSConfig is applied to a cluster, Tailscale Kubernetes operator will deploy a nameserver for ts.net DNS names and automatically populate it with records for any Tailscale egress or Ingress proxies deployed to that cluster. Currently you must manually update your cluster DNS configuration to add the IP address of the deployed nameserver as a ts.net stub nameserver. Instructions for how to do it: https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#configuration-of-stub-domain-and-upstream-nameserver-using-coredns (for CoreDNS), https://cloud.google.com/kubernetes-engine/docs/how-to/kube-dns (for kube-dns). Tailscale Kubernetes operator will write the address of a Service fronting the nameserver to dsnconfig.status.nameserver.ip. DNSConfig is a singleton - you must not create more than one. NB: if you want cluster workloads to be able to refer to Tailscale Ingress using its MagicDNS name, you must also annotate the Ingress resource with tailscale.com/experimental-forward-cluster-traffic-via-ingress annotation to ensure that the proxy created for the Ingress listens on its Pod IP address. NB: Clusters where Pods get assigned IPv6 addresses only are currently not supported.
+ *
  * @schema DNSConfig
  */
 export class DnsConfig extends ApiObject {
@@ -253,6 +255,8 @@ export class DnsConfig extends ApiObject {
 }
 
 /**
+ * DNSConfig can be deployed to cluster to make a subset of Tailscale MagicDNS names resolvable by cluster workloads. Use this if: A) you need to refer to tailnet services, exposed to cluster via Tailscale Kubernetes operator egress proxies by the MagicDNS names of those tailnet services (usually because the services run over HTTPS) B) you have exposed a cluster workload to the tailnet using Tailscale Ingress and you also want to refer to the workload from within the cluster over the Ingress's MagicDNS name (usually because you have some callback component that needs to use the same URL as that used by a non-cluster client on tailnet). When a DNSConfig is applied to a cluster, Tailscale Kubernetes operator will deploy a nameserver for ts.net DNS names and automatically populate it with records for any Tailscale egress or Ingress proxies deployed to that cluster. Currently you must manually update your cluster DNS configuration to add the IP address of the deployed nameserver as a ts.net stub nameserver. Instructions for how to do it: https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#configuration-of-stub-domain-and-upstream-nameserver-using-coredns (for CoreDNS), https://cloud.google.com/kubernetes-engine/docs/how-to/kube-dns (for kube-dns). Tailscale Kubernetes operator will write the address of a Service fronting the nameserver to dsnconfig.status.nameserver.ip. DNSConfig is a singleton - you must not create more than one. NB: if you want cluster workloads to be able to refer to Tailscale Ingress using its MagicDNS name, you must also annotate the Ingress resource with tailscale.com/experimental-forward-cluster-traffic-via-ingress annotation to ensure that the proxy created for the Ingress listens on its Pod IP address. NB: Clusters where Pods get assigned IPv6 addresses only are currently not supported.
+ *
  * @schema DNSConfig
  */
 export interface DnsConfigProps {
@@ -262,6 +266,8 @@ export interface DnsConfigProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
+   * Spec describes the desired DNS configuration. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+   *
    * @schema DNSConfig#spec
    */
   readonly spec: DnsConfigSpec;
@@ -288,10 +294,14 @@ export function toJson_DnsConfigProps(
 /* eslint-enable max-len, quote-props */
 
 /**
+ * Spec describes the desired DNS configuration. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+ *
  * @schema DnsConfigSpec
  */
 export interface DnsConfigSpec {
   /**
+   * Configuration for a nameserver that can resolve ts.net DNS names associated with in-cluster proxies for Tailscale egress Services and Tailscale Ingresses. The operator will always deploy this nameserver when a DNSConfig is applied.
+   *
    * @schema DnsConfigSpec#nameserver
    */
   readonly nameserver: DnsConfigSpecNameserver;
@@ -317,10 +327,14 @@ export function toJson_DnsConfigSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
+ * Configuration for a nameserver that can resolve ts.net DNS names associated with in-cluster proxies for Tailscale egress Services and Tailscale Ingresses. The operator will always deploy this nameserver when a DNSConfig is applied.
+ *
  * @schema DnsConfigSpecNameserver
  */
 export interface DnsConfigSpecNameserver {
   /**
+   * Nameserver image.
+   *
    * @schema DnsConfigSpecNameserver#image
    */
   readonly image?: DnsConfigSpecNameserverImage;
@@ -346,15 +360,21 @@ export function toJson_DnsConfigSpecNameserver(
 /* eslint-enable max-len, quote-props */
 
 /**
+ * Nameserver image.
+ *
  * @schema DnsConfigSpecNameserverImage
  */
 export interface DnsConfigSpecNameserverImage {
   /**
+   * Repo defaults to tailscale/k8s-nameserver.
+   *
    * @schema DnsConfigSpecNameserverImage#repo
    */
   readonly repo?: string;
 
   /**
+   * Tag defaults to operator's own tag.
+   *
    * @schema DnsConfigSpecNameserverImage#tag
    */
   readonly tag?: string;
@@ -492,6 +512,13 @@ export interface ProxyClassSpec {
    * @schema ProxyClassSpec#statefulSet
    */
   readonly statefulSet?: ProxyClassSpecStatefulSet;
+
+  /**
+   * TailscaleConfig contains options to configure the tailscale-specific parameters of proxies.
+   *
+   * @schema ProxyClassSpec#tailscale
+   */
+  readonly tailscale?: ProxyClassSpecTailscale;
 }
 
 /**
@@ -505,6 +532,7 @@ export function toJson_ProxyClassSpec(
   const result = {
     "metrics": toJson_ProxyClassSpecMetrics(obj.metrics),
     "statefulSet": toJson_ProxyClassSpecStatefulSet(obj.statefulSet),
+    "tailscale": toJson_ProxyClassSpecTailscale(obj.tailscale),
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -598,6 +626,40 @@ export function toJson_ProxyClassSpecStatefulSet(
         {},
       )),
     "pod": toJson_ProxyClassSpecStatefulSetPod(obj.pod),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * TailscaleConfig contains options to configure the tailscale-specific parameters of proxies.
+ *
+ * @schema ProxyClassSpecTailscale
+ */
+export interface ProxyClassSpecTailscale {
+  /**
+   * AcceptRoutes can be set to true to make the proxy instance accept routes advertized by other nodes on the tailnet, such as subnet routes. This is equivalent of passing --accept-routes flag to a tailscale Linux client. https://tailscale.com/kb/1019/subnets#use-your-subnet-routes-from-other-machines Defaults to false.
+   *
+   * @default false.
+   * @schema ProxyClassSpecTailscale#acceptRoutes
+   */
+  readonly acceptRoutes?: boolean;
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecTailscale' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ProxyClassSpecTailscale(
+  obj: ProxyClassSpecTailscale | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "acceptRoutes": obj.acceptRoutes,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -965,6 +1027,22 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainer {
   readonly env?: ProxyClassSpecStatefulSetPodTailscaleContainerEnv[];
 
   /**
+   * Container image name. By default images are pulled from docker.io/tailscale/tailscale, but the official images are also available at ghcr.io/tailscale/tailscale. Specifying image name here will override any proxy image values specified via the Kubernetes operator's Helm chart values or PROXY_IMAGE env var in the operator Deployment. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleContainer#image
+   */
+  readonly image?: string;
+
+  /**
+   * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   *
+   * @default Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   * @schema ProxyClassSpecStatefulSetPodTailscaleContainer#imagePullPolicy
+   */
+  readonly imagePullPolicy?:
+    ProxyClassSpecStatefulSetPodTailscaleContainerImagePullPolicy;
+
+  /**
    * Container resource requirements. By default Tailscale Kubernetes operator does not apply any resource requirements. The amount of resources required wil depend on the amount of resources the operator needs to parse, usage patterns and cluster size. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainer#resources
@@ -992,6 +1070,8 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainer(
     "env": obj.env?.map((y) =>
       toJson_ProxyClassSpecStatefulSetPodTailscaleContainerEnv(y)
     ),
+    "image": obj.image,
+    "imagePullPolicy": obj.imagePullPolicy,
     "resources": toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResources(
       obj.resources,
     ),
@@ -1022,6 +1102,22 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainer {
   readonly env?: ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv[];
 
   /**
+   * Container image name. By default images are pulled from docker.io/tailscale/tailscale, but the official images are also available at ghcr.io/tailscale/tailscale. Specifying image name here will override any proxy image values specified via the Kubernetes operator's Helm chart values or PROXY_IMAGE env var in the operator Deployment. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer#image
+   */
+  readonly image?: string;
+
+  /**
+   * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   *
+   * @default Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer#imagePullPolicy
+   */
+  readonly imagePullPolicy?:
+    ProxyClassSpecStatefulSetPodTailscaleInitContainerImagePullPolicy;
+
+  /**
    * Container resource requirements. By default Tailscale Kubernetes operator does not apply any resource requirements. The amount of resources required wil depend on the amount of resources the operator needs to parse, usage patterns and cluster size. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer#resources
@@ -1050,6 +1146,8 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainer(
     "env": obj.env?.map((y) =>
       toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv(y)
     ),
+    "image": obj.image,
+    "imagePullPolicy": obj.imagePullPolicy,
     "resources":
       toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResources(
         obj.resources,
@@ -1529,6 +1627,21 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerEnv(
 /* eslint-enable max-len, quote-props */
 
 /**
+ * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+ *
+ * @default Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+ * @schema ProxyClassSpecStatefulSetPodTailscaleContainerImagePullPolicy
+ */
+export enum ProxyClassSpecStatefulSetPodTailscaleContainerImagePullPolicy {
+  /** Always */
+  ALWAYS = "Always",
+  /** Never */
+  NEVER = "Never",
+  /** IfNotPresent */
+  IF_NOT_PRESENT = "IfNotPresent",
+}
+
+/**
  * Container resource requirements. By default Tailscale Kubernetes operator does not apply any resource requirements. The amount of resources required wil depend on the amount of resources the operator needs to parse, usage patterns and cluster size. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResources
@@ -1772,6 +1885,21 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv(
   );
 }
 /* eslint-enable max-len, quote-props */
+
+/**
+ * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+ *
+ * @default Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+ * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerImagePullPolicy
+ */
+export enum ProxyClassSpecStatefulSetPodTailscaleInitContainerImagePullPolicy {
+  /** Always */
+  ALWAYS = "Always",
+  /** Never */
+  NEVER = "Never",
+  /** IfNotPresent */
+  IF_NOT_PRESENT = "IfNotPresent",
+}
 
 /**
  * Container resource requirements. By default Tailscale Kubernetes operator does not apply any resource requirements. The amount of resources required wil depend on the amount of resources the operator needs to parse, usage patterns and cluster size. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources

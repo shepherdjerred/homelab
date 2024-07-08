@@ -2315,6 +2315,13 @@ spec:
                 secretKeyRef:
                   key: credential
                   name: earthly-onepassword
+            - name: EARTHLY_GH_ORG
+              value: shepherdjerred
+            - name: EARTHLY_GH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: credential
+                  name: earthly-gh-onepassword
             - name: SATELLITE_NAME
               value: lamport
             - name: SATELLITE_HOST
@@ -2375,6 +2382,14 @@ metadata:
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/sbjrtou6h3f5w2uhj4uluywsre
 ---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: earthly-gh-onepassword
+  namespace: lamport
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/a5rmkj3pchbfaggkj6iaooma4q
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -2386,7 +2401,25 @@ spec:
     - port: 8372
   selector:
     cdk8s.io/metadata.addr: lamport-earthly-c8d12215
-  type: NodePort
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  name: lamport-earthly-tailscale-ingress-ingress
+  namespace: lamport
+spec:
+  defaultBackend:
+    service:
+      name: lamport-earthly-service
+      port:
+        number: 8372
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - earthly
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -2612,7 +2645,7 @@ metadata:
 spec:
   minReadySeconds: 0
   progressDeadlineSeconds: 600
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       cdk8s.io/metadata.addr: lamport-valheim-c81b6975

@@ -8,8 +8,11 @@ import {
 import { Construct } from "https://esm.sh/constructs@10.3.0";
 
 /**
- * A Certificate resource should be created to ensure an up to date and signed X.509 certificate is stored in the Kubernetes Secret resource named in `spec.secretName`.
- The stored certificate will be renewed before it expires (as configured by `spec.renewBefore`).
+ * A Certificate resource should be created to ensure an up to date and signed
+X.509 certificate is stored in the Kubernetes Secret resource named in `spec.secretName`.
+
+
+The stored certificate will be renewed before it expires (as configured by `spec.renewBefore`).
  *
  * @schema Certificate
  */
@@ -67,7 +70,9 @@ export class Certificate extends ApiObject {
 }
 
 /**
- * A Certificate resource should be created to ensure an up to date and signed X.509 certificate is stored in the Kubernetes Secret resource named in `spec.secretName`.
+ * A Certificate resource should be created to ensure an up to date and signed
+ * X.509 certificate is stored in the Kubernetes Secret resource named in `spec.secretName`.
+ *
  * The stored certificate will be renewed before it expires (as configured by `spec.renewBefore`).
  *
  * @schema Certificate
@@ -79,7 +84,8 @@ export interface CertificateProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * Specification of the desired state of the Certificate resource. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+   * Specification of the desired state of the Certificate resource.
+   * https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
    *
    * @schema Certificate#spec
    */
@@ -107,22 +113,32 @@ export function toJson_CertificateProps(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Specification of the desired state of the Certificate resource. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+ * Specification of the desired state of the Certificate resource.
+ * https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
  *
  * @schema CertificateSpec
  */
 export interface CertificateSpec {
   /**
-   * Defines extra output formats of the private key and signed certificate chain to be written to this Certificate's target Secret.
-   * This is an Alpha Feature and is only enabled with the `--feature-gates=AdditionalCertificateOutputFormats=true` option set on both the controller and webhook components.
+   * Defines extra output formats of the private key and signed certificate chain
+   * to be written to this Certificate's target Secret.
+   *
+   * This is a Beta Feature enabled by default. It can be disabled with the
+   * `--feature-gates=AdditionalCertificateOutputFormats=false` option set on both
+   * the controller and webhook components.
    *
    * @schema CertificateSpec#additionalOutputFormats
    */
   readonly additionalOutputFormats?: CertificateSpecAdditionalOutputFormats[];
 
   /**
-   * Requested common name X509 certificate subject attribute. More info: https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6 NOTE: TLS clients will ignore this value when any subject alternative name is set (see https://tools.ietf.org/html/rfc6125#section-6.4.4).
-   * Should have a length of 64 characters or fewer to avoid generating invalid CSRs. Cannot be set if the `literalSubject` field is set.
+   * Requested common name X509 certificate subject attribute.
+   * More info: https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6
+   * NOTE: TLS clients will ignore this value when any subject alternative name is
+   * set (see https://tools.ietf.org/html/rfc6125#section-6.4.4).
+   *
+   * Should have a length of 64 characters or fewer to avoid generating invalid CSRs.
+   * Cannot be set if the `literalSubject` field is set.
    *
    * @schema CertificateSpec#commonName
    */
@@ -136,8 +152,13 @@ export interface CertificateSpec {
   readonly dnsNames?: string[];
 
   /**
-   * Requested 'duration' (i.e. lifetime) of the Certificate. Note that the issuer may choose to ignore the requested duration, just like any other requested attribute.
-   * If unset, this defaults to 90 days. Minimum accepted duration is 1 hour. Value must be in units accepted by Go time.ParseDuration https://golang.org/pkg/time/#ParseDuration.
+   * Requested 'duration' (i.e. lifetime) of the Certificate. Note that the
+   * issuer may choose to ignore the requested duration, just like any other
+   * requested attribute.
+   *
+   * If unset, this defaults to 90 days.
+   * Minimum accepted duration is 1 hour.
+   * Value must be in units accepted by Go time.ParseDuration https://golang.org/pkg/time/#ParseDuration.
    *
    * @schema CertificateSpec#duration
    */
@@ -152,7 +173,9 @@ export interface CertificateSpec {
 
   /**
    * Whether the KeyUsage and ExtKeyUsage extensions should be set in the encoded CSR.
-   * This option defaults to true, and should only be disabled if the target issuer does not support CSRs with these X509 KeyUsage/ ExtKeyUsage extensions.
+   *
+   * This option defaults to true, and should only be disabled if the target
+   * issuer does not support CSRs with these X509 KeyUsage/ ExtKeyUsage extensions.
    *
    * @schema CertificateSpec#encodeUsagesInRequest
    */
@@ -166,15 +189,24 @@ export interface CertificateSpec {
   readonly ipAddresses?: string[];
 
   /**
-   * Requested basic constraints isCA value. The isCA value is used to set the `isCA` field on the created CertificateRequest resources. Note that the issuer may choose to ignore the requested isCA value, just like any other requested attribute.
-   * If true, this will automatically add the `cert sign` usage to the list of requested `usages`.
+   * Requested basic constraints isCA value.
+   * The isCA value is used to set the `isCA` field on the created CertificateRequest
+   * resources. Note that the issuer may choose to ignore the requested isCA value, just
+   * like any other requested attribute.
+   *
+   * If true, this will automatically add the `cert sign` usage to the list
+   * of requested `usages`.
    *
    * @schema CertificateSpec#isCA
    */
   readonly isCa?: boolean;
 
   /**
-   * Reference to the issuer responsible for issuing the certificate. If the issuer is namespace-scoped, it must be in the same namespace as the Certificate. If the issuer is cluster-scoped, it can be used from any namespace.
+   * Reference to the issuer responsible for issuing the certificate.
+   * If the issuer is namespace-scoped, it must be in the same namespace
+   * as the Certificate. If the issuer is cluster-scoped, it can be used
+   * from any namespace.
+   *
    * The `name` field of the reference must always be specified.
    *
    * @schema CertificateSpec#issuerRef
@@ -189,69 +221,112 @@ export interface CertificateSpec {
   readonly keystores?: CertificateSpecKeystores;
 
   /**
-   * Requested X.509 certificate subject, represented using the LDAP "String Representation of a Distinguished Name" [1]. Important: the LDAP string format also specifies the order of the attributes in the subject, this is important when issuing certs for LDAP authentication. Example: `CN=foo,DC=corp,DC=example,DC=com` More info [1]: https://datatracker.ietf.org/doc/html/rfc4514 More info: https://github.com/cert-manager/cert-manager/issues/3203 More info: https://github.com/cert-manager/cert-manager/issues/4424
-   * Cannot be set if the `subject` or `commonName` field is set. This is an Alpha Feature and is only enabled with the `--feature-gates=LiteralCertificateSubject=true` option set on both the controller and webhook components.
+   * Requested X.509 certificate subject, represented using the LDAP "String
+   * Representation of a Distinguished Name" [1].
+   * Important: the LDAP string format also specifies the order of the attributes
+   * in the subject, this is important when issuing certs for LDAP authentication.
+   * Example: `CN=foo,DC=corp,DC=example,DC=com`
+   * More info [1]: https://datatracker.ietf.org/doc/html/rfc4514
+   * More info: https://github.com/cert-manager/cert-manager/issues/3203
+   * More info: https://github.com/cert-manager/cert-manager/issues/4424
+   *
+   * Cannot be set if the `subject` or `commonName` field is set.
    *
    * @schema CertificateSpec#literalSubject
    */
   readonly literalSubject?: string;
 
   /**
-   * x.509 certificate NameConstraint extension which MUST NOT be used in a non-CA certificate. More Info: https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.10
-   * This is an Alpha Feature and is only enabled with the `--feature-gates=NameConstraints=true` option set on both the controller and webhook components.
+   * x.509 certificate NameConstraint extension which MUST NOT be used in a non-CA certificate.
+   * More Info: https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.10
+   *
+   * This is an Alpha Feature and is only enabled with the
+   * `--feature-gates=NameConstraints=true` option set on both
+   * the controller and webhook components.
    *
    * @schema CertificateSpec#nameConstraints
    */
   readonly nameConstraints?: CertificateSpecNameConstraints;
 
   /**
-   * `otherNames` is an escape hatch for SAN that allows any type. We currently restrict the support to string like otherNames, cf RFC 5280 p 37 Any UTF8 String valued otherName can be passed with by setting the keys oid: x.x.x.x and UTF8Value: somevalue for `otherName`. Most commonly this would be UPN set with oid: 1.3.6.1.4.1.311.20.2.3 You should ensure that any OID passed is valid for the UTF8String type as we do not explicitly validate this.
+   * `otherNames` is an escape hatch for SAN that allows any type. We currently restrict the support to string like otherNames, cf RFC 5280 p 37
+   * Any UTF8 String valued otherName can be passed with by setting the keys oid: x.x.x.x and UTF8Value: somevalue for `otherName`.
+   * Most commonly this would be UPN set with oid: 1.3.6.1.4.1.311.20.2.3
+   * You should ensure that any OID passed is valid for the UTF8String type as we do not explicitly validate this.
    *
    * @schema CertificateSpec#otherNames
    */
   readonly otherNames?: CertificateSpecOtherNames[];
 
   /**
-   * Private key options. These include the key algorithm and size, the used encoding and the rotation policy.
+   * Private key options. These include the key algorithm and size, the used
+   * encoding and the rotation policy.
    *
    * @schema CertificateSpec#privateKey
    */
   readonly privateKey?: CertificateSpecPrivateKey;
 
   /**
-   * How long before the currently issued certificate's expiry cert-manager should renew the certificate. For example, if a certificate is valid for 60 minutes, and `renewBefore=10m`, cert-manager will begin to attempt to renew the certificate 50 minutes after it was issued (i.e. when there are 10 minutes remaining until the certificate is no longer valid).
-   * NOTE: The actual lifetime of the issued certificate is used to determine the renewal time. If an issuer returns a certificate with a different lifetime than the one requested, cert-manager will use the lifetime of the issued certificate.
-   * If unset, this defaults to 1/3 of the issued certificate's lifetime. Minimum accepted value is 5 minutes. Value must be in units accepted by Go time.ParseDuration https://golang.org/pkg/time/#ParseDuration.
+   * How long before the currently issued certificate's expiry cert-manager should
+   * renew the certificate. For example, if a certificate is valid for 60 minutes,
+   * and `renewBefore=10m`, cert-manager will begin to attempt to renew the certificate
+   * 50 minutes after it was issued (i.e. when there are 10 minutes remaining until
+   * the certificate is no longer valid).
+   *
+   * NOTE: The actual lifetime of the issued certificate is used to determine the
+   * renewal time. If an issuer returns a certificate with a different lifetime than
+   * the one requested, cert-manager will use the lifetime of the issued certificate.
+   *
+   * If unset, this defaults to 1/3 of the issued certificate's lifetime.
+   * Minimum accepted value is 5 minutes.
+   * Value must be in units accepted by Go time.ParseDuration https://golang.org/pkg/time/#ParseDuration.
    *
    * @schema CertificateSpec#renewBefore
    */
   readonly renewBefore?: string;
 
   /**
-   * The maximum number of CertificateRequest revisions that are maintained in the Certificate's history. Each revision represents a single `CertificateRequest` created by this Certificate, either when it was created, renewed, or Spec was changed. Revisions will be removed by oldest first if the number of revisions exceeds this number.
-   * If set, revisionHistoryLimit must be a value of `1` or greater. If unset (`nil`), revisions will not be garbage collected. Default value is `nil`.
+   * The maximum number of CertificateRequest revisions that are maintained in
+   * the Certificate's history. Each revision represents a single `CertificateRequest`
+   * created by this Certificate, either when it was created, renewed, or Spec
+   * was changed. Revisions will be removed by oldest first if the number of
+   * revisions exceeds this number.
+   *
+   * If set, revisionHistoryLimit must be a value of `1` or greater.
+   * If unset (`nil`), revisions will not be garbage collected.
+   * Default value is `nil`.
    *
    * @schema CertificateSpec#revisionHistoryLimit
    */
   readonly revisionHistoryLimit?: number;
 
   /**
-   * Name of the Secret resource that will be automatically created and managed by this Certificate resource. It will be populated with a private key and certificate, signed by the denoted issuer. The Secret resource lives in the same namespace as the Certificate resource.
+   * Name of the Secret resource that will be automatically created and
+   * managed by this Certificate resource. It will be populated with a
+   * private key and certificate, signed by the denoted issuer. The Secret
+   * resource lives in the same namespace as the Certificate resource.
    *
    * @schema CertificateSpec#secretName
    */
   readonly secretName: string;
 
   /**
-   * Defines annotations and labels to be copied to the Certificate's Secret. Labels and annotations on the Secret will be changed as they appear on the SecretTemplate when added or removed. SecretTemplate annotations are added in conjunction with, and cannot overwrite, the base set of annotations cert-manager sets on the Certificate's Secret.
+   * Defines annotations and labels to be copied to the Certificate's Secret.
+   * Labels and annotations on the Secret will be changed as they appear on the
+   * SecretTemplate when added or removed. SecretTemplate annotations are added
+   * in conjunction with, and cannot overwrite, the base set of annotations
+   * cert-manager sets on the Certificate's Secret.
    *
    * @schema CertificateSpec#secretTemplate
    */
   readonly secretTemplate?: CertificateSpecSecretTemplate;
 
   /**
-   * Requested set of X509 certificate subject attributes. More info: https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6
-   * The common name attribute is specified separately in the `commonName` field. Cannot be set if the `literalSubject` field is set.
+   * Requested set of X509 certificate subject attributes.
+   * More info: https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6
+   *
+   * The common name attribute is specified separately in the `commonName` field.
+   * Cannot be set if the `literalSubject` field is set.
    *
    * @schema CertificateSpec#subject
    */
@@ -265,7 +340,11 @@ export interface CertificateSpec {
   readonly uris?: string[];
 
   /**
-   * Requested key usages and extended key usages. These usages are used to set the `usages` field on the created CertificateRequest resources. If `encodeUsagesInRequest` is unset or set to `true`, the usages will additionally be encoded in the `request` field which contains the CSR blob.
+   * Requested key usages and extended key usages.
+   * These usages are used to set the `usages` field on the created CertificateRequest
+   * resources. If `encodeUsagesInRequest` is unset or set to `true`, the usages
+   * will additionally be encoded in the `request` field which contains the CSR blob.
+   *
    * If unset, defaults to `digital signature` and `key encipherment`.
    *
    * @schema CertificateSpec#usages
@@ -319,13 +398,16 @@ export function toJson_CertificateSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
- * CertificateAdditionalOutputFormat defines an additional output format of a Certificate resource. These contain supplementary data formats of the signed certificate chain and paired private key.
+ * CertificateAdditionalOutputFormat defines an additional output format of a
+ * Certificate resource. These contain supplementary data formats of the signed
+ * certificate chain and paired private key.
  *
  * @schema CertificateSpecAdditionalOutputFormats
  */
 export interface CertificateSpecAdditionalOutputFormats {
   /**
-   * Type is the name of the format type that should be written to the Certificate's target Secret.
+   * Type is the name of the format type that should be written to the
+   * Certificate's target Secret.
    *
    * @schema CertificateSpecAdditionalOutputFormats#type
    */
@@ -352,7 +434,11 @@ export function toJson_CertificateSpecAdditionalOutputFormats(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Reference to the issuer responsible for issuing the certificate. If the issuer is namespace-scoped, it must be in the same namespace as the Certificate. If the issuer is cluster-scoped, it can be used from any namespace.
+ * Reference to the issuer responsible for issuing the certificate.
+ * If the issuer is namespace-scoped, it must be in the same namespace
+ * as the Certificate. If the issuer is cluster-scoped, it can be used
+ * from any namespace.
+ *
  * The `name` field of the reference must always be specified.
  *
  * @schema CertificateSpecIssuerRef
@@ -408,14 +494,16 @@ export function toJson_CertificateSpecIssuerRef(
  */
 export interface CertificateSpecKeystores {
   /**
-   * JKS configures options for storing a JKS keystore in the `spec.secretName` Secret resource.
+   * JKS configures options for storing a JKS keystore in the
+   * `spec.secretName` Secret resource.
    *
    * @schema CertificateSpecKeystores#jks
    */
   readonly jks?: CertificateSpecKeystoresJks;
 
   /**
-   * PKCS12 configures options for storing a PKCS12 keystore in the `spec.secretName` Secret resource.
+   * PKCS12 configures options for storing a PKCS12 keystore in the
+   * `spec.secretName` Secret resource.
    *
    * @schema CertificateSpecKeystores#pkcs12
    */
@@ -443,8 +531,12 @@ export function toJson_CertificateSpecKeystores(
 /* eslint-enable max-len, quote-props */
 
 /**
- * x.509 certificate NameConstraint extension which MUST NOT be used in a non-CA certificate. More Info: https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.10
- * This is an Alpha Feature and is only enabled with the `--feature-gates=NameConstraints=true` option set on both the controller and webhook components.
+ * x.509 certificate NameConstraint extension which MUST NOT be used in a non-CA certificate.
+ * More Info: https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.10
+ *
+ * This is an Alpha Feature and is only enabled with the
+ * `--feature-gates=NameConstraints=true` option set on both
+ * the controller and webhook components.
  *
  * @schema CertificateSpecNameConstraints
  */
@@ -457,7 +549,9 @@ export interface CertificateSpecNameConstraints {
   readonly critical?: boolean;
 
   /**
-   * Excluded contains the constraints which must be disallowed. Any name matching a restriction in the excluded field is invalid regardless of information appearing in the permitted
+   * Excluded contains the constraints which must be disallowed. Any name matching a
+   * restriction in the excluded field is invalid regardless
+   * of information appearing in the permitted
    *
    * @schema CertificateSpecNameConstraints#excluded
    */
@@ -497,14 +591,17 @@ export function toJson_CertificateSpecNameConstraints(
  */
 export interface CertificateSpecOtherNames {
   /**
-   * OID is the object identifier for the otherName SAN. The object identifier must be expressed as a dotted string, for example, "1.2.840.113556.1.4.221".
+   * OID is the object identifier for the otherName SAN.
+   * The object identifier must be expressed as a dotted string, for
+   * example, "1.2.840.113556.1.4.221".
    *
    * @schema CertificateSpecOtherNames#oid
    */
   readonly oid?: string;
 
   /**
-   * utf8Value is the string value of the otherName SAN. The utf8Value accepts any valid UTF8 string to set as value for the otherName SAN.
+   * utf8Value is the string value of the otherName SAN.
+   * The utf8Value accepts any valid UTF8 string to set as value for the otherName SAN.
    *
    * @schema CertificateSpecOtherNames#utf8Value
    */
@@ -532,22 +629,33 @@ export function toJson_CertificateSpecOtherNames(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Private key options. These include the key algorithm and size, the used encoding and the rotation policy.
+ * Private key options. These include the key algorithm and size, the used
+ * encoding and the rotation policy.
  *
  * @schema CertificateSpecPrivateKey
  */
 export interface CertificateSpecPrivateKey {
   /**
-   * Algorithm is the private key algorithm of the corresponding private key for this certificate.
-   * If provided, allowed values are either `RSA`, `ECDSA` or `Ed25519`. If `algorithm` is specified and `size` is not provided, key size of 2048 will be used for `RSA` key algorithm and key size of 256 will be used for `ECDSA` key algorithm. key size is ignored when using the `Ed25519` key algorithm.
+   * Algorithm is the private key algorithm of the corresponding private key
+   * for this certificate.
+   *
+   * If provided, allowed values are either `RSA`, `ECDSA` or `Ed25519`.
+   * If `algorithm` is specified and `size` is not provided,
+   * key size of 2048 will be used for `RSA` key algorithm and
+   * key size of 256 will be used for `ECDSA` key algorithm.
+   * key size is ignored when using the `Ed25519` key algorithm.
    *
    * @schema CertificateSpecPrivateKey#algorithm
    */
   readonly algorithm?: CertificateSpecPrivateKeyAlgorithm;
 
   /**
-   * The private key cryptography standards (PKCS) encoding for this certificate's private key to be encoded in.
-   * If provided, allowed values are `PKCS1` and `PKCS8` standing for PKCS#1 and PKCS#8, respectively. Defaults to `PKCS1` if not specified.
+   * The private key cryptography standards (PKCS) encoding for this
+   * certificate's private key to be encoded in.
+   *
+   * If provided, allowed values are `PKCS1` and `PKCS8` standing for PKCS#1
+   * and PKCS#8, respectively.
+   * Defaults to `PKCS1` if not specified.
    *
    * @default PKCS1` if not specified.
    * @schema CertificateSpecPrivateKey#encoding
@@ -555,8 +663,16 @@ export interface CertificateSpecPrivateKey {
   readonly encoding?: CertificateSpecPrivateKeyEncoding;
 
   /**
-   * RotationPolicy controls how private keys should be regenerated when a re-issuance is being processed.
-   * If set to `Never`, a private key will only be generated if one does not already exist in the target `spec.secretName`. If one does exists but it does not have the correct algorithm or size, a warning will be raised to await user intervention. If set to `Always`, a private key matching the specified requirements will be generated whenever a re-issuance occurs. Default is `Never` for backward compatibility.
+   * RotationPolicy controls how private keys should be regenerated when a
+   * re-issuance is being processed.
+   *
+   * If set to `Never`, a private key will only be generated if one does not
+   * already exist in the target `spec.secretName`. If one does exists but it
+   * does not have the correct algorithm or size, a warning will be raised
+   * to await user intervention.
+   * If set to `Always`, a private key matching the specified requirements
+   * will be generated whenever a re-issuance occurs.
+   * Default is `Never` for backward compatibility.
    *
    * @default Never` for backward compatibility.
    * @schema CertificateSpecPrivateKey#rotationPolicy
@@ -565,7 +681,13 @@ export interface CertificateSpecPrivateKey {
 
   /**
    * Size is the key bit size of the corresponding private key for this certificate.
-   * If `algorithm` is set to `RSA`, valid values are `2048`, `4096` or `8192`, and will default to `2048` if not specified. If `algorithm` is set to `ECDSA`, valid values are `256`, `384` or `521`, and will default to `256` if not specified. If `algorithm` is set to `Ed25519`, Size is ignored. No other values are allowed.
+   *
+   * If `algorithm` is set to `RSA`, valid values are `2048`, `4096` or `8192`,
+   * and will default to `2048` if not specified.
+   * If `algorithm` is set to `ECDSA`, valid values are `256`, `384` or `521`,
+   * and will default to `256` if not specified.
+   * If `algorithm` is set to `Ed25519`, Size is ignored.
+   * No other values are allowed.
    *
    * @schema CertificateSpecPrivateKey#size
    */
@@ -595,7 +717,11 @@ export function toJson_CertificateSpecPrivateKey(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Defines annotations and labels to be copied to the Certificate's Secret. Labels and annotations on the Secret will be changed as they appear on the SecretTemplate when added or removed. SecretTemplate annotations are added in conjunction with, and cannot overwrite, the base set of annotations cert-manager sets on the Certificate's Secret.
+ * Defines annotations and labels to be copied to the Certificate's Secret.
+ * Labels and annotations on the Secret will be changed as they appear on the
+ * SecretTemplate when added or removed. SecretTemplate annotations are added
+ * in conjunction with, and cannot overwrite, the base set of annotations
+ * cert-manager sets on the Certificate's Secret.
  *
  * @schema CertificateSpecSecretTemplate
  */
@@ -646,8 +772,11 @@ export function toJson_CertificateSpecSecretTemplate(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Requested set of X509 certificate subject attributes. More info: https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6
- * The common name attribute is specified separately in the `commonName` field. Cannot be set if the `literalSubject` field is set.
+ * Requested set of X509 certificate subject attributes.
+ * More info: https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.6
+ *
+ * The common name attribute is specified separately in the `commonName` field.
+ * Cannot be set if the `literalSubject` field is set.
  *
  * @schema CertificateSpecSubject
  */
@@ -736,8 +865,35 @@ export function toJson_CertificateSpecSubject(
 /* eslint-enable max-len, quote-props */
 
 /**
- * KeyUsage specifies valid usage contexts for keys. See: https://tools.ietf.org/html/rfc5280#section-4.2.1.3 https://tools.ietf.org/html/rfc5280#section-4.2.1.12
- * Valid KeyUsage values are as follows: "signing", "digital signature", "content commitment", "key encipherment", "key agreement", "data encipherment", "cert sign", "crl sign", "encipher only", "decipher only", "any", "server auth", "client auth", "code signing", "email protection", "s/mime", "ipsec end system", "ipsec tunnel", "ipsec user", "timestamping", "ocsp signing", "microsoft sgc", "netscape sgc"
+ * KeyUsage specifies valid usage contexts for keys.
+ * See:
+ * https://tools.ietf.org/html/rfc5280#section-4.2.1.3
+ * https://tools.ietf.org/html/rfc5280#section-4.2.1.12
+ *
+ * Valid KeyUsage values are as follows:
+ * "signing",
+ * "digital signature",
+ * "content commitment",
+ * "key encipherment",
+ * "key agreement",
+ * "data encipherment",
+ * "cert sign",
+ * "crl sign",
+ * "encipher only",
+ * "decipher only",
+ * "any",
+ * "server auth",
+ * "client auth",
+ * "code signing",
+ * "email protection",
+ * "s/mime",
+ * "ipsec end system",
+ * "ipsec tunnel",
+ * "ipsec user",
+ * "timestamping",
+ * "ocsp signing",
+ * "microsoft sgc",
+ * "netscape sgc"
  *
  * @schema CertificateSpecUsages
  */
@@ -791,7 +947,8 @@ export enum CertificateSpecUsages {
 }
 
 /**
- * Type is the name of the format type that should be written to the Certificate's target Secret.
+ * Type is the name of the format type that should be written to the
+ * Certificate's target Secret.
  *
  * @schema CertificateSpecAdditionalOutputFormatsType
  */
@@ -803,20 +960,38 @@ export enum CertificateSpecAdditionalOutputFormatsType {
 }
 
 /**
- * JKS configures options for storing a JKS keystore in the `spec.secretName` Secret resource.
+ * JKS configures options for storing a JKS keystore in the
+ * `spec.secretName` Secret resource.
  *
  * @schema CertificateSpecKeystoresJks
  */
 export interface CertificateSpecKeystoresJks {
   /**
-   * Create enables JKS keystore creation for the Certificate. If true, a file named `keystore.jks` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will be updated immediately. If the issuer provided a CA certificate, a file named `truststore.jks` will also be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef` containing the issuing Certificate Authority
+   * Alias specifies the alias of the key in the keystore, required by the JKS format.
+   * If not provided, the default alias `certificate` will be used.
+   *
+   * @schema CertificateSpecKeystoresJks#alias
+   */
+  readonly alias?: string;
+
+  /**
+   * Create enables JKS keystore creation for the Certificate.
+   * If true, a file named `keystore.jks` will be created in the target
+   * Secret resource, encrypted using the password stored in
+   * `passwordSecretRef`.
+   * The keystore file will be updated immediately.
+   * If the issuer provided a CA certificate, a file named `truststore.jks`
+   * will also be created in the target Secret resource, encrypted using the
+   * password stored in `passwordSecretRef`
+   * containing the issuing Certificate Authority
    *
    * @schema CertificateSpecKeystoresJks#create
    */
   readonly create: boolean;
 
   /**
-   * PasswordSecretRef is a reference to a key in a Secret resource containing the password used to encrypt the JKS keystore.
+   * PasswordSecretRef is a reference to a key in a Secret resource
+   * containing the password used to encrypt the JKS keystore.
    *
    * @schema CertificateSpecKeystoresJks#passwordSecretRef
    */
@@ -832,6 +1007,7 @@ export function toJson_CertificateSpecKeystoresJks(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "alias": obj.alias,
     "create": obj.create,
     "passwordSecretRef": toJson_CertificateSpecKeystoresJksPasswordSecretRef(
       obj.passwordSecretRef,
@@ -846,28 +1022,45 @@ export function toJson_CertificateSpecKeystoresJks(
 /* eslint-enable max-len, quote-props */
 
 /**
- * PKCS12 configures options for storing a PKCS12 keystore in the `spec.secretName` Secret resource.
+ * PKCS12 configures options for storing a PKCS12 keystore in the
+ * `spec.secretName` Secret resource.
  *
  * @schema CertificateSpecKeystoresPkcs12
  */
 export interface CertificateSpecKeystoresPkcs12 {
   /**
-   * Create enables PKCS12 keystore creation for the Certificate. If true, a file named `keystore.p12` will be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef`. The keystore file will be updated immediately. If the issuer provided a CA certificate, a file named `truststore.p12` will also be created in the target Secret resource, encrypted using the password stored in `passwordSecretRef` containing the issuing Certificate Authority
+   * Create enables PKCS12 keystore creation for the Certificate.
+   * If true, a file named `keystore.p12` will be created in the target
+   * Secret resource, encrypted using the password stored in
+   * `passwordSecretRef`.
+   * The keystore file will be updated immediately.
+   * If the issuer provided a CA certificate, a file named `truststore.p12` will
+   * also be created in the target Secret resource, encrypted using the
+   * password stored in `passwordSecretRef` containing the issuing Certificate
+   * Authority
    *
    * @schema CertificateSpecKeystoresPkcs12#create
    */
   readonly create: boolean;
 
   /**
-   * PasswordSecretRef is a reference to a key in a Secret resource containing the password used to encrypt the PKCS12 keystore.
+   * PasswordSecretRef is a reference to a key in a Secret resource
+   * containing the password used to encrypt the PKCS12 keystore.
    *
    * @schema CertificateSpecKeystoresPkcs12#passwordSecretRef
    */
   readonly passwordSecretRef: CertificateSpecKeystoresPkcs12PasswordSecretRef;
 
   /**
-   * Profile specifies the key and certificate encryption algorithms and the HMAC algorithm used to create the PKCS12 keystore. Default value is `LegacyRC2` for backward compatibility.
-   * If provided, allowed values are: `LegacyRC2`: Deprecated. Not supported by default in OpenSSL 3 or Java 20. `LegacyDES`: Less secure algorithm. Use this option for maximal compatibility. `Modern2023`: Secure algorithm. Use this option in case you have to always use secure algorithms (eg. because of company policy). Please note that the security of the algorithm is not that important in reality, because the unencrypted certificate and private key are also stored in the Secret.
+   * Profile specifies the key and certificate encryption algorithms and the HMAC algorithm
+   * used to create the PKCS12 keystore. Default value is `LegacyRC2` for backward compatibility.
+   *
+   * If provided, allowed values are:
+   * `LegacyRC2`: Deprecated. Not supported by default in OpenSSL 3 or Java 20.
+   * `LegacyDES`: Less secure algorithm. Use this option for maximal compatibility.
+   * `Modern2023`: Secure algorithm. Use this option in case you have to always use secure algorithms
+   * (eg. because of company policy). Please note that the security of the algorithm is not that important
+   * in reality, because the unencrypted certificate and private key are also stored in the Secret.
    *
    * @schema CertificateSpecKeystoresPkcs12#profile
    */
@@ -898,7 +1091,9 @@ export function toJson_CertificateSpecKeystoresPkcs12(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Excluded contains the constraints which must be disallowed. Any name matching a restriction in the excluded field is invalid regardless of information appearing in the permitted
+ * Excluded contains the constraints which must be disallowed. Any name matching a
+ * restriction in the excluded field is invalid regardless
+ * of information appearing in the permitted
  *
  * @schema CertificateSpecNameConstraintsExcluded
  */
@@ -918,7 +1113,8 @@ export interface CertificateSpecNameConstraintsExcluded {
   readonly emailAddresses?: string[];
 
   /**
-   * IPRanges is a list of IP Ranges that are permitted or excluded. This should be a valid CIDR notation.
+   * IPRanges is a list of IP Ranges that are permitted or excluded.
+   * This should be a valid CIDR notation.
    *
    * @schema CertificateSpecNameConstraintsExcluded#ipRanges
    */
@@ -975,7 +1171,8 @@ export interface CertificateSpecNameConstraintsPermitted {
   readonly emailAddresses?: string[];
 
   /**
-   * IPRanges is a list of IP Ranges that are permitted or excluded. This should be a valid CIDR notation.
+   * IPRanges is a list of IP Ranges that are permitted or excluded.
+   * This should be a valid CIDR notation.
    *
    * @schema CertificateSpecNameConstraintsPermitted#ipRanges
    */
@@ -1012,8 +1209,14 @@ export function toJson_CertificateSpecNameConstraintsPermitted(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Algorithm is the private key algorithm of the corresponding private key for this certificate.
- * If provided, allowed values are either `RSA`, `ECDSA` or `Ed25519`. If `algorithm` is specified and `size` is not provided, key size of 2048 will be used for `RSA` key algorithm and key size of 256 will be used for `ECDSA` key algorithm. key size is ignored when using the `Ed25519` key algorithm.
+ * Algorithm is the private key algorithm of the corresponding private key
+ * for this certificate.
+ *
+ * If provided, allowed values are either `RSA`, `ECDSA` or `Ed25519`.
+ * If `algorithm` is specified and `size` is not provided,
+ * key size of 2048 will be used for `RSA` key algorithm and
+ * key size of 256 will be used for `ECDSA` key algorithm.
+ * key size is ignored when using the `Ed25519` key algorithm.
  *
  * @schema CertificateSpecPrivateKeyAlgorithm
  */
@@ -1027,8 +1230,12 @@ export enum CertificateSpecPrivateKeyAlgorithm {
 }
 
 /**
- * The private key cryptography standards (PKCS) encoding for this certificate's private key to be encoded in.
- * If provided, allowed values are `PKCS1` and `PKCS8` standing for PKCS#1 and PKCS#8, respectively. Defaults to `PKCS1` if not specified.
+ * The private key cryptography standards (PKCS) encoding for this
+ * certificate's private key to be encoded in.
+ *
+ * If provided, allowed values are `PKCS1` and `PKCS8` standing for PKCS#1
+ * and PKCS#8, respectively.
+ * Defaults to `PKCS1` if not specified.
  *
  * @default PKCS1` if not specified.
  * @schema CertificateSpecPrivateKeyEncoding
@@ -1041,8 +1248,16 @@ export enum CertificateSpecPrivateKeyEncoding {
 }
 
 /**
- * RotationPolicy controls how private keys should be regenerated when a re-issuance is being processed.
- * If set to `Never`, a private key will only be generated if one does not already exist in the target `spec.secretName`. If one does exists but it does not have the correct algorithm or size, a warning will be raised to await user intervention. If set to `Always`, a private key matching the specified requirements will be generated whenever a re-issuance occurs. Default is `Never` for backward compatibility.
+ * RotationPolicy controls how private keys should be regenerated when a
+ * re-issuance is being processed.
+ *
+ * If set to `Never`, a private key will only be generated if one does not
+ * already exist in the target `spec.secretName`. If one does exists but it
+ * does not have the correct algorithm or size, a warning will be raised
+ * to await user intervention.
+ * If set to `Always`, a private key matching the specified requirements
+ * will be generated whenever a re-issuance occurs.
+ * Default is `Never` for backward compatibility.
  *
  * @default Never` for backward compatibility.
  * @schema CertificateSpecPrivateKeyRotationPolicy
@@ -1055,20 +1270,24 @@ export enum CertificateSpecPrivateKeyRotationPolicy {
 }
 
 /**
- * PasswordSecretRef is a reference to a key in a Secret resource containing the password used to encrypt the JKS keystore.
+ * PasswordSecretRef is a reference to a key in a Secret resource
+ * containing the password used to encrypt the JKS keystore.
  *
  * @schema CertificateSpecKeystoresJksPasswordSecretRef
  */
 export interface CertificateSpecKeystoresJksPasswordSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema CertificateSpecKeystoresJksPasswordSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema CertificateSpecKeystoresJksPasswordSecretRef#name
    */
@@ -1096,20 +1315,24 @@ export function toJson_CertificateSpecKeystoresJksPasswordSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * PasswordSecretRef is a reference to a key in a Secret resource containing the password used to encrypt the PKCS12 keystore.
+ * PasswordSecretRef is a reference to a key in a Secret resource
+ * containing the password used to encrypt the PKCS12 keystore.
  *
  * @schema CertificateSpecKeystoresPkcs12PasswordSecretRef
  */
 export interface CertificateSpecKeystoresPkcs12PasswordSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema CertificateSpecKeystoresPkcs12PasswordSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema CertificateSpecKeystoresPkcs12PasswordSecretRef#name
    */
@@ -1137,8 +1360,15 @@ export function toJson_CertificateSpecKeystoresPkcs12PasswordSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Profile specifies the key and certificate encryption algorithms and the HMAC algorithm used to create the PKCS12 keystore. Default value is `LegacyRC2` for backward compatibility.
- * If provided, allowed values are: `LegacyRC2`: Deprecated. Not supported by default in OpenSSL 3 or Java 20. `LegacyDES`: Less secure algorithm. Use this option for maximal compatibility. `Modern2023`: Secure algorithm. Use this option in case you have to always use secure algorithms (eg. because of company policy). Please note that the security of the algorithm is not that important in reality, because the unencrypted certificate and private key are also stored in the Secret.
+ * Profile specifies the key and certificate encryption algorithms and the HMAC algorithm
+ * used to create the PKCS12 keystore. Default value is `LegacyRC2` for backward compatibility.
+ *
+ * If provided, allowed values are:
+ * `LegacyRC2`: Deprecated. Not supported by default in OpenSSL 3 or Java 20.
+ * `LegacyDES`: Less secure algorithm. Use this option for maximal compatibility.
+ * `Modern2023`: Secure algorithm. Use this option in case you have to always use secure algorithms
+ * (eg. because of company policy). Please note that the security of the algorithm is not that important
+ * in reality, because the unencrypted certificate and private key are also stored in the Secret.
  *
  * @schema CertificateSpecKeystoresPkcs12Profile
  */
@@ -1152,9 +1382,17 @@ export enum CertificateSpecKeystoresPkcs12Profile {
 }
 
 /**
- * A CertificateRequest is used to request a signed certificate from one of the configured issuers.
- All fields within the CertificateRequest's `spec` are immutable after creation. A CertificateRequest will either succeed or fail, as denoted by its `Ready` status condition and its `status.failureTime` field.
- A CertificateRequest is a one-shot resource, meaning it represents a single point in time request for a certificate and cannot be re-used.
+ * A CertificateRequest is used to request a signed certificate from one of the
+configured issuers.
+
+
+All fields within the CertificateRequest's `spec` are immutable after creation.
+A CertificateRequest will either succeed or fail, as denoted by its `Ready` status
+condition and its `status.failureTime` field.
+
+
+A CertificateRequest is a one-shot resource, meaning it represents a single
+point in time request for a certificate and cannot be re-used.
  *
  * @schema CertificateRequest
  */
@@ -1212,9 +1450,15 @@ export class CertificateRequest extends ApiObject {
 }
 
 /**
- * A CertificateRequest is used to request a signed certificate from one of the configured issuers.
- * All fields within the CertificateRequest's `spec` are immutable after creation. A CertificateRequest will either succeed or fail, as denoted by its `Ready` status condition and its `status.failureTime` field.
- * A CertificateRequest is a one-shot resource, meaning it represents a single point in time request for a certificate and cannot be re-used.
+ * A CertificateRequest is used to request a signed certificate from one of the
+ * configured issuers.
+ *
+ * All fields within the CertificateRequest's `spec` are immutable after creation.
+ * A CertificateRequest will either succeed or fail, as denoted by its `Ready` status
+ * condition and its `status.failureTime` field.
+ *
+ * A CertificateRequest is a one-shot resource, meaning it represents a single
+ * point in time request for a certificate and cannot be re-used.
  *
  * @schema CertificateRequest
  */
@@ -1225,7 +1469,8 @@ export interface CertificateRequestProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * Specification of the desired state of the CertificateRequest resource. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+   * Specification of the desired state of the CertificateRequest resource.
+   * https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
    *
    * @schema CertificateRequest#spec
    */
@@ -1253,43 +1498,57 @@ export function toJson_CertificateRequestProps(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Specification of the desired state of the CertificateRequest resource. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+ * Specification of the desired state of the CertificateRequest resource.
+ * https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
  *
  * @schema CertificateRequestSpec
  */
 export interface CertificateRequestSpec {
   /**
-   * Requested 'duration' (i.e. lifetime) of the Certificate. Note that the issuer may choose to ignore the requested duration, just like any other requested attribute.
+   * Requested 'duration' (i.e. lifetime) of the Certificate. Note that the
+   * issuer may choose to ignore the requested duration, just like any other
+   * requested attribute.
    *
    * @schema CertificateRequestSpec#duration
    */
   readonly duration?: string;
 
   /**
-   * Extra contains extra attributes of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
+   * Extra contains extra attributes of the user that created the CertificateRequest.
+   * Populated by the cert-manager webhook on creation and immutable.
    *
    * @schema CertificateRequestSpec#extra
    */
   readonly extra?: { [key: string]: string[] };
 
   /**
-   * Groups contains group membership of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
+   * Groups contains group membership of the user that created the CertificateRequest.
+   * Populated by the cert-manager webhook on creation and immutable.
    *
    * @schema CertificateRequestSpec#groups
    */
   readonly groups?: string[];
 
   /**
-   * Requested basic constraints isCA value. Note that the issuer may choose to ignore the requested isCA value, just like any other requested attribute.
-   * NOTE: If the CSR in the `Request` field has a BasicConstraints extension, it must have the same isCA value as specified here.
-   * If true, this will automatically add the `cert sign` usage to the list of requested `usages`.
+   * Requested basic constraints isCA value. Note that the issuer may choose
+   * to ignore the requested isCA value, just like any other requested attribute.
+   *
+   * NOTE: If the CSR in the `Request` field has a BasicConstraints extension,
+   * it must have the same isCA value as specified here.
+   *
+   * If true, this will automatically add the `cert sign` usage to the list
+   * of requested `usages`.
    *
    * @schema CertificateRequestSpec#isCA
    */
   readonly isCa?: boolean;
 
   /**
-   * Reference to the issuer responsible for issuing the certificate. If the issuer is namespace-scoped, it must be in the same namespace as the Certificate. If the issuer is cluster-scoped, it can be used from any namespace.
+   * Reference to the issuer responsible for issuing the certificate.
+   * If the issuer is namespace-scoped, it must be in the same namespace
+   * as the Certificate. If the issuer is cluster-scoped, it can be used
+   * from any namespace.
+   *
    * The `name` field of the reference must always be specified.
    *
    * @schema CertificateRequestSpec#issuerRef
@@ -1297,15 +1556,24 @@ export interface CertificateRequestSpec {
   readonly issuerRef: CertificateRequestSpecIssuerRef;
 
   /**
-   * The PEM-encoded X.509 certificate signing request to be submitted to the issuer for signing.
-   * If the CSR has a BasicConstraints extension, its isCA attribute must match the `isCA` value of this CertificateRequest. If the CSR has a KeyUsage extension, its key usages must match the key usages in the `usages` field of this CertificateRequest. If the CSR has a ExtKeyUsage extension, its extended key usages must match the extended key usages in the `usages` field of this CertificateRequest.
+   * The PEM-encoded X.509 certificate signing request to be submitted to the
+   * issuer for signing.
+   *
+   * If the CSR has a BasicConstraints extension, its isCA attribute must
+   * match the `isCA` value of this CertificateRequest.
+   * If the CSR has a KeyUsage extension, its key usages must match the
+   * key usages in the `usages` field of this CertificateRequest.
+   * If the CSR has a ExtKeyUsage extension, its extended key usages
+   * must match the extended key usages in the `usages` field of this
+   * CertificateRequest.
    *
    * @schema CertificateRequestSpec#request
    */
   readonly request: string;
 
   /**
-   * UID contains the uid of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
+   * UID contains the uid of the user that created the CertificateRequest.
+   * Populated by the cert-manager webhook on creation and immutable.
    *
    * @schema CertificateRequestSpec#uid
    */
@@ -1313,7 +1581,11 @@ export interface CertificateRequestSpec {
 
   /**
    * Requested key usages and extended key usages.
-   * NOTE: If the CSR in the `Request` field has uses the KeyUsage or ExtKeyUsage extension, these extensions must have the same values as specified here without any additional values.
+   *
+   * NOTE: If the CSR in the `Request` field has uses the KeyUsage or
+   * ExtKeyUsage extension, these extensions must have the same values
+   * as specified here without any additional values.
+   *
    * If unset, defaults to `digital signature` and `key encipherment`.
    *
    * @schema CertificateRequestSpec#usages
@@ -1321,7 +1593,8 @@ export interface CertificateRequestSpec {
   readonly usages?: CertificateRequestSpecUsages[];
 
   /**
-   * Username contains the name of the user that created the CertificateRequest. Populated by the cert-manager webhook on creation and immutable.
+   * Username contains the name of the user that created the CertificateRequest.
+   * Populated by the cert-manager webhook on creation and immutable.
    *
    * @schema CertificateRequestSpec#username
    */
@@ -1362,7 +1635,11 @@ export function toJson_CertificateRequestSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Reference to the issuer responsible for issuing the certificate. If the issuer is namespace-scoped, it must be in the same namespace as the Certificate. If the issuer is cluster-scoped, it can be used from any namespace.
+ * Reference to the issuer responsible for issuing the certificate.
+ * If the issuer is namespace-scoped, it must be in the same namespace
+ * as the Certificate. If the issuer is cluster-scoped, it can be used
+ * from any namespace.
+ *
  * The `name` field of the reference must always be specified.
  *
  * @schema CertificateRequestSpecIssuerRef
@@ -1412,8 +1689,35 @@ export function toJson_CertificateRequestSpecIssuerRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * KeyUsage specifies valid usage contexts for keys. See: https://tools.ietf.org/html/rfc5280#section-4.2.1.3 https://tools.ietf.org/html/rfc5280#section-4.2.1.12
- * Valid KeyUsage values are as follows: "signing", "digital signature", "content commitment", "key encipherment", "key agreement", "data encipherment", "cert sign", "crl sign", "encipher only", "decipher only", "any", "server auth", "client auth", "code signing", "email protection", "s/mime", "ipsec end system", "ipsec tunnel", "ipsec user", "timestamping", "ocsp signing", "microsoft sgc", "netscape sgc"
+ * KeyUsage specifies valid usage contexts for keys.
+ * See:
+ * https://tools.ietf.org/html/rfc5280#section-4.2.1.3
+ * https://tools.ietf.org/html/rfc5280#section-4.2.1.12
+ *
+ * Valid KeyUsage values are as follows:
+ * "signing",
+ * "digital signature",
+ * "content commitment",
+ * "key encipherment",
+ * "key agreement",
+ * "data encipherment",
+ * "cert sign",
+ * "crl sign",
+ * "encipher only",
+ * "decipher only",
+ * "any",
+ * "server auth",
+ * "client auth",
+ * "code signing",
+ * "email protection",
+ * "s/mime",
+ * "ipsec end system",
+ * "ipsec tunnel",
+ * "ipsec user",
+ * "timestamping",
+ * "ocsp signing",
+ * "microsoft sgc",
+ * "netscape sgc"
  *
  * @schema CertificateRequestSpecUsages
  */
@@ -1467,7 +1771,11 @@ export enum CertificateRequestSpecUsages {
 }
 
 /**
- * A ClusterIssuer represents a certificate issuing authority which can be referenced as part of `issuerRef` fields. It is similar to an Issuer, however it is cluster-scoped and therefore can be referenced by resources that exist in *any* namespace, not just the same namespace as the referent.
+ * A ClusterIssuer represents a certificate issuing authority which can be
+referenced as part of `issuerRef` fields.
+It is similar to an Issuer, however it is cluster-scoped and therefore can
+be referenced by resources that exist in *any* namespace, not just the same
+namespace as the referent.
  *
  * @schema ClusterIssuer
  */
@@ -1521,7 +1829,11 @@ export class ClusterIssuer extends ApiObject {
 }
 
 /**
- * A ClusterIssuer represents a certificate issuing authority which can be referenced as part of `issuerRef` fields. It is similar to an Issuer, however it is cluster-scoped and therefore can be referenced by resources that exist in *any* namespace, not just the same namespace as the referent.
+ * A ClusterIssuer represents a certificate issuing authority which can be
+ * referenced as part of `issuerRef` fields.
+ * It is similar to an Issuer, however it is cluster-scoped and therefore can
+ * be referenced by resources that exist in *any* namespace, not just the same
+ * namespace as the referent.
  *
  * @schema ClusterIssuer
  */
@@ -1566,35 +1878,41 @@ export function toJson_ClusterIssuerProps(
  */
 export interface ClusterIssuerSpec {
   /**
-   * ACME configures this issuer to communicate with a RFC8555 (ACME) server to obtain signed x509 certificates.
+   * ACME configures this issuer to communicate with a RFC8555 (ACME) server
+   * to obtain signed x509 certificates.
    *
    * @schema ClusterIssuerSpec#acme
    */
   readonly acme?: ClusterIssuerSpecAcme;
 
   /**
-   * CA configures this issuer to sign certificates using a signing CA keypair stored in a Secret resource. This is used to build internal PKIs that are managed by cert-manager.
+   * CA configures this issuer to sign certificates using a signing CA keypair
+   * stored in a Secret resource.
+   * This is used to build internal PKIs that are managed by cert-manager.
    *
    * @schema ClusterIssuerSpec#ca
    */
   readonly ca?: ClusterIssuerSpecCa;
 
   /**
-   * SelfSigned configures this issuer to 'self sign' certificates using the private key used to create the CertificateRequest object.
+   * SelfSigned configures this issuer to 'self sign' certificates using the
+   * private key used to create the CertificateRequest object.
    *
    * @schema ClusterIssuerSpec#selfSigned
    */
   readonly selfSigned?: ClusterIssuerSpecSelfSigned;
 
   /**
-   * Vault configures this issuer to sign certificates using a HashiCorp Vault PKI backend.
+   * Vault configures this issuer to sign certificates using a HashiCorp Vault
+   * PKI backend.
    *
    * @schema ClusterIssuerSpec#vault
    */
   readonly vault?: ClusterIssuerSpecVault;
 
   /**
-   * Venafi configures this issuer to sign certificates using a Venafi TPP or Venafi Cloud policy zone.
+   * Venafi configures this issuer to sign certificates using a Venafi TPP
+   * or Venafi Cloud policy zone.
    *
    * @schema ClusterIssuerSpec#venafi
    */
@@ -1625,20 +1943,31 @@ export function toJson_ClusterIssuerSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
- * ACME configures this issuer to communicate with a RFC8555 (ACME) server to obtain signed x509 certificates.
+ * ACME configures this issuer to communicate with a RFC8555 (ACME) server
+ * to obtain signed x509 certificates.
  *
  * @schema ClusterIssuerSpecAcme
  */
 export interface ClusterIssuerSpecAcme {
   /**
-   * Base64-encoded bundle of PEM CAs which can be used to validate the certificate chain presented by the ACME server. Mutually exclusive with SkipTLSVerify; prefer using CABundle to prevent various kinds of security vulnerabilities. If CABundle and SkipTLSVerify are unset, the system certificate bundle inside the container is used to validate the TLS connection.
+   * Base64-encoded bundle of PEM CAs which can be used to validate the certificate
+   * chain presented by the ACME server.
+   * Mutually exclusive with SkipTLSVerify; prefer using CABundle to prevent various
+   * kinds of security vulnerabilities.
+   * If CABundle and SkipTLSVerify are unset, the system certificate bundle inside
+   * the container is used to validate the TLS connection.
    *
    * @schema ClusterIssuerSpecAcme#caBundle
    */
   readonly caBundle?: string;
 
   /**
-   * Enables or disables generating a new ACME account key. If true, the Issuer resource will *not* request a new account but will expect the account key to be supplied via an existing secret. If false, the cert-manager system will generate a new ACME account key for the Issuer. Defaults to false.
+   * Enables or disables generating a new ACME account key.
+   * If true, the Issuer resource will *not* request a new account but will expect
+   * the account key to be supplied via an existing secret.
+   * If false, the cert-manager system will generate a new ACME account key
+   * for the Issuer.
+   * Defaults to false.
    *
    * @default false.
    * @schema ClusterIssuerSpecAcme#disableAccountKeyGeneration
@@ -1646,14 +1975,22 @@ export interface ClusterIssuerSpecAcme {
   readonly disableAccountKeyGeneration?: boolean;
 
   /**
-   * Email is the email address to be associated with the ACME account. This field is optional, but it is strongly recommended to be set. It will be used to contact you in case of issues with your account or certificates, including expiry notification emails. This field may be updated after the account is initially registered.
+   * Email is the email address to be associated with the ACME account.
+   * This field is optional, but it is strongly recommended to be set.
+   * It will be used to contact you in case of issues with your account or
+   * certificates, including expiry notification emails.
+   * This field may be updated after the account is initially registered.
    *
    * @schema ClusterIssuerSpecAcme#email
    */
   readonly email?: string;
 
   /**
-   * Enables requesting a Not After date on certificates that matches the duration of the certificate. This is not supported by all ACME servers like Let's Encrypt. If set to true when the ACME server does not support it it will create an error on the Order. Defaults to false.
+   * Enables requesting a Not After date on certificates that matches the
+   * duration of the certificate. This is not supported by all ACME servers
+   * like Let's Encrypt. If set to true when the ACME server does not support
+   * it, it will create an error on the Order.
+   * Defaults to false.
    *
    * @default false.
    * @schema ClusterIssuerSpecAcme#enableDurationFeature
@@ -1661,35 +1998,60 @@ export interface ClusterIssuerSpecAcme {
   readonly enableDurationFeature?: boolean;
 
   /**
-   * ExternalAccountBinding is a reference to a CA external account of the ACME server. If set, upon registration cert-manager will attempt to associate the given external account credentials with the registered ACME account.
+   * ExternalAccountBinding is a reference to a CA external account of the ACME
+   * server.
+   * If set, upon registration cert-manager will attempt to associate the given
+   * external account credentials with the registered ACME account.
    *
    * @schema ClusterIssuerSpecAcme#externalAccountBinding
    */
   readonly externalAccountBinding?: ClusterIssuerSpecAcmeExternalAccountBinding;
 
   /**
-   * PreferredChain is the chain to use if the ACME server outputs multiple. PreferredChain is no guarantee that this one gets delivered by the ACME endpoint. For example, for Let's Encrypt's DST crosssign you would use: "DST Root CA X3" or "ISRG Root X1" for the newer Let's Encrypt root CA. This value picks the first certificate bundle in the ACME alternative chains that has a certificate with this value as its issuer's CN
+   * PreferredChain is the chain to use if the ACME server outputs multiple.
+   * PreferredChain is no guarantee that this one gets delivered by the ACME
+   * endpoint.
+   * For example, for Let's Encrypt's DST crosssign you would use:
+   * "DST Root CA X3" or "ISRG Root X1" for the newer Let's Encrypt root CA.
+   * This value picks the first certificate bundle in the combined set of
+   * ACME default and alternative chains that has a root-most certificate with
+   * this value as its issuer's commonname.
    *
    * @schema ClusterIssuerSpecAcme#preferredChain
    */
   readonly preferredChain?: string;
 
   /**
-   * PrivateKey is the name of a Kubernetes Secret resource that will be used to store the automatically generated ACME account private key. Optionally, a `key` may be specified to select a specific entry within the named Secret resource. If `key` is not specified, a default of `tls.key` will be used.
+   * PrivateKey is the name of a Kubernetes Secret resource that will be used to
+   * store the automatically generated ACME account private key.
+   * Optionally, a `key` may be specified to select a specific entry within
+   * the named Secret resource.
+   * If `key` is not specified, a default of `tls.key` will be used.
    *
    * @schema ClusterIssuerSpecAcme#privateKeySecretRef
    */
   readonly privateKeySecretRef: ClusterIssuerSpecAcmePrivateKeySecretRef;
 
   /**
-   * Server is the URL used to access the ACME server's 'directory' endpoint. For example, for Let's Encrypt's staging endpoint, you would use: "https://acme-staging-v02.api.letsencrypt.org/directory". Only ACME v2 endpoints (i.e. RFC 8555) are supported.
+   * Server is the URL used to access the ACME server's 'directory' endpoint.
+   * For example, for Let's Encrypt's staging endpoint, you would use:
+   * "https://acme-staging-v02.api.letsencrypt.org/directory".
+   * Only ACME v2 endpoints (i.e. RFC 8555) are supported.
    *
    * @schema ClusterIssuerSpecAcme#server
    */
   readonly server: string;
 
   /**
-   * INSECURE: Enables or disables validation of the ACME server TLS certificate. If true, requests to the ACME server will not have the TLS certificate chain validated. Mutually exclusive with CABundle; prefer using CABundle to prevent various kinds of security vulnerabilities. Only enable this option in development environments. If CABundle and SkipTLSVerify are unset, the system certificate bundle inside the container is used to validate the TLS connection. Defaults to false.
+   * INSECURE: Enables or disables validation of the ACME server TLS certificate.
+   * If true, requests to the ACME server will not have the TLS certificate chain
+   * validated.
+   * Mutually exclusive with CABundle; prefer using CABundle to prevent various
+   * kinds of security vulnerabilities.
+   * Only enable this option in development environments.
+   * If CABundle and SkipTLSVerify are unset, the system certificate bundle inside
+   * the container is used to validate the TLS connection.
+   * Defaults to false.
    *
    * @default false.
    * @schema ClusterIssuerSpecAcme#skipTLSVerify
@@ -1697,7 +2059,11 @@ export interface ClusterIssuerSpecAcme {
   readonly skipTlsVerify?: boolean;
 
   /**
-   * Solvers is a list of challenge solvers that will be used to solve ACME challenges for the matching domains. Solver configurations must be provided in order to obtain certificates from an ACME server. For more information, see: https://cert-manager.io/docs/configuration/acme/
+   * Solvers is a list of challenge solvers that will be used to solve
+   * ACME challenges for the matching domains.
+   * Solver configurations must be provided in order to obtain certificates
+   * from an ACME server.
+   * For more information, see: https://cert-manager.io/docs/configuration/acme/
    *
    * @schema ClusterIssuerSpecAcme#solvers
    */
@@ -1738,34 +2104,45 @@ export function toJson_ClusterIssuerSpecAcme(
 /* eslint-enable max-len, quote-props */
 
 /**
- * CA configures this issuer to sign certificates using a signing CA keypair stored in a Secret resource. This is used to build internal PKIs that are managed by cert-manager.
+ * CA configures this issuer to sign certificates using a signing CA keypair
+ * stored in a Secret resource.
+ * This is used to build internal PKIs that are managed by cert-manager.
  *
  * @schema ClusterIssuerSpecCa
  */
 export interface ClusterIssuerSpecCa {
   /**
-   * The CRL distribution points is an X.509 v3 certificate extension which identifies the location of the CRL from which the revocation of this certificate can be checked. If not set, certificates will be issued without distribution points set.
+   * The CRL distribution points is an X.509 v3 certificate extension which identifies
+   * the location of the CRL from which the revocation of this certificate can be checked.
+   * If not set, certificates will be issued without distribution points set.
    *
    * @schema ClusterIssuerSpecCa#crlDistributionPoints
    */
   readonly crlDistributionPoints?: string[];
 
   /**
-   * IssuingCertificateURLs is a list of URLs which this issuer should embed into certificates it creates. See https://www.rfc-editor.org/rfc/rfc5280#section-4.2.2.1 for more details. As an example, such a URL might be "http://ca.domain.com/ca.crt".
+   * IssuingCertificateURLs is a list of URLs which this issuer should embed into certificates
+   * it creates. See https://www.rfc-editor.org/rfc/rfc5280#section-4.2.2.1 for more details.
+   * As an example, such a URL might be "http://ca.domain.com/ca.crt".
    *
    * @schema ClusterIssuerSpecCa#issuingCertificateURLs
    */
   readonly issuingCertificateUrLs?: string[];
 
   /**
-   * The OCSP server list is an X.509 v3 extension that defines a list of URLs of OCSP responders. The OCSP responders can be queried for the revocation status of an issued certificate. If not set, the certificate will be issued with no OCSP servers set. For example, an OCSP server URL could be "http://ocsp.int-x3.letsencrypt.org".
+   * The OCSP server list is an X.509 v3 extension that defines a list of
+   * URLs of OCSP responders. The OCSP responders can be queried for the
+   * revocation status of an issued certificate. If not set, the
+   * certificate will be issued with no OCSP servers set. For example, an
+   * OCSP server URL could be "http://ocsp.int-x3.letsencrypt.org".
    *
    * @schema ClusterIssuerSpecCa#ocspServers
    */
   readonly ocspServers?: string[];
 
   /**
-   * SecretName is the name of the secret used to sign Certificates issued by this Issuer.
+   * SecretName is the name of the secret used to sign Certificates issued
+   * by this Issuer.
    *
    * @schema ClusterIssuerSpecCa#secretName
    */
@@ -1795,13 +2172,16 @@ export function toJson_ClusterIssuerSpecCa(
 /* eslint-enable max-len, quote-props */
 
 /**
- * SelfSigned configures this issuer to 'self sign' certificates using the private key used to create the CertificateRequest object.
+ * SelfSigned configures this issuer to 'self sign' certificates using the
+ * private key used to create the CertificateRequest object.
  *
  * @schema ClusterIssuerSpecSelfSigned
  */
 export interface ClusterIssuerSpecSelfSigned {
   /**
-   * The CRL distribution points is an X.509 v3 certificate extension which identifies the location of the CRL from which the revocation of this certificate can be checked. If not set certificate will be issued without CDP. Values are strings.
+   * The CRL distribution points is an X.509 v3 certificate extension which identifies
+   * the location of the CRL from which the revocation of this certificate can be checked.
+   * If not set certificate will be issued without CDP. Values are strings.
    *
    * @schema ClusterIssuerSpecSelfSigned#crlDistributionPoints
    */
@@ -1828,7 +2208,8 @@ export function toJson_ClusterIssuerSpecSelfSigned(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Vault configures this issuer to sign certificates using a HashiCorp Vault PKI backend.
+ * Vault configures this issuer to sign certificates using a HashiCorp Vault
+ * PKI backend.
  *
  * @schema ClusterIssuerSpecVault
  */
@@ -1841,28 +2222,56 @@ export interface ClusterIssuerSpecVault {
   readonly auth: ClusterIssuerSpecVaultAuth;
 
   /**
-   * Base64-encoded bundle of PEM CAs which will be used to validate the certificate chain presented by Vault. Only used if using HTTPS to connect to Vault and ignored for HTTP connections. Mutually exclusive with CABundleSecretRef. If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in the cert-manager controller container is used to validate the TLS connection.
+   * Base64-encoded bundle of PEM CAs which will be used to validate the certificate
+   * chain presented by Vault. Only used if using HTTPS to connect to Vault and
+   * ignored for HTTP connections.
+   * Mutually exclusive with CABundleSecretRef.
+   * If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in
+   * the cert-manager controller container is used to validate the TLS connection.
    *
    * @schema ClusterIssuerSpecVault#caBundle
    */
   readonly caBundle?: string;
 
   /**
-   * Reference to a Secret containing a bundle of PEM-encoded CAs to use when verifying the certificate chain presented by Vault when using HTTPS. Mutually exclusive with CABundle. If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in the cert-manager controller container is used to validate the TLS connection. If no key for the Secret is specified, cert-manager will default to 'ca.crt'.
+   * Reference to a Secret containing a bundle of PEM-encoded CAs to use when
+   * verifying the certificate chain presented by Vault when using HTTPS.
+   * Mutually exclusive with CABundle.
+   * If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in
+   * the cert-manager controller container is used to validate the TLS connection.
+   * If no key for the Secret is specified, cert-manager will default to 'ca.crt'.
    *
    * @schema ClusterIssuerSpecVault#caBundleSecretRef
    */
   readonly caBundleSecretRef?: ClusterIssuerSpecVaultCaBundleSecretRef;
 
   /**
-   * Name of the vault namespace. Namespaces is a set of features within Vault Enterprise that allows Vault environments to support Secure Multi-tenancy. e.g: "ns1" More about namespaces can be found here https://www.vaultproject.io/docs/enterprise/namespaces
+   * Reference to a Secret containing a PEM-encoded Client Certificate to use when the
+   * Vault server requires mTLS.
+   *
+   * @schema ClusterIssuerSpecVault#clientCertSecretRef
+   */
+  readonly clientCertSecretRef?: ClusterIssuerSpecVaultClientCertSecretRef;
+
+  /**
+   * Reference to a Secret containing a PEM-encoded Client Private Key to use when the
+   * Vault server requires mTLS.
+   *
+   * @schema ClusterIssuerSpecVault#clientKeySecretRef
+   */
+  readonly clientKeySecretRef?: ClusterIssuerSpecVaultClientKeySecretRef;
+
+  /**
+   * Name of the vault namespace. Namespaces is a set of features within Vault Enterprise that allows Vault environments to support Secure Multi-tenancy. e.g: "ns1"
+   * More about namespaces can be found here https://www.vaultproject.io/docs/enterprise/namespaces
    *
    * @schema ClusterIssuerSpecVault#namespace
    */
   readonly namespace?: string;
 
   /**
-   * Path is the mount path of the Vault PKI backend's `sign` endpoint, e.g: "my_pki_mount/sign/my-role-name".
+   * Path is the mount path of the Vault PKI backend's `sign` endpoint, e.g:
+   * "my_pki_mount/sign/my-role-name".
    *
    * @schema ClusterIssuerSpecVault#path
    */
@@ -1890,6 +2299,12 @@ export function toJson_ClusterIssuerSpecVault(
     "caBundleSecretRef": toJson_ClusterIssuerSpecVaultCaBundleSecretRef(
       obj.caBundleSecretRef,
     ),
+    "clientCertSecretRef": toJson_ClusterIssuerSpecVaultClientCertSecretRef(
+      obj.clientCertSecretRef,
+    ),
+    "clientKeySecretRef": toJson_ClusterIssuerSpecVaultClientKeySecretRef(
+      obj.clientKeySecretRef,
+    ),
     "namespace": obj.namespace,
     "path": obj.path,
     "server": obj.server,
@@ -1903,27 +2318,33 @@ export function toJson_ClusterIssuerSpecVault(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Venafi configures this issuer to sign certificates using a Venafi TPP or Venafi Cloud policy zone.
+ * Venafi configures this issuer to sign certificates using a Venafi TPP
+ * or Venafi Cloud policy zone.
  *
  * @schema ClusterIssuerSpecVenafi
  */
 export interface ClusterIssuerSpecVenafi {
   /**
-   * Cloud specifies the Venafi cloud configuration settings. Only one of TPP or Cloud may be specified.
+   * Cloud specifies the Venafi cloud configuration settings.
+   * Only one of TPP or Cloud may be specified.
    *
    * @schema ClusterIssuerSpecVenafi#cloud
    */
   readonly cloud?: ClusterIssuerSpecVenafiCloud;
 
   /**
-   * TPP specifies Trust Protection Platform configuration settings. Only one of TPP or Cloud may be specified.
+   * TPP specifies Trust Protection Platform configuration settings.
+   * Only one of TPP or Cloud may be specified.
    *
    * @schema ClusterIssuerSpecVenafi#tpp
    */
   readonly tpp?: ClusterIssuerSpecVenafiTpp;
 
   /**
-   * Zone is the Venafi Policy Zone to use for this issuer. All requests made to the Venafi platform will be restricted by the named zone policy. This field is required.
+   * Zone is the Venafi Policy Zone to use for this issuer.
+   * All requests made to the Venafi platform will be restricted by the named
+   * zone policy.
+   * This field is required.
    *
    * @schema ClusterIssuerSpecVenafi#zone
    */
@@ -1952,13 +2373,18 @@ export function toJson_ClusterIssuerSpecVenafi(
 /* eslint-enable max-len, quote-props */
 
 /**
- * ExternalAccountBinding is a reference to a CA external account of the ACME server. If set, upon registration cert-manager will attempt to associate the given external account credentials with the registered ACME account.
+ * ExternalAccountBinding is a reference to a CA external account of the ACME
+ * server.
+ * If set, upon registration cert-manager will attempt to associate the given
+ * external account credentials with the registered ACME account.
  *
  * @schema ClusterIssuerSpecAcmeExternalAccountBinding
  */
 export interface ClusterIssuerSpecAcmeExternalAccountBinding {
   /**
-   * Deprecated: keyAlgorithm field exists for historical compatibility reasons and should not be used. The algorithm is now hardcoded to HS256 in golang/x/crypto/acme.
+   * Deprecated: keyAlgorithm field exists for historical compatibility
+   * reasons and should not be used. The algorithm is now hardcoded to HS256
+   * in golang/x/crypto/acme.
    *
    * @schema ClusterIssuerSpecAcmeExternalAccountBinding#keyAlgorithm
    */
@@ -1973,7 +2399,13 @@ export interface ClusterIssuerSpecAcmeExternalAccountBinding {
   readonly keyId: string;
 
   /**
-   * keySecretRef is a Secret Key Selector referencing a data item in a Kubernetes Secret which holds the symmetric MAC key of the External Account Binding. The `key` is the index string that is paired with the key data in the Secret and should not be confused with the key data itself, or indeed with the External Account Binding keyID above. The secret key stored in the Secret **must** be un-padded, base64 URL encoded data.
+   * keySecretRef is a Secret Key Selector referencing a data item in a Kubernetes
+   * Secret which holds the symmetric MAC key of the External Account Binding.
+   * The `key` is the index string that is paired with the key data in the
+   * Secret and should not be confused with the key data itself, or indeed with
+   * the External Account Binding keyID above.
+   * The secret key stored in the Secret **must** be un-padded, base64 URL
+   * encoded data.
    *
    * @schema ClusterIssuerSpecAcmeExternalAccountBinding#keySecretRef
    */
@@ -2006,20 +2438,27 @@ export function toJson_ClusterIssuerSpecAcmeExternalAccountBinding(
 /* eslint-enable max-len, quote-props */
 
 /**
- * PrivateKey is the name of a Kubernetes Secret resource that will be used to store the automatically generated ACME account private key. Optionally, a `key` may be specified to select a specific entry within the named Secret resource. If `key` is not specified, a default of `tls.key` will be used.
+ * PrivateKey is the name of a Kubernetes Secret resource that will be used to
+ * store the automatically generated ACME account private key.
+ * Optionally, a `key` may be specified to select a specific entry within
+ * the named Secret resource.
+ * If `key` is not specified, a default of `tls.key` will be used.
  *
  * @schema ClusterIssuerSpecAcmePrivateKeySecretRef
  */
 export interface ClusterIssuerSpecAcmePrivateKeySecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmePrivateKeySecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmePrivateKeySecretRef#name
    */
@@ -2047,27 +2486,37 @@ export function toJson_ClusterIssuerSpecAcmePrivateKeySecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * An ACMEChallengeSolver describes how to solve ACME challenges for the issuer it is part of. A selector may be provided to use different solving strategies for different DNS names. Only one of HTTP01 or DNS01 must be provided.
+ * An ACMEChallengeSolver describes how to solve ACME challenges for the issuer it is part of.
+ * A selector may be provided to use different solving strategies for different DNS names.
+ * Only one of HTTP01 or DNS01 must be provided.
  *
  * @schema ClusterIssuerSpecAcmeSolvers
  */
 export interface ClusterIssuerSpecAcmeSolvers {
   /**
-   * Configures cert-manager to attempt to complete authorizations by performing the DNS01 challenge flow.
+   * Configures cert-manager to attempt to complete authorizations by
+   * performing the DNS01 challenge flow.
    *
    * @schema ClusterIssuerSpecAcmeSolvers#dns01
    */
   readonly dns01?: ClusterIssuerSpecAcmeSolversDns01;
 
   /**
-   * Configures cert-manager to attempt to complete authorizations by performing the HTTP01 challenge flow. It is not possible to obtain certificates for wildcard domain names (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
+   * Configures cert-manager to attempt to complete authorizations by
+   * performing the HTTP01 challenge flow.
+   * It is not possible to obtain certificates for wildcard domain names
+   * (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
    *
    * @schema ClusterIssuerSpecAcmeSolvers#http01
    */
   readonly http01?: ClusterIssuerSpecAcmeSolversHttp01;
 
   /**
-   * Selector selects a set of DNSNames on the Certificate resource that should be solved using this challenge solver. If not specified, the solver will be treated as the 'default' solver with the lowest priority, i.e. if any other solver has a more specific match, it will be used instead.
+   * Selector selects a set of DNSNames on the Certificate resource that
+   * should be solved using this challenge solver.
+   * If not specified, the solver will be treated as the 'default' solver
+   * with the lowest priority, i.e. if any other solver has a more specific
+   * match, it will be used instead.
    *
    * @schema ClusterIssuerSpecAcmeSolvers#selector
    */
@@ -2102,14 +2551,16 @@ export function toJson_ClusterIssuerSpecAcmeSolvers(
  */
 export interface ClusterIssuerSpecVaultAuth {
   /**
-   * AppRole authenticates with Vault using the App Role auth mechanism, with the role and secret stored in a Kubernetes Secret resource.
+   * AppRole authenticates with Vault using the App Role auth mechanism,
+   * with the role and secret stored in a Kubernetes Secret resource.
    *
    * @schema ClusterIssuerSpecVaultAuth#appRole
    */
   readonly appRole?: ClusterIssuerSpecVaultAuthAppRole;
 
   /**
-   * Kubernetes authenticates with Vault by passing the ServiceAccount token stored in the named Secret resource to the Vault server.
+   * Kubernetes authenticates with Vault by passing the ServiceAccount
+   * token stored in the named Secret resource to the Vault server.
    *
    * @schema ClusterIssuerSpecVaultAuth#kubernetes
    */
@@ -2147,20 +2598,28 @@ export function toJson_ClusterIssuerSpecVaultAuth(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Reference to a Secret containing a bundle of PEM-encoded CAs to use when verifying the certificate chain presented by Vault when using HTTPS. Mutually exclusive with CABundle. If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in the cert-manager controller container is used to validate the TLS connection. If no key for the Secret is specified, cert-manager will default to 'ca.crt'.
+ * Reference to a Secret containing a bundle of PEM-encoded CAs to use when
+ * verifying the certificate chain presented by Vault when using HTTPS.
+ * Mutually exclusive with CABundle.
+ * If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in
+ * the cert-manager controller container is used to validate the TLS connection.
+ * If no key for the Secret is specified, cert-manager will default to 'ca.crt'.
  *
  * @schema ClusterIssuerSpecVaultCaBundleSecretRef
  */
 export interface ClusterIssuerSpecVaultCaBundleSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecVaultCaBundleSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecVaultCaBundleSecretRef#name
    */
@@ -2188,7 +2647,98 @@ export function toJson_ClusterIssuerSpecVaultCaBundleSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Cloud specifies the Venafi cloud configuration settings. Only one of TPP or Cloud may be specified.
+ * Reference to a Secret containing a PEM-encoded Client Certificate to use when the
+ * Vault server requires mTLS.
+ *
+ * @schema ClusterIssuerSpecVaultClientCertSecretRef
+ */
+export interface ClusterIssuerSpecVaultClientCertSecretRef {
+  /**
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
+   *
+   * @schema ClusterIssuerSpecVaultClientCertSecretRef#key
+   */
+  readonly key?: string;
+
+  /**
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   *
+   * @schema ClusterIssuerSpecVaultClientCertSecretRef#name
+   */
+  readonly name: string;
+}
+
+/**
+ * Converts an object of type 'ClusterIssuerSpecVaultClientCertSecretRef' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ClusterIssuerSpecVaultClientCertSecretRef(
+  obj: ClusterIssuerSpecVaultClientCertSecretRef | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "name": obj.name,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Reference to a Secret containing a PEM-encoded Client Private Key to use when the
+ * Vault server requires mTLS.
+ *
+ * @schema ClusterIssuerSpecVaultClientKeySecretRef
+ */
+export interface ClusterIssuerSpecVaultClientKeySecretRef {
+  /**
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
+   *
+   * @schema ClusterIssuerSpecVaultClientKeySecretRef#key
+   */
+  readonly key?: string;
+
+  /**
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   *
+   * @schema ClusterIssuerSpecVaultClientKeySecretRef#name
+   */
+  readonly name: string;
+}
+
+/**
+ * Converts an object of type 'ClusterIssuerSpecVaultClientKeySecretRef' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ClusterIssuerSpecVaultClientKeySecretRef(
+  obj: ClusterIssuerSpecVaultClientKeySecretRef | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "name": obj.name,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Cloud specifies the Venafi cloud configuration settings.
+ * Only one of TPP or Cloud may be specified.
  *
  * @schema ClusterIssuerSpecVenafiCloud
  */
@@ -2201,7 +2751,8 @@ export interface ClusterIssuerSpecVenafiCloud {
   readonly apiTokenSecretRef: ClusterIssuerSpecVenafiCloudApiTokenSecretRef;
 
   /**
-   * URL is the base URL for Venafi Cloud. Defaults to "https://api.venafi.cloud/v1".
+   * URL is the base URL for Venafi Cloud.
+   * Defaults to "https://api.venafi.cloud/v1".
    *
    * @default https://api.venafi.cloud/v1".
    * @schema ClusterIssuerSpecVenafiCloud#url
@@ -2232,27 +2783,34 @@ export function toJson_ClusterIssuerSpecVenafiCloud(
 /* eslint-enable max-len, quote-props */
 
 /**
- * TPP specifies Trust Protection Platform configuration settings. Only one of TPP or Cloud may be specified.
+ * TPP specifies Trust Protection Platform configuration settings.
+ * Only one of TPP or Cloud may be specified.
  *
  * @schema ClusterIssuerSpecVenafiTpp
  */
 export interface ClusterIssuerSpecVenafiTpp {
   /**
-   * Base64-encoded bundle of PEM CAs which will be used to validate the certificate chain presented by the TPP server. Only used if using HTTPS; ignored for HTTP. If undefined, the certificate bundle in the cert-manager controller container is used to validate the chain.
+   * Base64-encoded bundle of PEM CAs which will be used to validate the certificate
+   * chain presented by the TPP server. Only used if using HTTPS; ignored for HTTP.
+   * If undefined, the certificate bundle in the cert-manager controller container
+   * is used to validate the chain.
    *
    * @schema ClusterIssuerSpecVenafiTpp#caBundle
    */
   readonly caBundle?: string;
 
   /**
-   * CredentialsRef is a reference to a Secret containing the username and password for the TPP server. The secret must contain two keys, 'username' and 'password'.
+   * CredentialsRef is a reference to a Secret containing the username and
+   * password for the TPP server.
+   * The secret must contain two keys, 'username' and 'password'.
    *
    * @schema ClusterIssuerSpecVenafiTpp#credentialsRef
    */
   readonly credentialsRef: ClusterIssuerSpecVenafiTppCredentialsRef;
 
   /**
-   * URL is the base URL for the vedsdk endpoint of the Venafi TPP instance, for example: "https://tpp.example.com/vedsdk".
+   * URL is the base URL for the vedsdk endpoint of the Venafi TPP instance,
+   * for example: "https://tpp.example.com/vedsdk".
    *
    * @schema ClusterIssuerSpecVenafiTpp#url
    */
@@ -2283,7 +2841,9 @@ export function toJson_ClusterIssuerSpecVenafiTpp(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Deprecated: keyAlgorithm field exists for historical compatibility reasons and should not be used. The algorithm is now hardcoded to HS256 in golang/x/crypto/acme.
+ * Deprecated: keyAlgorithm field exists for historical compatibility
+ * reasons and should not be used. The algorithm is now hardcoded to HS256
+ * in golang/x/crypto/acme.
  *
  * @schema ClusterIssuerSpecAcmeExternalAccountBindingKeyAlgorithm
  */
@@ -2297,20 +2857,29 @@ export enum ClusterIssuerSpecAcmeExternalAccountBindingKeyAlgorithm {
 }
 
 /**
- * keySecretRef is a Secret Key Selector referencing a data item in a Kubernetes Secret which holds the symmetric MAC key of the External Account Binding. The `key` is the index string that is paired with the key data in the Secret and should not be confused with the key data itself, or indeed with the External Account Binding keyID above. The secret key stored in the Secret **must** be un-padded, base64 URL encoded data.
+ * keySecretRef is a Secret Key Selector referencing a data item in a Kubernetes
+ * Secret which holds the symmetric MAC key of the External Account Binding.
+ * The `key` is the index string that is paired with the key data in the
+ * Secret and should not be confused with the key data itself, or indeed with
+ * the External Account Binding keyID above.
+ * The secret key stored in the Secret **must** be un-padded, base64 URL
+ * encoded data.
  *
  * @schema ClusterIssuerSpecAcmeExternalAccountBindingKeySecretRef
  */
 export interface ClusterIssuerSpecAcmeExternalAccountBindingKeySecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeExternalAccountBindingKeySecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeExternalAccountBindingKeySecretRef#name
    */
@@ -2338,13 +2907,15 @@ export function toJson_ClusterIssuerSpecAcmeExternalAccountBindingKeySecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configures cert-manager to attempt to complete authorizations by performing the DNS01 challenge flow.
+ * Configures cert-manager to attempt to complete authorizations by
+ * performing the DNS01 challenge flow.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01
  */
 export interface ClusterIssuerSpecAcmeSolversDns01 {
   /**
-   * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
+   * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage
+   * DNS01 challenge records.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01#acmeDNS
    */
@@ -2379,7 +2950,8 @@ export interface ClusterIssuerSpecAcmeSolversDns01 {
   readonly cloudflare?: ClusterIssuerSpecAcmeSolversDns01Cloudflare;
 
   /**
-   * CNAMEStrategy configures how the DNS01 provider should handle CNAME records when found in DNS zones.
+   * CNAMEStrategy configures how the DNS01 provider should handle CNAME
+   * records when found in DNS zones.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01#cnameStrategy
    */
@@ -2393,7 +2965,8 @@ export interface ClusterIssuerSpecAcmeSolversDns01 {
   readonly digitalocean?: ClusterIssuerSpecAcmeSolversDns01Digitalocean;
 
   /**
-   * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/) to manage DNS01 challenge records.
+   * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/)
+   * to manage DNS01 challenge records.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01#rfc2136
    */
@@ -2407,7 +2980,8 @@ export interface ClusterIssuerSpecAcmeSolversDns01 {
   readonly route53?: ClusterIssuerSpecAcmeSolversDns01Route53;
 
   /**
-   * Configure an external webhook based DNS01 challenge solver to manage DNS01 challenge records.
+   * Configure an external webhook based DNS01 challenge solver to manage
+   * DNS01 challenge records.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01#webhook
    */
@@ -2447,13 +3021,19 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configures cert-manager to attempt to complete authorizations by performing the HTTP01 challenge flow. It is not possible to obtain certificates for wildcard domain names (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
+ * Configures cert-manager to attempt to complete authorizations by
+ * performing the HTTP01 challenge flow.
+ * It is not possible to obtain certificates for wildcard domain names
+ * (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01 {
   /**
-   * The Gateway API is a sig-network community API that models service networking in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will create HTTPRoutes with the specified labels in the same namespace as the challenge. This solver is experimental, and fields / behaviour may change in the future.
+   * The Gateway API is a sig-network community API that models service networking
+   * in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will
+   * create HTTPRoutes with the specified labels in the same namespace as the challenge.
+   * This solver is experimental, and fields / behaviour may change in the future.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01#gatewayHTTPRoute
    */
@@ -2461,7 +3041,10 @@ export interface ClusterIssuerSpecAcmeSolversHttp01 {
     ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRoute;
 
   /**
-   * The ingress based HTTP01 challenge solver will solve challenges by creating or modifying Ingress resources in order to route requests for '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are provisioned by cert-manager for each Challenge to be completed.
+   * The ingress based HTTP01 challenge solver will solve challenges by
+   * creating or modifying Ingress resources in order to route requests for
+   * '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are
+   * provisioned by cert-manager for each Challenge to be completed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01#ingress
    */
@@ -2492,27 +3075,46 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Selector selects a set of DNSNames on the Certificate resource that should be solved using this challenge solver. If not specified, the solver will be treated as the 'default' solver with the lowest priority, i.e. if any other solver has a more specific match, it will be used instead.
+ * Selector selects a set of DNSNames on the Certificate resource that
+ * should be solved using this challenge solver.
+ * If not specified, the solver will be treated as the 'default' solver
+ * with the lowest priority, i.e. if any other solver has a more specific
+ * match, it will be used instead.
  *
  * @schema ClusterIssuerSpecAcmeSolversSelector
  */
 export interface ClusterIssuerSpecAcmeSolversSelector {
   /**
-   * List of DNSNames that this solver will be used to solve. If specified and a match is found, a dnsNames selector will take precedence over a dnsZones selector. If multiple solvers match with the same dnsNames value, the solver with the most matching labels in matchLabels will be selected. If neither has more matches, the solver defined earlier in the list will be selected.
+   * List of DNSNames that this solver will be used to solve.
+   * If specified and a match is found, a dnsNames selector will take
+   * precedence over a dnsZones selector.
+   * If multiple solvers match with the same dnsNames value, the solver
+   * with the most matching labels in matchLabels will be selected.
+   * If neither has more matches, the solver defined earlier in the list
+   * will be selected.
    *
    * @schema ClusterIssuerSpecAcmeSolversSelector#dnsNames
    */
   readonly dnsNames?: string[];
 
   /**
-   * List of DNSZones that this solver will be used to solve. The most specific DNS zone match specified here will take precedence over other DNS zone matches, so a solver specifying sys.example.com will be selected over one specifying example.com for the domain www.sys.example.com. If multiple solvers match with the same dnsZones value, the solver with the most matching labels in matchLabels will be selected. If neither has more matches, the solver defined earlier in the list will be selected.
+   * List of DNSZones that this solver will be used to solve.
+   * The most specific DNS zone match specified here will take precedence
+   * over other DNS zone matches, so a solver specifying sys.example.com
+   * will be selected over one specifying example.com for the domain
+   * www.sys.example.com.
+   * If multiple solvers match with the same dnsZones value, the solver
+   * with the most matching labels in matchLabels will be selected.
+   * If neither has more matches, the solver defined earlier in the list
+   * will be selected.
    *
    * @schema ClusterIssuerSpecAcmeSolversSelector#dnsZones
    */
   readonly dnsZones?: string[];
 
   /**
-   * A label selector that is used to refine the set of certificate's that this challenge solver will apply to.
+   * A label selector that is used to refine the set of certificate's that
+   * this challenge solver will apply to.
    *
    * @schema ClusterIssuerSpecAcmeSolversSelector#matchLabels
    */
@@ -2546,27 +3148,33 @@ export function toJson_ClusterIssuerSpecAcmeSolversSelector(
 /* eslint-enable max-len, quote-props */
 
 /**
- * AppRole authenticates with Vault using the App Role auth mechanism, with the role and secret stored in a Kubernetes Secret resource.
+ * AppRole authenticates with Vault using the App Role auth mechanism,
+ * with the role and secret stored in a Kubernetes Secret resource.
  *
  * @schema ClusterIssuerSpecVaultAuthAppRole
  */
 export interface ClusterIssuerSpecVaultAuthAppRole {
   /**
-   * Path where the App Role authentication backend is mounted in Vault, e.g: "approle"
+   * Path where the App Role authentication backend is mounted in Vault, e.g:
+   * "approle"
    *
    * @schema ClusterIssuerSpecVaultAuthAppRole#path
    */
   readonly path: string;
 
   /**
-   * RoleID configured in the App Role authentication backend when setting up the authentication backend in Vault.
+   * RoleID configured in the App Role authentication backend when setting
+   * up the authentication backend in Vault.
    *
    * @schema ClusterIssuerSpecVaultAuthAppRole#roleId
    */
   readonly roleId: string;
 
   /**
-   * Reference to a key in a Secret that contains the App Role secret used to authenticate with Vault. The `key` field must be specified and denotes which entry within the Secret resource is used as the app role secret.
+   * Reference to a key in a Secret that contains the App Role secret used
+   * to authenticate with Vault.
+   * The `key` field must be specified and denotes which entry within the Secret
+   * resource is used as the app role secret.
    *
    * @schema ClusterIssuerSpecVaultAuthAppRole#secretRef
    */
@@ -2597,34 +3205,45 @@ export function toJson_ClusterIssuerSpecVaultAuthAppRole(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Kubernetes authenticates with Vault by passing the ServiceAccount token stored in the named Secret resource to the Vault server.
+ * Kubernetes authenticates with Vault by passing the ServiceAccount
+ * token stored in the named Secret resource to the Vault server.
  *
  * @schema ClusterIssuerSpecVaultAuthKubernetes
  */
 export interface ClusterIssuerSpecVaultAuthKubernetes {
   /**
-   * The Vault mountPath here is the mount path to use when authenticating with Vault. For example, setting a value to `/v1/auth/foo`, will use the path `/v1/auth/foo/login` to authenticate with Vault. If unspecified, the default value "/v1/auth/kubernetes" will be used.
+   * The Vault mountPath here is the mount path to use when authenticating with
+   * Vault. For example, setting a value to `/v1/auth/foo`, will use the path
+   * `/v1/auth/foo/login` to authenticate with Vault. If unspecified, the
+   * default value "/v1/auth/kubernetes" will be used.
    *
    * @schema ClusterIssuerSpecVaultAuthKubernetes#mountPath
    */
   readonly mountPath?: string;
 
   /**
-   * A required field containing the Vault Role to assume. A Role binds a Kubernetes ServiceAccount with a set of Vault policies.
+   * A required field containing the Vault Role to assume. A Role binds a
+   * Kubernetes ServiceAccount with a set of Vault policies.
    *
    * @schema ClusterIssuerSpecVaultAuthKubernetes#role
    */
   readonly role: string;
 
   /**
-   * The required Secret field containing a Kubernetes ServiceAccount JWT used for authenticating with Vault. Use of 'ambient credentials' is not supported.
+   * The required Secret field containing a Kubernetes ServiceAccount JWT used
+   * for authenticating with Vault. Use of 'ambient credentials' is not
+   * supported.
    *
    * @schema ClusterIssuerSpecVaultAuthKubernetes#secretRef
    */
   readonly secretRef?: ClusterIssuerSpecVaultAuthKubernetesSecretRef;
 
   /**
-   * A reference to a service account that will be used to request a bound token (also known as "projected token"). Compared to using "secretRef", using this field means that you don't rely on statically bound tokens. To use this field, you must configure an RBAC rule to let cert-manager request a token.
+   * A reference to a service account that will be used to request a bound
+   * token (also known as "projected token"). Compared to using "secretRef",
+   * using this field means that you don't rely on statically bound tokens. To
+   * use this field, you must configure an RBAC rule to let cert-manager
+   * request a token.
    *
    * @schema ClusterIssuerSpecVaultAuthKubernetes#serviceAccountRef
    */
@@ -2666,14 +3285,17 @@ export function toJson_ClusterIssuerSpecVaultAuthKubernetes(
  */
 export interface ClusterIssuerSpecVaultAuthTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecVaultAuthTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecVaultAuthTokenSecretRef#name
    */
@@ -2707,14 +3329,17 @@ export function toJson_ClusterIssuerSpecVaultAuthTokenSecretRef(
  */
 export interface ClusterIssuerSpecVenafiCloudApiTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecVenafiCloudApiTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecVenafiCloudApiTokenSecretRef#name
    */
@@ -2742,13 +3367,16 @@ export function toJson_ClusterIssuerSpecVenafiCloudApiTokenSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * CredentialsRef is a reference to a Secret containing the username and password for the TPP server. The secret must contain two keys, 'username' and 'password'.
+ * CredentialsRef is a reference to a Secret containing the username and
+ * password for the TPP server.
+ * The secret must contain two keys, 'username' and 'password'.
  *
  * @schema ClusterIssuerSpecVenafiTppCredentialsRef
  */
 export interface ClusterIssuerSpecVenafiTppCredentialsRef {
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecVenafiTppCredentialsRef#name
    */
@@ -2775,13 +3403,15 @@ export function toJson_ClusterIssuerSpecVenafiTppCredentialsRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
+ * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage
+ * DNS01 challenge records.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01AcmeDns
  */
 export interface ClusterIssuerSpecAcmeSolversDns01AcmeDns {
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AcmeDns#accountSecretRef
    */
@@ -2824,7 +3454,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01AcmeDns(
  */
 export interface ClusterIssuerSpecAcmeSolversDns01Akamai {
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Akamai#accessTokenSecretRef
    */
@@ -2832,7 +3463,8 @@ export interface ClusterIssuerSpecAcmeSolversDns01Akamai {
     ClusterIssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretRef;
 
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Akamai#clientSecretSecretRef
    */
@@ -2840,7 +3472,8 @@ export interface ClusterIssuerSpecAcmeSolversDns01Akamai {
     ClusterIssuerSpecAcmeSolversDns01AkamaiClientSecretSecretRef;
 
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Akamai#clientTokenSecretRef
    */
@@ -2891,14 +3524,18 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Akamai(
  */
 export interface ClusterIssuerSpecAcmeSolversDns01AzureDns {
   /**
-   * Auth: Azure Service Principal: The ClientID of the Azure Service Principal used to authenticate with Azure DNS. If set, ClientSecret and TenantID must also be set.
+   * Auth: Azure Service Principal:
+   * The ClientID of the Azure Service Principal used to authenticate with Azure DNS.
+   * If set, ClientSecret and TenantID must also be set.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#clientID
    */
   readonly clientId?: string;
 
   /**
-   * Auth: Azure Service Principal: A reference to a Secret containing the password associated with the Service Principal. If set, ClientID and TenantID must also be set.
+   * Auth: Azure Service Principal:
+   * A reference to a Secret containing the password associated with the Service Principal.
+   * If set, ClientID and TenantID must also be set.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#clientSecretSecretRef
    */
@@ -2920,7 +3557,9 @@ export interface ClusterIssuerSpecAcmeSolversDns01AzureDns {
   readonly hostedZoneName?: string;
 
   /**
-   * Auth: Azure Workload Identity or Azure Managed Service Identity: Settings to enable Azure Workload Identity or Azure Managed Service Identity If set, ClientID, ClientSecret and TenantID must not be set.
+   * Auth: Azure Workload Identity or Azure Managed Service Identity:
+   * Settings to enable Azure Workload Identity or Azure Managed Service Identity
+   * If set, ClientID, ClientSecret and TenantID must not be set.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#managedIdentity
    */
@@ -2942,7 +3581,9 @@ export interface ClusterIssuerSpecAcmeSolversDns01AzureDns {
   readonly subscriptionId: string;
 
   /**
-   * Auth: Azure Service Principal: The TenantID of the Azure Service Principal used to authenticate with Azure DNS. If set, ClientID and ClientSecret must also be set.
+   * Auth: Azure Service Principal:
+   * The TenantID of the Azure Service Principal used to authenticate with Azure DNS.
+   * If set, ClientID and ClientSecret must also be set.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AzureDns#tenantID
    */
@@ -2988,7 +3629,9 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01AzureDns(
  */
 export interface ClusterIssuerSpecAcmeSolversDns01CloudDns {
   /**
-   * HostedZoneName is an optional field that tells cert-manager in which Cloud DNS zone the challenge record has to be created. If left empty cert-manager will automatically choose a zone.
+   * HostedZoneName is an optional field that tells cert-manager in which
+   * Cloud DNS zone the challenge record has to be created.
+   * If left empty cert-manager will automatically choose a zone.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01CloudDns#hostedZoneName
    */
@@ -3000,7 +3643,8 @@ export interface ClusterIssuerSpecAcmeSolversDns01CloudDns {
   readonly project: string;
 
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01CloudDns#serviceAccountSecretRef
    */
@@ -3039,7 +3683,9 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01CloudDns(
  */
 export interface ClusterIssuerSpecAcmeSolversDns01Cloudflare {
   /**
-   * API key to use to authenticate with Cloudflare. Note: using an API token to authenticate is now the recommended method as it allows greater control of permissions.
+   * API key to use to authenticate with Cloudflare.
+   * Note: using an API token to authenticate is now the recommended method
+   * as it allows greater control of permissions.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Cloudflare#apiKeySecretRef
    */
@@ -3090,7 +3736,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Cloudflare(
 /* eslint-enable max-len, quote-props */
 
 /**
- * CNAMEStrategy configures how the DNS01 provider should handle CNAME records when found in DNS zones.
+ * CNAMEStrategy configures how the DNS01 provider should handle CNAME
+ * records when found in DNS zones.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01CnameStrategy
  */
@@ -3108,7 +3755,8 @@ export enum ClusterIssuerSpecAcmeSolversDns01CnameStrategy {
  */
 export interface ClusterIssuerSpecAcmeSolversDns01Digitalocean {
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Digitalocean#tokenSecretRef
    */
@@ -3139,34 +3787,43 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Digitalocean(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/) to manage DNS01 challenge records.
+ * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/)
+ * to manage DNS01 challenge records.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01Rfc2136
  */
 export interface ClusterIssuerSpecAcmeSolversDns01Rfc2136 {
   /**
-   * The IP address or hostname of an authoritative DNS server supporting RFC2136 in the form host:port. If the host is an IPv6 address it must be enclosed in square brackets (e.g [2001:db8::1]) ; port is optional. This field is required.
+   * The IP address or hostname of an authoritative DNS server supporting
+   * RFC2136 in the form host:port. If the host is an IPv6 address it must be
+   * enclosed in square brackets (e.g [2001:db8::1]) ; port is optional.
+   * This field is required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Rfc2136#nameserver
    */
   readonly nameserver: string;
 
   /**
-   * The TSIG Algorithm configured in the DNS supporting RFC2136. Used only when ``tsigSecretSecretRef`` and ``tsigKeyName`` are defined. Supported values are (case-insensitive): ``HMACMD5`` (default), ``HMACSHA1``, ``HMACSHA256`` or ``HMACSHA512``.
+   * The TSIG Algorithm configured in the DNS supporting RFC2136. Used only
+   * when ``tsigSecretSecretRef`` and ``tsigKeyName`` are defined.
+   * Supported values are (case-insensitive): ``HMACMD5`` (default),
+   * ``HMACSHA1``, ``HMACSHA256`` or ``HMACSHA512``.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Rfc2136#tsigAlgorithm
    */
   readonly tsigAlgorithm?: string;
 
   /**
-   * The TSIG Key name configured in the DNS. If ``tsigSecretSecretRef`` is defined, this field is required.
+   * The TSIG Key name configured in the DNS.
+   * If ``tsigSecretSecretRef`` is defined, this field is required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Rfc2136#tsigKeyName
    */
   readonly tsigKeyName?: string;
 
   /**
-   * The name of the secret containing the TSIG value. If ``tsigKeyName`` is defined, this field is required.
+   * The name of the secret containing the TSIG value.
+   * If ``tsigKeyName`` is defined, this field is required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Rfc2136#tsigSecretSecretRef
    */
@@ -3206,19 +3863,35 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Rfc2136(
  */
 export interface ClusterIssuerSpecAcmeSolversDns01Route53 {
   /**
-   * The AccessKeyID is used for authentication. Cannot be set when SecretAccessKeyID is set. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+   * The AccessKeyID is used for authentication.
+   * Cannot be set when SecretAccessKeyID is set.
+   * If neither the Access Key nor Key ID are set, we fall-back to using env
+   * vars, shared credentials file or AWS Instance metadata,
+   * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Route53#accessKeyID
    */
   readonly accessKeyId?: string;
 
   /**
-   * The SecretAccessKey is used for authentication. If set, pull the AWS access key ID from a key within a Kubernetes Secret. Cannot be set when AccessKeyID is set. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+   * The SecretAccessKey is used for authentication. If set, pull the AWS
+   * access key ID from a key within a Kubernetes Secret.
+   * Cannot be set when AccessKeyID is set.
+   * If neither the Access Key nor Key ID are set, we fall-back to using env
+   * vars, shared credentials file or AWS Instance metadata,
+   * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Route53#accessKeyIDSecretRef
    */
   readonly accessKeyIdSecretRef?:
     ClusterIssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef;
+
+  /**
+   * Auth configures how cert-manager authenticates.
+   *
+   * @schema ClusterIssuerSpecAcmeSolversDns01Route53#auth
+   */
+  readonly auth?: ClusterIssuerSpecAcmeSolversDns01Route53Auth;
 
   /**
    * If set, the provider will manage only this zone in Route53 and will not do an lookup using the route53:ListHostedZonesByName api call.
@@ -3235,14 +3908,18 @@ export interface ClusterIssuerSpecAcmeSolversDns01Route53 {
   readonly region: string;
 
   /**
-   * Role is a Role ARN which the Route53 provider will assume using either the explicit credentials AccessKeyID/SecretAccessKey or the inferred credentials from environment variables, shared credentials file or AWS Instance metadata
+   * Role is a Role ARN which the Route53 provider will assume using either the explicit credentials AccessKeyID/SecretAccessKey
+   * or the inferred credentials from environment variables, shared credentials file or AWS Instance metadata
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Route53#role
    */
   readonly role?: string;
 
   /**
-   * The SecretAccessKey is used for authentication. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+   * The SecretAccessKey is used for authentication.
+   * If neither the Access Key nor Key ID are set, we fall-back to using env
+   * vars, shared credentials file or AWS Instance metadata,
+   * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Route53#secretAccessKeySecretRef
    */
@@ -3264,6 +3941,7 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Route53(
       toJson_ClusterIssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef(
         obj.accessKeyIdSecretRef,
       ),
+    "auth": toJson_ClusterIssuerSpecAcmeSolversDns01Route53Auth(obj.auth),
     "hostedZoneID": obj.hostedZoneId,
     "region": obj.region,
     "role": obj.role,
@@ -3281,27 +3959,40 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Route53(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configure an external webhook based DNS01 challenge solver to manage DNS01 challenge records.
+ * Configure an external webhook based DNS01 challenge solver to manage
+ * DNS01 challenge records.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01Webhook
  */
 export interface ClusterIssuerSpecAcmeSolversDns01Webhook {
   /**
-   * Additional configuration that should be passed to the webhook apiserver when challenges are processed. This can contain arbitrary JSON data. Secret values should not be specified in this stanza. If secret values are needed (e.g. credentials for a DNS service), you should use a SecretKeySelector to reference a Secret resource. For details on the schema of this field, consult the webhook provider implementation's documentation.
+   * Additional configuration that should be passed to the webhook apiserver
+   * when challenges are processed.
+   * This can contain arbitrary JSON data.
+   * Secret values should not be specified in this stanza.
+   * If secret values are needed (e.g. credentials for a DNS service), you
+   * should use a SecretKeySelector to reference a Secret resource.
+   * For details on the schema of this field, consult the webhook provider
+   * implementation's documentation.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Webhook#config
    */
   readonly config?: any;
 
   /**
-   * The API group name that should be used when POSTing ChallengePayload resources to the webhook apiserver. This should be the same as the GroupName specified in the webhook provider implementation.
+   * The API group name that should be used when POSTing ChallengePayload
+   * resources to the webhook apiserver.
+   * This should be the same as the GroupName specified in the webhook
+   * provider implementation.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Webhook#groupName
    */
   readonly groupName: string;
 
   /**
-   * The name of the solver to use, as defined in the webhook provider implementation. This will typically be the name of the provider, e.g. 'cloudflare'.
+   * The name of the solver to use, as defined in the webhook provider
+   * implementation.
+   * This will typically be the name of the provider, e.g. 'cloudflare'.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Webhook#solverName
    */
@@ -3330,20 +4021,27 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Webhook(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Gateway API is a sig-network community API that models service networking in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will create HTTPRoutes with the specified labels in the same namespace as the challenge. This solver is experimental, and fields / behaviour may change in the future.
+ * The Gateway API is a sig-network community API that models service networking
+ * in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will
+ * create HTTPRoutes with the specified labels in the same namespace as the challenge.
+ * This solver is experimental, and fields / behaviour may change in the future.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRoute
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRoute {
   /**
-   * Custom labels that will be applied to HTTPRoutes created by cert-manager while solving HTTP-01 challenges.
+   * Custom labels that will be applied to HTTPRoutes created by cert-manager
+   * while solving HTTP-01 challenges.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRoute#labels
    */
   readonly labels?: { [key: string]: string };
 
   /**
-   * When solving an HTTP-01 challenge, cert-manager creates an HTTPRoute. cert-manager needs to know which parentRefs should be used when creating the HTTPRoute. Usually, the parentRef references a Gateway. See: https://gateway-api.sigs.k8s.io/api-types/httproute/#attaching-to-gateways
+   * When solving an HTTP-01 challenge, cert-manager creates an HTTPRoute.
+   * cert-manager needs to know which parentRefs should be used when creating
+   * the HTTPRoute. Usually, the parentRef references a Gateway. See:
+   * https://gateway-api.sigs.k8s.io/api-types/httproute/#attaching-to-gateways
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRoute#parentRefs
    */
@@ -3351,7 +4049,8 @@ export interface ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRoute {
     ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs[];
 
   /**
-   * Optional service type for Kubernetes solver service. Supported values are NodePort or ClusterIP. If unset, defaults to NodePort.
+   * Optional service type for Kubernetes solver service. Supported values
+   * are NodePort or ClusterIP. If unset, defaults to NodePort.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRoute#serviceType
    */
@@ -3387,27 +4086,37 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRoute(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The ingress based HTTP01 challenge solver will solve challenges by creating or modifying Ingress resources in order to route requests for '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are provisioned by cert-manager for each Challenge to be completed.
+ * The ingress based HTTP01 challenge solver will solve challenges by
+ * creating or modifying Ingress resources in order to route requests for
+ * '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are
+ * provisioned by cert-manager for each Challenge to be completed.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01Ingress
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01Ingress {
   /**
-   * This field configures the annotation `kubernetes.io/ingress.class` when creating Ingress resources to solve ACME challenges that use this challenge solver. Only one of `class`, `name` or `ingressClassName` may be specified.
+   * This field configures the annotation `kubernetes.io/ingress.class` when
+   * creating Ingress resources to solve ACME challenges that use this
+   * challenge solver. Only one of `class`, `name` or `ingressClassName` may
+   * be specified.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01Ingress#class
    */
   readonly class?: string;
 
   /**
-   * This field configures the field `ingressClassName` on the created Ingress resources used to solve ACME challenges that use this challenge solver. This is the recommended way of configuring the ingress class. Only one of `class`, `name` or `ingressClassName` may be specified.
+   * This field configures the field `ingressClassName` on the created Ingress
+   * resources used to solve ACME challenges that use this challenge solver.
+   * This is the recommended way of configuring the ingress class. Only one of
+   * `class`, `name` or `ingressClassName` may be specified.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01Ingress#ingressClassName
    */
   readonly ingressClassName?: string;
 
   /**
-   * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
+   * Optional ingress template used to configure the ACME challenge solver
+   * ingress used for HTTP01 challenges.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01Ingress#ingressTemplate
    */
@@ -3415,21 +4124,28 @@ export interface ClusterIssuerSpecAcmeSolversHttp01Ingress {
     ClusterIssuerSpecAcmeSolversHttp01IngressIngressTemplate;
 
   /**
-   * The name of the ingress resource that should have ACME challenge solving routes inserted into it in order to solve HTTP01 challenges. This is typically used in conjunction with ingress controllers like ingress-gce, which maintains a 1:1 mapping between external IPs and ingress resources. Only one of `class`, `name` or `ingressClassName` may be specified.
+   * The name of the ingress resource that should have ACME challenge solving
+   * routes inserted into it in order to solve HTTP01 challenges.
+   * This is typically used in conjunction with ingress controllers like
+   * ingress-gce, which maintains a 1:1 mapping between external IPs and
+   * ingress resources. Only one of `class`, `name` or `ingressClassName` may
+   * be specified.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01Ingress#name
    */
   readonly name?: string;
 
   /**
-   * Optional pod template used to configure the ACME challenge solver pods used for HTTP01 challenges.
+   * Optional pod template used to configure the ACME challenge solver pods
+   * used for HTTP01 challenges.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01Ingress#podTemplate
    */
   readonly podTemplate?: ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplate;
 
   /**
-   * Optional service type for Kubernetes solver service. Supported values are NodePort or ClusterIP. If unset, defaults to NodePort.
+   * Optional service type for Kubernetes solver service. Supported values
+   * are NodePort or ClusterIP. If unset, defaults to NodePort.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01Ingress#serviceType
    */
@@ -3466,20 +4182,26 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01Ingress(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Reference to a key in a Secret that contains the App Role secret used to authenticate with Vault. The `key` field must be specified and denotes which entry within the Secret resource is used as the app role secret.
+ * Reference to a key in a Secret that contains the App Role secret used
+ * to authenticate with Vault.
+ * The `key` field must be specified and denotes which entry within the Secret
+ * resource is used as the app role secret.
  *
  * @schema ClusterIssuerSpecVaultAuthAppRoleSecretRef
  */
 export interface ClusterIssuerSpecVaultAuthAppRoleSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecVaultAuthAppRoleSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecVaultAuthAppRoleSecretRef#name
    */
@@ -3507,20 +4229,25 @@ export function toJson_ClusterIssuerSpecVaultAuthAppRoleSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The required Secret field containing a Kubernetes ServiceAccount JWT used for authenticating with Vault. Use of 'ambient credentials' is not supported.
+ * The required Secret field containing a Kubernetes ServiceAccount JWT used
+ * for authenticating with Vault. Use of 'ambient credentials' is not
+ * supported.
  *
  * @schema ClusterIssuerSpecVaultAuthKubernetesSecretRef
  */
 export interface ClusterIssuerSpecVaultAuthKubernetesSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecVaultAuthKubernetesSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecVaultAuthKubernetesSecretRef#name
    */
@@ -3548,11 +4275,23 @@ export function toJson_ClusterIssuerSpecVaultAuthKubernetesSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a service account that will be used to request a bound token (also known as "projected token"). Compared to using "secretRef", using this field means that you don't rely on statically bound tokens. To use this field, you must configure an RBAC rule to let cert-manager request a token.
+ * A reference to a service account that will be used to request a bound
+ * token (also known as "projected token"). Compared to using "secretRef",
+ * using this field means that you don't rely on statically bound tokens. To
+ * use this field, you must configure an RBAC rule to let cert-manager
+ * request a token.
  *
  * @schema ClusterIssuerSpecVaultAuthKubernetesServiceAccountRef
  */
 export interface ClusterIssuerSpecVaultAuthKubernetesServiceAccountRef {
+  /**
+   * TokenAudiences is an optional list of extra audiences to include in the token passed to Vault. The default token
+   * consisting of the issuer's namespace and name is always included.
+   *
+   * @schema ClusterIssuerSpecVaultAuthKubernetesServiceAccountRef#audiences
+   */
+  readonly audiences?: string[];
+
   /**
    * Name of the ServiceAccount used to request a token.
    *
@@ -3570,6 +4309,7 @@ export function toJson_ClusterIssuerSpecVaultAuthKubernetesServiceAccountRef(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "audiences": obj.audiences?.map((y) => y),
     "name": obj.name,
   };
   // filter undefined values
@@ -3581,20 +4321,24 @@ export function toJson_ClusterIssuerSpecVaultAuthKubernetesServiceAccountRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef
  */
 export interface ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef#name
    */
@@ -3622,20 +4366,24 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretRef
  */
 export interface ClusterIssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretRef#name
    */
@@ -3663,20 +4411,24 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretR
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01AkamaiClientSecretSecretRef
  */
 export interface ClusterIssuerSpecAcmeSolversDns01AkamaiClientSecretSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AkamaiClientSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AkamaiClientSecretSecretRef#name
    */
@@ -3704,20 +4456,24 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01AkamaiClientSecretSecret
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01AkamaiClientTokenSecretRef
  */
 export interface ClusterIssuerSpecAcmeSolversDns01AkamaiClientTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AkamaiClientTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AkamaiClientTokenSecretRef#name
    */
@@ -3745,20 +4501,25 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01AkamaiClientTokenSecretR
 /* eslint-enable max-len, quote-props */
 
 /**
- * Auth: Azure Service Principal: A reference to a Secret containing the password associated with the Service Principal. If set, ClientID and TenantID must also be set.
+ * Auth: Azure Service Principal:
+ * A reference to a Secret containing the password associated with the Service Principal.
+ * If set, ClientID and TenantID must also be set.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef
  */
 export interface ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef#name
    */
@@ -3804,7 +4565,9 @@ export enum ClusterIssuerSpecAcmeSolversDns01AzureDnsEnvironment {
 }
 
 /**
- * Auth: Azure Workload Identity or Azure Managed Service Identity: Settings to enable Azure Workload Identity or Azure Managed Service Identity If set, ClientID, ClientSecret and TenantID must not be set.
+ * Auth: Azure Workload Identity or Azure Managed Service Identity:
+ * Settings to enable Azure Workload Identity or Azure Managed Service Identity
+ * If set, ClientID, ClientSecret and TenantID must not be set.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity
  */
@@ -3817,7 +4580,8 @@ export interface ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity {
   readonly clientId?: string;
 
   /**
-   * resource ID of the managed identity, can not be used at the same time as clientID Cannot be used for Azure Managed Service Identity
+   * resource ID of the managed identity, can not be used at the same time as clientID
+   * Cannot be used for Azure Managed Service Identity
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity#resourceID
    */
@@ -3845,20 +4609,24 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01AzureDnsManagedIdentity(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef
  */
 export interface ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef#name
    */
@@ -3888,20 +4656,25 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01CloudDnsServiceAccountSe
 /* eslint-enable max-len, quote-props */
 
 /**
- * API key to use to authenticate with Cloudflare. Note: using an API token to authenticate is now the recommended method as it allows greater control of permissions.
+ * API key to use to authenticate with Cloudflare.
+ * Note: using an API token to authenticate is now the recommended method
+ * as it allows greater control of permissions.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01CloudflareApiKeySecretRef
  */
 export interface ClusterIssuerSpecAcmeSolversDns01CloudflareApiKeySecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01CloudflareApiKeySecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01CloudflareApiKeySecretRef#name
    */
@@ -3935,14 +4708,17 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01CloudflareApiKeySecretRe
  */
 export interface ClusterIssuerSpecAcmeSolversDns01CloudflareApiTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01CloudflareApiTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01CloudflareApiTokenSecretRef#name
    */
@@ -3970,20 +4746,24 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01CloudflareApiTokenSecret
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01DigitaloceanTokenSecretRef
  */
 export interface ClusterIssuerSpecAcmeSolversDns01DigitaloceanTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01DigitaloceanTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01DigitaloceanTokenSecretRef#name
    */
@@ -4011,20 +4791,24 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01DigitaloceanTokenSecretR
 /* eslint-enable max-len, quote-props */
 
 /**
- * The name of the secret containing the TSIG value. If ``tsigKeyName`` is defined, this field is required.
+ * The name of the secret containing the TSIG value.
+ * If ``tsigKeyName`` is defined, this field is required.
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01Rfc2136TsigSecretSecretRef
  */
 export interface ClusterIssuerSpecAcmeSolversDns01Rfc2136TsigSecretSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Rfc2136TsigSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Rfc2136TsigSecretSecretRef#name
    */
@@ -4052,20 +4836,28 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Rfc2136TsigSecretSecretR
 /* eslint-enable max-len, quote-props */
 
 /**
- * The SecretAccessKey is used for authentication. If set, pull the AWS access key ID from a key within a Kubernetes Secret. Cannot be set when AccessKeyID is set. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+ * The SecretAccessKey is used for authentication. If set, pull the AWS
+ * access key ID from a key within a Kubernetes Secret.
+ * Cannot be set when AccessKeyID is set.
+ * If neither the Access Key nor Key ID are set, we fall-back to using env
+ * vars, shared credentials file or AWS Instance metadata,
+ * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef
  */
 export interface ClusterIssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef#name
    */
@@ -4093,20 +4885,62 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Route53AccessKeyIdSecret
 /* eslint-enable max-len, quote-props */
 
 /**
- * The SecretAccessKey is used for authentication. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+ * Auth configures how cert-manager authenticates.
+ *
+ * @schema ClusterIssuerSpecAcmeSolversDns01Route53Auth
+ */
+export interface ClusterIssuerSpecAcmeSolversDns01Route53Auth {
+  /**
+   * Kubernetes authenticates with Route53 using AssumeRoleWithWebIdentity
+   * by passing a bound ServiceAccount token.
+   *
+   * @schema ClusterIssuerSpecAcmeSolversDns01Route53Auth#kubernetes
+   */
+  readonly kubernetes: ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetes;
+}
+
+/**
+ * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01Route53Auth' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ClusterIssuerSpecAcmeSolversDns01Route53Auth(
+  obj: ClusterIssuerSpecAcmeSolversDns01Route53Auth | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "kubernetes": toJson_ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetes(
+      obj.kubernetes,
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The SecretAccessKey is used for authentication.
+ * If neither the Access Key nor Key ID are set, we fall-back to using env
+ * vars, shared credentials file or AWS Instance metadata,
+ * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
  *
  * @schema ClusterIssuerSpecAcmeSolversDns01Route53SecretAccessKeySecretRef
  */
 export interface ClusterIssuerSpecAcmeSolversDns01Route53SecretAccessKeySecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Route53SecretAccessKeySecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ClusterIssuerSpecAcmeSolversDns01Route53SecretAccessKeySecretRef#name
    */
@@ -4136,16 +4970,28 @@ export function toJson_ClusterIssuerSpecAcmeSolversDns01Route53SecretAccessKeySe
 /* eslint-enable max-len, quote-props */
 
 /**
- * ParentReference identifies an API object (usually a Gateway) that can be considered a parent of this resource (usually a route). There are two kinds of parent resources with "Core" support:
- * * Gateway (Gateway conformance profile) * Service (Mesh conformance profile, experimental, ClusterIP Services only)
- * This API may be extended in the future to support additional kinds of parent resources.
- * The API object must be valid in the cluster; the Group and Kind must be registered in the cluster for this reference to be valid.
+ * ParentReference identifies an API object (usually a Gateway) that can be considered
+ * a parent of this resource (usually a route). There are two kinds of parent resources
+ * with "Core" support:
+ *
+ * * Gateway (Gateway conformance profile)
+ * * Service (Mesh conformance profile, ClusterIP Services only)
+ *
+ * This API may be extended in the future to support additional kinds of parent
+ * resources.
+ *
+ * The API object must be valid in the cluster; the Group and Kind must
+ * be registered in the cluster for this reference to be valid.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs {
   /**
-   * Group is the group of the referent. When unspecified, "gateway.networking.k8s.io" is inferred. To set the core API group (such as for a "Service" kind referent), Group must be explicitly set to "" (empty string).
+   * Group is the group of the referent.
+   * When unspecified, "gateway.networking.k8s.io" is inferred.
+   * To set the core API group (such as for a "Service" kind referent),
+   * Group must be explicitly set to "" (empty string).
+   *
    * Support: Core
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#group
@@ -4154,8 +5000,12 @@ export interface ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs {
 
   /**
    * Kind is kind of the referent.
+   *
    * There are two kinds of parent resources with "Core" support:
-   * * Gateway (Gateway conformance profile) * Service (Mesh conformance profile, experimental, ClusterIP Services only)
+   *
+   * * Gateway (Gateway conformance profile)
+   * * Service (Mesh conformance profile, ClusterIP Services only)
+   *
    * Support for other resources is Implementation-Specific.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#kind
@@ -4164,6 +5014,7 @@ export interface ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs {
 
   /**
    * Name is the name of the referent.
+   *
    * Support: Core
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#name
@@ -4171,10 +5022,27 @@ export interface ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs {
   readonly name: string;
 
   /**
-   * Namespace is the namespace of the referent. When unspecified, this refers to the local namespace of the Route.
-   * Note that there are specific rules for ParentRefs which cross namespace boundaries. Cross-namespace references are only valid if they are explicitly allowed by something in the namespace they are referring to. For example: Gateway has the AllowedRoutes field, and ReferenceGrant provides a generic way to enable any other kind of cross-namespace reference.
-   * <gateway:experimental:description> ParentRefs from a Route to a Service in the same namespace are "producer" routes, which apply default routing rules to inbound connections from any namespace to the Service.
-   * ParentRefs from a Route to a Service in a different namespace are "consumer" routes, and these routing rules are only applied to outbound connections originating from the same namespace as the Route, for which the intended destination of the connections are a Service targeted as a ParentRef of the Route. </gateway:experimental:description>
+   * Namespace is the namespace of the referent. When unspecified, this refers
+   * to the local namespace of the Route.
+   *
+   * Note that there are specific rules for ParentRefs which cross namespace
+   * boundaries. Cross-namespace references are only valid if they are explicitly
+   * allowed by something in the namespace they are referring to. For example:
+   * Gateway has the AllowedRoutes field, and ReferenceGrant provides a
+   * generic way to enable any other kind of cross-namespace reference.
+   *
+   * <gateway:experimental:description>
+   * ParentRefs from a Route to a Service in the same namespace are "producer"
+   * routes, which apply default routing rules to inbound connections from
+   * any namespace to the Service.
+   *
+   * ParentRefs from a Route to a Service in a different namespace are
+   * "consumer" routes, and these routing rules are only applied to outbound
+   * connections originating from the same namespace as the Route, for which
+   * the intended destination of the connections are a Service targeted as a
+   * ParentRef of the Route.
+   * </gateway:experimental:description>
+   *
    * Support: Core
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#namespace
@@ -4182,23 +5050,65 @@ export interface ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs {
   readonly namespace?: string;
 
   /**
-   * Port is the network port this Route targets. It can be interpreted differently based on the type of parent resource.
-   * When the parent resource is a Gateway, this targets all listeners listening on the specified port that also support this kind of Route(and select this Route). It's not recommended to set `Port` unless the networking behaviors specified in a Route must apply to a specific port as opposed to a listener(s) whose port(s) may be changed. When both Port and SectionName are specified, the name and port of the selected listener must match both specified values.
-   * <gateway:experimental:description> When the parent resource is a Service, this targets a specific port in the Service spec. When both Port (experimental) and SectionName are specified, the name and port of the selected port must match both specified values. </gateway:experimental:description>
-   * Implementations MAY choose to support other parent resources. Implementations supporting other types of parent resources MUST clearly document how/if Port is interpreted.
-   * For the purpose of status, an attachment is considered successful as long as the parent resource accepts it partially. For example, Gateway listeners can restrict which Routes can attach to them by Route kind, namespace, or hostname. If 1 of 2 Gateway listeners accept attachment from the referencing Route, the Route MUST be considered successfully attached. If no Gateway listeners accept attachment from this Route, the Route MUST be considered detached from the Gateway.
+   * Port is the network port this Route targets. It can be interpreted
+   * differently based on the type of parent resource.
+   *
+   * When the parent resource is a Gateway, this targets all listeners
+   * listening on the specified port that also support this kind of Route(and
+   * select this Route). It's not recommended to set `Port` unless the
+   * networking behaviors specified in a Route must apply to a specific port
+   * as opposed to a listener(s) whose port(s) may be changed. When both Port
+   * and SectionName are specified, the name and port of the selected listener
+   * must match both specified values.
+   *
+   * <gateway:experimental:description>
+   * When the parent resource is a Service, this targets a specific port in the
+   * Service spec. When both Port (experimental) and SectionName are specified,
+   * the name and port of the selected port must match both specified values.
+   * </gateway:experimental:description>
+   *
+   * Implementations MAY choose to support other parent resources.
+   * Implementations supporting other types of parent resources MUST clearly
+   * document how/if Port is interpreted.
+   *
+   * For the purpose of status, an attachment is considered successful as
+   * long as the parent resource accepts it partially. For example, Gateway
+   * listeners can restrict which Routes can attach to them by Route kind,
+   * namespace, or hostname. If 1 of 2 Gateway listeners accept attachment
+   * from the referencing Route, the Route MUST be considered successfully
+   * attached. If no Gateway listeners accept attachment from this Route,
+   * the Route MUST be considered detached from the Gateway.
+   *
    * Support: Extended
-   * <gateway:experimental>
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#port
    */
   readonly port?: number;
 
   /**
-   * SectionName is the name of a section within the target resource. In the following resources, SectionName is interpreted as the following:
-   * * Gateway: Listener Name. When both Port (experimental) and SectionName are specified, the name and port of the selected listener must match both specified values. * Service: Port Name. When both Port (experimental) and SectionName are specified, the name and port of the selected listener must match both specified values. Note that attaching Routes to Services as Parents is part of experimental Mesh support and is not supported for any other purpose.
-   * Implementations MAY choose to support attaching Routes to other resources. If that is the case, they MUST clearly document how SectionName is interpreted.
-   * When unspecified (empty string), this will reference the entire resource. For the purpose of status, an attachment is considered successful if at least one section in the parent resource accepts it. For example, Gateway listeners can restrict which Routes can attach to them by Route kind, namespace, or hostname. If 1 of 2 Gateway listeners accept attachment from the referencing Route, the Route MUST be considered successfully attached. If no Gateway listeners accept attachment from this Route, the Route MUST be considered detached from the Gateway.
+   * SectionName is the name of a section within the target resource. In the
+   * following resources, SectionName is interpreted as the following:
+   *
+   * * Gateway: Listener name. When both Port (experimental) and SectionName
+   * are specified, the name and port of the selected listener must match
+   * both specified values.
+   * * Service: Port name. When both Port (experimental) and SectionName
+   * are specified, the name and port of the selected listener must match
+   * both specified values.
+   *
+   * Implementations MAY choose to support attaching Routes to other resources.
+   * If that is the case, they MUST clearly document how SectionName is
+   * interpreted.
+   *
+   * When unspecified (empty string), this will reference the entire resource.
+   * For the purpose of status, an attachment is considered successful if at
+   * least one section in the parent resource accepts it. For example, Gateway
+   * listeners can restrict which Routes can attach to them by Route kind,
+   * namespace, or hostname. If 1 of 2 Gateway listeners accept attachment from
+   * the referencing Route, the Route MUST be considered successfully
+   * attached. If no Gateway listeners accept attachment from this Route, the
+   * Route MUST be considered detached from the Gateway.
+   *
    * Support: Core
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#sectionName
@@ -4231,13 +5141,17 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01GatewayHttpRouteParentR
 /* eslint-enable max-len, quote-props */
 
 /**
- * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
+ * Optional ingress template used to configure the ACME challenge solver
+ * ingress used for HTTP01 challenges.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressIngressTemplate
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01IngressIngressTemplate {
   /**
-   * ObjectMeta overrides for the ingress used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+   * ObjectMeta overrides for the ingress used to solve HTTP01 challenges.
+   * Only the 'labels' and 'annotations' fields may be set.
+   * If labels or annotations overlap with in-built values, the values here
+   * will override the in-built values.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressIngressTemplate#metadata
    */
@@ -4268,13 +5182,17 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressIngressTemplate(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Optional pod template used to configure the ACME challenge solver pods used for HTTP01 challenges.
+ * Optional pod template used to configure the ACME challenge solver pods
+ * used for HTTP01 challenges.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplate
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplate {
   /**
-   * ObjectMeta overrides for the pod used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+   * ObjectMeta overrides for the pod used to solve HTTP01 challenges.
+   * Only the 'labels' and 'annotations' fields may be set.
+   * If labels or annotations overlap with in-built values, the values here
+   * will override the in-built values.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplate#metadata
    */
@@ -4282,7 +5200,9 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplate {
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateMetadata;
 
   /**
-   * PodSpec defines overrides for the HTTP01 challenge solver pod. Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields. All other fields will be ignored.
+   * PodSpec defines overrides for the HTTP01 challenge solver pod.
+   * Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields.
+   * All other fields will be ignored.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplate#spec
    */
@@ -4315,7 +5235,50 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplate(
 /* eslint-enable max-len, quote-props */
 
 /**
- * ObjectMeta overrides for the ingress used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+ * Kubernetes authenticates with Route53 using AssumeRoleWithWebIdentity
+ * by passing a bound ServiceAccount token.
+ *
+ * @schema ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetes
+ */
+export interface ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetes {
+  /**
+   * A reference to a service account that will be used to request a bound
+   * token (also known as "projected token"). To use this field, you must
+   * configure an RBAC rule to let cert-manager request a token.
+   *
+   * @schema ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetes#serviceAccountRef
+   */
+  readonly serviceAccountRef:
+    ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef;
+}
+
+/**
+ * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetes' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetes(
+  obj: ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetes | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "serviceAccountRef":
+      toJson_ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef(
+        obj.serviceAccountRef,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * ObjectMeta overrides for the ingress used to solve HTTP01 challenges.
+ * Only the 'labels' and 'annotations' fields may be set.
+ * If labels or annotations overlap with in-built values, the values here
+ * will override the in-built values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressIngressTemplateMetadata
  */
@@ -4368,7 +5331,10 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressIngressTemplateM
 /* eslint-enable max-len, quote-props */
 
 /**
- * ObjectMeta overrides for the pod used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+ * ObjectMeta overrides for the pod used to solve HTTP01 challenges.
+ * Only the 'labels' and 'annotations' fields may be set.
+ * If labels or annotations overlap with in-built values, the values here
+ * will override the in-built values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateMetadata
  */
@@ -4419,7 +5385,9 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateMetad
 /* eslint-enable max-len, quote-props */
 
 /**
- * PodSpec defines overrides for the HTTP01 challenge solver pod. Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields. All other fields will be ignored.
+ * PodSpec defines overrides for the HTTP01 challenge solver pod.
+ * Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields.
+ * All other fields will be ignored.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpec
  */
@@ -4441,7 +5409,9 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpec {
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecImagePullSecrets[];
 
   /**
-   * NodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+   * NodeSelector is a selector which must be true for the pod to fit on a node.
+   * Selector which must match a node's labels for the pod to be scheduled on that node.
+   * More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpec#nodeSelector
    */
@@ -4501,6 +5471,54 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpec(
         y,
       )
     ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A reference to a service account that will be used to request a bound
+ * token (also known as "projected token"). To use this field, you must
+ * configure an RBAC rule to let cert-manager request a token.
+ *
+ * @schema ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef
+ */
+export interface ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef {
+  /**
+   * TokenAudiences is an optional list of audiences to include in the
+   * token passed to AWS. The default token consisting of the issuer's namespace
+   * and name is always included.
+   * If unset the audience defaults to `sts.amazonaws.com`.
+   *
+   * @schema ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef#audiences
+   */
+  readonly audiences?: string[];
+
+  /**
+   * Name of the ServiceAccount used to request a token.
+   *
+   * @schema ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef#name
+   */
+  readonly name: string;
+}
+
+/**
+ * Converts an object of type 'ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef(
+  obj:
+    | ClusterIssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "audiences": obj.audiences?.map((y) => y),
+    "name": obj.name,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -4574,13 +5592,20 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.
+ * LocalObjectReference contains enough information to let you locate the
+ * referenced object inside the same namespace.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecImagePullSecrets
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecImagePullSecrets {
   /**
-   * Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?
+   * Name of the referent.
+   * This field is effectively required, but due to backwards compatibility is
+   * allowed to be empty. Instances of this type with an empty value here are
+   * almost certainly wrong.
+   * TODO: Add other useful fields. apiVersion, kind, uid?
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecImagePullSecrets#name
    */
@@ -4609,42 +5634,52 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecI
 /* eslint-enable max-len, quote-props */
 
 /**
- * The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>.
+ * The pod this Toleration is attached to tolerates any taint that matches
+ * the triple <key,value,effect> using the matching operator <operator>.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations {
   /**
-   * Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
+   * Effect indicates the taint effect to match. Empty means match all taint effects.
+   * When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations#effect
    */
   readonly effect?: string;
 
   /**
-   * Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+   * Key is the taint key that the toleration applies to. Empty means match all taint keys.
+   * If the key is empty, operator must be Exists; this combination means to match all values and all keys.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations#key
    */
   readonly key?: string;
 
   /**
-   * Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.
+   * Operator represents a key's relationship to the value.
+   * Valid operators are Exists and Equal. Defaults to Equal.
+   * Exists is equivalent to wildcard for value, so that a pod can
+   * tolerate all taints of a particular category.
    *
-   * @default Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.
+   * @default Equal.
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations#operator
    */
   readonly operator?: string;
 
   /**
-   * TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.
+   * TolerationSeconds represents the period of time the toleration (which must be
+   * of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,
+   * it is not set, which means tolerate the taint forever (do not evict). Zero and
+   * negative values will be treated as 0 (evict immediately) by the system.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations#tolerationSeconds
    */
   readonly tolerationSeconds?: number;
 
   /**
-   * Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+   * Value is the taint value the toleration matches to.
+   * If the operator is Exists, the value should be empty, otherwise just a regular string.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations#value
    */
@@ -4683,7 +5718,15 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecT
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node matches the corresponding matchExpressions; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node matches the corresponding matchExpressions; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -4691,7 +5734,11 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node.
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to an update), the system
+   * may or may not try to eventually evict the pod from its node.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -4736,7 +5783,15 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -4744,7 +5799,13 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -4791,7 +5852,15 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the anti-affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling anti-affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -4799,7 +5868,13 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   * If the anti-affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the anti-affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -4840,7 +5915,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * An empty preferred scheduling term matches all objects with implicit weight 0 (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
+ * An empty preferred scheduling term matches all objects with implicit weight 0
+ * (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
  */
@@ -4887,7 +5963,11 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node.
+ * If the affinity requirements specified by this field are not met at
+ * scheduling time, the pod will not be scheduled onto the node.
+ * If the affinity requirements specified by this field cease to be met
+ * at some point during pod execution (e.g. due to an update), the system
+ * may or may not try to eventually evict the pod from its node.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
@@ -4941,7 +6021,8 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
 
   /**
-   * weight associated with matching the corresponding podAffinityTerm, in the range 1-100.
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
    */
@@ -4974,13 +6055,19 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
    */
@@ -4988,21 +6075,41 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
    */
@@ -5010,14 +6117,21 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
    */
@@ -5071,7 +6185,8 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
 
   /**
-   * weight associated with matching the corresponding podAffinityTerm, in the range 1-100.
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
    */
@@ -5104,13 +6219,19 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
    */
@@ -5118,21 +6239,41 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
    */
@@ -5140,14 +6281,21 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
    */
@@ -5240,7 +6388,9 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A null or empty node selector term matches no objects. The requirements of them are ANDed. The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
+ * A null or empty node selector term matches no objects. The requirements of
+ * them are ANDed.
+ * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
  */
@@ -5299,7 +6449,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
    */
@@ -5307,21 +6458,41 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
    */
@@ -5329,14 +6500,21 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
    */
@@ -5376,7 +6554,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
  */
@@ -5390,7 +6569,9 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
    */
@@ -5429,7 +6610,11 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
  */
@@ -5443,7 +6628,9 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
    */
@@ -5488,7 +6675,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
  */
 export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
    */
@@ -5496,21 +6684,41 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
    */
@@ -5518,14 +6726,21 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
    */
@@ -5565,7 +6780,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
  */
@@ -5579,7 +6795,9 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
    */
@@ -5618,7 +6836,11 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
  */
@@ -5632,7 +6854,9 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
    */
@@ -5671,7 +6895,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
  */
@@ -5684,14 +6909,19 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
    */
@@ -5722,7 +6952,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
  */
@@ -5735,14 +6966,19 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
    */
@@ -5773,7 +7009,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
  */
@@ -5786,14 +7023,19 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
    */
@@ -5824,7 +7066,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
  */
@@ -5837,14 +7080,19 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
    */
@@ -5875,7 +7123,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
  */
@@ -5889,7 +7138,9 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
    */
@@ -5928,7 +7179,11 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
  */
@@ -5942,7 +7197,9 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
    */
@@ -5981,7 +7238,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
  */
@@ -5994,14 +7252,18 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
    */
@@ -6032,7 +7294,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
  */
@@ -6045,14 +7308,18 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
    */
@@ -6083,7 +7350,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
  */
@@ -6097,7 +7365,9 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
    */
@@ -6136,7 +7406,11 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
  */
@@ -6150,7 +7424,9 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
     ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
    */
@@ -6189,7 +7465,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
  */
@@ -6202,14 +7479,18 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
    */
@@ -6240,7 +7521,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
  */
@@ -6253,14 +7535,18 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
    */
@@ -6291,7 +7577,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
  */
@@ -6304,14 +7591,18 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
    */
@@ -6342,7 +7633,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
  */
@@ -6355,14 +7647,18 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
    */
@@ -6393,7 +7689,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
  */
@@ -6406,14 +7703,18 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
    */
@@ -6444,7 +7745,8 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
  */
@@ -6457,14 +7759,18 @@ export interface ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinit
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
    */
@@ -6495,7 +7801,10 @@ export function toJson_ClusterIssuerSpecAcmeSolversHttp01IngressPodTemplateSpecA
 /* eslint-enable max-len, quote-props */
 
 /**
- * An Issuer represents a certificate issuing authority which can be referenced as part of `issuerRef` fields. It is scoped to a single namespace and can therefore only be referenced by resources within the same namespace.
+ * An Issuer represents a certificate issuing authority which can be
+referenced as part of `issuerRef` fields.
+It is scoped to a single namespace and can therefore only be referenced by
+resources within the same namespace.
  *
  * @schema Issuer
  */
@@ -6549,7 +7858,10 @@ export class Issuer extends ApiObject {
 }
 
 /**
- * An Issuer represents a certificate issuing authority which can be referenced as part of `issuerRef` fields. It is scoped to a single namespace and can therefore only be referenced by resources within the same namespace.
+ * An Issuer represents a certificate issuing authority which can be
+ * referenced as part of `issuerRef` fields.
+ * It is scoped to a single namespace and can therefore only be referenced by
+ * resources within the same namespace.
  *
  * @schema Issuer
  */
@@ -6594,35 +7906,41 @@ export function toJson_IssuerProps(
  */
 export interface IssuerSpec {
   /**
-   * ACME configures this issuer to communicate with a RFC8555 (ACME) server to obtain signed x509 certificates.
+   * ACME configures this issuer to communicate with a RFC8555 (ACME) server
+   * to obtain signed x509 certificates.
    *
    * @schema IssuerSpec#acme
    */
   readonly acme?: IssuerSpecAcme;
 
   /**
-   * CA configures this issuer to sign certificates using a signing CA keypair stored in a Secret resource. This is used to build internal PKIs that are managed by cert-manager.
+   * CA configures this issuer to sign certificates using a signing CA keypair
+   * stored in a Secret resource.
+   * This is used to build internal PKIs that are managed by cert-manager.
    *
    * @schema IssuerSpec#ca
    */
   readonly ca?: IssuerSpecCa;
 
   /**
-   * SelfSigned configures this issuer to 'self sign' certificates using the private key used to create the CertificateRequest object.
+   * SelfSigned configures this issuer to 'self sign' certificates using the
+   * private key used to create the CertificateRequest object.
    *
    * @schema IssuerSpec#selfSigned
    */
   readonly selfSigned?: IssuerSpecSelfSigned;
 
   /**
-   * Vault configures this issuer to sign certificates using a HashiCorp Vault PKI backend.
+   * Vault configures this issuer to sign certificates using a HashiCorp Vault
+   * PKI backend.
    *
    * @schema IssuerSpec#vault
    */
   readonly vault?: IssuerSpecVault;
 
   /**
-   * Venafi configures this issuer to sign certificates using a Venafi TPP or Venafi Cloud policy zone.
+   * Venafi configures this issuer to sign certificates using a Venafi TPP
+   * or Venafi Cloud policy zone.
    *
    * @schema IssuerSpec#venafi
    */
@@ -6653,20 +7971,31 @@ export function toJson_IssuerSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
- * ACME configures this issuer to communicate with a RFC8555 (ACME) server to obtain signed x509 certificates.
+ * ACME configures this issuer to communicate with a RFC8555 (ACME) server
+ * to obtain signed x509 certificates.
  *
  * @schema IssuerSpecAcme
  */
 export interface IssuerSpecAcme {
   /**
-   * Base64-encoded bundle of PEM CAs which can be used to validate the certificate chain presented by the ACME server. Mutually exclusive with SkipTLSVerify; prefer using CABundle to prevent various kinds of security vulnerabilities. If CABundle and SkipTLSVerify are unset, the system certificate bundle inside the container is used to validate the TLS connection.
+   * Base64-encoded bundle of PEM CAs which can be used to validate the certificate
+   * chain presented by the ACME server.
+   * Mutually exclusive with SkipTLSVerify; prefer using CABundle to prevent various
+   * kinds of security vulnerabilities.
+   * If CABundle and SkipTLSVerify are unset, the system certificate bundle inside
+   * the container is used to validate the TLS connection.
    *
    * @schema IssuerSpecAcme#caBundle
    */
   readonly caBundle?: string;
 
   /**
-   * Enables or disables generating a new ACME account key. If true, the Issuer resource will *not* request a new account but will expect the account key to be supplied via an existing secret. If false, the cert-manager system will generate a new ACME account key for the Issuer. Defaults to false.
+   * Enables or disables generating a new ACME account key.
+   * If true, the Issuer resource will *not* request a new account but will expect
+   * the account key to be supplied via an existing secret.
+   * If false, the cert-manager system will generate a new ACME account key
+   * for the Issuer.
+   * Defaults to false.
    *
    * @default false.
    * @schema IssuerSpecAcme#disableAccountKeyGeneration
@@ -6674,14 +8003,22 @@ export interface IssuerSpecAcme {
   readonly disableAccountKeyGeneration?: boolean;
 
   /**
-   * Email is the email address to be associated with the ACME account. This field is optional, but it is strongly recommended to be set. It will be used to contact you in case of issues with your account or certificates, including expiry notification emails. This field may be updated after the account is initially registered.
+   * Email is the email address to be associated with the ACME account.
+   * This field is optional, but it is strongly recommended to be set.
+   * It will be used to contact you in case of issues with your account or
+   * certificates, including expiry notification emails.
+   * This field may be updated after the account is initially registered.
    *
    * @schema IssuerSpecAcme#email
    */
   readonly email?: string;
 
   /**
-   * Enables requesting a Not After date on certificates that matches the duration of the certificate. This is not supported by all ACME servers like Let's Encrypt. If set to true when the ACME server does not support it it will create an error on the Order. Defaults to false.
+   * Enables requesting a Not After date on certificates that matches the
+   * duration of the certificate. This is not supported by all ACME servers
+   * like Let's Encrypt. If set to true when the ACME server does not support
+   * it, it will create an error on the Order.
+   * Defaults to false.
    *
    * @default false.
    * @schema IssuerSpecAcme#enableDurationFeature
@@ -6689,35 +8026,60 @@ export interface IssuerSpecAcme {
   readonly enableDurationFeature?: boolean;
 
   /**
-   * ExternalAccountBinding is a reference to a CA external account of the ACME server. If set, upon registration cert-manager will attempt to associate the given external account credentials with the registered ACME account.
+   * ExternalAccountBinding is a reference to a CA external account of the ACME
+   * server.
+   * If set, upon registration cert-manager will attempt to associate the given
+   * external account credentials with the registered ACME account.
    *
    * @schema IssuerSpecAcme#externalAccountBinding
    */
   readonly externalAccountBinding?: IssuerSpecAcmeExternalAccountBinding;
 
   /**
-   * PreferredChain is the chain to use if the ACME server outputs multiple. PreferredChain is no guarantee that this one gets delivered by the ACME endpoint. For example, for Let's Encrypt's DST crosssign you would use: "DST Root CA X3" or "ISRG Root X1" for the newer Let's Encrypt root CA. This value picks the first certificate bundle in the ACME alternative chains that has a certificate with this value as its issuer's CN
+   * PreferredChain is the chain to use if the ACME server outputs multiple.
+   * PreferredChain is no guarantee that this one gets delivered by the ACME
+   * endpoint.
+   * For example, for Let's Encrypt's DST crosssign you would use:
+   * "DST Root CA X3" or "ISRG Root X1" for the newer Let's Encrypt root CA.
+   * This value picks the first certificate bundle in the combined set of
+   * ACME default and alternative chains that has a root-most certificate with
+   * this value as its issuer's commonname.
    *
    * @schema IssuerSpecAcme#preferredChain
    */
   readonly preferredChain?: string;
 
   /**
-   * PrivateKey is the name of a Kubernetes Secret resource that will be used to store the automatically generated ACME account private key. Optionally, a `key` may be specified to select a specific entry within the named Secret resource. If `key` is not specified, a default of `tls.key` will be used.
+   * PrivateKey is the name of a Kubernetes Secret resource that will be used to
+   * store the automatically generated ACME account private key.
+   * Optionally, a `key` may be specified to select a specific entry within
+   * the named Secret resource.
+   * If `key` is not specified, a default of `tls.key` will be used.
    *
    * @schema IssuerSpecAcme#privateKeySecretRef
    */
   readonly privateKeySecretRef: IssuerSpecAcmePrivateKeySecretRef;
 
   /**
-   * Server is the URL used to access the ACME server's 'directory' endpoint. For example, for Let's Encrypt's staging endpoint, you would use: "https://acme-staging-v02.api.letsencrypt.org/directory". Only ACME v2 endpoints (i.e. RFC 8555) are supported.
+   * Server is the URL used to access the ACME server's 'directory' endpoint.
+   * For example, for Let's Encrypt's staging endpoint, you would use:
+   * "https://acme-staging-v02.api.letsencrypt.org/directory".
+   * Only ACME v2 endpoints (i.e. RFC 8555) are supported.
    *
    * @schema IssuerSpecAcme#server
    */
   readonly server: string;
 
   /**
-   * INSECURE: Enables or disables validation of the ACME server TLS certificate. If true, requests to the ACME server will not have the TLS certificate chain validated. Mutually exclusive with CABundle; prefer using CABundle to prevent various kinds of security vulnerabilities. Only enable this option in development environments. If CABundle and SkipTLSVerify are unset, the system certificate bundle inside the container is used to validate the TLS connection. Defaults to false.
+   * INSECURE: Enables or disables validation of the ACME server TLS certificate.
+   * If true, requests to the ACME server will not have the TLS certificate chain
+   * validated.
+   * Mutually exclusive with CABundle; prefer using CABundle to prevent various
+   * kinds of security vulnerabilities.
+   * Only enable this option in development environments.
+   * If CABundle and SkipTLSVerify are unset, the system certificate bundle inside
+   * the container is used to validate the TLS connection.
+   * Defaults to false.
    *
    * @default false.
    * @schema IssuerSpecAcme#skipTLSVerify
@@ -6725,7 +8087,11 @@ export interface IssuerSpecAcme {
   readonly skipTlsVerify?: boolean;
 
   /**
-   * Solvers is a list of challenge solvers that will be used to solve ACME challenges for the matching domains. Solver configurations must be provided in order to obtain certificates from an ACME server. For more information, see: https://cert-manager.io/docs/configuration/acme/
+   * Solvers is a list of challenge solvers that will be used to solve
+   * ACME challenges for the matching domains.
+   * Solver configurations must be provided in order to obtain certificates
+   * from an ACME server.
+   * For more information, see: https://cert-manager.io/docs/configuration/acme/
    *
    * @schema IssuerSpecAcme#solvers
    */
@@ -6765,34 +8131,45 @@ export function toJson_IssuerSpecAcme(
 /* eslint-enable max-len, quote-props */
 
 /**
- * CA configures this issuer to sign certificates using a signing CA keypair stored in a Secret resource. This is used to build internal PKIs that are managed by cert-manager.
+ * CA configures this issuer to sign certificates using a signing CA keypair
+ * stored in a Secret resource.
+ * This is used to build internal PKIs that are managed by cert-manager.
  *
  * @schema IssuerSpecCa
  */
 export interface IssuerSpecCa {
   /**
-   * The CRL distribution points is an X.509 v3 certificate extension which identifies the location of the CRL from which the revocation of this certificate can be checked. If not set, certificates will be issued without distribution points set.
+   * The CRL distribution points is an X.509 v3 certificate extension which identifies
+   * the location of the CRL from which the revocation of this certificate can be checked.
+   * If not set, certificates will be issued without distribution points set.
    *
    * @schema IssuerSpecCa#crlDistributionPoints
    */
   readonly crlDistributionPoints?: string[];
 
   /**
-   * IssuingCertificateURLs is a list of URLs which this issuer should embed into certificates it creates. See https://www.rfc-editor.org/rfc/rfc5280#section-4.2.2.1 for more details. As an example, such a URL might be "http://ca.domain.com/ca.crt".
+   * IssuingCertificateURLs is a list of URLs which this issuer should embed into certificates
+   * it creates. See https://www.rfc-editor.org/rfc/rfc5280#section-4.2.2.1 for more details.
+   * As an example, such a URL might be "http://ca.domain.com/ca.crt".
    *
    * @schema IssuerSpecCa#issuingCertificateURLs
    */
   readonly issuingCertificateUrLs?: string[];
 
   /**
-   * The OCSP server list is an X.509 v3 extension that defines a list of URLs of OCSP responders. The OCSP responders can be queried for the revocation status of an issued certificate. If not set, the certificate will be issued with no OCSP servers set. For example, an OCSP server URL could be "http://ocsp.int-x3.letsencrypt.org".
+   * The OCSP server list is an X.509 v3 extension that defines a list of
+   * URLs of OCSP responders. The OCSP responders can be queried for the
+   * revocation status of an issued certificate. If not set, the
+   * certificate will be issued with no OCSP servers set. For example, an
+   * OCSP server URL could be "http://ocsp.int-x3.letsencrypt.org".
    *
    * @schema IssuerSpecCa#ocspServers
    */
   readonly ocspServers?: string[];
 
   /**
-   * SecretName is the name of the secret used to sign Certificates issued by this Issuer.
+   * SecretName is the name of the secret used to sign Certificates issued
+   * by this Issuer.
    *
    * @schema IssuerSpecCa#secretName
    */
@@ -6822,13 +8199,16 @@ export function toJson_IssuerSpecCa(
 /* eslint-enable max-len, quote-props */
 
 /**
- * SelfSigned configures this issuer to 'self sign' certificates using the private key used to create the CertificateRequest object.
+ * SelfSigned configures this issuer to 'self sign' certificates using the
+ * private key used to create the CertificateRequest object.
  *
  * @schema IssuerSpecSelfSigned
  */
 export interface IssuerSpecSelfSigned {
   /**
-   * The CRL distribution points is an X.509 v3 certificate extension which identifies the location of the CRL from which the revocation of this certificate can be checked. If not set certificate will be issued without CDP. Values are strings.
+   * The CRL distribution points is an X.509 v3 certificate extension which identifies
+   * the location of the CRL from which the revocation of this certificate can be checked.
+   * If not set certificate will be issued without CDP. Values are strings.
    *
    * @schema IssuerSpecSelfSigned#crlDistributionPoints
    */
@@ -6855,7 +8235,8 @@ export function toJson_IssuerSpecSelfSigned(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Vault configures this issuer to sign certificates using a HashiCorp Vault PKI backend.
+ * Vault configures this issuer to sign certificates using a HashiCorp Vault
+ * PKI backend.
  *
  * @schema IssuerSpecVault
  */
@@ -6868,28 +8249,56 @@ export interface IssuerSpecVault {
   readonly auth: IssuerSpecVaultAuth;
 
   /**
-   * Base64-encoded bundle of PEM CAs which will be used to validate the certificate chain presented by Vault. Only used if using HTTPS to connect to Vault and ignored for HTTP connections. Mutually exclusive with CABundleSecretRef. If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in the cert-manager controller container is used to validate the TLS connection.
+   * Base64-encoded bundle of PEM CAs which will be used to validate the certificate
+   * chain presented by Vault. Only used if using HTTPS to connect to Vault and
+   * ignored for HTTP connections.
+   * Mutually exclusive with CABundleSecretRef.
+   * If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in
+   * the cert-manager controller container is used to validate the TLS connection.
    *
    * @schema IssuerSpecVault#caBundle
    */
   readonly caBundle?: string;
 
   /**
-   * Reference to a Secret containing a bundle of PEM-encoded CAs to use when verifying the certificate chain presented by Vault when using HTTPS. Mutually exclusive with CABundle. If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in the cert-manager controller container is used to validate the TLS connection. If no key for the Secret is specified, cert-manager will default to 'ca.crt'.
+   * Reference to a Secret containing a bundle of PEM-encoded CAs to use when
+   * verifying the certificate chain presented by Vault when using HTTPS.
+   * Mutually exclusive with CABundle.
+   * If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in
+   * the cert-manager controller container is used to validate the TLS connection.
+   * If no key for the Secret is specified, cert-manager will default to 'ca.crt'.
    *
    * @schema IssuerSpecVault#caBundleSecretRef
    */
   readonly caBundleSecretRef?: IssuerSpecVaultCaBundleSecretRef;
 
   /**
-   * Name of the vault namespace. Namespaces is a set of features within Vault Enterprise that allows Vault environments to support Secure Multi-tenancy. e.g: "ns1" More about namespaces can be found here https://www.vaultproject.io/docs/enterprise/namespaces
+   * Reference to a Secret containing a PEM-encoded Client Certificate to use when the
+   * Vault server requires mTLS.
+   *
+   * @schema IssuerSpecVault#clientCertSecretRef
+   */
+  readonly clientCertSecretRef?: IssuerSpecVaultClientCertSecretRef;
+
+  /**
+   * Reference to a Secret containing a PEM-encoded Client Private Key to use when the
+   * Vault server requires mTLS.
+   *
+   * @schema IssuerSpecVault#clientKeySecretRef
+   */
+  readonly clientKeySecretRef?: IssuerSpecVaultClientKeySecretRef;
+
+  /**
+   * Name of the vault namespace. Namespaces is a set of features within Vault Enterprise that allows Vault environments to support Secure Multi-tenancy. e.g: "ns1"
+   * More about namespaces can be found here https://www.vaultproject.io/docs/enterprise/namespaces
    *
    * @schema IssuerSpecVault#namespace
    */
   readonly namespace?: string;
 
   /**
-   * Path is the mount path of the Vault PKI backend's `sign` endpoint, e.g: "my_pki_mount/sign/my-role-name".
+   * Path is the mount path of the Vault PKI backend's `sign` endpoint, e.g:
+   * "my_pki_mount/sign/my-role-name".
    *
    * @schema IssuerSpecVault#path
    */
@@ -6917,6 +8326,12 @@ export function toJson_IssuerSpecVault(
     "caBundleSecretRef": toJson_IssuerSpecVaultCaBundleSecretRef(
       obj.caBundleSecretRef,
     ),
+    "clientCertSecretRef": toJson_IssuerSpecVaultClientCertSecretRef(
+      obj.clientCertSecretRef,
+    ),
+    "clientKeySecretRef": toJson_IssuerSpecVaultClientKeySecretRef(
+      obj.clientKeySecretRef,
+    ),
     "namespace": obj.namespace,
     "path": obj.path,
     "server": obj.server,
@@ -6930,27 +8345,33 @@ export function toJson_IssuerSpecVault(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Venafi configures this issuer to sign certificates using a Venafi TPP or Venafi Cloud policy zone.
+ * Venafi configures this issuer to sign certificates using a Venafi TPP
+ * or Venafi Cloud policy zone.
  *
  * @schema IssuerSpecVenafi
  */
 export interface IssuerSpecVenafi {
   /**
-   * Cloud specifies the Venafi cloud configuration settings. Only one of TPP or Cloud may be specified.
+   * Cloud specifies the Venafi cloud configuration settings.
+   * Only one of TPP or Cloud may be specified.
    *
    * @schema IssuerSpecVenafi#cloud
    */
   readonly cloud?: IssuerSpecVenafiCloud;
 
   /**
-   * TPP specifies Trust Protection Platform configuration settings. Only one of TPP or Cloud may be specified.
+   * TPP specifies Trust Protection Platform configuration settings.
+   * Only one of TPP or Cloud may be specified.
    *
    * @schema IssuerSpecVenafi#tpp
    */
   readonly tpp?: IssuerSpecVenafiTpp;
 
   /**
-   * Zone is the Venafi Policy Zone to use for this issuer. All requests made to the Venafi platform will be restricted by the named zone policy. This field is required.
+   * Zone is the Venafi Policy Zone to use for this issuer.
+   * All requests made to the Venafi platform will be restricted by the named
+   * zone policy.
+   * This field is required.
    *
    * @schema IssuerSpecVenafi#zone
    */
@@ -6979,13 +8400,18 @@ export function toJson_IssuerSpecVenafi(
 /* eslint-enable max-len, quote-props */
 
 /**
- * ExternalAccountBinding is a reference to a CA external account of the ACME server. If set, upon registration cert-manager will attempt to associate the given external account credentials with the registered ACME account.
+ * ExternalAccountBinding is a reference to a CA external account of the ACME
+ * server.
+ * If set, upon registration cert-manager will attempt to associate the given
+ * external account credentials with the registered ACME account.
  *
  * @schema IssuerSpecAcmeExternalAccountBinding
  */
 export interface IssuerSpecAcmeExternalAccountBinding {
   /**
-   * Deprecated: keyAlgorithm field exists for historical compatibility reasons and should not be used. The algorithm is now hardcoded to HS256 in golang/x/crypto/acme.
+   * Deprecated: keyAlgorithm field exists for historical compatibility
+   * reasons and should not be used. The algorithm is now hardcoded to HS256
+   * in golang/x/crypto/acme.
    *
    * @schema IssuerSpecAcmeExternalAccountBinding#keyAlgorithm
    */
@@ -6999,7 +8425,13 @@ export interface IssuerSpecAcmeExternalAccountBinding {
   readonly keyId: string;
 
   /**
-   * keySecretRef is a Secret Key Selector referencing a data item in a Kubernetes Secret which holds the symmetric MAC key of the External Account Binding. The `key` is the index string that is paired with the key data in the Secret and should not be confused with the key data itself, or indeed with the External Account Binding keyID above. The secret key stored in the Secret **must** be un-padded, base64 URL encoded data.
+   * keySecretRef is a Secret Key Selector referencing a data item in a Kubernetes
+   * Secret which holds the symmetric MAC key of the External Account Binding.
+   * The `key` is the index string that is paired with the key data in the
+   * Secret and should not be confused with the key data itself, or indeed with
+   * the External Account Binding keyID above.
+   * The secret key stored in the Secret **must** be un-padded, base64 URL
+   * encoded data.
    *
    * @schema IssuerSpecAcmeExternalAccountBinding#keySecretRef
    */
@@ -7030,20 +8462,27 @@ export function toJson_IssuerSpecAcmeExternalAccountBinding(
 /* eslint-enable max-len, quote-props */
 
 /**
- * PrivateKey is the name of a Kubernetes Secret resource that will be used to store the automatically generated ACME account private key. Optionally, a `key` may be specified to select a specific entry within the named Secret resource. If `key` is not specified, a default of `tls.key` will be used.
+ * PrivateKey is the name of a Kubernetes Secret resource that will be used to
+ * store the automatically generated ACME account private key.
+ * Optionally, a `key` may be specified to select a specific entry within
+ * the named Secret resource.
+ * If `key` is not specified, a default of `tls.key` will be used.
  *
  * @schema IssuerSpecAcmePrivateKeySecretRef
  */
 export interface IssuerSpecAcmePrivateKeySecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmePrivateKeySecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmePrivateKeySecretRef#name
    */
@@ -7071,27 +8510,37 @@ export function toJson_IssuerSpecAcmePrivateKeySecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * An ACMEChallengeSolver describes how to solve ACME challenges for the issuer it is part of. A selector may be provided to use different solving strategies for different DNS names. Only one of HTTP01 or DNS01 must be provided.
+ * An ACMEChallengeSolver describes how to solve ACME challenges for the issuer it is part of.
+ * A selector may be provided to use different solving strategies for different DNS names.
+ * Only one of HTTP01 or DNS01 must be provided.
  *
  * @schema IssuerSpecAcmeSolvers
  */
 export interface IssuerSpecAcmeSolvers {
   /**
-   * Configures cert-manager to attempt to complete authorizations by performing the DNS01 challenge flow.
+   * Configures cert-manager to attempt to complete authorizations by
+   * performing the DNS01 challenge flow.
    *
    * @schema IssuerSpecAcmeSolvers#dns01
    */
   readonly dns01?: IssuerSpecAcmeSolversDns01;
 
   /**
-   * Configures cert-manager to attempt to complete authorizations by performing the HTTP01 challenge flow. It is not possible to obtain certificates for wildcard domain names (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
+   * Configures cert-manager to attempt to complete authorizations by
+   * performing the HTTP01 challenge flow.
+   * It is not possible to obtain certificates for wildcard domain names
+   * (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
    *
    * @schema IssuerSpecAcmeSolvers#http01
    */
   readonly http01?: IssuerSpecAcmeSolversHttp01;
 
   /**
-   * Selector selects a set of DNSNames on the Certificate resource that should be solved using this challenge solver. If not specified, the solver will be treated as the 'default' solver with the lowest priority, i.e. if any other solver has a more specific match, it will be used instead.
+   * Selector selects a set of DNSNames on the Certificate resource that
+   * should be solved using this challenge solver.
+   * If not specified, the solver will be treated as the 'default' solver
+   * with the lowest priority, i.e. if any other solver has a more specific
+   * match, it will be used instead.
    *
    * @schema IssuerSpecAcmeSolvers#selector
    */
@@ -7126,14 +8575,16 @@ export function toJson_IssuerSpecAcmeSolvers(
  */
 export interface IssuerSpecVaultAuth {
   /**
-   * AppRole authenticates with Vault using the App Role auth mechanism, with the role and secret stored in a Kubernetes Secret resource.
+   * AppRole authenticates with Vault using the App Role auth mechanism,
+   * with the role and secret stored in a Kubernetes Secret resource.
    *
    * @schema IssuerSpecVaultAuth#appRole
    */
   readonly appRole?: IssuerSpecVaultAuthAppRole;
 
   /**
-   * Kubernetes authenticates with Vault by passing the ServiceAccount token stored in the named Secret resource to the Vault server.
+   * Kubernetes authenticates with Vault by passing the ServiceAccount
+   * token stored in the named Secret resource to the Vault server.
    *
    * @schema IssuerSpecVaultAuth#kubernetes
    */
@@ -7171,20 +8622,28 @@ export function toJson_IssuerSpecVaultAuth(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Reference to a Secret containing a bundle of PEM-encoded CAs to use when verifying the certificate chain presented by Vault when using HTTPS. Mutually exclusive with CABundle. If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in the cert-manager controller container is used to validate the TLS connection. If no key for the Secret is specified, cert-manager will default to 'ca.crt'.
+ * Reference to a Secret containing a bundle of PEM-encoded CAs to use when
+ * verifying the certificate chain presented by Vault when using HTTPS.
+ * Mutually exclusive with CABundle.
+ * If neither CABundle nor CABundleSecretRef are defined, the certificate bundle in
+ * the cert-manager controller container is used to validate the TLS connection.
+ * If no key for the Secret is specified, cert-manager will default to 'ca.crt'.
  *
  * @schema IssuerSpecVaultCaBundleSecretRef
  */
 export interface IssuerSpecVaultCaBundleSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecVaultCaBundleSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecVaultCaBundleSecretRef#name
    */
@@ -7212,7 +8671,98 @@ export function toJson_IssuerSpecVaultCaBundleSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Cloud specifies the Venafi cloud configuration settings. Only one of TPP or Cloud may be specified.
+ * Reference to a Secret containing a PEM-encoded Client Certificate to use when the
+ * Vault server requires mTLS.
+ *
+ * @schema IssuerSpecVaultClientCertSecretRef
+ */
+export interface IssuerSpecVaultClientCertSecretRef {
+  /**
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
+   *
+   * @schema IssuerSpecVaultClientCertSecretRef#key
+   */
+  readonly key?: string;
+
+  /**
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   *
+   * @schema IssuerSpecVaultClientCertSecretRef#name
+   */
+  readonly name: string;
+}
+
+/**
+ * Converts an object of type 'IssuerSpecVaultClientCertSecretRef' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_IssuerSpecVaultClientCertSecretRef(
+  obj: IssuerSpecVaultClientCertSecretRef | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "name": obj.name,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Reference to a Secret containing a PEM-encoded Client Private Key to use when the
+ * Vault server requires mTLS.
+ *
+ * @schema IssuerSpecVaultClientKeySecretRef
+ */
+export interface IssuerSpecVaultClientKeySecretRef {
+  /**
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
+   *
+   * @schema IssuerSpecVaultClientKeySecretRef#key
+   */
+  readonly key?: string;
+
+  /**
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   *
+   * @schema IssuerSpecVaultClientKeySecretRef#name
+   */
+  readonly name: string;
+}
+
+/**
+ * Converts an object of type 'IssuerSpecVaultClientKeySecretRef' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_IssuerSpecVaultClientKeySecretRef(
+  obj: IssuerSpecVaultClientKeySecretRef | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "name": obj.name,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Cloud specifies the Venafi cloud configuration settings.
+ * Only one of TPP or Cloud may be specified.
  *
  * @schema IssuerSpecVenafiCloud
  */
@@ -7225,7 +8775,8 @@ export interface IssuerSpecVenafiCloud {
   readonly apiTokenSecretRef: IssuerSpecVenafiCloudApiTokenSecretRef;
 
   /**
-   * URL is the base URL for Venafi Cloud. Defaults to "https://api.venafi.cloud/v1".
+   * URL is the base URL for Venafi Cloud.
+   * Defaults to "https://api.venafi.cloud/v1".
    *
    * @default https://api.venafi.cloud/v1".
    * @schema IssuerSpecVenafiCloud#url
@@ -7256,27 +8807,34 @@ export function toJson_IssuerSpecVenafiCloud(
 /* eslint-enable max-len, quote-props */
 
 /**
- * TPP specifies Trust Protection Platform configuration settings. Only one of TPP or Cloud may be specified.
+ * TPP specifies Trust Protection Platform configuration settings.
+ * Only one of TPP or Cloud may be specified.
  *
  * @schema IssuerSpecVenafiTpp
  */
 export interface IssuerSpecVenafiTpp {
   /**
-   * Base64-encoded bundle of PEM CAs which will be used to validate the certificate chain presented by the TPP server. Only used if using HTTPS; ignored for HTTP. If undefined, the certificate bundle in the cert-manager controller container is used to validate the chain.
+   * Base64-encoded bundle of PEM CAs which will be used to validate the certificate
+   * chain presented by the TPP server. Only used if using HTTPS; ignored for HTTP.
+   * If undefined, the certificate bundle in the cert-manager controller container
+   * is used to validate the chain.
    *
    * @schema IssuerSpecVenafiTpp#caBundle
    */
   readonly caBundle?: string;
 
   /**
-   * CredentialsRef is a reference to a Secret containing the username and password for the TPP server. The secret must contain two keys, 'username' and 'password'.
+   * CredentialsRef is a reference to a Secret containing the username and
+   * password for the TPP server.
+   * The secret must contain two keys, 'username' and 'password'.
    *
    * @schema IssuerSpecVenafiTpp#credentialsRef
    */
   readonly credentialsRef: IssuerSpecVenafiTppCredentialsRef;
 
   /**
-   * URL is the base URL for the vedsdk endpoint of the Venafi TPP instance, for example: "https://tpp.example.com/vedsdk".
+   * URL is the base URL for the vedsdk endpoint of the Venafi TPP instance,
+   * for example: "https://tpp.example.com/vedsdk".
    *
    * @schema IssuerSpecVenafiTpp#url
    */
@@ -7307,7 +8865,9 @@ export function toJson_IssuerSpecVenafiTpp(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Deprecated: keyAlgorithm field exists for historical compatibility reasons and should not be used. The algorithm is now hardcoded to HS256 in golang/x/crypto/acme.
+ * Deprecated: keyAlgorithm field exists for historical compatibility
+ * reasons and should not be used. The algorithm is now hardcoded to HS256
+ * in golang/x/crypto/acme.
  *
  * @schema IssuerSpecAcmeExternalAccountBindingKeyAlgorithm
  */
@@ -7321,20 +8881,29 @@ export enum IssuerSpecAcmeExternalAccountBindingKeyAlgorithm {
 }
 
 /**
- * keySecretRef is a Secret Key Selector referencing a data item in a Kubernetes Secret which holds the symmetric MAC key of the External Account Binding. The `key` is the index string that is paired with the key data in the Secret and should not be confused with the key data itself, or indeed with the External Account Binding keyID above. The secret key stored in the Secret **must** be un-padded, base64 URL encoded data.
+ * keySecretRef is a Secret Key Selector referencing a data item in a Kubernetes
+ * Secret which holds the symmetric MAC key of the External Account Binding.
+ * The `key` is the index string that is paired with the key data in the
+ * Secret and should not be confused with the key data itself, or indeed with
+ * the External Account Binding keyID above.
+ * The secret key stored in the Secret **must** be un-padded, base64 URL
+ * encoded data.
  *
  * @schema IssuerSpecAcmeExternalAccountBindingKeySecretRef
  */
 export interface IssuerSpecAcmeExternalAccountBindingKeySecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeExternalAccountBindingKeySecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeExternalAccountBindingKeySecretRef#name
    */
@@ -7362,13 +8931,15 @@ export function toJson_IssuerSpecAcmeExternalAccountBindingKeySecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configures cert-manager to attempt to complete authorizations by performing the DNS01 challenge flow.
+ * Configures cert-manager to attempt to complete authorizations by
+ * performing the DNS01 challenge flow.
  *
  * @schema IssuerSpecAcmeSolversDns01
  */
 export interface IssuerSpecAcmeSolversDns01 {
   /**
-   * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
+   * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage
+   * DNS01 challenge records.
    *
    * @schema IssuerSpecAcmeSolversDns01#acmeDNS
    */
@@ -7403,7 +8974,8 @@ export interface IssuerSpecAcmeSolversDns01 {
   readonly cloudflare?: IssuerSpecAcmeSolversDns01Cloudflare;
 
   /**
-   * CNAMEStrategy configures how the DNS01 provider should handle CNAME records when found in DNS zones.
+   * CNAMEStrategy configures how the DNS01 provider should handle CNAME
+   * records when found in DNS zones.
    *
    * @schema IssuerSpecAcmeSolversDns01#cnameStrategy
    */
@@ -7417,7 +8989,8 @@ export interface IssuerSpecAcmeSolversDns01 {
   readonly digitalocean?: IssuerSpecAcmeSolversDns01Digitalocean;
 
   /**
-   * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/) to manage DNS01 challenge records.
+   * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/)
+   * to manage DNS01 challenge records.
    *
    * @schema IssuerSpecAcmeSolversDns01#rfc2136
    */
@@ -7431,7 +9004,8 @@ export interface IssuerSpecAcmeSolversDns01 {
   readonly route53?: IssuerSpecAcmeSolversDns01Route53;
 
   /**
-   * Configure an external webhook based DNS01 challenge solver to manage DNS01 challenge records.
+   * Configure an external webhook based DNS01 challenge solver to manage
+   * DNS01 challenge records.
    *
    * @schema IssuerSpecAcmeSolversDns01#webhook
    */
@@ -7469,20 +9043,29 @@ export function toJson_IssuerSpecAcmeSolversDns01(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configures cert-manager to attempt to complete authorizations by performing the HTTP01 challenge flow. It is not possible to obtain certificates for wildcard domain names (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
+ * Configures cert-manager to attempt to complete authorizations by
+ * performing the HTTP01 challenge flow.
+ * It is not possible to obtain certificates for wildcard domain names
+ * (e.g. `*.example.com`) using the HTTP01 challenge mechanism.
  *
  * @schema IssuerSpecAcmeSolversHttp01
  */
 export interface IssuerSpecAcmeSolversHttp01 {
   /**
-   * The Gateway API is a sig-network community API that models service networking in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will create HTTPRoutes with the specified labels in the same namespace as the challenge. This solver is experimental, and fields / behaviour may change in the future.
+   * The Gateway API is a sig-network community API that models service networking
+   * in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will
+   * create HTTPRoutes with the specified labels in the same namespace as the challenge.
+   * This solver is experimental, and fields / behaviour may change in the future.
    *
    * @schema IssuerSpecAcmeSolversHttp01#gatewayHTTPRoute
    */
   readonly gatewayHttpRoute?: IssuerSpecAcmeSolversHttp01GatewayHttpRoute;
 
   /**
-   * The ingress based HTTP01 challenge solver will solve challenges by creating or modifying Ingress resources in order to route requests for '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are provisioned by cert-manager for each Challenge to be completed.
+   * The ingress based HTTP01 challenge solver will solve challenges by
+   * creating or modifying Ingress resources in order to route requests for
+   * '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are
+   * provisioned by cert-manager for each Challenge to be completed.
    *
    * @schema IssuerSpecAcmeSolversHttp01#ingress
    */
@@ -7512,27 +9095,46 @@ export function toJson_IssuerSpecAcmeSolversHttp01(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Selector selects a set of DNSNames on the Certificate resource that should be solved using this challenge solver. If not specified, the solver will be treated as the 'default' solver with the lowest priority, i.e. if any other solver has a more specific match, it will be used instead.
+ * Selector selects a set of DNSNames on the Certificate resource that
+ * should be solved using this challenge solver.
+ * If not specified, the solver will be treated as the 'default' solver
+ * with the lowest priority, i.e. if any other solver has a more specific
+ * match, it will be used instead.
  *
  * @schema IssuerSpecAcmeSolversSelector
  */
 export interface IssuerSpecAcmeSolversSelector {
   /**
-   * List of DNSNames that this solver will be used to solve. If specified and a match is found, a dnsNames selector will take precedence over a dnsZones selector. If multiple solvers match with the same dnsNames value, the solver with the most matching labels in matchLabels will be selected. If neither has more matches, the solver defined earlier in the list will be selected.
+   * List of DNSNames that this solver will be used to solve.
+   * If specified and a match is found, a dnsNames selector will take
+   * precedence over a dnsZones selector.
+   * If multiple solvers match with the same dnsNames value, the solver
+   * with the most matching labels in matchLabels will be selected.
+   * If neither has more matches, the solver defined earlier in the list
+   * will be selected.
    *
    * @schema IssuerSpecAcmeSolversSelector#dnsNames
    */
   readonly dnsNames?: string[];
 
   /**
-   * List of DNSZones that this solver will be used to solve. The most specific DNS zone match specified here will take precedence over other DNS zone matches, so a solver specifying sys.example.com will be selected over one specifying example.com for the domain www.sys.example.com. If multiple solvers match with the same dnsZones value, the solver with the most matching labels in matchLabels will be selected. If neither has more matches, the solver defined earlier in the list will be selected.
+   * List of DNSZones that this solver will be used to solve.
+   * The most specific DNS zone match specified here will take precedence
+   * over other DNS zone matches, so a solver specifying sys.example.com
+   * will be selected over one specifying example.com for the domain
+   * www.sys.example.com.
+   * If multiple solvers match with the same dnsZones value, the solver
+   * with the most matching labels in matchLabels will be selected.
+   * If neither has more matches, the solver defined earlier in the list
+   * will be selected.
    *
    * @schema IssuerSpecAcmeSolversSelector#dnsZones
    */
   readonly dnsZones?: string[];
 
   /**
-   * A label selector that is used to refine the set of certificate's that this challenge solver will apply to.
+   * A label selector that is used to refine the set of certificate's that
+   * this challenge solver will apply to.
    *
    * @schema IssuerSpecAcmeSolversSelector#matchLabels
    */
@@ -7566,27 +9168,33 @@ export function toJson_IssuerSpecAcmeSolversSelector(
 /* eslint-enable max-len, quote-props */
 
 /**
- * AppRole authenticates with Vault using the App Role auth mechanism, with the role and secret stored in a Kubernetes Secret resource.
+ * AppRole authenticates with Vault using the App Role auth mechanism,
+ * with the role and secret stored in a Kubernetes Secret resource.
  *
  * @schema IssuerSpecVaultAuthAppRole
  */
 export interface IssuerSpecVaultAuthAppRole {
   /**
-   * Path where the App Role authentication backend is mounted in Vault, e.g: "approle"
+   * Path where the App Role authentication backend is mounted in Vault, e.g:
+   * "approle"
    *
    * @schema IssuerSpecVaultAuthAppRole#path
    */
   readonly path: string;
 
   /**
-   * RoleID configured in the App Role authentication backend when setting up the authentication backend in Vault.
+   * RoleID configured in the App Role authentication backend when setting
+   * up the authentication backend in Vault.
    *
    * @schema IssuerSpecVaultAuthAppRole#roleId
    */
   readonly roleId: string;
 
   /**
-   * Reference to a key in a Secret that contains the App Role secret used to authenticate with Vault. The `key` field must be specified and denotes which entry within the Secret resource is used as the app role secret.
+   * Reference to a key in a Secret that contains the App Role secret used
+   * to authenticate with Vault.
+   * The `key` field must be specified and denotes which entry within the Secret
+   * resource is used as the app role secret.
    *
    * @schema IssuerSpecVaultAuthAppRole#secretRef
    */
@@ -7615,34 +9223,45 @@ export function toJson_IssuerSpecVaultAuthAppRole(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Kubernetes authenticates with Vault by passing the ServiceAccount token stored in the named Secret resource to the Vault server.
+ * Kubernetes authenticates with Vault by passing the ServiceAccount
+ * token stored in the named Secret resource to the Vault server.
  *
  * @schema IssuerSpecVaultAuthKubernetes
  */
 export interface IssuerSpecVaultAuthKubernetes {
   /**
-   * The Vault mountPath here is the mount path to use when authenticating with Vault. For example, setting a value to `/v1/auth/foo`, will use the path `/v1/auth/foo/login` to authenticate with Vault. If unspecified, the default value "/v1/auth/kubernetes" will be used.
+   * The Vault mountPath here is the mount path to use when authenticating with
+   * Vault. For example, setting a value to `/v1/auth/foo`, will use the path
+   * `/v1/auth/foo/login` to authenticate with Vault. If unspecified, the
+   * default value "/v1/auth/kubernetes" will be used.
    *
    * @schema IssuerSpecVaultAuthKubernetes#mountPath
    */
   readonly mountPath?: string;
 
   /**
-   * A required field containing the Vault Role to assume. A Role binds a Kubernetes ServiceAccount with a set of Vault policies.
+   * A required field containing the Vault Role to assume. A Role binds a
+   * Kubernetes ServiceAccount with a set of Vault policies.
    *
    * @schema IssuerSpecVaultAuthKubernetes#role
    */
   readonly role: string;
 
   /**
-   * The required Secret field containing a Kubernetes ServiceAccount JWT used for authenticating with Vault. Use of 'ambient credentials' is not supported.
+   * The required Secret field containing a Kubernetes ServiceAccount JWT used
+   * for authenticating with Vault. Use of 'ambient credentials' is not
+   * supported.
    *
    * @schema IssuerSpecVaultAuthKubernetes#secretRef
    */
   readonly secretRef?: IssuerSpecVaultAuthKubernetesSecretRef;
 
   /**
-   * A reference to a service account that will be used to request a bound token (also known as "projected token"). Compared to using "secretRef", using this field means that you don't rely on statically bound tokens. To use this field, you must configure an RBAC rule to let cert-manager request a token.
+   * A reference to a service account that will be used to request a bound
+   * token (also known as "projected token"). Compared to using "secretRef",
+   * using this field means that you don't rely on statically bound tokens. To
+   * use this field, you must configure an RBAC rule to let cert-manager
+   * request a token.
    *
    * @schema IssuerSpecVaultAuthKubernetes#serviceAccountRef
    */
@@ -7680,14 +9299,17 @@ export function toJson_IssuerSpecVaultAuthKubernetes(
  */
 export interface IssuerSpecVaultAuthTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecVaultAuthTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecVaultAuthTokenSecretRef#name
    */
@@ -7721,14 +9343,17 @@ export function toJson_IssuerSpecVaultAuthTokenSecretRef(
  */
 export interface IssuerSpecVenafiCloudApiTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecVenafiCloudApiTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecVenafiCloudApiTokenSecretRef#name
    */
@@ -7756,13 +9381,16 @@ export function toJson_IssuerSpecVenafiCloudApiTokenSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * CredentialsRef is a reference to a Secret containing the username and password for the TPP server. The secret must contain two keys, 'username' and 'password'.
+ * CredentialsRef is a reference to a Secret containing the username and
+ * password for the TPP server.
+ * The secret must contain two keys, 'username' and 'password'.
  *
  * @schema IssuerSpecVenafiTppCredentialsRef
  */
 export interface IssuerSpecVenafiTppCredentialsRef {
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecVenafiTppCredentialsRef#name
    */
@@ -7789,13 +9417,15 @@ export function toJson_IssuerSpecVenafiTppCredentialsRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage DNS01 challenge records.
+ * Use the 'ACME DNS' (https://github.com/joohoi/acme-dns) API to manage
+ * DNS01 challenge records.
  *
  * @schema IssuerSpecAcmeSolversDns01AcmeDns
  */
 export interface IssuerSpecAcmeSolversDns01AcmeDns {
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema IssuerSpecAcmeSolversDns01AcmeDns#accountSecretRef
    */
@@ -7837,7 +9467,8 @@ export function toJson_IssuerSpecAcmeSolversDns01AcmeDns(
  */
 export interface IssuerSpecAcmeSolversDns01Akamai {
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema IssuerSpecAcmeSolversDns01Akamai#accessTokenSecretRef
    */
@@ -7845,7 +9476,8 @@ export interface IssuerSpecAcmeSolversDns01Akamai {
     IssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretRef;
 
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema IssuerSpecAcmeSolversDns01Akamai#clientSecretSecretRef
    */
@@ -7853,7 +9485,8 @@ export interface IssuerSpecAcmeSolversDns01Akamai {
     IssuerSpecAcmeSolversDns01AkamaiClientSecretSecretRef;
 
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema IssuerSpecAcmeSolversDns01Akamai#clientTokenSecretRef
    */
@@ -7904,14 +9537,18 @@ export function toJson_IssuerSpecAcmeSolversDns01Akamai(
  */
 export interface IssuerSpecAcmeSolversDns01AzureDns {
   /**
-   * Auth: Azure Service Principal: The ClientID of the Azure Service Principal used to authenticate with Azure DNS. If set, ClientSecret and TenantID must also be set.
+   * Auth: Azure Service Principal:
+   * The ClientID of the Azure Service Principal used to authenticate with Azure DNS.
+   * If set, ClientSecret and TenantID must also be set.
    *
    * @schema IssuerSpecAcmeSolversDns01AzureDns#clientID
    */
   readonly clientId?: string;
 
   /**
-   * Auth: Azure Service Principal: A reference to a Secret containing the password associated with the Service Principal. If set, ClientID and TenantID must also be set.
+   * Auth: Azure Service Principal:
+   * A reference to a Secret containing the password associated with the Service Principal.
+   * If set, ClientID and TenantID must also be set.
    *
    * @schema IssuerSpecAcmeSolversDns01AzureDns#clientSecretSecretRef
    */
@@ -7933,7 +9570,9 @@ export interface IssuerSpecAcmeSolversDns01AzureDns {
   readonly hostedZoneName?: string;
 
   /**
-   * Auth: Azure Workload Identity or Azure Managed Service Identity: Settings to enable Azure Workload Identity or Azure Managed Service Identity If set, ClientID, ClientSecret and TenantID must not be set.
+   * Auth: Azure Workload Identity or Azure Managed Service Identity:
+   * Settings to enable Azure Workload Identity or Azure Managed Service Identity
+   * If set, ClientID, ClientSecret and TenantID must not be set.
    *
    * @schema IssuerSpecAcmeSolversDns01AzureDns#managedIdentity
    */
@@ -7954,7 +9593,9 @@ export interface IssuerSpecAcmeSolversDns01AzureDns {
   readonly subscriptionId: string;
 
   /**
-   * Auth: Azure Service Principal: The TenantID of the Azure Service Principal used to authenticate with Azure DNS. If set, ClientID and ClientSecret must also be set.
+   * Auth: Azure Service Principal:
+   * The TenantID of the Azure Service Principal used to authenticate with Azure DNS.
+   * If set, ClientID and ClientSecret must also be set.
    *
    * @schema IssuerSpecAcmeSolversDns01AzureDns#tenantID
    */
@@ -7999,7 +9640,9 @@ export function toJson_IssuerSpecAcmeSolversDns01AzureDns(
  */
 export interface IssuerSpecAcmeSolversDns01CloudDns {
   /**
-   * HostedZoneName is an optional field that tells cert-manager in which Cloud DNS zone the challenge record has to be created. If left empty cert-manager will automatically choose a zone.
+   * HostedZoneName is an optional field that tells cert-manager in which
+   * Cloud DNS zone the challenge record has to be created.
+   * If left empty cert-manager will automatically choose a zone.
    *
    * @schema IssuerSpecAcmeSolversDns01CloudDns#hostedZoneName
    */
@@ -8011,7 +9654,8 @@ export interface IssuerSpecAcmeSolversDns01CloudDns {
   readonly project: string;
 
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema IssuerSpecAcmeSolversDns01CloudDns#serviceAccountSecretRef
    */
@@ -8050,7 +9694,9 @@ export function toJson_IssuerSpecAcmeSolversDns01CloudDns(
  */
 export interface IssuerSpecAcmeSolversDns01Cloudflare {
   /**
-   * API key to use to authenticate with Cloudflare. Note: using an API token to authenticate is now the recommended method as it allows greater control of permissions.
+   * API key to use to authenticate with Cloudflare.
+   * Note: using an API token to authenticate is now the recommended method
+   * as it allows greater control of permissions.
    *
    * @schema IssuerSpecAcmeSolversDns01Cloudflare#apiKeySecretRef
    */
@@ -8101,7 +9747,8 @@ export function toJson_IssuerSpecAcmeSolversDns01Cloudflare(
 /* eslint-enable max-len, quote-props */
 
 /**
- * CNAMEStrategy configures how the DNS01 provider should handle CNAME records when found in DNS zones.
+ * CNAMEStrategy configures how the DNS01 provider should handle CNAME
+ * records when found in DNS zones.
  *
  * @schema IssuerSpecAcmeSolversDns01CnameStrategy
  */
@@ -8119,7 +9766,8 @@ export enum IssuerSpecAcmeSolversDns01CnameStrategy {
  */
 export interface IssuerSpecAcmeSolversDns01Digitalocean {
   /**
-   * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+   * A reference to a specific 'key' within a Secret resource.
+   * In some instances, `key` is a required field.
    *
    * @schema IssuerSpecAcmeSolversDns01Digitalocean#tokenSecretRef
    */
@@ -8149,34 +9797,43 @@ export function toJson_IssuerSpecAcmeSolversDns01Digitalocean(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/) to manage DNS01 challenge records.
+ * Use RFC2136 ("Dynamic Updates in the Domain Name System") (https://datatracker.ietf.org/doc/rfc2136/)
+ * to manage DNS01 challenge records.
  *
  * @schema IssuerSpecAcmeSolversDns01Rfc2136
  */
 export interface IssuerSpecAcmeSolversDns01Rfc2136 {
   /**
-   * The IP address or hostname of an authoritative DNS server supporting RFC2136 in the form host:port. If the host is an IPv6 address it must be enclosed in square brackets (e.g [2001:db8::1]) ; port is optional. This field is required.
+   * The IP address or hostname of an authoritative DNS server supporting
+   * RFC2136 in the form host:port. If the host is an IPv6 address it must be
+   * enclosed in square brackets (e.g [2001:db8::1]) ; port is optional.
+   * This field is required.
    *
    * @schema IssuerSpecAcmeSolversDns01Rfc2136#nameserver
    */
   readonly nameserver: string;
 
   /**
-   * The TSIG Algorithm configured in the DNS supporting RFC2136. Used only when ``tsigSecretSecretRef`` and ``tsigKeyName`` are defined. Supported values are (case-insensitive): ``HMACMD5`` (default), ``HMACSHA1``, ``HMACSHA256`` or ``HMACSHA512``.
+   * The TSIG Algorithm configured in the DNS supporting RFC2136. Used only
+   * when ``tsigSecretSecretRef`` and ``tsigKeyName`` are defined.
+   * Supported values are (case-insensitive): ``HMACMD5`` (default),
+   * ``HMACSHA1``, ``HMACSHA256`` or ``HMACSHA512``.
    *
    * @schema IssuerSpecAcmeSolversDns01Rfc2136#tsigAlgorithm
    */
   readonly tsigAlgorithm?: string;
 
   /**
-   * The TSIG Key name configured in the DNS. If ``tsigSecretSecretRef`` is defined, this field is required.
+   * The TSIG Key name configured in the DNS.
+   * If ``tsigSecretSecretRef`` is defined, this field is required.
    *
    * @schema IssuerSpecAcmeSolversDns01Rfc2136#tsigKeyName
    */
   readonly tsigKeyName?: string;
 
   /**
-   * The name of the secret containing the TSIG value. If ``tsigKeyName`` is defined, this field is required.
+   * The name of the secret containing the TSIG value.
+   * If ``tsigKeyName`` is defined, this field is required.
    *
    * @schema IssuerSpecAcmeSolversDns01Rfc2136#tsigSecretSecretRef
    */
@@ -8216,19 +9873,35 @@ export function toJson_IssuerSpecAcmeSolversDns01Rfc2136(
  */
 export interface IssuerSpecAcmeSolversDns01Route53 {
   /**
-   * The AccessKeyID is used for authentication. Cannot be set when SecretAccessKeyID is set. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+   * The AccessKeyID is used for authentication.
+   * Cannot be set when SecretAccessKeyID is set.
+   * If neither the Access Key nor Key ID are set, we fall-back to using env
+   * vars, shared credentials file or AWS Instance metadata,
+   * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
    *
    * @schema IssuerSpecAcmeSolversDns01Route53#accessKeyID
    */
   readonly accessKeyId?: string;
 
   /**
-   * The SecretAccessKey is used for authentication. If set, pull the AWS access key ID from a key within a Kubernetes Secret. Cannot be set when AccessKeyID is set. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+   * The SecretAccessKey is used for authentication. If set, pull the AWS
+   * access key ID from a key within a Kubernetes Secret.
+   * Cannot be set when AccessKeyID is set.
+   * If neither the Access Key nor Key ID are set, we fall-back to using env
+   * vars, shared credentials file or AWS Instance metadata,
+   * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
    *
    * @schema IssuerSpecAcmeSolversDns01Route53#accessKeyIDSecretRef
    */
   readonly accessKeyIdSecretRef?:
     IssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef;
+
+  /**
+   * Auth configures how cert-manager authenticates.
+   *
+   * @schema IssuerSpecAcmeSolversDns01Route53#auth
+   */
+  readonly auth?: IssuerSpecAcmeSolversDns01Route53Auth;
 
   /**
    * If set, the provider will manage only this zone in Route53 and will not do an lookup using the route53:ListHostedZonesByName api call.
@@ -8245,14 +9918,18 @@ export interface IssuerSpecAcmeSolversDns01Route53 {
   readonly region: string;
 
   /**
-   * Role is a Role ARN which the Route53 provider will assume using either the explicit credentials AccessKeyID/SecretAccessKey or the inferred credentials from environment variables, shared credentials file or AWS Instance metadata
+   * Role is a Role ARN which the Route53 provider will assume using either the explicit credentials AccessKeyID/SecretAccessKey
+   * or the inferred credentials from environment variables, shared credentials file or AWS Instance metadata
    *
    * @schema IssuerSpecAcmeSolversDns01Route53#role
    */
   readonly role?: string;
 
   /**
-   * The SecretAccessKey is used for authentication. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+   * The SecretAccessKey is used for authentication.
+   * If neither the Access Key nor Key ID are set, we fall-back to using env
+   * vars, shared credentials file or AWS Instance metadata,
+   * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
    *
    * @schema IssuerSpecAcmeSolversDns01Route53#secretAccessKeySecretRef
    */
@@ -8274,6 +9951,7 @@ export function toJson_IssuerSpecAcmeSolversDns01Route53(
       toJson_IssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef(
         obj.accessKeyIdSecretRef,
       ),
+    "auth": toJson_IssuerSpecAcmeSolversDns01Route53Auth(obj.auth),
     "hostedZoneID": obj.hostedZoneId,
     "region": obj.region,
     "role": obj.role,
@@ -8291,27 +9969,40 @@ export function toJson_IssuerSpecAcmeSolversDns01Route53(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configure an external webhook based DNS01 challenge solver to manage DNS01 challenge records.
+ * Configure an external webhook based DNS01 challenge solver to manage
+ * DNS01 challenge records.
  *
  * @schema IssuerSpecAcmeSolversDns01Webhook
  */
 export interface IssuerSpecAcmeSolversDns01Webhook {
   /**
-   * Additional configuration that should be passed to the webhook apiserver when challenges are processed. This can contain arbitrary JSON data. Secret values should not be specified in this stanza. If secret values are needed (e.g. credentials for a DNS service), you should use a SecretKeySelector to reference a Secret resource. For details on the schema of this field, consult the webhook provider implementation's documentation.
+   * Additional configuration that should be passed to the webhook apiserver
+   * when challenges are processed.
+   * This can contain arbitrary JSON data.
+   * Secret values should not be specified in this stanza.
+   * If secret values are needed (e.g. credentials for a DNS service), you
+   * should use a SecretKeySelector to reference a Secret resource.
+   * For details on the schema of this field, consult the webhook provider
+   * implementation's documentation.
    *
    * @schema IssuerSpecAcmeSolversDns01Webhook#config
    */
   readonly config?: any;
 
   /**
-   * The API group name that should be used when POSTing ChallengePayload resources to the webhook apiserver. This should be the same as the GroupName specified in the webhook provider implementation.
+   * The API group name that should be used when POSTing ChallengePayload
+   * resources to the webhook apiserver.
+   * This should be the same as the GroupName specified in the webhook
+   * provider implementation.
    *
    * @schema IssuerSpecAcmeSolversDns01Webhook#groupName
    */
   readonly groupName: string;
 
   /**
-   * The name of the solver to use, as defined in the webhook provider implementation. This will typically be the name of the provider, e.g. 'cloudflare'.
+   * The name of the solver to use, as defined in the webhook provider
+   * implementation.
+   * This will typically be the name of the provider, e.g. 'cloudflare'.
    *
    * @schema IssuerSpecAcmeSolversDns01Webhook#solverName
    */
@@ -8340,27 +10031,35 @@ export function toJson_IssuerSpecAcmeSolversDns01Webhook(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Gateway API is a sig-network community API that models service networking in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will create HTTPRoutes with the specified labels in the same namespace as the challenge. This solver is experimental, and fields / behaviour may change in the future.
+ * The Gateway API is a sig-network community API that models service networking
+ * in Kubernetes (https://gateway-api.sigs.k8s.io/). The Gateway solver will
+ * create HTTPRoutes with the specified labels in the same namespace as the challenge.
+ * This solver is experimental, and fields / behaviour may change in the future.
  *
  * @schema IssuerSpecAcmeSolversHttp01GatewayHttpRoute
  */
 export interface IssuerSpecAcmeSolversHttp01GatewayHttpRoute {
   /**
-   * Custom labels that will be applied to HTTPRoutes created by cert-manager while solving HTTP-01 challenges.
+   * Custom labels that will be applied to HTTPRoutes created by cert-manager
+   * while solving HTTP-01 challenges.
    *
    * @schema IssuerSpecAcmeSolversHttp01GatewayHttpRoute#labels
    */
   readonly labels?: { [key: string]: string };
 
   /**
-   * When solving an HTTP-01 challenge, cert-manager creates an HTTPRoute. cert-manager needs to know which parentRefs should be used when creating the HTTPRoute. Usually, the parentRef references a Gateway. See: https://gateway-api.sigs.k8s.io/api-types/httproute/#attaching-to-gateways
+   * When solving an HTTP-01 challenge, cert-manager creates an HTTPRoute.
+   * cert-manager needs to know which parentRefs should be used when creating
+   * the HTTPRoute. Usually, the parentRef references a Gateway. See:
+   * https://gateway-api.sigs.k8s.io/api-types/httproute/#attaching-to-gateways
    *
    * @schema IssuerSpecAcmeSolversHttp01GatewayHttpRoute#parentRefs
    */
   readonly parentRefs?: IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs[];
 
   /**
-   * Optional service type for Kubernetes solver service. Supported values are NodePort or ClusterIP. If unset, defaults to NodePort.
+   * Optional service type for Kubernetes solver service. Supported values
+   * are NodePort or ClusterIP. If unset, defaults to NodePort.
    *
    * @schema IssuerSpecAcmeSolversHttp01GatewayHttpRoute#serviceType
    */
@@ -8396,48 +10095,65 @@ export function toJson_IssuerSpecAcmeSolversHttp01GatewayHttpRoute(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The ingress based HTTP01 challenge solver will solve challenges by creating or modifying Ingress resources in order to route requests for '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are provisioned by cert-manager for each Challenge to be completed.
+ * The ingress based HTTP01 challenge solver will solve challenges by
+ * creating or modifying Ingress resources in order to route requests for
+ * '/.well-known/acme-challenge/XYZ' to 'challenge solver' pods that are
+ * provisioned by cert-manager for each Challenge to be completed.
  *
  * @schema IssuerSpecAcmeSolversHttp01Ingress
  */
 export interface IssuerSpecAcmeSolversHttp01Ingress {
   /**
-   * This field configures the annotation `kubernetes.io/ingress.class` when creating Ingress resources to solve ACME challenges that use this challenge solver. Only one of `class`, `name` or `ingressClassName` may be specified.
+   * This field configures the annotation `kubernetes.io/ingress.class` when
+   * creating Ingress resources to solve ACME challenges that use this
+   * challenge solver. Only one of `class`, `name` or `ingressClassName` may
+   * be specified.
    *
    * @schema IssuerSpecAcmeSolversHttp01Ingress#class
    */
   readonly class?: string;
 
   /**
-   * This field configures the field `ingressClassName` on the created Ingress resources used to solve ACME challenges that use this challenge solver. This is the recommended way of configuring the ingress class. Only one of `class`, `name` or `ingressClassName` may be specified.
+   * This field configures the field `ingressClassName` on the created Ingress
+   * resources used to solve ACME challenges that use this challenge solver.
+   * This is the recommended way of configuring the ingress class. Only one of
+   * `class`, `name` or `ingressClassName` may be specified.
    *
    * @schema IssuerSpecAcmeSolversHttp01Ingress#ingressClassName
    */
   readonly ingressClassName?: string;
 
   /**
-   * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
+   * Optional ingress template used to configure the ACME challenge solver
+   * ingress used for HTTP01 challenges.
    *
    * @schema IssuerSpecAcmeSolversHttp01Ingress#ingressTemplate
    */
   readonly ingressTemplate?: IssuerSpecAcmeSolversHttp01IngressIngressTemplate;
 
   /**
-   * The name of the ingress resource that should have ACME challenge solving routes inserted into it in order to solve HTTP01 challenges. This is typically used in conjunction with ingress controllers like ingress-gce, which maintains a 1:1 mapping between external IPs and ingress resources. Only one of `class`, `name` or `ingressClassName` may be specified.
+   * The name of the ingress resource that should have ACME challenge solving
+   * routes inserted into it in order to solve HTTP01 challenges.
+   * This is typically used in conjunction with ingress controllers like
+   * ingress-gce, which maintains a 1:1 mapping between external IPs and
+   * ingress resources. Only one of `class`, `name` or `ingressClassName` may
+   * be specified.
    *
    * @schema IssuerSpecAcmeSolversHttp01Ingress#name
    */
   readonly name?: string;
 
   /**
-   * Optional pod template used to configure the ACME challenge solver pods used for HTTP01 challenges.
+   * Optional pod template used to configure the ACME challenge solver pods
+   * used for HTTP01 challenges.
    *
    * @schema IssuerSpecAcmeSolversHttp01Ingress#podTemplate
    */
   readonly podTemplate?: IssuerSpecAcmeSolversHttp01IngressPodTemplate;
 
   /**
-   * Optional service type for Kubernetes solver service. Supported values are NodePort or ClusterIP. If unset, defaults to NodePort.
+   * Optional service type for Kubernetes solver service. Supported values
+   * are NodePort or ClusterIP. If unset, defaults to NodePort.
    *
    * @schema IssuerSpecAcmeSolversHttp01Ingress#serviceType
    */
@@ -8473,20 +10189,26 @@ export function toJson_IssuerSpecAcmeSolversHttp01Ingress(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Reference to a key in a Secret that contains the App Role secret used to authenticate with Vault. The `key` field must be specified and denotes which entry within the Secret resource is used as the app role secret.
+ * Reference to a key in a Secret that contains the App Role secret used
+ * to authenticate with Vault.
+ * The `key` field must be specified and denotes which entry within the Secret
+ * resource is used as the app role secret.
  *
  * @schema IssuerSpecVaultAuthAppRoleSecretRef
  */
 export interface IssuerSpecVaultAuthAppRoleSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecVaultAuthAppRoleSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecVaultAuthAppRoleSecretRef#name
    */
@@ -8514,20 +10236,25 @@ export function toJson_IssuerSpecVaultAuthAppRoleSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The required Secret field containing a Kubernetes ServiceAccount JWT used for authenticating with Vault. Use of 'ambient credentials' is not supported.
+ * The required Secret field containing a Kubernetes ServiceAccount JWT used
+ * for authenticating with Vault. Use of 'ambient credentials' is not
+ * supported.
  *
  * @schema IssuerSpecVaultAuthKubernetesSecretRef
  */
 export interface IssuerSpecVaultAuthKubernetesSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecVaultAuthKubernetesSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecVaultAuthKubernetesSecretRef#name
    */
@@ -8555,11 +10282,23 @@ export function toJson_IssuerSpecVaultAuthKubernetesSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a service account that will be used to request a bound token (also known as "projected token"). Compared to using "secretRef", using this field means that you don't rely on statically bound tokens. To use this field, you must configure an RBAC rule to let cert-manager request a token.
+ * A reference to a service account that will be used to request a bound
+ * token (also known as "projected token"). Compared to using "secretRef",
+ * using this field means that you don't rely on statically bound tokens. To
+ * use this field, you must configure an RBAC rule to let cert-manager
+ * request a token.
  *
  * @schema IssuerSpecVaultAuthKubernetesServiceAccountRef
  */
 export interface IssuerSpecVaultAuthKubernetesServiceAccountRef {
+  /**
+   * TokenAudiences is an optional list of extra audiences to include in the token passed to Vault. The default token
+   * consisting of the issuer's namespace and name is always included.
+   *
+   * @schema IssuerSpecVaultAuthKubernetesServiceAccountRef#audiences
+   */
+  readonly audiences?: string[];
+
   /**
    * Name of the ServiceAccount used to request a token.
    *
@@ -8577,6 +10316,7 @@ export function toJson_IssuerSpecVaultAuthKubernetesServiceAccountRef(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "audiences": obj.audiences?.map((y) => y),
     "name": obj.name,
   };
   // filter undefined values
@@ -8588,20 +10328,24 @@ export function toJson_IssuerSpecVaultAuthKubernetesServiceAccountRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef
  */
 export interface IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef#name
    */
@@ -8629,20 +10373,24 @@ export function toJson_IssuerSpecAcmeSolversDns01AcmeDnsAccountSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema IssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretRef
  */
 export interface IssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretRef#name
    */
@@ -8670,20 +10418,24 @@ export function toJson_IssuerSpecAcmeSolversDns01AkamaiAccessTokenSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema IssuerSpecAcmeSolversDns01AkamaiClientSecretSecretRef
  */
 export interface IssuerSpecAcmeSolversDns01AkamaiClientSecretSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01AkamaiClientSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01AkamaiClientSecretSecretRef#name
    */
@@ -8711,20 +10463,24 @@ export function toJson_IssuerSpecAcmeSolversDns01AkamaiClientSecretSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema IssuerSpecAcmeSolversDns01AkamaiClientTokenSecretRef
  */
 export interface IssuerSpecAcmeSolversDns01AkamaiClientTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01AkamaiClientTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01AkamaiClientTokenSecretRef#name
    */
@@ -8752,20 +10508,25 @@ export function toJson_IssuerSpecAcmeSolversDns01AkamaiClientTokenSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Auth: Azure Service Principal: A reference to a Secret containing the password associated with the Service Principal. If set, ClientID and TenantID must also be set.
+ * Auth: Azure Service Principal:
+ * A reference to a Secret containing the password associated with the Service Principal.
+ * If set, ClientID and TenantID must also be set.
  *
  * @schema IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef
  */
 export interface IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01AzureDnsClientSecretSecretRef#name
    */
@@ -8809,7 +10570,9 @@ export enum IssuerSpecAcmeSolversDns01AzureDnsEnvironment {
 }
 
 /**
- * Auth: Azure Workload Identity or Azure Managed Service Identity: Settings to enable Azure Workload Identity or Azure Managed Service Identity If set, ClientID, ClientSecret and TenantID must not be set.
+ * Auth: Azure Workload Identity or Azure Managed Service Identity:
+ * Settings to enable Azure Workload Identity or Azure Managed Service Identity
+ * If set, ClientID, ClientSecret and TenantID must not be set.
  *
  * @schema IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity
  */
@@ -8822,7 +10585,8 @@ export interface IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity {
   readonly clientId?: string;
 
   /**
-   * resource ID of the managed identity, can not be used at the same time as clientID Cannot be used for Azure Managed Service Identity
+   * resource ID of the managed identity, can not be used at the same time as clientID
+   * Cannot be used for Azure Managed Service Identity
    *
    * @schema IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity#resourceID
    */
@@ -8850,20 +10614,24 @@ export function toJson_IssuerSpecAcmeSolversDns01AzureDnsManagedIdentity(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef
  */
 export interface IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef#name
    */
@@ -8891,20 +10659,25 @@ export function toJson_IssuerSpecAcmeSolversDns01CloudDnsServiceAccountSecretRef
 /* eslint-enable max-len, quote-props */
 
 /**
- * API key to use to authenticate with Cloudflare. Note: using an API token to authenticate is now the recommended method as it allows greater control of permissions.
+ * API key to use to authenticate with Cloudflare.
+ * Note: using an API token to authenticate is now the recommended method
+ * as it allows greater control of permissions.
  *
  * @schema IssuerSpecAcmeSolversDns01CloudflareApiKeySecretRef
  */
 export interface IssuerSpecAcmeSolversDns01CloudflareApiKeySecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01CloudflareApiKeySecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01CloudflareApiKeySecretRef#name
    */
@@ -8938,14 +10711,17 @@ export function toJson_IssuerSpecAcmeSolversDns01CloudflareApiKeySecretRef(
  */
 export interface IssuerSpecAcmeSolversDns01CloudflareApiTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01CloudflareApiTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01CloudflareApiTokenSecretRef#name
    */
@@ -8973,20 +10749,24 @@ export function toJson_IssuerSpecAcmeSolversDns01CloudflareApiTokenSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * A reference to a specific 'key' within a Secret resource. In some instances, `key` is a required field.
+ * A reference to a specific 'key' within a Secret resource.
+ * In some instances, `key` is a required field.
  *
  * @schema IssuerSpecAcmeSolversDns01DigitaloceanTokenSecretRef
  */
 export interface IssuerSpecAcmeSolversDns01DigitaloceanTokenSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01DigitaloceanTokenSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01DigitaloceanTokenSecretRef#name
    */
@@ -9014,20 +10794,24 @@ export function toJson_IssuerSpecAcmeSolversDns01DigitaloceanTokenSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The name of the secret containing the TSIG value. If ``tsigKeyName`` is defined, this field is required.
+ * The name of the secret containing the TSIG value.
+ * If ``tsigKeyName`` is defined, this field is required.
  *
  * @schema IssuerSpecAcmeSolversDns01Rfc2136TsigSecretSecretRef
  */
 export interface IssuerSpecAcmeSolversDns01Rfc2136TsigSecretSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01Rfc2136TsigSecretSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01Rfc2136TsigSecretSecretRef#name
    */
@@ -9055,20 +10839,28 @@ export function toJson_IssuerSpecAcmeSolversDns01Rfc2136TsigSecretSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The SecretAccessKey is used for authentication. If set, pull the AWS access key ID from a key within a Kubernetes Secret. Cannot be set when AccessKeyID is set. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+ * The SecretAccessKey is used for authentication. If set, pull the AWS
+ * access key ID from a key within a Kubernetes Secret.
+ * Cannot be set when AccessKeyID is set.
+ * If neither the Access Key nor Key ID are set, we fall-back to using env
+ * vars, shared credentials file or AWS Instance metadata,
+ * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
  *
  * @schema IssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef
  */
 export interface IssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef#name
    */
@@ -9096,20 +10888,62 @@ export function toJson_IssuerSpecAcmeSolversDns01Route53AccessKeyIdSecretRef(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The SecretAccessKey is used for authentication. If neither the Access Key nor Key ID are set, we fall-back to using env vars, shared credentials file or AWS Instance metadata, see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
+ * Auth configures how cert-manager authenticates.
+ *
+ * @schema IssuerSpecAcmeSolversDns01Route53Auth
+ */
+export interface IssuerSpecAcmeSolversDns01Route53Auth {
+  /**
+   * Kubernetes authenticates with Route53 using AssumeRoleWithWebIdentity
+   * by passing a bound ServiceAccount token.
+   *
+   * @schema IssuerSpecAcmeSolversDns01Route53Auth#kubernetes
+   */
+  readonly kubernetes: IssuerSpecAcmeSolversDns01Route53AuthKubernetes;
+}
+
+/**
+ * Converts an object of type 'IssuerSpecAcmeSolversDns01Route53Auth' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_IssuerSpecAcmeSolversDns01Route53Auth(
+  obj: IssuerSpecAcmeSolversDns01Route53Auth | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "kubernetes": toJson_IssuerSpecAcmeSolversDns01Route53AuthKubernetes(
+      obj.kubernetes,
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The SecretAccessKey is used for authentication.
+ * If neither the Access Key nor Key ID are set, we fall-back to using env
+ * vars, shared credentials file or AWS Instance metadata,
+ * see: https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials
  *
  * @schema IssuerSpecAcmeSolversDns01Route53SecretAccessKeySecretRef
  */
 export interface IssuerSpecAcmeSolversDns01Route53SecretAccessKeySecretRef {
   /**
-   * The key of the entry in the Secret resource's `data` field to be used. Some instances of this field may be defaulted, in others it may be required.
+   * The key of the entry in the Secret resource's `data` field to be used.
+   * Some instances of this field may be defaulted, in others it may be
+   * required.
    *
    * @schema IssuerSpecAcmeSolversDns01Route53SecretAccessKeySecretRef#key
    */
   readonly key?: string;
 
   /**
-   * Name of the resource being referred to. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the resource being referred to.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema IssuerSpecAcmeSolversDns01Route53SecretAccessKeySecretRef#name
    */
@@ -9137,16 +10971,28 @@ export function toJson_IssuerSpecAcmeSolversDns01Route53SecretAccessKeySecretRef
 /* eslint-enable max-len, quote-props */
 
 /**
- * ParentReference identifies an API object (usually a Gateway) that can be considered a parent of this resource (usually a route). There are two kinds of parent resources with "Core" support:
- * * Gateway (Gateway conformance profile) * Service (Mesh conformance profile, experimental, ClusterIP Services only)
- * This API may be extended in the future to support additional kinds of parent resources.
- * The API object must be valid in the cluster; the Group and Kind must be registered in the cluster for this reference to be valid.
+ * ParentReference identifies an API object (usually a Gateway) that can be considered
+ * a parent of this resource (usually a route). There are two kinds of parent resources
+ * with "Core" support:
+ *
+ * * Gateway (Gateway conformance profile)
+ * * Service (Mesh conformance profile, ClusterIP Services only)
+ *
+ * This API may be extended in the future to support additional kinds of parent
+ * resources.
+ *
+ * The API object must be valid in the cluster; the Group and Kind must
+ * be registered in the cluster for this reference to be valid.
  *
  * @schema IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs
  */
 export interface IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs {
   /**
-   * Group is the group of the referent. When unspecified, "gateway.networking.k8s.io" is inferred. To set the core API group (such as for a "Service" kind referent), Group must be explicitly set to "" (empty string).
+   * Group is the group of the referent.
+   * When unspecified, "gateway.networking.k8s.io" is inferred.
+   * To set the core API group (such as for a "Service" kind referent),
+   * Group must be explicitly set to "" (empty string).
+   *
    * Support: Core
    *
    * @schema IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#group
@@ -9155,8 +11001,12 @@ export interface IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs {
 
   /**
    * Kind is kind of the referent.
+   *
    * There are two kinds of parent resources with "Core" support:
-   * * Gateway (Gateway conformance profile) * Service (Mesh conformance profile, experimental, ClusterIP Services only)
+   *
+   * * Gateway (Gateway conformance profile)
+   * * Service (Mesh conformance profile, ClusterIP Services only)
+   *
    * Support for other resources is Implementation-Specific.
    *
    * @schema IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#kind
@@ -9165,6 +11015,7 @@ export interface IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs {
 
   /**
    * Name is the name of the referent.
+   *
    * Support: Core
    *
    * @schema IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#name
@@ -9172,10 +11023,27 @@ export interface IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs {
   readonly name: string;
 
   /**
-   * Namespace is the namespace of the referent. When unspecified, this refers to the local namespace of the Route.
-   * Note that there are specific rules for ParentRefs which cross namespace boundaries. Cross-namespace references are only valid if they are explicitly allowed by something in the namespace they are referring to. For example: Gateway has the AllowedRoutes field, and ReferenceGrant provides a generic way to enable any other kind of cross-namespace reference.
-   * <gateway:experimental:description> ParentRefs from a Route to a Service in the same namespace are "producer" routes, which apply default routing rules to inbound connections from any namespace to the Service.
-   * ParentRefs from a Route to a Service in a different namespace are "consumer" routes, and these routing rules are only applied to outbound connections originating from the same namespace as the Route, for which the intended destination of the connections are a Service targeted as a ParentRef of the Route. </gateway:experimental:description>
+   * Namespace is the namespace of the referent. When unspecified, this refers
+   * to the local namespace of the Route.
+   *
+   * Note that there are specific rules for ParentRefs which cross namespace
+   * boundaries. Cross-namespace references are only valid if they are explicitly
+   * allowed by something in the namespace they are referring to. For example:
+   * Gateway has the AllowedRoutes field, and ReferenceGrant provides a
+   * generic way to enable any other kind of cross-namespace reference.
+   *
+   * <gateway:experimental:description>
+   * ParentRefs from a Route to a Service in the same namespace are "producer"
+   * routes, which apply default routing rules to inbound connections from
+   * any namespace to the Service.
+   *
+   * ParentRefs from a Route to a Service in a different namespace are
+   * "consumer" routes, and these routing rules are only applied to outbound
+   * connections originating from the same namespace as the Route, for which
+   * the intended destination of the connections are a Service targeted as a
+   * ParentRef of the Route.
+   * </gateway:experimental:description>
+   *
    * Support: Core
    *
    * @schema IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#namespace
@@ -9183,23 +11051,65 @@ export interface IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs {
   readonly namespace?: string;
 
   /**
-   * Port is the network port this Route targets. It can be interpreted differently based on the type of parent resource.
-   * When the parent resource is a Gateway, this targets all listeners listening on the specified port that also support this kind of Route(and select this Route). It's not recommended to set `Port` unless the networking behaviors specified in a Route must apply to a specific port as opposed to a listener(s) whose port(s) may be changed. When both Port and SectionName are specified, the name and port of the selected listener must match both specified values.
-   * <gateway:experimental:description> When the parent resource is a Service, this targets a specific port in the Service spec. When both Port (experimental) and SectionName are specified, the name and port of the selected port must match both specified values. </gateway:experimental:description>
-   * Implementations MAY choose to support other parent resources. Implementations supporting other types of parent resources MUST clearly document how/if Port is interpreted.
-   * For the purpose of status, an attachment is considered successful as long as the parent resource accepts it partially. For example, Gateway listeners can restrict which Routes can attach to them by Route kind, namespace, or hostname. If 1 of 2 Gateway listeners accept attachment from the referencing Route, the Route MUST be considered successfully attached. If no Gateway listeners accept attachment from this Route, the Route MUST be considered detached from the Gateway.
+   * Port is the network port this Route targets. It can be interpreted
+   * differently based on the type of parent resource.
+   *
+   * When the parent resource is a Gateway, this targets all listeners
+   * listening on the specified port that also support this kind of Route(and
+   * select this Route). It's not recommended to set `Port` unless the
+   * networking behaviors specified in a Route must apply to a specific port
+   * as opposed to a listener(s) whose port(s) may be changed. When both Port
+   * and SectionName are specified, the name and port of the selected listener
+   * must match both specified values.
+   *
+   * <gateway:experimental:description>
+   * When the parent resource is a Service, this targets a specific port in the
+   * Service spec. When both Port (experimental) and SectionName are specified,
+   * the name and port of the selected port must match both specified values.
+   * </gateway:experimental:description>
+   *
+   * Implementations MAY choose to support other parent resources.
+   * Implementations supporting other types of parent resources MUST clearly
+   * document how/if Port is interpreted.
+   *
+   * For the purpose of status, an attachment is considered successful as
+   * long as the parent resource accepts it partially. For example, Gateway
+   * listeners can restrict which Routes can attach to them by Route kind,
+   * namespace, or hostname. If 1 of 2 Gateway listeners accept attachment
+   * from the referencing Route, the Route MUST be considered successfully
+   * attached. If no Gateway listeners accept attachment from this Route,
+   * the Route MUST be considered detached from the Gateway.
+   *
    * Support: Extended
-   * <gateway:experimental>
    *
    * @schema IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#port
    */
   readonly port?: number;
 
   /**
-   * SectionName is the name of a section within the target resource. In the following resources, SectionName is interpreted as the following:
-   * * Gateway: Listener Name. When both Port (experimental) and SectionName are specified, the name and port of the selected listener must match both specified values. * Service: Port Name. When both Port (experimental) and SectionName are specified, the name and port of the selected listener must match both specified values. Note that attaching Routes to Services as Parents is part of experimental Mesh support and is not supported for any other purpose.
-   * Implementations MAY choose to support attaching Routes to other resources. If that is the case, they MUST clearly document how SectionName is interpreted.
-   * When unspecified (empty string), this will reference the entire resource. For the purpose of status, an attachment is considered successful if at least one section in the parent resource accepts it. For example, Gateway listeners can restrict which Routes can attach to them by Route kind, namespace, or hostname. If 1 of 2 Gateway listeners accept attachment from the referencing Route, the Route MUST be considered successfully attached. If no Gateway listeners accept attachment from this Route, the Route MUST be considered detached from the Gateway.
+   * SectionName is the name of a section within the target resource. In the
+   * following resources, SectionName is interpreted as the following:
+   *
+   * * Gateway: Listener name. When both Port (experimental) and SectionName
+   * are specified, the name and port of the selected listener must match
+   * both specified values.
+   * * Service: Port name. When both Port (experimental) and SectionName
+   * are specified, the name and port of the selected listener must match
+   * both specified values.
+   *
+   * Implementations MAY choose to support attaching Routes to other resources.
+   * If that is the case, they MUST clearly document how SectionName is
+   * interpreted.
+   *
+   * When unspecified (empty string), this will reference the entire resource.
+   * For the purpose of status, an attachment is considered successful if at
+   * least one section in the parent resource accepts it. For example, Gateway
+   * listeners can restrict which Routes can attach to them by Route kind,
+   * namespace, or hostname. If 1 of 2 Gateway listeners accept attachment from
+   * the referencing Route, the Route MUST be considered successfully
+   * attached. If no Gateway listeners accept attachment from this Route, the
+   * Route MUST be considered detached from the Gateway.
+   *
    * Support: Core
    *
    * @schema IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs#sectionName
@@ -9232,13 +11142,17 @@ export function toJson_IssuerSpecAcmeSolversHttp01GatewayHttpRouteParentRefs(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Optional ingress template used to configure the ACME challenge solver ingress used for HTTP01 challenges.
+ * Optional ingress template used to configure the ACME challenge solver
+ * ingress used for HTTP01 challenges.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressIngressTemplate
  */
 export interface IssuerSpecAcmeSolversHttp01IngressIngressTemplate {
   /**
-   * ObjectMeta overrides for the ingress used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+   * ObjectMeta overrides for the ingress used to solve HTTP01 challenges.
+   * Only the 'labels' and 'annotations' fields may be set.
+   * If labels or annotations overlap with in-built values, the values here
+   * will override the in-built values.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressIngressTemplate#metadata
    */
@@ -9268,20 +11182,26 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressIngressTemplate(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Optional pod template used to configure the ACME challenge solver pods used for HTTP01 challenges.
+ * Optional pod template used to configure the ACME challenge solver pods
+ * used for HTTP01 challenges.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplate
  */
 export interface IssuerSpecAcmeSolversHttp01IngressPodTemplate {
   /**
-   * ObjectMeta overrides for the pod used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+   * ObjectMeta overrides for the pod used to solve HTTP01 challenges.
+   * Only the 'labels' and 'annotations' fields may be set.
+   * If labels or annotations overlap with in-built values, the values here
+   * will override the in-built values.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplate#metadata
    */
   readonly metadata?: IssuerSpecAcmeSolversHttp01IngressPodTemplateMetadata;
 
   /**
-   * PodSpec defines overrides for the HTTP01 challenge solver pod. Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields. All other fields will be ignored.
+   * PodSpec defines overrides for the HTTP01 challenge solver pod.
+   * Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields.
+   * All other fields will be ignored.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplate#spec
    */
@@ -9311,7 +11231,50 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplate(
 /* eslint-enable max-len, quote-props */
 
 /**
- * ObjectMeta overrides for the ingress used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+ * Kubernetes authenticates with Route53 using AssumeRoleWithWebIdentity
+ * by passing a bound ServiceAccount token.
+ *
+ * @schema IssuerSpecAcmeSolversDns01Route53AuthKubernetes
+ */
+export interface IssuerSpecAcmeSolversDns01Route53AuthKubernetes {
+  /**
+   * A reference to a service account that will be used to request a bound
+   * token (also known as "projected token"). To use this field, you must
+   * configure an RBAC rule to let cert-manager request a token.
+   *
+   * @schema IssuerSpecAcmeSolversDns01Route53AuthKubernetes#serviceAccountRef
+   */
+  readonly serviceAccountRef:
+    IssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef;
+}
+
+/**
+ * Converts an object of type 'IssuerSpecAcmeSolversDns01Route53AuthKubernetes' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_IssuerSpecAcmeSolversDns01Route53AuthKubernetes(
+  obj: IssuerSpecAcmeSolversDns01Route53AuthKubernetes | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "serviceAccountRef":
+      toJson_IssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef(
+        obj.serviceAccountRef,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * ObjectMeta overrides for the ingress used to solve HTTP01 challenges.
+ * Only the 'labels' and 'annotations' fields may be set.
+ * If labels or annotations overlap with in-built values, the values here
+ * will override the in-built values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressIngressTemplateMetadata
  */
@@ -9362,7 +11325,10 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressIngressTemplateMetadata
 /* eslint-enable max-len, quote-props */
 
 /**
- * ObjectMeta overrides for the pod used to solve HTTP01 challenges. Only the 'labels' and 'annotations' fields may be set. If labels or annotations overlap with in-built values, the values here will override the in-built values.
+ * ObjectMeta overrides for the pod used to solve HTTP01 challenges.
+ * Only the 'labels' and 'annotations' fields may be set.
+ * If labels or annotations overlap with in-built values, the values here
+ * will override the in-built values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateMetadata
  */
@@ -9413,7 +11379,9 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateMetadata(
 /* eslint-enable max-len, quote-props */
 
 /**
- * PodSpec defines overrides for the HTTP01 challenge solver pod. Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields. All other fields will be ignored.
+ * PodSpec defines overrides for the HTTP01 challenge solver pod.
+ * Check ACMEChallengeSolverHTTP01IngressPodSpec to find out currently supported fields.
+ * All other fields will be ignored.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpec
  */
@@ -9434,7 +11402,9 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpec {
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecImagePullSecrets[];
 
   /**
-   * NodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+   * NodeSelector is a selector which must be true for the pod to fit on a node.
+   * Selector which must match a node's labels for the pod to be scheduled on that node.
+   * More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpec#nodeSelector
    */
@@ -9492,6 +11462,54 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpec(
     "tolerations": obj.tolerations?.map((y) =>
       toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations(y)
     ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A reference to a service account that will be used to request a bound
+ * token (also known as "projected token"). To use this field, you must
+ * configure an RBAC rule to let cert-manager request a token.
+ *
+ * @schema IssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef
+ */
+export interface IssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef {
+  /**
+   * TokenAudiences is an optional list of audiences to include in the
+   * token passed to AWS. The default token consisting of the issuer's namespace
+   * and name is always included.
+   * If unset the audience defaults to `sts.amazonaws.com`.
+   *
+   * @schema IssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef#audiences
+   */
+  readonly audiences?: string[];
+
+  /**
+   * Name of the ServiceAccount used to request a token.
+   *
+   * @schema IssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef#name
+   */
+  readonly name: string;
+}
+
+/**
+ * Converts an object of type 'IssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_IssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef(
+  obj:
+    | IssuerSpecAcmeSolversDns01Route53AuthKubernetesServiceAccountRef
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "audiences": obj.audiences?.map((y) => y),
+    "name": obj.name,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -9563,13 +11581,20 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.
+ * LocalObjectReference contains enough information to let you locate the
+ * referenced object inside the same namespace.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecImagePullSecrets
  */
 export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecImagePullSecrets {
   /**
-   * Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?
+   * Name of the referent.
+   * This field is effectively required, but due to backwards compatibility is
+   * allowed to be empty. Instances of this type with an empty value here are
+   * almost certainly wrong.
+   * TODO: Add other useful fields. apiVersion, kind, uid?
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecImagePullSecrets#name
    */
@@ -9598,42 +11623,52 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecImagePul
 /* eslint-enable max-len, quote-props */
 
 /**
- * The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>.
+ * The pod this Toleration is attached to tolerates any taint that matches
+ * the triple <key,value,effect> using the matching operator <operator>.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations
  */
 export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations {
   /**
-   * Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
+   * Effect indicates the taint effect to match. Empty means match all taint effects.
+   * When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations#effect
    */
   readonly effect?: string;
 
   /**
-   * Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+   * Key is the taint key that the toleration applies to. Empty means match all taint keys.
+   * If the key is empty, operator must be Exists; this combination means to match all values and all keys.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations#key
    */
   readonly key?: string;
 
   /**
-   * Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.
+   * Operator represents a key's relationship to the value.
+   * Valid operators are Exists and Equal. Defaults to Equal.
+   * Exists is equivalent to wildcard for value, so that a pod can
+   * tolerate all taints of a particular category.
    *
-   * @default Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.
+   * @default Equal.
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations#operator
    */
   readonly operator?: string;
 
   /**
-   * TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.
+   * TolerationSeconds represents the period of time the toleration (which must be
+   * of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,
+   * it is not set, which means tolerate the taint forever (do not evict). Zero and
+   * negative values will be treated as 0 (evict immediately) by the system.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations#tolerationSeconds
    */
   readonly tolerationSeconds?: number;
 
   /**
-   * Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+   * Value is the taint value the toleration matches to.
+   * If the operator is Exists, the value should be empty, otherwise just a regular string.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerations#value
    */
@@ -9670,7 +11705,15 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecTolerati
  */
 export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node matches the corresponding matchExpressions; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node matches the corresponding matchExpressions; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -9678,7 +11721,11 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAf
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node.
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to an update), the system
+   * may or may not try to eventually evict the pod from its node.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -9723,7 +11770,15 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
  */
 export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -9731,7 +11786,13 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -9778,7 +11839,15 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
  */
 export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the anti-affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling anti-affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -9786,7 +11855,13 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   * If the anti-affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the anti-affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -9827,7 +11902,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * An empty preferred scheduling term matches all objects with implicit weight 0 (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
+ * An empty preferred scheduling term matches all objects with implicit weight 0
+ * (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
  */
@@ -9874,7 +11950,11 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node.
+ * If the affinity requirements specified by this field are not met at
+ * scheduling time, the pod will not be scheduled onto the node.
+ * If the affinity requirements specified by this field cease to be met
+ * at some point during pod execution (e.g. due to an update), the system
+ * may or may not try to eventually evict the pod from its node.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
@@ -9928,7 +12008,8 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
 
   /**
-   * weight associated with matching the corresponding podAffinityTerm, in the range 1-100.
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
    */
@@ -9961,13 +12042,19 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
 export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
    */
@@ -9975,21 +12062,41 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
    */
@@ -9997,14 +12104,21 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
    */
@@ -10058,7 +12172,8 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
 
   /**
-   * weight associated with matching the corresponding podAffinityTerm, in the range 1-100.
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
    */
@@ -10091,13 +12206,19 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
 export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
    */
@@ -10105,21 +12226,41 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
    */
@@ -10127,14 +12268,21 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
    */
@@ -10227,7 +12375,9 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A null or empty node selector term matches no objects. The requirements of them are ANDed. The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
+ * A null or empty node selector term matches no objects. The requirements of
+ * them are ANDed.
+ * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
  */
@@ -10286,7 +12436,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
  */
 export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
    */
@@ -10294,21 +12445,41 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
    */
@@ -10316,14 +12487,21 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
    */
@@ -10363,7 +12541,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
  */
@@ -10377,7 +12556,9 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
    */
@@ -10416,7 +12597,11 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
  */
@@ -10430,7 +12615,9 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
    */
@@ -10475,7 +12662,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
  */
 export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
    */
@@ -10483,21 +12671,41 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
    */
@@ -10505,14 +12713,21 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
    */
@@ -10552,7 +12767,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
  */
@@ -10566,7 +12782,9 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
    */
@@ -10605,7 +12823,11 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
  */
@@ -10619,7 +12841,9 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
    */
@@ -10658,7 +12882,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
  */
@@ -10671,14 +12896,19 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAf
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
    */
@@ -10709,7 +12939,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
  */
@@ -10722,14 +12953,19 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAf
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
    */
@@ -10760,7 +12996,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
  */
@@ -10773,14 +13010,19 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAf
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
    */
@@ -10811,7 +13053,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
  */
@@ -10824,14 +13067,19 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAf
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
    */
@@ -10862,7 +13110,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
  */
@@ -10876,7 +13125,9 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
    */
@@ -10915,7 +13166,11 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
  */
@@ -10929,7 +13184,9 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
    */
@@ -10968,7 +13225,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
  */
@@ -10981,14 +13239,18 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
    */
@@ -11019,7 +13281,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
  */
@@ -11032,14 +13295,18 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
    */
@@ -11070,7 +13337,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
  */
@@ -11084,7 +13352,9 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
    */
@@ -11123,7 +13393,11 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
  */
@@ -11137,7 +13411,9 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
     IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
    */
@@ -11176,7 +13452,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
  */
@@ -11189,14 +13466,18 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
    */
@@ -11227,7 +13508,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
  */
@@ -11240,14 +13522,18 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
    */
@@ -11278,7 +13564,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
  */
@@ -11291,14 +13578,18 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
    */
@@ -11329,7 +13620,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
  */
@@ -11342,14 +13634,18 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAff
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
    */
@@ -11380,7 +13676,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
  */
@@ -11393,14 +13690,18 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
    */
@@ -11431,7 +13732,8 @@ export function toJson_IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinity
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
  */
@@ -11444,14 +13746,18 @@ export interface IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAnt
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema IssuerSpecAcmeSolversHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
    */
