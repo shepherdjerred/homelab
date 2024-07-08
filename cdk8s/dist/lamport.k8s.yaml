@@ -2315,13 +2315,6 @@ spec:
                 secretKeyRef:
                   key: credential
                   name: earthly-onepassword
-            - name: EARTHLY_GH_ORG
-              value: shepherdjerred
-            - name: EARTHLY_GH_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  key: credential
-                  name: earthly-gh-onepassword
             - name: RUNNER_GHA_ENABLED
               value: "true"
             - name: SATELLITE_NAME
@@ -2383,14 +2376,6 @@ metadata:
   namespace: lamport
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/sbjrtou6h3f5w2uhj4uluywsre
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  name: earthly-gh-onepassword
-  namespace: lamport
-spec:
-  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/a5rmkj3pchbfaggkj6iaooma4q
 ---
 apiVersion: v1
 kind: Service

@@ -42,27 +42,6 @@ export function createEarthlyDeployment(chart: Chart) {
     key: "credential",
   });
 
-  const ghToken = new OnePasswordItem(chart, "earthly-gh-onepassword", {
-    spec: {
-      itemPath:
-        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/a5rmkj3pchbfaggkj6iaooma4q",
-    },
-    metadata: {
-      name: "earthly-gh-onepassword",
-    },
-  });
-
-  const ghTokenSecret = Secret.fromSecretName(
-    chart,
-    `earthly-gh-token-secret`,
-    ghToken.name,
-  );
-
-  const ghTokenEnvValue = EnvValue.fromSecretValue({
-    secret: ghTokenSecret,
-    key: "credential",
-  });
-
   deployment.addContainer(
     withCommonProps({
       image: `earthly/satellite:${versions["earthly/satellite"]}`,
@@ -76,8 +55,6 @@ export function createEarthlyDeployment(chart: Chart) {
       envVariables: {
         EARTHLY_ORG: EnvValue.fromValue("sjerred"),
         EARTHLY_TOKEN: tokenEnvValue,
-        EARTHLY_GH_ORG: EnvValue.fromValue("shepherdjerred"),
-        EARTHLY_GH_TOKEN: ghTokenEnvValue,
         RUNNER_GHA_ENABLED: EnvValue.fromValue("true"),
         SATELLITE_NAME: EnvValue.fromValue("lamport"),
         SATELLITE_HOST: EnvValue.fromValue("earthly.tailnet-1a49.ts.net"),
