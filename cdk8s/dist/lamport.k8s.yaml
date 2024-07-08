@@ -2385,7 +2385,7 @@ metadata:
 spec:
   externalIPs: []
   ports:
-    - port: 8372
+    - port: 443
   selector:
     cdk8s.io/metadata.addr: lamport-earthly-c8d12215
   type: ClusterIP
@@ -2402,7 +2402,7 @@ spec:
     service:
       name: lamport-earthly-service
       port:
-        number: 8372
+        number: 443
   ingressClassName: tailscale
   tls:
     - hosts:

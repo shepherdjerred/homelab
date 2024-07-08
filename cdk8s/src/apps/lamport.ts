@@ -9,7 +9,7 @@ export function createLamportApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
-        repoUrl: "https://github.com/shepherdjerred/servers",
+        repoUrl: "https://github.com/shepherdjerred/homelab",
         path: "cdk8s/dist/",
         targetRevision: "main",
       },

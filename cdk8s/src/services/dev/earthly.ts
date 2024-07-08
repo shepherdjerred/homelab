@@ -76,7 +76,7 @@ export function createEarthlyDeployment(chart: Chart) {
 
   const service = new Service(chart, "earthly-service", {
     selector: deployment,
-    ports: [{ port: 8372 }],
+    ports: [{ port: 443 }],
     protocol: "TCP",
   });
 

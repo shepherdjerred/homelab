@@ -83,7 +83,7 @@ spec:
   project: default
   source:
     path: cdk8s/dist/
-    repoURL: https://github.com/shepherdjerred/servers
+    repoURL: https://github.com/shepherdjerred/homelab
     targetRevision: main
   syncPolicy:
     automated: {}
