@@ -3,6 +3,7 @@ import {
   DeploymentStrategy,
   EnvValue,
   Secret,
+  ServiceType,
 } from "https://esm.sh/cdk8s-plus-27@2.9.3";
 import { Service } from "https://esm.sh/cdk8s-plus-27@2.9.3";
 import { Volume } from "https://esm.sh/cdk8s-plus-27@2.9.3";
@@ -73,14 +74,9 @@ export function createEarthlyDeployment(chart: Chart) {
     }),
   );
 
-  const service = new Service(chart, "earthly-service", {
+  new Service(chart, "earthly-service", {
     selector: deployment,
     ports: [{ port: 443 }],
-  });
-
-  new TailscaleIngress(chart, "earthly-tailscale-ingress", {
-    service,
-    host: "earthly",
-    funnel: true,
+    type: ServiceType.NODE_PORT,
   });
 }

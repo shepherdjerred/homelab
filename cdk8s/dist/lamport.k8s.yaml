@@ -2386,25 +2386,7 @@ spec:
     - port: 443
   selector:
     cdk8s.io/metadata.addr: lamport-earthly-c8d12215
-  type: ClusterIP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    tailscale.com/funnel: "true"
-  name: lamport-earthly-tailscale-ingress-ingress
-  namespace: lamport
-spec:
-  defaultBackend:
-    service:
-      name: lamport-earthly-service
-      port:
-        number: 443
-  ingressClassName: tailscale
-  tls:
-    - hosts:
-        - earthly
+  type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
