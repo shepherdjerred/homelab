@@ -295,6 +295,14 @@ metadata:
 spec:
   itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/pl26aljvglq2twmx64kohlqdja
 ---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: jenkins-admin-password
+  namespace: jenkins
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/axi3lsa6uqjy2ns6pvyl4liiq4
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -310,6 +318,14 @@ spec:
     helm:
       valuesObject:
         controller:
+          JCasC:
+            configScripts: '{"welcome-message":{"jenkins":{"systemMessage":"My Jenkins Instance"}}}'
+            securityRealm: '{"local":{"allowsSignup":false,"enableCaptcha":false,"users":[{"id":"jenkins-admin-password-username","name":"Jenkins Admin","password":"jenkins-admin-password-username"}]}}'
+          additionalExistingSecrets:
+            - keyName: password
+              name: jenkins-admin-password
+            - keyName: username
+              name: jenkins-admin-password
           jenkinsUrl: https://jenkins.tailnet-1a49.ts.net
     repoURL: https://charts.jenkins.io
     targetRevision: 5.3.3

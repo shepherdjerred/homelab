@@ -2315,8 +2315,6 @@ spec:
                 secretKeyRef:
                   key: credential
                   name: earthly-onepassword
-            - name: RUNNER_GHA_ENABLED
-              value: "true"
             - name: SATELLITE_NAME
               value: lamport
             - name: SATELLITE_HOST
