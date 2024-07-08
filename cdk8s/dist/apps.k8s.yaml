@@ -1,0 +1,593 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: 1password
+  namespace: argocd
+spec:
+  destination:
+    namespace: 1password
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: connect
+    helm:
+      parameters:
+        - name: operator.autoRestart
+          value: "true"
+        - name: operator.create
+          value: "true"
+        - name: operator.pollingInterval
+          value: "60"
+    repoURL: https://1password.github.io/connect-helm-charts/
+    targetRevision: 1.15.1
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: manifests/
+    repoURL: https://github.com/argoproj/argo-cd
+    targetRevision: v2.11.4
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: operator-oauth
+  namespace: tailscale
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/mboftvs4fyptyqvg3anrfjy6vu
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tailscale
+  namespace: argocd
+spec:
+  destination:
+    namespace: tailscale
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: tailscale-operator
+    repoURL: https://pkgs.tailscale.com/helmcharts
+    targetRevision: 1.68.1
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lamport
+  namespace: argocd
+spec:
+  destination:
+    namespace: lamport
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: cdk8s/dist/
+    repoURL: https://github.com/shepherdjerred/homelab
+    targetRevision: main
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: immich
+  namespace: argocd
+spec:
+  destination:
+    namespace: immich
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      parameters:
+        - name: postgresql.enabled
+          value: "true"
+        - name: redis.enabled
+          value: "true"
+        - name: immich.persistence.library.existingClaim
+          value: immich-volume
+        - name: image.tag
+          value: v1.107.2
+    path: charts/immich
+    repoURL: https://github.com/immich-app/immich-charts/
+    targetRevision: immich-0.6.0
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+spec:
+  destination:
+    namespace: prometheus
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: kube-prometheus-stack
+    helm:
+      valuesObject:
+        grafana:
+          persistence:
+            accessModes:
+              - ReadWriteOnce
+            enabled: true
+            size: 8Gi
+            storageClassName: local-path
+            type: pvc
+        prometheus:
+          prometheusSpec:
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  accessModes:
+                    - ReadWriteOnce
+                  resources:
+                    requests:
+                      storage: 8Gi
+                  storageClassName: local-path
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 61.2.0
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: intel-device-plugin-operator
+  namespace: argocd
+spec:
+  destination:
+    namespace: intel-device-plugin-operator
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: intel-device-plugins-operator
+    repoURL: https://intel.github.io/helm-charts/
+    targetRevision: 0.30.0
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: intel-gpu-device-plugin
+  namespace: argocd
+spec:
+  destination:
+    namespace: gpu-device-plugin
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: intel-device-plugins-gpu
+    helm:
+      parameters:
+        - name: sharedDevNum
+          value: "10"
+        - name: nodeFeatureRule
+          value: "true"
+        - name: resourceManager
+          value: "false"
+    repoURL: https://intel.github.io/helm-charts/
+    targetRevision: 0.30.0
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  destination:
+    namespace: cert-manager
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: cert-manager
+    helm:
+      parameters:
+        - name: installCRDs
+          value: "true"
+    repoURL: https://charts.jetstack.io
+    targetRevision: v1.15.1
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nfd
+  namespace: argocd
+spec:
+  destination:
+    namespace: node-feature-discovery
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: node-feature-discovery
+    repoURL: https://kubernetes-sigs.github.io/node-feature-discovery/charts
+    targetRevision: 0.16.1
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio
+  namespace: argocd
+spec:
+  destination:
+    namespace: minio
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: minio
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 14.6.19
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: system-upgrade-controller
+  namespace: argocd
+spec:
+  destination:
+    namespace: system-upgrade
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    kustomize: {}
+    path: "."
+    repoURL: https://github.com/rancher/system-upgrade-controller/
+    targetRevision: v0.13.4
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: tailscale-auth-key
+  namespace: jenkins
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/pl26aljvglq2twmx64kohlqdja
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: jenkins-admin-password
+  namespace: jenkins
+spec:
+  itemPath: vaults/v64ocnykdqju4ui6j6pua56xw4/items/axi3lsa6uqjy2ns6pvyl4liiq4
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins
+  namespace: argocd
+spec:
+  destination:
+    namespace: jenkins
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: jenkins
+    helm:
+      valuesObject:
+        controller:
+          JCasC:
+            configScripts: '{"welcome-message":{"jenkins":{"systemMessage":"My Jenkins Instance"}}}'
+            securityRealm: '{"local":{"allowsSignup":false,"enableCaptcha":false,"users":[{"id":"jenkins-admin-password-username","name":"Jenkins Admin","password":"jenkins-admin-password-username"}]}}'
+          additionalExistingSecrets:
+            - keyName: password
+              name: jenkins-admin-password
+            - keyName: username
+              name: jenkins-admin-password
+          jenkinsUrl: https://jenkins.tailnet-1a49.ts.net
+    repoURL: https://charts.jenkins.io
+    targetRevision: 5.3.3
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: volsync
+  namespace: argocd
+spec:
+  destination:
+    namespace: volsync-system
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: volsync
+    repoURL: https://backube.github.io/helm-charts/
+    targetRevision: 0.9.1
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-snapshotter-crds
+  namespace: argocd
+spec:
+  destination:
+    namespace: external-snapshotter
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: client/config/crd/
+    repoURL: https://github.com/kubernetes-csi/external-snapshotter
+    targetRevision: v8.0.1
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: windmill
+  namespace: argocd
+spec:
+  destination:
+    namespace: windmill
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      parameters:
+        - name: minio.enabled
+          value: "true"
+    path: charts/windmill
+    repoURL: https://github.com/windmill-labs/windmill-helm-charts
+    targetRevision: windmill-2.0.181
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  name: apps-argocd-ingress
+  namespace: argocd
+spec:
+  defaultBackend:
+    service:
+      name: argocd-server
+      port:
+        number: 443
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - argocd
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  name: apps-jenkins-ingress
+  namespace: jenkins
+spec:
+  defaultBackend:
+    service:
+      name: jenkins
+      port:
+        number: 8080
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - jenkins
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-minio-api-ingress
+  namespace: minio
+spec:
+  defaultBackend:
+    service:
+      name: minio
+      port:
+        number: 9000
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - minio-api
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-minio-console-ingress
+  namespace: minio
+spec:
+  defaultBackend:
+    service:
+      name: minio
+      port:
+        number: 9001
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - minio-console
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-prometheus-ingress
+  namespace: prometheus
+spec:
+  defaultBackend:
+    service:
+      name: prometheus-kube-prometheus-prometheus
+      port:
+        number: 9090
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - prometheus
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-grafana-ingress
+  namespace: prometheus
+spec:
+  defaultBackend:
+    service:
+      name: prometheus-grafana
+      port:
+        number: 80
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - grafana
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-windmill-ingress
+  namespace: windmill
+spec:
+  defaultBackend:
+    service:
+      name: windmill-app
+      port:
+        number: 8000
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - windmill
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    tailscale.com/funnel: "true"
+  name: apps-immich-ingress
+  namespace: immich
+spec:
+  defaultBackend:
+    service:
+      name: immich-server
+      port:
+        number: 3001
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - immich
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apps-chartmusuem-ingress
+  namespace: chartmuseum
+spec:
+  defaultBackend:
+    service:
+      name: chartmuseum
+      port:
+        number: 8080
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - chartmuseum
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+spec:
+  destination:
+    namespace: prometheus
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    kustomize: {}
+    path: "."
+    repoURL: https://github.com/dotdc/grafana-dashboards-kubernetes
+    targetRevision: v2.2.0
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: chartmuseum
+  namespace: argocd
+spec:
+  destination:
+    namespace: chartmuseum
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: chartmuseum
+    helm:
+      parameters:
+        - name: persistence.enabled
+          value: "true"
+        - name: persistence.storageClass
+          value: local-path
+        - name: env.open.DISABLE_API
+          value: "false"
+    repoURL: https://chartmuseum.github.io/charts
+    targetRevision: 3.10.3
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
