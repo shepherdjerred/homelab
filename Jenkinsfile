@@ -46,9 +46,18 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-              // TODO: push if on main
-              // TODO: can we notify ArgoCD to sync?
               sh 'earthly --sat=lamport --org=sjerred --ci +ci --version=1.0.$BUILD_NUMBER-0 --git_sha=$GIT_COMMIT'
+            }
+        }
+        stage('Publish') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'main'
+                }
+            }
+            steps {
+              // TODO: can we notify ArgoCD to sync?
+              sh 'earthly --sat=lamport --org=sjerred --ci --push +ci --version=1.0.$BUILD_NUMBER-0 --git_sha=$GIT_COMMIT'
             }
         }
     }
