@@ -5,9 +5,7 @@ WORKDIR /workspace
 build:
   ARG --required version
   COPY . .
-  COPY ../+build/* tmp/
-  # combine the YAML files into one
-  RUN cat tmp/* > lamport.yml
+  COPY ../+build/* templates/
 
   RUN sed -i "s/^version:.*$/version: $version/" Chart.yaml
   RUN sed -i "s/^appVersion:.*$/appVersion: $version/" Chart.yaml

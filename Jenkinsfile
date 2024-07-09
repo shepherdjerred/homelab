@@ -44,7 +44,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-              sh 'earthly --sat=lamport --org=sjerred --ci --push +ci --version=1.0.$BUILD_NUMBER-0 --git_sha=$GIT_COMMIT';
+              // TODO: push if on main
+              sh 'earthly --sat=lamport --org=sjerred --ci +ci --version=1.0.$BUILD_NUMBER-0 --git_sha=$GIT_COMMIT';
             }
         }
     }

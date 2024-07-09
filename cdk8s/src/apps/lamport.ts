@@ -9,7 +9,7 @@ export function createLamportApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
-        repoUrl: "https://chartmuseum.tailnet-1a49.ts.net/charts",
+        repoUrl: "https://chartmuseum.tailnet-1a49.ts.net",
         targetRevision: "~1.0.0-0",
         chart: "lamport",
       },
