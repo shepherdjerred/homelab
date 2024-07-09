@@ -1,4 +1,6 @@
 VERSION 0.8
+PROJECT sjerred/homelab
+
 FROM alpine/helm:3.15.2
 WORKDIR /workspace
 
@@ -13,9 +15,7 @@ build:
   SAVE ARTIFACT lamport-$version.tgz AS LOCAL dist/
 
 publish:
-  ARG --required username
-  ARG --required password
   ARG repo=https://chartmuseum.tailnet-1a49.ts.net
   ARG --required version
   COPY +build/ .
-  RUN --push curl -u $username:$password --data-binary "@lamport-$version.tgz" $repo/api/charts
+  RUN --secret=chartmuseum_username --secret=chartmuseum_password --push curl -f -u $chartmuseum_username:$chartmuseum_password --data-binary "@lamport-$version.tgz" $repo/api/charts

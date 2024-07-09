@@ -49,12 +49,6 @@ export function createHomeAssistantDeployment(chart: Chart) {
     },
   );
 
-  const resticSecret = Secret.fromSecretName(
-    chart,
-    "homeassistant-restic-secret",
-    resticOnepasswordItem.name,
-  );
-
   new ReplicationSource(chart, "homeassistant-replication-source", {
     spec: {
       sourcePvc: claim.claim.name,
@@ -62,7 +56,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
         schedule: "*/15 * * * *",
       },
       restic: {
-        repository: resticSecret.name,
+        repository: resticOnepasswordItem.name,
         copyMethod: ReplicationSourceSpecResticCopyMethod.DIRECT,
         pruneIntervalDays: 7,
         retain: {

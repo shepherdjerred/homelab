@@ -1,4 +1,5 @@
 VERSION 0.8
+PROJECT sjerred/homelab
 
 ci:
   ARG --required version

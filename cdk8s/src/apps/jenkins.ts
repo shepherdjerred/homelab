@@ -2,10 +2,9 @@ import { Chart } from "https://esm.sh/cdk8s@2.68.58";
 import { Application } from "../../imports/argoproj.io.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import versions from "../versions/versions.ts";
-import { Secret } from "https://esm.sh/cdk8s-plus-27@2.9.3";
 
 export function createJenkinsApp(chart: Chart) {
-  new OnePasswordItem(
+  const tailscale = new OnePasswordItem(
     chart,
     "tailscale-auth-key-jenkins-onepassword",
     {
@@ -15,12 +14,11 @@ export function createJenkinsApp(chart: Chart) {
       },
       metadata: {
         name: "tailscale-auth-key",
-        namespace: "jenkins",
       },
     },
   );
 
-  const jenkinsOnepasswordItem = new OnePasswordItem(
+  const jenkins = new OnePasswordItem(
     chart,
     "jenkins-admin-password",
     {
@@ -30,16 +28,43 @@ export function createJenkinsApp(chart: Chart) {
       },
       metadata: {
         name: "jenkins-admin-password",
-        namespace: "jenkins",
       },
     },
   );
 
-  const jenkinsPasswordSecret = Secret.fromSecretName(
+  const chartMuseum = new OnePasswordItem(
     chart,
-    "jenkins-admin-secret",
-    jenkinsOnepasswordItem.name,
+    "chartmuseum-admin-password-jenkins",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/wwoism5fsvmbisv4ef47yxqy2i",
+      },
+      metadata: {
+        name: "chartmuseum-basic-auth",
+      },
+    },
   );
+
+  const earthly = new OnePasswordItem(chart, "earthly-onepassword-jenkins", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/sbjrtou6h3f5w2uhj4uluywsre",
+    },
+    metadata: {
+      name: "earthly-onepassword",
+    },
+  });
+
+  const github = new OnePasswordItem(chart, "github-token-jenkins", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/dj5wwzm5zcjzhvvpyzsvpazhxy",
+    },
+    metadata: {
+      name: "github-token",
+    },
+  });
 
   new Application(chart, "jenkins-app", {
     metadata: {
@@ -58,32 +83,80 @@ export function createJenkinsApp(chart: Chart) {
               additionalExistingSecrets: [
                 // TODO: programatically create Earthly token & GitHub token
                 {
-                  name: jenkinsPasswordSecret.name,
+                  name: jenkins.name,
                   keyName: "password",
                 },
                 {
-                  name: jenkinsPasswordSecret.name,
+                  name: jenkins.name,
+                  keyName: "username",
+                },
+                {
+                  name: chartMuseum.name,
+                  keyName: "password",
+                },
+                {
+                  name: chartMuseum.name,
                   keyName: "username",
                 },
               ],
               jenkinsUrl: "https://jenkins.tailnet-1a49.ts.net",
               JCasC: {
-                configScripts: JSON.stringify({
-                  "welcome-message": {
-                    jenkins: {
-                      systemMessage: "My Jenkins Instance",
+                configScripts: {
+                  "jenkins-casc-configs": JSON.stringify({
+                    credentials: {
+                      system: {
+                        domainCredentials: [
+                          {
+                            credentials: [
+                              {
+                                usernamePassword: {
+                                  description: "chartmuseum",
+                                  id: "chartmuseum",
+                                  scope: "GLOBAL",
+                                  username: "admin",
+                                  password: `${chartMuseum.name}-password`,
+                                },
+                              },
+                              {
+                                string: {
+                                  description: "earthly",
+                                  id: "EARTHLY_TOKEN",
+                                  scope: "GLOBAL",
+                                  secret: `${earthly.name}-credential`,
+                                },
+                              },
+                              {
+                                string: {
+                                  description: "tailscale",
+                                  id: "TAILSCALE_AUTH_KEY",
+                                  scope: "GLOBAL",
+                                  secret: `${tailscale.name}-TS_AUTHKEY`,
+                                },
+                              },
+                              {
+                                string: {
+                                  description: "github",
+                                  id: "GITHUB_TOKEN",
+                                  scope: "GLOBAL",
+                                  secret: `${github.name}-credential`,
+                                },
+                              },
+                            ],
+                          },
+                        ],
+                      },
                     },
-                  },
-                }),
+                  }),
+                },
                 securityRealm: JSON.stringify({
                   local: {
                     allowsSignup: false,
                     enableCaptcha: false,
                     users: [
                       {
-                        id: `${jenkinsPasswordSecret.name}-username`,
+                        id: `${jenkins.name}-username`,
                         name: "Jenkins Admin",
-                        password: `${jenkinsPasswordSecret.name}-username`,
+                        password: `${jenkins.name}-username`,
                       },
                     ],
                   },

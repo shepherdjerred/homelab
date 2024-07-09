@@ -2,7 +2,6 @@ import { Chart } from "https://esm.sh/cdk8s@2.68.58";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions/versions.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import { Secret } from "https://esm.sh/cdk8s-plus-27@2.9.3";
 
 export function createChartMuseumApp(chart: Chart) {
   const basicAuth = new OnePasswordItem(
@@ -18,12 +17,6 @@ export function createChartMuseumApp(chart: Chart) {
         namespace: "chartmuseum",
       },
     },
-  );
-
-  const secret = Secret.fromSecretName(
-    chart,
-    "chartmuseum-secret",
-    basicAuth.name,
   );
 
   return new Application(chart, "chartmuseum-app", {
@@ -42,7 +35,7 @@ export function createChartMuseumApp(chart: Chart) {
             { name: "persistence.storageClass", value: "local-path" },
             { name: "env.open.DISABLE_API", value: "false" },
             { name: "env.open.AUTH_ANONYMOUS_GET", value: "true" },
-            { name: "env.existingSecret", value: secret.name },
+            { name: "env.existingSecret", value: basicAuth.name },
             {
               name: "env.existingSecretMappings.BASIC_AUTH_USER",
               value: "username",

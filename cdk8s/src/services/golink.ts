@@ -53,12 +53,6 @@ export function createGolinkDeployment(chart: Chart) {
     },
   );
 
-  const resticSecret = Secret.fromSecretName(
-    chart,
-    "golink-restic-secret",
-    resticOnepasswordItem.name,
-  );
-
   new ReplicationSource(chart, "golink-replication-source", {
     spec: {
       sourcePvc: localPathVolume.claim.name,
@@ -66,7 +60,7 @@ export function createGolinkDeployment(chart: Chart) {
         schedule: "*/15 * * * *",
       },
       restic: {
-        repository: resticSecret.name,
+        repository: resticOnepasswordItem.name,
         copyMethod: ReplicationSourceSpecResticCopyMethod.DIRECT,
         pruneIntervalDays: 7,
         retain: {

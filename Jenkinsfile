@@ -39,13 +39,16 @@ pipeline {
 
     environment {
         EARTHLY_TOKEN = credentials('EARTHLY_TOKEN')
+        USERNAME = credentials('CHARTMUSEUM_USERNAME')
+        PASSWORD = credentials('CHARTMUSEUM_PASSWORD')
     }
 
     stages {
         stage('Build') {
             steps {
               // TODO: push if on main
-              sh 'earthly --sat=lamport --org=sjerred --ci +ci --version=1.0.$BUILD_NUMBER-0 --git_sha=$GIT_COMMIT';
+              // TODO: can we notify ArgoCD to sync?
+              sh 'earthly --sat=lamport --org=sjerred --ci +ci --version=1.0.$BUILD_NUMBER-0 --git_sha=$GIT_COMMIT --username=$USERNAME --password=$PASSWORD';
             }
         }
     }

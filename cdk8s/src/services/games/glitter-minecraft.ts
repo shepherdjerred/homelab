@@ -40,12 +40,6 @@ export function createMinecraftDeployment(chart: Chart) {
     },
   );
 
-  const resticSecret = Secret.fromSecretName(
-    chart,
-    "minecraft-restic-secret",
-    resticOnepasswordItem.name,
-  );
-
   new ReplicationSource(chart, "minecraft-replication-source", {
     spec: {
       sourcePvc: localPathVolume.claim.name,
@@ -53,7 +47,7 @@ export function createMinecraftDeployment(chart: Chart) {
         schedule: "0 * * * *",
       },
       restic: {
-        repository: resticSecret.name,
+        repository: resticOnepasswordItem.name,
         copyMethod: ReplicationSourceSpecResticCopyMethod.DIRECT,
         pruneIntervalDays: 7,
         retain: {
