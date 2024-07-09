@@ -14,6 +14,7 @@ export function createJenkinsApp(chart: Chart) {
       },
       metadata: {
         name: "tailscale-auth-key",
+        namespace: "jenkins",
       },
     },
   );
@@ -28,6 +29,7 @@ export function createJenkinsApp(chart: Chart) {
       },
       metadata: {
         name: "jenkins-admin-password",
+        namespace: "jenkins",
       },
     },
   );
@@ -42,6 +44,7 @@ export function createJenkinsApp(chart: Chart) {
       },
       metadata: {
         name: "chartmuseum-basic-auth",
+        namespace: "jenkins",
       },
     },
   );
@@ -53,6 +56,7 @@ export function createJenkinsApp(chart: Chart) {
     },
     metadata: {
       name: "earthly-onepassword",
+      namespace: "jenkins",
     },
   });
 
@@ -63,6 +67,7 @@ export function createJenkinsApp(chart: Chart) {
     },
     metadata: {
       name: "github-token",
+      namespace: "jenkins",
     },
   });
 
@@ -80,14 +85,21 @@ export function createJenkinsApp(chart: Chart) {
         helm: {
           valuesObject: {
             controller: {
+              sidecars: {
+                configAutoReload: {
+                  enabled: true,
+                },
+              },
+              rbac: {
+                create: true,
+              },
               additionalExistingSecrets: [
-                // TODO: programatically create Earthly token & GitHub token
                 {
                   name: jenkins.name,
                   keyName: "password",
                 },
                 {
-                  name: jenkins.name,
+                  name: chartMuseum.name,
                   keyName: "username",
                 },
                 {
@@ -95,8 +107,16 @@ export function createJenkinsApp(chart: Chart) {
                   keyName: "password",
                 },
                 {
-                  name: chartMuseum.name,
-                  keyName: "username",
+                  name: earthly.name,
+                  keyName: "credential",
+                },
+                {
+                  name: tailscale.name,
+                  keyName: "TS_AUTHKEY",
+                },
+                {
+                  name: github.name,
+                  keyName: "credential",
                 },
               ],
               jenkinsUrl: "https://jenkins.tailnet-1a49.ts.net",
@@ -113,8 +133,8 @@ export function createJenkinsApp(chart: Chart) {
                                   description: "chartmuseum",
                                   id: "chartmuseum",
                                   scope: "GLOBAL",
-                                  username: "admin",
-                                  password: `${chartMuseum.name}-password`,
+                                  username: `\${${chartMuseum.name}-username}`,
+                                  password: `\${${chartMuseum.name}-password}`,
                                 },
                               },
                               {
@@ -122,7 +142,7 @@ export function createJenkinsApp(chart: Chart) {
                                   description: "earthly",
                                   id: "EARTHLY_TOKEN",
                                   scope: "GLOBAL",
-                                  secret: `${earthly.name}-credential`,
+                                  secret: `\${${earthly.name}-credential}`,
                                 },
                               },
                               {
@@ -130,7 +150,7 @@ export function createJenkinsApp(chart: Chart) {
                                   description: "tailscale",
                                   id: "TAILSCALE_AUTH_KEY",
                                   scope: "GLOBAL",
-                                  secret: `${tailscale.name}-TS_AUTHKEY`,
+                                  secret: `\${${tailscale.name}-TS_AUTHKEY}`,
                                 },
                               },
                               {
@@ -138,7 +158,16 @@ export function createJenkinsApp(chart: Chart) {
                                   description: "github",
                                   id: "GITHUB_TOKEN",
                                   scope: "GLOBAL",
-                                  secret: `${github.name}-credential`,
+                                  secret: `\${${github.name}-credential}`,
+                                },
+                              },
+                              {
+                                usernamePassword: {
+                                  description: "github",
+                                  id: "github",
+                                  scope: "GLOBAL",
+                                  username: "shepherdjerred",
+                                  password: `\${${github.name}-credential}`,
                                 },
                               },
                             ],
@@ -154,9 +183,9 @@ export function createJenkinsApp(chart: Chart) {
                     enableCaptcha: false,
                     users: [
                       {
-                        id: `${jenkins.name}-username`,
+                        id: "admin",
                         name: "Jenkins Admin",
-                        password: `${jenkins.name}-username`,
+                        password: `\${${jenkins.name}-password}`,
                       },
                     ],
                   },
