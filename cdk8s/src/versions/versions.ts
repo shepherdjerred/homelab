@@ -48,7 +48,7 @@ const versions = {
     "2024.6.1-java21@sha256:69f655b868cee46474ce56c78c6488fa230518448c2ff12fd6ebd231db27805c",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver-coerced
   "thijsvanloef/palworld-server-docker":
-    "v0.38.1@sha256:7253574f656ab70e2413fb92d8100fd10a5430803b895941ce0ef2614ffb1978",
+    "v0.38.2@sha256:e3afd41b23ef4d31927762fea7fa0dc6b5149b9dad31e8a08eb24def0a7983cc",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "shepherdjerred/glitter-boys":
     "1.1.30@sha256:a47becb4545d1080c42b8f46105de89f111abf39423880309e88bc0adc05f2c9",
