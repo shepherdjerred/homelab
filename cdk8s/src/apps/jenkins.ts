@@ -34,21 +34,6 @@ export function createJenkinsApp(chart: Chart) {
     },
   );
 
-  const chartMuseum = new OnePasswordItem(
-    chart,
-    "chartmuseum-admin-password-jenkins",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/wwoism5fsvmbisv4ef47yxqy2i",
-      },
-      metadata: {
-        name: "chartmuseum-basic-auth",
-        namespace: "jenkins",
-      },
-    },
-  );
-
   const earthly = new OnePasswordItem(chart, "earthly-onepassword-jenkins", {
     spec: {
       itemPath:
@@ -67,6 +52,17 @@ export function createJenkinsApp(chart: Chart) {
     },
     metadata: {
       name: "github-token",
+      namespace: "jenkins",
+    },
+  });
+
+  const githubApp = new OnePasswordItem(chart, "github-app-jenkins", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/hjc52saq6qfwuxvkenmb3d3u7m",
+    },
+    metadata: {
+      name: "github-app",
       namespace: "jenkins",
     },
   });
@@ -99,14 +95,6 @@ export function createJenkinsApp(chart: Chart) {
                   keyName: "password",
                 },
                 {
-                  name: chartMuseum.name,
-                  keyName: "username",
-                },
-                {
-                  name: chartMuseum.name,
-                  keyName: "password",
-                },
-                {
                   name: earthly.name,
                   keyName: "credential",
                 },
@@ -117,6 +105,10 @@ export function createJenkinsApp(chart: Chart) {
                 {
                   name: github.name,
                   keyName: "credential",
+                },
+                {
+                  name: githubApp.name,
+                  keyName: "private-key",
                 },
               ],
               jenkinsUrl: "https://jenkins.tailnet-1a49.ts.net",
@@ -129,12 +121,12 @@ export function createJenkinsApp(chart: Chart) {
                           {
                             credentials: [
                               {
-                                usernamePassword: {
-                                  description: "chartmuseum",
-                                  id: "chartmuseum",
-                                  scope: "GLOBAL",
-                                  username: `\${${chartMuseum.name}-username}`,
-                                  password: `\${${chartMuseum.name}-password}`,
+                                gitHubApp: {
+                                  appID: "830890",
+                                  description: "github app",
+                                  id: "github-app",
+                                  privateKey:
+                                    `\${${githubApp.name}-private-key}`,
                                 },
                               },
                               {
