@@ -8,7 +8,7 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver-coerced
   "kubernetes-csi/external-snapshotter": "v8.0.1",
   // renovate: datasource=github-releases versioning=semver-coerced
-  "immich-app/immich-charts": "immich-0.6.0",
+  "immich-app/immich-charts": "immich-0.7.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "immich-app/immich-server":
     "v1.107.2@sha256:75746006b35a7bc61408cd4d124dc73344f0a087c2d9769c4715ca84a1d87591",
