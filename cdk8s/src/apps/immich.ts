@@ -14,7 +14,7 @@ export function createImmichApp(chart: Chart) {
       source: {
         repoUrl: "https://github.com/immich-app/immich-charts/",
         path: "charts/immich",
-        targetRevision: versions["immich-app/immich-charts/"],
+        targetRevision: versions["immich-app/immich-charts"],
         helm: {
           parameters: [
             { name: "postgresql.enabled", value: "true" },

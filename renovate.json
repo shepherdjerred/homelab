@@ -16,10 +16,6 @@
     {
       "matchDatasources": ["docker"],
       "pinDigests": true
-    },
-    {
-      "matchDatasources": ["regex"],
-      "groupName": "cdk8s"
     }
   ],
   "pre-commit": {
