@@ -15,7 +15,9 @@ build:
   SAVE ARTIFACT lamport-$version.tgz AS LOCAL dist/
 
 publish:
+  ARG --required username
+  ARG --required password
   ARG repo=https://chartmuseum.tailnet-1a49.ts.net
   ARG --required version
   COPY +build/ .
-  RUN --push curl --data-binary "@lamport-$version.tgz" $repo/api/charts
+  RUN --push curl -u $username:$password --data-binary "@lamport-$version.tgz" $repo/api/charts

@@ -19,6 +19,3 @@ pre-commit:
   COPY . .
   CACHE ~/.cache/pre-commit
   RUN pre-commit run --all-files
-
-publish:
-  # build a helm chart and push
