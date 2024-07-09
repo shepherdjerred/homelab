@@ -2,7 +2,6 @@ import {
   Deployment,
   DeploymentStrategy,
   Protocol,
-  Secret,
   Service,
   Volume,
 } from "https://esm.sh/cdk8s-plus-27@2.9.3";
