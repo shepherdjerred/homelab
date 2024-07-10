@@ -9,12 +9,12 @@ ci:
 
 kube-linter:
   ARG TARGETARCH
-  ARG version=v0.6.8
+  ARG kube_linter_version=v0.6.8
   FROM curlimages/curl
   IF [ $TARGETARCH = "amd64" ]
-    RUN curl -fsSL https://github.com/stackrox/kube-linter/releases/download/$version/kube-linter-linux -o kube-linter
+    RUN curl -fsSL https://github.com/stackrox/kube-linter/releases/download/$kube_linter_version/kube-linter-linux -o kube-linter
   ELSE IF [ $TARGETARCH = "arm64" ]
-    RUN curl -fsSL https://github.com/stackrox/kube-linter/releases/download/$version/kube-linter-linux_arm64 -o kube-linter
+    RUN curl -fsSL https://github.com/stackrox/kube-linter/releases/download/$kube_linter_version/kube-linter-linux_arm64 -o kube-linter
   ELSE
     RUN echo "Unsupported architecture: $TARGETARCH" && exit 1
   END
