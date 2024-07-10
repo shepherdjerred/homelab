@@ -33,7 +33,6 @@ export function createBitmagnetDeployment(chart: Chart) {
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m",
     database: "bitmagnet",
     replicas: 1,
-    wait: true,
   });
 
   const deployment = new Deployment(chart, "bitmagnet", {
