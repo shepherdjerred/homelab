@@ -12,13 +12,6 @@ deps:
   COPY --dir deno* src imports .
   RUN deno cache src/app.ts
 
-check:
-  FROM +deps
-  CACHE $DENO_DIR
-  RUN deno check src/app.ts
-  RUN deno lint
-  # TODO: run kube-linter
-
 build:
   FROM +deps
   COPY --dir config .

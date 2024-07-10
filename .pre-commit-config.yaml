@@ -23,13 +23,14 @@ repos:
         name: build k8s manifest
         entry: bash -c 'cd cdk8s/ && deno task build'
         language: system
-        types: [ts]
         pass_filenames: false
-  - repo: https://github.com/stackrox/kube-linter
-    rev: v0.6.8
+  - repo: local
     hooks:
-      - id: kube-linter
-        args: ["cdk8s/dist/"]
+      - id: run
+        name: kube-linter
+        entry: bash -c 'kube-linter lint cdk8s/dist/'
+        language: system
+        pass_filenames: false
   # note: you need to run `pre-commit install --hook-type commit-msg`
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: v9.16.0
