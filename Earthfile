@@ -3,8 +3,8 @@ PROJECT sjerred/homelab
 
 ci:
   ARG --required version
-  BUILD +pre-commit
-  BUILD ./cdk8s+build
+  BUILD --auto-skip +pre-commit
+  BUILD --auto-skip ./cdk8s+build
   BUILD ./cdk8s/helm+publish --version=$version
 
 kube-linter:
