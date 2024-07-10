@@ -3,7 +3,6 @@ import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import {
   Deployment,
   DeploymentStrategy,
-  EmptyDirMedium,
   EnvValue,
   ISecret,
   Secret,
