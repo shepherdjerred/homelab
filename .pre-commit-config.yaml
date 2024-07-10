@@ -9,7 +9,14 @@ repos:
     hooks:
       - id: deno-fmt
       - id: deno-lint
-    # TODO: run deno check
+  - repo: local
+    hooks:
+      - id: check
+        name: run deno check
+        entry: bash -c 'cd cdk8s/ && deno check src/app.ts'
+        language: system
+        types: [ts]
+        pass_filenames: false
   - repo: local
     hooks:
       - id: run
@@ -18,3 +25,15 @@ repos:
         language: system
         types: [ts]
         pass_filenames: false
+  - repo: https://github.com/stackrox/kube-linter
+    rev: v0.6.8
+    hooks:
+      - id: kube-linter
+        args: ["cdk8s/dist/"]
+  # note: you need to run `pre-commit install --hook-type commit-msg`
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.16.0
+    hooks:
+      - id: commitlint
+        stages: [commit-msg]
+        additional_dependencies: ["@commitlint/config-conventional"]
