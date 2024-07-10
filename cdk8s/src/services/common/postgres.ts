@@ -25,7 +25,7 @@ export class Postgres extends Construct {
   constructor(scope: Construct, name: string, props: {
     itemPath: string;
     database: string;
-    walTmpfs?: boolean;
+    wait?: boolean;
     replicas?: number;
   }) {
     super(scope, name);
@@ -78,20 +78,6 @@ export class Postgres extends Construct {
       },
     ];
 
-    if (props.walTmpfs) {
-      volumeMounts.push({
-        path: "/var/lib/postgresql/data/pgdata/pg_wal",
-        volume: Volume.fromEmptyDir(
-          scope,
-          `${name}-wal-tmpfs`,
-          `${name}-wal-tmpfs`,
-          {
-            medium: EmptyDirMedium.MEMORY,
-          },
-        ),
-      });
-    }
-
     this.deployment.addContainer(
       withCommonProps({
         image: `postgres:${versions["library/postgres"]}`,
@@ -101,17 +87,7 @@ export class Postgres extends Construct {
           PGDATA: EnvValue.fromValue("/var/lib/postgresql/data/pgdata"),
           POSTGRES_DB: EnvValue.fromValue(props.database),
         },
-        // - args:
-        // - pg_resetwal
-        // - /var/lib/postgresql/data
-        args: props.walTmpfs
-          ? [
-            "sh",
-            "-c",
-            "(pg_resetwal /var/lib/postgresql/data/pgdata || true) && postgres",
-          ]
-          : undefined,
-        // args: props.walTmpfs ? ["sleep", "infinity"] : undefined,
+        args: props.wait ? ["sleep", "infinity"] : undefined,
         securityContext: {
           user: UID,
           group: GID,
