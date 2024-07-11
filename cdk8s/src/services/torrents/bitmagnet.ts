@@ -32,11 +32,11 @@ export function createBitmagnetDeployment(chart: Chart) {
     itemPath:
       "vaults/v64ocnykdqju4ui6j6pua56xw4/items/3fznikxjqt4szpz3ngdv462m6m",
     database: "bitmagnet",
-    replicas: 1,
+    replicas: 0,
   });
 
   const deployment = new Deployment(chart, "bitmagnet", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
   });
 
