@@ -29,12 +29,6 @@ export function createQBitTorrentDeployment(chart: Chart) {
 
   const localPathVolume = new LocalPathVolume(chart, "qbittorrent-pvc", {});
 
-  const gluetunlocalPathVolume = new LocalPathVolume(
-    chart,
-    "qbittorrent-gluetun-pvc",
-    {},
-  );
-
   deployment.addContainer(
     withCommonProps({
       name: "gluetun",
@@ -72,16 +66,6 @@ export function createQBitTorrentDeployment(chart: Chart) {
         ),
         FIREWALL_VPN_INPUT_PORTS: EnvValue.fromValue("17826"),
       },
-      volumeMounts: [
-        {
-          path: "/gluetun",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "qbittorrent-gluetun-volume",
-            gluetunlocalPathVolume.claim,
-          ),
-        },
-      ],
     }),
   );
   deployment.addContainer(
