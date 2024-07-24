@@ -57,7 +57,7 @@ export function createMinecraftApp(chart: Chart) {
             },
             {
               name: "resources",
-              value: "",
+              value: "{}",
             },
             {
               name: "minecraftServer.overrideServerProperties",
