@@ -56,11 +56,7 @@ export function createMinecraftApp(chart: Chart) {
               value: "4G",
             },
             {
-              name: "resources.requests.memory",
-              value: "",
-            },
-            {
-              name: "resources.requests.cpu",
+              name: "resources.requests",
               value: "",
             },
             {
