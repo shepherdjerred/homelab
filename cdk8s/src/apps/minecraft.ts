@@ -56,7 +56,7 @@ export function createMinecraftApp(chart: Chart) {
               value: "4G",
             },
             {
-              name: "resources.requests",
+              name: "resources",
               value: "",
             },
             {
