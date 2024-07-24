@@ -79,6 +79,10 @@ export function createMinecraftApp(chart: Chart) {
               name: "minecraftServer.nodePort",
               value: "25565",
             },
+            {
+              name: "minecraftServer.servicePort",
+              value: "",
+            },
           ],
         },
       },
