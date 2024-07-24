@@ -109,6 +109,8 @@ const versions = {
   "dotdc/grafana-dashboards-kubernetes": "v2.2.0",
   // renovate: datasource=helm registry=https://chartmuseum.github.io/charts versioning=semver
   "chartmuseum": "3.10.3",
+  // renovate: datasource=helm registry=https://itzg.github.io/minecraft-server-charts versioning=semver
+  "minecraft": "4.20.0",
 };
 
 export default versions;

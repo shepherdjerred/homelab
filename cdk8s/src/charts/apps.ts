@@ -19,6 +19,7 @@ import { createWindmillApp } from "../apps/windmill.ts";
 import { createAppIngresses } from "../apps/ingresses.ts";
 import { createGrafanaApp } from "../apps/grafana.ts";
 import { createChartMuseumApp } from "../apps/chartmuseum.ts";
+import { createMinecraftApp } from "../apps/minecraft.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -45,4 +46,5 @@ export function createAppsChart(app: App) {
   createAppIngresses(chart);
   createGrafanaApp(chart);
   createChartMuseumApp(chart);
+  createMinecraftApp(chart);
 }
