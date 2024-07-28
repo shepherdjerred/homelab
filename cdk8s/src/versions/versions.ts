@@ -11,7 +11,7 @@ const versions = {
   "immich-app/immich-charts": "immich-0.7.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "immich-app/immich-server":
-    "v1.109.2@sha256:79f5d0c375b0df84e4d0ac89103753d6145ec3facb329e860008f2813f647d84",
+    "v1.110.0@sha256:9de91632ea5c0aabcd5558cab8b270f6bde00679fc6bdc35806fb49367e4a583",
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
   "intel-device-plugins-operator": "0.30.0",
   // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver
