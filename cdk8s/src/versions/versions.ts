@@ -78,7 +78,7 @@ const versions = {
     "v3.38@sha256:5522794f5cce6d84bc7f06b1e3a3b836ede9100c64aec94543cb503bb2ecb72f",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/qbittorrent":
-    "4.6.5@sha256:a4bd829f509cfef396b3e12f3a605e66a9d2e8f1e5e2d2da80cfdd846aaa4c80",
+    "4.6.5@sha256:a99a5a580624a1a09117e84342544eccfccb7b1373efdf6b76b1b974076ccfae",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/radarr":
     "5.8.3@sha256:2a02b311cefb344cd0caf74a443b9d6318daf15bda5280a3bc732381db983dc3",
