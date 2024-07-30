@@ -55,10 +55,10 @@ export function createMinecraftApp(chart: Chart) {
               name: "minecraftServer.memory",
               value: "4G",
             },
-            {
-              name: "resources",
-              value: "{}",
-            },
+            // {
+            //   name: "resources",
+            //   value: "{}",
+            // },
             {
               name: "minecraftServer.overrideServerProperties",
               value: "true",
