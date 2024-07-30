@@ -17,7 +17,7 @@ export function createMinecraftApp(chart: Chart) {
           parameters: [
             {
               name: "image.tag",
-              value: "2024.7.2-java21",
+              value: versions["itzg/minecraft-server"],
             },
             {
               name: "minecraftServer.eula",
