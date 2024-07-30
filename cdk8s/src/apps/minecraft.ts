@@ -28,7 +28,7 @@ export function createMinecraftApp(chart: Chart) {
               value: "hard",
             },
             {
-              name: "persistence.datadir.enabled",
+              name: "persistence.dataDir.enabled",
               value: "true",
             },
             {
