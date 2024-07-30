@@ -16,6 +16,10 @@ export function createMinecraftApp(chart: Chart) {
         helm: {
           parameters: [
             {
+              name: "image.tag",
+              value: "2024.7.2-java21",
+            },
+            {
               name: "minecraftServer.eula",
               value: "true",
             },
