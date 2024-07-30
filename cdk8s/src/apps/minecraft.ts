@@ -18,6 +18,7 @@ export function createMinecraftApp(chart: Chart) {
       },
       metadata: {
         name: "personal-minecraft-restic-onepassword-item",
+        namespace: "minecraft",
       },
     },
   );
@@ -44,6 +45,9 @@ export function createMinecraftApp(chart: Chart) {
           runAsGroup: 3000,
         },
       },
+    },
+    metadata: {
+      namespace: "minecraft",
     },
   });
 
