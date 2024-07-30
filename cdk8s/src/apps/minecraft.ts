@@ -1,8 +1,52 @@
 import { Chart } from "https://esm.sh/cdk8s@2.68.58";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions/versions.ts";
+import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import {
+  ReplicationSource,
+  ReplicationSourceSpecResticCopyMethod,
+} from "../../imports/volsync.backube.ts";
 
 export function createMinecraftApp(chart: Chart) {
+  const resticOnepasswordItem = new OnePasswordItem(
+    chart,
+    "personal-minecraft-restic-onepassword",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/eyhxlmevk52fcbdxzyswxj6qua",
+      },
+      metadata: {
+        name: "personal-minecraft-restic-onepassword-item",
+      },
+    },
+  );
+
+  new ReplicationSource(chart, "personal-minecraft-replication-source", {
+    spec: {
+      sourcePvc: "minecraft-minecraft-datadir",
+      trigger: {
+        schedule: "*/15 * * * *",
+      },
+      restic: {
+        repository: resticOnepasswordItem.name,
+        copyMethod: ReplicationSourceSpecResticCopyMethod.DIRECT,
+        pruneIntervalDays: 7,
+        retain: {
+          daily: 7,
+          weekly: 4,
+          monthly: 12,
+        },
+        // match up with the UID/GID of the container
+        // https://volsync.readthedocs.io/en/stable/usage/permissionmodel.html#mover-s-security-context
+        moverSecurityContext: {
+          runAsUser: 1000,
+          runAsGroup: 3000,
+        },
+      },
+    },
+  });
+
   return new Application(chart, "minecraft-app", {
     metadata: {
       name: "minecraft",
