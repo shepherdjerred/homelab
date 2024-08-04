@@ -69,7 +69,7 @@ const versions = {
     "v0.9.5@sha256:7bf46883d18c520616cd8d11a08a29be2f49e7295843742c9cb363b499239b25",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/overseerr":
-    "1.33.2@sha256:aaba9e51b62a17e914de79e8eda4616f12e9bf4bce115cda6d0ad8178daea102",
+    "1.33.2@sha256:3543bcc57aaa74842d8d88c6a0a6805b166d89e2dfc0db74b703ee59f8d7266e",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/prowlarr":
     "1.21.2@sha256:9a98da4fb506278ce92c2fdbb4e08a38418dd1456e3dd8b3a1f00a42a8ec4fb0",
