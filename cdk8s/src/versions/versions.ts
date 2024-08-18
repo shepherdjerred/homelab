@@ -19,7 +19,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
   "minio": "14.6.20",
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
-  "node-feature-discovery": "0.16.2",
+  "node-feature-discovery": "0.16.3",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
   "kube-prometheus-stack": "61.3.2",
   // renovate: datasource=github-releases versioning=semver-coerced
