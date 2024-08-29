@@ -111,6 +111,8 @@ const versions = {
   "chartmuseum": "3.10.3",
   // renovate: datasource=helm registry=https://itzg.github.io/minecraft-server-charts versioning=semver
   "minecraft": "4.20.0",
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
+  "koush/scrypted": "latest",
 };
 
 export default versions;

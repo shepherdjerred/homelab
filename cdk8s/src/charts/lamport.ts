@@ -21,6 +21,7 @@ import { createMinecraftDeployment } from "../services/games/glitter-minecraft.t
 import { createDdnsDeployment } from "../services/ddns.ts";
 import { createValheimDeployment } from "../services/games/valheim.ts";
 import { createUpgradePlan } from "../plan.ts";
+import { createScryptedDeployment } from "../services/scrypted.ts";
 
 export function createLamportChart(app: App) {
   const chart = new Chart(app, "lamport", {
@@ -71,4 +72,5 @@ export function createLamportChart(app: App) {
   createDdnsDeployment(chart);
   createValheimDeployment(chart);
   createUpgradePlan(chart);
+  createScryptedDeployment(chart);
 }
