@@ -1,7 +1,6 @@
 import {
   Deployment,
   DeploymentStrategy,
-  Protocol,
   Service,
   Volume,
 } from "https://esm.sh/cdk8s-plus-27@2.9.3";
@@ -32,13 +31,6 @@ export function createScryptedDeployment(chart: Chart) {
         readOnlyRootFilesystem: false,
       },
       image: `ghcr.io/koush/scrypted:${versions["koush/scrypted"]}`,
-      ports: [
-        {
-          name: "port-6052-web",
-          number: 6052,
-          protocol: Protocol.TCP,
-        },
-      ],
       volumeMounts: [
         {
           volume: Volume.fromHostPath(
