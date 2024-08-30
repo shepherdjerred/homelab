@@ -63,6 +63,12 @@ export function createScryptedDeployment(chart: Chart) {
     }),
   );
 
+  // this simplifies cameras
+  // TODO: remove host networking
+  ApiObject.of(deployment).addJsonPatch(
+    JsonPatch.add("/spec/template/spec/hostNetwork", true),
+  );
+
   const service = new Service(chart, "scrypted-service", {
     selector: deployment,
     ports: [{ port: 11080 }],
