@@ -87,7 +87,7 @@ const versions = {
     "4.0.8@sha256:0777b308a414000505651059a95af373ded6aba8ce5a40b50d7aad333dc912e2",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "timothyjmiller/cloudflare-ddns":
-    "latest@sha256:479bbc53f9f8d547413305e003fe7480cc45c12008cbca2cec5a0c5d30c72ad9",
+    "latest@sha256:2187e122660d6a2d451ef7c53fd4805c133133f4f47552256352c1e2a7f49ee2",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "esphome/esphome":
     "2024.7.0@sha256:0f57cee34c3aa146113f53c03e8c3b0797acf4191e7b7dbc5512f3113b5e9459",
