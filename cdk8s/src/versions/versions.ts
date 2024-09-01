@@ -93,7 +93,7 @@ const versions = {
     "2024.7.0@sha256:0f57cee34c3aa146113f53c03e8c3b0797acf4191e7b7dbc5512f3113b5e9459",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "tailscale/golink":
-    "main@sha256:06a6e41309d276d4b97d27c0037e1a07251b3bc61e5de7feb25c875fd5b9076d",
+    "main@sha256:29599f9707216318ab71ac1f41dca920f5a7033e361582190e4cd9bec1453980",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "home-assistant/home-assistant":
     "2024.8.2@sha256:b5c4bef2494f84806423c0116bab2a8758c5be386e11af0d3bd7359a18ba77a7",
