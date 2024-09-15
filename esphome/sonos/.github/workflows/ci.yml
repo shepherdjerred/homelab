@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build
-        uses: docker://ghcr.io/atopile/atopile-kicad@sha256:d6231c77e1627590557498ea2bcdf84e751bf244c7f25d0dfc254ec0c36828f9
+        uses: docker://ghcr.io/atopile/atopile-kicad@sha256:4bd50881151233d5a88a4eef6e0228d0a1375a72c652ed3e286f98afa0be518c
 
       - name: Upload Combined Artifacts
         uses: actions/upload-artifact@v4
