@@ -106,7 +106,7 @@ const versions = {
   "lloesche/valheim-server":
     "latest@sha256:b97da1038714e5156cf28d042422a1c5af41e03189572025e615bde61395c678",
   // renovate: datasource=github-releases versioning=semver-coerced
-  "dotdc/grafana-dashboards-kubernetes": "v2.2.1",
+  "dotdc/grafana-dashboards-kubernetes": "v2.3.0",
   // renovate: datasource=helm registry=https://chartmuseum.github.io/charts versioning=semver
   "chartmuseum": "3.10.3",
   // renovate: datasource=helm registry=https://itzg.github.io/minecraft-server-charts versioning=semver
