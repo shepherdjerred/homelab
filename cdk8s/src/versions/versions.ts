@@ -57,7 +57,7 @@ const versions = {
     "4.0.8@sha256:cd119c5c902804a8934cc1f13377dd6c5c5de76afadfd8bdd02f4011ce85339a",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=loose
   "plexinc/pms-docker":
-    "1.40.5.8921-836b34c27@sha256:59d1161da69992171c9fd9fe25ba9d26ad7bb721409103f39c4a48381b88816c",
+    "1.41.0.8992-8463ad060@sha256:d55135de7cc93bb844e09dc0efb8b1eccb655b4ea8741945163de1163df5e043",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/tautulli":
     "2.14.6@sha256:ac17e75ae0092a5f6dbd19e372c23239896958a6f2764bfc8b65b1f777359302",
