@@ -51,7 +51,7 @@ export class IngressRoute extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -781,7 +781,7 @@ export class IngressRouteTcp extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -1361,7 +1361,7 @@ export class IngressRouteUdp extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -1615,7 +1615,7 @@ export class Middleware extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -4128,7 +4128,7 @@ export class MiddlewareTcp extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -4332,7 +4332,7 @@ export class ServersTransport extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -4688,7 +4688,7 @@ export class TlsOption extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -4929,7 +4929,7 @@ export class TlsStore extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -5225,7 +5225,7 @@ export class TraefikService extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {

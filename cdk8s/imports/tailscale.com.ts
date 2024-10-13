@@ -8,7 +8,12 @@ import {
 import { Construct } from "https://esm.sh/constructs@10.3.0";
 
 /**
- * Connector defines a Tailscale node that will be deployed in the cluster. The node can be configured to act as a Tailscale subnet router and/or a Tailscale exit node. Connector is a cluster-scoped resource. More info: https://tailscale.com/kb/1236/kubernetes-operator#deploying-exit-nodes-and-subnet-routers-on-kubernetes-using-connector-custom-resource
+ * Connector defines a Tailscale node that will be deployed in the cluster. The
+node can be configured to act as a Tailscale subnet router and/or a Tailscale
+exit node.
+Connector is a cluster-scoped resource.
+More info:
+https://tailscale.com/kb/1236/kubernetes-operator#deploying-exit-nodes-and-subnet-routers-on-kubernetes-using-connector-custom-resource
  *
  * @schema Connector
  */
@@ -51,7 +56,7 @@ export class Connector extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -62,7 +67,12 @@ export class Connector extends ApiObject {
 }
 
 /**
- * Connector defines a Tailscale node that will be deployed in the cluster. The node can be configured to act as a Tailscale subnet router and/or a Tailscale exit node. Connector is a cluster-scoped resource. More info: https://tailscale.com/kb/1236/kubernetes-operator#deploying-exit-nodes-and-subnet-routers-on-kubernetes-using-connector-custom-resource
+ * Connector defines a Tailscale node that will be deployed in the cluster. The
+ * node can be configured to act as a Tailscale subnet router and/or a Tailscale
+ * exit node.
+ * Connector is a cluster-scoped resource.
+ * More info:
+ * https://tailscale.com/kb/1236/kubernetes-operator#deploying-exit-nodes-and-subnet-routers-on-kubernetes-using-connector-custom-resource
  *
  * @schema Connector
  */
@@ -73,7 +83,9 @@ export interface ConnectorProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * ConnectorSpec describes the desired Tailscale component. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+   * ConnectorSpec describes the desired Tailscale component.
+   * More info:
+   * https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
    *
    * @schema Connector#spec
    */
@@ -101,44 +113,66 @@ export function toJson_ConnectorProps(
 /* eslint-enable max-len, quote-props */
 
 /**
- * ConnectorSpec describes the desired Tailscale component. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+ * ConnectorSpec describes the desired Tailscale component.
+ * More info:
+ * https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
  *
  * @schema ConnectorSpec
  */
 export interface ConnectorSpec {
   /**
-   * ExitNode defines whether the Connector node should act as a Tailscale exit node. Defaults to false. https://tailscale.com/kb/1103/exit-nodes
+   * ExitNode defines whether the Connector node should act as a
+   * Tailscale exit node. Defaults to false.
+   * https://tailscale.com/kb/1103/exit-nodes
    *
-   * @default false. https://tailscale.com/kb/1103/exit-nodes
+   * @default false.
    * @schema ConnectorSpec#exitNode
    */
   readonly exitNode?: boolean;
 
   /**
-   * Hostname is the tailnet hostname that should be assigned to the Connector node. If unset, hostname defaults to <connector name>-connector. Hostname can contain lower case letters, numbers and dashes, it must not start or end with a dash and must be between 2 and 63 characters long.
+   * Hostname is the tailnet hostname that should be assigned to the
+   * Connector node. If unset, hostname defaults to <connector
+   * name>-connector. Hostname can contain lower case letters, numbers and
+   * dashes, it must not start or end with a dash and must be between 2
+   * and 63 characters long.
    *
    * @schema ConnectorSpec#hostname
    */
   readonly hostname?: string;
 
   /**
-   * ProxyClass is the name of the ProxyClass custom resource that contains configuration options that should be applied to the resources created for this Connector. If unset, the operator will create resources with the default configuration.
+   * ProxyClass is the name of the ProxyClass custom resource that
+   * contains configuration options that should be applied to the
+   * resources created for this Connector. If unset, the operator will
+   * create resources with the default configuration.
    *
    * @schema ConnectorSpec#proxyClass
    */
   readonly proxyClass?: string;
 
   /**
-   * SubnetRouter defines subnet routes that the Connector node should expose to tailnet. If unset, none are exposed. https://tailscale.com/kb/1019/subnets/
+   * SubnetRouter defines subnet routes that the Connector node should
+   * expose to tailnet. If unset, none are exposed.
+   * https://tailscale.com/kb/1019/subnets/
    *
    * @schema ConnectorSpec#subnetRouter
    */
   readonly subnetRouter?: ConnectorSpecSubnetRouter;
 
   /**
-   * Tags that the Tailscale node will be tagged with. Defaults to [tag:k8s]. To autoapprove the subnet routes or exit node defined by a Connector, you can configure Tailscale ACLs to give these tags the necessary permissions. See https://tailscale.com/kb/1018/acls/#auto-approvers-for-routes-and-exit-nodes. If you specify custom tags here, you must also make the operator an owner of these tags. See  https://tailscale.com/kb/1236/kubernetes-operator/#setting-up-the-kubernetes-operator. Tags cannot be changed once a Connector node has been created. Tag values must be in form ^tag:[a-zA-Z][a-zA-Z0-9-]*$.
+   * Tags that the Tailscale node will be tagged with.
+   * Defaults to [tag:k8s].
+   * To autoapprove the subnet routes or exit node defined by a Connector,
+   * you can configure Tailscale ACLs to give these tags the necessary
+   * permissions.
+   * See https://tailscale.com/kb/1018/acls/#auto-approvers-for-routes-and-exit-nodes.
+   * If you specify custom tags here, you must also make the operator an owner of these tags.
+   * See  https://tailscale.com/kb/1236/kubernetes-operator/#setting-up-the-kubernetes-operator.
+   * Tags cannot be changed once a Connector node has been created.
+   * Tag values must be in form ^tag:[a-zA-Z][a-zA-Z0-9-]*$.
    *
-   * @default tag:k8s]. To autoapprove the subnet routes or exit node defined by a Connector, you can configure Tailscale ACLs to give these tags the necessary permissions. See https://tailscale.com/kb/1018/acls/#auto-approvers-for-routes-and-exit-nodes. If you specify custom tags here, you must also make the operator an owner of these tags. See  https://tailscale.com/kb/1236/kubernetes-operator/#setting-up-the-kubernetes-operator. Tags cannot be changed once a Connector node has been created. Tag values must be in form ^tag:[a-zA-Z][a-zA-Z0-9-]*$.
+   * @default tag:k8s].
    * @schema ConnectorSpec#tags
    */
   readonly tags?: string[];
@@ -168,13 +202,18 @@ export function toJson_ConnectorSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
- * SubnetRouter defines subnet routes that the Connector node should expose to tailnet. If unset, none are exposed. https://tailscale.com/kb/1019/subnets/
+ * SubnetRouter defines subnet routes that the Connector node should
+ * expose to tailnet. If unset, none are exposed.
+ * https://tailscale.com/kb/1019/subnets/
  *
  * @schema ConnectorSpecSubnetRouter
  */
 export interface ConnectorSpecSubnetRouter {
   /**
-   * AdvertiseRoutes refer to CIDRs that the subnet router should make available. Route values must be strings that represent a valid IPv4 or IPv6 CIDR range. Values can be Tailscale 4via6 subnet routes. https://tailscale.com/kb/1201/4via6-subnets/
+   * AdvertiseRoutes refer to CIDRs that the subnet router should make
+   * available. Route values must be strings that represent a valid IPv4
+   * or IPv6 CIDR range. Values can be Tailscale 4via6 subnet routes.
+   * https://tailscale.com/kb/1201/4via6-subnets/
    *
    * @schema ConnectorSpecSubnetRouter#advertiseRoutes
    */
@@ -201,7 +240,32 @@ export function toJson_ConnectorSpecSubnetRouter(
 /* eslint-enable max-len, quote-props */
 
 /**
- * DNSConfig can be deployed to cluster to make a subset of Tailscale MagicDNS names resolvable by cluster workloads. Use this if: A) you need to refer to tailnet services, exposed to cluster via Tailscale Kubernetes operator egress proxies by the MagicDNS names of those tailnet services (usually because the services run over HTTPS) B) you have exposed a cluster workload to the tailnet using Tailscale Ingress and you also want to refer to the workload from within the cluster over the Ingress's MagicDNS name (usually because you have some callback component that needs to use the same URL as that used by a non-cluster client on tailnet). When a DNSConfig is applied to a cluster, Tailscale Kubernetes operator will deploy a nameserver for ts.net DNS names and automatically populate it with records for any Tailscale egress or Ingress proxies deployed to that cluster. Currently you must manually update your cluster DNS configuration to add the IP address of the deployed nameserver as a ts.net stub nameserver. Instructions for how to do it: https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#configuration-of-stub-domain-and-upstream-nameserver-using-coredns (for CoreDNS), https://cloud.google.com/kubernetes-engine/docs/how-to/kube-dns (for kube-dns). Tailscale Kubernetes operator will write the address of a Service fronting the nameserver to dsnconfig.status.nameserver.ip. DNSConfig is a singleton - you must not create more than one. NB: if you want cluster workloads to be able to refer to Tailscale Ingress using its MagicDNS name, you must also annotate the Ingress resource with tailscale.com/experimental-forward-cluster-traffic-via-ingress annotation to ensure that the proxy created for the Ingress listens on its Pod IP address. NB: Clusters where Pods get assigned IPv6 addresses only are currently not supported.
+ * DNSConfig can be deployed to cluster to make a subset of Tailscale MagicDNS
+names resolvable by cluster workloads. Use this if: A) you need to refer to
+tailnet services, exposed to cluster via Tailscale Kubernetes operator egress
+proxies by the MagicDNS names of those tailnet services (usually because the
+services run over HTTPS)
+B) you have exposed a cluster workload to the tailnet using Tailscale Ingress
+and you also want to refer to the workload from within the cluster over the
+Ingress's MagicDNS name (usually because you have some callback component
+that needs to use the same URL as that used by a non-cluster client on
+tailnet).
+When a DNSConfig is applied to a cluster, Tailscale Kubernetes operator will
+deploy a nameserver for ts.net DNS names and automatically populate it with records
+for any Tailscale egress or Ingress proxies deployed to that cluster.
+Currently you must manually update your cluster DNS configuration to add the
+IP address of the deployed nameserver as a ts.net stub nameserver.
+Instructions for how to do it:
+https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#configuration-of-stub-domain-and-upstream-nameserver-using-coredns (for CoreDNS),
+https://cloud.google.com/kubernetes-engine/docs/how-to/kube-dns (for kube-dns).
+Tailscale Kubernetes operator will write the address of a Service fronting
+the nameserver to dsnconfig.status.nameserver.ip.
+DNSConfig is a singleton - you must not create more than one.
+NB: if you want cluster workloads to be able to refer to Tailscale Ingress
+using its MagicDNS name, you must also annotate the Ingress resource with
+tailscale.com/experimental-forward-cluster-traffic-via-ingress annotation to
+ensure that the proxy created for the Ingress listens on its Pod IP address.
+NB: Clusters where Pods get assigned IPv6 addresses only are currently not supported.
  *
  * @schema DNSConfig
  */
@@ -244,7 +308,7 @@ export class DnsConfig extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -255,7 +319,32 @@ export class DnsConfig extends ApiObject {
 }
 
 /**
- * DNSConfig can be deployed to cluster to make a subset of Tailscale MagicDNS names resolvable by cluster workloads. Use this if: A) you need to refer to tailnet services, exposed to cluster via Tailscale Kubernetes operator egress proxies by the MagicDNS names of those tailnet services (usually because the services run over HTTPS) B) you have exposed a cluster workload to the tailnet using Tailscale Ingress and you also want to refer to the workload from within the cluster over the Ingress's MagicDNS name (usually because you have some callback component that needs to use the same URL as that used by a non-cluster client on tailnet). When a DNSConfig is applied to a cluster, Tailscale Kubernetes operator will deploy a nameserver for ts.net DNS names and automatically populate it with records for any Tailscale egress or Ingress proxies deployed to that cluster. Currently you must manually update your cluster DNS configuration to add the IP address of the deployed nameserver as a ts.net stub nameserver. Instructions for how to do it: https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#configuration-of-stub-domain-and-upstream-nameserver-using-coredns (for CoreDNS), https://cloud.google.com/kubernetes-engine/docs/how-to/kube-dns (for kube-dns). Tailscale Kubernetes operator will write the address of a Service fronting the nameserver to dsnconfig.status.nameserver.ip. DNSConfig is a singleton - you must not create more than one. NB: if you want cluster workloads to be able to refer to Tailscale Ingress using its MagicDNS name, you must also annotate the Ingress resource with tailscale.com/experimental-forward-cluster-traffic-via-ingress annotation to ensure that the proxy created for the Ingress listens on its Pod IP address. NB: Clusters where Pods get assigned IPv6 addresses only are currently not supported.
+ * DNSConfig can be deployed to cluster to make a subset of Tailscale MagicDNS
+ * names resolvable by cluster workloads. Use this if: A) you need to refer to
+ * tailnet services, exposed to cluster via Tailscale Kubernetes operator egress
+ * proxies by the MagicDNS names of those tailnet services (usually because the
+ * services run over HTTPS)
+ * B) you have exposed a cluster workload to the tailnet using Tailscale Ingress
+ * and you also want to refer to the workload from within the cluster over the
+ * Ingress's MagicDNS name (usually because you have some callback component
+ * that needs to use the same URL as that used by a non-cluster client on
+ * tailnet).
+ * When a DNSConfig is applied to a cluster, Tailscale Kubernetes operator will
+ * deploy a nameserver for ts.net DNS names and automatically populate it with records
+ * for any Tailscale egress or Ingress proxies deployed to that cluster.
+ * Currently you must manually update your cluster DNS configuration to add the
+ * IP address of the deployed nameserver as a ts.net stub nameserver.
+ * Instructions for how to do it:
+ * https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#configuration-of-stub-domain-and-upstream-nameserver-using-coredns (for CoreDNS),
+ * https://cloud.google.com/kubernetes-engine/docs/how-to/kube-dns (for kube-dns).
+ * Tailscale Kubernetes operator will write the address of a Service fronting
+ * the nameserver to dsnconfig.status.nameserver.ip.
+ * DNSConfig is a singleton - you must not create more than one.
+ * NB: if you want cluster workloads to be able to refer to Tailscale Ingress
+ * using its MagicDNS name, you must also annotate the Ingress resource with
+ * tailscale.com/experimental-forward-cluster-traffic-via-ingress annotation to
+ * ensure that the proxy created for the Ingress listens on its Pod IP address.
+ * NB: Clusters where Pods get assigned IPv6 addresses only are currently not supported.
  *
  * @schema DNSConfig
  */
@@ -266,7 +355,9 @@ export interface DnsConfigProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * Spec describes the desired DNS configuration. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+   * Spec describes the desired DNS configuration.
+   * More info:
+   * https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
    *
    * @schema DNSConfig#spec
    */
@@ -294,13 +385,18 @@ export function toJson_DnsConfigProps(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Spec describes the desired DNS configuration. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+ * Spec describes the desired DNS configuration.
+ * More info:
+ * https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
  *
  * @schema DnsConfigSpec
  */
 export interface DnsConfigSpec {
   /**
-   * Configuration for a nameserver that can resolve ts.net DNS names associated with in-cluster proxies for Tailscale egress Services and Tailscale Ingresses. The operator will always deploy this nameserver when a DNSConfig is applied.
+   * Configuration for a nameserver that can resolve ts.net DNS names
+   * associated with in-cluster proxies for Tailscale egress Services and
+   * Tailscale Ingresses. The operator will always deploy this nameserver
+   * when a DNSConfig is applied.
    *
    * @schema DnsConfigSpec#nameserver
    */
@@ -327,7 +423,10 @@ export function toJson_DnsConfigSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configuration for a nameserver that can resolve ts.net DNS names associated with in-cluster proxies for Tailscale egress Services and Tailscale Ingresses. The operator will always deploy this nameserver when a DNSConfig is applied.
+ * Configuration for a nameserver that can resolve ts.net DNS names
+ * associated with in-cluster proxies for Tailscale egress Services and
+ * Tailscale Ingresses. The operator will always deploy this nameserver
+ * when a DNSConfig is applied.
  *
  * @schema DnsConfigSpecNameserver
  */
@@ -401,7 +500,15 @@ export function toJson_DnsConfigSpecNameserverImage(
 /* eslint-enable max-len, quote-props */
 
 /**
- * ProxyClass describes a set of configuration parameters that can be applied to proxy resources created by the Tailscale Kubernetes operator. To apply a given ProxyClass to resources created for a tailscale Ingress or Service, use tailscale.com/proxy-class=<proxyclass-name> label. To apply a given ProxyClass to resources created for a Connector, use connector.spec.proxyClass field. ProxyClass is a cluster scoped resource. More info: https://tailscale.com/kb/1236/kubernetes-operator#cluster-resource-customization-using-proxyclass-custom-resource.
+ * ProxyClass describes a set of configuration parameters that can be applied to
+proxy resources created by the Tailscale Kubernetes operator.
+To apply a given ProxyClass to resources created for a tailscale Ingress or
+Service, use tailscale.com/proxy-class=<proxyclass-name> label. To apply a
+given ProxyClass to resources created for a Connector, use
+connector.spec.proxyClass field.
+ProxyClass is a cluster scoped resource.
+More info:
+https://tailscale.com/kb/1236/kubernetes-operator#cluster-resource-customization-using-proxyclass-custom-resource.
  *
  * @schema ProxyClass
  */
@@ -444,7 +551,7 @@ export class ProxyClass extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -455,7 +562,15 @@ export class ProxyClass extends ApiObject {
 }
 
 /**
- * ProxyClass describes a set of configuration parameters that can be applied to proxy resources created by the Tailscale Kubernetes operator. To apply a given ProxyClass to resources created for a tailscale Ingress or Service, use tailscale.com/proxy-class=<proxyclass-name> label. To apply a given ProxyClass to resources created for a Connector, use connector.spec.proxyClass field. ProxyClass is a cluster scoped resource. More info: https://tailscale.com/kb/1236/kubernetes-operator#cluster-resource-customization-using-proxyclass-custom-resource.
+ * ProxyClass describes a set of configuration parameters that can be applied to
+ * proxy resources created by the Tailscale Kubernetes operator.
+ * To apply a given ProxyClass to resources created for a tailscale Ingress or
+ * Service, use tailscale.com/proxy-class=<proxyclass-name> label. To apply a
+ * given ProxyClass to resources created for a Connector, use
+ * connector.spec.proxyClass field.
+ * ProxyClass is a cluster scoped resource.
+ * More info:
+ * https://tailscale.com/kb/1236/kubernetes-operator#cluster-resource-customization-using-proxyclass-custom-resource.
  *
  * @schema ProxyClass
  */
@@ -466,7 +581,8 @@ export interface ProxyClassProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * Specification of the desired state of the ProxyClass resource. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+   * Specification of the desired state of the ProxyClass resource.
+   * https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
    *
    * @schema ProxyClass#spec
    */
@@ -494,27 +610,36 @@ export function toJson_ProxyClassProps(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Specification of the desired state of the ProxyClass resource. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+ * Specification of the desired state of the ProxyClass resource.
+ * https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
  *
  * @schema ProxyClassSpec
  */
 export interface ProxyClassSpec {
   /**
-   * Configuration for proxy metrics. Metrics are currently not supported for egress proxies and for Ingress proxies that have been configured with tailscale.com/experimental-forward-cluster-traffic-via-ingress annotation. Note that the metrics are currently considered unstable and will likely change in breaking ways in the future - we only recommend that you use those for debugging purposes.
+   * Configuration for proxy metrics. Metrics are currently not supported
+   * for egress proxies and for Ingress proxies that have been configured
+   * with tailscale.com/experimental-forward-cluster-traffic-via-ingress
+   * annotation. Note that the metrics are currently considered unstable
+   * and will likely change in breaking ways in the future - we only
+   * recommend that you use those for debugging purposes.
    *
    * @schema ProxyClassSpec#metrics
    */
   readonly metrics?: ProxyClassSpecMetrics;
 
   /**
-   * Configuration parameters for the proxy's StatefulSet. Tailscale Kubernetes operator deploys a StatefulSet for each of the user configured proxies (Tailscale Ingress, Tailscale Service, Connector).
+   * Configuration parameters for the proxy's StatefulSet. Tailscale
+   * Kubernetes operator deploys a StatefulSet for each of the user
+   * configured proxies (Tailscale Ingress, Tailscale Service, Connector).
    *
    * @schema ProxyClassSpec#statefulSet
    */
   readonly statefulSet?: ProxyClassSpecStatefulSet;
 
   /**
-   * TailscaleConfig contains options to configure the tailscale-specific parameters of proxies.
+   * TailscaleConfig contains options to configure the tailscale-specific
+   * parameters of proxies.
    *
    * @schema ProxyClassSpec#tailscale
    */
@@ -543,13 +668,20 @@ export function toJson_ProxyClassSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configuration for proxy metrics. Metrics are currently not supported for egress proxies and for Ingress proxies that have been configured with tailscale.com/experimental-forward-cluster-traffic-via-ingress annotation. Note that the metrics are currently considered unstable and will likely change in breaking ways in the future - we only recommend that you use those for debugging purposes.
+ * Configuration for proxy metrics. Metrics are currently not supported
+ * for egress proxies and for Ingress proxies that have been configured
+ * with tailscale.com/experimental-forward-cluster-traffic-via-ingress
+ * annotation. Note that the metrics are currently considered unstable
+ * and will likely change in breaking ways in the future - we only
+ * recommend that you use those for debugging purposes.
  *
  * @schema ProxyClassSpecMetrics
  */
 export interface ProxyClassSpecMetrics {
   /**
-   * Setting enable to true will make the proxy serve Tailscale metrics at <pod-ip>:9001/debug/metrics. Defaults to false.
+   * Setting enable to true will make the proxy serve Tailscale metrics
+   * at <pod-ip>:9001/debug/metrics.
+   * Defaults to false.
    *
    * @default false.
    * @schema ProxyClassSpecMetrics#enable
@@ -577,20 +709,34 @@ export function toJson_ProxyClassSpecMetrics(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Configuration parameters for the proxy's StatefulSet. Tailscale Kubernetes operator deploys a StatefulSet for each of the user configured proxies (Tailscale Ingress, Tailscale Service, Connector).
+ * Configuration parameters for the proxy's StatefulSet. Tailscale
+ * Kubernetes operator deploys a StatefulSet for each of the user
+ * configured proxies (Tailscale Ingress, Tailscale Service, Connector).
  *
  * @schema ProxyClassSpecStatefulSet
  */
 export interface ProxyClassSpecStatefulSet {
   /**
-   * Annotations that will be added to the StatefulSet created for the proxy. Any Annotations specified here will be merged with the default annotations applied to the StatefulSet by the Tailscale Kubernetes operator as well as any other annotations that might have been applied by other actors. Annotations must be valid Kubernetes annotations. https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set
+   * Annotations that will be added to the StatefulSet created for the proxy.
+   * Any Annotations specified here will be merged with the default annotations
+   * applied to the StatefulSet by the Tailscale Kubernetes operator as
+   * well as any other annotations that might have been applied by other
+   * actors.
+   * Annotations must be valid Kubernetes annotations.
+   * https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set
    *
    * @schema ProxyClassSpecStatefulSet#annotations
    */
   readonly annotations?: { [key: string]: string };
 
   /**
-   * Labels that will be added to the StatefulSet created for the proxy. Any labels specified here will be merged with the default labels applied to the StatefulSet by the Tailscale Kubernetes operator as well as any other labels that might have been applied by other actors. Label keys and values must be valid Kubernetes label keys and values. https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set
+   * Labels that will be added to the StatefulSet created for the proxy.
+   * Any labels specified here will be merged with the default labels
+   * applied to the StatefulSet by the Tailscale Kubernetes operator as
+   * well as any other labels that might have been applied by other
+   * actors.
+   * Label keys and values must be valid Kubernetes label keys and values.
+   * https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set
    *
    * @schema ProxyClassSpecStatefulSet#labels
    */
@@ -636,13 +782,19 @@ export function toJson_ProxyClassSpecStatefulSet(
 /* eslint-enable max-len, quote-props */
 
 /**
- * TailscaleConfig contains options to configure the tailscale-specific parameters of proxies.
+ * TailscaleConfig contains options to configure the tailscale-specific
+ * parameters of proxies.
  *
  * @schema ProxyClassSpecTailscale
  */
 export interface ProxyClassSpecTailscale {
   /**
-   * AcceptRoutes can be set to true to make the proxy instance accept routes advertized by other nodes on the tailnet, such as subnet routes. This is equivalent of passing --accept-routes flag to a tailscale Linux client. https://tailscale.com/kb/1019/subnets#use-your-subnet-routes-from-other-machines Defaults to false.
+   * AcceptRoutes can be set to true to make the proxy instance accept
+   * routes advertized by other nodes on the tailnet, such as subnet
+   * routes.
+   * This is equivalent of passing --accept-routes flag to a tailscale Linux client.
+   * https://tailscale.com/kb/1019/subnets#use-your-subnet-routes-from-other-machines
+   * Defaults to false.
    *
    * @default false.
    * @schema ProxyClassSpecTailscale#acceptRoutes
@@ -676,49 +828,67 @@ export function toJson_ProxyClassSpecTailscale(
  */
 export interface ProxyClassSpecStatefulSetPod {
   /**
-   * Proxy Pod's affinity rules. By default, the Tailscale Kubernetes operator does not apply any affinity rules. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#affinity
+   * Proxy Pod's affinity rules.
+   * By default, the Tailscale Kubernetes operator does not apply any affinity rules.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#affinity
    *
    * @schema ProxyClassSpecStatefulSetPod#affinity
    */
   readonly affinity?: ProxyClassSpecStatefulSetPodAffinity;
 
   /**
-   * Annotations that will be added to the proxy Pod. Any annotations specified here will be merged with the default annotations applied to the Pod by the Tailscale Kubernetes operator. Annotations must be valid Kubernetes annotations. https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set
+   * Annotations that will be added to the proxy Pod.
+   * Any annotations specified here will be merged with the default
+   * annotations applied to the Pod by the Tailscale Kubernetes operator.
+   * Annotations must be valid Kubernetes annotations.
+   * https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/#syntax-and-character-set
    *
    * @schema ProxyClassSpecStatefulSetPod#annotations
    */
   readonly annotations?: { [key: string]: string };
 
   /**
-   * Proxy Pod's image pull Secrets. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodSpec
+   * Proxy Pod's image pull Secrets.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodSpec
    *
    * @schema ProxyClassSpecStatefulSetPod#imagePullSecrets
    */
   readonly imagePullSecrets?: ProxyClassSpecStatefulSetPodImagePullSecrets[];
 
   /**
-   * Labels that will be added to the proxy Pod. Any labels specified here will be merged with the default labels applied to the Pod by the Tailscale Kubernetes operator. Label keys and values must be valid Kubernetes label keys and values. https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set
+   * Labels that will be added to the proxy Pod.
+   * Any labels specified here will be merged with the default labels
+   * applied to the Pod by the Tailscale Kubernetes operator.
+   * Label keys and values must be valid Kubernetes label keys and values.
+   * https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set
    *
    * @schema ProxyClassSpecStatefulSetPod#labels
    */
   readonly labels?: { [key: string]: string };
 
   /**
-   * Proxy Pod's node name. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
+   * Proxy Pod's node name.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
    *
    * @schema ProxyClassSpecStatefulSetPod#nodeName
    */
   readonly nodeName?: string;
 
   /**
-   * Proxy Pod's node selector. By default Tailscale Kubernetes operator does not apply any node selector. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
+   * Proxy Pod's node selector.
+   * By default Tailscale Kubernetes operator does not apply any node
+   * selector.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
    *
    * @schema ProxyClassSpecStatefulSetPod#nodeSelector
    */
   readonly nodeSelector?: { [key: string]: string };
 
   /**
-   * Proxy Pod's security context. By default Tailscale Kubernetes operator does not apply any Pod security context. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context-2
+   * Proxy Pod's security context.
+   * By default Tailscale Kubernetes operator does not apply any Pod
+   * security context.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context-2
    *
    * @schema ProxyClassSpecStatefulSetPod#securityContext
    */
@@ -740,7 +910,10 @@ export interface ProxyClassSpecStatefulSetPod {
     ProxyClassSpecStatefulSetPodTailscaleInitContainer;
 
   /**
-   * Proxy Pod's tolerations. By default Tailscale Kubernetes operator does not apply any tolerations. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
+   * Proxy Pod's tolerations.
+   * By default Tailscale Kubernetes operator does not apply any
+   * tolerations.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
    *
    * @schema ProxyClassSpecStatefulSetPod#tolerations
    */
@@ -802,7 +975,9 @@ export function toJson_ProxyClassSpecStatefulSetPod(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Proxy Pod's affinity rules. By default, the Tailscale Kubernetes operator does not apply any affinity rules. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#affinity
+ * Proxy Pod's affinity rules.
+ * By default, the Tailscale Kubernetes operator does not apply any affinity rules.
+ * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#affinity
  *
  * @schema ProxyClassSpecStatefulSetPodAffinity
  */
@@ -859,13 +1034,18 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinity(
 /* eslint-enable max-len, quote-props */
 
 /**
- * LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.
+ * LocalObjectReference contains enough information to let you locate the
+ * referenced object inside the same namespace.
  *
  * @schema ProxyClassSpecStatefulSetPodImagePullSecrets
  */
 export interface ProxyClassSpecStatefulSetPodImagePullSecrets {
   /**
-   * Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?
+   * Name of the referent.
+   * This field is effectively required, but due to backwards compatibility is
+   * allowed to be empty. Instances of this type with an empty value here are
+   * almost certainly wrong.
+   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema ProxyClassSpecStatefulSetPodImagePullSecrets#name
    */
@@ -892,51 +1072,96 @@ export function toJson_ProxyClassSpecStatefulSetPodImagePullSecrets(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Proxy Pod's security context. By default Tailscale Kubernetes operator does not apply any Pod security context. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context-2
+ * Proxy Pod's security context.
+ * By default Tailscale Kubernetes operator does not apply any Pod
+ * security context.
+ * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context-2
  *
  * @schema ProxyClassSpecStatefulSetPodSecurityContext
  */
 export interface ProxyClassSpecStatefulSetPodSecurityContext {
   /**
-   * A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod:
-   * 1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw----
-   * If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows.
+   * appArmorProfile is the AppArmor options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema ProxyClassSpecStatefulSetPodSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?:
+    ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile;
+
+  /**
+   * A special supplemental group that applies to all containers in a pod.
+   * Some volume types allow the Kubelet to change the ownership of that volume
+   * to be owned by the pod:
+   *
+   * 1. The owning GID will be the FSGroup
+   * 2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
+   * 3. The permission bits are OR'd with rw-rw----
+   *
+   * If unset, the Kubelet will not modify the ownership and permissions of any volume.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContext#fsGroup
    */
   readonly fsGroup?: number;
 
   /**
-   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used. Note that this field cannot be set when spec.os.name is windows.
+   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume
+   * before being exposed inside Pod. This field will only apply to
+   * volume types which support fsGroup based ownership(and permissions).
+   * It will have no effect on ephemeral volume types such as: secret, configmaps
+   * and emptydir.
+   * Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContext#fsGroupChangePolicy
    */
   readonly fsGroupChangePolicy?: string;
 
   /**
-   * The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The GID to run the entrypoint of the container process.
+   * Uses runtime default if unset.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContext#runAsGroup
    */
   readonly runAsGroup?: number;
 
   /**
-   * Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Indicates that the container must run as a non-root user.
+   * If true, the Kubelet will validate the image at runtime to ensure that it
+   * does not run as UID 0 (root) and fail to start the container if it does.
+   * If unset or false, no such validation will be performed.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContext#runAsNonRoot
    */
   readonly runAsNonRoot?: boolean;
 
   /**
-   * The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The UID to run the entrypoint of the container process.
+   * Defaults to user specified in image metadata if unspecified.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * @default user specified in image metadata if unspecified.
    * @schema ProxyClassSpecStatefulSetPodSecurityContext#runAsUser
    */
   readonly runAsUser?: number;
 
   /**
-   * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The SELinux context to be applied to all containers.
+   * If unspecified, the container runtime will allocate a random SELinux context for each
+   * container.  May also be set in SecurityContext.  If set in
+   * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+   * takes precedence for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContext#seLinuxOptions
    */
@@ -944,7 +1169,8 @@ export interface ProxyClassSpecStatefulSetPodSecurityContext {
     ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions;
 
   /**
-   * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+   * The seccomp options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContext#seccompProfile
    */
@@ -952,21 +1178,32 @@ export interface ProxyClassSpecStatefulSetPodSecurityContext {
     ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile;
 
   /**
-   * A list of groups applied to the first process run in each container, in addition to the container's primary GID, the fsGroup (if specified), and group memberships defined in the container image for the uid of the container process. If unspecified, no additional groups are added to any container. Note that group memberships defined in the container image for the uid of the container process are still effective, even if they are not included in this list. Note that this field cannot be set when spec.os.name is windows.
+   * A list of groups applied to the first process run in each container, in addition
+   * to the container's primary GID, the fsGroup (if specified), and group memberships
+   * defined in the container image for the uid of the container process. If unspecified,
+   * no additional groups are added to any container. Note that group memberships
+   * defined in the container image for the uid of the container process are still effective,
+   * even if they are not included in this list.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContext#supplementalGroups
    */
   readonly supplementalGroups?: number[];
 
   /**
-   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows.
+   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
+   * sysctls (by the container runtime) might fail to launch.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContext#sysctls
    */
   readonly sysctls?: ProxyClassSpecStatefulSetPodSecurityContextSysctls[];
 
   /**
-   * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+   * The Windows specific settings applied to all containers.
+   * If unspecified, the options within a container's SecurityContext will be used.
+   * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is linux.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContext#windowsOptions
    */
@@ -983,6 +1220,10 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContext(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "appArmorProfile":
+      toJson_ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile(
+        obj.appArmorProfile,
+      ),
     "fsGroup": obj.fsGroup,
     "fsGroupChangePolicy": obj.fsGroupChangePolicy,
     "runAsGroup": obj.runAsGroup,
@@ -1020,37 +1261,61 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContext(
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleContainer {
   /**
-   * List of environment variables to set in the container. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables Note that environment variables provided here will take precedence over Tailscale-specific environment variables set by the operator, however running proxies with custom values for Tailscale environment variables (i.e TS_USERSPACE) is not recommended and might break in the future.
+   * List of environment variables to set in the container.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables
+   * Note that environment variables provided here will take precedence
+   * over Tailscale-specific environment variables set by the operator,
+   * however running proxies with custom values for Tailscale environment
+   * variables (i.e TS_USERSPACE) is not recommended and might break in
+   * the future.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainer#env
    */
   readonly env?: ProxyClassSpecStatefulSetPodTailscaleContainerEnv[];
 
   /**
-   * Container image name. By default images are pulled from docker.io/tailscale/tailscale, but the official images are also available at ghcr.io/tailscale/tailscale. Specifying image name here will override any proxy image values specified via the Kubernetes operator's Helm chart values or PROXY_IMAGE env var in the operator Deployment. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   * Container image name. By default images are pulled from
+   * docker.io/tailscale/tailscale, but the official images are also
+   * available at ghcr.io/tailscale/tailscale. Specifying image name here
+   * will override any proxy image values specified via the Kubernetes
+   * operator's Helm chart values or PROXY_IMAGE env var in the operator
+   * Deployment.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainer#image
    */
   readonly image?: string;
 
   /**
-   * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
    *
-   * @default Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   * @default Always.
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainer#imagePullPolicy
    */
   readonly imagePullPolicy?:
     ProxyClassSpecStatefulSetPodTailscaleContainerImagePullPolicy;
 
   /**
-   * Container resource requirements. By default Tailscale Kubernetes operator does not apply any resource requirements. The amount of resources required wil depend on the amount of resources the operator needs to parse, usage patterns and cluster size. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
+   * Container resource requirements.
+   * By default Tailscale Kubernetes operator does not apply any resource
+   * requirements. The amount of resources required wil depend on the
+   * amount of resources the operator needs to parse, usage patterns and
+   * cluster size.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainer#resources
    */
   readonly resources?: ProxyClassSpecStatefulSetPodTailscaleContainerResources;
 
   /**
-   * Container security context. Security context specified here will override the security context by the operator. By default the operator: - sets 'privileged: true' for the init container - set NET_ADMIN capability for tailscale container for proxies that are created for Services or Connector. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
+   * Container security context.
+   * Security context specified here will override the security context by the operator.
+   * By default the operator:
+   * - sets 'privileged: true' for the init container
+   * - set NET_ADMIN capability for tailscale container for proxies that
+   * are created for Services or Connector.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainer#securityContext
    */
@@ -1095,30 +1360,48 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainer(
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleInitContainer {
   /**
-   * List of environment variables to set in the container. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables Note that environment variables provided here will take precedence over Tailscale-specific environment variables set by the operator, however running proxies with custom values for Tailscale environment variables (i.e TS_USERSPACE) is not recommended and might break in the future.
+   * List of environment variables to set in the container.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables
+   * Note that environment variables provided here will take precedence
+   * over Tailscale-specific environment variables set by the operator,
+   * however running proxies with custom values for Tailscale environment
+   * variables (i.e TS_USERSPACE) is not recommended and might break in
+   * the future.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer#env
    */
   readonly env?: ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv[];
 
   /**
-   * Container image name. By default images are pulled from docker.io/tailscale/tailscale, but the official images are also available at ghcr.io/tailscale/tailscale. Specifying image name here will override any proxy image values specified via the Kubernetes operator's Helm chart values or PROXY_IMAGE env var in the operator Deployment. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   * Container image name. By default images are pulled from
+   * docker.io/tailscale/tailscale, but the official images are also
+   * available at ghcr.io/tailscale/tailscale. Specifying image name here
+   * will override any proxy image values specified via the Kubernetes
+   * operator's Helm chart values or PROXY_IMAGE env var in the operator
+   * Deployment.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer#image
    */
   readonly image?: string;
 
   /**
-   * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
    *
-   * @default Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+   * @default Always.
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer#imagePullPolicy
    */
   readonly imagePullPolicy?:
     ProxyClassSpecStatefulSetPodTailscaleInitContainerImagePullPolicy;
 
   /**
-   * Container resource requirements. By default Tailscale Kubernetes operator does not apply any resource requirements. The amount of resources required wil depend on the amount of resources the operator needs to parse, usage patterns and cluster size. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
+   * Container resource requirements.
+   * By default Tailscale Kubernetes operator does not apply any resource
+   * requirements. The amount of resources required wil depend on the
+   * amount of resources the operator needs to parse, usage patterns and
+   * cluster size.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer#resources
    */
@@ -1126,7 +1409,13 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainer {
     ProxyClassSpecStatefulSetPodTailscaleInitContainerResources;
 
   /**
-   * Container security context. Security context specified here will override the security context by the operator. By default the operator: - sets 'privileged: true' for the init container - set NET_ADMIN capability for tailscale container for proxies that are created for Services or Connector. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
+   * Container security context.
+   * Security context specified here will override the security context by the operator.
+   * By default the operator:
+   * - sets 'privileged: true' for the init container
+   * - set NET_ADMIN capability for tailscale container for proxies that
+   * are created for Services or Connector.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer#securityContext
    */
@@ -1166,42 +1455,52 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainer(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>.
+ * The pod this Toleration is attached to tolerates any taint that matches
+ * the triple <key,value,effect> using the matching operator <operator>.
  *
  * @schema ProxyClassSpecStatefulSetPodTolerations
  */
 export interface ProxyClassSpecStatefulSetPodTolerations {
   /**
-   * Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
+   * Effect indicates the taint effect to match. Empty means match all taint effects.
+   * When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
    *
    * @schema ProxyClassSpecStatefulSetPodTolerations#effect
    */
   readonly effect?: string;
 
   /**
-   * Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+   * Key is the taint key that the toleration applies to. Empty means match all taint keys.
+   * If the key is empty, operator must be Exists; this combination means to match all values and all keys.
    *
    * @schema ProxyClassSpecStatefulSetPodTolerations#key
    */
   readonly key?: string;
 
   /**
-   * Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.
+   * Operator represents a key's relationship to the value.
+   * Valid operators are Exists and Equal. Defaults to Equal.
+   * Exists is equivalent to wildcard for value, so that a pod can
+   * tolerate all taints of a particular category.
    *
-   * @default Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.
+   * @default Equal.
    * @schema ProxyClassSpecStatefulSetPodTolerations#operator
    */
   readonly operator?: string;
 
   /**
-   * TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.
+   * TolerationSeconds represents the period of time the toleration (which must be
+   * of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,
+   * it is not set, which means tolerate the taint forever (do not evict). Zero and
+   * negative values will be treated as 0 (evict immediately) by the system.
    *
    * @schema ProxyClassSpecStatefulSetPodTolerations#tolerationSeconds
    */
   readonly tolerationSeconds?: number;
 
   /**
-   * Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+   * Value is the taint value the toleration matches to.
+   * If the operator is Exists, the value should be empty, otherwise just a regular string.
    *
    * @schema ProxyClassSpecStatefulSetPodTolerations#value
    */
@@ -1238,7 +1537,15 @@ export function toJson_ProxyClassSpecStatefulSetPodTolerations(
  */
 export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node matches the corresponding matchExpressions; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node matches the corresponding matchExpressions; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -1246,7 +1553,11 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinity {
     ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node.
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to an update), the system
+   * may or may not try to eventually evict the pod from its node.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -1289,7 +1600,15 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinity(
  */
 export interface ProxyClassSpecStatefulSetPodAffinityPodAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -1297,7 +1616,13 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinity {
     ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -1342,7 +1667,15 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinity(
  */
 export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity {
   /**
-   * The scheduler will prefer to schedule pods to nodes that satisfy the anti-affinity expressions specified by this field, but it may choose a node that violates one or more of the expressions. The node that is most preferred is the one with the greatest sum of weights, i.e. for each node that meets all of the scheduling requirements (resource request, requiredDuringScheduling anti-affinity expressions, etc.), compute a sum by iterating through the elements of this field and adding "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the node(s) with the highest sum are the most preferred.
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the anti-affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling anti-affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
    */
@@ -1350,7 +1683,13 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity {
     ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
 
   /**
-   * If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   * If the anti-affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the anti-affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity#requiredDuringSchedulingIgnoredDuringExecution
    */
@@ -1389,7 +1728,61 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+ * appArmorProfile is the AppArmor options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
+ *
+ * @schema ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile
+ */
+export interface ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile {
+  /**
+   * localhostProfile indicates a profile loaded on the node that should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must match the loaded name of the profile.
+   * Must be set if and only if type is "Localhost".
+   *
+   * @schema ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * type indicates which kind of AppArmor profile will be applied.
+   * Valid options are:
+   * Localhost - a profile pre-loaded on the node.
+   * RuntimeDefault - the container runtime's default profile.
+   * Unconfined - no AppArmor enforcement.
+   *
+   * @schema ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile#type
+   */
+  readonly type: string;
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile(
+  obj: ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The SELinux context to be applied to all containers.
+ * If unspecified, the container runtime will allocate a random SELinux context for each
+ * container.  May also be set in SecurityContext.  If set in
+ * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+ * takes precedence for that container.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions
  */
@@ -1446,21 +1839,29 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions
 /* eslint-enable max-len, quote-props */
 
 /**
- * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+ * The seccomp options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile
  */
 export interface ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile {
   /**
-   * localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type.
+   * localhostProfile indicates a profile defined in a file on the node should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must be a descending path, relative to the kubelet's configured seccomp profile location.
+   * Must be set if type is "Localhost". Must NOT be set for any other type.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile#localhostProfile
    */
   readonly localhostProfile?: string;
 
   /**
-   * type indicates which kind of seccomp profile will be applied. Valid options are:
-   * Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+   * type indicates which kind of seccomp profile will be applied.
+   * Valid options are:
+   *
+   * Localhost - a profile defined in a file on the node should be used.
+   * RuntimeDefault - the container runtime default profile should be used.
+   * Unconfined - no profile should be applied.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile#type
    */
@@ -1529,13 +1930,18 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextSysctls(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+ * The Windows specific settings applied to all containers.
+ * If unspecified, the options within a container's SecurityContext will be used.
+ * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is linux.
  *
  * @schema ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions
  */
 export interface ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions {
   /**
-   * GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+   * GMSACredentialSpec is where the GMSA admission webhook
+   * (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the
+   * GMSA credential spec named by the GMSACredentialSpecName field.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions#gmsaCredentialSpec
    */
@@ -1549,16 +1955,22 @@ export interface ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions {
   readonly gmsaCredentialSpecName?: string;
 
   /**
-   * HostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+   * HostProcess determines if a container should be run as a 'Host Process' container.
+   * All of a Pod's containers must have the same effective HostProcess value
+   * (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers).
+   * In addition, if HostProcess is true then HostNetwork must also be set to true.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions#hostProcess
    */
   readonly hostProcess?: boolean;
 
   /**
-   * The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * The UserName in Windows to run the entrypoint of the container process.
+   * Defaults to the user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext. If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
-   * @default the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * @default the user specified in image metadata if unspecified.
    * @schema ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions#runAsUserName
    */
   readonly runAsUserName?: string;
@@ -1598,7 +2010,14 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerEnv {
   readonly name: string;
 
   /**
-   * Variable references $(VAR_NAME) are expanded using the previously defined environment variables in the container and any service environment variables. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Defaults to "".
+   * Variable references $(VAR_NAME) are expanded using the previously defined
+   * environment variables in the container and any service environment
+   * variables. If a variable cannot be resolved, the reference in the input
+   * string will be unchanged. Double $$ are reduced to a single $, which
+   * allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will
+   * produce the string literal "$(VAR_NAME)". Escaped references will never
+   * be expanded, regardless of whether the variable exists or not. Defaults
+   * to "".
    *
    * @default .
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerEnv#value
@@ -1627,9 +2046,10 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerEnv(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+ * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always.
+ * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
  *
- * @default Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+ * @default Always.
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerImagePullPolicy
  */
 export enum ProxyClassSpecStatefulSetPodTailscaleContainerImagePullPolicy {
@@ -1642,14 +2062,23 @@ export enum ProxyClassSpecStatefulSetPodTailscaleContainerImagePullPolicy {
 }
 
 /**
- * Container resource requirements. By default Tailscale Kubernetes operator does not apply any resource requirements. The amount of resources required wil depend on the amount of resources the operator needs to parse, usage patterns and cluster size. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
+ * Container resource requirements.
+ * By default Tailscale Kubernetes operator does not apply any resource
+ * requirements. The amount of resources required wil depend on the
+ * amount of resources the operator needs to parse, usage patterns and
+ * cluster size.
+ * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResources
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleContainerResources {
   /**
-   * Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-   * This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+   * Claims lists the names of resources, defined in spec.resourceClaims,
+   * that are used by this container.
+   *
+   * This is an alpha field and requires enabling the
+   * DynamicResourceAllocation feature gate.
+   *
    * This field is immutable. It can only be set for containers.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResources#claims
@@ -1658,7 +2087,8 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerResources {
     ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims[];
 
   /**
-   * Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResources#limits
    */
@@ -1668,7 +2098,10 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerResources {
   };
 
   /**
-   * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to an implementation-defined value. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResources#requests
    */
@@ -1712,74 +2145,124 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResources(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Container security context. Security context specified here will override the security context by the operator. By default the operator: - sets 'privileged: true' for the init container - set NET_ADMIN capability for tailscale container for proxies that are created for Services or Connector. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
+ * Container security context.
+ * Security context specified here will override the security context by the operator.
+ * By default the operator:
+ * - sets 'privileged: true' for the init container
+ * - set NET_ADMIN capability for tailscale container for proxies that
+ * are created for Services or Connector.
+ * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext {
   /**
-   * AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN Note that this field cannot be set when spec.os.name is windows.
+   * AllowPrivilegeEscalation controls whether a process can gain more
+   * privileges than its parent process. This bool directly controls if
+   * the no_new_privs flag will be set on the container process.
+   * AllowPrivilegeEscalation is true always when the container is:
+   * 1) run as Privileged
+   * 2) has CAP_SYS_ADMIN
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#allowPrivilegeEscalation
    */
   readonly allowPrivilegeEscalation?: boolean;
 
   /**
-   * The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows.
+   * appArmorProfile is the AppArmor options to use by this container. If set, this profile
+   * overrides the pod's appArmorProfile.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows.
+   * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?:
+    ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile;
+
+  /**
+   * The capabilities to add/drop when running containers.
+   * Defaults to the default set of capabilities granted by the container runtime.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @default the default set of capabilities granted by the container runtime.
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#capabilities
    */
   readonly capabilities?:
     ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities;
 
   /**
-   * Run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows.
+   * Run container in privileged mode.
+   * Processes in privileged containers are essentially equivalent to root on the host.
+   * Defaults to false.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default false. Note that this field cannot be set when spec.os.name is windows.
+   * @default false.
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#privileged
    */
   readonly privileged?: boolean;
 
   /**
-   * procMount denotes the type of proc mount to use for the containers. The default is DefaultProcMount which uses the container runtime defaults for readonly paths and masked paths. This requires the ProcMountType feature flag to be enabled. Note that this field cannot be set when spec.os.name is windows.
+   * procMount denotes the type of proc mount to use for the containers.
+   * The default is DefaultProcMount which uses the container runtime defaults for
+   * readonly paths and masked paths.
+   * This requires the ProcMountType feature flag to be enabled.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#procMount
    */
   readonly procMount?: string;
 
   /**
-   * Whether this container has a read-only root filesystem. Default is false. Note that this field cannot be set when spec.os.name is windows.
+   * Whether this container has a read-only root filesystem.
+   * Default is false.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default false. Note that this field cannot be set when spec.os.name is windows.
+   * @default false.
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#readOnlyRootFilesystem
    */
   readonly readOnlyRootFilesystem?: boolean;
 
   /**
-   * The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
+   * The GID to run the entrypoint of the container process.
+   * Uses runtime default if unset.
+   * May also be set in PodSecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#runAsGroup
    */
   readonly runAsGroup?: number;
 
   /**
-   * Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Indicates that the container must run as a non-root user.
+   * If true, the Kubelet will validate the image at runtime to ensure that it
+   * does not run as UID 0 (root) and fail to start the container if it does.
+   * If unset or false, no such validation will be performed.
+   * May also be set in PodSecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#runAsNonRoot
    */
   readonly runAsNonRoot?: boolean;
 
   /**
-   * The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
+   * The UID to run the entrypoint of the container process.
+   * Defaults to user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
+   * @default user specified in image metadata if unspecified.
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#runAsUser
    */
   readonly runAsUser?: number;
 
   /**
-   * The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
+   * The SELinux context to be applied to the container.
+   * If unspecified, the container runtime will allocate a random SELinux context for each
+   * container.  May also be set in PodSecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#seLinuxOptions
    */
@@ -1787,7 +2270,10 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext {
     ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeLinuxOptions;
 
   /**
-   * The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows.
+   * The seccomp options to use by this container. If seccomp options are
+   * provided at both the pod & container level, the container options
+   * override the pod options.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#seccompProfile
    */
@@ -1795,7 +2281,10 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext {
     ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile;
 
   /**
-   * The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+   * The Windows specific settings applied to all containers.
+   * If unspecified, the options from the PodSecurityContext will be used.
+   * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is linux.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext#windowsOptions
    */
@@ -1815,6 +2304,10 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
   if (obj === undefined) return undefined;
   const result = {
     "allowPrivilegeEscalation": obj.allowPrivilegeEscalation,
+    "appArmorProfile":
+      toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile(
+        obj.appArmorProfile,
+      ),
     "capabilities":
       toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities(
         obj.capabilities,
@@ -1858,7 +2351,14 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv {
   readonly name: string;
 
   /**
-   * Variable references $(VAR_NAME) are expanded using the previously defined environment variables in the container and any service environment variables. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Defaults to "".
+   * Variable references $(VAR_NAME) are expanded using the previously defined
+   * environment variables in the container and any service environment
+   * variables. If a variable cannot be resolved, the reference in the input
+   * string will be unchanged. Double $$ are reduced to a single $, which
+   * allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will
+   * produce the string literal "$(VAR_NAME)". Escaped references will never
+   * be expanded, regardless of whether the variable exists or not. Defaults
+   * to "".
    *
    * @default .
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv#value
@@ -1887,9 +2387,10 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+ * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always.
+ * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
  *
- * @default Always. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
+ * @default Always.
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerImagePullPolicy
  */
 export enum ProxyClassSpecStatefulSetPodTailscaleInitContainerImagePullPolicy {
@@ -1902,14 +2403,23 @@ export enum ProxyClassSpecStatefulSetPodTailscaleInitContainerImagePullPolicy {
 }
 
 /**
- * Container resource requirements. By default Tailscale Kubernetes operator does not apply any resource requirements. The amount of resources required wil depend on the amount of resources the operator needs to parse, usage patterns and cluster size. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
+ * Container resource requirements.
+ * By default Tailscale Kubernetes operator does not apply any resource
+ * requirements. The amount of resources required wil depend on the
+ * amount of resources the operator needs to parse, usage patterns and
+ * cluster size.
+ * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#resources
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResources
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerResources {
   /**
-   * Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-   * This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+   * Claims lists the names of resources, defined in spec.resourceClaims,
+   * that are used by this container.
+   *
+   * This is an alpha field and requires enabling the
+   * DynamicResourceAllocation feature gate.
+   *
    * This field is immutable. It can only be set for containers.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResources#claims
@@ -1918,7 +2428,8 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerResources {
     ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims[];
 
   /**
-   * Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResources#limits
    */
@@ -1928,7 +2439,10 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerResources {
   };
 
   /**
-   * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to an implementation-defined value. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResources#requests
    */
@@ -1974,74 +2488,124 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResourc
 /* eslint-enable max-len, quote-props */
 
 /**
- * Container security context. Security context specified here will override the security context by the operator. By default the operator: - sets 'privileged: true' for the init container - set NET_ADMIN capability for tailscale container for proxies that are created for Services or Connector. https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
+ * Container security context.
+ * Security context specified here will override the security context by the operator.
+ * By default the operator:
+ * - sets 'privileged: true' for the init container
+ * - set NET_ADMIN capability for tailscale container for proxies that
+ * are created for Services or Connector.
+ * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext {
   /**
-   * AllowPrivilegeEscalation controls whether a process can gain more privileges than its parent process. This bool directly controls if the no_new_privs flag will be set on the container process. AllowPrivilegeEscalation is true always when the container is: 1) run as Privileged 2) has CAP_SYS_ADMIN Note that this field cannot be set when spec.os.name is windows.
+   * AllowPrivilegeEscalation controls whether a process can gain more
+   * privileges than its parent process. This bool directly controls if
+   * the no_new_privs flag will be set on the container process.
+   * AllowPrivilegeEscalation is true always when the container is:
+   * 1) run as Privileged
+   * 2) has CAP_SYS_ADMIN
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#allowPrivilegeEscalation
    */
   readonly allowPrivilegeEscalation?: boolean;
 
   /**
-   * The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows.
+   * appArmorProfile is the AppArmor options to use by this container. If set, this profile
+   * overrides the pod's appArmorProfile.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows.
+   * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?:
+    ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile;
+
+  /**
+   * The capabilities to add/drop when running containers.
+   * Defaults to the default set of capabilities granted by the container runtime.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @default the default set of capabilities granted by the container runtime.
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#capabilities
    */
   readonly capabilities?:
     ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities;
 
   /**
-   * Run container in privileged mode. Processes in privileged containers are essentially equivalent to root on the host. Defaults to false. Note that this field cannot be set when spec.os.name is windows.
+   * Run container in privileged mode.
+   * Processes in privileged containers are essentially equivalent to root on the host.
+   * Defaults to false.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default false. Note that this field cannot be set when spec.os.name is windows.
+   * @default false.
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#privileged
    */
   readonly privileged?: boolean;
 
   /**
-   * procMount denotes the type of proc mount to use for the containers. The default is DefaultProcMount which uses the container runtime defaults for readonly paths and masked paths. This requires the ProcMountType feature flag to be enabled. Note that this field cannot be set when spec.os.name is windows.
+   * procMount denotes the type of proc mount to use for the containers.
+   * The default is DefaultProcMount which uses the container runtime defaults for
+   * readonly paths and masked paths.
+   * This requires the ProcMountType feature flag to be enabled.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#procMount
    */
   readonly procMount?: string;
 
   /**
-   * Whether this container has a read-only root filesystem. Default is false. Note that this field cannot be set when spec.os.name is windows.
+   * Whether this container has a read-only root filesystem.
+   * Default is false.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default false. Note that this field cannot be set when spec.os.name is windows.
+   * @default false.
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#readOnlyRootFilesystem
    */
   readonly readOnlyRootFilesystem?: boolean;
 
   /**
-   * The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
+   * The GID to run the entrypoint of the container process.
+   * Uses runtime default if unset.
+   * May also be set in PodSecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#runAsGroup
    */
   readonly runAsGroup?: number;
 
   /**
-   * Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Indicates that the container must run as a non-root user.
+   * If true, the Kubelet will validate the image at runtime to ensure that it
+   * does not run as UID 0 (root) and fail to start the container if it does.
+   * If unset or false, no such validation will be performed.
+   * May also be set in PodSecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#runAsNonRoot
    */
   readonly runAsNonRoot?: boolean;
 
   /**
-   * The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
+   * The UID to run the entrypoint of the container process.
+   * Defaults to user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
+   * @default user specified in image metadata if unspecified.
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#runAsUser
    */
   readonly runAsUser?: number;
 
   /**
-   * The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
+   * The SELinux context to be applied to the container.
+   * If unspecified, the container runtime will allocate a random SELinux context for each
+   * container.  May also be set in PodSecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#seLinuxOptions
    */
@@ -2049,7 +2613,10 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
     ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeLinuxOptions;
 
   /**
-   * The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows.
+   * The seccomp options to use by this container. If seccomp options are
+   * provided at both the pod & container level, the container options
+   * override the pod options.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#seccompProfile
    */
@@ -2057,7 +2624,10 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
     ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile;
 
   /**
-   * The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+   * The Windows specific settings applied to all containers.
+   * If unspecified, the options from the PodSecurityContext will be used.
+   * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is linux.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext#windowsOptions
    */
@@ -2077,6 +2647,10 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
   if (obj === undefined) return undefined;
   const result = {
     "allowPrivilegeEscalation": obj.allowPrivilegeEscalation,
+    "appArmorProfile":
+      toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile(
+        obj.appArmorProfile,
+      ),
     "capabilities":
       toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities(
         obj.capabilities,
@@ -2109,7 +2683,8 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
 /* eslint-enable max-len, quote-props */
 
 /**
- * An empty preferred scheduling term matches all objects with implicit weight 0 (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
+ * An empty preferred scheduling term matches all objects with implicit weight 0
+ * (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
  */
@@ -2156,7 +2731,11 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
 /* eslint-enable max-len, quote-props */
 
 /**
- * If the affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to an update), the system may or may not try to eventually evict the pod from its node.
+ * If the affinity requirements specified by this field are not met at
+ * scheduling time, the pod will not be scheduled onto the node.
+ * If the affinity requirements specified by this field cease to be met
+ * at some point during pod execution (e.g. due to an update), the system
+ * may or may not try to eventually evict the pod from its node.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
@@ -2210,7 +2789,8 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
     ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
 
   /**
-   * weight associated with matching the corresponding podAffinityTerm, in the range 1-100.
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
    */
@@ -2243,13 +2823,19 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
 /* eslint-enable max-len, quote-props */
 
 /**
- * Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
 export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
    */
@@ -2257,21 +2843,41 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
     ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
    */
@@ -2279,14 +2885,21 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
     ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
    */
@@ -2340,7 +2953,8 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
     ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
 
   /**
-   * weight associated with matching the corresponding podAffinityTerm, in the range 1-100.
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
    */
@@ -2373,13 +2987,19 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
 /* eslint-enable max-len, quote-props */
 
 /**
- * Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
  */
 export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
    */
@@ -2387,21 +3007,41 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
     ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
    */
@@ -2409,14 +3049,21 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
     ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
    */
@@ -2462,7 +3109,9 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims {
   /**
-   * Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+   * Name must match the name of one entry in pod.spec.resourceClaims of
+   * the Pod where this field is used. It makes that resource available
+   * inside a container.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims#name
    */
@@ -2535,9 +3184,63 @@ export class ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests {
 }
 
 /**
- * The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows.
+ * appArmorProfile is the AppArmor options to use by this container. If set, this profile
+ * overrides the pod's appArmorProfile.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
- * @default the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows.
+ * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile
+ */
+export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile {
+  /**
+   * localhostProfile indicates a profile loaded on the node that should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must match the loaded name of the profile.
+   * Must be set if and only if type is "Localhost".
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * type indicates which kind of AppArmor profile will be applied.
+   * Valid options are:
+   * Localhost - a profile pre-loaded on the node.
+   * RuntimeDefault - the container runtime's default profile.
+   * Unconfined - no AppArmor enforcement.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile#type
+   */
+  readonly type: string;
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile(
+  obj:
+    | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The capabilities to add/drop when running containers.
+ * Defaults to the default set of capabilities granted by the container runtime.
+ * Note that this field cannot be set when spec.os.name is windows.
+ *
+ * @default the default set of capabilities granted by the container runtime.
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities {
@@ -2579,7 +3282,11 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
 /* eslint-enable max-len, quote-props */
 
 /**
- * The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
+ * The SELinux context to be applied to the container.
+ * If unspecified, the container runtime will allocate a random SELinux context for each
+ * container.  May also be set in PodSecurityContext.  If set in both SecurityContext and
+ * PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeLinuxOptions
  */
@@ -2638,21 +3345,31 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
 /* eslint-enable max-len, quote-props */
 
 /**
- * The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows.
+ * The seccomp options to use by this container. If seccomp options are
+ * provided at both the pod & container level, the container options
+ * override the pod options.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile {
   /**
-   * localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type.
+   * localhostProfile indicates a profile defined in a file on the node should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must be a descending path, relative to the kubelet's configured seccomp profile location.
+   * Must be set if type is "Localhost". Must NOT be set for any other type.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile#localhostProfile
    */
   readonly localhostProfile?: string;
 
   /**
-   * type indicates which kind of seccomp profile will be applied. Valid options are:
-   * Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+   * type indicates which kind of seccomp profile will be applied.
+   * Valid options are:
+   *
+   * Localhost - a profile defined in a file on the node should be used.
+   * RuntimeDefault - the container runtime default profile should be used.
+   * Unconfined - no profile should be applied.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile#type
    */
@@ -2682,13 +3399,18 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+ * The Windows specific settings applied to all containers.
+ * If unspecified, the options from the PodSecurityContext will be used.
+ * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is linux.
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions {
   /**
-   * GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+   * GMSACredentialSpec is where the GMSA admission webhook
+   * (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the
+   * GMSA credential spec named by the GMSACredentialSpecName field.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions#gmsaCredentialSpec
    */
@@ -2702,16 +3424,22 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWi
   readonly gmsaCredentialSpecName?: string;
 
   /**
-   * HostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+   * HostProcess determines if a container should be run as a 'Host Process' container.
+   * All of a Pod's containers must have the same effective HostProcess value
+   * (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers).
+   * In addition, if HostProcess is true then HostNetwork must also be set to true.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions#hostProcess
    */
   readonly hostProcess?: boolean;
 
   /**
-   * The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * The UserName in Windows to run the entrypoint of the container process.
+   * Defaults to the user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext. If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
-   * @default the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * @default the user specified in image metadata if unspecified.
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions#runAsUserName
    */
   readonly runAsUserName?: string;
@@ -2748,7 +3476,9 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims {
   /**
-   * Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+   * Name must match the name of one entry in pod.spec.resourceClaims of
+   * the Pod where this field is used. It makes that resource available
+   * inside a container.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims#name
    */
@@ -2821,9 +3551,63 @@ export class ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests
 }
 
 /**
- * The capabilities to add/drop when running containers. Defaults to the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows.
+ * appArmorProfile is the AppArmor options to use by this container. If set, this profile
+ * overrides the pod's appArmorProfile.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
- * @default the default set of capabilities granted by the container runtime. Note that this field cannot be set when spec.os.name is windows.
+ * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile
+ */
+export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile {
+  /**
+   * localhostProfile indicates a profile loaded on the node that should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must match the loaded name of the profile.
+   * Must be set if and only if type is "Localhost".
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * type indicates which kind of AppArmor profile will be applied.
+   * Valid options are:
+   * Localhost - a profile pre-loaded on the node.
+   * RuntimeDefault - the container runtime's default profile.
+   * Unconfined - no AppArmor enforcement.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile#type
+   */
+  readonly type: string;
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile(
+  obj:
+    | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The capabilities to add/drop when running containers.
+ * Defaults to the default set of capabilities granted by the container runtime.
+ * Note that this field cannot be set when spec.os.name is windows.
+ *
+ * @default the default set of capabilities granted by the container runtime.
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities {
@@ -2865,7 +3649,11 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
 /* eslint-enable max-len, quote-props */
 
 /**
- * The SELinux context to be applied to the container. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
+ * The SELinux context to be applied to the container.
+ * If unspecified, the container runtime will allocate a random SELinux context for each
+ * container.  May also be set in PodSecurityContext.  If set in both SecurityContext and
+ * PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeLinuxOptions
  */
@@ -2924,21 +3712,31 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
 /* eslint-enable max-len, quote-props */
 
 /**
- * The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows.
+ * The seccomp options to use by this container. If seccomp options are
+ * provided at both the pod & container level, the container options
+ * override the pod options.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile {
   /**
-   * localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type.
+   * localhostProfile indicates a profile defined in a file on the node should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must be a descending path, relative to the kubelet's configured seccomp profile location.
+   * Must be set if type is "Localhost". Must NOT be set for any other type.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile#localhostProfile
    */
   readonly localhostProfile?: string;
 
   /**
-   * type indicates which kind of seccomp profile will be applied. Valid options are:
-   * Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+   * type indicates which kind of seccomp profile will be applied.
+   * Valid options are:
+   *
+   * Localhost - a profile defined in a file on the node should be used.
+   * RuntimeDefault - the container runtime default profile should be used.
+   * Unconfined - no profile should be applied.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile#type
    */
@@ -2968,13 +3766,18 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Windows specific settings applied to all containers. If unspecified, the options from the PodSecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+ * The Windows specific settings applied to all containers.
+ * If unspecified, the options from the PodSecurityContext will be used.
+ * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is linux.
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions {
   /**
-   * GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+   * GMSACredentialSpec is where the GMSA admission webhook
+   * (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the
+   * GMSA credential spec named by the GMSACredentialSpecName field.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions#gmsaCredentialSpec
    */
@@ -2988,16 +3791,22 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
   readonly gmsaCredentialSpecName?: string;
 
   /**
-   * HostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+   * HostProcess determines if a container should be run as a 'Host Process' container.
+   * All of a Pod's containers must have the same effective HostProcess value
+   * (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers).
+   * In addition, if HostProcess is true then HostNetwork must also be set to true.
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions#hostProcess
    */
   readonly hostProcess?: boolean;
 
   /**
-   * The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * The UserName in Windows to run the entrypoint of the container process.
+   * Defaults to the user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext. If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
-   * @default the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * @default the user specified in image metadata if unspecified.
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions#runAsUserName
    */
   readonly runAsUserName?: string;
@@ -3081,7 +3890,9 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
 /* eslint-enable max-len, quote-props */
 
 /**
- * A null or empty node selector term matches no objects. The requirements of them are ANDed. The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
+ * A null or empty node selector term matches no objects. The requirements of
+ * them are ANDed.
+ * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
  */
@@ -3140,7 +3951,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredD
  */
 export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
    */
@@ -3148,21 +3960,41 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
     ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
    */
@@ -3170,14 +4002,21 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
     ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
    */
@@ -3217,7 +4056,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
  */
@@ -3231,7 +4071,9 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
     ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
    */
@@ -3270,7 +4112,11 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
  */
@@ -3284,7 +4130,9 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
     ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
    */
@@ -3329,7 +4177,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
  */
 export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
   /**
-   * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
    */
@@ -3337,21 +4186,41 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
     ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
 
   /**
-   * MatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key in (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. Also, MatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
   readonly matchLabelKeys?: string[];
 
   /**
-   * MismatchLabelKeys is a set of pod label keys to select which pods will be taken into consideration. The keys are used to lookup values from the incoming pod labels, those key-value labels are merged with `LabelSelector` as `key notin (value)` to select the group of existing pods which pods will be taken into consideration for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming pod labels will be ignored. The default value is empty. The same key is forbidden to exist in both MismatchLabelKeys and LabelSelector. Also, MismatchLabelKeys cannot be set when LabelSelector isn't set. This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
   readonly mismatchLabelKeys?: string[];
 
   /**
-   * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
    */
@@ -3359,14 +4228,21 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
     ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
 
   /**
-   * namespaces specifies a static list of namespace names that the term applies to. The term is applied to the union of the namespaces listed in this field and the ones selected by namespaceSelector. null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
    */
   readonly namespaces?: string[];
 
   /**
-   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. Empty topologyKey is not allowed.
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
    */
@@ -3406,7 +4282,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
  */
@@ -3420,7 +4297,9 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
     ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
    */
@@ -3459,7 +4338,11 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
  */
@@ -3473,7 +4356,9 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
     ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
    */
@@ -3512,7 +4397,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
  */
@@ -3525,14 +4411,19 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuring
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
    */
@@ -3563,7 +4454,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
  */
@@ -3576,14 +4468,19 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuring
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
    */
@@ -3614,7 +4511,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
  */
@@ -3627,14 +4525,19 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringS
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
    */
@@ -3665,7 +4568,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredD
 /* eslint-enable max-len, quote-props */
 
 /**
- * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
  */
@@ -3678,14 +4582,19 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringS
   readonly key: string;
 
   /**
-   * Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
    */
   readonly operator: string;
 
   /**
-   * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch.
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
    */
@@ -3716,7 +4625,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredD
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
  */
@@ -3730,7 +4640,9 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
     ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
    */
@@ -3769,7 +4681,11 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
  */
@@ -3783,7 +4699,9 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
     ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
    */
@@ -3822,7 +4740,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
  */
@@ -3835,14 +4754,18 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
    */
@@ -3873,7 +4796,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
  */
@@ -3886,14 +4810,18 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
    */
@@ -3924,7 +4852,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over a set of resources, in this case pods. If it's null, this PodAffinityTerm matches with no Pods.
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
  */
@@ -3938,7 +4867,9 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
     ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
    */
@@ -3977,7 +4908,11 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label query over the set of namespaces that the term applies to. The term is applied to the union of the namespaces selected by this field and the ones listed in the namespaces field. null selector and null or empty namespaces list means "this pod's namespace". An empty selector ({}) matches all namespaces.
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
  */
@@ -3991,7 +4926,9 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
     ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
 
   /**
-   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
    */
@@ -4030,7 +4967,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
  */
@@ -4043,14 +4981,18 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
    */
@@ -4081,7 +5023,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
  */
@@ -4094,14 +5037,18 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
    */
@@ -4132,7 +5079,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
  */
@@ -4145,14 +5093,18 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
    */
@@ -4183,7 +5135,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
  */
@@ -4196,14 +5149,18 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
    */
@@ -4234,7 +5191,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
  */
@@ -4247,14 +5205,18 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
    */
@@ -4285,7 +5247,8 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
 /* eslint-enable max-len, quote-props */
 
 /**
- * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
  *
  * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
  */
@@ -4298,14 +5261,18 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
   readonly key: string;
 
   /**
-   * operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
    */
   readonly operator: string;
 
   /**
-   * values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
    */

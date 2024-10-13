@@ -3,4 +3,4 @@ builds:
   default:
     entry: elec/src/rpi.ato:RPIHat
 dependencies:
-- generics
+  - generics

@@ -32,6 +32,23 @@ for await (const file of files) {
   }
 }
 
+// look for "public toJson(): any {", change this to "public override toJson(): any {"
+// fixes This member must have an 'override' modifier because it overrides a member in the base class 'ApiObject'.
+for await (const file of files) {
+  if (file.isFile) {
+    const filePath = `imports/${file.name}`;
+    let content = await Deno.readTextFile(filePath);
+    content = content.replaceAll(
+      "public toJson(): any {",
+      "public override toJson(): any {",
+    );
+    await Deno.writeTextFile(
+      filePath,
+      content,
+    );
+  }
+}
+
 // replace the npm import with the deno import
 for await (const file of files) {
   if (file.isFile) {

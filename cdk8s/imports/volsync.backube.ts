@@ -8,7 +8,8 @@ import {
 import { Construct } from "https://esm.sh/constructs@10.3.0";
 
 /**
- * ReplicationDestination defines the destination for a replicated volume
+ * A ReplicationDestination is a VolSync resource that you can use to define the destination of a VolSync replication
+or synchronization.
  *
  * @schema ReplicationDestination
  */
@@ -55,7 +56,7 @@ export class ReplicationDestination extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -66,7 +67,8 @@ export class ReplicationDestination extends ApiObject {
 }
 
 /**
- * ReplicationDestination defines the destination for a replicated volume
+ * A ReplicationDestination is a VolSync resource that you can use to define the destination of a VolSync replication
+ * or synchronization.
  *
  * @schema ReplicationDestination
  */
@@ -77,7 +79,8 @@ export interface ReplicationDestinationProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * spec is the desired state of the ReplicationDestination, including the replication method to use and its configuration.
+   * spec is the desired state of the ReplicationDestination, including the
+   * replication method to use and its configuration.
    *
    * @schema ReplicationDestination#spec
    */
@@ -105,13 +108,15 @@ export function toJson_ReplicationDestinationProps(
 /* eslint-enable max-len, quote-props */
 
 /**
- * spec is the desired state of the ReplicationDestination, including the replication method to use and its configuration.
+ * spec is the desired state of the ReplicationDestination, including the
+ * replication method to use and its configuration.
  *
  * @schema ReplicationDestinationSpec
  */
 export interface ReplicationDestinationSpec {
   /**
-   * external defines the configuration when using an external replication provider.
+   * external defines the configuration when using an external replication
+   * provider.
    *
    * @schema ReplicationDestinationSpec#external
    */
@@ -154,7 +159,8 @@ export interface ReplicationDestinationSpec {
   readonly rsyncTls?: ReplicationDestinationSpecRsyncTls;
 
   /**
-   * trigger determines if/when the destination should attempt to synchronize data with the source.
+   * trigger determines if/when the destination should attempt to synchronize
+   * data with the source.
    *
    * @schema ReplicationDestinationSpec#trigger
    */
@@ -187,20 +193,24 @@ export function toJson_ReplicationDestinationSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
- * external defines the configuration when using an external replication provider.
+ * external defines the configuration when using an external replication
+ * provider.
  *
  * @schema ReplicationDestinationSpecExternal
  */
 export interface ReplicationDestinationSpecExternal {
   /**
-   * parameters are provider-specific key/value configuration parameters. For more information, please see the documentation of the specific replication provider being used.
+   * parameters are provider-specific key/value configuration parameters. For
+   * more information, please see the documentation of the specific
+   * replication provider being used.
    *
    * @schema ReplicationDestinationSpecExternal#parameters
    */
   readonly parameters?: { [key: string]: string };
 
   /**
-   * provider is the name of the external replication provider. The name should be of the form: domain.com/provider.
+   * provider is the name of the external replication provider. The name
+   * should be of the form: domain.com/provider.
    *
    * @schema ReplicationDestinationSpecExternal#provider
    */
@@ -253,7 +263,8 @@ export interface ReplicationDestinationSpecRclone {
   readonly capacity?: ReplicationDestinationSpecRcloneCapacity;
 
   /**
-   * copyMethod describes how a point-in-time (PiT) image of the destination volume should be created.
+   * copyMethod describes how a point-in-time (PiT) image of the destination
+   * volume should be created.
    *
    * @schema ReplicationDestinationSpecRclone#copyMethod
    */
@@ -267,28 +278,43 @@ export interface ReplicationDestinationSpecRclone {
   readonly customCa?: ReplicationDestinationSpecRcloneCustomCa;
 
   /**
-   * destinationPVC is a PVC to use as the transfer destination instead of automatically provisioning one. Either this field or both capacity and accessModes must be specified.
+   * destinationPVC is a PVC to use as the transfer destination instead of
+   * automatically provisioning one. Either this field or both capacity and
+   * accessModes must be specified.
    *
    * @schema ReplicationDestinationSpecRclone#destinationPVC
    */
   readonly destinationPvc?: string;
 
   /**
-   * Labels that should be added to data mover pods These will be in addition to any labels that VolSync may add
+   * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+   *
+   * @schema ReplicationDestinationSpecRclone#moverAffinity
+   */
+  readonly moverAffinity?: ReplicationDestinationSpecRcloneMoverAffinity;
+
+  /**
+   * Labels that should be added to data mover pods
+   * These will be in addition to any labels that VolSync may add
    *
    * @schema ReplicationDestinationSpecRclone#moverPodLabels
    */
   readonly moverPodLabels?: { [key: string]: string };
 
   /**
-   * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+   * Resources represents compute resources required by the data mover container.
+   * Immutable.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   * This should only be used by advanced users as this can result in a mover
+   * pod being unschedulable or crashing due to limited resources.
    *
    * @schema ReplicationDestinationSpecRclone#moverResources
    */
   readonly moverResources?: ReplicationDestinationSpecRcloneMoverResources;
 
   /**
-   * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+   * MoverSecurityContext allows specifying the PodSecurityContext that will
+   * be used by the data mover
    *
    * @schema ReplicationDestinationSpecRclone#moverSecurityContext
    */
@@ -296,7 +322,10 @@ export interface ReplicationDestinationSpecRclone {
     ReplicationDestinationSpecRcloneMoverSecurityContext;
 
   /**
-   * MoverServiceAccount allows specifying the name of the service account that will be used by the data mover. This should only be used by advanced users who want to override the service account normally used by the mover. The service account needs to exist in the same namespace as this CR.
+   * MoverServiceAccount allows specifying the name of the service account
+   * that will be used by the data mover. This should only be used by advanced
+   * users who want to override the service account normally used by the mover.
+   * The service account needs to exist in the same namespace as this CR.
    *
    * @schema ReplicationDestinationSpecRclone#moverServiceAccount
    */
@@ -324,14 +353,16 @@ export interface ReplicationDestinationSpecRclone {
   readonly rcloneDestPath?: string;
 
   /**
-   * storageClassName can be used to specify the StorageClass of the destination volume. If not set, the default StorageClass will be used.
+   * storageClassName can be used to specify the StorageClass of the
+   * destination volume. If not set, the default StorageClass will be used.
    *
    * @schema ReplicationDestinationSpecRclone#storageClassName
    */
   readonly storageClassName?: string;
 
   /**
-   * volumeSnapshotClassName can be used to specify the VSC to be used if copyMethod is Snapshot. If not set, the default VSC is used.
+   * volumeSnapshotClassName can be used to specify the VSC to be used if
+   * copyMethod is Snapshot. If not set, the default VSC is used.
    *
    * @schema ReplicationDestinationSpecRclone#volumeSnapshotClassName
    */
@@ -352,6 +383,9 @@ export function toJson_ReplicationDestinationSpecRclone(
     "copyMethod": obj.copyMethod,
     "customCA": toJson_ReplicationDestinationSpecRcloneCustomCa(obj.customCa),
     "destinationPVC": obj.destinationPvc,
+    "moverAffinity": toJson_ReplicationDestinationSpecRcloneMoverAffinity(
+      obj.moverAffinity,
+    ),
     "moverPodLabels": ((obj.moverPodLabels) === undefined)
       ? undefined
       : (Object.entries(obj.moverPodLabels).reduce(
@@ -408,7 +442,8 @@ export interface ReplicationDestinationSpecRestic {
   readonly cacheCapacity?: ReplicationDestinationSpecResticCacheCapacity;
 
   /**
-   * cacheStorageClassName can be used to set the StorageClass of the restic metadata cache volume
+   * cacheStorageClassName can be used to set the StorageClass of the restic
+   * metadata cache volume
    *
    * @schema ReplicationDestinationSpecRestic#cacheStorageClassName
    */
@@ -422,7 +457,8 @@ export interface ReplicationDestinationSpecRestic {
   readonly capacity?: ReplicationDestinationSpecResticCapacity;
 
   /**
-   * copyMethod describes how a point-in-time (PiT) image of the destination volume should be created.
+   * copyMethod describes how a point-in-time (PiT) image of the destination
+   * volume should be created.
    *
    * @schema ReplicationDestinationSpecRestic#copyMethod
    */
@@ -436,28 +472,43 @@ export interface ReplicationDestinationSpecRestic {
   readonly customCa?: ReplicationDestinationSpecResticCustomCa;
 
   /**
-   * destinationPVC is a PVC to use as the transfer destination instead of automatically provisioning one. Either this field or both capacity and accessModes must be specified.
+   * destinationPVC is a PVC to use as the transfer destination instead of
+   * automatically provisioning one. Either this field or both capacity and
+   * accessModes must be specified.
    *
    * @schema ReplicationDestinationSpecRestic#destinationPVC
    */
   readonly destinationPvc?: string;
 
   /**
-   * Labels that should be added to data mover pods These will be in addition to any labels that VolSync may add
+   * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+   *
+   * @schema ReplicationDestinationSpecRestic#moverAffinity
+   */
+  readonly moverAffinity?: ReplicationDestinationSpecResticMoverAffinity;
+
+  /**
+   * Labels that should be added to data mover pods
+   * These will be in addition to any labels that VolSync may add
    *
    * @schema ReplicationDestinationSpecRestic#moverPodLabels
    */
   readonly moverPodLabels?: { [key: string]: string };
 
   /**
-   * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+   * Resources represents compute resources required by the data mover container.
+   * Immutable.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   * This should only be used by advanced users as this can result in a mover
+   * pod being unschedulable or crashing due to limited resources.
    *
    * @schema ReplicationDestinationSpecRestic#moverResources
    */
   readonly moverResources?: ReplicationDestinationSpecResticMoverResources;
 
   /**
-   * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+   * MoverSecurityContext allows specifying the PodSecurityContext that will
+   * be used by the data mover
    *
    * @schema ReplicationDestinationSpecRestic#moverSecurityContext
    */
@@ -465,7 +516,10 @@ export interface ReplicationDestinationSpecRestic {
     ReplicationDestinationSpecResticMoverSecurityContext;
 
   /**
-   * MoverServiceAccount allows specifying the name of the service account that will be used by the data mover. This should only be used by advanced users who want to override the service account normally used by the mover. The service account needs to exist in the same namespace as this CR.
+   * MoverServiceAccount allows specifying the name of the service account
+   * that will be used by the data mover. This should only be used by advanced
+   * users who want to override the service account normally used by the mover.
+   * The service account needs to exist in the same namespace as this CR.
    *
    * @schema ReplicationDestinationSpecRestic#moverServiceAccount
    */
@@ -493,14 +547,16 @@ export interface ReplicationDestinationSpecRestic {
   readonly restoreAsOf?: Date;
 
   /**
-   * storageClassName can be used to specify the StorageClass of the destination volume. If not set, the default StorageClass will be used.
+   * storageClassName can be used to specify the StorageClass of the
+   * destination volume. If not set, the default StorageClass will be used.
    *
    * @schema ReplicationDestinationSpecRestic#storageClassName
    */
   readonly storageClassName?: string;
 
   /**
-   * volumeSnapshotClassName can be used to specify the VSC to be used if copyMethod is Snapshot. If not set, the default VSC is used.
+   * volumeSnapshotClassName can be used to specify the VSC to be used if
+   * copyMethod is Snapshot. If not set, the default VSC is used.
    *
    * @schema ReplicationDestinationSpecRestic#volumeSnapshotClassName
    */
@@ -524,6 +580,9 @@ export function toJson_ReplicationDestinationSpecRestic(
     "copyMethod": obj.copyMethod,
     "customCA": toJson_ReplicationDestinationSpecResticCustomCa(obj.customCa),
     "destinationPVC": obj.destinationPvc,
+    "moverAffinity": toJson_ReplicationDestinationSpecResticMoverAffinity(
+      obj.moverAffinity,
+    ),
     "moverPodLabels": ((obj.moverPodLabels) === undefined)
       ? undefined
       : (Object.entries(obj.moverPodLabels).reduce(
@@ -580,35 +639,46 @@ export interface ReplicationDestinationSpecRsync {
   readonly capacity?: ReplicationDestinationSpecRsyncCapacity;
 
   /**
-   * copyMethod describes how a point-in-time (PiT) image of the destination volume should be created.
+   * copyMethod describes how a point-in-time (PiT) image of the destination
+   * volume should be created.
    *
    * @schema ReplicationDestinationSpecRsync#copyMethod
    */
   readonly copyMethod?: ReplicationDestinationSpecRsyncCopyMethod;
 
   /**
-   * destinationPVC is a PVC to use as the transfer destination instead of automatically provisioning one. Either this field or both capacity and accessModes must be specified.
+   * destinationPVC is a PVC to use as the transfer destination instead of
+   * automatically provisioning one. Either this field or both capacity and
+   * accessModes must be specified.
    *
    * @schema ReplicationDestinationSpecRsync#destinationPVC
    */
   readonly destinationPvc?: string;
 
   /**
-   * Labels that should be added to data mover pods These will be in addition to any labels that VolSync may add
+   * Labels that should be added to data mover pods
+   * These will be in addition to any labels that VolSync may add
    *
    * @schema ReplicationDestinationSpecRsync#moverPodLabels
    */
   readonly moverPodLabels?: { [key: string]: string };
 
   /**
-   * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+   * Resources represents compute resources required by the data mover container.
+   * Immutable.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   * This should only be used by advanced users as this can result in a mover
+   * pod being unschedulable or crashing due to limited resources.
    *
    * @schema ReplicationDestinationSpecRsync#moverResources
    */
   readonly moverResources?: ReplicationDestinationSpecRsyncMoverResources;
 
   /**
-   * MoverServiceAccount allows specifying the name of the service account that will be used by the data mover. This should only be used by advanced users who want to override the service account normally used by the mover. The service account needs to exist in the same namespace as the ReplicationDestination.
+   * MoverServiceAccount allows specifying the name of the service account
+   * that will be used by the data mover. This should only be used by advanced
+   * users who want to override the service account normally used by the mover.
+   * The service account needs to exist in the same namespace as the ReplicationDestination.
    *
    * @schema ReplicationDestinationSpecRsync#moverServiceAccount
    */
@@ -631,21 +701,25 @@ export interface ReplicationDestinationSpecRsync {
   readonly port?: number;
 
   /**
-   * serviceAnnotations defines annotations that will be added to the service created for incoming SSH connections.  If set, these annotations will be used instead of any VolSync default values.
+   * serviceAnnotations defines annotations that will be added to the
+   * service created for incoming SSH connections.  If set, these annotations
+   * will be used instead of any VolSync default values.
    *
    * @schema ReplicationDestinationSpecRsync#serviceAnnotations
    */
   readonly serviceAnnotations?: { [key: string]: string };
 
   /**
-   * serviceType determines the Service type that will be created for incoming SSH connections.
+   * serviceType determines the Service type that will be created for incoming
+   * SSH connections.
    *
    * @schema ReplicationDestinationSpecRsync#serviceType
    */
   readonly serviceType?: string;
 
   /**
-   * sshKeys is the name of a Secret that contains the SSH keys to be used for authentication. If not provided, the keys will be generated.
+   * sshKeys is the name of a Secret that contains the SSH keys to be used for
+   * authentication. If not provided, the keys will be generated.
    *
    * @schema ReplicationDestinationSpecRsync#sshKeys
    */
@@ -660,14 +734,16 @@ export interface ReplicationDestinationSpecRsync {
   readonly sshUser?: string;
 
   /**
-   * storageClassName can be used to specify the StorageClass of the destination volume. If not set, the default StorageClass will be used.
+   * storageClassName can be used to specify the StorageClass of the
+   * destination volume. If not set, the default StorageClass will be used.
    *
    * @schema ReplicationDestinationSpecRsync#storageClassName
    */
   readonly storageClassName?: string;
 
   /**
-   * volumeSnapshotClassName can be used to specify the VSC to be used if copyMethod is Snapshot. If not set, the default VSC is used.
+   * volumeSnapshotClassName can be used to specify the VSC to be used if
+   * copyMethod is Snapshot. If not set, the default VSC is used.
    *
    * @schema ReplicationDestinationSpecRsync#volumeSnapshotClassName
    */
@@ -741,42 +817,59 @@ export interface ReplicationDestinationSpecRsyncTls {
   readonly capacity?: ReplicationDestinationSpecRsyncTlsCapacity;
 
   /**
-   * copyMethod describes how a point-in-time (PiT) image of the destination volume should be created.
+   * copyMethod describes how a point-in-time (PiT) image of the destination
+   * volume should be created.
    *
    * @schema ReplicationDestinationSpecRsyncTls#copyMethod
    */
   readonly copyMethod?: ReplicationDestinationSpecRsyncTlsCopyMethod;
 
   /**
-   * destinationPVC is a PVC to use as the transfer destination instead of automatically provisioning one. Either this field or both capacity and accessModes must be specified.
+   * destinationPVC is a PVC to use as the transfer destination instead of
+   * automatically provisioning one. Either this field or both capacity and
+   * accessModes must be specified.
    *
    * @schema ReplicationDestinationSpecRsyncTls#destinationPVC
    */
   readonly destinationPvc?: string;
 
   /**
-   * keySecret is the name of a Secret that contains the TLS pre-shared key to be used for authentication. If not provided, the key will be generated.
+   * keySecret is the name of a Secret that contains the TLS pre-shared key to
+   * be used for authentication. If not provided, the key will be generated.
    *
    * @schema ReplicationDestinationSpecRsyncTls#keySecret
    */
   readonly keySecret?: string;
 
   /**
-   * Labels that should be added to data mover pods These will be in addition to any labels that VolSync may add
+   * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+   *
+   * @schema ReplicationDestinationSpecRsyncTls#moverAffinity
+   */
+  readonly moverAffinity?: ReplicationDestinationSpecRsyncTlsMoverAffinity;
+
+  /**
+   * Labels that should be added to data mover pods
+   * These will be in addition to any labels that VolSync may add
    *
    * @schema ReplicationDestinationSpecRsyncTls#moverPodLabels
    */
   readonly moverPodLabels?: { [key: string]: string };
 
   /**
-   * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+   * Resources represents compute resources required by the data mover container.
+   * Immutable.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   * This should only be used by advanced users as this can result in a mover
+   * pod being unschedulable or crashing due to limited resources.
    *
    * @schema ReplicationDestinationSpecRsyncTls#moverResources
    */
   readonly moverResources?: ReplicationDestinationSpecRsyncTlsMoverResources;
 
   /**
-   * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+   * MoverSecurityContext allows specifying the PodSecurityContext that will
+   * be used by the data mover
    *
    * @schema ReplicationDestinationSpecRsyncTls#moverSecurityContext
    */
@@ -784,35 +877,43 @@ export interface ReplicationDestinationSpecRsyncTls {
     ReplicationDestinationSpecRsyncTlsMoverSecurityContext;
 
   /**
-   * MoverServiceAccount allows specifying the name of the service account that will be used by the data mover. This should only be used by advanced users who want to override the service account normally used by the mover. The service account needs to exist in the same namespace as this CR.
+   * MoverServiceAccount allows specifying the name of the service account
+   * that will be used by the data mover. This should only be used by advanced
+   * users who want to override the service account normally used by the mover.
+   * The service account needs to exist in the same namespace as this CR.
    *
    * @schema ReplicationDestinationSpecRsyncTls#moverServiceAccount
    */
   readonly moverServiceAccount?: string;
 
   /**
-   * serviceAnnotations defines annotations that will be added to the service created for incoming SSH connections.  If set, these annotations will be used instead of any VolSync default values.
+   * serviceAnnotations defines annotations that will be added to the
+   * service created for incoming SSH connections.  If set, these annotations
+   * will be used instead of any VolSync default values.
    *
    * @schema ReplicationDestinationSpecRsyncTls#serviceAnnotations
    */
   readonly serviceAnnotations?: { [key: string]: string };
 
   /**
-   * serviceType determines the Service type that will be created for incoming TLS connections.
+   * serviceType determines the Service type that will be created for incoming
+   * TLS connections.
    *
    * @schema ReplicationDestinationSpecRsyncTls#serviceType
    */
   readonly serviceType?: string;
 
   /**
-   * storageClassName can be used to specify the StorageClass of the destination volume. If not set, the default StorageClass will be used.
+   * storageClassName can be used to specify the StorageClass of the
+   * destination volume. If not set, the default StorageClass will be used.
    *
    * @schema ReplicationDestinationSpecRsyncTls#storageClassName
    */
   readonly storageClassName?: string;
 
   /**
-   * volumeSnapshotClassName can be used to specify the VSC to be used if copyMethod is Snapshot. If not set, the default VSC is used.
+   * volumeSnapshotClassName can be used to specify the VSC to be used if
+   * copyMethod is Snapshot. If not set, the default VSC is used.
    *
    * @schema ReplicationDestinationSpecRsyncTls#volumeSnapshotClassName
    */
@@ -833,6 +934,9 @@ export function toJson_ReplicationDestinationSpecRsyncTls(
     "copyMethod": obj.copyMethod,
     "destinationPVC": obj.destinationPvc,
     "keySecret": obj.keySecret,
+    "moverAffinity": toJson_ReplicationDestinationSpecRsyncTlsMoverAffinity(
+      obj.moverAffinity,
+    ),
     "moverPodLabels": ((obj.moverPodLabels) === undefined)
       ? undefined
       : (Object.entries(obj.moverPodLabels).reduce(
@@ -866,20 +970,29 @@ export function toJson_ReplicationDestinationSpecRsyncTls(
 /* eslint-enable max-len, quote-props */
 
 /**
- * trigger determines if/when the destination should attempt to synchronize data with the source.
+ * trigger determines if/when the destination should attempt to synchronize
+ * data with the source.
  *
  * @schema ReplicationDestinationSpecTrigger
  */
 export interface ReplicationDestinationSpecTrigger {
   /**
-   * manual is a string value that schedules a manual trigger. Once a sync completes then status.lastManualSync is set to the same string value. A consumer of a manual trigger should set spec.trigger.manual to a known value and then wait for lastManualSync to be updated by the operator to the same value, which means that the manual trigger will then pause and wait for further updates to the trigger.
+   * manual is a string value that schedules a manual trigger.
+   * Once a sync completes then status.lastManualSync is set to the same string value.
+   * A consumer of a manual trigger should set spec.trigger.manual to a known value
+   * and then wait for lastManualSync to be updated by the operator to the same value,
+   * which means that the manual trigger will then pause and wait for further
+   * updates to the trigger.
    *
    * @schema ReplicationDestinationSpecTrigger#manual
    */
   readonly manual?: string;
 
   /**
-   * schedule is a cronspec (https://en.wikipedia.org/wiki/Cron#Overview) that can be used to schedule replication to occur at regular, time-based intervals. nolint:lll
+   * schedule is a cronspec (https://en.wikipedia.org/wiki/Cron#Overview) that
+   * can be used to schedule replication to occur at regular, time-based
+   * intervals.
+   * nolint:lll
    *
    * @schema ReplicationDestinationSpecTrigger#schedule
    */
@@ -927,7 +1040,8 @@ export class ReplicationDestinationSpecRcloneCapacity {
 }
 
 /**
- * copyMethod describes how a point-in-time (PiT) image of the destination volume should be created.
+ * copyMethod describes how a point-in-time (PiT) image of the destination
+ * volume should be created.
  *
  * @schema ReplicationDestinationSpecRcloneCopyMethod
  */
@@ -949,7 +1063,8 @@ export enum ReplicationDestinationSpecRcloneCopyMethod {
  */
 export interface ReplicationDestinationSpecRcloneCustomCa {
   /**
-   * The name of a ConfigMap that contains the custom CA certificate If ConfigMapName is used then SecretName should not be set
+   * The name of a ConfigMap that contains the custom CA certificate
+   * If ConfigMapName is used then SecretName should not be set
    *
    * @schema ReplicationDestinationSpecRcloneCustomCa#configMapName
    */
@@ -963,7 +1078,8 @@ export interface ReplicationDestinationSpecRcloneCustomCa {
   readonly key?: string;
 
   /**
-   * The name of a Secret that contains the custom CA certificate If SecretName is used then ConfigMapName should not be set
+   * The name of a Secret that contains the custom CA certificate
+   * If SecretName is used then ConfigMapName should not be set
    *
    * @schema ReplicationDestinationSpecRcloneCustomCa#secretName
    */
@@ -992,14 +1108,83 @@ export function toJson_ReplicationDestinationSpecRcloneCustomCa(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+ * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinity
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinity {
+  /**
+   * Describes node affinity scheduling rules for the pod.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinity#nodeAffinity
+   */
+  readonly nodeAffinity?:
+    ReplicationDestinationSpecRcloneMoverAffinityNodeAffinity;
+
+  /**
+   * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinity#podAffinity
+   */
+  readonly podAffinity?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinity;
+
+  /**
+   * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinity#podAntiAffinity
+   */
+  readonly podAntiAffinity?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinity;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinity(
+  obj: ReplicationDestinationSpecRcloneMoverAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeAffinity":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinity(
+        obj.nodeAffinity,
+      ),
+    "podAffinity":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinity(
+        obj.podAffinity,
+      ),
+    "podAntiAffinity":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinity(
+        obj.podAntiAffinity,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Resources represents compute resources required by the data mover container.
+ * Immutable.
+ * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+ * This should only be used by advanced users as this can result in a mover
+ * pod being unschedulable or crashing due to limited resources.
  *
  * @schema ReplicationDestinationSpecRcloneMoverResources
  */
 export interface ReplicationDestinationSpecRcloneMoverResources {
   /**
-   * Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-   * This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+   * Claims lists the names of resources, defined in spec.resourceClaims,
+   * that are used by this container.
+   *
+   * This is an alpha field and requires enabling the
+   * DynamicResourceAllocation feature gate.
+   *
    * This field is immutable. It can only be set for containers.
    *
    * @schema ReplicationDestinationSpecRcloneMoverResources#claims
@@ -1007,7 +1192,8 @@ export interface ReplicationDestinationSpecRcloneMoverResources {
   readonly claims?: ReplicationDestinationSpecRcloneMoverResourcesClaims[];
 
   /**
-   * Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationDestinationSpecRcloneMoverResources#limits
    */
@@ -1016,7 +1202,10 @@ export interface ReplicationDestinationSpecRcloneMoverResources {
   };
 
   /**
-   * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to an implementation-defined value. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationDestinationSpecRcloneMoverResources#requests
    */
@@ -1059,51 +1248,94 @@ export function toJson_ReplicationDestinationSpecRcloneMoverResources(
 /* eslint-enable max-len, quote-props */
 
 /**
- * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+ * MoverSecurityContext allows specifying the PodSecurityContext that will
+ * be used by the data mover
  *
  * @schema ReplicationDestinationSpecRcloneMoverSecurityContext
  */
 export interface ReplicationDestinationSpecRcloneMoverSecurityContext {
   /**
-   * A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod:
-   * 1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw----
-   * If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows.
+   * appArmorProfile is the AppArmor options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?:
+    ReplicationDestinationSpecRcloneMoverSecurityContextAppArmorProfile;
+
+  /**
+   * A special supplemental group that applies to all containers in a pod.
+   * Some volume types allow the Kubelet to change the ownership of that volume
+   * to be owned by the pod:
+   *
+   * 1. The owning GID will be the FSGroup
+   * 2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
+   * 3. The permission bits are OR'd with rw-rw----
+   *
+   * If unset, the Kubelet will not modify the ownership and permissions of any volume.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContext#fsGroup
    */
   readonly fsGroup?: number;
 
   /**
-   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used. Note that this field cannot be set when spec.os.name is windows.
+   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume
+   * before being exposed inside Pod. This field will only apply to
+   * volume types which support fsGroup based ownership(and permissions).
+   * It will have no effect on ephemeral volume types such as: secret, configmaps
+   * and emptydir.
+   * Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContext#fsGroupChangePolicy
    */
   readonly fsGroupChangePolicy?: string;
 
   /**
-   * The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The GID to run the entrypoint of the container process.
+   * Uses runtime default if unset.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContext#runAsGroup
    */
   readonly runAsGroup?: number;
 
   /**
-   * Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Indicates that the container must run as a non-root user.
+   * If true, the Kubelet will validate the image at runtime to ensure that it
+   * does not run as UID 0 (root) and fail to start the container if it does.
+   * If unset or false, no such validation will be performed.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContext#runAsNonRoot
    */
   readonly runAsNonRoot?: boolean;
 
   /**
-   * The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The UID to run the entrypoint of the container process.
+   * Defaults to user specified in image metadata if unspecified.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * @default user specified in image metadata if unspecified.
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContext#runAsUser
    */
   readonly runAsUser?: number;
 
   /**
-   * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The SELinux context to be applied to all containers.
+   * If unspecified, the container runtime will allocate a random SELinux context for each
+   * container.  May also be set in SecurityContext.  If set in
+   * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+   * takes precedence for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContext#seLinuxOptions
    */
@@ -1111,7 +1343,8 @@ export interface ReplicationDestinationSpecRcloneMoverSecurityContext {
     ReplicationDestinationSpecRcloneMoverSecurityContextSeLinuxOptions;
 
   /**
-   * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+   * The seccomp options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContext#seccompProfile
    */
@@ -1119,14 +1352,22 @@ export interface ReplicationDestinationSpecRcloneMoverSecurityContext {
     ReplicationDestinationSpecRcloneMoverSecurityContextSeccompProfile;
 
   /**
-   * A list of groups applied to the first process run in each container, in addition to the container's primary GID, the fsGroup (if specified), and group memberships defined in the container image for the uid of the container process. If unspecified, no additional groups are added to any container. Note that group memberships defined in the container image for the uid of the container process are still effective, even if they are not included in this list. Note that this field cannot be set when spec.os.name is windows.
+   * A list of groups applied to the first process run in each container, in addition
+   * to the container's primary GID, the fsGroup (if specified), and group memberships
+   * defined in the container image for the uid of the container process. If unspecified,
+   * no additional groups are added to any container. Note that group memberships
+   * defined in the container image for the uid of the container process are still effective,
+   * even if they are not included in this list.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContext#supplementalGroups
    */
   readonly supplementalGroups?: number[];
 
   /**
-   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows.
+   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
+   * sysctls (by the container runtime) might fail to launch.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContext#sysctls
    */
@@ -1134,7 +1375,10 @@ export interface ReplicationDestinationSpecRcloneMoverSecurityContext {
     ReplicationDestinationSpecRcloneMoverSecurityContextSysctls[];
 
   /**
-   * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+   * The Windows specific settings applied to all containers.
+   * If unspecified, the options within a container's SecurityContext will be used.
+   * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is linux.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContext#windowsOptions
    */
@@ -1151,6 +1395,10 @@ export function toJson_ReplicationDestinationSpecRcloneMoverSecurityContext(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "appArmorProfile":
+      toJson_ReplicationDestinationSpecRcloneMoverSecurityContextAppArmorProfile(
+        obj.appArmorProfile,
+      ),
     "fsGroup": obj.fsGroup,
     "fsGroupChangePolicy": obj.fsGroupChangePolicy,
     "runAsGroup": obj.runAsGroup,
@@ -1222,7 +1470,8 @@ export class ReplicationDestinationSpecResticCapacity {
 }
 
 /**
- * copyMethod describes how a point-in-time (PiT) image of the destination volume should be created.
+ * copyMethod describes how a point-in-time (PiT) image of the destination
+ * volume should be created.
  *
  * @schema ReplicationDestinationSpecResticCopyMethod
  */
@@ -1244,7 +1493,8 @@ export enum ReplicationDestinationSpecResticCopyMethod {
  */
 export interface ReplicationDestinationSpecResticCustomCa {
   /**
-   * The name of a ConfigMap that contains the custom CA certificate If ConfigMapName is used then SecretName should not be set
+   * The name of a ConfigMap that contains the custom CA certificate
+   * If ConfigMapName is used then SecretName should not be set
    *
    * @schema ReplicationDestinationSpecResticCustomCa#configMapName
    */
@@ -1258,7 +1508,8 @@ export interface ReplicationDestinationSpecResticCustomCa {
   readonly key?: string;
 
   /**
-   * The name of a Secret that contains the custom CA certificate If SecretName is used then ConfigMapName should not be set
+   * The name of a Secret that contains the custom CA certificate
+   * If SecretName is used then ConfigMapName should not be set
    *
    * @schema ReplicationDestinationSpecResticCustomCa#secretName
    */
@@ -1287,14 +1538,83 @@ export function toJson_ReplicationDestinationSpecResticCustomCa(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+ * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinity
+ */
+export interface ReplicationDestinationSpecResticMoverAffinity {
+  /**
+   * Describes node affinity scheduling rules for the pod.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinity#nodeAffinity
+   */
+  readonly nodeAffinity?:
+    ReplicationDestinationSpecResticMoverAffinityNodeAffinity;
+
+  /**
+   * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinity#podAffinity
+   */
+  readonly podAffinity?:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinity;
+
+  /**
+   * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinity#podAntiAffinity
+   */
+  readonly podAntiAffinity?:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinity;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinity(
+  obj: ReplicationDestinationSpecResticMoverAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeAffinity":
+      toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinity(
+        obj.nodeAffinity,
+      ),
+    "podAffinity":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinity(
+        obj.podAffinity,
+      ),
+    "podAntiAffinity":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinity(
+        obj.podAntiAffinity,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Resources represents compute resources required by the data mover container.
+ * Immutable.
+ * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+ * This should only be used by advanced users as this can result in a mover
+ * pod being unschedulable or crashing due to limited resources.
  *
  * @schema ReplicationDestinationSpecResticMoverResources
  */
 export interface ReplicationDestinationSpecResticMoverResources {
   /**
-   * Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-   * This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+   * Claims lists the names of resources, defined in spec.resourceClaims,
+   * that are used by this container.
+   *
+   * This is an alpha field and requires enabling the
+   * DynamicResourceAllocation feature gate.
+   *
    * This field is immutable. It can only be set for containers.
    *
    * @schema ReplicationDestinationSpecResticMoverResources#claims
@@ -1302,7 +1622,8 @@ export interface ReplicationDestinationSpecResticMoverResources {
   readonly claims?: ReplicationDestinationSpecResticMoverResourcesClaims[];
 
   /**
-   * Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationDestinationSpecResticMoverResources#limits
    */
@@ -1311,7 +1632,10 @@ export interface ReplicationDestinationSpecResticMoverResources {
   };
 
   /**
-   * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to an implementation-defined value. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationDestinationSpecResticMoverResources#requests
    */
@@ -1354,51 +1678,94 @@ export function toJson_ReplicationDestinationSpecResticMoverResources(
 /* eslint-enable max-len, quote-props */
 
 /**
- * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+ * MoverSecurityContext allows specifying the PodSecurityContext that will
+ * be used by the data mover
  *
  * @schema ReplicationDestinationSpecResticMoverSecurityContext
  */
 export interface ReplicationDestinationSpecResticMoverSecurityContext {
   /**
-   * A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod:
-   * 1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw----
-   * If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows.
+   * appArmorProfile is the AppArmor options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema ReplicationDestinationSpecResticMoverSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?:
+    ReplicationDestinationSpecResticMoverSecurityContextAppArmorProfile;
+
+  /**
+   * A special supplemental group that applies to all containers in a pod.
+   * Some volume types allow the Kubelet to change the ownership of that volume
+   * to be owned by the pod:
+   *
+   * 1. The owning GID will be the FSGroup
+   * 2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
+   * 3. The permission bits are OR'd with rw-rw----
+   *
+   * If unset, the Kubelet will not modify the ownership and permissions of any volume.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContext#fsGroup
    */
   readonly fsGroup?: number;
 
   /**
-   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used. Note that this field cannot be set when spec.os.name is windows.
+   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume
+   * before being exposed inside Pod. This field will only apply to
+   * volume types which support fsGroup based ownership(and permissions).
+   * It will have no effect on ephemeral volume types such as: secret, configmaps
+   * and emptydir.
+   * Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContext#fsGroupChangePolicy
    */
   readonly fsGroupChangePolicy?: string;
 
   /**
-   * The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The GID to run the entrypoint of the container process.
+   * Uses runtime default if unset.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContext#runAsGroup
    */
   readonly runAsGroup?: number;
 
   /**
-   * Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Indicates that the container must run as a non-root user.
+   * If true, the Kubelet will validate the image at runtime to ensure that it
+   * does not run as UID 0 (root) and fail to start the container if it does.
+   * If unset or false, no such validation will be performed.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContext#runAsNonRoot
    */
   readonly runAsNonRoot?: boolean;
 
   /**
-   * The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The UID to run the entrypoint of the container process.
+   * Defaults to user specified in image metadata if unspecified.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * @default user specified in image metadata if unspecified.
    * @schema ReplicationDestinationSpecResticMoverSecurityContext#runAsUser
    */
   readonly runAsUser?: number;
 
   /**
-   * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The SELinux context to be applied to all containers.
+   * If unspecified, the container runtime will allocate a random SELinux context for each
+   * container.  May also be set in SecurityContext.  If set in
+   * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+   * takes precedence for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContext#seLinuxOptions
    */
@@ -1406,7 +1773,8 @@ export interface ReplicationDestinationSpecResticMoverSecurityContext {
     ReplicationDestinationSpecResticMoverSecurityContextSeLinuxOptions;
 
   /**
-   * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+   * The seccomp options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContext#seccompProfile
    */
@@ -1414,14 +1782,22 @@ export interface ReplicationDestinationSpecResticMoverSecurityContext {
     ReplicationDestinationSpecResticMoverSecurityContextSeccompProfile;
 
   /**
-   * A list of groups applied to the first process run in each container, in addition to the container's primary GID, the fsGroup (if specified), and group memberships defined in the container image for the uid of the container process. If unspecified, no additional groups are added to any container. Note that group memberships defined in the container image for the uid of the container process are still effective, even if they are not included in this list. Note that this field cannot be set when spec.os.name is windows.
+   * A list of groups applied to the first process run in each container, in addition
+   * to the container's primary GID, the fsGroup (if specified), and group memberships
+   * defined in the container image for the uid of the container process. If unspecified,
+   * no additional groups are added to any container. Note that group memberships
+   * defined in the container image for the uid of the container process are still effective,
+   * even if they are not included in this list.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContext#supplementalGroups
    */
   readonly supplementalGroups?: number[];
 
   /**
-   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows.
+   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
+   * sysctls (by the container runtime) might fail to launch.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContext#sysctls
    */
@@ -1429,7 +1805,10 @@ export interface ReplicationDestinationSpecResticMoverSecurityContext {
     ReplicationDestinationSpecResticMoverSecurityContextSysctls[];
 
   /**
-   * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+   * The Windows specific settings applied to all containers.
+   * If unspecified, the options within a container's SecurityContext will be used.
+   * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is linux.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContext#windowsOptions
    */
@@ -1446,6 +1825,10 @@ export function toJson_ReplicationDestinationSpecResticMoverSecurityContext(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "appArmorProfile":
+      toJson_ReplicationDestinationSpecResticMoverSecurityContextAppArmorProfile(
+        obj.appArmorProfile,
+      ),
     "fsGroup": obj.fsGroup,
     "fsGroupChangePolicy": obj.fsGroupChangePolicy,
     "runAsGroup": obj.runAsGroup,
@@ -1497,7 +1880,8 @@ export class ReplicationDestinationSpecRsyncCapacity {
 }
 
 /**
- * copyMethod describes how a point-in-time (PiT) image of the destination volume should be created.
+ * copyMethod describes how a point-in-time (PiT) image of the destination
+ * volume should be created.
  *
  * @schema ReplicationDestinationSpecRsyncCopyMethod
  */
@@ -1513,14 +1897,22 @@ export enum ReplicationDestinationSpecRsyncCopyMethod {
 }
 
 /**
- * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+ * Resources represents compute resources required by the data mover container.
+ * Immutable.
+ * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+ * This should only be used by advanced users as this can result in a mover
+ * pod being unschedulable or crashing due to limited resources.
  *
  * @schema ReplicationDestinationSpecRsyncMoverResources
  */
 export interface ReplicationDestinationSpecRsyncMoverResources {
   /**
-   * Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-   * This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+   * Claims lists the names of resources, defined in spec.resourceClaims,
+   * that are used by this container.
+   *
+   * This is an alpha field and requires enabling the
+   * DynamicResourceAllocation feature gate.
+   *
    * This field is immutable. It can only be set for containers.
    *
    * @schema ReplicationDestinationSpecRsyncMoverResources#claims
@@ -1528,7 +1920,8 @@ export interface ReplicationDestinationSpecRsyncMoverResources {
   readonly claims?: ReplicationDestinationSpecRsyncMoverResourcesClaims[];
 
   /**
-   * Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationDestinationSpecRsyncMoverResources#limits
    */
@@ -1537,7 +1930,10 @@ export interface ReplicationDestinationSpecRsyncMoverResources {
   };
 
   /**
-   * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to an implementation-defined value. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationDestinationSpecRsyncMoverResources#requests
    */
@@ -1600,7 +1996,8 @@ export class ReplicationDestinationSpecRsyncTlsCapacity {
 }
 
 /**
- * copyMethod describes how a point-in-time (PiT) image of the destination volume should be created.
+ * copyMethod describes how a point-in-time (PiT) image of the destination
+ * volume should be created.
  *
  * @schema ReplicationDestinationSpecRsyncTlsCopyMethod
  */
@@ -1616,14 +2013,83 @@ export enum ReplicationDestinationSpecRsyncTlsCopyMethod {
 }
 
 /**
- * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+ * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinity
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinity {
+  /**
+   * Describes node affinity scheduling rules for the pod.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinity#nodeAffinity
+   */
+  readonly nodeAffinity?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinity;
+
+  /**
+   * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinity#podAffinity
+   */
+  readonly podAffinity?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinity;
+
+  /**
+   * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinity#podAntiAffinity
+   */
+  readonly podAntiAffinity?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinity;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinity(
+  obj: ReplicationDestinationSpecRsyncTlsMoverAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeAffinity":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinity(
+        obj.nodeAffinity,
+      ),
+    "podAffinity":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinity(
+        obj.podAffinity,
+      ),
+    "podAntiAffinity":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinity(
+        obj.podAntiAffinity,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Resources represents compute resources required by the data mover container.
+ * Immutable.
+ * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+ * This should only be used by advanced users as this can result in a mover
+ * pod being unschedulable or crashing due to limited resources.
  *
  * @schema ReplicationDestinationSpecRsyncTlsMoverResources
  */
 export interface ReplicationDestinationSpecRsyncTlsMoverResources {
   /**
-   * Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-   * This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+   * Claims lists the names of resources, defined in spec.resourceClaims,
+   * that are used by this container.
+   *
+   * This is an alpha field and requires enabling the
+   * DynamicResourceAllocation feature gate.
+   *
    * This field is immutable. It can only be set for containers.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverResources#claims
@@ -1631,7 +2097,8 @@ export interface ReplicationDestinationSpecRsyncTlsMoverResources {
   readonly claims?: ReplicationDestinationSpecRsyncTlsMoverResourcesClaims[];
 
   /**
-   * Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverResources#limits
    */
@@ -1640,7 +2107,10 @@ export interface ReplicationDestinationSpecRsyncTlsMoverResources {
   };
 
   /**
-   * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to an implementation-defined value. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverResources#requests
    */
@@ -1683,51 +2153,94 @@ export function toJson_ReplicationDestinationSpecRsyncTlsMoverResources(
 /* eslint-enable max-len, quote-props */
 
 /**
- * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+ * MoverSecurityContext allows specifying the PodSecurityContext that will
+ * be used by the data mover
  *
  * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext
  */
 export interface ReplicationDestinationSpecRsyncTlsMoverSecurityContext {
   /**
-   * A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod:
-   * 1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw----
-   * If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows.
+   * appArmorProfile is the AppArmor options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?:
+    ReplicationDestinationSpecRsyncTlsMoverSecurityContextAppArmorProfile;
+
+  /**
+   * A special supplemental group that applies to all containers in a pod.
+   * Some volume types allow the Kubelet to change the ownership of that volume
+   * to be owned by the pod:
+   *
+   * 1. The owning GID will be the FSGroup
+   * 2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
+   * 3. The permission bits are OR'd with rw-rw----
+   *
+   * If unset, the Kubelet will not modify the ownership and permissions of any volume.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext#fsGroup
    */
   readonly fsGroup?: number;
 
   /**
-   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used. Note that this field cannot be set when spec.os.name is windows.
+   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume
+   * before being exposed inside Pod. This field will only apply to
+   * volume types which support fsGroup based ownership(and permissions).
+   * It will have no effect on ephemeral volume types such as: secret, configmaps
+   * and emptydir.
+   * Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext#fsGroupChangePolicy
    */
   readonly fsGroupChangePolicy?: string;
 
   /**
-   * The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The GID to run the entrypoint of the container process.
+   * Uses runtime default if unset.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext#runAsGroup
    */
   readonly runAsGroup?: number;
 
   /**
-   * Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Indicates that the container must run as a non-root user.
+   * If true, the Kubelet will validate the image at runtime to ensure that it
+   * does not run as UID 0 (root) and fail to start the container if it does.
+   * If unset or false, no such validation will be performed.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext#runAsNonRoot
    */
   readonly runAsNonRoot?: boolean;
 
   /**
-   * The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The UID to run the entrypoint of the container process.
+   * Defaults to user specified in image metadata if unspecified.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * @default user specified in image metadata if unspecified.
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext#runAsUser
    */
   readonly runAsUser?: number;
 
   /**
-   * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The SELinux context to be applied to all containers.
+   * If unspecified, the container runtime will allocate a random SELinux context for each
+   * container.  May also be set in SecurityContext.  If set in
+   * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+   * takes precedence for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext#seLinuxOptions
    */
@@ -1735,7 +2248,8 @@ export interface ReplicationDestinationSpecRsyncTlsMoverSecurityContext {
     ReplicationDestinationSpecRsyncTlsMoverSecurityContextSeLinuxOptions;
 
   /**
-   * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+   * The seccomp options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext#seccompProfile
    */
@@ -1743,14 +2257,22 @@ export interface ReplicationDestinationSpecRsyncTlsMoverSecurityContext {
     ReplicationDestinationSpecRsyncTlsMoverSecurityContextSeccompProfile;
 
   /**
-   * A list of groups applied to the first process run in each container, in addition to the container's primary GID, the fsGroup (if specified), and group memberships defined in the container image for the uid of the container process. If unspecified, no additional groups are added to any container. Note that group memberships defined in the container image for the uid of the container process are still effective, even if they are not included in this list. Note that this field cannot be set when spec.os.name is windows.
+   * A list of groups applied to the first process run in each container, in addition
+   * to the container's primary GID, the fsGroup (if specified), and group memberships
+   * defined in the container image for the uid of the container process. If unspecified,
+   * no additional groups are added to any container. Note that group memberships
+   * defined in the container image for the uid of the container process are still effective,
+   * even if they are not included in this list.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext#supplementalGroups
    */
   readonly supplementalGroups?: number[];
 
   /**
-   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows.
+   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
+   * sysctls (by the container runtime) might fail to launch.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext#sysctls
    */
@@ -1758,7 +2280,10 @@ export interface ReplicationDestinationSpecRsyncTlsMoverSecurityContext {
     ReplicationDestinationSpecRsyncTlsMoverSecurityContextSysctls[];
 
   /**
-   * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+   * The Windows specific settings applied to all containers.
+   * If unspecified, the options within a container's SecurityContext will be used.
+   * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is linux.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContext#windowsOptions
    */
@@ -1775,6 +2300,10 @@ export function toJson_ReplicationDestinationSpecRsyncTlsMoverSecurityContext(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "appArmorProfile":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverSecurityContextAppArmorProfile(
+        obj.appArmorProfile,
+      ),
     "fsGroup": obj.fsGroup,
     "fsGroupChangePolicy": obj.fsGroupChangePolicy,
     "runAsGroup": obj.runAsGroup,
@@ -1806,13 +2335,212 @@ export function toJson_ReplicationDestinationSpecRsyncTlsMoverSecurityContext(
 /* eslint-enable max-len, quote-props */
 
 /**
+ * Describes node affinity scheduling rules for the pod.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinity
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityNodeAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node matches the corresponding matchExpressions; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to an update), the system
+   * may or may not try to eventually evict the pod from its node.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityNodeAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinity(
+  obj: ReplicationDestinationSpecRcloneMoverAffinityNodeAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+        obj.requiredDuringSchedulingIgnoredDuringExecution,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinity
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinity(
+  obj: ReplicationDestinationSpecRcloneMoverAffinityPodAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinity
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the anti-affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling anti-affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the anti-affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the anti-affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinity(
+  obj: ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
  * ResourceClaim references one entry in PodSpec.ResourceClaims.
  *
  * @schema ReplicationDestinationSpecRcloneMoverResourcesClaims
  */
 export interface ReplicationDestinationSpecRcloneMoverResourcesClaims {
   /**
-   * Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+   * Name must match the name of one entry in pod.spec.resourceClaims of
+   * the Pod where this field is used. It makes that resource available
+   * inside a container.
    *
    * @schema ReplicationDestinationSpecRcloneMoverResourcesClaims#name
    */
@@ -1875,7 +2603,63 @@ export class ReplicationDestinationSpecRcloneMoverResourcesRequests {
 }
 
 /**
- * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+ * appArmorProfile is the AppArmor options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverSecurityContextAppArmorProfile
+ */
+export interface ReplicationDestinationSpecRcloneMoverSecurityContextAppArmorProfile {
+  /**
+   * localhostProfile indicates a profile loaded on the node that should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must match the loaded name of the profile.
+   * Must be set if and only if type is "Localhost".
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * type indicates which kind of AppArmor profile will be applied.
+   * Valid options are:
+   * Localhost - a profile pre-loaded on the node.
+   * RuntimeDefault - the container runtime's default profile.
+   * Unconfined - no AppArmor enforcement.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverSecurityContextAppArmorProfile#type
+   */
+  readonly type: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverSecurityContextAppArmorProfile(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverSecurityContextAppArmorProfile
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The SELinux context to be applied to all containers.
+ * If unspecified, the container runtime will allocate a random SELinux context for each
+ * container.  May also be set in SecurityContext.  If set in
+ * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+ * takes precedence for that container.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationDestinationSpecRcloneMoverSecurityContextSeLinuxOptions
  */
@@ -1934,21 +2718,29 @@ export function toJson_ReplicationDestinationSpecRcloneMoverSecurityContextSeLin
 /* eslint-enable max-len, quote-props */
 
 /**
- * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+ * The seccomp options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationDestinationSpecRcloneMoverSecurityContextSeccompProfile
  */
 export interface ReplicationDestinationSpecRcloneMoverSecurityContextSeccompProfile {
   /**
-   * localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type.
+   * localhostProfile indicates a profile defined in a file on the node should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must be a descending path, relative to the kubelet's configured seccomp profile location.
+   * Must be set if type is "Localhost". Must NOT be set for any other type.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContextSeccompProfile#localhostProfile
    */
   readonly localhostProfile?: string;
 
   /**
-   * type indicates which kind of seccomp profile will be applied. Valid options are:
-   * Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+   * type indicates which kind of seccomp profile will be applied.
+   * Valid options are:
+   *
+   * Localhost - a profile defined in a file on the node should be used.
+   * RuntimeDefault - the container runtime default profile should be used.
+   * Unconfined - no profile should be applied.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContextSeccompProfile#type
    */
@@ -2019,13 +2811,18 @@ export function toJson_ReplicationDestinationSpecRcloneMoverSecurityContextSysct
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+ * The Windows specific settings applied to all containers.
+ * If unspecified, the options within a container's SecurityContext will be used.
+ * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is linux.
  *
  * @schema ReplicationDestinationSpecRcloneMoverSecurityContextWindowsOptions
  */
 export interface ReplicationDestinationSpecRcloneMoverSecurityContextWindowsOptions {
   /**
-   * GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+   * GMSACredentialSpec is where the GMSA admission webhook
+   * (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the
+   * GMSA credential spec named by the GMSACredentialSpecName field.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContextWindowsOptions#gmsaCredentialSpec
    */
@@ -2039,16 +2836,22 @@ export interface ReplicationDestinationSpecRcloneMoverSecurityContextWindowsOpti
   readonly gmsaCredentialSpecName?: string;
 
   /**
-   * HostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+   * HostProcess determines if a container should be run as a 'Host Process' container.
+   * All of a Pod's containers must have the same effective HostProcess value
+   * (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers).
+   * In addition, if HostProcess is true then HostNetwork must also be set to true.
    *
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContextWindowsOptions#hostProcess
    */
   readonly hostProcess?: boolean;
 
   /**
-   * The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * The UserName in Windows to run the entrypoint of the container process.
+   * Defaults to the user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext. If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
-   * @default the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * @default the user specified in image metadata if unspecified.
    * @schema ReplicationDestinationSpecRcloneMoverSecurityContextWindowsOptions#runAsUserName
    */
   readonly runAsUserName?: string;
@@ -2079,13 +2882,212 @@ export function toJson_ReplicationDestinationSpecRcloneMoverSecurityContextWindo
 /* eslint-enable max-len, quote-props */
 
 /**
+ * Describes node affinity scheduling rules for the pod.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinity
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityNodeAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node matches the corresponding matchExpressions; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to an update), the system
+   * may or may not try to eventually evict the pod from its node.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityNodeAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinity(
+  obj: ReplicationDestinationSpecResticMoverAffinityNodeAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution":
+      toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+        obj.requiredDuringSchedulingIgnoredDuringExecution,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinity
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinity(
+  obj: ReplicationDestinationSpecResticMoverAffinityPodAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinity
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the anti-affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling anti-affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the anti-affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the anti-affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinity(
+  obj: ReplicationDestinationSpecResticMoverAffinityPodAntiAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
  * ResourceClaim references one entry in PodSpec.ResourceClaims.
  *
  * @schema ReplicationDestinationSpecResticMoverResourcesClaims
  */
 export interface ReplicationDestinationSpecResticMoverResourcesClaims {
   /**
-   * Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+   * Name must match the name of one entry in pod.spec.resourceClaims of
+   * the Pod where this field is used. It makes that resource available
+   * inside a container.
    *
    * @schema ReplicationDestinationSpecResticMoverResourcesClaims#name
    */
@@ -2148,7 +3150,63 @@ export class ReplicationDestinationSpecResticMoverResourcesRequests {
 }
 
 /**
- * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+ * appArmorProfile is the AppArmor options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
+ *
+ * @schema ReplicationDestinationSpecResticMoverSecurityContextAppArmorProfile
+ */
+export interface ReplicationDestinationSpecResticMoverSecurityContextAppArmorProfile {
+  /**
+   * localhostProfile indicates a profile loaded on the node that should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must match the loaded name of the profile.
+   * Must be set if and only if type is "Localhost".
+   *
+   * @schema ReplicationDestinationSpecResticMoverSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * type indicates which kind of AppArmor profile will be applied.
+   * Valid options are:
+   * Localhost - a profile pre-loaded on the node.
+   * RuntimeDefault - the container runtime's default profile.
+   * Unconfined - no AppArmor enforcement.
+   *
+   * @schema ReplicationDestinationSpecResticMoverSecurityContextAppArmorProfile#type
+   */
+  readonly type: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverSecurityContextAppArmorProfile(
+  obj:
+    | ReplicationDestinationSpecResticMoverSecurityContextAppArmorProfile
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The SELinux context to be applied to all containers.
+ * If unspecified, the container runtime will allocate a random SELinux context for each
+ * container.  May also be set in SecurityContext.  If set in
+ * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+ * takes precedence for that container.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationDestinationSpecResticMoverSecurityContextSeLinuxOptions
  */
@@ -2207,21 +3265,29 @@ export function toJson_ReplicationDestinationSpecResticMoverSecurityContextSeLin
 /* eslint-enable max-len, quote-props */
 
 /**
- * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+ * The seccomp options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationDestinationSpecResticMoverSecurityContextSeccompProfile
  */
 export interface ReplicationDestinationSpecResticMoverSecurityContextSeccompProfile {
   /**
-   * localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type.
+   * localhostProfile indicates a profile defined in a file on the node should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must be a descending path, relative to the kubelet's configured seccomp profile location.
+   * Must be set if type is "Localhost". Must NOT be set for any other type.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContextSeccompProfile#localhostProfile
    */
   readonly localhostProfile?: string;
 
   /**
-   * type indicates which kind of seccomp profile will be applied. Valid options are:
-   * Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+   * type indicates which kind of seccomp profile will be applied.
+   * Valid options are:
+   *
+   * Localhost - a profile defined in a file on the node should be used.
+   * RuntimeDefault - the container runtime default profile should be used.
+   * Unconfined - no profile should be applied.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContextSeccompProfile#type
    */
@@ -2292,13 +3358,18 @@ export function toJson_ReplicationDestinationSpecResticMoverSecurityContextSysct
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+ * The Windows specific settings applied to all containers.
+ * If unspecified, the options within a container's SecurityContext will be used.
+ * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is linux.
  *
  * @schema ReplicationDestinationSpecResticMoverSecurityContextWindowsOptions
  */
 export interface ReplicationDestinationSpecResticMoverSecurityContextWindowsOptions {
   /**
-   * GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+   * GMSACredentialSpec is where the GMSA admission webhook
+   * (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the
+   * GMSA credential spec named by the GMSACredentialSpecName field.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContextWindowsOptions#gmsaCredentialSpec
    */
@@ -2312,16 +3383,22 @@ export interface ReplicationDestinationSpecResticMoverSecurityContextWindowsOpti
   readonly gmsaCredentialSpecName?: string;
 
   /**
-   * HostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+   * HostProcess determines if a container should be run as a 'Host Process' container.
+   * All of a Pod's containers must have the same effective HostProcess value
+   * (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers).
+   * In addition, if HostProcess is true then HostNetwork must also be set to true.
    *
    * @schema ReplicationDestinationSpecResticMoverSecurityContextWindowsOptions#hostProcess
    */
   readonly hostProcess?: boolean;
 
   /**
-   * The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * The UserName in Windows to run the entrypoint of the container process.
+   * Defaults to the user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext. If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
-   * @default the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * @default the user specified in image metadata if unspecified.
    * @schema ReplicationDestinationSpecResticMoverSecurityContextWindowsOptions#runAsUserName
    */
   readonly runAsUserName?: string;
@@ -2358,7 +3435,9 @@ export function toJson_ReplicationDestinationSpecResticMoverSecurityContextWindo
  */
 export interface ReplicationDestinationSpecRsyncMoverResourcesClaims {
   /**
-   * Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+   * Name must match the name of one entry in pod.spec.resourceClaims of
+   * the Pod where this field is used. It makes that resource available
+   * inside a container.
    *
    * @schema ReplicationDestinationSpecRsyncMoverResourcesClaims#name
    */
@@ -2421,13 +3500,214 @@ export class ReplicationDestinationSpecRsyncMoverResourcesRequests {
 }
 
 /**
+ * Describes node affinity scheduling rules for the pod.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinity
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node matches the corresponding matchExpressions; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to an update), the system
+   * may or may not try to eventually evict the pod from its node.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinity(
+  obj: ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+        obj.requiredDuringSchedulingIgnoredDuringExecution,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinity
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinity(
+  obj: ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinity
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the anti-affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling anti-affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the anti-affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the anti-affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinity(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinity
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
  * ResourceClaim references one entry in PodSpec.ResourceClaims.
  *
  * @schema ReplicationDestinationSpecRsyncTlsMoverResourcesClaims
  */
 export interface ReplicationDestinationSpecRsyncTlsMoverResourcesClaims {
   /**
-   * Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+   * Name must match the name of one entry in pod.spec.resourceClaims of
+   * the Pod where this field is used. It makes that resource available
+   * inside a container.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverResourcesClaims#name
    */
@@ -2490,7 +3770,63 @@ export class ReplicationDestinationSpecRsyncTlsMoverResourcesRequests {
 }
 
 /**
- * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+ * appArmorProfile is the AppArmor options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContextAppArmorProfile
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverSecurityContextAppArmorProfile {
+  /**
+   * localhostProfile indicates a profile loaded on the node that should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must match the loaded name of the profile.
+   * Must be set if and only if type is "Localhost".
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * type indicates which kind of AppArmor profile will be applied.
+   * Valid options are:
+   * Localhost - a profile pre-loaded on the node.
+   * RuntimeDefault - the container runtime's default profile.
+   * Unconfined - no AppArmor enforcement.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContextAppArmorProfile#type
+   */
+  readonly type: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverSecurityContextAppArmorProfile(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverSecurityContextAppArmorProfile
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The SELinux context to be applied to all containers.
+ * If unspecified, the container runtime will allocate a random SELinux context for each
+ * container.  May also be set in SecurityContext.  If set in
+ * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+ * takes precedence for that container.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContextSeLinuxOptions
  */
@@ -2549,21 +3885,29 @@ export function toJson_ReplicationDestinationSpecRsyncTlsMoverSecurityContextSeL
 /* eslint-enable max-len, quote-props */
 
 /**
- * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+ * The seccomp options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContextSeccompProfile
  */
 export interface ReplicationDestinationSpecRsyncTlsMoverSecurityContextSeccompProfile {
   /**
-   * localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type.
+   * localhostProfile indicates a profile defined in a file on the node should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must be a descending path, relative to the kubelet's configured seccomp profile location.
+   * Must be set if type is "Localhost". Must NOT be set for any other type.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContextSeccompProfile#localhostProfile
    */
   readonly localhostProfile?: string;
 
   /**
-   * type indicates which kind of seccomp profile will be applied. Valid options are:
-   * Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+   * type indicates which kind of seccomp profile will be applied.
+   * Valid options are:
+   *
+   * Localhost - a profile defined in a file on the node should be used.
+   * RuntimeDefault - the container runtime default profile should be used.
+   * Unconfined - no profile should be applied.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContextSeccompProfile#type
    */
@@ -2636,13 +3980,18 @@ export function toJson_ReplicationDestinationSpecRsyncTlsMoverSecurityContextSys
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+ * The Windows specific settings applied to all containers.
+ * If unspecified, the options within a container's SecurityContext will be used.
+ * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is linux.
  *
  * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContextWindowsOptions
  */
 export interface ReplicationDestinationSpecRsyncTlsMoverSecurityContextWindowsOptions {
   /**
-   * GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+   * GMSACredentialSpec is where the GMSA admission webhook
+   * (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the
+   * GMSA credential spec named by the GMSACredentialSpecName field.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContextWindowsOptions#gmsaCredentialSpec
    */
@@ -2656,16 +4005,22 @@ export interface ReplicationDestinationSpecRsyncTlsMoverSecurityContextWindowsOp
   readonly gmsaCredentialSpecName?: string;
 
   /**
-   * HostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+   * HostProcess determines if a container should be run as a 'Host Process' container.
+   * All of a Pod's containers must have the same effective HostProcess value
+   * (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers).
+   * In addition, if HostProcess is true then HostNetwork must also be set to true.
    *
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContextWindowsOptions#hostProcess
    */
   readonly hostProcess?: boolean;
 
   /**
-   * The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * The UserName in Windows to run the entrypoint of the container process.
+   * Defaults to the user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext. If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
-   * @default the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * @default the user specified in image metadata if unspecified.
    * @schema ReplicationDestinationSpecRsyncTlsMoverSecurityContextWindowsOptions#runAsUserName
    */
   readonly runAsUserName?: string;
@@ -2696,7 +4051,5666 @@ export function toJson_ReplicationDestinationSpecRsyncTlsMoverSecurityContextWin
 /* eslint-enable max-len, quote-props */
 
 /**
- * ReplicationSource defines the source for a replicated volume
+ * An empty preferred scheduling term matches all objects with implicit weight 0
+ * (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A node selector term, associated with the corresponding weight.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#preference
+   */
+  readonly preference:
+    ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference;
+
+  /**
+   * Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preference":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+        obj.preference,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * If the affinity requirements specified by this field are not met at
+ * scheduling time, the pod will not be scheduled onto the node.
+ * If the affinity requirements specified by this field cease to be met
+ * at some point during pod execution (e.g. due to an update), the system
+ * may or may not try to eventually evict the pod from its node.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A list of node selector terms. The terms are ORed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution#nodeSelectorTerms
+   */
+  readonly nodeSelectorTerms:
+    ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeSelectorTerms": obj.nodeSelectorTerms?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * An empty preferred scheduling term matches all objects with implicit weight 0
+ * (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A node selector term, associated with the corresponding weight.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#preference
+   */
+  readonly preference:
+    ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference;
+
+  /**
+   * Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preference":
+      toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+        obj.preference,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * If the affinity requirements specified by this field are not met at
+ * scheduling time, the pod will not be scheduled onto the node.
+ * If the affinity requirements specified by this field cease to be met
+ * at some point during pod execution (e.g. due to an update), the system
+ * may or may not try to eventually evict the pod from its node.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A list of node selector terms. The terms are ORed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution#nodeSelectorTerms
+   */
+  readonly nodeSelectorTerms:
+    ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeSelectorTerms": obj.nodeSelectorTerms?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * An empty preferred scheduling term matches all objects with implicit weight 0
+ * (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A node selector term, associated with the corresponding weight.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#preference
+   */
+  readonly preference:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference;
+
+  /**
+   * Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preference":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+        obj.preference,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * If the affinity requirements specified by this field are not met at
+ * scheduling time, the pod will not be scheduled onto the node.
+ * If the affinity requirements specified by this field cease to be met
+ * at some point during pod execution (e.g. due to an update), the system
+ * may or may not try to eventually evict the pod from its node.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A list of node selector terms. The terms are ORed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution#nodeSelectorTerms
+   */
+  readonly nodeSelectorTerms:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeSelectorTerms": obj.nodeSelectorTerms?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector term, associated with the corresponding weight.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchFields
+   */
+  readonly matchFields?:
+    ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A null or empty node selector term matches no objects. The requirements of
+ * them are ANDed.
+ * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchFields
+   */
+  readonly matchFields?:
+    ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector term, associated with the corresponding weight.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchFields
+   */
+  readonly matchFields?:
+    ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A null or empty node selector term matches no objects. The requirements of
+ * them are ANDed.
+ * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchFields
+   */
+  readonly matchFields?:
+    ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector term, associated with the corresponding weight.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchFields
+   */
+  readonly matchFields?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A null or empty node selector term matches no objects. The requirements of
+ * them are ANDed.
+ * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchFields
+   */
+  readonly matchFields?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationDestinationSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A ReplicationSource is a VolSync resource that you can use to define the source PVC and replication mover type,
+enabling you to replicate or synchronize PVC data to a remote location.
  *
  * @schema ReplicationSource
  */
@@ -2743,7 +9757,7 @@ export class ReplicationSource extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -2754,7 +9768,8 @@ export class ReplicationSource extends ApiObject {
 }
 
 /**
- * ReplicationSource defines the source for a replicated volume
+ * A ReplicationSource is a VolSync resource that you can use to define the source PVC and replication mover type,
+ * enabling you to replicate or synchronize PVC data to a remote location.
  *
  * @schema ReplicationSource
  */
@@ -2765,7 +9780,8 @@ export interface ReplicationSourceProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * spec is the desired state of the ReplicationSource, including the replication method to use and its configuration.
+   * spec is the desired state of the ReplicationSource, including the
+   * replication method to use and its configuration.
    *
    * @schema ReplicationSource#spec
    */
@@ -2793,13 +9809,15 @@ export function toJson_ReplicationSourceProps(
 /* eslint-enable max-len, quote-props */
 
 /**
- * spec is the desired state of the ReplicationSource, including the replication method to use and its configuration.
+ * spec is the desired state of the ReplicationSource, including the
+ * replication method to use and its configuration.
  *
  * @schema ReplicationSourceSpec
  */
 export interface ReplicationSourceSpec {
   /**
-   * external defines the configuration when using an external replication provider.
+   * external defines the configuration when using an external replication
+   * provider.
    *
    * @schema ReplicationSourceSpec#external
    */
@@ -2856,7 +9874,8 @@ export interface ReplicationSourceSpec {
   readonly syncthing?: ReplicationSourceSpecSyncthing;
 
   /**
-   * trigger determines when the latest state of the volume will be captured (and potentially replicated to the destination).
+   * trigger determines when the latest state of the volume will be captured
+   * (and potentially replicated to the destination).
    *
    * @schema ReplicationSourceSpec#trigger
    */
@@ -2891,20 +9910,24 @@ export function toJson_ReplicationSourceSpec(
 /* eslint-enable max-len, quote-props */
 
 /**
- * external defines the configuration when using an external replication provider.
+ * external defines the configuration when using an external replication
+ * provider.
  *
  * @schema ReplicationSourceSpecExternal
  */
 export interface ReplicationSourceSpecExternal {
   /**
-   * parameters are provider-specific key/value configuration parameters. For more information, please see the documentation of the specific replication provider being used.
+   * parameters are provider-specific key/value configuration parameters. For
+   * more information, please see the documentation of the specific
+   * replication provider being used.
    *
    * @schema ReplicationSourceSpecExternal#parameters
    */
   readonly parameters?: { [key: string]: string };
 
   /**
-   * provider is the name of the external replication provider. The name should be of the form: domain.com/provider.
+   * provider is the name of the external replication provider. The name
+   * should be of the form: domain.com/provider.
    *
    * @schema ReplicationSourceSpecExternal#provider
    */
@@ -2957,7 +9980,8 @@ export interface ReplicationSourceSpecRclone {
   readonly capacity?: ReplicationSourceSpecRcloneCapacity;
 
   /**
-   * copyMethod describes how a point-in-time (PiT) image of the source volume should be created.
+   * copyMethod describes how a point-in-time (PiT) image of the source volume
+   * should be created.
    *
    * @schema ReplicationSourceSpecRclone#copyMethod
    */
@@ -2971,21 +9995,34 @@ export interface ReplicationSourceSpecRclone {
   readonly customCa?: ReplicationSourceSpecRcloneCustomCa;
 
   /**
-   * Labels that should be added to data mover pods These will be in addition to any labels that VolSync may add
+   * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+   *
+   * @schema ReplicationSourceSpecRclone#moverAffinity
+   */
+  readonly moverAffinity?: ReplicationSourceSpecRcloneMoverAffinity;
+
+  /**
+   * Labels that should be added to data mover pods
+   * These will be in addition to any labels that VolSync may add
    *
    * @schema ReplicationSourceSpecRclone#moverPodLabels
    */
   readonly moverPodLabels?: { [key: string]: string };
 
   /**
-   * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+   * Resources represents compute resources required by the data mover container.
+   * Immutable.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   * This should only be used by advanced users as this can result in a mover
+   * pod being unschedulable or crashing due to limited resources.
    *
    * @schema ReplicationSourceSpecRclone#moverResources
    */
   readonly moverResources?: ReplicationSourceSpecRcloneMoverResources;
 
   /**
-   * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+   * MoverSecurityContext allows specifying the PodSecurityContext that will
+   * be used by the data mover
    *
    * @schema ReplicationSourceSpecRclone#moverSecurityContext
    */
@@ -2993,7 +10030,10 @@ export interface ReplicationSourceSpecRclone {
     ReplicationSourceSpecRcloneMoverSecurityContext;
 
   /**
-   * MoverServiceAccount allows specifying the name of the service account that will be used by the data mover. This should only be used by advanced users who want to override the service account normally used by the mover. The service account needs to exist in the same namespace as this CR.
+   * MoverServiceAccount allows specifying the name of the service account
+   * that will be used by the data mover. This should only be used by advanced
+   * users who want to override the service account normally used by the mover.
+   * The service account needs to exist in the same namespace as this CR.
    *
    * @schema ReplicationSourceSpecRclone#moverServiceAccount
    */
@@ -3021,14 +10061,16 @@ export interface ReplicationSourceSpecRclone {
   readonly rcloneDestPath?: string;
 
   /**
-   * storageClassName can be used to override the StorageClass of the PiT image.
+   * storageClassName can be used to override the StorageClass of the PiT
+   * image.
    *
    * @schema ReplicationSourceSpecRclone#storageClassName
    */
   readonly storageClassName?: string;
 
   /**
-   * volumeSnapshotClassName can be used to specify the VSC to be used if copyMethod is Snapshot. If not set, the default VSC is used.
+   * volumeSnapshotClassName can be used to specify the VSC to be used if
+   * copyMethod is Snapshot. If not set, the default VSC is used.
    *
    * @schema ReplicationSourceSpecRclone#volumeSnapshotClassName
    */
@@ -3048,6 +10090,9 @@ export function toJson_ReplicationSourceSpecRclone(
     "capacity": obj.capacity?.value,
     "copyMethod": obj.copyMethod,
     "customCA": toJson_ReplicationSourceSpecRcloneCustomCa(obj.customCa),
+    "moverAffinity": toJson_ReplicationSourceSpecRcloneMoverAffinity(
+      obj.moverAffinity,
+    ),
     "moverPodLabels": ((obj.moverPodLabels) === undefined)
       ? undefined
       : (Object.entries(obj.moverPodLabels).reduce(
@@ -3104,7 +10149,8 @@ export interface ReplicationSourceSpecRestic {
   readonly cacheCapacity?: ReplicationSourceSpecResticCacheCapacity;
 
   /**
-   * cacheStorageClassName can be used to set the StorageClass of the restic metadata cache volume
+   * cacheStorageClassName can be used to set the StorageClass of the restic
+   * metadata cache volume
    *
    * @schema ReplicationSourceSpecRestic#cacheStorageClassName
    */
@@ -3118,7 +10164,8 @@ export interface ReplicationSourceSpecRestic {
   readonly capacity?: ReplicationSourceSpecResticCapacity;
 
   /**
-   * copyMethod describes how a point-in-time (PiT) image of the source volume should be created.
+   * copyMethod describes how a point-in-time (PiT) image of the source volume
+   * should be created.
    *
    * @schema ReplicationSourceSpecRestic#copyMethod
    */
@@ -3132,21 +10179,34 @@ export interface ReplicationSourceSpecRestic {
   readonly customCa?: ReplicationSourceSpecResticCustomCa;
 
   /**
-   * Labels that should be added to data mover pods These will be in addition to any labels that VolSync may add
+   * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+   *
+   * @schema ReplicationSourceSpecRestic#moverAffinity
+   */
+  readonly moverAffinity?: ReplicationSourceSpecResticMoverAffinity;
+
+  /**
+   * Labels that should be added to data mover pods
+   * These will be in addition to any labels that VolSync may add
    *
    * @schema ReplicationSourceSpecRestic#moverPodLabels
    */
   readonly moverPodLabels?: { [key: string]: string };
 
   /**
-   * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+   * Resources represents compute resources required by the data mover container.
+   * Immutable.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   * This should only be used by advanced users as this can result in a mover
+   * pod being unschedulable or crashing due to limited resources.
    *
    * @schema ReplicationSourceSpecRestic#moverResources
    */
   readonly moverResources?: ReplicationSourceSpecResticMoverResources;
 
   /**
-   * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+   * MoverSecurityContext allows specifying the PodSecurityContext that will
+   * be used by the data mover
    *
    * @schema ReplicationSourceSpecRestic#moverSecurityContext
    */
@@ -3154,7 +10214,10 @@ export interface ReplicationSourceSpecRestic {
     ReplicationSourceSpecResticMoverSecurityContext;
 
   /**
-   * MoverServiceAccount allows specifying the name of the service account that will be used by the data mover. This should only be used by advanced users who want to override the service account normally used by the mover. The service account needs to exist in the same namespace as this CR.
+   * MoverServiceAccount allows specifying the name of the service account
+   * that will be used by the data mover. This should only be used by advanced
+   * users who want to override the service account normally used by the mover.
+   * The service account needs to exist in the same namespace as this CR.
    *
    * @schema ReplicationSourceSpecRestic#moverServiceAccount
    */
@@ -3182,21 +10245,30 @@ export interface ReplicationSourceSpecRestic {
   readonly retain?: ReplicationSourceSpecResticRetain;
 
   /**
-   * storageClassName can be used to override the StorageClass of the PiT image.
+   * storageClassName can be used to override the StorageClass of the PiT
+   * image.
    *
    * @schema ReplicationSourceSpecRestic#storageClassName
    */
   readonly storageClassName?: string;
 
   /**
-   * unlock is a string value that schedules an unlock on the restic repository during the next sync operation. Once a sync completes then status.restic.lastUnlocked is set to the same string value. To unlock a repository, set spec.restic.unlock to a known value and then wait for lastUnlocked to be updated by the operator to the same value, which means that the sync unlocked the repository by running a restic unlock command and then ran a backup. Unlock will not be run again unless spec.restic.unlock is set to a different value.
+   * unlock is a string value that schedules an unlock on the restic repository during
+   * the next sync operation.
+   * Once a sync completes then status.restic.lastUnlocked is set to the same string value.
+   * To unlock a repository, set spec.restic.unlock to a known value and then wait for
+   * lastUnlocked to be updated by the operator to the same value,
+   * which means that the sync unlocked the repository by running a restic unlock command and
+   * then ran a backup.
+   * Unlock will not be run again unless spec.restic.unlock is set to a different value.
    *
    * @schema ReplicationSourceSpecRestic#unlock
    */
   readonly unlock?: string;
 
   /**
-   * volumeSnapshotClassName can be used to specify the VSC to be used if copyMethod is Snapshot. If not set, the default VSC is used.
+   * volumeSnapshotClassName can be used to specify the VSC to be used if
+   * copyMethod is Snapshot. If not set, the default VSC is used.
    *
    * @schema ReplicationSourceSpecRestic#volumeSnapshotClassName
    */
@@ -3219,6 +10291,9 @@ export function toJson_ReplicationSourceSpecRestic(
     "capacity": obj.capacity?.value,
     "copyMethod": obj.copyMethod,
     "customCA": toJson_ReplicationSourceSpecResticCustomCa(obj.customCa),
+    "moverAffinity": toJson_ReplicationSourceSpecResticMoverAffinity(
+      obj.moverAffinity,
+    ),
     "moverPodLabels": ((obj.moverPodLabels) === undefined)
       ? undefined
       : (Object.entries(obj.moverPodLabels).reduce(
@@ -3276,28 +10351,37 @@ export interface ReplicationSourceSpecRsync {
   readonly capacity?: ReplicationSourceSpecRsyncCapacity;
 
   /**
-   * copyMethod describes how a point-in-time (PiT) image of the source volume should be created.
+   * copyMethod describes how a point-in-time (PiT) image of the source volume
+   * should be created.
    *
    * @schema ReplicationSourceSpecRsync#copyMethod
    */
   readonly copyMethod?: ReplicationSourceSpecRsyncCopyMethod;
 
   /**
-   * Labels that should be added to data mover pods These will be in addition to any labels that VolSync may add
+   * Labels that should be added to data mover pods
+   * These will be in addition to any labels that VolSync may add
    *
    * @schema ReplicationSourceSpecRsync#moverPodLabels
    */
   readonly moverPodLabels?: { [key: string]: string };
 
   /**
-   * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+   * Resources represents compute resources required by the data mover container.
+   * Immutable.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   * This should only be used by advanced users as this can result in a mover
+   * pod being unschedulable or crashing due to limited resources.
    *
    * @schema ReplicationSourceSpecRsync#moverResources
    */
   readonly moverResources?: ReplicationSourceSpecRsyncMoverResources;
 
   /**
-   * MoverServiceAccount allows specifying the name of the service account that will be used by the data mover. This should only be used by advanced users who want to override the service account normally used by the mover. The service account needs to exist in the same namespace as the ReplicationSource.
+   * MoverServiceAccount allows specifying the name of the service account
+   * that will be used by the data mover. This should only be used by advanced
+   * users who want to override the service account normally used by the mover.
+   * The service account needs to exist in the same namespace as the ReplicationSource.
    *
    * @schema ReplicationSourceSpecRsync#moverServiceAccount
    */
@@ -3320,14 +10404,16 @@ export interface ReplicationSourceSpecRsync {
   readonly port?: number;
 
   /**
-   * serviceType determines the Service type that will be created for incoming SSH connections.
+   * serviceType determines the Service type that will be created for incoming
+   * SSH connections.
    *
    * @schema ReplicationSourceSpecRsync#serviceType
    */
   readonly serviceType?: string;
 
   /**
-   * sshKeys is the name of a Secret that contains the SSH keys to be used for authentication. If not provided, the keys will be generated.
+   * sshKeys is the name of a Secret that contains the SSH keys to be used for
+   * authentication. If not provided, the keys will be generated.
    *
    * @schema ReplicationSourceSpecRsync#sshKeys
    */
@@ -3342,14 +10428,16 @@ export interface ReplicationSourceSpecRsync {
   readonly sshUser?: string;
 
   /**
-   * storageClassName can be used to override the StorageClass of the PiT image.
+   * storageClassName can be used to override the StorageClass of the PiT
+   * image.
    *
    * @schema ReplicationSourceSpecRsync#storageClassName
    */
   readonly storageClassName?: string;
 
   /**
-   * volumeSnapshotClassName can be used to specify the VSC to be used if copyMethod is Snapshot. If not set, the default VSC is used.
+   * volumeSnapshotClassName can be used to specify the VSC to be used if
+   * copyMethod is Snapshot. If not set, the default VSC is used.
    *
    * @schema ReplicationSourceSpecRsync#volumeSnapshotClassName
    */
@@ -3423,35 +10511,50 @@ export interface ReplicationSourceSpecRsyncTls {
   readonly capacity?: ReplicationSourceSpecRsyncTlsCapacity;
 
   /**
-   * copyMethod describes how a point-in-time (PiT) image of the source volume should be created.
+   * copyMethod describes how a point-in-time (PiT) image of the source volume
+   * should be created.
    *
    * @schema ReplicationSourceSpecRsyncTls#copyMethod
    */
   readonly copyMethod?: ReplicationSourceSpecRsyncTlsCopyMethod;
 
   /**
-   * keySecret is the name of a Secret that contains the TLS pre-shared key to be used for authentication. If not provided, the key will be generated.
+   * keySecret is the name of a Secret that contains the TLS pre-shared key to
+   * be used for authentication. If not provided, the key will be generated.
    *
    * @schema ReplicationSourceSpecRsyncTls#keySecret
    */
   readonly keySecret?: string;
 
   /**
-   * Labels that should be added to data mover pods These will be in addition to any labels that VolSync may add
+   * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+   *
+   * @schema ReplicationSourceSpecRsyncTls#moverAffinity
+   */
+  readonly moverAffinity?: ReplicationSourceSpecRsyncTlsMoverAffinity;
+
+  /**
+   * Labels that should be added to data mover pods
+   * These will be in addition to any labels that VolSync may add
    *
    * @schema ReplicationSourceSpecRsyncTls#moverPodLabels
    */
   readonly moverPodLabels?: { [key: string]: string };
 
   /**
-   * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+   * Resources represents compute resources required by the data mover container.
+   * Immutable.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   * This should only be used by advanced users as this can result in a mover
+   * pod being unschedulable or crashing due to limited resources.
    *
    * @schema ReplicationSourceSpecRsyncTls#moverResources
    */
   readonly moverResources?: ReplicationSourceSpecRsyncTlsMoverResources;
 
   /**
-   * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+   * MoverSecurityContext allows specifying the PodSecurityContext that will
+   * be used by the data mover
    *
    * @schema ReplicationSourceSpecRsyncTls#moverSecurityContext
    */
@@ -3459,7 +10562,10 @@ export interface ReplicationSourceSpecRsyncTls {
     ReplicationSourceSpecRsyncTlsMoverSecurityContext;
 
   /**
-   * MoverServiceAccount allows specifying the name of the service account that will be used by the data mover. This should only be used by advanced users who want to override the service account normally used by the mover. The service account needs to exist in the same namespace as this CR.
+   * MoverServiceAccount allows specifying the name of the service account
+   * that will be used by the data mover. This should only be used by advanced
+   * users who want to override the service account normally used by the mover.
+   * The service account needs to exist in the same namespace as this CR.
    *
    * @schema ReplicationSourceSpecRsyncTls#moverServiceAccount
    */
@@ -3474,14 +10580,16 @@ export interface ReplicationSourceSpecRsyncTls {
   readonly port?: number;
 
   /**
-   * storageClassName can be used to override the StorageClass of the PiT image.
+   * storageClassName can be used to override the StorageClass of the PiT
+   * image.
    *
    * @schema ReplicationSourceSpecRsyncTls#storageClassName
    */
   readonly storageClassName?: string;
 
   /**
-   * volumeSnapshotClassName can be used to specify the VSC to be used if copyMethod is Snapshot. If not set, the default VSC is used.
+   * volumeSnapshotClassName can be used to specify the VSC to be used if
+   * copyMethod is Snapshot. If not set, the default VSC is used.
    *
    * @schema ReplicationSourceSpecRsyncTls#volumeSnapshotClassName
    */
@@ -3502,6 +10610,9 @@ export function toJson_ReplicationSourceSpecRsyncTls(
     "capacity": obj.capacity?.value,
     "copyMethod": obj.copyMethod,
     "keySecret": obj.keySecret,
+    "moverAffinity": toJson_ReplicationSourceSpecRsyncTlsMoverAffinity(
+      obj.moverAffinity,
+    ),
     "moverPodLabels": ((obj.moverPodLabels) === undefined)
       ? undefined
       : (Object.entries(obj.moverPodLabels).reduce(
@@ -3556,21 +10667,34 @@ export interface ReplicationSourceSpecSyncthing {
   readonly configStorageClassName?: string;
 
   /**
-   * Labels that should be added to data mover pods These will be in addition to any labels that VolSync may add
+   * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+   *
+   * @schema ReplicationSourceSpecSyncthing#moverAffinity
+   */
+  readonly moverAffinity?: ReplicationSourceSpecSyncthingMoverAffinity;
+
+  /**
+   * Labels that should be added to data mover pods
+   * These will be in addition to any labels that VolSync may add
    *
    * @schema ReplicationSourceSpecSyncthing#moverPodLabels
    */
   readonly moverPodLabels?: { [key: string]: string };
 
   /**
-   * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+   * Resources represents compute resources required by the data mover container.
+   * Immutable.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   * This should only be used by advanced users as this can result in a mover
+   * pod being unschedulable or crashing due to limited resources.
    *
    * @schema ReplicationSourceSpecSyncthing#moverResources
    */
   readonly moverResources?: ReplicationSourceSpecSyncthingMoverResources;
 
   /**
-   * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+   * MoverSecurityContext allows specifying the PodSecurityContext that will
+   * be used by the data mover
    *
    * @schema ReplicationSourceSpecSyncthing#moverSecurityContext
    */
@@ -3578,7 +10702,10 @@ export interface ReplicationSourceSpecSyncthing {
     ReplicationSourceSpecSyncthingMoverSecurityContext;
 
   /**
-   * MoverServiceAccount allows specifying the name of the service account that will be used by the data mover. This should only be used by advanced users who want to override the service account normally used by the mover. The service account needs to exist in the same namespace as this CR.
+   * MoverServiceAccount allows specifying the name of the service account
+   * that will be used by the data mover. This should only be used by advanced
+   * users who want to override the service account normally used by the mover.
+   * The service account needs to exist in the same namespace as this CR.
    *
    * @schema ReplicationSourceSpecSyncthing#moverServiceAccount
    */
@@ -3611,6 +10738,9 @@ export function toJson_ReplicationSourceSpecSyncthing(
     "configAccessModes": obj.configAccessModes?.map((y) => y),
     "configCapacity": obj.configCapacity?.value,
     "configStorageClassName": obj.configStorageClassName,
+    "moverAffinity": toJson_ReplicationSourceSpecSyncthingMoverAffinity(
+      obj.moverAffinity,
+    ),
     "moverPodLabels": ((obj.moverPodLabels) === undefined)
       ? undefined
       : (Object.entries(obj.moverPodLabels).reduce(
@@ -3639,20 +10769,29 @@ export function toJson_ReplicationSourceSpecSyncthing(
 /* eslint-enable max-len, quote-props */
 
 /**
- * trigger determines when the latest state of the volume will be captured (and potentially replicated to the destination).
+ * trigger determines when the latest state of the volume will be captured
+ * (and potentially replicated to the destination).
  *
  * @schema ReplicationSourceSpecTrigger
  */
 export interface ReplicationSourceSpecTrigger {
   /**
-   * manual is a string value that schedules a manual trigger. Once a sync completes then status.lastManualSync is set to the same string value. A consumer of a manual trigger should set spec.trigger.manual to a known value and then wait for lastManualSync to be updated by the operator to the same value, which means that the manual trigger will then pause and wait for further updates to the trigger.
+   * manual is a string value that schedules a manual trigger.
+   * Once a sync completes then status.lastManualSync is set to the same string value.
+   * A consumer of a manual trigger should set spec.trigger.manual to a known value
+   * and then wait for lastManualSync to be updated by the operator to the same value,
+   * which means that the manual trigger will then pause and wait for further
+   * updates to the trigger.
    *
    * @schema ReplicationSourceSpecTrigger#manual
    */
   readonly manual?: string;
 
   /**
-   * schedule is a cronspec (https://en.wikipedia.org/wiki/Cron#Overview) that can be used to schedule replication to occur at regular, time-based intervals. nolint:lll
+   * schedule is a cronspec (https://en.wikipedia.org/wiki/Cron#Overview) that
+   * can be used to schedule replication to occur at regular, time-based
+   * intervals.
+   * nolint:lll
    *
    * @schema ReplicationSourceSpecTrigger#schedule
    */
@@ -3696,7 +10835,8 @@ export class ReplicationSourceSpecRcloneCapacity {
 }
 
 /**
- * copyMethod describes how a point-in-time (PiT) image of the source volume should be created.
+ * copyMethod describes how a point-in-time (PiT) image of the source volume
+ * should be created.
  *
  * @schema ReplicationSourceSpecRcloneCopyMethod
  */
@@ -3718,7 +10858,8 @@ export enum ReplicationSourceSpecRcloneCopyMethod {
  */
 export interface ReplicationSourceSpecRcloneCustomCa {
   /**
-   * The name of a ConfigMap that contains the custom CA certificate If ConfigMapName is used then SecretName should not be set
+   * The name of a ConfigMap that contains the custom CA certificate
+   * If ConfigMapName is used then SecretName should not be set
    *
    * @schema ReplicationSourceSpecRcloneCustomCa#configMapName
    */
@@ -3732,7 +10873,8 @@ export interface ReplicationSourceSpecRcloneCustomCa {
   readonly key?: string;
 
   /**
-   * The name of a Secret that contains the custom CA certificate If SecretName is used then ConfigMapName should not be set
+   * The name of a Secret that contains the custom CA certificate
+   * If SecretName is used then ConfigMapName should not be set
    *
    * @schema ReplicationSourceSpecRcloneCustomCa#secretName
    */
@@ -3761,14 +10903,79 @@ export function toJson_ReplicationSourceSpecRcloneCustomCa(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+ * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinity
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinity {
+  /**
+   * Describes node affinity scheduling rules for the pod.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinity#nodeAffinity
+   */
+  readonly nodeAffinity?: ReplicationSourceSpecRcloneMoverAffinityNodeAffinity;
+
+  /**
+   * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinity#podAffinity
+   */
+  readonly podAffinity?: ReplicationSourceSpecRcloneMoverAffinityPodAffinity;
+
+  /**
+   * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinity#podAntiAffinity
+   */
+  readonly podAntiAffinity?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinity;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinity(
+  obj: ReplicationSourceSpecRcloneMoverAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeAffinity": toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinity(
+      obj.nodeAffinity,
+    ),
+    "podAffinity": toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinity(
+      obj.podAffinity,
+    ),
+    "podAntiAffinity":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinity(
+        obj.podAntiAffinity,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Resources represents compute resources required by the data mover container.
+ * Immutable.
+ * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+ * This should only be used by advanced users as this can result in a mover
+ * pod being unschedulable or crashing due to limited resources.
  *
  * @schema ReplicationSourceSpecRcloneMoverResources
  */
 export interface ReplicationSourceSpecRcloneMoverResources {
   /**
-   * Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-   * This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+   * Claims lists the names of resources, defined in spec.resourceClaims,
+   * that are used by this container.
+   *
+   * This is an alpha field and requires enabling the
+   * DynamicResourceAllocation feature gate.
+   *
    * This field is immutable. It can only be set for containers.
    *
    * @schema ReplicationSourceSpecRcloneMoverResources#claims
@@ -3776,7 +10983,8 @@ export interface ReplicationSourceSpecRcloneMoverResources {
   readonly claims?: ReplicationSourceSpecRcloneMoverResourcesClaims[];
 
   /**
-   * Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationSourceSpecRcloneMoverResources#limits
    */
@@ -3785,7 +10993,10 @@ export interface ReplicationSourceSpecRcloneMoverResources {
   };
 
   /**
-   * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to an implementation-defined value. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationSourceSpecRcloneMoverResources#requests
    */
@@ -3828,51 +11039,94 @@ export function toJson_ReplicationSourceSpecRcloneMoverResources(
 /* eslint-enable max-len, quote-props */
 
 /**
- * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+ * MoverSecurityContext allows specifying the PodSecurityContext that will
+ * be used by the data mover
  *
  * @schema ReplicationSourceSpecRcloneMoverSecurityContext
  */
 export interface ReplicationSourceSpecRcloneMoverSecurityContext {
   /**
-   * A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod:
-   * 1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw----
-   * If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows.
+   * appArmorProfile is the AppArmor options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?:
+    ReplicationSourceSpecRcloneMoverSecurityContextAppArmorProfile;
+
+  /**
+   * A special supplemental group that applies to all containers in a pod.
+   * Some volume types allow the Kubelet to change the ownership of that volume
+   * to be owned by the pod:
+   *
+   * 1. The owning GID will be the FSGroup
+   * 2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
+   * 3. The permission bits are OR'd with rw-rw----
+   *
+   * If unset, the Kubelet will not modify the ownership and permissions of any volume.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContext#fsGroup
    */
   readonly fsGroup?: number;
 
   /**
-   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used. Note that this field cannot be set when spec.os.name is windows.
+   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume
+   * before being exposed inside Pod. This field will only apply to
+   * volume types which support fsGroup based ownership(and permissions).
+   * It will have no effect on ephemeral volume types such as: secret, configmaps
+   * and emptydir.
+   * Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContext#fsGroupChangePolicy
    */
   readonly fsGroupChangePolicy?: string;
 
   /**
-   * The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The GID to run the entrypoint of the container process.
+   * Uses runtime default if unset.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContext#runAsGroup
    */
   readonly runAsGroup?: number;
 
   /**
-   * Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Indicates that the container must run as a non-root user.
+   * If true, the Kubelet will validate the image at runtime to ensure that it
+   * does not run as UID 0 (root) and fail to start the container if it does.
+   * If unset or false, no such validation will be performed.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContext#runAsNonRoot
    */
   readonly runAsNonRoot?: boolean;
 
   /**
-   * The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The UID to run the entrypoint of the container process.
+   * Defaults to user specified in image metadata if unspecified.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * @default user specified in image metadata if unspecified.
    * @schema ReplicationSourceSpecRcloneMoverSecurityContext#runAsUser
    */
   readonly runAsUser?: number;
 
   /**
-   * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The SELinux context to be applied to all containers.
+   * If unspecified, the container runtime will allocate a random SELinux context for each
+   * container.  May also be set in SecurityContext.  If set in
+   * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+   * takes precedence for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContext#seLinuxOptions
    */
@@ -3880,7 +11134,8 @@ export interface ReplicationSourceSpecRcloneMoverSecurityContext {
     ReplicationSourceSpecRcloneMoverSecurityContextSeLinuxOptions;
 
   /**
-   * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+   * The seccomp options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContext#seccompProfile
    */
@@ -3888,21 +11143,32 @@ export interface ReplicationSourceSpecRcloneMoverSecurityContext {
     ReplicationSourceSpecRcloneMoverSecurityContextSeccompProfile;
 
   /**
-   * A list of groups applied to the first process run in each container, in addition to the container's primary GID, the fsGroup (if specified), and group memberships defined in the container image for the uid of the container process. If unspecified, no additional groups are added to any container. Note that group memberships defined in the container image for the uid of the container process are still effective, even if they are not included in this list. Note that this field cannot be set when spec.os.name is windows.
+   * A list of groups applied to the first process run in each container, in addition
+   * to the container's primary GID, the fsGroup (if specified), and group memberships
+   * defined in the container image for the uid of the container process. If unspecified,
+   * no additional groups are added to any container. Note that group memberships
+   * defined in the container image for the uid of the container process are still effective,
+   * even if they are not included in this list.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContext#supplementalGroups
    */
   readonly supplementalGroups?: number[];
 
   /**
-   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows.
+   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
+   * sysctls (by the container runtime) might fail to launch.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContext#sysctls
    */
   readonly sysctls?: ReplicationSourceSpecRcloneMoverSecurityContextSysctls[];
 
   /**
-   * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+   * The Windows specific settings applied to all containers.
+   * If unspecified, the options within a container's SecurityContext will be used.
+   * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is linux.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContext#windowsOptions
    */
@@ -3919,6 +11185,10 @@ export function toJson_ReplicationSourceSpecRcloneMoverSecurityContext(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "appArmorProfile":
+      toJson_ReplicationSourceSpecRcloneMoverSecurityContextAppArmorProfile(
+        obj.appArmorProfile,
+      ),
     "fsGroup": obj.fsGroup,
     "fsGroupChangePolicy": obj.fsGroupChangePolicy,
     "runAsGroup": obj.runAsGroup,
@@ -3986,7 +11256,8 @@ export class ReplicationSourceSpecResticCapacity {
 }
 
 /**
- * copyMethod describes how a point-in-time (PiT) image of the source volume should be created.
+ * copyMethod describes how a point-in-time (PiT) image of the source volume
+ * should be created.
  *
  * @schema ReplicationSourceSpecResticCopyMethod
  */
@@ -4008,7 +11279,8 @@ export enum ReplicationSourceSpecResticCopyMethod {
  */
 export interface ReplicationSourceSpecResticCustomCa {
   /**
-   * The name of a ConfigMap that contains the custom CA certificate If ConfigMapName is used then SecretName should not be set
+   * The name of a ConfigMap that contains the custom CA certificate
+   * If ConfigMapName is used then SecretName should not be set
    *
    * @schema ReplicationSourceSpecResticCustomCa#configMapName
    */
@@ -4022,7 +11294,8 @@ export interface ReplicationSourceSpecResticCustomCa {
   readonly key?: string;
 
   /**
-   * The name of a Secret that contains the custom CA certificate If SecretName is used then ConfigMapName should not be set
+   * The name of a Secret that contains the custom CA certificate
+   * If SecretName is used then ConfigMapName should not be set
    *
    * @schema ReplicationSourceSpecResticCustomCa#secretName
    */
@@ -4051,14 +11324,79 @@ export function toJson_ReplicationSourceSpecResticCustomCa(
 /* eslint-enable max-len, quote-props */
 
 /**
- * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+ * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinity
+ */
+export interface ReplicationSourceSpecResticMoverAffinity {
+  /**
+   * Describes node affinity scheduling rules for the pod.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinity#nodeAffinity
+   */
+  readonly nodeAffinity?: ReplicationSourceSpecResticMoverAffinityNodeAffinity;
+
+  /**
+   * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinity#podAffinity
+   */
+  readonly podAffinity?: ReplicationSourceSpecResticMoverAffinityPodAffinity;
+
+  /**
+   * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinity#podAntiAffinity
+   */
+  readonly podAntiAffinity?:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinity;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinity(
+  obj: ReplicationSourceSpecResticMoverAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeAffinity": toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinity(
+      obj.nodeAffinity,
+    ),
+    "podAffinity": toJson_ReplicationSourceSpecResticMoverAffinityPodAffinity(
+      obj.podAffinity,
+    ),
+    "podAntiAffinity":
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinity(
+        obj.podAntiAffinity,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Resources represents compute resources required by the data mover container.
+ * Immutable.
+ * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+ * This should only be used by advanced users as this can result in a mover
+ * pod being unschedulable or crashing due to limited resources.
  *
  * @schema ReplicationSourceSpecResticMoverResources
  */
 export interface ReplicationSourceSpecResticMoverResources {
   /**
-   * Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-   * This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+   * Claims lists the names of resources, defined in spec.resourceClaims,
+   * that are used by this container.
+   *
+   * This is an alpha field and requires enabling the
+   * DynamicResourceAllocation feature gate.
+   *
    * This field is immutable. It can only be set for containers.
    *
    * @schema ReplicationSourceSpecResticMoverResources#claims
@@ -4066,7 +11404,8 @@ export interface ReplicationSourceSpecResticMoverResources {
   readonly claims?: ReplicationSourceSpecResticMoverResourcesClaims[];
 
   /**
-   * Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationSourceSpecResticMoverResources#limits
    */
@@ -4075,7 +11414,10 @@ export interface ReplicationSourceSpecResticMoverResources {
   };
 
   /**
-   * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to an implementation-defined value. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationSourceSpecResticMoverResources#requests
    */
@@ -4118,51 +11460,94 @@ export function toJson_ReplicationSourceSpecResticMoverResources(
 /* eslint-enable max-len, quote-props */
 
 /**
- * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+ * MoverSecurityContext allows specifying the PodSecurityContext that will
+ * be used by the data mover
  *
  * @schema ReplicationSourceSpecResticMoverSecurityContext
  */
 export interface ReplicationSourceSpecResticMoverSecurityContext {
   /**
-   * A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod:
-   * 1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw----
-   * If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows.
+   * appArmorProfile is the AppArmor options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema ReplicationSourceSpecResticMoverSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?:
+    ReplicationSourceSpecResticMoverSecurityContextAppArmorProfile;
+
+  /**
+   * A special supplemental group that applies to all containers in a pod.
+   * Some volume types allow the Kubelet to change the ownership of that volume
+   * to be owned by the pod:
+   *
+   * 1. The owning GID will be the FSGroup
+   * 2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
+   * 3. The permission bits are OR'd with rw-rw----
+   *
+   * If unset, the Kubelet will not modify the ownership and permissions of any volume.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContext#fsGroup
    */
   readonly fsGroup?: number;
 
   /**
-   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used. Note that this field cannot be set when spec.os.name is windows.
+   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume
+   * before being exposed inside Pod. This field will only apply to
+   * volume types which support fsGroup based ownership(and permissions).
+   * It will have no effect on ephemeral volume types such as: secret, configmaps
+   * and emptydir.
+   * Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContext#fsGroupChangePolicy
    */
   readonly fsGroupChangePolicy?: string;
 
   /**
-   * The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The GID to run the entrypoint of the container process.
+   * Uses runtime default if unset.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContext#runAsGroup
    */
   readonly runAsGroup?: number;
 
   /**
-   * Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Indicates that the container must run as a non-root user.
+   * If true, the Kubelet will validate the image at runtime to ensure that it
+   * does not run as UID 0 (root) and fail to start the container if it does.
+   * If unset or false, no such validation will be performed.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContext#runAsNonRoot
    */
   readonly runAsNonRoot?: boolean;
 
   /**
-   * The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The UID to run the entrypoint of the container process.
+   * Defaults to user specified in image metadata if unspecified.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * @default user specified in image metadata if unspecified.
    * @schema ReplicationSourceSpecResticMoverSecurityContext#runAsUser
    */
   readonly runAsUser?: number;
 
   /**
-   * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The SELinux context to be applied to all containers.
+   * If unspecified, the container runtime will allocate a random SELinux context for each
+   * container.  May also be set in SecurityContext.  If set in
+   * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+   * takes precedence for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContext#seLinuxOptions
    */
@@ -4170,7 +11555,8 @@ export interface ReplicationSourceSpecResticMoverSecurityContext {
     ReplicationSourceSpecResticMoverSecurityContextSeLinuxOptions;
 
   /**
-   * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+   * The seccomp options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContext#seccompProfile
    */
@@ -4178,21 +11564,32 @@ export interface ReplicationSourceSpecResticMoverSecurityContext {
     ReplicationSourceSpecResticMoverSecurityContextSeccompProfile;
 
   /**
-   * A list of groups applied to the first process run in each container, in addition to the container's primary GID, the fsGroup (if specified), and group memberships defined in the container image for the uid of the container process. If unspecified, no additional groups are added to any container. Note that group memberships defined in the container image for the uid of the container process are still effective, even if they are not included in this list. Note that this field cannot be set when spec.os.name is windows.
+   * A list of groups applied to the first process run in each container, in addition
+   * to the container's primary GID, the fsGroup (if specified), and group memberships
+   * defined in the container image for the uid of the container process. If unspecified,
+   * no additional groups are added to any container. Note that group memberships
+   * defined in the container image for the uid of the container process are still effective,
+   * even if they are not included in this list.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContext#supplementalGroups
    */
   readonly supplementalGroups?: number[];
 
   /**
-   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows.
+   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
+   * sysctls (by the container runtime) might fail to launch.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContext#sysctls
    */
   readonly sysctls?: ReplicationSourceSpecResticMoverSecurityContextSysctls[];
 
   /**
-   * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+   * The Windows specific settings applied to all containers.
+   * If unspecified, the options within a container's SecurityContext will be used.
+   * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is linux.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContext#windowsOptions
    */
@@ -4209,6 +11606,10 @@ export function toJson_ReplicationSourceSpecResticMoverSecurityContext(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "appArmorProfile":
+      toJson_ReplicationSourceSpecResticMoverSecurityContextAppArmorProfile(
+        obj.appArmorProfile,
+      ),
     "fsGroup": obj.fsGroup,
     "fsGroupChangePolicy": obj.fsGroupChangePolicy,
     "runAsGroup": obj.runAsGroup,
@@ -4337,7 +11738,8 @@ export class ReplicationSourceSpecRsyncCapacity {
 }
 
 /**
- * copyMethod describes how a point-in-time (PiT) image of the source volume should be created.
+ * copyMethod describes how a point-in-time (PiT) image of the source volume
+ * should be created.
  *
  * @schema ReplicationSourceSpecRsyncCopyMethod
  */
@@ -4353,14 +11755,22 @@ export enum ReplicationSourceSpecRsyncCopyMethod {
 }
 
 /**
- * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+ * Resources represents compute resources required by the data mover container.
+ * Immutable.
+ * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+ * This should only be used by advanced users as this can result in a mover
+ * pod being unschedulable or crashing due to limited resources.
  *
  * @schema ReplicationSourceSpecRsyncMoverResources
  */
 export interface ReplicationSourceSpecRsyncMoverResources {
   /**
-   * Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-   * This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+   * Claims lists the names of resources, defined in spec.resourceClaims,
+   * that are used by this container.
+   *
+   * This is an alpha field and requires enabling the
+   * DynamicResourceAllocation feature gate.
+   *
    * This field is immutable. It can only be set for containers.
    *
    * @schema ReplicationSourceSpecRsyncMoverResources#claims
@@ -4368,7 +11778,8 @@ export interface ReplicationSourceSpecRsyncMoverResources {
   readonly claims?: ReplicationSourceSpecRsyncMoverResourcesClaims[];
 
   /**
-   * Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationSourceSpecRsyncMoverResources#limits
    */
@@ -4377,7 +11788,10 @@ export interface ReplicationSourceSpecRsyncMoverResources {
   };
 
   /**
-   * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to an implementation-defined value. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationSourceSpecRsyncMoverResources#requests
    */
@@ -4440,7 +11854,8 @@ export class ReplicationSourceSpecRsyncTlsCapacity {
 }
 
 /**
- * copyMethod describes how a point-in-time (PiT) image of the source volume should be created.
+ * copyMethod describes how a point-in-time (PiT) image of the source volume
+ * should be created.
  *
  * @schema ReplicationSourceSpecRsyncTlsCopyMethod
  */
@@ -4456,14 +11871,81 @@ export enum ReplicationSourceSpecRsyncTlsCopyMethod {
 }
 
 /**
- * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+ * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinity
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinity {
+  /**
+   * Describes node affinity scheduling rules for the pod.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinity#nodeAffinity
+   */
+  readonly nodeAffinity?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinity;
+
+  /**
+   * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinity#podAffinity
+   */
+  readonly podAffinity?: ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinity;
+
+  /**
+   * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinity#podAntiAffinity
+   */
+  readonly podAntiAffinity?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinity;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinity(
+  obj: ReplicationSourceSpecRsyncTlsMoverAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeAffinity":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinity(
+        obj.nodeAffinity,
+      ),
+    "podAffinity": toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinity(
+      obj.podAffinity,
+    ),
+    "podAntiAffinity":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinity(
+        obj.podAntiAffinity,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Resources represents compute resources required by the data mover container.
+ * Immutable.
+ * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+ * This should only be used by advanced users as this can result in a mover
+ * pod being unschedulable or crashing due to limited resources.
  *
  * @schema ReplicationSourceSpecRsyncTlsMoverResources
  */
 export interface ReplicationSourceSpecRsyncTlsMoverResources {
   /**
-   * Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-   * This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+   * Claims lists the names of resources, defined in spec.resourceClaims,
+   * that are used by this container.
+   *
+   * This is an alpha field and requires enabling the
+   * DynamicResourceAllocation feature gate.
+   *
    * This field is immutable. It can only be set for containers.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverResources#claims
@@ -4471,7 +11953,8 @@ export interface ReplicationSourceSpecRsyncTlsMoverResources {
   readonly claims?: ReplicationSourceSpecRsyncTlsMoverResourcesClaims[];
 
   /**
-   * Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverResources#limits
    */
@@ -4480,7 +11963,10 @@ export interface ReplicationSourceSpecRsyncTlsMoverResources {
   };
 
   /**
-   * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to an implementation-defined value. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverResources#requests
    */
@@ -4523,51 +12009,94 @@ export function toJson_ReplicationSourceSpecRsyncTlsMoverResources(
 /* eslint-enable max-len, quote-props */
 
 /**
- * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+ * MoverSecurityContext allows specifying the PodSecurityContext that will
+ * be used by the data mover
  *
  * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext
  */
 export interface ReplicationSourceSpecRsyncTlsMoverSecurityContext {
   /**
-   * A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod:
-   * 1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw----
-   * If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows.
+   * appArmorProfile is the AppArmor options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?:
+    ReplicationSourceSpecRsyncTlsMoverSecurityContextAppArmorProfile;
+
+  /**
+   * A special supplemental group that applies to all containers in a pod.
+   * Some volume types allow the Kubelet to change the ownership of that volume
+   * to be owned by the pod:
+   *
+   * 1. The owning GID will be the FSGroup
+   * 2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
+   * 3. The permission bits are OR'd with rw-rw----
+   *
+   * If unset, the Kubelet will not modify the ownership and permissions of any volume.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext#fsGroup
    */
   readonly fsGroup?: number;
 
   /**
-   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used. Note that this field cannot be set when spec.os.name is windows.
+   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume
+   * before being exposed inside Pod. This field will only apply to
+   * volume types which support fsGroup based ownership(and permissions).
+   * It will have no effect on ephemeral volume types such as: secret, configmaps
+   * and emptydir.
+   * Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext#fsGroupChangePolicy
    */
   readonly fsGroupChangePolicy?: string;
 
   /**
-   * The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The GID to run the entrypoint of the container process.
+   * Uses runtime default if unset.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext#runAsGroup
    */
   readonly runAsGroup?: number;
 
   /**
-   * Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Indicates that the container must run as a non-root user.
+   * If true, the Kubelet will validate the image at runtime to ensure that it
+   * does not run as UID 0 (root) and fail to start the container if it does.
+   * If unset or false, no such validation will be performed.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext#runAsNonRoot
    */
   readonly runAsNonRoot?: boolean;
 
   /**
-   * The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The UID to run the entrypoint of the container process.
+   * Defaults to user specified in image metadata if unspecified.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * @default user specified in image metadata if unspecified.
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext#runAsUser
    */
   readonly runAsUser?: number;
 
   /**
-   * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The SELinux context to be applied to all containers.
+   * If unspecified, the container runtime will allocate a random SELinux context for each
+   * container.  May also be set in SecurityContext.  If set in
+   * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+   * takes precedence for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext#seLinuxOptions
    */
@@ -4575,7 +12104,8 @@ export interface ReplicationSourceSpecRsyncTlsMoverSecurityContext {
     ReplicationSourceSpecRsyncTlsMoverSecurityContextSeLinuxOptions;
 
   /**
-   * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+   * The seccomp options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext#seccompProfile
    */
@@ -4583,21 +12113,32 @@ export interface ReplicationSourceSpecRsyncTlsMoverSecurityContext {
     ReplicationSourceSpecRsyncTlsMoverSecurityContextSeccompProfile;
 
   /**
-   * A list of groups applied to the first process run in each container, in addition to the container's primary GID, the fsGroup (if specified), and group memberships defined in the container image for the uid of the container process. If unspecified, no additional groups are added to any container. Note that group memberships defined in the container image for the uid of the container process are still effective, even if they are not included in this list. Note that this field cannot be set when spec.os.name is windows.
+   * A list of groups applied to the first process run in each container, in addition
+   * to the container's primary GID, the fsGroup (if specified), and group memberships
+   * defined in the container image for the uid of the container process. If unspecified,
+   * no additional groups are added to any container. Note that group memberships
+   * defined in the container image for the uid of the container process are still effective,
+   * even if they are not included in this list.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext#supplementalGroups
    */
   readonly supplementalGroups?: number[];
 
   /**
-   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows.
+   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
+   * sysctls (by the container runtime) might fail to launch.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext#sysctls
    */
   readonly sysctls?: ReplicationSourceSpecRsyncTlsMoverSecurityContextSysctls[];
 
   /**
-   * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+   * The Windows specific settings applied to all containers.
+   * If unspecified, the options within a container's SecurityContext will be used.
+   * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is linux.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContext#windowsOptions
    */
@@ -4614,6 +12155,10 @@ export function toJson_ReplicationSourceSpecRsyncTlsMoverSecurityContext(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "appArmorProfile":
+      toJson_ReplicationSourceSpecRsyncTlsMoverSecurityContextAppArmorProfile(
+        obj.appArmorProfile,
+      ),
     "fsGroup": obj.fsGroup,
     "fsGroupChangePolicy": obj.fsGroupChangePolicy,
     "runAsGroup": obj.runAsGroup,
@@ -4665,14 +12210,82 @@ export class ReplicationSourceSpecSyncthingConfigCapacity {
 }
 
 /**
- * Resources represents compute resources required by the data mover container. Immutable. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/ This should only be used by advanced users as this can result in a mover pod being unschedulable or crashing due to limited resources.
+ * MoverAffinity allows specifying the PodAffinity that will be used by the data mover
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinity
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinity {
+  /**
+   * Describes node affinity scheduling rules for the pod.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinity#nodeAffinity
+   */
+  readonly nodeAffinity?:
+    ReplicationSourceSpecSyncthingMoverAffinityNodeAffinity;
+
+  /**
+   * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinity#podAffinity
+   */
+  readonly podAffinity?: ReplicationSourceSpecSyncthingMoverAffinityPodAffinity;
+
+  /**
+   * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinity#podAntiAffinity
+   */
+  readonly podAntiAffinity?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinity;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinity(
+  obj: ReplicationSourceSpecSyncthingMoverAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeAffinity":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinity(
+        obj.nodeAffinity,
+      ),
+    "podAffinity":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinity(
+        obj.podAffinity,
+      ),
+    "podAntiAffinity":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinity(
+        obj.podAntiAffinity,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Resources represents compute resources required by the data mover container.
+ * Immutable.
+ * More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+ * This should only be used by advanced users as this can result in a mover
+ * pod being unschedulable or crashing due to limited resources.
  *
  * @schema ReplicationSourceSpecSyncthingMoverResources
  */
 export interface ReplicationSourceSpecSyncthingMoverResources {
   /**
-   * Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.
-   * This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.
+   * Claims lists the names of resources, defined in spec.resourceClaims,
+   * that are used by this container.
+   *
+   * This is an alpha field and requires enabling the
+   * DynamicResourceAllocation feature gate.
+   *
    * This field is immutable. It can only be set for containers.
    *
    * @schema ReplicationSourceSpecSyncthingMoverResources#claims
@@ -4680,7 +12293,8 @@ export interface ReplicationSourceSpecSyncthingMoverResources {
   readonly claims?: ReplicationSourceSpecSyncthingMoverResourcesClaims[];
 
   /**
-   * Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationSourceSpecSyncthingMoverResources#limits
    */
@@ -4689,7 +12303,10 @@ export interface ReplicationSourceSpecSyncthingMoverResources {
   };
 
   /**
-   * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. Requests cannot exceed Limits. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to an implementation-defined value. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
    *
    * @schema ReplicationSourceSpecSyncthingMoverResources#requests
    */
@@ -4732,51 +12349,94 @@ export function toJson_ReplicationSourceSpecSyncthingMoverResources(
 /* eslint-enable max-len, quote-props */
 
 /**
- * MoverSecurityContext allows specifying the PodSecurityContext that will be used by the data mover
+ * MoverSecurityContext allows specifying the PodSecurityContext that will
+ * be used by the data mover
  *
  * @schema ReplicationSourceSpecSyncthingMoverSecurityContext
  */
 export interface ReplicationSourceSpecSyncthingMoverSecurityContext {
   /**
-   * A special supplemental group that applies to all containers in a pod. Some volume types allow the Kubelet to change the ownership of that volume to be owned by the pod:
-   * 1. The owning GID will be the FSGroup 2. The setgid bit is set (new files created in the volume will be owned by FSGroup) 3. The permission bits are OR'd with rw-rw----
-   * If unset, the Kubelet will not modify the ownership and permissions of any volume. Note that this field cannot be set when spec.os.name is windows.
+   * appArmorProfile is the AppArmor options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?:
+    ReplicationSourceSpecSyncthingMoverSecurityContextAppArmorProfile;
+
+  /**
+   * A special supplemental group that applies to all containers in a pod.
+   * Some volume types allow the Kubelet to change the ownership of that volume
+   * to be owned by the pod:
+   *
+   * 1. The owning GID will be the FSGroup
+   * 2. The setgid bit is set (new files created in the volume will be owned by FSGroup)
+   * 3. The permission bits are OR'd with rw-rw----
+   *
+   * If unset, the Kubelet will not modify the ownership and permissions of any volume.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContext#fsGroup
    */
   readonly fsGroup?: number;
 
   /**
-   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume before being exposed inside Pod. This field will only apply to volume types which support fsGroup based ownership(and permissions). It will have no effect on ephemeral volume types such as: secret, configmaps and emptydir. Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used. Note that this field cannot be set when spec.os.name is windows.
+   * fsGroupChangePolicy defines behavior of changing ownership and permission of the volume
+   * before being exposed inside Pod. This field will only apply to
+   * volume types which support fsGroup based ownership(and permissions).
+   * It will have no effect on ephemeral volume types such as: secret, configmaps
+   * and emptydir.
+   * Valid values are "OnRootMismatch" and "Always". If not specified, "Always" is used.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContext#fsGroupChangePolicy
    */
   readonly fsGroupChangePolicy?: string;
 
   /**
-   * The GID to run the entrypoint of the container process. Uses runtime default if unset. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The GID to run the entrypoint of the container process.
+   * Uses runtime default if unset.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContext#runAsGroup
    */
   readonly runAsGroup?: number;
 
   /**
-   * Indicates that the container must run as a non-root user. If true, the Kubelet will validate the image at runtime to ensure that it does not run as UID 0 (root) and fail to start the container if it does. If unset or false, no such validation will be performed. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Indicates that the container must run as a non-root user.
+   * If true, the Kubelet will validate the image at runtime to ensure that it
+   * does not run as UID 0 (root) and fail to start the container if it does.
+   * If unset or false, no such validation will be performed.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContext#runAsNonRoot
    */
   readonly runAsNonRoot?: boolean;
 
   /**
-   * The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The UID to run the entrypoint of the container process.
+   * Defaults to user specified in image metadata if unspecified.
+   * May also be set in SecurityContext.  If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence
+   * for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
-   * @default user specified in image metadata if unspecified. May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * @default user specified in image metadata if unspecified.
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContext#runAsUser
    */
   readonly runAsUser?: number;
 
   /**
-   * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+   * The SELinux context to be applied to all containers.
+   * If unspecified, the container runtime will allocate a random SELinux context for each
+   * container.  May also be set in SecurityContext.  If set in
+   * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+   * takes precedence for that container.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContext#seLinuxOptions
    */
@@ -4784,7 +12444,8 @@ export interface ReplicationSourceSpecSyncthingMoverSecurityContext {
     ReplicationSourceSpecSyncthingMoverSecurityContextSeLinuxOptions;
 
   /**
-   * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+   * The seccomp options to use by the containers in this pod.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContext#seccompProfile
    */
@@ -4792,14 +12453,22 @@ export interface ReplicationSourceSpecSyncthingMoverSecurityContext {
     ReplicationSourceSpecSyncthingMoverSecurityContextSeccompProfile;
 
   /**
-   * A list of groups applied to the first process run in each container, in addition to the container's primary GID, the fsGroup (if specified), and group memberships defined in the container image for the uid of the container process. If unspecified, no additional groups are added to any container. Note that group memberships defined in the container image for the uid of the container process are still effective, even if they are not included in this list. Note that this field cannot be set when spec.os.name is windows.
+   * A list of groups applied to the first process run in each container, in addition
+   * to the container's primary GID, the fsGroup (if specified), and group memberships
+   * defined in the container image for the uid of the container process. If unspecified,
+   * no additional groups are added to any container. Note that group memberships
+   * defined in the container image for the uid of the container process are still effective,
+   * even if they are not included in this list.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContext#supplementalGroups
    */
   readonly supplementalGroups?: number[];
 
   /**
-   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported sysctls (by the container runtime) might fail to launch. Note that this field cannot be set when spec.os.name is windows.
+   * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
+   * sysctls (by the container runtime) might fail to launch.
+   * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContext#sysctls
    */
@@ -4807,7 +12476,10 @@ export interface ReplicationSourceSpecSyncthingMoverSecurityContext {
     ReplicationSourceSpecSyncthingMoverSecurityContextSysctls[];
 
   /**
-   * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+   * The Windows specific settings applied to all containers.
+   * If unspecified, the options within a container's SecurityContext will be used.
+   * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * Note that this field cannot be set when spec.os.name is linux.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContext#windowsOptions
    */
@@ -4824,6 +12496,10 @@ export function toJson_ReplicationSourceSpecSyncthingMoverSecurityContext(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "appArmorProfile":
+      toJson_ReplicationSourceSpecSyncthingMoverSecurityContextAppArmorProfile(
+        obj.appArmorProfile,
+      ),
     "fsGroup": obj.fsGroup,
     "fsGroupChangePolicy": obj.fsGroupChangePolicy,
     "runAsGroup": obj.runAsGroup,
@@ -4855,7 +12531,8 @@ export function toJson_ReplicationSourceSpecSyncthingMoverSecurityContext(
 /* eslint-enable max-len, quote-props */
 
 /**
- * SyncthingPeer Defines the necessary information needed by VolSync to configure a given peer with the running Syncthing instance.
+ * SyncthingPeer Defines the necessary information needed by VolSync
+ * to configure a given peer with the running Syncthing instance.
  *
  * @schema ReplicationSourceSpecSyncthingPeers
  */
@@ -4875,7 +12552,11 @@ export interface ReplicationSourceSpecSyncthingPeers {
   readonly address: string;
 
   /**
-   * A flag that determines whether this peer should introduce us to other peers sharing this volume. It is HIGHLY recommended that two Syncthing peers do NOT set each other as introducers as you will have a difficult time disconnecting the two.
+   * A flag that determines whether this peer should
+   * introduce us to other peers sharing this volume.
+   * It is HIGHLY recommended that two Syncthing peers do NOT
+   * set each other as introducers as you will have a difficult time
+   * disconnecting the two.
    *
    * @schema ReplicationSourceSpecSyncthingPeers#introducer
    */
@@ -4904,13 +12585,212 @@ export function toJson_ReplicationSourceSpecSyncthingPeers(
 /* eslint-enable max-len, quote-props */
 
 /**
+ * Describes node affinity scheduling rules for the pod.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinity
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityNodeAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node matches the corresponding matchExpressions; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to an update), the system
+   * may or may not try to eventually evict the pod from its node.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityNodeAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinity(
+  obj: ReplicationSourceSpecRcloneMoverAffinityNodeAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+        obj.requiredDuringSchedulingIgnoredDuringExecution,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinity
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinity(
+  obj: ReplicationSourceSpecRcloneMoverAffinityPodAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinity
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the anti-affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling anti-affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the anti-affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the anti-affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinity(
+  obj: ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
  * ResourceClaim references one entry in PodSpec.ResourceClaims.
  *
  * @schema ReplicationSourceSpecRcloneMoverResourcesClaims
  */
 export interface ReplicationSourceSpecRcloneMoverResourcesClaims {
   /**
-   * Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+   * Name must match the name of one entry in pod.spec.resourceClaims of
+   * the Pod where this field is used. It makes that resource available
+   * inside a container.
    *
    * @schema ReplicationSourceSpecRcloneMoverResourcesClaims#name
    */
@@ -4973,7 +12853,63 @@ export class ReplicationSourceSpecRcloneMoverResourcesRequests {
 }
 
 /**
- * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+ * appArmorProfile is the AppArmor options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverSecurityContextAppArmorProfile
+ */
+export interface ReplicationSourceSpecRcloneMoverSecurityContextAppArmorProfile {
+  /**
+   * localhostProfile indicates a profile loaded on the node that should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must match the loaded name of the profile.
+   * Must be set if and only if type is "Localhost".
+   *
+   * @schema ReplicationSourceSpecRcloneMoverSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * type indicates which kind of AppArmor profile will be applied.
+   * Valid options are:
+   * Localhost - a profile pre-loaded on the node.
+   * RuntimeDefault - the container runtime's default profile.
+   * Unconfined - no AppArmor enforcement.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverSecurityContextAppArmorProfile#type
+   */
+  readonly type: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverSecurityContextAppArmorProfile(
+  obj:
+    | ReplicationSourceSpecRcloneMoverSecurityContextAppArmorProfile
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The SELinux context to be applied to all containers.
+ * If unspecified, the container runtime will allocate a random SELinux context for each
+ * container.  May also be set in SecurityContext.  If set in
+ * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+ * takes precedence for that container.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationSourceSpecRcloneMoverSecurityContextSeLinuxOptions
  */
@@ -5032,21 +12968,29 @@ export function toJson_ReplicationSourceSpecRcloneMoverSecurityContextSeLinuxOpt
 /* eslint-enable max-len, quote-props */
 
 /**
- * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+ * The seccomp options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationSourceSpecRcloneMoverSecurityContextSeccompProfile
  */
 export interface ReplicationSourceSpecRcloneMoverSecurityContextSeccompProfile {
   /**
-   * localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type.
+   * localhostProfile indicates a profile defined in a file on the node should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must be a descending path, relative to the kubelet's configured seccomp profile location.
+   * Must be set if type is "Localhost". Must NOT be set for any other type.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContextSeccompProfile#localhostProfile
    */
   readonly localhostProfile?: string;
 
   /**
-   * type indicates which kind of seccomp profile will be applied. Valid options are:
-   * Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+   * type indicates which kind of seccomp profile will be applied.
+   * Valid options are:
+   *
+   * Localhost - a profile defined in a file on the node should be used.
+   * RuntimeDefault - the container runtime default profile should be used.
+   * Unconfined - no profile should be applied.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContextSeccompProfile#type
    */
@@ -5117,13 +13061,18 @@ export function toJson_ReplicationSourceSpecRcloneMoverSecurityContextSysctls(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+ * The Windows specific settings applied to all containers.
+ * If unspecified, the options within a container's SecurityContext will be used.
+ * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is linux.
  *
  * @schema ReplicationSourceSpecRcloneMoverSecurityContextWindowsOptions
  */
 export interface ReplicationSourceSpecRcloneMoverSecurityContextWindowsOptions {
   /**
-   * GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+   * GMSACredentialSpec is where the GMSA admission webhook
+   * (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the
+   * GMSA credential spec named by the GMSACredentialSpecName field.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContextWindowsOptions#gmsaCredentialSpec
    */
@@ -5137,16 +13086,22 @@ export interface ReplicationSourceSpecRcloneMoverSecurityContextWindowsOptions {
   readonly gmsaCredentialSpecName?: string;
 
   /**
-   * HostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+   * HostProcess determines if a container should be run as a 'Host Process' container.
+   * All of a Pod's containers must have the same effective HostProcess value
+   * (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers).
+   * In addition, if HostProcess is true then HostNetwork must also be set to true.
    *
    * @schema ReplicationSourceSpecRcloneMoverSecurityContextWindowsOptions#hostProcess
    */
   readonly hostProcess?: boolean;
 
   /**
-   * The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * The UserName in Windows to run the entrypoint of the container process.
+   * Defaults to the user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext. If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
-   * @default the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * @default the user specified in image metadata if unspecified.
    * @schema ReplicationSourceSpecRcloneMoverSecurityContextWindowsOptions#runAsUserName
    */
   readonly runAsUserName?: string;
@@ -5177,13 +13132,212 @@ export function toJson_ReplicationSourceSpecRcloneMoverSecurityContextWindowsOpt
 /* eslint-enable max-len, quote-props */
 
 /**
+ * Describes node affinity scheduling rules for the pod.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinity
+ */
+export interface ReplicationSourceSpecResticMoverAffinityNodeAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node matches the corresponding matchExpressions; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to an update), the system
+   * may or may not try to eventually evict the pod from its node.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityNodeAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinity(
+  obj: ReplicationSourceSpecResticMoverAffinityNodeAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution":
+      toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+        obj.requiredDuringSchedulingIgnoredDuringExecution,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinity
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinity(
+  obj: ReplicationSourceSpecResticMoverAffinityPodAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinity
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the anti-affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling anti-affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the anti-affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the anti-affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinity(
+  obj: ReplicationSourceSpecResticMoverAffinityPodAntiAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
  * ResourceClaim references one entry in PodSpec.ResourceClaims.
  *
  * @schema ReplicationSourceSpecResticMoverResourcesClaims
  */
 export interface ReplicationSourceSpecResticMoverResourcesClaims {
   /**
-   * Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+   * Name must match the name of one entry in pod.spec.resourceClaims of
+   * the Pod where this field is used. It makes that resource available
+   * inside a container.
    *
    * @schema ReplicationSourceSpecResticMoverResourcesClaims#name
    */
@@ -5246,7 +13400,63 @@ export class ReplicationSourceSpecResticMoverResourcesRequests {
 }
 
 /**
- * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+ * appArmorProfile is the AppArmor options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
+ *
+ * @schema ReplicationSourceSpecResticMoverSecurityContextAppArmorProfile
+ */
+export interface ReplicationSourceSpecResticMoverSecurityContextAppArmorProfile {
+  /**
+   * localhostProfile indicates a profile loaded on the node that should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must match the loaded name of the profile.
+   * Must be set if and only if type is "Localhost".
+   *
+   * @schema ReplicationSourceSpecResticMoverSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * type indicates which kind of AppArmor profile will be applied.
+   * Valid options are:
+   * Localhost - a profile pre-loaded on the node.
+   * RuntimeDefault - the container runtime's default profile.
+   * Unconfined - no AppArmor enforcement.
+   *
+   * @schema ReplicationSourceSpecResticMoverSecurityContextAppArmorProfile#type
+   */
+  readonly type: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverSecurityContextAppArmorProfile(
+  obj:
+    | ReplicationSourceSpecResticMoverSecurityContextAppArmorProfile
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The SELinux context to be applied to all containers.
+ * If unspecified, the container runtime will allocate a random SELinux context for each
+ * container.  May also be set in SecurityContext.  If set in
+ * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+ * takes precedence for that container.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationSourceSpecResticMoverSecurityContextSeLinuxOptions
  */
@@ -5305,21 +13515,29 @@ export function toJson_ReplicationSourceSpecResticMoverSecurityContextSeLinuxOpt
 /* eslint-enable max-len, quote-props */
 
 /**
- * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+ * The seccomp options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationSourceSpecResticMoverSecurityContextSeccompProfile
  */
 export interface ReplicationSourceSpecResticMoverSecurityContextSeccompProfile {
   /**
-   * localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type.
+   * localhostProfile indicates a profile defined in a file on the node should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must be a descending path, relative to the kubelet's configured seccomp profile location.
+   * Must be set if type is "Localhost". Must NOT be set for any other type.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContextSeccompProfile#localhostProfile
    */
   readonly localhostProfile?: string;
 
   /**
-   * type indicates which kind of seccomp profile will be applied. Valid options are:
-   * Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+   * type indicates which kind of seccomp profile will be applied.
+   * Valid options are:
+   *
+   * Localhost - a profile defined in a file on the node should be used.
+   * RuntimeDefault - the container runtime default profile should be used.
+   * Unconfined - no profile should be applied.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContextSeccompProfile#type
    */
@@ -5390,13 +13608,18 @@ export function toJson_ReplicationSourceSpecResticMoverSecurityContextSysctls(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+ * The Windows specific settings applied to all containers.
+ * If unspecified, the options within a container's SecurityContext will be used.
+ * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is linux.
  *
  * @schema ReplicationSourceSpecResticMoverSecurityContextWindowsOptions
  */
 export interface ReplicationSourceSpecResticMoverSecurityContextWindowsOptions {
   /**
-   * GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+   * GMSACredentialSpec is where the GMSA admission webhook
+   * (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the
+   * GMSA credential spec named by the GMSACredentialSpecName field.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContextWindowsOptions#gmsaCredentialSpec
    */
@@ -5410,16 +13633,22 @@ export interface ReplicationSourceSpecResticMoverSecurityContextWindowsOptions {
   readonly gmsaCredentialSpecName?: string;
 
   /**
-   * HostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+   * HostProcess determines if a container should be run as a 'Host Process' container.
+   * All of a Pod's containers must have the same effective HostProcess value
+   * (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers).
+   * In addition, if HostProcess is true then HostNetwork must also be set to true.
    *
    * @schema ReplicationSourceSpecResticMoverSecurityContextWindowsOptions#hostProcess
    */
   readonly hostProcess?: boolean;
 
   /**
-   * The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * The UserName in Windows to run the entrypoint of the container process.
+   * Defaults to the user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext. If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
-   * @default the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * @default the user specified in image metadata if unspecified.
    * @schema ReplicationSourceSpecResticMoverSecurityContextWindowsOptions#runAsUserName
    */
   readonly runAsUserName?: string;
@@ -5456,7 +13685,9 @@ export function toJson_ReplicationSourceSpecResticMoverSecurityContextWindowsOpt
  */
 export interface ReplicationSourceSpecRsyncMoverResourcesClaims {
   /**
-   * Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+   * Name must match the name of one entry in pod.spec.resourceClaims of
+   * the Pod where this field is used. It makes that resource available
+   * inside a container.
    *
    * @schema ReplicationSourceSpecRsyncMoverResourcesClaims#name
    */
@@ -5519,13 +13750,212 @@ export class ReplicationSourceSpecRsyncMoverResourcesRequests {
 }
 
 /**
+ * Describes node affinity scheduling rules for the pod.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinity
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node matches the corresponding matchExpressions; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to an update), the system
+   * may or may not try to eventually evict the pod from its node.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinity(
+  obj: ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+        obj.requiredDuringSchedulingIgnoredDuringExecution,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinity
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinity(
+  obj: ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinity
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the anti-affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling anti-affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the anti-affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the anti-affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinity(
+  obj: ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
  * ResourceClaim references one entry in PodSpec.ResourceClaims.
  *
  * @schema ReplicationSourceSpecRsyncTlsMoverResourcesClaims
  */
 export interface ReplicationSourceSpecRsyncTlsMoverResourcesClaims {
   /**
-   * Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+   * Name must match the name of one entry in pod.spec.resourceClaims of
+   * the Pod where this field is used. It makes that resource available
+   * inside a container.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverResourcesClaims#name
    */
@@ -5588,7 +14018,63 @@ export class ReplicationSourceSpecRsyncTlsMoverResourcesRequests {
 }
 
 /**
- * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+ * appArmorProfile is the AppArmor options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContextAppArmorProfile
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverSecurityContextAppArmorProfile {
+  /**
+   * localhostProfile indicates a profile loaded on the node that should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must match the loaded name of the profile.
+   * Must be set if and only if type is "Localhost".
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * type indicates which kind of AppArmor profile will be applied.
+   * Valid options are:
+   * Localhost - a profile pre-loaded on the node.
+   * RuntimeDefault - the container runtime's default profile.
+   * Unconfined - no AppArmor enforcement.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContextAppArmorProfile#type
+   */
+  readonly type: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverSecurityContextAppArmorProfile(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverSecurityContextAppArmorProfile
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The SELinux context to be applied to all containers.
+ * If unspecified, the container runtime will allocate a random SELinux context for each
+ * container.  May also be set in SecurityContext.  If set in
+ * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+ * takes precedence for that container.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContextSeLinuxOptions
  */
@@ -5647,21 +14133,29 @@ export function toJson_ReplicationSourceSpecRsyncTlsMoverSecurityContextSeLinuxO
 /* eslint-enable max-len, quote-props */
 
 /**
- * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+ * The seccomp options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContextSeccompProfile
  */
 export interface ReplicationSourceSpecRsyncTlsMoverSecurityContextSeccompProfile {
   /**
-   * localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type.
+   * localhostProfile indicates a profile defined in a file on the node should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must be a descending path, relative to the kubelet's configured seccomp profile location.
+   * Must be set if type is "Localhost". Must NOT be set for any other type.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContextSeccompProfile#localhostProfile
    */
   readonly localhostProfile?: string;
 
   /**
-   * type indicates which kind of seccomp profile will be applied. Valid options are:
-   * Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+   * type indicates which kind of seccomp profile will be applied.
+   * Valid options are:
+   *
+   * Localhost - a profile defined in a file on the node should be used.
+   * RuntimeDefault - the container runtime default profile should be used.
+   * Unconfined - no profile should be applied.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContextSeccompProfile#type
    */
@@ -5732,13 +14226,18 @@ export function toJson_ReplicationSourceSpecRsyncTlsMoverSecurityContextSysctls(
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+ * The Windows specific settings applied to all containers.
+ * If unspecified, the options within a container's SecurityContext will be used.
+ * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is linux.
  *
  * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContextWindowsOptions
  */
 export interface ReplicationSourceSpecRsyncTlsMoverSecurityContextWindowsOptions {
   /**
-   * GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+   * GMSACredentialSpec is where the GMSA admission webhook
+   * (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the
+   * GMSA credential spec named by the GMSACredentialSpecName field.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContextWindowsOptions#gmsaCredentialSpec
    */
@@ -5752,16 +14251,22 @@ export interface ReplicationSourceSpecRsyncTlsMoverSecurityContextWindowsOptions
   readonly gmsaCredentialSpecName?: string;
 
   /**
-   * HostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+   * HostProcess determines if a container should be run as a 'Host Process' container.
+   * All of a Pod's containers must have the same effective HostProcess value
+   * (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers).
+   * In addition, if HostProcess is true then HostNetwork must also be set to true.
    *
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContextWindowsOptions#hostProcess
    */
   readonly hostProcess?: boolean;
 
   /**
-   * The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * The UserName in Windows to run the entrypoint of the container process.
+   * Defaults to the user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext. If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
-   * @default the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * @default the user specified in image metadata if unspecified.
    * @schema ReplicationSourceSpecRsyncTlsMoverSecurityContextWindowsOptions#runAsUserName
    */
   readonly runAsUserName?: string;
@@ -5792,13 +14297,212 @@ export function toJson_ReplicationSourceSpecRsyncTlsMoverSecurityContextWindowsO
 /* eslint-enable max-len, quote-props */
 
 /**
+ * Describes node affinity scheduling rules for the pod.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinity
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityNodeAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node matches the corresponding matchExpressions; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to an update), the system
+   * may or may not try to eventually evict the pod from its node.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityNodeAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinity(
+  obj: ReplicationSourceSpecSyncthingMoverAffinityNodeAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+        obj.requiredDuringSchedulingIgnoredDuringExecution,
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinity
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinity(
+  obj: ReplicationSourceSpecSyncthingMoverAffinityPodAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinity
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinity {
+  /**
+   * The scheduler will prefer to schedule pods to nodes that satisfy
+   * the anti-affinity expressions specified by this field, but it may choose
+   * a node that violates one or more of the expressions. The node that is
+   * most preferred is the one with the greatest sum of weights, i.e.
+   * for each node that meets all of the scheduling requirements (resource
+   * request, requiredDuringScheduling anti-affinity expressions, etc.),
+   * compute a sum by iterating through the elements of this field and adding
+   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * node(s) with the highest sum are the most preferred.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly preferredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+
+  /**
+   * If the anti-affinity requirements specified by this field are not met at
+   * scheduling time, the pod will not be scheduled onto the node.
+   * If the anti-affinity requirements specified by this field cease to be met
+   * at some point during pod execution (e.g. due to a pod label update), the
+   * system may or may not try to eventually evict the pod from its node.
+   * When there are multiple elements, the lists of nodes corresponding to each
+   * podAffinityTerm are intersected, i.e. all terms must be satisfied.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinity#requiredDuringSchedulingIgnoredDuringExecution
+   */
+  readonly requiredDuringSchedulingIgnoredDuringExecution?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinity' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinity(
+  obj: ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinity | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preferredDuringSchedulingIgnoredDuringExecution": obj
+      .preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+    "requiredDuringSchedulingIgnoredDuringExecution": obj
+      .requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+        toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+          y,
+        )
+      ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
  * ResourceClaim references one entry in PodSpec.ResourceClaims.
  *
  * @schema ReplicationSourceSpecSyncthingMoverResourcesClaims
  */
 export interface ReplicationSourceSpecSyncthingMoverResourcesClaims {
   /**
-   * Name must match the name of one entry in pod.spec.resourceClaims of the Pod where this field is used. It makes that resource available inside a container.
+   * Name must match the name of one entry in pod.spec.resourceClaims of
+   * the Pod where this field is used. It makes that resource available
+   * inside a container.
    *
    * @schema ReplicationSourceSpecSyncthingMoverResourcesClaims#name
    */
@@ -5861,7 +14565,63 @@ export class ReplicationSourceSpecSyncthingMoverResourcesRequests {
 }
 
 /**
- * The SELinux context to be applied to all containers. If unspecified, the container runtime will allocate a random SELinux context for each container.  May also be set in SecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence for that container. Note that this field cannot be set when spec.os.name is windows.
+ * appArmorProfile is the AppArmor options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverSecurityContextAppArmorProfile
+ */
+export interface ReplicationSourceSpecSyncthingMoverSecurityContextAppArmorProfile {
+  /**
+   * localhostProfile indicates a profile loaded on the node that should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must match the loaded name of the profile.
+   * Must be set if and only if type is "Localhost".
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * type indicates which kind of AppArmor profile will be applied.
+   * Valid options are:
+   * Localhost - a profile pre-loaded on the node.
+   * RuntimeDefault - the container runtime's default profile.
+   * Unconfined - no AppArmor enforcement.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverSecurityContextAppArmorProfile#type
+   */
+  readonly type: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverSecurityContextAppArmorProfile(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverSecurityContextAppArmorProfile
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The SELinux context to be applied to all containers.
+ * If unspecified, the container runtime will allocate a random SELinux context for each
+ * container.  May also be set in SecurityContext.  If set in
+ * both SecurityContext and PodSecurityContext, the value specified in SecurityContext
+ * takes precedence for that container.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationSourceSpecSyncthingMoverSecurityContextSeLinuxOptions
  */
@@ -5920,21 +14680,29 @@ export function toJson_ReplicationSourceSpecSyncthingMoverSecurityContextSeLinux
 /* eslint-enable max-len, quote-props */
 
 /**
- * The seccomp options to use by the containers in this pod. Note that this field cannot be set when spec.os.name is windows.
+ * The seccomp options to use by the containers in this pod.
+ * Note that this field cannot be set when spec.os.name is windows.
  *
  * @schema ReplicationSourceSpecSyncthingMoverSecurityContextSeccompProfile
  */
 export interface ReplicationSourceSpecSyncthingMoverSecurityContextSeccompProfile {
   /**
-   * localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must be set if type is "Localhost". Must NOT be set for any other type.
+   * localhostProfile indicates a profile defined in a file on the node should be used.
+   * The profile must be preconfigured on the node to work.
+   * Must be a descending path, relative to the kubelet's configured seccomp profile location.
+   * Must be set if type is "Localhost". Must NOT be set for any other type.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContextSeccompProfile#localhostProfile
    */
   readonly localhostProfile?: string;
 
   /**
-   * type indicates which kind of seccomp profile will be applied. Valid options are:
-   * Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied.
+   * type indicates which kind of seccomp profile will be applied.
+   * Valid options are:
+   *
+   * Localhost - a profile defined in a file on the node should be used.
+   * RuntimeDefault - the container runtime default profile should be used.
+   * Unconfined - no profile should be applied.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContextSeccompProfile#type
    */
@@ -6005,13 +14773,18 @@ export function toJson_ReplicationSourceSpecSyncthingMoverSecurityContextSysctls
 /* eslint-enable max-len, quote-props */
 
 /**
- * The Windows specific settings applied to all containers. If unspecified, the options within a container's SecurityContext will be used. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is linux.
+ * The Windows specific settings applied to all containers.
+ * If unspecified, the options within a container's SecurityContext will be used.
+ * If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+ * Note that this field cannot be set when spec.os.name is linux.
  *
  * @schema ReplicationSourceSpecSyncthingMoverSecurityContextWindowsOptions
  */
 export interface ReplicationSourceSpecSyncthingMoverSecurityContextWindowsOptions {
   /**
-   * GMSACredentialSpec is where the GMSA admission webhook (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the GMSA credential spec named by the GMSACredentialSpecName field.
+   * GMSACredentialSpec is where the GMSA admission webhook
+   * (https://github.com/kubernetes-sigs/windows-gmsa) inlines the contents of the
+   * GMSA credential spec named by the GMSACredentialSpecName field.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContextWindowsOptions#gmsaCredentialSpec
    */
@@ -6025,16 +14798,22 @@ export interface ReplicationSourceSpecSyncthingMoverSecurityContextWindowsOption
   readonly gmsaCredentialSpecName?: string;
 
   /**
-   * HostProcess determines if a container should be run as a 'Host Process' container. All of a Pod's containers must have the same effective HostProcess value (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers). In addition, if HostProcess is true then HostNetwork must also be set to true.
+   * HostProcess determines if a container should be run as a 'Host Process' container.
+   * All of a Pod's containers must have the same effective HostProcess value
+   * (it is not allowed to have a mix of HostProcess containers and non-HostProcess containers).
+   * In addition, if HostProcess is true then HostNetwork must also be set to true.
    *
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContextWindowsOptions#hostProcess
    */
   readonly hostProcess?: boolean;
 
   /**
-   * The UserName in Windows to run the entrypoint of the container process. Defaults to the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * The UserName in Windows to run the entrypoint of the container process.
+   * Defaults to the user specified in image metadata if unspecified.
+   * May also be set in PodSecurityContext. If set in both SecurityContext and
+   * PodSecurityContext, the value specified in SecurityContext takes precedence.
    *
-   * @default the user specified in image metadata if unspecified. May also be set in PodSecurityContext. If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence.
+   * @default the user specified in image metadata if unspecified.
    * @schema ReplicationSourceSpecSyncthingMoverSecurityContextWindowsOptions#runAsUserName
    */
   readonly runAsUserName?: string;
@@ -6055,6 +14834,7550 @@ export function toJson_ReplicationSourceSpecSyncthingMoverSecurityContextWindows
     "gmsaCredentialSpecName": obj.gmsaCredentialSpecName,
     "hostProcess": obj.hostProcess,
     "runAsUserName": obj.runAsUserName,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * An empty preferred scheduling term matches all objects with implicit weight 0
+ * (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A node selector term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#preference
+   */
+  readonly preference:
+    ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference;
+
+  /**
+   * Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preference":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+        obj.preference,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * If the affinity requirements specified by this field are not met at
+ * scheduling time, the pod will not be scheduled onto the node.
+ * If the affinity requirements specified by this field cease to be met
+ * at some point during pod execution (e.g. due to an update), the system
+ * may or may not try to eventually evict the pod from its node.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A list of node selector terms. The terms are ORed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution#nodeSelectorTerms
+   */
+  readonly nodeSelectorTerms:
+    ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeSelectorTerms": obj.nodeSelectorTerms?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * An empty preferred scheduling term matches all objects with implicit weight 0
+ * (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A node selector term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#preference
+   */
+  readonly preference:
+    ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference;
+
+  /**
+   * Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preference":
+      toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+        obj.preference,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * If the affinity requirements specified by this field are not met at
+ * scheduling time, the pod will not be scheduled onto the node.
+ * If the affinity requirements specified by this field cease to be met
+ * at some point during pod execution (e.g. due to an update), the system
+ * may or may not try to eventually evict the pod from its node.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A list of node selector terms. The terms are ORed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution#nodeSelectorTerms
+   */
+  readonly nodeSelectorTerms:
+    ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeSelectorTerms": obj.nodeSelectorTerms?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * An empty preferred scheduling term matches all objects with implicit weight 0
+ * (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A node selector term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#preference
+   */
+  readonly preference:
+    ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference;
+
+  /**
+   * Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preference":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+        obj.preference,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * If the affinity requirements specified by this field are not met at
+ * scheduling time, the pod will not be scheduled onto the node.
+ * If the affinity requirements specified by this field cease to be met
+ * at some point during pod execution (e.g. due to an update), the system
+ * may or may not try to eventually evict the pod from its node.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A list of node selector terms. The terms are ORed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution#nodeSelectorTerms
+   */
+  readonly nodeSelectorTerms:
+    ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeSelectorTerms": obj.nodeSelectorTerms?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * An empty preferred scheduling term matches all objects with implicit weight 0
+ * (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A node selector term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#preference
+   */
+  readonly preference:
+    ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference;
+
+  /**
+   * Weight associated with matching the corresponding nodeSelectorTerm, in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "preference":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+        obj.preference,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * If the affinity requirements specified by this field are not met at
+ * scheduling time, the pod will not be scheduled onto the node.
+ * If the affinity requirements specified by this field cease to be met
+ * at some point during pod execution (e.g. due to an update), the system
+ * may or may not try to eventually evict the pod from its node.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A list of node selector terms. The terms are ORed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution#nodeSelectorTerms
+   */
+  readonly nodeSelectorTerms:
+    ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "nodeSelectorTerms": obj.nodeSelectorTerms?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * Required. A pod affinity term, associated with the corresponding weight.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#podAffinityTerm
+   */
+  readonly podAffinityTerm:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm;
+
+  /**
+   * weight associated with matching the corresponding podAffinityTerm,
+   * in the range 1-100.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution#weight
+   */
+  readonly weight: number;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "podAffinityTerm":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+        obj.podAffinityTerm,
+      ),
+    "weight": obj.weight,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Defines a set of pods (namely those matching the labelSelector
+ * relative to the given namespace(s)) that this pod should be
+ * co-located (affinity) or not co-located (anti-affinity) with,
+ * where co-located is defined as running on a node whose value of
+ * the label with key <topologyKey> matches that of any node on which
+ * a pod of the set of pods is running
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchFields
+   */
+  readonly matchFields?:
+    ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A null or empty node selector term matches no objects. The requirements of
+ * them are ANDed.
+ * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchFields
+   */
+  readonly matchFields?:
+    ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+ */
+export interface ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchFields
+   */
+  readonly matchFields?:
+    ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A null or empty node selector term matches no objects. The requirements of
+ * them are ANDed.
+ * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+ */
+export interface ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchFields
+   */
+  readonly matchFields?:
+    ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchFields
+   */
+  readonly matchFields?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A null or empty node selector term matches no objects. The requirements of
+ * them are ANDed.
+ * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchFields
+   */
+  readonly matchFields?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference#matchFields
+   */
+  readonly matchFields?:
+    ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A null or empty node selector term matches no objects. The requirements of
+ * them are ANDed.
+ * The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms {
+  /**
+   * A list of node selector requirements by node's labels.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions[];
+
+  /**
+   * A list of node selector requirements by node's fields.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms#matchFields
+   */
+  readonly matchFields?:
+    ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+        y,
+      )
+    ),
+    "matchFields": obj.matchFields?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+        y,
+      )
+    ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * Required. A pod affinity term, associated with the corresponding weight.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm {
+  /**
+   * A label query over a set of resources, in this case pods.
+   * If it's null, this PodAffinityTerm matches with no Pods.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#labelSelector
+   */
+  readonly labelSelector?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key in (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
+   * Also, matchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MismatchLabelKeys is a set of pod label keys to select which pods will
+   * be taken into consideration. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are merged with `labelSelector` as `key notin (value)`
+   * to select the group of existing pods which pods will be taken into consideration
+   * for the incoming pod's pod (anti) affinity. Keys that don't exist in the incoming
+   * pod labels will be ignored. The default value is empty.
+   * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
+   * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
+   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
+   */
+  readonly mismatchLabelKeys?: string[];
+
+  /**
+   * A label query over the set of namespaces that the term applies to.
+   * The term is applied to the union of the namespaces selected by this field
+   * and the ones listed in the namespaces field.
+   * null selector and null or empty namespaces list means "this pod's namespace".
+   * An empty selector ({}) matches all namespaces.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaceSelector
+   */
+  readonly namespaceSelector?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector;
+
+  /**
+   * namespaces specifies a static list of namespace names that the term applies to.
+   * The term is applied to the union of the namespaces listed in this field
+   * and the ones selected by namespaceSelector.
+   * null or empty namespaces list and null namespaceSelector means "this pod's namespace".
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#namespaces
+   */
+  readonly namespaces?: string[];
+
+  /**
+   * This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching
+   * the labelSelector in the specified namespaces, where co-located is defined as running on a node
+   * whose value of the label with key topologyKey matches that of any node on which any of the
+   * selected pods is running.
+   * Empty topologyKey is not allowed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#topologyKey
+   */
+  readonly topologyKey: string;
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "mismatchLabelKeys": obj.mismatchLabelKeys?.map((y) => y),
+    "namespaceSelector":
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+        obj.namespaceSelector,
+      ),
+    "namespaces": obj.namespaces?.map((y) => y),
+    "topologyKey": obj.topologyKey,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+ */
+export interface ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+ */
+export interface ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+ */
+export interface ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+ */
+export interface ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A node selector requirement is a selector that contains values, a key, and an operator
+ * that relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields {
+  /**
+   * The label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#key
+   */
+  readonly key: string;
+
+  /**
+   * Represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#operator
+   */
+  readonly operator: string;
+
+  /**
+   * An array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. If the operator is Gt or Lt, the values
+   * array must have a single element, which will be interpreted as an integer.
+   * This array is replaced during a strategic merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over a set of resources, in this case pods.
+ * If it's null, this PodAffinityTerm matches with no Pods.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label query over the set of namespaces that the term applies to.
+ * The term is applied to the union of the namespaces selected by this field
+ * and the ones listed in the namespaces field.
+ * null selector and null or empty namespaces list means "this pod's namespace".
+ * An empty selector ({}) matches all namespaces.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRcloneMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecResticMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecRsyncTlsMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+ */
+export interface ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
+  obj:
+    | ReplicationSourceSpecSyncthingMoverAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
   };
   // filter undefined values
   return Object.entries(result).reduce(

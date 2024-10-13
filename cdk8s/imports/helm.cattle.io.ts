@@ -49,7 +49,7 @@ export class HelmChart extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
@@ -149,9 +149,19 @@ export interface HelmChartSpec {
   readonly helmVersion?: string;
 
   /**
+   * @schema HelmChartSpec#insecureSkipTLSVerify
+   */
+  readonly insecureSkipTlsVerify?: boolean;
+
+  /**
    * @schema HelmChartSpec#jobImage
    */
   readonly jobImage?: string;
+
+  /**
+   * @schema HelmChartSpec#plainHTTP
+   */
+  readonly plainHttp?: boolean;
 
   /**
    * @schema HelmChartSpec#podSecurityContext
@@ -225,7 +235,9 @@ export function toJson_HelmChartSpec(
     ),
     "failurePolicy": obj.failurePolicy,
     "helmVersion": obj.helmVersion,
+    "insecureSkipTLSVerify": obj.insecureSkipTlsVerify,
     "jobImage": obj.jobImage,
+    "plainHTTP": obj.plainHttp,
     "podSecurityContext": toJson_HelmChartSpecPodSecurityContext(
       obj.podSecurityContext,
     ),
@@ -315,6 +327,11 @@ export function toJson_HelmChartSpecDockerRegistrySecret(
  */
 export interface HelmChartSpecPodSecurityContext {
   /**
+   * @schema HelmChartSpecPodSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?: HelmChartSpecPodSecurityContextAppArmorProfile;
+
+  /**
    * @schema HelmChartSpecPodSecurityContext#fsGroup
    */
   readonly fsGroup?: number;
@@ -374,6 +391,9 @@ export function toJson_HelmChartSpecPodSecurityContext(
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "appArmorProfile": toJson_HelmChartSpecPodSecurityContextAppArmorProfile(
+      obj.appArmorProfile,
+    ),
     "fsGroup": obj.fsGroup,
     "fsGroupChangePolicy": obj.fsGroupChangePolicy,
     "runAsGroup": obj.runAsGroup,
@@ -440,6 +460,11 @@ export interface HelmChartSpecSecurityContext {
   readonly allowPrivilegeEscalation?: boolean;
 
   /**
+   * @schema HelmChartSpecSecurityContext#appArmorProfile
+   */
+  readonly appArmorProfile?: HelmChartSpecSecurityContextAppArmorProfile;
+
+  /**
    * @schema HelmChartSpecSecurityContext#capabilities
    */
   readonly capabilities?: HelmChartSpecSecurityContextCapabilities;
@@ -500,6 +525,9 @@ export function toJson_HelmChartSpecSecurityContext(
   if (obj === undefined) return undefined;
   const result = {
     "allowPrivilegeEscalation": obj.allowPrivilegeEscalation,
+    "appArmorProfile": toJson_HelmChartSpecSecurityContextAppArmorProfile(
+      obj.appArmorProfile,
+    ),
     "capabilities": toJson_HelmChartSpecSecurityContextCapabilities(
       obj.capabilities,
     ),
@@ -518,6 +546,41 @@ export function toJson_HelmChartSpecSecurityContext(
     "windowsOptions": toJson_HelmChartSpecSecurityContextWindowsOptions(
       obj.windowsOptions,
     ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema HelmChartSpecPodSecurityContextAppArmorProfile
+ */
+export interface HelmChartSpecPodSecurityContextAppArmorProfile {
+  /**
+   * @schema HelmChartSpecPodSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * @schema HelmChartSpecPodSecurityContextAppArmorProfile#type
+   */
+  readonly type?: string;
+}
+
+/**
+ * Converts an object of type 'HelmChartSpecPodSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_HelmChartSpecPodSecurityContextAppArmorProfile(
+  obj: HelmChartSpecPodSecurityContextAppArmorProfile | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -682,6 +745,41 @@ export function toJson_HelmChartSpecPodSecurityContextWindowsOptions(
     "gmsaCredentialSpecName": obj.gmsaCredentialSpecName,
     "hostProcess": obj.hostProcess,
     "runAsUserName": obj.runAsUserName,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, quote-props */
+
+/**
+ * @schema HelmChartSpecSecurityContextAppArmorProfile
+ */
+export interface HelmChartSpecSecurityContextAppArmorProfile {
+  /**
+   * @schema HelmChartSpecSecurityContextAppArmorProfile#localhostProfile
+   */
+  readonly localhostProfile?: string;
+
+  /**
+   * @schema HelmChartSpecSecurityContextAppArmorProfile#type
+   */
+  readonly type?: string;
+}
+
+/**
+ * Converts an object of type 'HelmChartSpecSecurityContextAppArmorProfile' to JSON representation.
+ */
+/* eslint-disable max-len, quote-props */
+export function toJson_HelmChartSpecSecurityContextAppArmorProfile(
+  obj: HelmChartSpecSecurityContextAppArmorProfile | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "localhostProfile": obj.localhostProfile,
+    "type": obj.type,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -901,7 +999,7 @@ export class HelmChartConfig extends ApiObject {
   /**
    * Renders the object to Kubernetes JSON.
    */
-  public toJson(): any {
+  public override toJson(): any {
     const resolved = super.toJson();
 
     return {
