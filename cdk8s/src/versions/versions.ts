@@ -7,11 +7,6 @@ const versions = {
   "cert-manager": "v1.15.3",
   // renovate: datasource=github-releases versioning=semver-coerced
   "kubernetes-csi/external-snapshotter": "v8.1.0",
-  // renovate: datasource=github-releases versioning=semver-coerced
-  "immich-app/immich-charts": "immich-0.7.0",
-  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "immich-app/immich-server":
-    "v1.118.2@sha256:f158810c90f80162f9b08729bbaec963731f12662960be38ff93093b78a0bbdf",
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
   "intel-device-plugins-operator": "0.30.0",
   // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver
@@ -46,12 +41,6 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "itzg/minecraft-server":
     "2024.9.0-java21@sha256:a7c48b666fc1962d33f895cce64fa0a690351b0a71b0240ffd6c80c3387038fa",
-  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver-coerced
-  "thijsvanloef/palworld-server-docker":
-    "v0.39.2@sha256:3a257f3b3e8da1000b4537877d1da5bf9549d9381b97b55cdc0aaac123db1f1e",
-  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "shepherdjerred/glitter-boys":
-    "1.1.30@sha256:a47becb4545d1080c42b8f46105de89f111abf39423880309e88bc0adc05f2c9",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "lavalink-devs/lavalink":
     "4.0.8@sha256:cd119c5c902804a8934cc1f13377dd6c5c5de76afadfd8bdd02f4011ce85339a",
@@ -102,9 +91,6 @@ const versions = {
     "1.28.0@sha256:8dac7822b7ba91a0798644787a3ed132af145b95dc52ea8f39d63d1add97f86d",
   // renovate: datasource=github-releases versioning=semver-coerced
   "windmill-labs/windmill-helm-charts": "windmill-2.0.181",
-  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "lloesche/valheim-server":
-    "latest@sha256:b97da1038714e5156cf28d042422a1c5af41e03189572025e615bde61395c678",
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v2.3.0",
   // renovate: datasource=helm registry=https://chartmuseum.github.io/charts versioning=semver

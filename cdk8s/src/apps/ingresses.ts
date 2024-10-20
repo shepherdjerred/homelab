@@ -75,16 +75,6 @@ export function createAppIngresses(chart: Chart) {
 
   createIngress(
     chart,
-    "immich-ingress",
-    "immich",
-    "immich-server",
-    3001,
-    ["immich"],
-    true,
-  );
-
-  createIngress(
-    chart,
     "chartmusuem-ingress",
     "chartmuseum",
     "chartmuseum",
