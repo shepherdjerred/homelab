@@ -1,6 +1,6 @@
-# Servers
+# Homelab
 
-This repository contains resources related to my home server, currently called
+This repository contains resources related to my homelab, currently called
 `lamport`. I give each of my servers a unique name so that I can keep track of
 them over time.
 
@@ -27,10 +27,10 @@ dotfiles, ansible, etc.
 
   - https://help.ubuntu.com/community/AutomaticSecurityUpdates
 
-- Set KUBE_CONFIG
+- Set `KUBE_CONFIG`
 - Update kernel parameters:
   https://docs.k3s.io/security/hardening-guide#set-kernel-parameters
-- Increase number of file watchers
+- Increase number of file watchers:
 
   ```
   sudo sysctl -w fs.inotify.max_user_watches=1990692
