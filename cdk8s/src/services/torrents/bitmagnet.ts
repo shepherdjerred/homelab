@@ -5,8 +5,8 @@ import {
   Secret,
   Service,
   Volume,
-} from "https://esm.sh/cdk8s-plus-27@2.9.3";
-import { Chart } from "https://esm.sh/cdk8s@2.68.58";
+} from "cdk8s-plus";
+import { Chart } from "cdk8s";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";

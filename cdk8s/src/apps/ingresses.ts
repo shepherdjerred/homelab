@@ -1,4 +1,4 @@
-import { Chart } from "https://esm.sh/cdk8s@2.68.58";
+import { Chart } from "cdk8s";
 import { KubeIngress } from "../../imports/k8s.ts";
 
 export function createAppIngresses(chart: Chart) {

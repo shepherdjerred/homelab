@@ -1,12 +1,12 @@
-import merge from "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/merge.js";
+import merge from "merge";
 import {
   PersistentVolumeAccessMode,
   PersistentVolumeClaim,
   PersistentVolumeClaimProps,
   PersistentVolumeMode,
-} from "https://esm.sh/cdk8s-plus-27@2.9.3";
-import { Construct } from "https://esm.sh/constructs@10.3.0";
-import { Size } from "https://esm.sh/cdk8s@2.68.58";
+} from "cdk8s-plus";
+import { Construct } from "constructs";
+import { Size } from "cdk8s";
 
 export class LocalPathVolume extends Construct {
   public readonly claim: PersistentVolumeClaim;

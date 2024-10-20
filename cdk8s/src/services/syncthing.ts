@@ -1,10 +1,5 @@
-import {
-  Deployment,
-  DeploymentStrategy,
-  Service,
-  Volume,
-} from "https://esm.sh/cdk8s-plus-27@2.9.3";
-import { Chart } from "https://esm.sh/cdk8s@2.68.58";
+import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
+import { Chart } from "cdk8s";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import {
   LINUXSERVER_GID,

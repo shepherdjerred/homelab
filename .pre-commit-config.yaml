@@ -4,6 +4,7 @@ repos:
     rev: 38.23.2
     hooks:
       - id: renovate-config-validator
+        language_version: "22.8.0"
     # TODO: sandbox Deno
   - repo: https://github.com/nozaq/pre-commit-deno
     rev: 0.1.0
@@ -37,5 +38,6 @@ repos:
     rev: v9.18.0
     hooks:
       - id: commitlint
+        language_version: "22.8.0"
         stages: [commit-msg]
         additional_dependencies: ["@commitlint/config-conventional"]

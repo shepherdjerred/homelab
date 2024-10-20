@@ -1,5 +1,5 @@
-import { App } from "https://esm.sh/cdk8s@2.68.58";
-import { Chart } from "https://esm.sh/cdk8s@2.68.58";
+import { App } from "cdk8s";
+import { Chart } from "cdk8s";
 import { createBackendDeployment } from "../services/glitter/glitter-boys.ts";
 
 export type Stage = "prod" | "beta";

@@ -1,5 +1,5 @@
-import merge from "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/merge.js";
-import { ContainerProps, EnvValue } from "https://esm.sh/cdk8s-plus-27@2.9.3";
+import merge from "merge";
+import { ContainerProps, EnvValue } from "cdk8s-plus";
 
 export const ROOT_UID = 0;
 export const ROOT_GID = 0;

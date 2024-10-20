@@ -49,26 +49,6 @@ for await (const file of files) {
   }
 }
 
-// replace the npm import with the deno import
-for await (const file of files) {
-  if (file.isFile) {
-    const filePath = `imports/${file.name}`;
-    let content = await Deno.readTextFile(filePath);
-    content = content.replaceAll(
-      "from 'cdk8s'",
-      "from 'https://esm.sh/cdk8s@2.68.58'",
-    );
-    content = content.replaceAll(
-      "from 'constructs'",
-      "from 'https://esm.sh/constructs@10.3.0'",
-    );
-    await Deno.writeTextFile(
-      filePath,
-      content,
-    );
-  }
-}
-
 // run deno fmt
 command = new Deno.Command("deno", {
   args: ["fmt", "imports"],

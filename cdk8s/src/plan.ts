@@ -1,4 +1,4 @@
-import { Chart } from "https://esm.sh/v135/cdk8s@2.68.58/";
+import { Chart } from "cdk8s";
 import { Plan } from "../imports/upgrade.cattle.io.ts";
 
 export function createUpgradePlan(chart: Chart) {

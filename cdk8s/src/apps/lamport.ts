@@ -1,4 +1,4 @@
-import { Chart } from "https://esm.sh/cdk8s@2.68.58";
+import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 
 export function createLamportApp(chart: Chart) {

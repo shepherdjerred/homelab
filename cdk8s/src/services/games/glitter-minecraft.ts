@@ -1,4 +1,4 @@
-import { Chart, Size } from "https://esm.sh/cdk8s@2.68.58";
+import { Chart, Size } from "cdk8s";
 import {
   Deployment,
   DeploymentStrategy,
@@ -8,7 +8,7 @@ import {
   Service,
   ServiceType,
   Volume,
-} from "https://esm.sh/cdk8s-plus-27@2.9.3";
+} from "cdk8s-plus";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";

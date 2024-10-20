@@ -1,10 +1,5 @@
-import {
-  Deployment,
-  DeploymentStrategy,
-  EnvValue,
-  Service,
-} from "https://esm.sh/cdk8s-plus-27@2.9.3";
-import { Chart } from "https://esm.sh/cdk8s@2.68.58";
+import { Deployment, DeploymentStrategy, EnvValue, Service } from "cdk8s-plus";
+import { Chart } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { Redis } from "../common/redis.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";

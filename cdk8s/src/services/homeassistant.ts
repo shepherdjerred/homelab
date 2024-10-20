@@ -4,8 +4,8 @@ import {
   Protocol,
   Service,
   Volume,
-} from "https://esm.sh/cdk8s-plus-27@2.9.3";
-import { ApiObject, Chart, JsonPatch } from "https://esm.sh/cdk8s@2.68.58";
+} from "cdk8s-plus";
+import { ApiObject, Chart, JsonPatch } from "cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../utils/common.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";

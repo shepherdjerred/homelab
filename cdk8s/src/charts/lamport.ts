@@ -1,4 +1,4 @@
-import { App, Chart } from "https://esm.sh/cdk8s@2.68.58";
+import { App, Chart } from "cdk8s";
 import { createEspHomeDeployment } from "../services/esphome.ts";
 import { createInvidiousDeployment } from "../services/frontends/invidious.ts";
 import { createTedditDeployment } from "../services/frontends/teddit.ts";

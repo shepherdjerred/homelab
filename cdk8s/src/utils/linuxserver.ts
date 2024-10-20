@@ -1,6 +1,6 @@
-import { ContainerProps, EnvValue } from "https://esm.sh/cdk8s-plus-27@2.9.3";
+import { ContainerProps, EnvValue } from "cdk8s-plus";
 import { commonProps, ROOT_GID, ROOT_UID } from "./common.ts";
-import { merge } from "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/lodash.js";
+import merge from "merge";
 
 export const LINUXSERVER_UID = 1000;
 export const LINUXSERVER_GID = 1000;

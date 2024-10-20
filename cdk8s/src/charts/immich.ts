@@ -1,5 +1,5 @@
-import { Chart } from "https://esm.sh/cdk8s@2.68.58";
-import { App } from "https://esm.sh/cdk8s@2.68.58";
+import { Chart } from "cdk8s";
+import { App } from "cdk8s";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { immichVolumeName } from "../apps/immich.ts";
 
