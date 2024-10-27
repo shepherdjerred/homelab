@@ -79,7 +79,7 @@ const versions = {
     "latest@sha256:2187e122660d6a2d451ef7c53fd4805c133133f4f47552256352c1e2a7f49ee2",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "esphome/esphome":
-    "2024.9.1@sha256:b9a2f15a8aa85d933f8eeb28a34010eb2274c2a24a96858922b65a3402f1dc44",
+    "2024.10.2@sha256:e01bc223b5a669e559318792a9cfde6c5f69781a53a6e4c819b6499313ee5028",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "tailscale/golink":
     "main@sha256:73891aa9cc23596177314364886c5becc4a5be3a2161080eb526fd249ade6e57",
