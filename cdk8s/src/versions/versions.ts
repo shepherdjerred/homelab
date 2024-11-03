@@ -12,7 +12,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver
   "jenkins": "5.7.7",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
-  "minio": "14.7.13",
+  "minio": "14.7.15",
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
   "node-feature-discovery": "0.16.4",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
