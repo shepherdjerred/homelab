@@ -28,7 +28,7 @@ const versions = {
     "16.2@sha256:4aea012537edfad80f98d870a36e6b90b4c09b27be7f4b4759d72db863baeebb",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/redis":
-    "7.2@sha256:868ddd4e87786d17ff49bc5b7d90cca4135e929f5ab26ff371ce0405d5bb13b6",
+    "7.2@sha256:4305c23e67690efec3151f667c77fa943c0ab537c0026e66931f0f048ac05879",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver-coerced
   "earthly/satellite":
     "v0.8.15@sha256:98225f076886533268d492ad14d0b2517f8b3ee18b1469cee50c5a4b76949bca",
