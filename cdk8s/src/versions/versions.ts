@@ -8,7 +8,7 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver-coerced
   "kubernetes-csi/external-snapshotter": "v8.1.0",
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
-  "intel-device-plugins-operator": "0.31.0",
+  "intel-device-plugins-operator": "0.31.1",
   // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver
   "jenkins": "5.7.7",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
