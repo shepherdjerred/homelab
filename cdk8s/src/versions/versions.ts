@@ -16,7 +16,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
   "node-feature-discovery": "0.16.5",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
-  "kube-prometheus-stack": "65.3.1",
+  "kube-prometheus-stack": "65.5.0",
   // renovate: datasource=github-releases versioning=semver-coerced
   "rancher/system-upgrade-controller": "v0.14.1",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
