@@ -53,9 +53,6 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/bazarr":
     "1.4.5@sha256:0d544276b51e11fb96f4bccd7d5babef597be0199364a11c0cdf24ab0470c381",
-  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver-coerced
-  "bitmagnet-io/bitmagnet":
-    "v0.9.5@sha256:7bf46883d18c520616cd8d11a08a29be2f49e7295843742c9cb363b499239b25",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/overseerr":
     "1.33.2@sha256:54cd6f5510c781a385c4d471364402d9cc5ecefad2728f32dd150d9333f67a65",
@@ -98,7 +95,10 @@ const versions = {
   // renovate: datasource=helm registry=https://itzg.github.io/minecraft-server-charts versioning=semver
   "minecraft": "4.20.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "koush/scrypted": "latest",
+  "koush/scrypted":
+    "latest@sha256:906f05fd398edca621cc466f0de322c1e827eb7dd2b78f82c7ea46bd0cd69c18",
+  "shepherdjerred/scout-for-lol/beta": "beta",
+  "shepherdjerred/scout-for-lol/prod": "prod",
 };
 
 export default versions;
