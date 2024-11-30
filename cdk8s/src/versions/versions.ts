@@ -98,9 +98,9 @@ const versions = {
   "koush/scrypted":
     "latest@sha256:906f05fd398edca621cc466f0de322c1e827eb7dd2b78f82c7ea46bd0cd69c18",
   "shepherdjerred/scout-for-lol/beta":
-    "latest@sha256:fcd477c8abd390ca72e3cb351a84b53833591b2487bd8f959c4012957ba669e2",
+    "1.0.0@sha256:0a6c80ed08dfc6dae4304bb30bfc6bbfb7914c2f46d3b015ccf04bb0787281c5",
   "shepherdjerred/scout-for-lol/prod":
-    "sha256:fcd477c8abd390ca72e3cb351a84b53833591b2487bd8f959c4012957ba669e2",
+    "1.0.0@sha256:0a6c80ed08dfc6dae4304bb30bfc6bbfb7914c2f46d3b015ccf04bb0787281c5",
 };
 
 export default versions;

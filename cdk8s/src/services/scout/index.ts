@@ -107,6 +107,7 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
       SENTRY_DSN: EnvValue.fromValue(
         "https://01aed04320da7d9b8ff25226bc5f3097@o92742.ingest.us.sentry.io/4508388740825088",
       ),
+      ENVIRONMENT: EnvValue.fromValue(stage),
     },
   }));
 }
