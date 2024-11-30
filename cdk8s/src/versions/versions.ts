@@ -97,8 +97,10 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "koush/scrypted":
     "latest@sha256:906f05fd398edca621cc466f0de322c1e827eb7dd2b78f82c7ea46bd0cd69c18",
-  "shepherdjerred/scout-for-lol/beta": "beta",
-  "shepherdjerred/scout-for-lol/prod": "prod",
+  "shepherdjerred/scout-for-lol/beta":
+    "latest@sha256:fcd477c8abd390ca72e3cb351a84b53833591b2487bd8f959c4012957ba669e2 ",
+  "shepherdjerred/scout-for-lol/prod":
+    "sha256:fcd477c8abd390ca72e3cb351a84b53833591b2487bd8f959c4012957ba669e2",
 };
 
 export default versions;

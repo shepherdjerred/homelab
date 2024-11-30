@@ -9,5 +9,6 @@ export function createScoutChart(app: App, stage: Stage) {
     namespace: `scout-${stage}`,
     disableResourceNameHashes: true,
   });
+
   createScoutDeployment(chart, stage);
 }
