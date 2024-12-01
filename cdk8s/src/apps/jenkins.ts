@@ -67,6 +67,11 @@ export function createJenkinsApp(chart: Chart) {
     },
   });
 
+  const plugins = Deno.readTextFileSync("config/plugins.txt").split(
+    "\n",
+  )
+    .filter(Boolean);
+
   new Application(chart, "jenkins-app", {
     metadata: {
       name: "jenkins",
@@ -81,6 +86,7 @@ export function createJenkinsApp(chart: Chart) {
         helm: {
           valuesObject: {
             controller: {
+              additionalPlugins: plugins,
               sidecars: {
                 configAutoReload: {
                   enabled: true,
