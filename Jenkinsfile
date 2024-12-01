@@ -1,6 +1,7 @@
 pipeline {
     agent {
         kubernetes {
+            idleMinutes 30
             defaultContainer 'earthly'
             inheritFrom 'default'
             yaml '''
