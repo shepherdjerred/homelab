@@ -58,7 +58,7 @@ const versions = {
     "1.33.2@sha256:54cd6f5510c781a385c4d471364402d9cc5ecefad2728f32dd150d9333f67a65",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/prowlarr":
-    "1.26.1@sha256:c492863c8e1da876a6be3d0d5836f25b3547c0a3293f0e9f09cd198ebf47ea37",
+    "1.27.0@sha256:2ae64259bfca88972deec4cffa3750a454224283515854408e35af480f167cd7",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver-coerced
   "qdm12/gluetun":
     "v3.39.1@sha256:6a8058e626763cbf735ac2f78c774dbb24fec2490bd9d9f7d67e22592cb4a991",
