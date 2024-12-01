@@ -16,6 +16,11 @@
     {
       "matchDatasources": ["docker"],
       "pinDigests": true
+    },
+    {
+      "matchDatasources": ["jenkins"],
+      "schedule": ["* 0-4 * * *"],
+      "minimumReleaseAge": "7 days"
     }
   ],
   "pre-commit": {
