@@ -13,7 +13,6 @@ cloud-stats:336.v788e4055508b_
 cloudbees-folder:6.959.v4ed5cc9e2dd4
 commons-lang3-api:3.17.0-84.vb_b_938040b_078
 commons-text-api:1.12.0-129.v99a_50df237f7
-configuration-as-code:1897.v79281e066ea_7
 credentials-binding:687.v619cb_15e923f
 credentials:1389.vd7a_b_f5fa_50a_2
 display-url-api:2.209.v582ed814ff2f
@@ -22,7 +21,6 @@ echarts-api:5.5.1-4
 eddsa-api:0.3.0-4.v84c6f0f4969e
 font-awesome-api:6.6.0-2
 git-client:6.1.0
-git:5.6.0
 github-api:1.321-478.vc9ce627ce001
 github-branch-source:1807.v50351eb_7dd13
 github-checks:589.v845136f916cd
@@ -44,7 +42,6 @@ json-path-api:2.9.0-118.v7f23ed82a_8b_8
 junit:1309.v0078b_fecd6ed
 kubernetes-client-api:6.10.0-240.v57880ce8b_0b_2
 kubernetes-credentials:190.v03c305394deb_
-kubernetes:4296.v20a_7e4d77cf6
 mailer:489.vd4b_25144138f
 metrics:4.2.21-458.vcf496cb_839e4
 mina-sshd-api-common:2.14.0-133.vcc091215a_358
@@ -73,7 +70,6 @@ structs:338.v848422169819
 token-macro:400.v35420b_922dcb_
 trilead-api:2.147.vb_73cc728a_32e
 variant:60.v7290fc0eb_b_cd
-workflow-aggregator:600.vb_57cdd26fdd7
 workflow-api:1336.vee415d95c521
 workflow-basic-steps:1058.vcb_fc1e3a_21a_9
 workflow-cps:3996.va_f5c1799f978
