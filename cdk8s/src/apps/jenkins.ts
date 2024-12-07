@@ -67,7 +67,7 @@ export function createJenkinsApp(chart: Chart) {
     },
   });
 
-  const plugins = Deno.readTextFileSync("config/plugins.txt").split(
+  const plugins = Deno.readTextFileSync("config/jenkins/plugins.txt").split(
     "\n",
   )
     .filter(Boolean);

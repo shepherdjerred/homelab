@@ -1,4 +1,5 @@
 import {
+  ConfigMap,
   Deployment,
   DeploymentStrategy,
   Protocol,
@@ -67,6 +68,21 @@ export function createHomeAssistantDeployment(chart: Chart) {
     },
   });
 
+  const automationsYml = Deno.readTextFileSync(
+    "config/homeassistant/automations.yaml",
+  );
+  const configurationYml = Deno.readTextFileSync(
+    "config/homeassistant/configuration.yaml",
+  );
+  const scenesYml = Deno.readTextFileSync("config/homeassistant/scenes.yaml");
+  const scriptsYml = Deno.readTextFileSync("config/homeassistant/scripts.yaml");
+
+  const config = new ConfigMap(chart, "ha-conf");
+  config.addData("automations.yaml", automationsYml);
+  config.addData("configuration.yaml", configurationYml);
+  config.addData("scenes.yaml", scenesYml);
+  config.addData("scripts.yaml", scriptsYml);
+
   deployment.addContainer(
     withCommonProps({
       securityContext: {
@@ -90,6 +106,25 @@ export function createHomeAssistantDeployment(chart: Chart) {
         {
           path: "/config",
           volume,
+        },
+        {
+          path: "/config",
+          volume: Volume.fromConfigMap(chart, "ha-automations", config, {
+            items: {
+              "automations.yaml": {
+                path: "automations.yaml",
+              },
+              "configuration.yaml": {
+                path: "configuration.yaml",
+              },
+              "scenes.yaml": {
+                path: "scenes.yaml",
+              },
+              "scripts.yaml": {
+                path: "scripts.yaml",
+              },
+            },
+          }),
         },
       ],
     }),
