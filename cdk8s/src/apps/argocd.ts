@@ -13,6 +13,7 @@ export function createArgoCdApp(chart: Chart) {
         repoUrl: "https://github.com/argoproj/argo-cd",
         targetRevision: versions["argoproj/argo-cd"],
         path: "manifests/",
+        kustomize: {},
       },
       destination: {
         server: "https://kubernetes.default.svc",
