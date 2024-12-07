@@ -68,11 +68,20 @@ export function createHomeAssistantDeployment(chart: Chart) {
     },
   });
 
+  const automationsYml = Deno.readTextFileSync(
+    "config/homeassistant/automations.yaml",
+  );
+  const configurationYml = Deno.readTextFileSync(
+    "config/homeassistant/configuration.yaml",
+  );
+  const scenesYml = Deno.readTextFileSync("config/homeassistant/scenes.yaml");
+  const scriptsYml = Deno.readTextFileSync("config/homeassistant/scripts.yaml");
+
   const config = new ConfigMap(chart, "ha-conf");
-  config.addFile("config/homeassistant/automations.yaml");
-  config.addFile("config/homeassistant/configuration.yaml");
-  config.addFile("config/homeassistant/scenes.yaml");
-  config.addFile("config/homeassistant/scripts.yaml");
+  config.addBinaryData("automations.yaml", automationsYml);
+  config.addBinaryData("configuration.yaml", configurationYml);
+  config.addBinaryData("scenes.yaml", scenesYml);
+  config.addBinaryData("scripts.yaml", scriptsYml);
 
   deployment.addContainer(
     withCommonProps({
