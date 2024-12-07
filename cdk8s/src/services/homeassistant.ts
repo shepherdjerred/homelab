@@ -81,10 +81,10 @@ export function createHomeAssistantDeployment(chart: Chart) {
     str.replace(/{{/g, "\\{\\{").replace(/}}/g, "\\}\\}");
 
   const config = new ConfigMap(chart, "ha-conf");
-  config.addBinaryData("automations.yaml", escape(automationsYml));
-  config.addBinaryData("configuration.yaml", escape(configurationYml));
-  config.addBinaryData("scenes.yaml", escape(scenesYml));
-  config.addBinaryData("scripts.yaml", escape(scriptsYml));
+  config.addData("automations.yaml", escape(automationsYml));
+  config.addData("configuration.yaml", escape(configurationYml));
+  config.addData("scenes.yaml", escape(scenesYml));
+  config.addData("scripts.yaml", escape(scriptsYml));
 
   deployment.addContainer(
     withCommonProps({
