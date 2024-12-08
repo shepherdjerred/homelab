@@ -111,20 +111,20 @@ export function createHomeAssistantDeployment(chart: Chart) {
           volume,
         },
         {
-          path: "/config",
-          volume: Volume.fromConfigMap(chart, "ha-automations", config, {
+          path: "/config/other",
+          volume: Volume.fromConfigMap(chart, "ha-config", config, {
             items: {
               "automations.yaml": {
-                path: "automations.yaml",
+                path: "automations-2.yaml",
               },
               "configuration.yaml": {
-                path: "configuration.yaml",
+                path: "configuration-2.yaml",
               },
               "scenes.yaml": {
-                path: "scenes.yaml",
+                path: "scenes-2.yaml",
               },
               "scripts.yaml": {
-                path: "scripts.yaml",
+                path: "scripts-2.yaml",
               },
             },
           }),
