@@ -68,23 +68,19 @@ export function createHomeAssistantDeployment(chart: Chart) {
     },
   });
 
-  const automationsYml = Deno.readTextFileSync(
-    "config/homeassistant/automations.yaml",
-  );
-  const configurationYml = Deno.readTextFileSync(
-    "config/homeassistant/configuration.yaml",
-  );
-  const scenesYml = Deno.readTextFileSync("config/homeassistant/scenes.yaml");
-  const scriptsYml = Deno.readTextFileSync("config/homeassistant/scripts.yaml");
+  const files = Array.from(Deno.readDirSync("config/homeassistant"))
+    .filter((entry) => entry.isFile)
+    .map((entry) => entry.name);
 
-  const escape = (str: string) =>
-    str.replace(/{{/g, "\\{\\{").replace(/}}/g, "\\}\\}");
+  // const escape = (str: string) => str.replace(/{/g, "\\{").replace(/}/g, "\\}");
 
-  const config = new ConfigMap(chart, "ha-conf");
-  config.addData("automations.yaml", escape(automationsYml));
-  config.addData("configuration.yaml", escape(configurationYml));
-  config.addData("scenes.yaml", escape(scenesYml));
-  config.addData("scripts.yaml", escape(scriptsYml));
+  const config = new ConfigMap(chart, "ha-cm");
+  files.forEach((file) => {
+    const content = Deno.readTextFileSync(`config/homeassistant/${file}`);
+    config.addData(file, content);
+  });
+
+  const configVolume = Volume.fromConfigMap(chart, "ha-cm-volume", config);
 
   deployment.addContainer(
     withCommonProps({
@@ -110,25 +106,13 @@ export function createHomeAssistantDeployment(chart: Chart) {
           path: "/config",
           volume,
         },
-        {
-          path: "/config/other",
-          volume: Volume.fromConfigMap(chart, "ha-config", config, {
-            items: {
-              "automations.yaml": {
-                path: "automations-2.yaml",
-              },
-              "configuration.yaml": {
-                path: "configuration-2.yaml",
-              },
-              "scenes.yaml": {
-                path: "scenes-2.yaml",
-              },
-              "scripts.yaml": {
-                path: "scripts-2.yaml",
-              },
-            },
-          }),
-        },
+        ...(files.map((file) => {
+          return {
+            path: `/config/${file}`,
+            subPath: file,
+            volume: configVolume,
+          };
+        })),
       ],
     }),
   );
