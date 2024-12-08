@@ -17,8 +17,12 @@ build:
   # https://github.com/helm/helm/issues/2798#issuecomment-326454957
   # {{ => {{`
   # }} => `}}
-  RUN find . -type f -name '*.yaml' -exec sed -i 's/{{/{{`/g' {} +
-  RUN find . -type f -name '*.yaml' -exec sed -i 's/}}/`}}/g' {} +
+  RUN find . -type f -name '*.yaml' -exec sed -i 's/{{/{{`{{/g' {} +
+  RUN find . -type f -name '*.yaml' -exec sed -i 's/}}/}}`}}/g' {} +
+
+  # print line 1371
+  RUN sed -n 1371p templates/lamport.k8s.yaml
+  RUN false
 
   RUN helm package .
   SAVE ARTIFACT lamport-$version.tgz AS LOCAL dist/
