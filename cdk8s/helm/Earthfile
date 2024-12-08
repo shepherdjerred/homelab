@@ -14,10 +14,11 @@ build:
 
   # fixes an issue with Home Assistant YAML files
   # escape {{ and }} in all of the files
-  # {{ => {{ "{{" }}
-  # }} => {{ "}}" }}
-  RUN find . -type f -name '*.yaml' -exec sed -i 's/{{/{{ "{{" }}/g' {} \;
-  RUN find . -type f -name '*.yaml' -exec sed -i 's/}}/{{ "}}" }}/g' {} \;
+  # https://github.com/helm/helm/issues/2798#issuecomment-326454957
+  # {{ => {{`
+  # }} => `}}
+  RUN find . -type f -name '*.yaml' -exec sed -i 's/{{/{{`/g' {} +
+  RUN find . -type f -name '*.yaml' -exec sed -i 's/}}/`}}/g' {} +
 
   RUN helm package .
   SAVE ARTIFACT lamport-$version.tgz AS LOCAL dist/
