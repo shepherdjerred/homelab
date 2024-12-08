@@ -12,10 +12,12 @@ build:
   RUN sed -i "s/^version:.*$/version: $version/" Chart.yaml
   RUN sed -i "s/^appVersion:.*$/appVersion: $version/" Chart.yaml
 
-  # escape {{ and }} in all of the files
   # fixes an issue with Home Assistant YAML files
-  RUN find . -type f -exec sed -i 's/{{/\\{\\{/g' {} +
-  RUN find . -type f -exec sed -i 's/}}/\\}\\}/g' {} +
+  # escape {{ and }} in all of the files
+  # {{ => {{ "{{" }}
+  # }} => {{ "}}" }}
+  RUN find . -type f -name '*.yaml' -exec sed -i 's/{{/{{ "{{" }}/g' {} \;
+  RUN find . -type f -name '*.yaml' -exec sed -i 's/}}/{{ "}}" }}/g' {} \;
 
   RUN helm package .
   SAVE ARTIFACT lamport-$version.tgz AS LOCAL dist/
