@@ -1,7 +1,6 @@
 const versions = {
   // https://github.com/renovatebot/renovate/discussions/13845
-
-  // renovate: datasource=custom.k3s
+  // renovate: datasource=custom.k3s versioning=semver
   "k3s-io/k3s": "v1.30.6+k3s1",
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
   "connect": "1.16.0",
