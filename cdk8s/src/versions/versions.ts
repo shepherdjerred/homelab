@@ -1,4 +1,6 @@
 const versions = {
+  // renovate: datasource=k3s
+  "k3s": "v1.30.6+k3s1",
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
   "connect": "1.16.0",
   // renovate: datasource=github-releases versioning=semver-coerced

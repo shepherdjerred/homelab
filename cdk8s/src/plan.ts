@@ -1,5 +1,6 @@
 import { Chart } from "cdk8s";
 import { Plan } from "../imports/upgrade.cattle.io.ts";
+import versions from "./versions/versions.ts";
 
 export function createUpgradePlan(chart: Chart) {
   // # Copied from https://docs.k3s.io/upgrades/automated#configure-plans
@@ -23,7 +24,7 @@ export function createUpgradePlan(chart: Chart) {
       upgrade: {
         image: "rancher/k3s-upgrade",
       },
-      channel: "https://update.k3s.io/v1-release/channels/stable",
+      version: versions.k3s,
     },
   });
 
@@ -50,7 +51,7 @@ export function createUpgradePlan(chart: Chart) {
       upgrade: {
         image: "rancher/k3s-upgrade",
       },
-      channel: "https://update.k3s.io/v1-release/channels/stable",
+      version: versions.k3s,
     },
   });
 }

@@ -21,11 +21,24 @@
       "matchDatasources": ["jenkins"],
       "schedule": ["* 0-4 * * *"],
       "minimumReleaseAge": "7 days"
+    },
+    {
+      "matchDatasources": ["k3s"],
+      "automerge": false
     }
   ],
   "pre-commit": {
     "enabled": true
   },
   "schedule": ["after 3am on Sunday"],
-  "minimumReleaseAge": "30 days"
+  "minimumReleaseAge": "30 days",
+  "customDatasources": {
+    "k3s": {
+      "defaultRegistryUrlTemplate": "https://update.k3s.io/v1-release/channels",
+      "transformTemplates": [
+        "{\"releases\":[{\"version\": $$.(data[id = 'stable'].latest),\"sourceUrl\":\"https://github.com/k3s-io/k3s\",\"changelogUrl\":$join([\"https://github.com/k3s-io/k3s/releases/tag/\",data[id = 'stable'].latest])}],\"sourceUrl\": \"https://github.com/k3s-io/k3s\",\"homepage\": \"https://k3s.io/\"}"
+      ]
+    }
+  },
+  "assignees": ["shepherdjerred"]
 }
