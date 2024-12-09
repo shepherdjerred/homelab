@@ -25,6 +25,12 @@
     {
       "matchDatasources": ["k3s"],
       "automerge": false
+    },
+    {
+      "description": "Use custom regex versioning for k3s",
+      "matchPackageNames": ["k3s"],
+      "matchDatasources": ["custom.k3s"],
+      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<compatibility>\\+k3s)(?<build>\\d+)$"
     }
   ],
   "pre-commit": {
