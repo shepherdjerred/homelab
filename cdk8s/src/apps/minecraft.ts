@@ -14,7 +14,7 @@ export function createMinecraftApp(chart: Chart) {
     {
       spec: {
         itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/eyhxlmevk52fcbdxzyswxj6qua",
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/kab5nk2p2o35pxzcxucnhxaepm",
       },
       metadata: {
         name: "personal-minecraft-restic-onepassword-item",
