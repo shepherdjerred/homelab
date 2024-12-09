@@ -24,7 +24,7 @@ export function createUpgradePlan(chart: Chart) {
       upgrade: {
         image: "rancher/k3s-upgrade",
       },
-      version: versions.k3s,
+      version: versions["k3s-io/k3s"],
     },
   });
 
@@ -51,7 +51,7 @@ export function createUpgradePlan(chart: Chart) {
       upgrade: {
         image: "rancher/k3s-upgrade",
       },
-      version: versions.k3s,
+      version: versions["k3s-io/k3s"],
     },
   });
 }
