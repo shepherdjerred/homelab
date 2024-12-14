@@ -9,7 +9,7 @@ deno:
 deps:
   FROM +deno
   CACHE --persist $DENO_DIR
-  COPY --dir deno* src imports .
+  COPY --dir deno* src imports patch.ts .
   RUN deno cache src/app.ts
 
 build:
