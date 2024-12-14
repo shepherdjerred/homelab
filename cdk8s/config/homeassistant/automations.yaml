@@ -1,0 +1,913 @@
+- id: "1646196241303"
+  alias: Stairway lights on motion
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.stairway_motion
+      to: "on"
+  condition: []
+  action:
+    - action: scene.turn_on
+      data:
+        transition: 3
+      target:
+        entity_id: scene.stairway_bright
+  mode: restart
+- id: "1646197051085"
+  alias: Outdoor lights (sunset)
+  description: ""
+  triggers:
+    - entity_id:
+        - input_boolean.sun_is_down
+      to: "on"
+      from: "off"
+      trigger: state
+  conditions: []
+  actions:
+    - data:
+        transition: 30
+      target:
+        area_id:
+          - balcony
+          - backyard
+      action: light.turn_on
+    - action: scene.turn_on
+      target:
+        entity_id: scene.bollards_dimmed
+      data: {}
+    - if:
+        - condition: state
+          entity_id: input_boolean.holiday_lights_enabled
+          state: "off"
+      then:
+        - data: {}
+          target:
+            entity_id: light.patio_lights
+          action: light.turn_on
+      else:
+        - action: scene.turn_on
+          data: {}
+          target:
+            entity_id:
+              - scene.front_porch_crystalline
+  mode: single
+- id: "1646197080067"
+  alias: Outdoor lights (sunrise)
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.sun_is_down
+      to: "off"
+      from: "on"
+  condition: []
+  action:
+    - data:
+        transition: 30
+      target:
+        area_id:
+          - balcony
+          - front_porch
+          - backyard
+          - front_path
+          - side_path
+      action: light.turn_off
+  mode: single
+- id: "1646198210838"
+  alias: Brighten bollards on motion
+  description: ""
+  triggers:
+    - alias: Motion has been detected outside
+      entity_id:
+        - binary_sensor.outdoor_motion
+      to: "on"
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 1
+      trigger: state
+  conditions:
+    - alias: All of
+      condition: and
+      conditions:
+        - condition: or
+          conditions:
+            - alias: Awake
+              condition: or
+              conditions:
+                - condition: state
+                  entity_id: input_boolean.awake
+                  state: "on"
+            - alias: Motion has been consistent and asleep
+              condition: and
+              conditions:
+                - alias: Motion has been detected for at least two seconds
+                  condition: state
+                  entity_id: binary_sensor.outdoor_motion
+                  for:
+                    hours: 0
+                    minutes: 0
+                    seconds: 2
+                  state: ""
+                - condition: state
+                  entity_id: input_boolean.awake
+                  state: "off"
+        - condition: state
+          entity_id: input_boolean.sun_is_down
+          state: "on"
+          alias: Sun is down
+  actions:
+    - action: scene.turn_on
+      metadata: {}
+      target:
+        entity_id: scene.bollards_bright
+    - delay:
+        hours: 0
+        minutes: 2
+        seconds: 0
+        milliseconds: 0
+    - if:
+        - condition: state
+          entity_id: input_boolean.sun_is_down
+          state: "on"
+      then:
+        - action: scene.turn_on
+          target:
+            entity_id: scene.bollards_dimmed
+          data:
+            transition: 10
+      else:
+        - data:
+            transition: 10
+          action: light.turn_off
+          target:
+            entity_id: light.bollards_2
+  mode: parallel
+  max: 1000
+- id: "1646198566337"
+  alias: Indoor lights (sunset)
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.sun_is_down
+      to: "on"
+  condition: []
+  action:
+    - action: scene.turn_on
+      target:
+        entity_id: scene.dining_room_bright
+      data:
+        transition: 10
+    - action: scene.turn_on
+      target:
+        entity_id: scene.living_room_bright
+      data:
+        transition: 10
+    - action: scene.turn_on
+      data:
+        transition: 10
+      target:
+        entity_id: scene.bedroom_bright
+  mode: single
+- id: "1646198640103"
+  alias: Indoor lights (sunrise)
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.sun_is_down
+      to: "off"
+      id: sun
+    - platform: state
+      entity_id:
+        - input_boolean.awake
+      to: "on"
+  condition:
+    - condition: or
+      conditions:
+        - condition: and
+          conditions:
+            - condition: trigger
+              id:
+                - sun
+            - condition: state
+              entity_id: input_boolean.awake
+              state: "off"
+        - condition: state
+          entity_id: input_boolean.awake
+          state: "on"
+  action:
+    - action: scene.turn_on
+      target:
+        entity_id: scene.living_room_bright
+      data:
+        transition: 10
+    - action: scene.turn_on
+      target:
+        entity_id: scene.dining_room_bright
+      data:
+        transition: 10
+  mode: single
+- id: "1646198708968"
+  alias: Good Morning
+  description: Turn on lights and play music
+  triggers:
+    - at: input_datetime.wake_up
+      trigger: time
+  conditions: []
+  actions:
+    - action: input_boolean.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: input_boolean.awake
+    - parallel:
+        - alias: Turn on bedrooms lights
+          action: scene.turn_on
+          data:
+            transition: 3
+          target:
+            entity_id: scene.bedroom_dimmed
+        - alias: Play music
+          if:
+            - condition: template
+              value_template: "true"
+          then:
+            - target:
+                area_id: bedroom
+              data: {}
+              action: media_player.unjoin
+            - target:
+                area_id:
+                  - bedroom
+              data:
+                volume_level: 0
+              action: media_player.volume_set
+            - target:
+                entity_id: media_player.bedroom
+              data:
+                media_content_id: FV:2/5
+                media_content_type: favorite_item_id
+              metadata:
+                title: Favorites Mix
+                thumbnail: https://is1-ssl.mzstatic.com/image/thumb/Features114/v4/83/47/18/83471885-22a3-e3f0-3589-374fd60fe6b0/U0MtTVMtV1ctUGVyc29uYWxpemVkX01peGVzLUZhdm9yaXRlcy1BREFNX0lEPTExMTk2OTMyODIucG5n.png/400x400cc.png
+                media_class: playlist
+                children_media_class:
+                navigateIds:
+                  - {}
+                  - media_content_type: favorites
+                    media_content_id: ""
+                  - media_content_type: favorites_folder
+                    media_content_id: object.container.playlistContainer
+              action: media_player.play_media
+            - repeat:
+                count: 2
+                sequence:
+                  - target:
+                      area_id: bedroom
+                    data: {}
+                    action: media_player.volume_up
+                  - delay:
+                      hours: 0
+                      minutes: 0
+                      seconds: 5
+                      milliseconds: 0
+              alias: Gradually increase volume
+        - alias: Set the heater
+          if:
+            - condition: state
+              entity_id: input_boolean.enable_heater
+              state: "on"
+          then:
+            - data:
+                service: climate.set_temperature
+                temperature: "{{ states('input_number.day_temperature') }}"
+                hvac_mode: heat
+              target:
+                entity_id: climate.dining_room
+              action: retry.call
+            - action: switch.turn_on
+              metadata: {}
+              data: {}
+              target:
+                entity_id: switch.sonoff_1002162space_heaterd4
+        - alias: Turn on holiday lights
+          if:
+            - condition: state
+              entity_id: input_boolean.holiday_lights_enabled
+              state: "on"
+          then:
+            - action: scene.turn_on
+              metadata: {}
+              target:
+                entity_id: scene.new_scene
+        - action: switch.turn_on
+          metadata: {}
+          data: {}
+          target:
+            device_id: ff02c3db746a45e6bf4c15dbd0f25235
+          enabled: false
+          alias: Turn on espresso machine
+    - delay:
+        hours: 0
+        minutes: 15
+        seconds: 0
+        milliseconds: 0
+    - action: scene.turn_on
+      target:
+        entity_id: scene.bedroom_bright
+      data:
+        transition: 60
+    - action: media_player.volume_set
+      metadata: {}
+      data:
+        volume_level: 0
+      target:
+        area_id:
+          - bathroom
+          - dining_room
+      alias: Turn down volume before adding to group
+    - action: media_player.join
+      metadata: {}
+      data:
+        group_members:
+          - media_player.bathroom
+          - media_player.dining_room
+          - media_player.kitchen
+      target:
+        entity_id: media_player.bedroom
+      alias: Add speakers to group
+      enabled: true
+    - alias: Gradually increase volume
+      repeat:
+        count: 3
+        sequence:
+          - target:
+              area_id: bedroom
+            data: {}
+            action: media_player.volume_up
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 5
+              milliseconds: 0
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.sonoff_1002162space_heaterd4
+  mode: single
+- id: "1646198768002"
+  alias: Guest bedroom lights (sunrise)
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.sun_is_down
+      to: "off"
+      id: sun
+    - platform: state
+      entity_id:
+        - input_boolean.awake
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: "off"
+    - condition: or
+      conditions:
+        - condition: and
+          conditions:
+            - condition: trigger
+              id:
+                - sun
+            - condition: state
+              entity_id: input_boolean.awake
+              state: "off"
+        - condition: state
+          entity_id: input_boolean.awake
+          state: "on"
+  action:
+    - data: {}
+      action: light.turn_off
+      target:
+        device_id: 5dbb4c685748b5de31d8c689a3f2f643
+  mode: single
+- id: "1646198792219"
+  alias: Guest bedroom lights (sunset)
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.sun_is_down
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: "off"
+  action:
+    - data: {}
+      action: light.turn_on
+      target:
+        device_id: 5dbb4c685748b5de31d8c689a3f2f643
+  mode: single
+- id: "1646520147690"
+  alias: Auto-lock the front door
+  description: Lock the front door when it has been open for too long
+  trigger:
+    - platform: state
+      entity_id:
+        - lock.front_door
+      to: unlocked
+      for:
+        hours: 0
+        minutes: 30
+        seconds: 0
+      alias: When the front door has been unlocked for 30 minutes
+  condition:
+    - condition: state
+      entity_id: binary_sensor.front_door_open
+      state: "off"
+      for:
+        hours: 0
+        minutes: 30
+        seconds: 0
+      alias: Check that the door hasn't been opened in the last 30 minutes
+  action:
+    - data: {}
+      target:
+        entity_id: lock.front_door
+      alias: Lock the door
+      action: lock.lock
+  mode: single
+- id: "1647291874140"
+  alias: Welcome Home
+  description: ""
+  trigger:
+    - platform: zone
+      entity_id: person.jerred
+      zone: zone.home
+      event: enter
+  condition: []
+  action:
+    - data: {}
+      target:
+        device_id: f218df4be34c06c62559ae599f5f735e
+      alias: Unlock the front door
+      action: lock.unlock
+    - alias: Turn on lights
+      action: scene.turn_on
+      target:
+        entity_id: scene.dining_room_bright
+      data: {}
+    - if:
+        - condition: state
+          entity_id: input_boolean.enable_heater
+          state: "on"
+      then:
+        - data:
+            temperature: "{{ states('input_number.day_temperature') }}"
+          enabled: true
+          target:
+            device_id: b39077ee57bc3f2671ad264ec15b72a7
+          action: climate.set_temperature
+      alias: Set the heater
+    - alias: Brighten the Bollards
+      if:
+        - condition: state
+          entity_id: input_boolean.sun_is_down
+          state: "on"
+      then:
+        - alias: Brighten Bollards
+          action: scene.turn_on
+          target:
+            entity_id: scene.bollards_bright
+          data: {}
+        - delay:
+            hours: 0
+            minutes: 2
+            seconds: 0
+            milliseconds: 0
+        - alias: Dim Bollards
+          action: scene.turn_on
+          data: {}
+          target:
+            entity_id: scene.bollards_dimmed
+    - alias: Send Roomba home
+      if:
+        - condition: and
+          conditions:
+            - condition: not
+              conditions:
+                - condition: state
+                  entity_id: vacuum.roomba_combo
+                  attribute: status
+                  state: Charging
+              alias: Roomba is not charging
+            - condition: not
+              conditions:
+                - condition: state
+                  entity_id: vacuum.roomba_combo
+                  attribute: status
+                  state: Docked
+              alias: Roomba is not docked
+          alias: Roomba is not docked or charging
+          enabled: true
+      then:
+        - data: {}
+          target:
+            device_id: fac32b67dd63fdcdf98f51db9c9c1c6e
+          alias: Send the Roomba home
+          action: vacuum.return_to_base
+  mode: single
+- id: "1647291929910"
+  alias: Leaving Home
+  description: ""
+  trigger:
+    - platform: zone
+      entity_id: person.jerred
+      zone: zone.home
+      event: leave
+  condition: []
+  action:
+    - data: {}
+      target:
+        device_id: f218df4be34c06c62559ae599f5f735e
+      alias: Lock the front door
+      action: lock.lock
+    - if:
+        - condition: state
+          entity_id: input_boolean.enable_heater
+          state: "on"
+      then:
+        - enabled: true
+          data:
+            temperature: "{{ states('input_number.away_temperature') }}"
+          target:
+            device_id: b39077ee57bc3f2671ad264ec15b72a7
+          action: climate.set_temperature
+      alias: Set the heater
+    - alias: Turn on the Roomba
+      if:
+        - condition: time
+          before: "19:00:00"
+          after: 07:00:00
+      then:
+        - data: {}
+          target:
+            entity_id: vacuum.roomba_combo
+          action: vacuum.start
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.sonoff_1002166461
+      alias: Turn off espresso machine
+  mode: single
+- id: "1658527628923"
+  alias: Outdoor lights (midnight)
+  description: ""
+  trigger:
+    - platform: time
+      at: 00:00:00
+  condition: []
+  action:
+    - action: input_boolean.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: input_boolean.awake
+    - data: {}
+      target:
+        area_id:
+          - backyard
+        entity_id:
+          - light.lower
+          - light.patio_lights
+      action: light.turn_off
+  mode: single
+- id: "1664593118148"
+  alias: Good Night
+  description: ""
+  triggers:
+    - event_type: ios.action_fired
+      event_data:
+        actionID: A91A15AA-479E-416C-8F51-BD983A999266
+      context: {}
+      trigger: event
+    - entity_id:
+        - binary_sensor.flic_80e4da7a367a
+      trigger: state
+  conditions: []
+  actions:
+    - action: input_boolean.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: input_boolean.awake
+    - parallel:
+        - alias: Turn off bedroom lights
+          action: scene.turn_on
+          target:
+            entity_id: scene.bedroom_dimmed
+          data:
+            transition: 10
+        - alias: Play rain sounds
+          if:
+            - condition: template
+              value_template: "true"
+          then:
+            - data: {}
+              target:
+                area_id: bedroom
+              action: media_player.unjoin
+            - data:
+                volume_level: 0
+              target:
+                area_id: bedroom
+              action: media_player.volume_set
+            - target:
+                entity_id: media_player.bedroom
+              data:
+                media_content_id: FV:2/7
+                media_content_type: favorite_item_id
+              metadata:
+                title: Rain
+                thumbnail: https://sonosradio.imgix.net/station-images/67e41092-f0d4-428b-ba56-b58e0b685f7f.png?w=200&auto=format,compress
+                media_class: genre
+                children_media_class:
+                navigateIds:
+                  - {}
+                  - media_content_type: favorites
+                    media_content_id: ""
+                  - media_content_type: favorites_folder
+                    media_content_id: object.item.audioItem.audioBroadcast
+              action: media_player.play_media
+            - repeat:
+                count: 5
+                sequence:
+                  - delay:
+                      hours: 0
+                      minutes: 0
+                      seconds: 5
+                      milliseconds: 0
+                  - action: media_player.volume_up
+                    metadata: {}
+                    data: {}
+                    target:
+                      entity_id: media_player.bedroom
+              alias: Gradually increase volume
+        - if:
+            - condition: state
+              entity_id: input_boolean.enable_heater
+              state: "on"
+          then:
+            - data:
+                hvac_mode: heat
+                temperature: "{{ states('input_number.night_temperature') }}"
+              enabled: true
+              target:
+                device_id: b39077ee57bc3f2671ad264ec15b72a7
+              action: climate.set_temperature
+          alias: Set the heater
+        - alias: Turn off holiday lights
+          if:
+            - condition: state
+              entity_id: input_boolean.holiday_lights_enabled
+              state: "on"
+          then:
+            - action: light.turn_off
+              metadata: {}
+              data: {}
+              target:
+                device_id: 4ab21b6cc4c70a663a22a9ad8cea1db1
+            - action: light.turn_off
+              metadata: {}
+              data: {}
+              target:
+                entity_id: light.christmas_tree
+        - alias: Turn off front porch lights
+          action: switch.turn_off
+          metadata: {}
+          data: {}
+          target:
+            entity_id: switch.patio_lights
+  mode: single
+- id: "1666932438174"
+  alias: Sundown
+  description: ""
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "0"
+  condition: []
+  action:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.sun_is_down
+      data: {}
+  mode: single
+- id: "1666932468043"
+  alias: Sunrise
+  description: ""
+  trigger:
+    - platform: sun
+      event: sunrise
+      offset: "0"
+  condition: []
+  action:
+    - service: input_boolean.turn_off
+      data: {}
+      target:
+        entity_id: input_boolean.sun_is_down
+  mode: single
+- id: "1670721207352"
+  alias: Turn off stairway lights
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.stairway_motion
+      to: "on"
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+  condition: []
+  action:
+    - repeat:
+        until:
+          - alias: No motion
+            condition: and
+            conditions:
+              - condition: state
+                entity_id: binary_sensor.stairway_motion
+                for:
+                  hours: 0
+                  minutes: 2
+                  seconds: 0
+                state: "off"
+        sequence:
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 10
+              milliseconds: 0
+    - data:
+        transition: 10
+      action: light.turn_off
+      target:
+        area_id: stairway
+  mode: restart
+- id: "1673758173250"
+  alias: Garage lights on motion
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.hue_motion_sensor_1_motion
+      to: "on"
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 1
+  condition:
+    - condition: state
+      entity_id: light.garage
+      state: "off"
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 10
+      alias: Garage lights weren't turned off recently
+  action:
+    - if:
+        - condition: state
+          entity_id: binary_sensor.hue_motion_sensor_1_motion
+          state: "on"
+          for:
+            hours: 0
+            minutes: 0
+            seconds: 3
+      then:
+        - action: scene.turn_on
+          metadata: {}
+          target:
+            entity_id: scene.garage_bright
+      else:
+        - action: scene.turn_on
+          data:
+            transition: 1
+          target:
+            entity_id: scene.garage_dimmed
+      alias: Turn on lights depending on motion length
+  mode: restart
+- id: "1673758217687"
+  alias: Turn off garage lights
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.hue_motion_sensor_1_motion
+      to: "off"
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+  condition: []
+  action:
+    - repeat:
+        until:
+          - condition: state
+            entity_id: binary_sensor.hue_motion_sensor_1_motion
+            state: "off"
+            for:
+              hours: 0
+              minutes: 7
+              seconds: 0
+        sequence:
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 10
+              milliseconds: 0
+    - data:
+        transition: 10
+      target:
+        area_id: garage
+      action: light.turn_off
+  mode: single
+- id: "1717034922936"
+  alias: Early Morning
+  description: ""
+  trigger:
+    - alias: One hour before waking up
+      platform: template
+      value_template:
+        '{{ now().strftime("%H:%M:%S") == (today_at(states("input_datetime.wake_up"))-timedelta(hours=1)).strftime("%H:%M:%S")
+        }} '
+  condition: []
+  action:
+    - alias: Set heater
+      if:
+        - condition: state
+          entity_id: input_boolean.enable_heater
+          state: "on"
+      then:
+        - data:
+            service: climate.set_temperature
+            temperature: "{{ states('input_number.morning_temperature') }}"
+            hvac_mode: heat
+          target:
+            entity_id: climate.dining_room
+          enabled: true
+          action: retry.call
+  mode: single
+- id: "1723005544437"
+  alias: Bedroom AC
+  description: ""
+  trigger:
+    - platform: time
+      at: 02:00:00
+  condition: []
+  action:
+    - parallel:
+        - metadata: {}
+          data: {}
+          target:
+            device_id: 68c59fd90156ba5f662683070f4ce535
+          action: climate.turn_off
+        - alias: Toggle fan
+          sequence:
+            - action: switch.turn_off
+              metadata: {}
+              data: {}
+              target:
+                device_id: ad43b428586465e989e3c730c1310b7f
+            - delay:
+                hours: 0
+                minutes: 0
+                seconds: 5
+                milliseconds: 0
+            - action: switch.turn_on
+              metadata: {}
+              data: {}
+              target:
+                device_id: ad43b428586465e989e3c730c1310b7f
+  mode: single
+- id: "1727532905322"
+  alias: Noon
+  description: ""
+  trigger:
+    - platform: time
+      at: "12:00:00"
+  condition: []
+  action:
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.sonoff_1002166461
+  mode: single
