@@ -1,7 +1,11 @@
-#!/usr/bin/env -S deno run --allow-run --allow-read --allow-write
+#!/usr/bin/env -S deno run --allow-read=imports --allow-write=imports --allow-run=cdk8s,kubectl,bash,deno
 
-// delete the imports directory
-await Deno.remove("imports", { recursive: true });
+// delete the imports directory, allow failure
+try {
+  await Deno.remove("imports", { recursive: true });
+} catch (error) {
+  console.error("Failed to delete imports directory:", error);
+}
 
 // run "cdk8s import k8s --language=typescript"
 let command = new Deno.Command("cdk8s", {
