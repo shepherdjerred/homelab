@@ -1,4 +1,4 @@
-name: Update Deno Lockfile
+name: Update after Renovate
 
 on:
   pull_request:
@@ -21,12 +21,12 @@ jobs:
           deno-version: v1.x
       - name: Update Deno lockfile
         run: cd cdk8s && deno cache --lock=deno.lock --lock-write src/app.ts
-      - name: Update imports
-        run: cd cdk8s && deno run update-imports.ts
+      # - name: Update imports
+      #   run: cd cdk8s && ./update-imports.ts
       - name: Commit and push changes
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add deno.lock
-          git commit -m 'Update Deno lockfile'
-          git push origin ${{ github.event.pull_request.head.ref }}
+          git commit --amend --no-edit
+          git push --force origin ${{ github.event.pull_request.head.ref }}
