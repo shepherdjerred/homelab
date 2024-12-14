@@ -20,7 +20,7 @@ jobs:
         with:
           deno-version: v1.x
       - name: Update Deno lockfile
-        run: cd cdk8s && deno cache --lock=deno.lock --lock-write src/index.ts
+        run: cd cdk8s && deno cache --lock=deno.lock --lock-write src/app.ts
       - name: Update imports
         run: cd cdk8s && deno run update-imports.ts
       - name: Commit and push changes
