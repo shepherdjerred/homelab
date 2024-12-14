@@ -1,0 +1,10 @@
+checks:
+  exclude:
+    - "unset-cpu-requirements"
+    - "unset-memory-requirements"
+    - "latest-tag"
+    - "run-as-non-root"
+    - "no-read-only-root-fs"
+    - "privileged-container"
+    - "privilege-escalation-container"
+    - "host-network"

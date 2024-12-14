@@ -1,0 +1,72 @@
+default_config:
+
+homekit:
+  - name: HA1
+    advertise_ip: 192.168.1.86
+    port: 21063
+    filter:
+      include_domains:
+        - climate
+        - cover
+        - fan
+        - humidifier
+        - alarm_control_panel
+        - remote
+        - water_heater
+        - sensor
+        - switch
+        - device_tracker
+        - binary_sensor
+        - input_select
+        - vacuum
+      exclude_entities:
+        - binary_sensor.front_door_visitor
+        - binary_sensor.front_door_motion
+        - binary_sensor.iphone_focus
+        - binary_sensor.ipad_focus
+      exclude_entity_globs:
+        - binary_sensor.*entertainment_configuration
+        - switch.adaptive_lighting_*
+        - sensor.bitter_lake_*
+        - sensor.average_*
+        - sensor.*_ac_target_temperature
+        - switch.*_ac_power_status
+        - "*anova_precision*"
+        - sensor.gw1100b*
+        - sensor.current_bill*
+        - sensor.typical_monthly*
+        - sensor.electricity_maps*
+  - name: HA2
+    advertise_ip: 192.168.1.86
+    port: 21064
+    filter:
+      include_domains:
+        - light
+  - name: HA4
+    advertise_ip: 192.168.1.86
+    port: 21067
+    mode: accessory
+    filter:
+      include_domains:
+        - lock
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 0.0.0.0/0
+sonos:
+  media_player:
+    advertise_addr: 192.168.1.86
+
+recorder:
+  commit_interval: 10
+  purge_keep_days: 90
+
+# Text to speech
+tts:
+  - platform: google_translate
+ffmpeg:
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

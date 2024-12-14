@@ -1,0 +1,16 @@
+{
+  "tasks": {
+    "build": "rm -rf dist/ && deno run -A src/app.ts && deno task patch",
+    "patch": "gsed -i 's/gpu.intel.com\\/i915: null/gpu.intel.com\\/i915: 1/g' dist/lamport.k8s.yaml || sed -i 's/gpu.intel.com\\/i915: null/gpu.intel.com\\/i915: 1/g' dist/lamport.k8s.yaml",
+    "up": "deno task build && kubectl apply -f dist",
+    "diff": "KUBECTL_EXTERNAL_DIFF=delta DELTA_PAGER=bat BAT_PAGER=/opt/homebrew/bin/less kubectl diff -f dist/lamport.k8s.yaml"
+  },
+  "imports": {
+    "cdk8s": "https://esm.sh/cdk8s@2.69.19",
+    "cdk8s-plus": "https://esm.sh/cdk8s-plus-30@2.2.9",
+    "constructs": "https://esm.sh/constructs@10.4.2",
+    "merge": "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/merge.js",
+    "ts-pattern": "https://esm.sh/ts-pattern@5.5.0",
+    "remeda": "https://esm.sh/remeda@2.17.4"
+  }
+}

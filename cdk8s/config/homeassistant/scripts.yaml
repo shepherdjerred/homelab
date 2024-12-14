@@ -1,0 +1,43 @@
+sonos_join:
+  alias: Sonos Join
+  sequence:
+    - service: media_player.join
+      data:
+        group_members:
+          - "{{ target }}"
+      target:
+        area_id: dining_room
+    - service: media_player.volume_set
+      target:
+        entity_id: "{{ target }}"
+      data:
+        volume_level: 0.15
+  mode: single
+sonos_unjoin:
+  alias: Sonos Unjoin
+  sequence:
+    - service: media_player.unjoin
+      target:
+        entity_id: "{{ target }}"
+  mode: single
+sonos_play:
+  alias: Sonos Play
+  sequence:
+    - service: media_player.play_media
+      target:
+        entity_id: media_player.dining_room
+      data:
+        media_content_id: FV:2/5
+        media_content_type: favorite_item_id
+      metadata:
+        title: Favorites Mix
+        thumbnail: https://is1-ssl.mzstatic.com/image/thumb/Features114/v4/83/47/18/83471885-22a3-e3f0-3589-374fd60fe6b0/U0MtTVMtV1ctUGVyc29uYWxpemVkX01peGVzLUZhdm9yaXRlcy1BREFNX0lEPTExMTk2OTMyODIucG5n.png/400x400cc.png
+        media_class: playlist
+        children_media_class:
+        navigateIds:
+          - {}
+          - media_content_type: favorites
+            media_content_id: ""
+          - media_content_type: favorites_folder
+            media_content_id: object.container.playlistContainer
+  mode: single
