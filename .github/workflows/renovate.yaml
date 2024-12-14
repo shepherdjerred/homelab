@@ -1,0 +1,33 @@
+name: Update Deno Lockfile
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  update-deno-lockfile:
+    runs-on: ubuntu-latest
+    if: github.actor == 'renovate[bot]'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Update Deno lockfile
+        run: cdk cdk8s && deno cache --lock=deno.lock --lock-write src/index.ts
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add deno.lock
+          git commit -m 'Update Deno lockfile'
+          git push origin ${{ github.event.pull_request.head.ref }}
