@@ -1,14 +1,15 @@
 {
-  "version": "4",
+  "version": "3",
   "remote": {
-    "https://esm.sh/cdk8s-plus-30@2.2.8": "f39f96eaf8e0f2188e77cd18e9198068ec40d6fb9cdff1a9d3f196f15abe2a8c",
+    "https://esm.sh/cdk8s-plus-30@2.2.9": "3193d74df3b1ba143f55251d5e5f4cb7c5c9e02099aef423517a4c97026d07e5",
     "https://esm.sh/cdk8s@2.69.19": "5ce287e5ca278198aa8ee15dea5a35065b509a2e70f10b98e298d42cf9db60ca",
     "https://esm.sh/constructs@10.4.2": "eb997197406c6a4a82c2f1df064cd1d92d6e89362c58f6aedfcf166edabd3ff7",
     "https://esm.sh/ts-pattern@5.5.0": "4749f31a0132fd183900156d8ab39cec1748d47aa889c432196aa1a9da81d24a",
     "https://esm.sh/v135/balanced-match@1.0.2/denonext/balanced-match.mjs": "b2f9737a6fb330aedd4a444eb85ba127d757c49032a528400fc0e2efb70ddca3",
     "https://esm.sh/v135/brace-expansion@1.1.11/denonext/brace-expansion.mjs": "37804872dca2bd08f67fee3ab0a1c56b0612243fc46e5792b1f9d2a53bdb79c8",
-    "https://esm.sh/v135/cdk8s-plus-30@2.2.8/denonext/cdk8s-plus-30.mjs": "9836fae978725a871e6f8176413495de23ceb246d321a0e85c8a98ffa2c4c8c8",
+    "https://esm.sh/v135/cdk8s-plus-30@2.2.9/denonext/cdk8s-plus-30.mjs": "5f16d44c427404191c6666b0242e90aaf513e8bb92f20a6db1dea318603e3271",
     "https://esm.sh/v135/cdk8s@2.69.19/denonext/cdk8s.mjs": "3adf80b1887faba8acc0aedfbb3916de13545cca1257d2471403011909e2b570",
+    "https://esm.sh/v135/cdk8s@2.69.24/denonext/cdk8s.mjs": "50c272026dd78494e976080d65d00a0266f11a010b7b30b608bdb1d0553ec53a",
     "https://esm.sh/v135/concat-map@0.0.1/denonext/concat-map.mjs": "1a5a143263db86cb520387e65d8ce2fde374b66cf64aed488b5138836b1d5674",
     "https://esm.sh/v135/constructs@10.4.2/denonext/constructs.mjs": "2f21d3865f5d93d46ce2fe477000e41c1032aa3bde09b47915d3d4d29c508118",
     "https://esm.sh/v135/fast-json-patch@3.1.1/denonext/fast-json-patch.mjs": "9007860190336aa381bde2411eb991d3d70fe378c0cc204f099d4fc9bd6b7619",
