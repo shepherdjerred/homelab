@@ -29,4 +29,4 @@ jobs:
           git config --global user.email 'github@sjer.red'
           git add .
           git commit --amend --no-edit
-          git push --force origin ${{ github.event.pull_request.head.ref }}
+          git push --force
