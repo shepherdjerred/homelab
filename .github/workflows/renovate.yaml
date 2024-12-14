@@ -1,0 +1,32 @@
+name: Update after Renovate
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  update-deno-lockfile:
+    runs-on: ubuntu-latest
+    if: github.actor == 'renovate[bot]'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Set up Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - name: Update Deno lockfile
+        run: cd cdk8s && deno cache --lock=deno.lock --lock-write src/app.ts
+      # - name: Update imports
+      #   run: cd cdk8s && ./update-imports.ts
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'renovate-update'
+          git config --global user.email 'github@sjer.red'
+          git add .
+          git commit --amend --no-edit
+          git push --force

@@ -1,0 +1,132 @@
+import Power from "generics/interfaces.ato"
+import SPI from "generics/interfaces.ato"
+import I2C from "generics/interfaces.ato"
+import UART from "generics/interfaces.ato"
+
+module RPIHat:
+    connector = new ConnectorRaspberryPi
+
+component ConnectorRaspberryPi:
+    footprint = "HDR-TH_40P-P2.54-V-F-R2-C20-S2.54"
+    lcsc_id = "C2977589"
+    mpn = "C2977589"
+
+    # interfaces
+    power3v3 = new Power
+    power5v = new Power
+    spi0 = new SPI
+    spi1 = new SPI
+    i2c = new I2C
+    i2c_id = new I2C
+    uart = new UART
+
+    # 3.3V on pin 1, 17
+    signal vdd ~ pin 1
+    vdd ~ pin 17
+    power3v3.vcc ~ vdd
+
+    # 5V on pin 2, 4
+    signal vcc ~ pin 2
+    vcc ~ pin 4
+    power5v.vcc ~ vcc
+
+    # gnd on pin 6, 9, 14, 20, 25, 30, 34, 39
+    signal gnd ~ pin 6
+    gnd ~ pin 9
+    gnd ~ pin 14
+    gnd ~ pin 20
+    gnd ~ pin 25
+    gnd ~ pin 30
+    gnd ~ pin 34
+    gnd ~ pin 39
+    power3v3.gnd ~ gnd
+    power5v.gnd ~ gnd
+    i2c.gnd ~ gnd
+    i2c_id.gnd ~ gnd
+    spi0.gnd ~ gnd
+    spi1.gnd ~ gnd
+    uart.gnd ~ gnd
+
+    # i2c on pin 3, 5
+    signal i2c_sda ~ pin 3
+    signal i2c_scl ~ pin 5
+    i2c.sda ~ i2c_sda
+    i2c.scl ~ i2c_scl
+
+    # ID EEPROM I2C on pins 27 and 28
+    signal i2c_id_sda ~ pin 27
+    signal i2c_id_scl ~ pin 28
+    i2c_id.sda ~ i2c_id_sda
+    i2c_id.scl ~ i2c_id_scl
+
+    # GPCLK0 on pin 7
+    signal gpclk0 ~ pin 7
+
+    # UART on pin 8, 10
+    signal uart0_tx ~ pin 8
+    signal uart0_rx ~ pin 10
+    uart.tx ~ uart0_tx
+    uart.rx ~ uart0_rx
+
+    # SPI on pin 19, 21, 23, 24, 26, 35, 36, 38, 40
+    signal spi0_mosi ~ pin 19
+    signal spi0_miso ~ pin 21
+    signal spi0_sclk ~ pin 23
+    signal spi0_cs0 ~ pin 24
+    signal spi0_cs1 ~ pin 26
+    # connect spi0 to the SPI interface
+    spi0.mosi ~ spi0_mosi
+    spi0.miso ~ spi0_miso
+    spi0.sck ~ spi0_sclk
+    spi0.cs ~ spi0_cs0
+
+    signal spi1_miso ~ pin 35
+    signal spi1_cs0 ~ pin 36
+    signal spi1_mosi ~ pin 38
+    signal spi1_sclk ~ pin 40
+    # connect spi1 to the SPI interface
+    spi1.mosi ~ spi1_mosi
+    spi1.miso ~ spi1_miso
+    spi1.sck ~ spi1_sclk
+    spi1.cs ~ spi1_cs0
+
+    # PWM on pin 12, 32, 33, 35
+    signal pwm0a ~ pin 12
+    signal pwm0b ~ pin 32
+    signal pwm1a ~ pin 33
+    signal pwm1b ~ pin 35
+
+    # PCM on pin 12, 35, 38, 40
+    signal pcm_clk ~ pin 12
+    signal pcm_fs ~ pin 35
+    signal pcm_din ~ pin 38
+    signal pcm_dout ~ pin 40
+
+    # GPIO (BCM) on pins 3, 5, 7, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 29, 31, 32, 33, 35, 36, 37, 38, 40
+    signal gpio2 ~ pin 3
+    signal gpio3 ~ pin 5
+    signal gpio4 ~ pin 7
+    signal gpio17 ~ pin 11
+    signal gpio18 ~ pin 12
+    signal gpio27 ~ pin 13
+    signal gpio22 ~ pin 15
+    signal gpio23 ~ pin 16
+    signal gpio24 ~ pin 18
+    signal gpio10 ~ pin 19
+    signal gpio9 ~ pin 21
+    signal gpio25 ~ pin 22
+    signal gpio11 ~ pin 23
+    signal gpio8 ~ pin 24
+    signal gpio7 ~ pin 26
+    signal gpio5 ~ pin 29
+    signal gpio6 ~ pin 31
+    signal gpio12 ~ pin 32
+    signal gpio13 ~ pin 33
+    signal gpio19 ~ pin 35
+    signal gpio16 ~ pin 36
+    signal gpio26 ~ pin 37
+    signal gpio20 ~ pin 38
+    signal gpio21 ~ pin 40
+
+
+
