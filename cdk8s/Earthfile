@@ -1,0 +1,19 @@
+VERSION 0.8
+PROJECT sjerred/homelab
+
+deno:
+  FROM denoland/deno
+  WORKDIR /workspace
+
+# download and cache dependencies
+deps:
+  FROM +deno
+  CACHE --persist $DENO_DIR
+  COPY --dir deno* src imports .
+  RUN deno cache src/app.ts
+
+build:
+  FROM +deps
+  COPY --dir config .
+  RUN deno task build
+  SAVE ARTIFACT dist AS LOCAL dist

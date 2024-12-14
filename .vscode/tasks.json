@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "watch",
+      "type": "shell",
+      "command": "deno run -A https://deno.land/x/denon/denon.ts build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "options": { "cwd": "${workspaceFolder}/cdk8s/" },
+      "runOptions": { "runOn": "folderOpen" }
+    }
+  ]
+}

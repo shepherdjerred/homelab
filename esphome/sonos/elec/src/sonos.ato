@@ -1,0 +1,109 @@
+from "generics/resistors.ato" import Resistor
+from "rpi-header/elec/src/rpi.ato" import ConnectorRaspberryPi
+
+component Potentiometer:
+    signal gnd ~ pin 1
+    signal vref ~ pin 2
+    signal out ~ pin 3
+    designator_prefix = "P"
+    mpn = "generic_potentiometer"
+    type = "potentiometer"
+
+
+component Led:
+    signal gnd ~ pin 1
+    signal red ~ pin 2
+    signal green ~ pin 3
+    signal blue ~ pin 4
+    designator_prefix = "D"
+    mpn = "generic_led"
+    type = "led"
+
+
+component ToggleSwitch:
+    signal gnd ~ pin 1
+    signal vdd ~ pin 2
+    signal out ~ pin 3
+    designator_prefix = "TS"
+    mpn = "generic_toggle_switch"
+    type = "toggle_switch"
+
+
+component MomentarySwitch:
+    signal gnd ~ pin 1
+    signal vdd ~ pin 2
+    signal out ~ pin 3
+    designator_prefix = "MS"
+    mpn = "generic_momentary_switch"
+    type = "momentary_switch"
+
+
+component MCP3008:
+    signal ch0 ~ pin 1
+    signal ch1 ~ pin 2
+    signal ch2 ~ pin 3
+    signal ch3 ~ pin 4
+    signal ch4 ~ pin 5
+    signal ch5 ~ pin 6
+    signal ch6 ~ pin 7
+    signal ch7 ~ pin 8
+    signal vdd ~ pin 9
+    signal vref ~ pin 10
+    signal agnd ~ pin 11
+    signal clk ~ pin 12
+    signal dout ~ pin 13
+    signal din ~ pin 14
+    signal cs ~ pin 15
+    signal dgnd ~ pin 16
+    designator_prefix = "U"
+    mpn = "MCP3008"
+    type = "adc"
+
+
+module Node:
+    signal gnd
+    signal vdd
+    signal potOut
+    signal toggleOut
+    signal ledIn
+
+    pot = new Potentiometer
+    pot.gnd ~ gnd
+    pot.vref ~ vdd
+    pot.out ~ potOut
+
+    toggle = new ToggleSwitch
+    toggle.gnd ~ gnd
+    toggle.vdd ~ vdd
+    toggle.out ~ toggleOut
+
+    resistor = new Resistor
+    resistor.value = 220kohm +/- 10%
+    resistor.p1 ~ ledIn
+
+    led = new Led
+    led.gnd ~ gnd
+    led.red ~ resistor.p2
+    led.green ~ resistor.p2
+    led.blue ~ resistor.p2
+
+
+module Sonos:
+    pi = new ConnectorRaspberryPi
+
+    # for ADC
+    mcp3008 = new MCP3008
+
+    node1 = new Node
+    node1.gnd ~ pi.gnd
+    node1.vdd ~ pi.vdd
+    node1.potOut ~ mcp3008.ch0
+    node1.toggleOut ~ mcp3008.ch1
+    node1.ledIn ~ mcp3008.ch2
+
+    node2 = new Node
+    node2.gnd ~ pi.gnd
+    node2.vdd ~ pi.vdd
+    node2.potOut ~ mcp3008.ch3
+    node2.toggleOut ~ mcp3008.ch4
+    node2.ledIn ~ mcp3008.ch5
