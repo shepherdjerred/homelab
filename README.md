@@ -1,5 +1,8 @@
 # Homelab
 
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
+![ArgoCD badge](https://argocd.tailnet-1a49.ts.net/api/badge?name=lamport)
+
 This repository contains resources related to my homelab, currently called
 `lamport`. I give each of my servers a unique name so that I can keep track of
 them over time.
