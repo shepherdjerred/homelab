@@ -58,7 +58,7 @@ dotfiles, ansible, etc.
    rm -rfv ~/.kube && mkdir ~/.kube && sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && sudo chown $USER:$USER ~/.kube/config && chmod 600 ~/.kube/config
    ```
 
-1. Install `helm` and `argocd`.
+1. Install `helm`.
 
    ```
    brew install helm
@@ -94,16 +94,16 @@ dotfiles, ansible, etc.
      kubectl apply -f secrets/1password-token.yaml
      ```
 
-1. Deploy the manifests in this repo
+1. Build and deploy the manifests in this repo
 
    ```
-   kubectl apply -f cdk8s/dist/apps.k8s.yaml
+   cd cdk8s && deno task up
    ```
 
 1. Get the initial Argo CD `admin` password.
 
    ```
-   argocd admin initial-password -n argocd
+   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
    ```
 
 1. Change Argo CD the `admin` password.
