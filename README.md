@@ -61,7 +61,7 @@ dotfiles, ansible, etc.
 1. Install `helm` and `argocd`.
 
    ```
-   brew install helm argocd
+   brew install helm
    ```
 
 1. Install Argo CD manually.
@@ -71,7 +71,8 @@ dotfiles, ansible, etc.
 
    ```
    kubectl create namespace argocd
-   kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+   helm repo add argo https://argoproj.github.io/argo-helm
+   helm install argocd argo/argo-cd --namespace argocd
    ```
 
 1. Set the credentials in the `secrets` directory.

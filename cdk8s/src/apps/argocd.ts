@@ -17,12 +17,16 @@ export function createArgoCdApp(chart: Chart) {
         helm: {
           parameters: [
             {
-              "name": "global.configs.cm.exec.enabled",
+              "name": "configs.cm.exec.enabled",
               "value": "true",
             },
             {
-              "name": "global.configs.cm.timeout.reconciliation",
+              "name": "configs.cm.timeout.reconciliation",
               "value": "60s",
+            },
+            {
+              "name": "global.domain",
+              "value": "argocd.tailnet-1a49.ts.net",
             },
           ],
         },
