@@ -9,7 +9,7 @@ on:
 jobs:
   update-deno-lockfile:
     runs-on: ubuntu-latest
-    if: github.actor == 'renovate[bot]'
+    if: github.actor == 'renovate[bot]' && contains(github.event.pull_request.changed_files, 'cdk8s/deno.json')
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Deno
         uses: denoland/setup-deno@v1
         with:
-          deno-version: v1.x
+          deno-version: v2.x
       - name: Update Deno lockfile
         run: cd cdk8s && deno cache --lock=deno.lock src/app.ts
       # - name: Update imports
