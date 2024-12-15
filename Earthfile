@@ -21,6 +21,9 @@ kube-linter:
   RUN chmod +x kube-linter
   SAVE ARTIFACT kube-linter
 
+sync:
+  RUN --secret ARGOCD_TOKEN curl -X POST https://argocd.tailnet-1a49.ts.net/api/v1/applications/lamport/sync -H "Authorization: Bearer $ARGOCD_TOKEN" -H "Content-Type: application/json"
+
 pre-commit:
   FROM python
   WORKDIR /workspace

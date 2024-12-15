@@ -58,7 +58,7 @@ pipeline {
             }
             steps {
               sh 'earthly --sat=lamport --org=sjerred --ci --push +ci --version=1.0.$BUILD_NUMBER-0 --git_sha=$GIT_COMMIT'
-              sh 'curl -X POST https://argocd.tailnet-1a49.ts.net/api/v1/applications/lamport/sync -H "Authorization: Bearer $ARGOCD_TOKEN" -H "Content-Type: application/json"'
+              sh 'earthly --sat=lamport --org=sjerred --ci --push --secret ARGOCD_TOKEN +sync'
             }
         }
     }
