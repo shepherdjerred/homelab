@@ -15,20 +15,15 @@ export function createArgoCdApp(chart: Chart) {
         targetRevision: versions["argoproj/argo-cd"],
         chart: "argo-cd",
         helm: {
-          parameters: [
-            {
-              "name": 'configs.cm."exec.enabled"',
-              "value": "true",
+          valuesObject: {
+            configs: {
+              cm: {
+                "exec.enabled": true,
+                "timeout.reconciliation": "60s",
+                "statusbadge.enabled": true,
+              },
             },
-            {
-              "name": 'configs.cm."timeout.reconciliation"',
-              "value": "60s",
-            },
-            {
-              "name": "global.domain",
-              "value": "argocd.tailnet-1a49.ts.net",
-            },
-          ],
+          },
         },
       },
       destination: {
