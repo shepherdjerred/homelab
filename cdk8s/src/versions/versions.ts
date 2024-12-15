@@ -23,7 +23,7 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver-coerced
   "rancher/system-upgrade-controller": "v0.14.2",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
-  "tailscale-operator": "1.76.6",
+  "tailscale-operator": "1.78.3",
   // renovate: datasource=helm registryUrl=https://backube.github.io/helm-charts/ versioning=semver
   "volsync": "0.11.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
