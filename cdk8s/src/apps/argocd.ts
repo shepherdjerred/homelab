@@ -12,7 +12,7 @@ export function createArgoCdApp(chart: Chart) {
       source: {
         // https://argoproj.github.io/argo-helm/
         repoUrl: "https://argoproj.github.io/argo-helm/",
-        targetRevision: versions["argoproj/argo-cd"],
+        targetRevision: versions["argo-cd"],
         chart: "argo-cd",
         helm: {
           valuesObject: {
