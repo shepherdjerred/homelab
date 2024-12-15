@@ -11,6 +11,32 @@ Currently my server is managed with Kubernetes. I've used Docker, Ansible, and
 bash scripts in the past. Kubernetes has been an interesting experiment and I
 think it's overall worthwhile since the ecosystem is so rich.
 
+## Details
+
+I've spent a _lot_ of time making this project pleasant to work with. Here are
+some things I'm proud of:
+
+- Close to zero host setup
+  - It's literally just a few commands to deploy my entire cluster
+- Entirely written in TypeScript built with [cdk8s](https://cdk8s.io/) and
+  [Deno](https://deno.com/)
+- Automated backups
+  - The applications I care about are regularly backed up to
+    [BorgBase](https://www.borgbase.com/)
+- HTTPS ingress with [Tailscale](https://tailscale.com/)
+- All secrets managed with [1Password](https://1password.com/)
+- Jenkins CI w/ Earthly used by my open-source projects
+- Entirely automated deployment for updates, upgrades, etc.
+  - Commit-to-deployment takes about 1min
+- Automated dependency updates
+  - For Docker images (w/ pinned SHAs)
+  - For Helm charts
+  - For Kubernetes/k3s
+  - For Jenkins plugins
+  - For Deno dependencies
+  - [My approach](https://github.com/shepherdjerred/homelab/blob/main/cdk8s/src/versions/versions.ts)
+    allows all of my dependencies to be pinned and updated regularly
+
 ## Installation
 
 These instructions are for future me, so that I can re-create my cluster from
