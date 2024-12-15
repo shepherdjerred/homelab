@@ -9,7 +9,7 @@ on:
 jobs:
   update-deno-lockfile:
     runs-on: ubuntu-latest
-    if: github.actor == 'renovate[bot]' && contains(github.event.pull_request.changed_files, 'cdk8s/deno.json')
+    if: github.actor == 'renovate[bot]'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,11 +20,17 @@ jobs:
         uses: denoland/setup-deno@v1
         with:
           deno-version: v2.x
+      - name: Check if cdk8s/deno.json has changed
+        id: check_changed_files
+        run: |
+          if git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -q 'cdk8s/deno.json'; then echo "file_changed=true" >> $GITHUB_ENV; else echo "file_changed=false" >> $GITHUB_ENV; fi
       - name: Update Deno lockfile
+        if: env.file_changed == 'true'
         run: cd cdk8s && deno cache --lock=deno.lock src/app.ts
       # - name: Update imports
       #   run: cd cdk8s && ./update-imports.ts
       - name: Commit and push changes
+        if: env.file_changed == 'true'
         run: |
           git config --global user.name 'renovate-update'
           git config --global user.email 'github@sjer.red'
