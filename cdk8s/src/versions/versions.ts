@@ -25,7 +25,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
   "tailscale-operator": "1.76.6",
   // renovate: datasource=helm registryUrl=https://backube.github.io/helm-charts/ versioning=semver
-  "volsync": "0.10.0",
+  "volsync": "0.11.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/postgres":
     "16.2@sha256:4aea012537edfad80f98d870a36e6b90b4c09b27be7f4b4759d72db863baeebb",
