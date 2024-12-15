@@ -10,11 +10,11 @@ export function createArgoCdApp(chart: Chart) {
       namespace: "argocd",
     },
     data: {
-      url: "https://argocd.tailnet-1a49.ts.net/",
-      "accounts.jenkins": "apiKey",
-      "accounts.jenkins.enabled": "true",
-      "exec.enabled": "true",
-      "timeout.reconciliation": "60s",
+      // url: "https://argocd.tailnet-1a49.ts.net/",
+      // "accounts.jenkins": "apiKey",
+      // "accounts.jenkins.enabled": "true",
+      // "exec.enabled": "true",
+      // "timeout.reconciliation": "60s",
     },
   });
 
