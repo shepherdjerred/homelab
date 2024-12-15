@@ -1,5 +1,19 @@
 {
-  "version": "3",
+  "version": "4",
+  "specifiers": {
+    "npm:@types/node@*": "22.5.4"
+  },
+  "npm": {
+    "@types/node@22.5.4": {
+      "integrity": "sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==",
+      "dependencies": [
+        "undici-types"
+      ]
+    },
+    "undici-types@6.19.8": {
+      "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
+    }
+  },
   "remote": {
     "https://esm.sh/cdk8s-plus-30@2.2.9": "3193d74df3b1ba143f55251d5e5f4cb7c5c9e02099aef423517a4c97026d07e5",
     "https://esm.sh/cdk8s@2.69.24": "6b8647f964de57b1749088182ad876a7a8beaf00b1a8e6a9e03d9546ed6421fc",
@@ -8,6 +22,8 @@
     "https://esm.sh/v135/balanced-match@1.0.2/denonext/balanced-match.mjs": "b2f9737a6fb330aedd4a444eb85ba127d757c49032a528400fc0e2efb70ddca3",
     "https://esm.sh/v135/brace-expansion@1.1.11/denonext/brace-expansion.mjs": "37804872dca2bd08f67fee3ab0a1c56b0612243fc46e5792b1f9d2a53bdb79c8",
     "https://esm.sh/v135/cdk8s-plus-30@2.2.9/denonext/cdk8s-plus-30.mjs": "5f16d44c427404191c6666b0242e90aaf513e8bb92f20a6db1dea318603e3271",
+    "https://esm.sh/v135/cdk8s-plus-30@2.2.9/denonext/lib.js": "61d9ca3d37b30230f5198d28d3a1c6df495b8c55d50d57e44249f3b0fff4ea2e",
+    "https://esm.sh/v135/cdk8s-plus-30@2.2.9/lib/index.js": "aa7c9e9fb95bccf17a186f2e7dc23db89b2dc659bb9976ff4167f52873d28b2d",
     "https://esm.sh/v135/cdk8s@2.69.24/denonext/cdk8s.mjs": "50c272026dd78494e976080d65d00a0266f11a010b7b30b608bdb1d0553ec53a",
     "https://esm.sh/v135/concat-map@0.0.1/denonext/concat-map.mjs": "1a5a143263db86cb520387e65d8ce2fde374b66cf64aed488b5138836b1d5674",
     "https://esm.sh/v135/constructs@10.4.2/denonext/constructs.mjs": "2f21d3865f5d93d46ce2fe477000e41c1032aa3bde09b47915d3d4d29c508118",
