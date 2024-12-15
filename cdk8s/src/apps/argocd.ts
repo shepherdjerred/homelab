@@ -16,15 +16,14 @@ export function createArgoCdApp(chart: Chart) {
         chart: "argo-cd",
         helm: {
           valuesObject: {
-            url: "argocd.tailnet-1a49.ts.net",
-            statusBadge: {
-              enabled: true,
-              url: "argocd.tailnet-1a49.ts.net",
+            global: {
+              domain: "argocd.tailnet-1a49.ts.net",
             },
             configs: {
               cm: {
                 "exec.enabled": true,
                 "timeout.reconciliation": "60s",
+                "statusbadge.enabled": true,
               },
             },
           },
