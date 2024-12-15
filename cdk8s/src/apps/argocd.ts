@@ -8,13 +8,18 @@ export function createArgoCdApp(chart: Chart) {
     metadata: {
       name: "argocd-cm",
       namespace: "argocd",
+      labels: {
+        "app.kubernetes.io/instance": "argocd",
+        "app.kubernetes.io/name": "argocd-cm",
+        "app.kubernetes.io/part-of": "argocd",
+      },
     },
     data: {
-      // url: "https://argocd.tailnet-1a49.ts.net/",
-      // "accounts.jenkins": "apiKey",
-      // "accounts.jenkins.enabled": "true",
-      // "exec.enabled": "true",
-      // "timeout.reconciliation": "60s",
+      url: "https://argocd.tailnet-1a49.ts.net/",
+      "accounts.jenkins": "apiKey",
+      "accounts.jenkins.enabled": "true",
+      "exec.enabled": "true",
+      "timeout.reconciliation": "60s",
     },
   });
 
