@@ -24,6 +24,11 @@ export function createArgoCdApp(chart: Chart) {
                 "exec.enabled": true,
                 "timeout.reconciliation": "60s",
                 "statusbadge.enabled": true,
+                "accounts.jenkins": "apiKey",
+                "accounts.jenkins.enabled": true,
+              },
+              rbac: {
+                "policy.csv": "p, jenkins, applications, sync, *, allow",
               },
             },
           },

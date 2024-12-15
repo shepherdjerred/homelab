@@ -67,6 +67,17 @@ export function createJenkinsApp(chart: Chart) {
     },
   });
 
+  const argoCdToken = new OnePasswordItem(chart, "argocd-token", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/xchlunxpr5tdpqxaxsxc7k2zh4",
+    },
+    metadata: {
+      name: "argocd-token",
+      namespace: "jenkins",
+    },
+  });
+
   const plugins = Deno.readTextFileSync("config/jenkins/plugins.txt").split(
     "\n",
   )
@@ -115,6 +126,10 @@ export function createJenkinsApp(chart: Chart) {
                 {
                   name: githubApp.name,
                   keyName: "private-key",
+                },
+                {
+                  name: argoCdToken.name,
+                  keyName: "credential",
                 },
               ],
               jenkinsUrl: "https://jenkins.tailnet-1a49.ts.net",
@@ -166,6 +181,14 @@ export function createJenkinsApp(chart: Chart) {
                                   scope: "GLOBAL",
                                   username: "shepherdjerred",
                                   password: `\${${github.name}-credential}`,
+                                },
+                              },
+                              {
+                                string: {
+                                  description: "argocd",
+                                  id: "ARGOCD_TOKEN",
+                                  scope: "GLOBAL",
+                                  secret: `\${${argoCdToken.name}-credential}`,
                                 },
                               },
                             ],
