@@ -3,7 +3,7 @@ const versions = {
   // renovate: datasource=custom.k3s
   "k3s": "v1.30.6+k3s1",
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
-  "connect": "1.16.0",
+  "connect": "1.17.0",
   // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
   "argo-cd": "7.7.10",
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
