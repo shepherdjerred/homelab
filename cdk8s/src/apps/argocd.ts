@@ -28,6 +28,7 @@ export function createArgoCdApp(chart: Chart) {
                 "accounts.jenkins.enabled": true,
               },
               rbac: {
+                // TODO: scope this to only syncing
                 "policy.csv": "g, jenkins, role:admin",
               },
             },
