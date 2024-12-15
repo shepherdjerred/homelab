@@ -15,8 +15,9 @@ build:
   # fixes an issue with Home Assistant YAML files
   # escape {{ and }} in all of the files
   # https://github.com/helm/helm/issues/2798#issuecomment-326454957
-  # {{ => {{`
-  # }} => `}}
+  # "{{ " => "{{` "
+  # " }}" => " `}}"
+  # note: the whitespace is significant; otherwise we screw up some Jenkins CasC
   RUN find . -type f -name '*.yaml' -exec sed -i 's/{{ /{{ `{{/g' {} +
   RUN find . -type f -name '*.yaml' -exec sed -i 's/ }}/ }}`}}/g' {} +
 

@@ -17,11 +17,11 @@ export function createArgoCdApp(chart: Chart) {
         helm: {
           parameters: [
             {
-              "name": "configs.cm.exec.enabled",
+              "name": 'configs.cm."exec.enabled"',
               "value": "true",
             },
             {
-              "name": "configs.cm.timeout.reconciliation",
+              "name": 'configs.cm."timeout.reconciliation"',
               "value": "60s",
             },
             {
