@@ -1,0 +1,38 @@
+- id: "1670721207352"
+  alias: Turn off stairway lights
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.stairway_motion
+      to: "on"
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+  condition: []
+  action:
+    - repeat:
+        until:
+          - alias: No motion
+            condition: and
+            conditions:
+              - condition: state
+                entity_id: binary_sensor.stairway_motion
+                for:
+                  hours: 0
+                  minutes: 2
+                  seconds: 0
+                state: "off"
+        sequence:
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 10
+              milliseconds: 0
+    - data:
+        transition: 10
+      action: light.turn_off
+      target:
+        area_id: stairway
+  mode: restart

@@ -1,0 +1,26 @@
+- id: "1646198566337"
+  alias: Indoor lights (sunset)
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.sun_is_down
+      to: "on"
+  condition: []
+  action:
+    - action: scene.turn_on
+      target:
+        entity_id: scene.dining_room_bright
+      data:
+        transition: 10
+    - action: scene.turn_on
+      target:
+        entity_id: scene.living_room_bright
+      data:
+        transition: 10
+    - action: scene.turn_on
+      data:
+        transition: 10
+      target:
+        entity_id: scene.bedroom_bright
+  mode: single

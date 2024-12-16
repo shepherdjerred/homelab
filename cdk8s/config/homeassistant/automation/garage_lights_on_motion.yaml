@@ -1,0 +1,43 @@
+- id: "1673758173250"
+  alias: Garage lights on motion
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.hue_motion_sensor_1_motion
+      to: "on"
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 1
+  condition:
+    - condition: state
+      entity_id: light.garage
+      state: "off"
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 10
+      alias: Garage lights weren't turned off recently
+  action:
+    - if:
+        - condition: state
+          entity_id: binary_sensor.hue_motion_sensor_1_motion
+          state: "on"
+          for:
+            hours: 0
+            minutes: 0
+            seconds: 3
+      then:
+        - action: scene.turn_on
+          metadata: {}
+          target:
+            entity_id: scene.garage_bright
+      else:
+        - action: scene.turn_on
+          data:
+            transition: 1
+          target:
+            entity_id: scene.garage_dimmed
+      alias: Turn on lights depending on motion length
+  mode: restart

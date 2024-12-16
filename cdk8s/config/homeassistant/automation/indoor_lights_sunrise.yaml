@@ -1,0 +1,39 @@
+- id: "1646198640103"
+  alias: Indoor lights (sunrise)
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.sun_is_down
+      to: "off"
+      id: sun
+    - platform: state
+      entity_id:
+        - input_boolean.awake
+      to: "on"
+  condition:
+    - condition: or
+      conditions:
+        - condition: and
+          conditions:
+            - condition: trigger
+              id:
+                - sun
+            - condition: state
+              entity_id: input_boolean.awake
+              state: "off"
+        - condition: state
+          entity_id: input_boolean.awake
+          state: "on"
+  action:
+    - action: scene.turn_on
+      target:
+        entity_id: scene.living_room_bright
+      data:
+        transition: 10
+    - action: scene.turn_on
+      target:
+        entity_id: scene.dining_room_bright
+      data:
+        transition: 10
+  mode: single

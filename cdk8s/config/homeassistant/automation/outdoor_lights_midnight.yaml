@@ -1,0 +1,22 @@
+- id: "1658527628923"
+  alias: Outdoor lights (midnight)
+  description: ""
+  trigger:
+    - platform: time
+      at: 00:00:00
+  condition: []
+  action:
+    - action: input_boolean.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: input_boolean.awake
+    - data: {}
+      target:
+        area_id:
+          - backyard
+        entity_id:
+          - light.lower
+          - light.patio_lights
+      action: light.turn_off
+  mode: single

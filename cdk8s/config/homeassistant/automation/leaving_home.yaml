@@ -1,0 +1,44 @@
+- id: "1647291929910"
+  alias: Leaving Home
+  description: ""
+  trigger:
+    - platform: zone
+      entity_id: person.jerred
+      zone: zone.home
+      event: leave
+  condition: []
+  action:
+    - data: {}
+      target:
+        device_id: f218df4be34c06c62559ae599f5f735e
+      alias: Lock the front door
+      action: lock.lock
+    - if:
+        - condition: state
+          entity_id: input_boolean.enable_heater
+          state: "on"
+      then:
+        - enabled: true
+          data:
+            temperature: "{{ states('input_number.away_temperature') }}"
+          target:
+            device_id: b39077ee57bc3f2671ad264ec15b72a7
+          action: climate.set_temperature
+      alias: Set the heater
+    - alias: Turn on the Roomba
+      if:
+        - condition: time
+          before: "19:00:00"
+          after: 07:00:00
+      then:
+        - data: {}
+          target:
+            entity_id: vacuum.roomba_combo
+          action: vacuum.start
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.sonoff_1002166461
+      alias: Turn off espresso machine
+  mode: single

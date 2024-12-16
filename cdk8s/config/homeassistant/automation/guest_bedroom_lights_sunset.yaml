@@ -1,0 +1,18 @@
+- id: "1646198792219"
+  alias: Guest bedroom lights (sunset)
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.sun_is_down
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: "off"
+  action:
+    - data: {}
+      action: light.turn_on
+      target:
+        device_id: 5dbb4c685748b5de31d8c689a3f2f643
+  mode: single

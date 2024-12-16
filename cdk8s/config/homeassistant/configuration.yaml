@@ -67,6 +67,6 @@ tts:
   - platform: google_translate
 ffmpeg:
 
-automation: !include automations.yaml
+automation: !include_dir_merge_list automation
 script: !include scripts.yaml
 scene: !include scenes.yaml

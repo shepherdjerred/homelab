@@ -1,0 +1,14 @@
+- id: "1727532905322"
+  alias: Noon
+  description: ""
+  trigger:
+    - platform: time
+      at: "12:00:00"
+  condition: []
+  action:
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.sonoff_1002166461
+  mode: single

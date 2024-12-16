@@ -1,0 +1,16 @@
+- id: "1646196241303"
+  alias: Stairway lights on motion
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - binary_sensor.stairway_motion
+      to: "on"
+  condition: []
+  action:
+    - action: scene.turn_on
+      data:
+        transition: 3
+      target:
+        entity_id: scene.stairway_bright
+  mode: restart

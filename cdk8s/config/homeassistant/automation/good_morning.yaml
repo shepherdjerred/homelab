@@ -1,0 +1,149 @@
+- id: "1646198708968"
+  alias: Good Morning
+  description: Turn on lights and play music
+  triggers:
+    - at: input_datetime.wake_up
+      trigger: time
+  conditions: []
+  actions:
+    - action: input_boolean.turn_on
+      metadata: {}
+      data: {}
+      target:
+        entity_id: input_boolean.awake
+    - parallel:
+        - alias: Turn on bedrooms lights
+          action: scene.turn_on
+          data:
+            transition: 3
+          target:
+            entity_id: scene.bedroom_dimmed
+        - alias: Play music
+          if:
+            - condition: template
+              value_template: "true"
+          then:
+            - target:
+                area_id: bedroom
+              data: {}
+              action: media_player.unjoin
+            - target:
+                area_id:
+                  - bedroom
+              data:
+                volume_level: 0
+              action: media_player.volume_set
+            - target:
+                entity_id: media_player.bedroom
+              data:
+                media_content_id: FV:2/5
+                media_content_type: favorite_item_id
+              metadata:
+                title: Favorites Mix
+                thumbnail: https://is1-ssl.mzstatic.com/image/thumb/Features114/v4/83/47/18/83471885-22a3-e3f0-3589-374fd60fe6b0/U0MtTVMtV1ctUGVyc29uYWxpemVkX01peGVzLUZhdm9yaXRlcy1BREFNX0lEPTExMTk2OTMyODIucG5n.png/400x400cc.png
+                media_class: playlist
+                children_media_class:
+                navigateIds:
+                  - {}
+                  - media_content_type: favorites
+                    media_content_id: ""
+                  - media_content_type: favorites_folder
+                    media_content_id: object.container.playlistContainer
+              action: media_player.play_media
+            - repeat:
+                count: 2
+                sequence:
+                  - target:
+                      area_id: bedroom
+                    data: {}
+                    action: media_player.volume_up
+                  - delay:
+                      hours: 0
+                      minutes: 0
+                      seconds: 5
+                      milliseconds: 0
+              alias: Gradually increase volume
+        - alias: Set the heater
+          if:
+            - condition: state
+              entity_id: input_boolean.enable_heater
+              state: "on"
+          then:
+            - data:
+                service: climate.set_temperature
+                temperature: "{{ states('input_number.day_temperature') }}"
+                hvac_mode: heat
+              target:
+                entity_id: climate.dining_room
+              action: retry.call
+            - action: switch.turn_on
+              metadata: {}
+              data: {}
+              target:
+                entity_id: switch.sonoff_1002162space_heaterd4
+        - alias: Turn on holiday lights
+          if:
+            - condition: state
+              entity_id: input_boolean.holiday_lights_enabled
+              state: "on"
+          then:
+            - action: scene.turn_on
+              metadata: {}
+              target:
+                entity_id: scene.new_scene
+        - action: switch.turn_on
+          metadata: {}
+          data: {}
+          target:
+            device_id: ff02c3db746a45e6bf4c15dbd0f25235
+          enabled: false
+          alias: Turn on espresso machine
+    - delay:
+        hours: 0
+        minutes: 15
+        seconds: 0
+        milliseconds: 0
+    - action: scene.turn_on
+      target:
+        entity_id: scene.bedroom_bright
+      data:
+        transition: 60
+    - action: media_player.volume_set
+      metadata: {}
+      data:
+        volume_level: 0
+      target:
+        area_id:
+          - bathroom
+          - dining_room
+      alias: Turn down volume before adding to group
+    - action: media_player.join
+      metadata: {}
+      data:
+        group_members:
+          - media_player.bathroom
+          - media_player.dining_room
+          - media_player.kitchen
+      target:
+        entity_id: media_player.bedroom
+      alias: Add speakers to group
+      enabled: true
+    - alias: Gradually increase volume
+      repeat:
+        count: 3
+        sequence:
+          - target:
+              area_id: bedroom
+            data: {}
+            action: media_player.volume_up
+          - delay:
+              hours: 0
+              minutes: 0
+              seconds: 5
+              milliseconds: 0
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.sonoff_1002162space_heaterd4
+  mode: single

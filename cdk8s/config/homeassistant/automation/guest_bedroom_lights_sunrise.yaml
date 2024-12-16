@@ -1,0 +1,36 @@
+- id: "1646198768002"
+  alias: Guest bedroom lights (sunrise)
+  description: ""
+  trigger:
+    - platform: state
+      entity_id:
+        - input_boolean.sun_is_down
+      to: "off"
+      id: sun
+    - platform: state
+      entity_id:
+        - input_boolean.awake
+      to: "on"
+  condition:
+    - condition: state
+      entity_id: input_boolean.guest_mode
+      state: "off"
+    - condition: or
+      conditions:
+        - condition: and
+          conditions:
+            - condition: trigger
+              id:
+                - sun
+            - condition: state
+              entity_id: input_boolean.awake
+              state: "off"
+        - condition: state
+          entity_id: input_boolean.awake
+          state: "on"
+  action:
+    - data: {}
+      action: light.turn_off
+      target:
+        device_id: 5dbb4c685748b5de31d8c689a3f2f643
+  mode: single

@@ -1,0 +1,26 @@
+- id: "1717034922936"
+  alias: Early Morning
+  description: ""
+  trigger:
+    - alias: One hour before waking up
+      platform: template
+      value_template:
+        '{{ now().strftime("%H:%M:%S") == (today_at(states("input_datetime.wake_up"))-timedelta(hours=1)).strftime("%H:%M:%S")
+        }} '
+  condition: []
+  action:
+    - alias: Set heater
+      if:
+        - condition: state
+          entity_id: input_boolean.enable_heater
+          state: "on"
+      then:
+        - data:
+            service: climate.set_temperature
+            temperature: "{{ states('input_number.morning_temperature') }}"
+            hvac_mode: heat
+          target:
+            entity_id: climate.dining_room
+          enabled: true
+          action: retry.call
+  mode: single
