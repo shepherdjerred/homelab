@@ -5,7 +5,10 @@ ci:
   ARG --required version
   BUILD --auto-skip +pre-commit
   BUILD --auto-skip ./cdk8s+build
-  BUILD ./cdk8s/helm+publish --version=$version
+  WAIT
+    BUILD ./cdk8s/helm+publish --version=$version
+  END
+  BUILD +sync
 
 kube-linter:
   ARG TARGETARCH
@@ -23,7 +26,7 @@ kube-linter:
 
 sync:
   FROM curlimages/curl
-  RUN --no-cache --secret ARGOCD_TOKEN curl -X POST https://argocd.tailnet-1a49.ts.net/api/v1/applications/lamport/sync -H "Authorization: Bearer $ARGOCD_TOKEN" -H "Content-Type: application/json"
+  RUN --push --no-cache --secret ARGOCD_TOKEN curl -X POST https://argocd.tailnet-1a49.ts.net/api/v1/applications/lamport/sync -H "Authorization: Bearer $ARGOCD_TOKEN" -H "Content-Type: application/json"
 
 pre-commit:
   FROM python

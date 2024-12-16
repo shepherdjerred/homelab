@@ -57,8 +57,7 @@ pipeline {
                 }
             }
             steps {
-              sh 'earthly --sat=lamport --org=sjerred --ci --push +ci --version=1.0.$BUILD_NUMBER-0 --git_sha=$GIT_COMMIT'
-              sh 'earthly --sat=lamport --org=sjerred --ci --push --secret ARGOCD_TOKEN +sync'
+              sh 'earthly --sat=lamport --org=sjerred --ci --push --secret ARGOCD_TOKEN +ci --version=1.0.$BUILD_NUMBER-0 --git_sha=$GIT_COMMIT'
             }
         }
     }
