@@ -1,0 +1,6 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postStartCommand": "pre-commit install && pre-commit install -t commit-msg && (cd cdk8s/ && deno cache src/app.ts)"
+}
