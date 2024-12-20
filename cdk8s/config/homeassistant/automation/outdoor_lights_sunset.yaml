@@ -33,6 +33,6 @@
         - action: scene.turn_on
           data: {}
           target:
-            entity_id:
-              - scene.front_porch_crystalline
+            entity_id: >
+              {{ [ 'scene.front_porch_crystalline', 'scene.front_porch_golden_star', 'scene.front_porch_snow_sparkle', 'scene.front_porch_under_the_tree' ] | random }}
   mode: single
