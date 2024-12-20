@@ -112,6 +112,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
         group: ROOT_GID,
         // required
         readOnlyRootFilesystem: false,
+        privileged: true,
       },
       image: `ghcr.io/home-assistant/home-assistant:${
         versions["home-assistant/home-assistant"]
