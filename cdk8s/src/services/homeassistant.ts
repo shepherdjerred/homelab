@@ -90,6 +90,16 @@ export function createHomeAssistantDeployment(chart: Chart) {
     automationConfig,
   );
 
+  const serialDeviceVolume = Volume.fromHostPath(
+    chart,
+    "serial-device-volume",
+    "serial-device-volume",
+    {
+      path:
+        "/dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_082a732ea338ef11bf43317af3d9b1e5-if00-port0",
+    },
+  );
+
   deployment.addContainer(
     withCommonProps({
       securityContext: {
@@ -128,6 +138,11 @@ export function createHomeAssistantDeployment(chart: Chart) {
             volume: automationConfigVolume,
           };
         })),
+        {
+          path:
+            "/dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_082a732ea338ef11bf43317af3d9b1e5-if00-port0",
+          "volume": serialDeviceVolume,
+        },
       ],
     }),
   );
