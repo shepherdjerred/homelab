@@ -6,13 +6,16 @@
       entity_id:
         - input_boolean.sun_is_down
       to: "on"
+      alias: Sun is down
   condition:
     - condition: state
       entity_id: input_boolean.guest_mode
       state: "off"
+      alias: Guest mode is off
   action:
     - data: {}
       action: light.turn_on
       target:
         device_id: 5dbb4c685748b5de31d8c689a3f2f643
+      alias: Turn on guest bedroom light
   mode: single

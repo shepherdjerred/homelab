@@ -10,6 +10,7 @@
         hours: 0
         minutes: 0
         seconds: 0
+      alias: Motion detected on stairway
   condition: []
   action:
     - repeat:
@@ -30,9 +31,11 @@
               minutes: 0
               seconds: 10
               milliseconds: 0
+              alias: Wait for 10 seconds
     - data:
         transition: 10
       action: light.turn_off
       target:
         area_id: stairway
+      alias: Turn off stairway lights
   mode: restart

@@ -7,6 +7,7 @@
         - input_boolean.sun_is_down
       to: "off"
       from: "on"
+      alias: Sun is up
   condition: []
   action:
     - data:
@@ -19,4 +20,5 @@
           - front_path
           - side_path
       action: light.turn_off
+      alias: Turn off outdoor lights
   mode: single

@@ -1,6 +1,6 @@
 - id: "1646198210838"
   alias: Brighten bollards on motion
-  description: ""
+  description: Brighten bollards when motion is detected outside
   triggers:
     - alias: Motion has been detected outside
       entity_id:

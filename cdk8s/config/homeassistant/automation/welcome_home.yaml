@@ -6,6 +6,7 @@
       entity_id: person.jerred
       zone: zone.home
       event: enter
+      alias: Jerred enters home zone
   condition: []
   action:
     - data: {}
@@ -18,10 +19,12 @@
       target:
         entity_id: scene.dining_room_bright
       data: {}
-    - if:
+    - alias: Set the heater
+      if:
         - condition: state
           entity_id: input_boolean.enable_heater
           state: "on"
+          alias: Heater is enabled
       then:
         - data:
             temperature: "{{ states('input_number.day_temperature') }}"
@@ -29,12 +32,12 @@
           target:
             device_id: b39077ee57bc3f2671ad264ec15b72a7
           action: climate.set_temperature
-      alias: Set the heater
     - alias: Brighten the Bollards
       if:
         - condition: state
           entity_id: input_boolean.sun_is_down
           state: "on"
+          alias: Sun is down
       then:
         - alias: Brighten Bollards
           action: scene.turn_on
@@ -46,6 +49,7 @@
             minutes: 2
             seconds: 0
             milliseconds: 0
+          alias: Wait for 2 minutes
         - alias: Dim Bollards
           action: scene.turn_on
           data: {}
@@ -61,14 +65,14 @@
                   entity_id: vacuum.roomba_combo
                   attribute: status
                   state: Charging
-              alias: Roomba is not charging
+                  alias: Roomba is not charging
             - condition: not
               conditions:
                 - condition: state
                   entity_id: vacuum.roomba_combo
                   attribute: status
                   state: Docked
-              alias: Roomba is not docked
+                  alias: Roomba is not docked
           alias: Roomba is not docked or charging
           enabled: true
       then:

@@ -4,6 +4,7 @@
   trigger:
     - platform: time
       at: "12:00:00"
+      alias: Noon
   condition: []
   action:
     - action: switch.turn_off
@@ -11,4 +12,5 @@
       data: {}
       target:
         entity_id: switch.sonoff_1002166461
+      alias: Turn off Sonoff switch
   mode: single

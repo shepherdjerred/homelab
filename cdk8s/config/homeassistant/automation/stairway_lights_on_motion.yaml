@@ -6,6 +6,7 @@
       entity_id:
         - binary_sensor.stairway_motion
       to: "on"
+      alias: Motion detected on stairway
   condition: []
   action:
     - action: scene.turn_on
@@ -13,4 +14,5 @@
         transition: 3
       target:
         entity_id: scene.stairway_bright
+      alias: Turn on stairway bright scene
   mode: restart

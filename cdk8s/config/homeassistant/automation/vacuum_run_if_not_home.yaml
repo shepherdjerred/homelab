@@ -1,0 +1,22 @@
+- id: "1647991129210"
+  alias: Run Vacuum if Not Home
+  description: Run the vacuum at 9am if I am not home and the vacuum is not already on
+  trigger:
+    - platform: time
+      at: "09:00:00"
+      alias: At 9am
+  condition:
+    - condition: state
+      entity_id: person.jerred
+      state: "not_home"
+      alias: Jerred is not home
+    - condition: state
+      entity_id: vacuum.roomba_combo
+      state: "docked"
+      alias: Vacuum is docked
+  action:
+    - service: vacuum.start
+      target:
+        entity_id: vacuum.roomba_combo
+      alias: Start vacuum
+  mode: single

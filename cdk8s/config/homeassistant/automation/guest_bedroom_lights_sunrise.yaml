@@ -7,30 +7,39 @@
         - input_boolean.sun_is_down
       to: "off"
       id: sun
+      alias: Sun is up
     - platform: state
       entity_id:
         - input_boolean.awake
       to: "on"
+      alias: Awake
   condition:
     - condition: state
       entity_id: input_boolean.guest_mode
       state: "off"
+      alias: Guest mode is off
     - condition: or
+      alias: Sun is up or awake
       conditions:
         - condition: and
+          alias: Sun is up and not awake
           conditions:
             - condition: trigger
               id:
                 - sun
+              alias: Triggered by sun
             - condition: state
               entity_id: input_boolean.awake
               state: "off"
+              alias: Not awake
         - condition: state
           entity_id: input_boolean.awake
           state: "on"
+          alias: Awake
   action:
     - data: {}
       action: light.turn_off
       target:
         device_id: 5dbb4c685748b5de31d8c689a3f2f643
+      alias: Turn off guest bedroom light
   mode: single

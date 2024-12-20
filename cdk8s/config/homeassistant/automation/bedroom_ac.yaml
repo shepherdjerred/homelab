@@ -1,6 +1,6 @@
 - id: "1723005544437"
   alias: Bedroom AC
-  description: ""
+  description: Turn off bedroom AC and toggle fan at 2am
   trigger:
     - platform: time
       at: 02:00:00

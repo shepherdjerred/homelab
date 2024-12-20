@@ -1,15 +1,17 @@
 - id: "1664593118148"
   alias: Good Night
-  description: ""
+  description: Turn off lights, play rain sounds, and set the heater
   triggers:
     - event_type: ios.action_fired
       event_data:
         actionID: A91A15AA-479E-416C-8F51-BD983A999266
       context: {}
       trigger: event
+      alias: iOS action fired
     - entity_id:
         - binary_sensor.flic_80e4da7a367a
       trigger: state
+      alias: Flic button pressed
   conditions: []
   actions:
     - action: input_boolean.turn_off
@@ -17,6 +19,7 @@
       data: {}
       target:
         entity_id: input_boolean.awake
+      alias: Turn off awake boolean
     - parallel:
         - alias: Turn off bedroom lights
           action: scene.turn_on
@@ -28,16 +31,19 @@
           if:
             - condition: template
               value_template: "true"
+              alias: Always true
           then:
             - data: {}
               target:
                 area_id: bedroom
               action: media_player.unjoin
+              alias: Unjoin media player
             - data:
                 volume_level: 0
               target:
                 area_id: bedroom
               action: media_player.volume_set
+              alias: Set volume to 0
             - target:
                 entity_id: media_player.bedroom
               data:
@@ -55,6 +61,7 @@
                   - media_content_type: favorites_folder
                     media_content_id: object.item.audioItem.audioBroadcast
               action: media_player.play_media
+              alias: Play rain sounds
             - repeat:
                 count: 5
                 sequence:
@@ -68,11 +75,13 @@
                     data: {}
                     target:
                       entity_id: media_player.bedroom
+                    alias: Increase volume
               alias: Gradually increase volume
         - if:
             - condition: state
               entity_id: input_boolean.enable_heater
               state: "on"
+              alias: Heater enabled
           then:
             - data:
                 hvac_mode: heat
@@ -81,23 +90,27 @@
               target:
                 device_id: b39077ee57bc3f2671ad264ec15b72a7
               action: climate.set_temperature
+              alias: Set heater temperature
           alias: Set the heater
         - alias: Turn off holiday lights
           if:
             - condition: state
               entity_id: input_boolean.holiday_lights_enabled
               state: "on"
+              alias: Holiday lights enabled
           then:
             - action: light.turn_off
               metadata: {}
               data: {}
               target:
                 device_id: 4ab21b6cc4c70a663a22a9ad8cea1db1
+              alias: Turn off holiday light device
             - action: light.turn_off
               metadata: {}
               data: {}
               target:
                 entity_id: light.christmas_tree
+              alias: Turn off Christmas tree
         - alias: Turn off front porch lights
           action: switch.turn_off
           metadata: {}

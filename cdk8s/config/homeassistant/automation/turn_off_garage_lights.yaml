@@ -10,6 +10,7 @@
         hours: 0
         minutes: 5
         seconds: 0
+      alias: Motion stopped in garage
   condition: []
   action:
     - repeat:
@@ -21,15 +22,18 @@
               hours: 0
               minutes: 7
               seconds: 0
+            alias: No motion for 7 minutes
         sequence:
           - delay:
               hours: 0
               minutes: 0
               seconds: 10
               milliseconds: 0
+              alias: Wait for 10 seconds
     - data:
         transition: 10
       target:
         area_id: garage
       action: light.turn_off
+      alias: Turn off garage lights
   mode: single

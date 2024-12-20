@@ -1,6 +1,6 @@
 - id: "1717034922936"
   alias: Early Morning
-  description: ""
+  description: Set the heater one hour before waking up
   trigger:
     - alias: One hour before waking up
       platform: template

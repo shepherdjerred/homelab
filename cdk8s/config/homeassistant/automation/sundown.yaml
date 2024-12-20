@@ -5,10 +5,12 @@
     - platform: sun
       event: sunset
       offset: "0"
+      alias: Sunset event
   condition: []
   action:
     - service: input_boolean.turn_on
       target:
         entity_id: input_boolean.sun_is_down
       data: {}
+      alias: Turn on sun_is_down boolean
   mode: single

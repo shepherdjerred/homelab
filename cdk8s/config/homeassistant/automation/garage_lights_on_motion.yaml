@@ -1,6 +1,6 @@
 - id: "1673758173250"
   alias: Garage lights on motion
-  description: ""
+  description: Turn on garage lights when motion is detected
   trigger:
     - platform: state
       entity_id:

@@ -6,6 +6,7 @@
       entity_id: person.jerred
       zone: zone.home
       event: leave
+      alias: Jerred leaves home
   condition: []
   action:
     - data: {}
@@ -17,6 +18,7 @@
         - condition: state
           entity_id: input_boolean.enable_heater
           state: "on"
+          alias: Heater is enabled
       then:
         - enabled: true
           data:
@@ -24,17 +26,20 @@
           target:
             device_id: b39077ee57bc3f2671ad264ec15b72a7
           action: climate.set_temperature
+          alias: Set heater temperature
       alias: Set the heater
     - alias: Turn on the Roomba
       if:
         - condition: time
           before: "19:00:00"
           after: 07:00:00
+          alias: Within Roomba operating hours
       then:
         - data: {}
           target:
             entity_id: vacuum.roomba_combo
           action: vacuum.start
+          alias: Start Roomba
     - action: switch.turn_off
       metadata: {}
       data: {}
