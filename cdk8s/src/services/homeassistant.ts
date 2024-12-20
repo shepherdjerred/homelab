@@ -2,6 +2,7 @@ import {
   ConfigMap,
   Deployment,
   DeploymentStrategy,
+  HostPathVolumeType,
   Protocol,
   Service,
   Volume,
@@ -90,13 +91,16 @@ export function createHomeAssistantDeployment(chart: Chart) {
     automationConfig,
   );
 
+  // "/dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_082a732ea338ef11bf43317af3d9b1e5-if00-port0",
+  const serialPath = "/dev/ttyUSB0";
+
   const serialDeviceVolume = Volume.fromHostPath(
     chart,
     "serial-device-volume",
     "serial-device-volume",
     {
-      path:
-        "/dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_082a732ea338ef11bf43317af3d9b1e5-if00-port0",
+      path: serialPath,
+      type: HostPathVolumeType.CHAR_DEVICE,
     },
   );
 
@@ -139,9 +143,8 @@ export function createHomeAssistantDeployment(chart: Chart) {
           };
         })),
         {
-          path:
-            "/dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_082a732ea338ef11bf43317af3d9b1e5-if00-port0",
-          "volume": serialDeviceVolume,
+          path: serialPath,
+          volume: serialDeviceVolume,
         },
       ],
     }),
