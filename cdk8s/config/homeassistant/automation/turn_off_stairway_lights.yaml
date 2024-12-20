@@ -31,7 +31,6 @@
               minutes: 0
               seconds: 10
               milliseconds: 0
-              alias: Wait for 10 seconds
     - data:
         transition: 10
       action: light.turn_off
