@@ -73,6 +73,7 @@ scene: !include scenes.yaml
 
 sensor:
   - platform: min_max
+    id: front_door_sensor_temperature
     name: "Average Indoor Temperature"
     type: mean
     round_digits: 2
