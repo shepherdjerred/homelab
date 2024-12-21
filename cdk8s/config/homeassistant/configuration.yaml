@@ -89,6 +89,7 @@ sensor:
         friendly_name: "Average Indoor Temperature"
         unit_of_measurement: "°C"
         value_template: "{{ states('sensor.average_indoor_temperature_helper') }}"
+        state_class: measurement
   - platform: min_max
     name: "Average Outdoor Temperature Helper"
     type: mean
@@ -101,6 +102,7 @@ sensor:
         friendly_name: "Average Outdoor Temperature"
         unit_of_measurement: "°C"
         value_template: "{{ states('sensor.average_outdoor_temperature_helper') }}"
+        state_class: measurement
 
 light:
   - platform: group
