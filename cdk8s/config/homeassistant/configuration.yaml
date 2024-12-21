@@ -167,16 +167,6 @@ light:
       - light.side_bollards
 
 binary_sensor:
-  - platform: template
-    sensors:
-      average_indoor_temperature:
-        friendly_name: "Average Indoor Temperature"
-        unit_of_measurement: "°C"
-        value_template: "{{ states('sensor.average_indoor_temperature') }}"
-      average_outdoor_temperature:
-        friendly_name: "Average Outdoor Temperature"
-        unit_of_measurement: "°C"
-        value_template: "{{ states('sensor.average_outdoor_temperature') }}"
   - platform: group
     name: "Outdoor Motion"
     entities:
