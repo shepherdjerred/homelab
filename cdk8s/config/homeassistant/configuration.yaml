@@ -70,3 +70,179 @@ ffmpeg:
 automation: !include_dir_merge_list automation
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
+sensor:
+  - platform: min_max
+    name: "Average Indoor Temperature"
+    type: mean
+    round_digits: 2
+    entity_ids:
+      - sensor.nest_temperature_sensor_guest_room_temperature
+      - sensor.nest_temperature_sensor_bedroom_temperature
+      - sensor.nest_temperature_sensor_living_room_temperature
+      - sensor.dining_room_temperature
+      - sensor.010000faf8e6_ac_ambient_temperature
+      - sensor.d828c9927b02_ac_ambient_temperature
+  - platform: template
+    sensors:
+      average_indoor_temperature:
+        friendly_name: "Average Indoor Temperature"
+        unit_of_measurement: "°C"
+        value_template: "{{ states('sensor.average_indoor_temperature') }}"
+  - platform: min_max
+    name: "Average Outdoor Temperature"
+    type: mean
+    round_digits: 2
+    entity_ids:
+      - sensor.front_door_sensor_temperature
+  - platform: template
+    sensors:
+      average_outdoor_temperature:
+        friendly_name: "Average Outdoor Temperature"
+        unit_of_measurement: "°C"
+        value_template: "{{ states('sensor.average_outdoor_temperature') }}"
+
+light:
+  - platform: group
+    name: "Overhead Lights"
+    entities:
+      - light.dining_1
+      - light.dining_2
+      - light.dining_3
+  - platform: group
+    name: "Overhead Lights"
+    entities:
+      - light.kitchen_1
+      - light.kitchen_2
+      - light.kitchen_3
+  - platform: group
+    name: "Side Bollards"
+    entities:
+      - light.side_path_door_bollard
+      - light.side_path_middle_bollard
+      - light.hue_calla_outdoor_bollard_2
+  - platform: group
+    name: "Front Bollards"
+    entities:
+      - light.hue_calla_outdoor_bollard_1
+      - light.front_middle_bollard
+      - light.address_light_bollard
+      - light.garage_door_bollard
+  - platform: group
+    name: "Bronze Lamp"
+    entities:
+      - light.bronze_lamp_lower
+      - light.bronze_lamp_middle
+      - light.bronze_lamp_upper
+  - platform: group
+    name: "Balcony Lights"
+    entities:
+      - light.upper
+      - light.lower
+  - platform: switch
+    name: "Front porch light"
+    entity_id: switch.front_porch_light
+  - platform: switch
+    name: "Patio lights"
+    entity_id: switch.patio_lights
+  - platform: switch
+    name: "Upper"
+    entity_id: switch.lower
+  - platform: switch
+    name: "Lower"
+    entity_id: switch.upper
+  - platform: switch
+    name: "String Lights"
+    entity_id: switch.backyard_lights
+  - platform: switch
+    name: "Overhead Light"
+    entity_id: switch.overhead_light
+  - platform: switch
+    name: "Salt Lamp"
+    entity_id: switch.sonoff_1002162e11
+  - platform: group
+    name: "Bollards"
+    entities:
+      - light.front_bollards
+      - light.side_bollards
+
+binary_sensor:
+  - platform: template
+    sensors:
+      average_indoor_temperature:
+        friendly_name: "Average Indoor Temperature"
+        unit_of_measurement: "°C"
+        value_template: "{{ states('sensor.average_indoor_temperature') }}"
+      average_outdoor_temperature:
+        friendly_name: "Average Outdoor Temperature"
+        unit_of_measurement: "°C"
+        value_template: "{{ states('sensor.average_outdoor_temperature') }}"
+  - platform: group
+    name: "Outdoor Motion"
+    entities:
+      - binary_sensor.side_door_sensor_motion
+      - binary_sensor.front_door_sensor_motion
+      - binary_sensor.front_door_motion
+  - platform: group
+    name: "Stairway Motion"
+    entities:
+      - binary_sensor.lower_stairway_motion_sensor_motion
+      - binary_sensor.upper_stairway_motion_sensor_motion
+
+input_boolean:
+  guest_mode:
+    name: Guest Mode
+    icon: mdi:bag-suitcase
+  sun_is_down:
+    name: Sun is down
+    icon: mdi:weather-sunset-down
+  holiday_lights_enabled:
+    name: Holiday Lights Enabled
+    icon: phu:light-string
+  enable_heater:
+    name: Enable Heater
+    icon: mdi:gas-burner
+  awake:
+    name: Awake
+    icon: mdi:sleep
+
+input_number:
+  night_temperature:
+    name: Night Temperature
+    min: 15.0
+    max: 25.0
+    unit_of_measurement: "°C"
+    icon: mdi:moon-waning-crescent
+    step: 0.5
+    mode: slider
+  day_temperature:
+    name: Day Temperature
+    min: 15.0
+    max: 25.0
+    unit_of_measurement: "°C"
+    icon: mdi:weather-sunny
+    step: 0.5
+    mode: slider
+  away_temperature:
+    name: Away Temperature
+    min: 15.0
+    max: 25.0
+    unit_of_measurement: "°C"
+    icon: mdi:walk
+    step: 0.5
+    mode: slider
+  morning_temperature:
+    name: Morning Temperature
+    min: 15.0
+    max: 25.0
+    unit_of_measurement: "°C"
+    icon: mdi:weather-sunset-up
+    step: 0.5
+    mode: slider
+
+input_datetime:
+  wake_up:
+    name: "Wake up"
+    has_date: false
+    icon: "mdi:weather-sunny"
+    has_time: true
