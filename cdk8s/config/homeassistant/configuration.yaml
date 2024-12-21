@@ -104,13 +104,13 @@ sensor:
 
 light:
   - platform: group
-    name: "Overhead Lights"
+    name: "Dining Overhead Lights"
     entities:
       - light.dining_1
       - light.dining_2
       - light.dining_3
   - platform: group
-    name: "Overhead Lights"
+    name: "Kitchen Overhead Lights"
     entities:
       - light.kitchen_1
       - light.kitchen_2
