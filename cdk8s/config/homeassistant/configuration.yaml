@@ -73,8 +73,7 @@ scene: !include scenes.yaml
 
 sensor:
   - platform: min_max
-    id: front_door_sensor_temperature
-    name: "Average Indoor Temperature"
+    name: "Average Indoor Temperature Helper"
     type: mean
     round_digits: 2
     entity_ids:
@@ -89,9 +88,9 @@ sensor:
       average_indoor_temperature:
         friendly_name: "Average Indoor Temperature"
         unit_of_measurement: "°C"
-        value_template: "{{ states('sensor.average_indoor_temperature') }}"
+        value_template: "{{ states('sensor.average_indoor_temperature_helper') }}"
   - platform: min_max
-    name: "Average Outdoor Temperature"
+    name: "Average Outdoor Temperature Helper"
     type: mean
     round_digits: 2
     entity_ids:
@@ -101,7 +100,7 @@ sensor:
       average_outdoor_temperature:
         friendly_name: "Average Outdoor Temperature"
         unit_of_measurement: "°C"
-        value_template: "{{ states('sensor.average_outdoor_temperature') }}"
+        value_template: "{{ states('sensor.average_outdoor_temperature_helper') }}"
 
 light:
   - platform: group
