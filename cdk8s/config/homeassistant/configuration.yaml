@@ -83,26 +83,26 @@ sensor:
       - sensor.dining_room_temperature
       - sensor.010000faf8e6_ac_ambient_temperature
       - sensor.d828c9927b02_ac_ambient_temperature
+    state_class: measurement
   - platform: template
     sensors:
       average_indoor_temperature:
         friendly_name: "Average Indoor Temperature"
         unit_of_measurement: "°C"
         value_template: "{{ states('sensor.average_indoor_temperature_helper') }}"
-        state_class: measurement
   - platform: min_max
     name: "Average Outdoor Temperature Helper"
     type: mean
     round_digits: 2
     entity_ids:
       - sensor.front_door_sensor_temperature
+    state_class: measurement
   - platform: template
     sensors:
       average_outdoor_temperature:
         friendly_name: "Average Outdoor Temperature"
         unit_of_measurement: "°C"
         value_template: "{{ states('sensor.average_outdoor_temperature_helper') }}"
-        state_class: measurement
 
 light:
   - platform: group
