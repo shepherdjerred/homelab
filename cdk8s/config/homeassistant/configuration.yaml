@@ -129,12 +129,6 @@ light:
       - light.address_light_bollard
       - light.garage_door_bollard
   - platform: group
-    name: "Bronze Lamp"
-    entities:
-      - light.bronze_lamp_lower
-      - light.bronze_lamp_middle
-      - light.bronze_lamp_upper
-  - platform: group
     name: "Balcony Lights"
     entities:
       - light.upper
@@ -155,16 +149,11 @@ light:
     name: "String Lights"
     entity_id: switch.backyard_lights
   - platform: switch
-    name: "Overhead Light"
+    name: "Guest Overhead Light"
     entity_id: switch.overhead_light
   - platform: switch
     name: "Salt Lamp"
     entity_id: switch.sonoff_1002162e11
-  - platform: group
-    name: "Bollards"
-    entities:
-      - light.front_bollards
-      - light.side_bollards
 
 binary_sensor:
   - platform: group
