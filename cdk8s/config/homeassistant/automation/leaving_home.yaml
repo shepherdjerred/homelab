@@ -11,7 +11,7 @@
   action:
     - data: {}
       target:
-        entity: lock.front_door
+        entity_id: lock.front_door
       alias: Lock the front door
       action: lock.lock
     - if:
