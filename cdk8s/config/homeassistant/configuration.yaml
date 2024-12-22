@@ -73,7 +73,7 @@ scene: !include scenes.yaml
 
 sensor:
   - platform: min_max
-    name: "Average Indoor Temperature Helper"
+    name: "Average Indoor Temperature"
     type: mean
     round_digits: 2
     entity_ids:
@@ -85,7 +85,7 @@ sensor:
       # - sensor.010000faf8e6_ac_ambient_temperature
       # - sensor.d828c9927b02_ac_ambient_temperature
   - platform: min_max
-    name: "Average Outdoor Temperature Helper"
+    name: "Average Outdoor Temperature"
     type: mean
     round_digits: 2
     entity_ids:
