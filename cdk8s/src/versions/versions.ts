@@ -34,7 +34,7 @@ const versions = {
     "7.2@sha256:3037900c479ab646a9f8981162bac77966f6fdfea0233f740ee823200ae4d342",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver-coerced
   "earthly/satellite":
-    "v0.8.15@sha256:7040b02e00ff05232dc49f0b632bbfd4dfe0c380687d486849f1d024d8599233",
+    "v0.8.15@sha256:eec750b0800104e14f49f97cf92dcb9c2449ee4d9c630d7d88a1eeff920429e3",
   // renovate: datasource=docker registryUrl=https://quay.io versioning=docker
   "invidious/invidious":
     "2024.04.26-eda7444@sha256:a91a307a3ece8468aa88d6b91a601a0453cf76589f434ffdce643f968d3825cc",
