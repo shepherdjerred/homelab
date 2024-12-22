@@ -106,7 +106,7 @@
           metadata: {}
           data: {}
           target:
-            device_id: ff02c3db746a45e6bf4c15dbd0f25235
+            entity_id: switch.espresso_machine
           enabled: false
           alias: Turn on espresso machine
     - delay:

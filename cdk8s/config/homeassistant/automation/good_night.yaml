@@ -92,7 +92,7 @@
                 temperature: "{{ states('input_number.night_temperature') }}"
               enabled: true
               target:
-                device_id: b39077ee57bc3f2671ad264ec15b72a7
+                entity_id: climate.dining_room
               action: climate.set_temperature
               alias: Set heater temperature
           alias: Set the heater
@@ -107,7 +107,7 @@
               metadata: {}
               data: {}
               target:
-                device_id: 4ab21b6cc4c70a663a22a9ad8cea1db1
+                entity_id: light.festavia_string_lights_1
               alias: Turn off holiday light device
             - action: light.turn_off
               metadata: {}

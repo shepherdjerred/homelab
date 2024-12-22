@@ -11,7 +11,7 @@
   action:
     - data: {}
       target:
-        device_id: f218df4be34c06c62559ae599f5f735e
+        entity: lock.front_door
       alias: Lock the front door
       action: lock.lock
     - if:
@@ -24,7 +24,7 @@
           data:
             temperature: "{{ states('input_number.away_temperature') }}"
           target:
-            device_id: b39077ee57bc3f2671ad264ec15b72a7
+            entity_id: climate.dining_room
           action: climate.set_temperature
           alias: Set heater temperature
       alias: Set the heater

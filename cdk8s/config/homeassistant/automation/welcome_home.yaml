@@ -11,7 +11,7 @@
   action:
     - data: {}
       target:
-        device_id: f218df4be34c06c62559ae599f5f735e
+        entity_id: lock.front_door
       alias: Unlock the front door
       action: lock.unlock
     - alias: Turn on lights
@@ -30,7 +30,7 @@
             temperature: "{{ states('input_number.day_temperature') }}"
           enabled: true
           target:
-            device_id: b39077ee57bc3f2671ad264ec15b72a7
+            entity_id: climate.dining_room
           action: climate.set_temperature
     - alias: Brighten the Bollards
       if:
@@ -78,7 +78,7 @@
       then:
         - data: {}
           target:
-            device_id: fac32b67dd63fdcdf98f51db9c9c1c6e
+            entity_id: vacuum.roomba_combo
           alias: Send the Roomba home
           action: vacuum.return_to_base
   mode: single

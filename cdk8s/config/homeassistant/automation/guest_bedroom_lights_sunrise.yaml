@@ -40,6 +40,6 @@
     - data: {}
       action: light.turn_off
       target:
-        device_id: 5dbb4c685748b5de31d8c689a3f2f643
+        entity_id: light.salt_lamp
       alias: Turn off guest bedroom light
   mode: single
