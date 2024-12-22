@@ -44,6 +44,6 @@
       metadata: {}
       data: {}
       target:
-        entity_id: switch.sonoff_1002166461
+        entity_id: switch.espresso_machine
       alias: Turn off espresso machine
   mode: single
