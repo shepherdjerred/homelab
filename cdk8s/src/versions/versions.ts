@@ -73,7 +73,7 @@ const versions = {
     "5.15.1@sha256:399d00b11182a2622af0d42f115d29aed02a0fe58f6ebe98e1e654712d2e4acd",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/sonarr":
-    "4.0.11@sha256:4ba3bfa985b911129b449734bbf63749a03f6ef69b8ca37f2ecd74d46fabef1f",
+    "4.0.11@sha256:b466acde22d18859336e790af23c0b56d9dbb7199935b226b3139bf416fe7e1c",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "timothyjmiller/cloudflare-ddns":
     "latest@sha256:2187e122660d6a2d451ef7c53fd4805c133133f4f47552256352c1e2a7f49ee2",
