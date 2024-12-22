@@ -122,7 +122,7 @@ light:
     entities:
       - light.side_path_door_bollard
       - light.side_path_middle_bollard
-      - light.hue_calla_outdoor_bollard_2
+      - light.hue_calla_outdoor_bollard
   - platform: group
     name: "Front Bollards"
     entities:

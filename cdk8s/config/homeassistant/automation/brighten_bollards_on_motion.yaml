@@ -66,6 +66,6 @@
             transition: 10
           action: light.turn_off
           target:
-            entity_id: light.bollards_2
+            entity_id: light.bollards
   mode: parallel
   max: 1000
