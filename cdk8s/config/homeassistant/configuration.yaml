@@ -91,19 +91,6 @@ sensor:
     entity_ids:
       - sensor.front_door_sensor_temperature
 
-template:
-  - sensor:
-      - name: "Average Indoor Temperature"
-        state: "{{ states('sensor.average_indoor_temperature_helper') }}"
-        unit_of_measurement: "°C"
-        device_class: temperature
-        state_class: measurement
-      - name: "Average Outdoor Temperature"
-        state: "{{ states('sensor.average_outdoor_temperature_helper') }}"
-        unit_of_measurement: "°C"
-        device_class: temperature
-        state_class: measurement
-
 light:
   - platform: group
     name: "Dining Overhead Lights"
