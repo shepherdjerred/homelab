@@ -52,6 +52,21 @@ export function createPrometheusApp(chart: Chart) {
                     },
                   },
                 ],
+                route: {
+                  group_by: ["namespace"],
+                  group_wait: "30s",
+                  group_interval: "5m",
+                  repeat_interval: "12h",
+                  receiver: "discord",
+                  routes: [
+                    {
+                      receiver: "discord",
+                      matchers: [
+                        'alertname = "Watchdog"',
+                      ],
+                    },
+                  ],
+                },
               },
               alertmanagerSpec: {
                 secrets: [
