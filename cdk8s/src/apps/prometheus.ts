@@ -79,10 +79,10 @@ export function createPrometheusApp(chart: Chart) {
                 receivers: [
                   {
                     name: "discord",
-                    discord_configs: {
+                    discord_configs: [{
                       webhook_url_file:
                         "/etc/alertmanager/secrets/discord-alertmanager-webhook/password",
-                    },
+                    }],
                   },
                 ],
                 route: {
