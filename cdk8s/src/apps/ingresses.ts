@@ -47,7 +47,7 @@ export function createAppIngresses(chart: Chart) {
     chart,
     "alertmanager-ingress",
     "prometheus",
-    "prometheus-alertmanager",
+    "prometheus-kube-prometheus-alertmanager",
     80,
     ["alertmanager"],
     false,
