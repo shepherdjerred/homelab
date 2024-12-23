@@ -73,6 +73,9 @@ export function createPrometheusApp(chart: Chart) {
                     target_matchers: ["alertname = InfoInhibitor"],
                   },
                 ],
+                templates: [
+                  "/etc/alertmanager/config/*.tmpl",
+                ],
                 receivers: [
                   {
                     name: "discord",
