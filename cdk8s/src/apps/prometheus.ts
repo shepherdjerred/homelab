@@ -1,8 +1,24 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions/versions.ts";
+import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createPrometheusApp(chart: Chart) {
+  const discordWebhook = new OnePasswordItem(
+    chart,
+    "discord-webhook-onepassword",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/tgiqmxwr5ojlvltnkuefzipgqq",
+      },
+      metadata: {
+        name: "discord-alertmanager-webhook",
+        namespace: "prometheus",
+      },
+    },
+  );
+
   return new Application(chart, "prometheus-app", {
     metadata: {
       name: "prometheus",
@@ -27,7 +43,9 @@ export function createPrometheusApp(chart: Chart) {
             },
             alertmanager: {
               alertmanagerSpec: {
-                // secrets: [],
+                secrets: [
+                  discordWebhook.name,
+                ],
                 // configMaps: [],
                 externalUrl: "https://alertmanager.tailnet-1a49.ts.net",
                 storage: {
