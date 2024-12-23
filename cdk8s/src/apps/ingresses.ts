@@ -25,26 +25,6 @@ export function createAppIngresses(chart: Chart) {
 
   createIngress(
     chart,
-    "minio-api-ingress",
-    "minio",
-    "minio",
-    9000,
-    ["minio-api"],
-    false,
-  );
-
-  createIngress(
-    chart,
-    "minio-console-ingress",
-    "minio",
-    "minio",
-    9001,
-    ["minio-console"],
-    false,
-  );
-
-  createIngress(
-    chart,
     "prometheus-ingress",
     "prometheus",
     "prometheus-kube-prometheus-prometheus",
@@ -70,16 +50,6 @@ export function createAppIngresses(chart: Chart) {
     "prometheus-alertmanager",
     80,
     ["alertmanager"],
-    false,
-  );
-
-  createIngress(
-    chart,
-    "windmill-ingress",
-    "windmill",
-    "windmill-app",
-    8000,
-    ["windmill"],
     false,
   );
 

@@ -14,8 +14,6 @@ const versions = {
   "intel-device-plugins-operator": "0.31.1",
   // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver
   "jenkins": "5.7.17",
-  // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
-  "minio": "14.8.5",
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
   "node-feature-discovery": "0.16.6",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
@@ -89,8 +87,6 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing":
     "1.28.1@sha256:1f55fa811ad3903c4b421129966e0eea4b21d53d2471158288dc4a353e273a0a",
-  // renovate: datasource=github-releases versioning=semver-coerced
-  "windmill-labs/windmill-helm-charts": "windmill-2.0.181",
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v2.5.0",
   // renovate: datasource=helm registry=https://chartmuseum.github.io/charts versioning=semver
