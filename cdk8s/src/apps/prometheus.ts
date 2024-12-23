@@ -32,6 +32,17 @@ export function createPrometheusApp(chart: Chart) {
         targetRevision: versions["kube-prometheus-stack"],
         helm: {
           valuesObject: {
+            // disable components that fail
+            // https://github.com/prometheus-operator/kube-prometheus/issues/718
+            kubeProxy: {
+              enabled: false,
+            },
+            kubeScheduler: {
+              enabled: false,
+            },
+            kubeControllerManager: {
+              enabled: false,
+            },
             grafana: {
               persistence: {
                 enabled: true,
@@ -55,10 +66,9 @@ export function createPrometheusApp(chart: Chart) {
                     name: "discord",
                     // https://prometheus.io/docs/alerting/latest/configuration/#discord_config
                     discord_configs: [{
-                      api_url: {
-                        secret: discordWebhook.name,
-                        key: "password",
-                      },
+                      webhook_url:
+                        // TODO: use a secret for this
+                        "https://discord.com/api/webhooks/1320815049303916604/XIMrjirLmUPxZeHIp7qh0tZHttVLiDC7h-yz0K9j57ky1MQYY4SIzzAB_RxAmiAmh4YP",
                     }],
                   },
                 ],
