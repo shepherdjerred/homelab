@@ -65,6 +65,16 @@ export function createAppIngresses(chart: Chart) {
 
   createIngress(
     chart,
+    "alertmanager-ingress",
+    "prometheus",
+    "prometheus-alertmanager",
+    80,
+    ["alertmanager"],
+    false,
+  );
+
+  createIngress(
+    chart,
     "windmill-ingress",
     "windmill",
     "windmill-app",
