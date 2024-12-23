@@ -65,8 +65,8 @@ export function createPrometheusApp(chart: Chart) {
               },
             },
             prometheus: {
-              externalUrl: "https://prometheus.tailnet-1a49.ts.net",
               prometheusSpec: {
+                externalUrl: "https://prometheus.tailnet-1a49.ts.net",
                 storageSpec: {
                   volumeClaimTemplate: {
                     spec: {
