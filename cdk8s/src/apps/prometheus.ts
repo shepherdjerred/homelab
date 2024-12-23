@@ -42,21 +42,21 @@ export function createPrometheusApp(chart: Chart) {
               },
             },
             alertmanager: {
+              config: {
+                receivers: [
+                  {
+                    name: "discord",
+                    discord_configs: {
+                      webhook_url_file:
+                        "/etc/alertmanager/secrets/discord-alertmanager-webhook/password",
+                    },
+                  },
+                ],
+              },
               alertmanagerSpec: {
                 secrets: [
                   discordWebhook.name,
                 ],
-                config: {
-                  receivers: [
-                    {
-                      name: "discord",
-                      discord_configs: {
-                        webhook_url_file:
-                          "/etc/alertmanager/secrets/discord-alertmanager-webhook/password",
-                      },
-                    },
-                  ],
-                },
                 externalUrl: "https://alertmanager.tailnet-1a49.ts.net",
                 storage: {
                   volumeClaimTemplate: {
