@@ -25,7 +25,29 @@ export function createPrometheusApp(chart: Chart) {
                 size: "8Gi",
               },
             },
+            alertmanager: {
+              alertmanagerSpec: {
+                // secrets: [],
+                // configMaps: [],
+                externalUrl: "https://alertmanager.tailnet-1a49.ts.net",
+                storage: {
+                  volumeClaimTemplate: {
+                    spec: {
+                      storageClassName: "local-path",
+                      accessModes: ["ReadWriteOnce"],
+                      resources: {
+                        requests: {
+                          storage: "8Gi",
+                        },
+                      },
+                      selector: null,
+                    },
+                  },
+                },
+              },
+            },
             prometheus: {
+              externalUrl: "https://prometheus.tailnet-1a49.ts.net",
               prometheusSpec: {
                 storageSpec: {
                   volumeClaimTemplate: {
