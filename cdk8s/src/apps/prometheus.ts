@@ -40,6 +40,13 @@ export function createPrometheusApp(chart: Chart) {
                 accessModes: ["ReadWriteOnce"],
                 size: "8Gi",
               },
+              sidecar: {
+                datasources: {
+                  alertmanager: {
+                    handleGrafanaManagedAlerts: true,
+                  },
+                },
+              },
             },
             alertmanager: {
               config: {
