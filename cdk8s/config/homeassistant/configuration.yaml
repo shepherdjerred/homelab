@@ -94,24 +94,28 @@ sensor:
 light:
   - platform: group
     name: "Dining Overhead Lights"
+    unique_id: dining_overhead_lights
     entities:
       - light.dining_1
       - light.dining_2
       - light.dining_3
   - platform: group
     name: "Kitchen Overhead Lights"
+    unique_id: kitchen_overhead_lights
     entities:
       - light.kitchen_1
       - light.kitchen_2
       - light.kitchen_3
   - platform: group
     name: "Side Bollards"
+    unique_id: side_bollards
     entities:
       - light.side_path_door_bollard
       - light.side_path_middle_bollard
       - light.hue_calla_outdoor_bollard
   - platform: group
     name: "Front Bollards"
+    unique_id: front_bollards
     entities:
       - light.hue_calla_outdoor_bollard_1
       - light.front_middle_bollard
@@ -119,6 +123,7 @@ light:
       - light.garage_door_bollard
   - platform: group
     name: "Balcony Lights"
+    unique_id: balcony_lights
     entities:
       - light.upper
       - light.lower
@@ -147,12 +152,14 @@ light:
 binary_sensor:
   - platform: group
     name: "Outdoor Motion"
+    unique_id: outdoor_motion
     entities:
       - binary_sensor.side_door_sensor_motion
       - binary_sensor.front_door_sensor_motion
       - binary_sensor.front_door_motion
   - platform: group
     name: "Stairway Motion"
+    unique_id: stairway_motion
     entities:
       - binary_sensor.lower_stairway_motion_sensor_motion
       - binary_sensor.upper_stairway_motion_sensor_motion
