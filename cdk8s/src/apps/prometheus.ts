@@ -55,7 +55,10 @@ export function createPrometheusApp(chart: Chart) {
                     name: "discord",
                     // https://prometheus.io/docs/alerting/latest/configuration/#discord_config
                     discord_configs: [{
-                      webhook_url: discordWebhook.name + ".password",
+                      api_url: {
+                        secret: discordWebhook.name,
+                        key: "password",
+                      },
                     }],
                   },
                 ],
