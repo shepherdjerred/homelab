@@ -49,7 +49,7 @@ export function createOtbrDeployment(chart: Chart) {
       image: `openthread/otbr`,
       // https://gist.github.com/loopj/6f6c2355389cf301391d92cf8b92e4ca
       args: [
-        `--radio-url spinel+hdlc+uart://${serialPath}?uart-baudrate=460800&uart-flow-control`,
+        `--radio-url spinel+hdlc+uart://${serialPath}?uart-baudrate=460800&uart-flow-control trel://eth0`,
       ],
       volumeMounts: [
         {
@@ -80,15 +80,5 @@ export function createOtbrDeployment(chart: Chart) {
   new TailscaleIngress(chart, "otbr-tailscale-ingress", {
     service,
     host: "otbr",
-  });
-
-  const apiService = new Service(chart, "otbr-api-service", {
-    selector: deployment,
-    ports: [{ port: 8081 }],
-  });
-
-  new TailscaleIngress(chart, "otbr-api-tailscale-ingress", {
-    service: apiService,
-    host: "otbr-api",
   });
 }
