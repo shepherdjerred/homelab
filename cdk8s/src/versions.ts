@@ -98,7 +98,7 @@ const versions = {
     "latest@sha256:906f05fd398edca621cc466f0de322c1e827eb7dd2b78f82c7ea46bd0cd69c18",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "openthread/otbr": "latest",
-  "shepherdjerred/scout-for-lol/beta": "1.0.25",
+  "shepherdjerred/scout-for-lol/beta": "1.0.26",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
 };
 
