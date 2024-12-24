@@ -9,6 +9,7 @@ import {
 import { ApiObject, Chart, JsonPatch } from "cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 
 export function createOtbrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "otbr", {
@@ -28,6 +29,8 @@ export function createOtbrDeployment(chart: Chart) {
       type: HostPathVolumeType.CHAR_DEVICE,
     },
   );
+
+  const threadVolume = new LocalPathVolume(chart, "otbr-pvc", {});
 
   deployment.addContainer(
     withCommonProps({
@@ -52,6 +55,14 @@ export function createOtbrDeployment(chart: Chart) {
         {
           path: serialPath,
           volume: serialDeviceVolume,
+        },
+        {
+          path: "/var/lib/thread",
+          volume: Volume.fromPersistentVolumeClaim(
+            chart,
+            "otbr-volume",
+            threadVolume.claim,
+          ),
         },
       ],
     }),
