@@ -2,7 +2,7 @@ import { Construct } from "constructs";
 import { Deployment, DeploymentStrategy } from "cdk8s-plus";
 import { Service } from "cdk8s-plus";
 import { withCommonProps } from "../../utils/common.ts";
-import versions from "../../versions/versions.ts";
+import versions from "../../versions.ts";
 
 export class Redis extends Construct {
   public readonly service: Service;

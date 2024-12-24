@@ -6,7 +6,7 @@ import {
 } from "../../utils/linuxserver.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
-import versions from "../../versions/versions.ts";
+import versions from "../../versions.ts";
 
 export function createRadarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "radarr", {

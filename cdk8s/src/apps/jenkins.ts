@@ -1,7 +1,7 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import versions from "../versions/versions.ts";
+import versions from "../versions.ts";
 
 export function createJenkinsApp(chart: Chart) {
   const tailscale = new OnePasswordItem(

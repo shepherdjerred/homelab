@@ -2,7 +2,7 @@ import { Chart } from "cdk8s";
 import { Deployment, DeploymentStrategy, Secret, Volume } from "cdk8s-plus";
 import { withCommonProps } from "../utils/common.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import versions from "../versions/versions.ts";
+import versions from "../versions.ts";
 
 export function createDdnsDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "ddns", {

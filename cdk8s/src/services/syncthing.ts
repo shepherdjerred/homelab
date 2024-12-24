@@ -6,7 +6,7 @@ import {
   withCommonLinuxServerProps,
 } from "../utils/linuxserver.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
-import versions from "../versions/versions.ts";
+import versions from "../versions.ts";
 
 export function createSyncthingDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "syncthing", {

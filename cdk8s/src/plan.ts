@@ -1,6 +1,6 @@
 import { Chart } from "cdk8s";
 import { Plan } from "../imports/upgrade.cattle.io.ts";
-import versions from "./versions/versions.ts";
+import versions from "./versions.ts";
 
 export function createUpgradePlan(chart: Chart) {
   // # Copied from https://docs.k3s.io/upgrades/automated#configure-plans

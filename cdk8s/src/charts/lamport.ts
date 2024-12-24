@@ -1,9 +1,9 @@
 import { App, Chart } from "cdk8s";
-import { createEspHomeDeployment } from "../services/esphome.ts";
+import { createEspHomeDeployment } from "../services/home/esphome.ts";
 import { createInvidiousDeployment } from "../services/frontends/invidious.ts";
 import { createTedditDeployment } from "../services/frontends/teddit.ts";
 import { createGolinkDeployment } from "../services/golink.ts";
-import { createHomeAssistantDeployment } from "../services/homeassistant.ts";
+import { createHomeAssistantDeployment } from "../services/home/homeassistant.ts";
 import { createPlexDeployment } from "../services/media/plex.ts";
 import { createTautulliDeployment } from "../services/media/tautulli.ts";
 import { createSyncthingDeployment } from "../services/syncthing.ts";
@@ -17,7 +17,8 @@ import { KubeNamespace } from "../../imports/k8s.ts";
 import { createEarthlyDeployment } from "../services/dev/earthly.ts";
 import { createDdnsDeployment } from "../services/ddns.ts";
 import { createUpgradePlan } from "../plan.ts";
-import { createScryptedDeployment } from "../services/scrypted.ts";
+import { createScryptedDeployment } from "../services/home/scrypted.ts";
+import { createOtbrDeployment } from "../services/home/otbr.ts";
 
 export function createLamportChart(app: App) {
   const chart = new Chart(app, "lamport", {
@@ -35,6 +36,7 @@ export function createLamportChart(app: App) {
     },
   });
 
+  // TODO: create one namespace/argocd app per service
   createEspHomeDeployment(chart);
   createBazarrDeployment(chart);
   createTautulliDeployment(chart);
@@ -53,4 +55,5 @@ export function createLamportChart(app: App) {
   createDdnsDeployment(chart);
   createUpgradePlan(chart);
   createScryptedDeployment(chart);
+  createOtbrDeployment(chart);
 }

@@ -2,21 +2,20 @@ import {
   ConfigMap,
   Deployment,
   DeploymentStrategy,
-  HostPathVolumeType,
   Protocol,
   Service,
   Volume,
 } from "cdk8s-plus";
 import { ApiObject, Chart, JsonPatch } from "cdk8s";
-import { ROOT_GID, ROOT_UID, withCommonProps } from "../utils/common.ts";
-import { LocalPathVolume } from "../utils/localPathVolume.ts";
-import { TailscaleIngress } from "../utils/tailscale.ts";
+import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
 import {
   ReplicationSource,
   ReplicationSourceSpecResticCopyMethod,
-} from "../../imports/volsync.backube.ts";
-import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import versions from "../versions/versions.ts";
+} from "../../../imports/volsync.backube.ts";
+import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
+import versions from "../../versions.ts";
 
 export function createHomeAssistantDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "homeassistant", {
@@ -91,19 +90,6 @@ export function createHomeAssistantDeployment(chart: Chart) {
     automationConfig,
   );
 
-  // /dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_082a732ea338ef11bf43317af3d9b1e5-if00-port0
-  const serialPath = "/dev/ttyUSB0";
-
-  const serialDeviceVolume = Volume.fromHostPath(
-    chart,
-    "serial-device-volume",
-    "serial-device-volume",
-    {
-      path: serialPath,
-      type: HostPathVolumeType.CHAR_DEVICE,
-    },
-  );
-
   deployment.addContainer(
     withCommonProps({
       securityContext: {
@@ -144,10 +130,6 @@ export function createHomeAssistantDeployment(chart: Chart) {
             volume: automationConfigVolume,
           };
         })),
-        {
-          path: serialPath,
-          volume: serialDeviceVolume,
-        },
       ],
     }),
   );

@@ -1,6 +1,6 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
-import versions from "../versions/versions.ts";
+import versions from "../versions.ts";
 
 export function createOnePasswordApp(chart: Chart) {
   new Application(chart, "1password-app", {

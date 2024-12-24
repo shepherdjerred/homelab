@@ -1,9 +1,9 @@
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
 import { ApiObject, Chart, JsonPatch } from "cdk8s";
-import { ROOT_GID, ROOT_UID, withCommonProps } from "../utils/common.ts";
-import { LocalPathVolume } from "../utils/localPathVolume.ts";
-import { TailscaleIngress } from "../utils/tailscale.ts";
-import versions from "../versions/versions.ts";
+import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { TailscaleIngress } from "../../utils/tailscale.ts";
+import versions from "../../versions.ts";
 
 export function createScryptedDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "scrypted", {

@@ -13,7 +13,7 @@ import {
   ReplicationSource,
   ReplicationSourceSpecResticCopyMethod,
 } from "../../imports/volsync.backube.ts";
-import versions from "../versions/versions.ts";
+import versions from "../versions.ts";
 
 export function createGolinkDeployment(chart: Chart) {
   const UID = 65532;

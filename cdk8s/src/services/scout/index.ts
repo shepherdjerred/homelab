@@ -8,7 +8,7 @@ import {
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
-import versions from "../../versions/versions.ts";
+import versions from "../../versions.ts";
 import type { Stage } from "../../charts/scout.ts";
 import { match } from "ts-pattern";
 

@@ -13,5 +13,6 @@
   },
   "files.associations": {
     "**/homeassistant/*.yaml": "home-assistant"
-  }
+  },
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false
 }

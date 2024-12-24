@@ -11,7 +11,7 @@ import { Chart } from "cdk8s";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { withCommonProps } from "../../utils/common.ts";
-import versions from "../../versions/versions.ts";
+import versions from "../../versions.ts";
 
 export function createEarthlyDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "earthly", {
