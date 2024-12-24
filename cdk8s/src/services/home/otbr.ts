@@ -3,13 +3,12 @@ import {
   Deployment,
   DeploymentStrategy,
   HostPathVolumeType,
-  Service,
   Volume,
 } from "cdk8s-plus";
 import { ApiObject, Chart, JsonPatch } from "cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
-import { TailscaleIngress } from "../../utils/tailscale.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import versions from "../../versions.ts";
 
 export function createOtbrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "otbr", {
@@ -41,14 +40,18 @@ export function createOtbrDeployment(chart: Chart) {
         group: ROOT_GID,
         ensureNonRoot: false,
         readOnlyRootFilesystem: false,
+        // TODO: this might not be needed
         capabilities: {
           add: [Capability.NET_ADMIN],
         },
       },
-      // TODO: manage in versions.ts
-      image: `openthread/otbr`,
+      image: `openthread/otbr:${versions["tailscale-operator"]}`,
       // https://gist.github.com/loopj/6f6c2355389cf301391d92cf8b92e4ca
       args: [
+        "--interface",
+        "eno0",
+        "--backbone-interface",
+        "eno0",
         "--radio-url",
         `spinel+hdlc+uart://${serialPath}?uart-baudrate=460800`,
       ],
@@ -69,17 +72,8 @@ export function createOtbrDeployment(chart: Chart) {
     }),
   );
 
+  // TODO: this might not be needed
   ApiObject.of(deployment).addJsonPatch(
     JsonPatch.add("/spec/template/spec/hostNetwork", true),
   );
-
-  const service = new Service(chart, "otbr-service", {
-    selector: deployment,
-    ports: [{ port: 80 }],
-  });
-
-  new TailscaleIngress(chart, "otbr-tailscale-ingress", {
-    service,
-    host: "otbr",
-  });
 }
