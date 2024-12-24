@@ -1,10 +1,20 @@
 checks:
   exclude:
+    # not useful
     - "unset-cpu-requirements"
+    # not useful
     - "unset-memory-requirements"
+    # versions are pinned by versions.ts
     - "latest-tag"
+    # some containers require this
     - "run-as-non-root"
+    # some containers require this
     - "no-read-only-root-fs"
+    # some containers require this
     - "privileged-container"
+    # some containers require this
     - "privilege-escalation-container"
+    # some containers require this
     - "host-network"
+    # used by otbr
+    - "drop-net-raw-capability"

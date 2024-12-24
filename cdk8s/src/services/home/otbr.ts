@@ -1,4 +1,5 @@
 import {
+  Capability,
   Deployment,
   DeploymentStrategy,
   HostPathVolumeType,
@@ -6,7 +7,7 @@ import {
   Volume,
 } from "cdk8s-plus";
 import { ApiObject, Chart, JsonPatch } from "cdk8s";
-import { withCommonProps } from "../../utils/common.ts";
+import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 
 export function createOtbrDeployment(chart: Chart) {
@@ -33,6 +34,12 @@ export function createOtbrDeployment(chart: Chart) {
       securityContext: {
         privileged: true,
         allowPrivilegeEscalation: true,
+        user: ROOT_UID,
+        group: ROOT_GID,
+        ensureNonRoot: false,
+        capabilities: {
+          add: [Capability.NET_ADMIN],
+        },
       },
       // TODO: manage in versions.ts
       image: `openthread/otbr`,
