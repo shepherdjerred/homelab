@@ -45,7 +45,7 @@ export function createOtbrDeployment(chart: Chart) {
           add: [Capability.NET_ADMIN],
         },
       },
-      image: `openthread/otbr:${versions["tailscale-operator"]}`,
+      image: `openthread/otbr:${versions["openthread/otbr"]}`,
       // https://gist.github.com/loopj/6f6c2355389cf301391d92cf8b92e4ca
       args: [
         "--interface",
