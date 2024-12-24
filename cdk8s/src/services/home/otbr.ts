@@ -49,7 +49,7 @@ export function createOtbrDeployment(chart: Chart) {
       image: `openthread/otbr`,
       // https://gist.github.com/loopj/6f6c2355389cf301391d92cf8b92e4ca
       args: [
-        `--radio-url spinel+hdlc+uart://${serialPath}?uart-baudrate=460800&uart-flow-control trel://eth0`,
+        `--radio-url spinel+hdlc+uart://${serialPath}?uart-baudrate=460800 trel://eth0`,
       ],
       volumeMounts: [
         {
