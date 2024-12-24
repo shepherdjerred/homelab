@@ -2,7 +2,6 @@ import {
   ConfigMap,
   Deployment,
   DeploymentStrategy,
-  HostPathVolumeType,
   Protocol,
   Service,
   Volume,
@@ -23,19 +22,6 @@ export function createHomeAssistantDeployment(chart: Chart) {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
-
-  // /dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_082a732ea338ef11bf43317af3d9b1e5-if00-port0
-  const serialPath = "/dev/ttyUSB0";
-
-  const serialDeviceVolume = Volume.fromHostPath(
-    chart,
-    "ha-serial-device-volume",
-    "ha-serial-device-volume",
-    {
-      path: serialPath,
-      type: HostPathVolumeType.CHAR_DEVICE,
-    },
-  );
 
   const claim = new LocalPathVolume(
     chart,
@@ -129,10 +115,6 @@ export function createHomeAssistantDeployment(chart: Chart) {
         {
           path: "/config",
           volume,
-        },
-        {
-          path: serialPath,
-          volume: serialDeviceVolume,
         },
         ...(files.map((file) => {
           return {
