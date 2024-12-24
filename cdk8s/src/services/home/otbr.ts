@@ -37,6 +37,7 @@ export function createOtbrDeployment(chart: Chart) {
         user: ROOT_UID,
         group: ROOT_GID,
         ensureNonRoot: false,
+        readOnlyRootFilesystem: false,
         capabilities: {
           add: [Capability.NET_ADMIN],
         },
