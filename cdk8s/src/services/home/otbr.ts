@@ -81,4 +81,14 @@ export function createOtbrDeployment(chart: Chart) {
     service,
     host: "otbr",
   });
+
+  const apiService = new Service(chart, "otbr-api-service", {
+    selector: deployment,
+    ports: [{ port: 8081 }],
+  });
+
+  new TailscaleIngress(chart, "otbr-api-tailscale-ingress", {
+    service: apiService,
+    host: "otbr-api",
+  });
 }
