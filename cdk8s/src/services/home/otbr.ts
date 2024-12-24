@@ -43,6 +43,10 @@ export function createOtbrDeployment(chart: Chart) {
       },
       // TODO: manage in versions.ts
       image: `openthread/otbr`,
+      // https://gist.github.com/loopj/6f6c2355389cf301391d92cf8b92e4ca
+      command: [
+        `--radio-url spinel+hdlc+uart://${serialPath}?uart-baudrate=460800&uart-flow-control`,
+      ],
       volumeMounts: [
         {
           path: serialPath,
