@@ -1,7 +1,7 @@
 - id: "1733021748186"
   name: Christmas Tree
   entities:
-    light.christmas_tree:
+    light.christmas_tree_lights:
       min_color_temp_kelvin: 2000
       max_color_temp_kelvin: 6535
       min_mireds: 153
@@ -29,7 +29,7 @@
       lights:
         - Christmas Tree
       entity_id:
-        - light.festavia_string_lights_1_2
+        - light.christmas_tree_lights
       dynamics: false
       icon: mdi:lightbulb-group
       friendly_name: Christmas Tree

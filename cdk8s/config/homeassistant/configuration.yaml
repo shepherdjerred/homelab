@@ -93,6 +93,12 @@ sensor:
 
 light:
   - platform: group
+    name: "Bathroom Lights"
+    unique_id: bathroom_lights
+    entities:
+      - light.bathroom_left
+      - light.bathroom_right
+  - platform: group
     name: "Dining Overhead Lights"
     unique_id: dining_overhead_lights
     entities:
@@ -112,21 +118,22 @@ light:
     entities:
       - light.side_path_door_bollard
       - light.side_path_middle_bollard
-      - light.hue_calla_outdoor_bollard
+      - light.trash_bollard
   - platform: group
     name: "Front Bollards"
     unique_id: front_bollards
     entities:
-      - light.hue_calla_outdoor_bollard_1
+      - light.front_door_bollard
       - light.front_middle_bollard
       - light.address_light_bollard
       - light.garage_door_bollard
   - platform: group
-    name: "Balcony Lights"
-    unique_id: balcony_lights
+    name: "Bronze Lamp"
+    unique_id: bronze_lamp
     entities:
-      - light.upper
-      - light.lower
+      - light.bronze_lamp_upper
+      - light.bronze_lamp_lower
+      - light.bronze_lamp_middle
   - platform: switch
     name: "Front porch light"
     entity_id: switch.front_porch_light
