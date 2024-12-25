@@ -32,39 +32,6 @@ export function createMaintainerrDeployment(chart: Chart) {
             localPathVolume.claim,
           ),
         },
-        {
-          volume: Volume.fromHostPath(
-            chart,
-            "maintainerr-torrents-bind-mount",
-            "maintainerr-torrents-bind-mount",
-            {
-              path: "/mnt/storage/downloads/torrents",
-            },
-          ),
-          path: "/downloads",
-        },
-        {
-          volume: Volume.fromHostPath(
-            chart,
-            "maintainerr-tv-bind-mount",
-            "maintainerr-tv-bind-mount",
-            {
-              path: "/mnt/storage/media/tv",
-            },
-          ),
-          path: "/tv",
-        },
-        {
-          volume: Volume.fromHostPath(
-            chart,
-            "maintainerr-movies-bind-mount",
-            "maintainerr-movies-bind-mount",
-            {
-              path: "/mnt/storage/media/movies",
-            },
-          ),
-          path: "/movies",
-        },
       ],
     }),
   );
