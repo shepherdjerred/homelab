@@ -120,5 +120,5 @@
           metadata: {}
           data: {}
           target:
-            entity_id: switch.patio_lights
+            entity_id: light.porch_rail_lights
   mode: single

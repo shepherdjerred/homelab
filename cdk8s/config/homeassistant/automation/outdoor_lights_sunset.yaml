@@ -31,7 +31,7 @@
       then:
         - data: {}
           target:
-            entity_id: light.patio_lights
+            entity_id: light.porch_rail_lights
           action: light.turn_on
           alias: Turn on patio lights
       else:
