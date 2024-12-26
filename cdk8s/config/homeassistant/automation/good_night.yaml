@@ -107,8 +107,8 @@
               metadata: {}
               data: {}
               target:
-                entity_id: light.festavia_string_lights_1
-              alias: Turn off holiday light device
+                entity_id: light.porch_festiva_lights
+              alias: Turn off christmas tree lights
             - action: light.turn_off
               metadata: {}
               data: {}

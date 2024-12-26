@@ -158,6 +158,6 @@
       metadata: {}
       data: {}
       target:
-        entity_id: switch.sonoff_1002162space_heaterd4
+        entity_id: switch.bedroom_space_heater
       alias: Turn off heater switch
   mode: single

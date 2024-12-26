@@ -18,8 +18,8 @@
         area_id:
           - backyard
         entity_id:
-          - light.lower
-          - light.patio_lights
+          - light.lower_string_lights
+          - light.porch_rail_lights
       action: light.turn_off
       alias: Turn off backyard lights
   mode: single

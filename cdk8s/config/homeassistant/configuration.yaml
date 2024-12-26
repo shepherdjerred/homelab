@@ -20,7 +20,6 @@ homekit:
         - input_select
         - vacuum
       exclude_entities:
-        - binary_sensor.front_door_visitor
         - binary_sensor.front_door_motion
         - binary_sensor.iphone_focus
         - binary_sensor.ipad_focus
@@ -138,7 +137,7 @@ light:
     name: "Front porch light"
     entity_id: switch.front_porch_light
   - platform: switch
-    name: "Patio lights"
+    name: "Rail lights"
     entity_id: switch.patio_lights
   - platform: switch
     name: "Upper"
