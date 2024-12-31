@@ -100,7 +100,7 @@ const versions = {
   "openthread/otbr": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr": "latest",
-  "shepherdjerred/scout-for-lol/beta": "1.0.52",
+  "shepherdjerred/scout-for-lol/beta": "1.0.58",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
 };
 
