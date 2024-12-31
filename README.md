@@ -71,25 +71,25 @@ dotfiles, ansible, etc.
 
 1. Copy `k3s` to `/etc/rancher/k3s/`
 
-   ```
+   ```bash
    sudo cp -r k3s/. /etc/rancher/k3s/
    ```
 
 1. Install k3s.
 
-   ```
+   ```bash
    curl -sfL https://get.k3s.io | sh -
    ```
 
 1. Copy the Kubernetes configuration
 
-   ```
+   ```bash
    rm -rfv ~/.kube && mkdir ~/.kube && sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && sudo chown $USER:$USER ~/.kube/config && chmod 600 ~/.kube/config
    ```
 
 1. Install `helm`.
 
-   ```
+   ```bash
    brew install helm
    ```
 
@@ -98,7 +98,7 @@ dotfiles, ansible, etc.
    > [!NOTE] This will be imported into Argo CD itself as part of the CDK8s
    > manifest
 
-   ```
+   ```bash
    kubectl create namespace argocd
    helm repo add argo https://argoproj.github.io/argo-helm
    helm install argocd argo/argo-cd --namespace argocd
@@ -113,11 +113,11 @@ dotfiles, ansible, etc.
    - Annoyingly, the credential in `1password-secret.yaml` _must_ be base64
      encoded.
 
-     ```
+     ```bash
      cat 1password-credentials.json | base64 -w 0
      ```
 
-     ```
+     ```bash
      kubectl create namespace 1password
      kubectl apply -f secrets/1password-secret.yaml
      kubectl apply -f secrets/1password-token.yaml
@@ -125,13 +125,13 @@ dotfiles, ansible, etc.
 
 1. Build and deploy the manifests in this repo
 
-   ```
+   ```bash
    cd cdk8s && deno task up
    ```
 
 1. Get the initial Argo CD `admin` password.
 
-   ```
+   ```bash
    kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
    ```
 
