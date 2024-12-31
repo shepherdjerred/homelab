@@ -34,7 +34,7 @@ some things I'm proud of:
   - For Kubernetes/k3s
   - For Jenkins plugins
   - For Deno dependencies
-  - [My approach](https://github.com/shepherdjerred/homelab/blob/main/cdk8s/src/versions/versions.ts)
+  - [My approach](https://github.com/shepherdjerred/homelab/blob/main/cdk8s/src/versions.ts)
     allows all of my dependencies to be pinned and updated regularly
 
 ## Installation
@@ -54,11 +54,11 @@ dotfiles, ansible, etc.
 - Configure fish
 - Setup auto-updates with Ubuntu
 
-  - https://help.ubuntu.com/community/AutomaticSecurityUpdates
+  - <https://help.ubuntu.com/community/AutomaticSecurityUpdates>
 
 - Set `KUBE_CONFIG`
 - Update kernel parameters:
-  https://docs.k3s.io/security/hardening-guide#set-kernel-parameters
+  <https://docs.k3s.io/security/hardening-guide#set-kernel-parameters>
 - Increase number of file watchers:
 
   ```
