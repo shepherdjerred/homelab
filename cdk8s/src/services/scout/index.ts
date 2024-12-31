@@ -4,6 +4,7 @@ import {
   EnvValue,
   Protocol,
   Secret,
+  Volume,
 } from "cdk8s-plus";
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
@@ -11,6 +12,7 @@ import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 import type { Stage } from "../../charts/scout.ts";
 import { match } from "ts-pattern";
+import { LocalPathVolume } from "../../utils/localPathVolume.ts";
 
 export function createScoutDeployment(chart: Chart, stage: Stage) {
   const deployment = new Deployment(chart, "scout-backend", {
@@ -52,6 +54,8 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
     },
   });
 
+  const localPathVolume = new LocalPathVolume(chart, "scout-storage-claim", {});
+
   deployment.addContainer(withCommonProps({
     image: image,
     ports: [
@@ -65,6 +69,16 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
       ensureNonRoot: false,
       readOnlyRootFilesystem: false,
     },
+    volumeMounts: [
+      {
+        path: "/data",
+        volume: Volume.fromPersistentVolumeClaim(
+          chart,
+          "scout-volume",
+          localPathVolume.claim,
+        ),
+      },
+    ],
     envVariables: {
       APPLICATION_ID: EnvValue.fromValue(applicationId),
       AWS_ACCESS_KEY_ID: EnvValue.fromSecretValue({
@@ -108,6 +122,7 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
         "https://01aed04320da7d9b8ff25226bc5f3097@o92742.ingest.us.sentry.io/4508388740825088",
       ),
       ENVIRONMENT: EnvValue.fromValue(stage),
+      DATABASE_URL: EnvValue.fromValue("file:/data/db.sqlite"),
     },
   }));
 }
