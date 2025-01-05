@@ -39,7 +39,7 @@ joda-time-api:2.13.0-93.v9934da_29b_a_e9
 jquery3-api:3.7.1-2
 json-api:20240303-101.v7a_8666713110
 json-path-api:2.9.0-118.v7f23ed82a_8b_8
-junit:1309.v0078b_fecd6ed
+junit:1311.v39e1716e4eb_e
 kubernetes-client-api:6.10.0-240.v57880ce8b_0b_2
 kubernetes-credentials:190.v03c305394deb_
 mailer:489.vd4b_25144138f
