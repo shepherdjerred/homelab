@@ -1,7 +1,7 @@
 # TODO: add markdownlint
 repos:
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 39.54.0
+    rev: 39.55.0
     hooks:
       - id: renovate-config-validator
         language_version: "22.8.0"
