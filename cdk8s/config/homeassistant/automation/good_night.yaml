@@ -8,10 +8,6 @@
       context: {}
       trigger: event
       alias: iOS action fired
-    - entity_id:
-        - binary_sensor.flic_80e4da7a367a
-      trigger: state
-      alias: Flic button pressed
   conditions: []
   actions:
     - action: input_boolean.turn_off
