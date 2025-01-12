@@ -100,6 +100,8 @@ const versions = {
   "openthread/otbr": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr": "latest",
+  // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
+  "loki-stack": "6.24.0",
   "shepherdjerred/scout-for-lol/beta": "1.0.85",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
 };
