@@ -17,6 +17,12 @@ export function createLokiApp(chart: Chart) {
         helm: {
           valuesObject: {
             deploymentMode: "SingleBinary",
+            storage: {
+              bucketNames: {
+                // https://github.com/grafana/loki/issues/13284
+                anything: "anything",
+              },
+            },
           },
         },
       },
