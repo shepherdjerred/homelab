@@ -19,7 +19,7 @@ export function createLokiApp(chart: Chart) {
             deploymentMode: "SingleBinary",
             loki: {
               schemaConfig: {
-                configs: {
+                configs: [{
                   from: "2025-01-01",
                   object_store: "s3",
                   store: "tsdb",
@@ -28,7 +28,7 @@ export function createLokiApp(chart: Chart) {
                     prefix: "index_",
                     period: "24h",
                   },
-                },
+                }],
               },
             },
             minio: {
