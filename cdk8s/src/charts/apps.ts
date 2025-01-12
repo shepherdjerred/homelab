@@ -18,6 +18,7 @@ import { createGrafanaApp } from "../apps/grafana.ts";
 import { createChartMuseumApp } from "../apps/chartmuseum.ts";
 import { createMinecraftApp } from "../apps/minecraft.ts";
 import { createLokiApp } from "../apps/loki.ts";
+import { createPromtailApp } from "../apps/promtail.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -43,4 +44,5 @@ export function createAppsChart(app: App) {
   createChartMuseumApp(chart);
   createMinecraftApp(chart);
   createLokiApp(chart);
+  createPromtailApp(chart);
 }
