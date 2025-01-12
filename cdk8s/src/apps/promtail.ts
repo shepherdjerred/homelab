@@ -19,8 +19,7 @@ export function createPromtailApp(chart: Chart) {
             config: {
               clients: [
                 {
-                  url:
-                    "http://loki.loki.svc.cluster.local:3100/loki/api/v1/push",
+                  url: "http://loki-gateway.loki:3100/loki/api/v1/push",
                 },
               ],
             },
