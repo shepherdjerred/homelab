@@ -17,6 +17,20 @@ export function createLokiApp(chart: Chart) {
         helm: {
           valuesObject: {
             deploymentMode: "SingleBinary",
+            loki: {
+              schema_config: {
+                configs: {
+                  from: "2025-01-01",
+                  object_store: "s3",
+                  store: "tsdb",
+                  schema: "v13",
+                  index: {
+                    prefix: "index_",
+                    period: "24h",
+                  },
+                },
+              },
+            },
             minio: {
               enabled: true,
             },
