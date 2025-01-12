@@ -102,8 +102,12 @@ const versions = {
   "jorenn92/maintainerr": "latest",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   "loki-stack": "2.10.2",
+  // https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "loki": "v3.3.2",
+  "loki": "3.3.2",
+  // https://github.com/grafana/helm-charts/tree/main/charts/promtail
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "promtail": "3.3.2",
   "shepherdjerred/scout-for-lol/beta": "1.0.86",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
 };
