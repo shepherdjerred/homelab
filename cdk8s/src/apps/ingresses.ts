@@ -35,6 +35,16 @@ export function createAppIngresses(chart: Chart) {
 
   createIngress(
     chart,
+    "loki-ingress",
+    "loki",
+    "loki",
+    3100,
+    ["loki"],
+    false,
+  );
+
+  createIngress(
+    chart,
     "grafana-ingress",
     "prometheus",
     "prometheus-grafana",
