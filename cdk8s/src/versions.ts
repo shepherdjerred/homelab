@@ -101,7 +101,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr": "latest",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
-  "loki-stack": "6.24.0",
+  "loki-stack": "2.10.2",
   "shepherdjerred/scout-for-lol/beta": "1.0.86",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
 };
