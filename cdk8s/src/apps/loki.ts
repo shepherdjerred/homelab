@@ -18,6 +18,7 @@ export function createLokiApp(chart: Chart) {
           valuesObject: {
             deploymentMode: "SingleBinary",
             loki: {
+              auth_enabled: false,
               schemaConfig: {
                 configs: [{
                   from: "2025-01-01",

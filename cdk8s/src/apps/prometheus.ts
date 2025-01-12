@@ -32,15 +32,19 @@ export function createPrometheusApp(chart: Chart) {
         targetRevision: versions["kube-prometheus-stack"],
         helm: {
           valuesObject: {
-            // disable components that fail
-            // https://github.com/prometheus-operator/kube-prometheus/issues/718
             kubeProxy: {
+              // disable components that fail
+              // https://github.com/prometheus-operator/kube-prometheus/issues/718
               enabled: false,
             },
             kubeScheduler: {
+              // disable components that fail
+              // https://github.com/prometheus-operator/kube-prometheus/issues/718
               enabled: false,
             },
             kubeControllerManager: {
+              // disable components that fail
+              // https://github.com/prometheus-operator/kube-prometheus/issues/718
               enabled: false,
             },
             grafana: {
