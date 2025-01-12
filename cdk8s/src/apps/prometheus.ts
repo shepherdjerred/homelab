@@ -61,6 +61,15 @@ export function createPrometheusApp(chart: Chart) {
                     handleGrafanaManagedAlerts: true,
                   },
                 },
+                additionalDataSources: [
+                  {
+                    name: "loki",
+                    editable: false,
+                    type: "loki",
+                    url: "http://loki-gateway.loki",
+                    version: 1,
+                  },
+                ],
               },
             },
             alertmanager: {
