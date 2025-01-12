@@ -18,7 +18,7 @@ export function createLokiApp(chart: Chart) {
           valuesObject: {
             deploymentMode: "SingleBinary",
             loki: {
-              schema_config: {
+              schemaConfig: {
                 configs: {
                   from: "2025-01-01",
                   object_store: "s3",
