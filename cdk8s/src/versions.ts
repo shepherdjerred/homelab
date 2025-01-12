@@ -102,7 +102,7 @@ const versions = {
   "jorenn92/maintainerr": "latest",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   "loki-stack": "6.24.0",
-  "shepherdjerred/scout-for-lol/beta": "1.0.85",
+  "shepherdjerred/scout-for-lol/beta": "1.0.86",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
 };
 
