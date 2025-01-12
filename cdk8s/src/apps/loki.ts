@@ -15,11 +15,7 @@ export function createLokiApp(chart: Chart) {
         targetRevision: versions["loki-stack"],
         chart: "loki-stack",
         helm: {
-          valuesObject: {
-            image: {
-              tag: versions["loki"],
-            },
-          },
+          valuesObject: {},
         },
       },
       destination: {
