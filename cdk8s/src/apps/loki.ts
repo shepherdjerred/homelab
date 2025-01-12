@@ -18,6 +18,9 @@ export function createLokiApp(chart: Chart) {
           valuesObject: {
             deploymentMode: "SingleBinary",
             loki: {
+              commonConfig: {
+                replication_factor: 1,
+              },
               auth_enabled: false,
               schemaConfig: {
                 configs: [{
