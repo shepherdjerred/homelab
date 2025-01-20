@@ -10,7 +10,7 @@ deps:
   FROM +deno
   CACHE --persist $DENO_DIR
   COPY --dir deno* src imports patch.ts .
-  RUN deno install --frozen=true
+  RUN deno install --frozen=true --reload
 
 build:
   FROM +deps
@@ -19,7 +19,7 @@ build:
   SAVE ARTIFACT dist AS LOCAL dist
 
 # update Deno lockfile
-lockfile:
+lock:
   FROM +deno
   COPY --dir deno.json .
   RUN deno install
