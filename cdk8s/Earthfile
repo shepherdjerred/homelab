@@ -5,12 +5,11 @@ deno:
   FROM denoland/deno
   WORKDIR /workspace
 
-# download and cache dependencies
+# download dependencies
 deps:
   FROM +deno
-  CACHE --persist $DENO_DIR
   COPY --dir deno* src imports patch.ts .
-  RUN deno install --frozen=true --reload
+  RUN deno install --frozen=true
 
 build:
   FROM +deps
