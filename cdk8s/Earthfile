@@ -8,7 +8,7 @@ deno:
 # download and cache dependencies
 deps:
   FROM +deno
-  CACHE --persist $DENO_DIR
+  # CACHE --persist $DENO_DIR
   COPY --dir deno* src imports patch.ts .
   RUN deno cache src/app.ts
 
