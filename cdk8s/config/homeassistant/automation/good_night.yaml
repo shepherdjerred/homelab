@@ -112,7 +112,7 @@
                 entity_id: light.christmas_tree_lights
               alias: Turn off Christmas tree
         - alias: Turn off front porch lights
-          action: switch.turn_off
+          action: light.turn_off
           metadata: {}
           data: {}
           target:
