@@ -65,7 +65,7 @@ scm-api:698.v8e3b_c788f0a_6
 script-security:1369.v9b_98a_4e95b_2d
 snakeyaml-api:2.3-123.v13484c65210a_
 ssh-credentials:349.vb_8b_6b_9709f5b_
-ssh-slaves:2.973.v0fa_8c0dea_f9f
+ssh-slaves:2.1010.v64ec48721231
 structs:338.v848422169819
 token-macro:400.v35420b_922dcb_
 trilead-api:2.147.vb_73cc728a_32e
