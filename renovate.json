@@ -5,7 +5,7 @@
     {
       "customType": "regex",
       "description": "Update versions.ts",
-      "fileMatch": ["cdk8s/src/versions/versions.ts"],
+      "fileMatch": ["cdk8s/src/versions.ts"],
       "matchStrings": [
         "\\/\\/ renovate: datasource=(?<datasource>[0-9a-z-\\.]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?))?\\s*\"(?<packageName>.+?)\":\\s*\"(?<currentValue>.+?)?(?:@(?<currentDigest>.+?))?\""
       ]
