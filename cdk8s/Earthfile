@@ -8,12 +8,19 @@ deno:
 # download and cache dependencies
 deps:
   FROM +deno
-  # CACHE --persist $DENO_DIR
+  CACHE --persist $DENO_DIR
   COPY --dir deno* src imports patch.ts .
-  RUN deno cache src/app.ts
+  RUN deno install --frozen=true
 
 build:
   FROM +deps
   COPY --dir config .
   RUN deno task build
   SAVE ARTIFACT dist AS LOCAL dist
+
+# update Deno lockfile
+lockfile:
+  FROM +deno
+  COPY --dir deno.json .
+  RUN deno install
+  SAVE ARTIFACT deno.lock AS LOCAL deno.lock
