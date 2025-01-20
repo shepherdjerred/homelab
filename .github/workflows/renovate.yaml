@@ -26,7 +26,7 @@ jobs:
           if git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -q 'cdk8s/deno.json'; then echo "file_changed=true" >> $GITHUB_ENV; else echo "file_changed=false" >> $GITHUB_ENV; fi
       - name: Update Deno lockfile
         if: env.file_changed == 'true'
-        run: cd cdk8s && deno install
+        run: cd cdk8s && deno cache --lock=deno.lock src/app.ts
       # - name: Update imports
       #   run: cd cdk8s && ./update-imports.ts
       - name: Commit and push changes
