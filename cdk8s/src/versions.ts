@@ -95,7 +95,7 @@ const versions = {
   "minecraft": "4.20.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "koush/scrypted":
-    "latest@sha256:906f05fd398edca621cc466f0de322c1e827eb7dd2b78f82c7ea46bd0cd69c18",
+    "latest@sha256:924fce57b6f75349feae22b5de7361168309fd03ac4aac09b06a7180efed95ef",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "openthread/otbr": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
