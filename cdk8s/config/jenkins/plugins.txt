@@ -45,7 +45,7 @@ kubernetes-credentials:190.v03c305394deb_
 mailer:489.vd4b_25144138f
 metrics:4.2.21-458.vcf496cb_839e4
 mina-sshd-api-common:2.14.0-138.v6341ee58e1df
-mina-sshd-api-core:2.14.0-136.v4d2b_0853615e
+mina-sshd-api-core:2.14.0-138.v6341ee58e1df
 okhttp-api:4.11.0-183.va_87fc7a_89810
 pipeline-build-step:540.vb_e8849e1a_b_d8
 pipeline-graph-analysis:216.vfd8b_ece330ca_
