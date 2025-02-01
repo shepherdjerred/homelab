@@ -83,7 +83,7 @@ const versions = {
     "main@sha256:db7c3693f30d23927a6bea3c63edd586596ad8186b2b3368593d72bd40b9ec92",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "home-assistant/home-assistant":
-    "2024.12.5@sha256:132ef461504be5c5ebd6e34e5d3fb3d7958bb6758a5136107eea9f84c299254a",
+    "2025.1.4@sha256:a8aab945aec2f43eb1b1fde4d19e25ef952fab9c10f49e40d3b3ce7d24cedc19",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing":
     "1.28.1@sha256:1f55fa811ad3903c4b421129966e0eea4b21d53d2471158288dc4a353e273a0a",
