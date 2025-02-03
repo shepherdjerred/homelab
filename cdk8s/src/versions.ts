@@ -62,7 +62,7 @@ const versions = {
     "1.28.2@sha256:d089b21e8ab2584b7e1713bde5d5f0160d7c9e850ceb2db53158a85ad3caac57",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver-coerced
   "qdm12/gluetun":
-    "v3.39.1@sha256:6a8058e626763cbf735ac2f78c774dbb24fec2490bd9d9f7d67e22592cb4a991",
+    "v3.40@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/qbittorrent":
     "4.6.7@sha256:55f15d44396315551f87294a176efae733b16e283f38980308e46073950257c6",
