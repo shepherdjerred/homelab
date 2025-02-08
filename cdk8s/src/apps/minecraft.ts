@@ -93,7 +93,7 @@ export function createMinecraftApp(chart: Chart) {
             },
             {
               name: "minecraftServer.whitelist",
-              value: "RiotShielder",
+              value: "RiotShielder,lolopToaster",
             },
             {
               name: "minecraftServer.spawnProtection",
