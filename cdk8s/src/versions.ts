@@ -104,7 +104,7 @@ const versions = {
   "loki": "6.25.0",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   "promtail": "6.16.6",
-  "shepherdjerred/scout-for-lol/beta": "1.0.103",
+  "shepherdjerred/scout-for-lol/beta": "1.0.108",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
 };
 
