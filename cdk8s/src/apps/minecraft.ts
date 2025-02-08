@@ -81,7 +81,7 @@ export function createMinecraftApp(chart: Chart) {
             },
             {
               name: "minecraftServer.version",
-              value: "1.21",
+              value: "1.21.4",
             },
             {
               name: "minecraftServer.type",
