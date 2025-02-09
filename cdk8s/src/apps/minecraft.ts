@@ -62,82 +62,27 @@ export function createMinecraftApp(chart: Chart) {
         targetRevision: versions["minecraft"],
         chart: "minecraft",
         helm: {
-          parameters: [
-            {
-              name: "image.tag",
-              value: versions["itzg/minecraft-server"],
+          valuesObject: {
+            image: {
+              tag: versions["itzg/minecraft-server"],
             },
-            {
-              name: "minecraftServer.eula",
-              value: "true",
-            },
-            {
-              name: "minecraftServer.difficulty",
-              value: "hard",
-            },
-            {
-              name: "persistence.dataDir.enabled",
-              value: "true",
-            },
-            {
-              name: "minecraftServer.version",
-              value: "1.21.4",
-            },
-            {
-              name: "minecraftServer.type",
-              value: "PAPER",
-            },
-            {
-              name: "minecraftServer.ops",
-              value: "RiotShielder",
-            },
-            {
-              name: "minecraftServer.whitelist",
-              value: "RiotShielder,lolopToaster,gexboy8,Virmel",
-            },
-            {
-              name: "minecraftServer.spawnProtection",
-              value: "0",
-            },
-            {
-              name: "minecraftServer.viewDistance",
-              value: "15",
-            },
-            {
-              name: "minecraftServer.memory",
-              value: "4G",
-            },
-            // {
-            //   name: "resources",
-            //   value: "{}",
-            // },
-            {
-              name: "minecraftServer.overrideServerProperties",
-              value: "true",
-            },
-            {
-              name: "minecraftServer.forcegameMode",
-              value: "true",
-            },
-            {
-              name: "minecraftServer.serviceType",
-              value: "NodePort",
-            },
-            {
-              name: "minecraftServer.port",
-              value: "25566",
-            },
-            {
-              name: "minecraftServer.nodePort",
-              value: "25566",
-            },
-            {
-              name: "minecraftServer.servicePort",
-              value: "",
-            },
-            {
-              name: "minecraftServer.extraPorts",
-              value: JSON.stringify([
+            minecraftServer: {
+              eula: true,
+              difficulty: "hard",
+              version: "1.21.4",
+              type: "PAPER",
+              ops: "RiotShielder",
+              whitelist: "RiotShielder,lolopToaster,gexboy8,Virmel",
+              spawnProtection: 0,
+              viewDistance: 15,
+              memory: "4G",
+              overrideServerProperties: true,
+              forcegameMode: true,
+              serviceType: "NodePort",
+              port: 25566,
+              nodePort: 25566,
+              servicePort: "",
+              extraPorts: [
                 {
                   service: {
                     enabled: true,
@@ -152,15 +97,18 @@ export function createMinecraftApp(chart: Chart) {
                       "tailscale.com/funnel": "true",
                     },
                     tls: {
-                      hosts: [
-                        "minecraft-dynmap",
-                      ],
+                      hosts: ["minecraft-dynmap"],
                     },
                   },
                 },
-              ]),
+              ],
             },
-          ],
+            persistence: {
+              dataDir: {
+                enabled: true,
+              },
+            },
+          },
         },
       },
       destination: {
