@@ -92,6 +92,9 @@ export function createMinecraftApp(chart: Chart) {
                   protocol: "TCP",
                   containerPort: 8123,
                   name: "dynmap",
+                  ingress: {
+                    enabled: false,
+                  },
                 },
               ],
             },
