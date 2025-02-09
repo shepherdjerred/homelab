@@ -72,6 +72,16 @@ export function createAppIngresses(chart: Chart) {
     ["chartmuseum"],
     true,
   );
+
+  // createIngress(
+  //   chart,
+  //   "minecraft-dynmap-ingress",
+  //   "minecraft",
+  //   "minecraft",
+  //   8123,
+  //   ["minecraft-dynmap"],
+  //   true,
+  // );
 }
 
 function createIngress(

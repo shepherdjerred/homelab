@@ -88,23 +88,10 @@ export function createMinecraftApp(chart: Chart) {
                   service: {
                     enabled: true,
                     port: 8123,
-                    containerPort: 8123,
                   },
+                  protocol: "TCP",
+                  containerPort: 8123,
                   name: "dynmap",
-                  ingress: {
-                    enabled: true,
-                    ingressClassName: "tailscale",
-                    annotations: {
-                      "tailscale.com/funnel": "true",
-                    },
-                    hosts: [{
-                      name: "minecraft-dynmap",
-                      path: "/",
-                    }],
-                    tls: {
-                      hosts: ["minecraft-dynmap"],
-                    },
-                  },
                 },
               ],
             },
