@@ -11,8 +11,7 @@ export function createArgoCdApp(chart: Chart) {
     "argocd-server",
     443,
     ["argocd"],
-    // enable funneling for GitHub webhooks which allows ArgoCD to receive push events
-    true,
+    false,
   );
 
   new Application(chart, "argocd-app", {
