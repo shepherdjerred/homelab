@@ -71,6 +71,7 @@ export function createMinecraftApp(chart: Chart) {
               difficulty: "hard",
               version: "1.21.4",
               type: "PAPER",
+              motd: "Jerred's Really Cool Minecraft Server",
               ops: "RiotShielder",
               whitelist: "RiotShielder,lolopToaster,gexboy8,Virmel",
               spawnProtection: 0,
@@ -96,6 +97,10 @@ export function createMinecraftApp(chart: Chart) {
                     annotations: {
                       "tailscale.com/funnel": "true",
                     },
+                    hosts: [{
+                      name: "minecraft-dynmap",
+                      path: "/",
+                    }],
                     tls: {
                       hosts: ["minecraft-dynmap"],
                     },
