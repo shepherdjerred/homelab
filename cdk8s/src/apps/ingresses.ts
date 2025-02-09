@@ -73,15 +73,15 @@ export function createAppIngresses(chart: Chart) {
     true,
   );
 
-  // createIngress(
-  //   chart,
-  //   "minecraft-dynmap-ingress",
-  //   "minecraft",
-  //   "minecraft",
-  //   8123,
-  //   ["minecraft-dynmap"],
-  //   true,
-  // );
+  createIngress(
+    chart,
+    "minecraft-dynmap-ingress",
+    "minecraft",
+    "minecraft-minecraft-dynmap",
+    8123,
+    ["minecraft-dynmap"],
+    true,
+  );
 }
 
 function createIngress(
