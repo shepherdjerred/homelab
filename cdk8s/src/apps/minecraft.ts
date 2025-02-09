@@ -19,6 +19,16 @@ export function createMinecraftApp(chart: Chart) {
     true,
   );
 
+  createIngress(
+    chart,
+    "minecraft-bluemap-ingress",
+    "minecraft",
+    "minecraft-minecraft-bluemap",
+    8100,
+    ["minecraft-bluemap"],
+    true,
+  );
+
   const resticOnepasswordItem = new OnePasswordItem(
     chart,
     "personal-minecraft-restic-onepassword",
@@ -103,6 +113,18 @@ export function createMinecraftApp(chart: Chart) {
                   protocol: "TCP",
                   containerPort: 8123,
                   name: "dynmap",
+                  ingress: {
+                    enabled: false,
+                  },
+                },
+                {
+                  service: {
+                    enabled: true,
+                    port: 8100,
+                  },
+                  protocol: "TCP",
+                  containerPort: 8100,
+                  name: "bluemap",
                   ingress: {
                     enabled: false,
                   },
