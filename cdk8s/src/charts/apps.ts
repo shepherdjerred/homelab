@@ -13,7 +13,6 @@ import { createSystemUpgradeControllerApp } from "../apps/system-upgrade-control
 import { createJenkinsApp } from "../apps/jenkins.ts";
 import { createVolsyncApp } from "../apps/volsync.ts";
 import { createExternalSnapshotterCrdsApp } from "../apps/external-snapshotter-crds.ts";
-import { createAppIngresses } from "../apps/ingresses.ts";
 import { createGrafanaApp } from "../apps/grafana.ts";
 import { createChartMuseumApp } from "../apps/chartmuseum.ts";
 import { createMinecraftApp } from "../apps/minecraft.ts";
@@ -39,7 +38,6 @@ export function createAppsChart(app: App) {
   createJenkinsApp(chart);
   createVolsyncApp(chart);
   createExternalSnapshotterCrdsApp(chart);
-  createAppIngresses(chart);
   createGrafanaApp(chart);
   createChartMuseumApp(chart);
   createMinecraftApp(chart);

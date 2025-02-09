@@ -1,8 +1,19 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
+import { createIngress } from "../utils/tailscale.ts";
 
 export function createLokiApp(chart: Chart) {
+  createIngress(
+    chart,
+    "loki-ingress",
+    "loki",
+    "loki",
+    3100,
+    ["loki"],
+    false,
+  );
+
   new Application(chart, "loki-app", {
     metadata: {
       name: "loki",

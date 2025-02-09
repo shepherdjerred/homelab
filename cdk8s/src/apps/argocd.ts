@@ -1,8 +1,20 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
+import { createIngress } from "../utils/tailscale.ts";
 
 export function createArgoCdApp(chart: Chart) {
+  createIngress(
+    chart,
+    "argocd-ingress",
+    "argocd",
+    "argocd-server",
+    443,
+    ["argocd"],
+    // enable funneling for GitHub webhooks which allows ArgoCD to receive push events
+    true,
+  );
+
   new Application(chart, "argocd-app", {
     metadata: {
       name: "argocd",

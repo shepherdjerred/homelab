@@ -2,8 +2,29 @@ import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import { createIngress } from "../utils/tailscale.ts";
 
 export function createPrometheusApp(chart: Chart) {
+  createIngress(
+    chart,
+    "alertmanager-ingress",
+    "prometheus",
+    "prometheus-kube-prometheus-alertmanager",
+    9093,
+    ["alertmanager"],
+    false,
+  );
+
+  createIngress(
+    chart,
+    "prometheus-ingress",
+    "prometheus",
+    "prometheus-kube-prometheus-prometheus",
+    9090,
+    ["prometheus"],
+    false,
+  );
+
   const discordWebhook = new OnePasswordItem(
     chart,
     "discord-webhook-onepassword",

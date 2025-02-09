@@ -6,8 +6,19 @@ import {
   ReplicationSource,
   ReplicationSourceSpecResticCopyMethod,
 } from "../../imports/volsync.backube.ts";
+import { createIngress } from "../utils/tailscale.ts";
 
 export function createMinecraftApp(chart: Chart) {
+  createIngress(
+    chart,
+    "minecraft-dynmap-ingress",
+    "minecraft",
+    "minecraft-minecraft-dynmap",
+    8123,
+    ["minecraft-dynmap"],
+    true,
+  );
+
   const resticOnepasswordItem = new OnePasswordItem(
     chart,
     "personal-minecraft-restic-onepassword",

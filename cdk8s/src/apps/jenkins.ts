@@ -2,8 +2,19 @@ import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import versions from "../versions.ts";
+import { createIngress } from "../utils/tailscale.ts";
 
 export function createJenkinsApp(chart: Chart) {
+  createIngress(
+    chart,
+    "jenkins-ingress",
+    "jenkins",
+    "jenkins",
+    8080,
+    ["jenkins"],
+    true,
+  );
+
   const tailscale = new OnePasswordItem(
     chart,
     "tailscale-auth-key-jenkins-onepassword",
