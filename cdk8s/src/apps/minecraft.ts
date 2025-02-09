@@ -83,7 +83,7 @@ export function createMinecraftApp(chart: Chart) {
               version: "1.21.4",
               type: "PAPER",
               motd: "Jerred's Really Cool Minecraft Server",
-              ops: "RiotShielder",
+              // ops: "RiotShielder",
               whitelist: "RiotShielder,lolopToaster,gexboy8,Virmel",
               spawnProtection: 0,
               viewDistance: 15,
