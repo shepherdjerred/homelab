@@ -135,6 +135,31 @@ export function createMinecraftApp(chart: Chart) {
               name: "minecraftServer.servicePort",
               value: "",
             },
+            {
+              name: "minecraftServer.extraPorts",
+              value: JSON.stringify([
+                {
+                  service: {
+                    enabled: true,
+                    port: 8123,
+                    containerPort: 8123,
+                  },
+                  name: "dynmap",
+                  ingress: {
+                    enabled: true,
+                    ingressClassName: "tailscale",
+                    annotations: {
+                      "tailscale.com/funnel": "true",
+                    },
+                    tls: {
+                      hosts: [
+                        "minecraft-dynmap",
+                      ],
+                    },
+                  },
+                },
+              ]),
+            },
           ],
         },
       },
