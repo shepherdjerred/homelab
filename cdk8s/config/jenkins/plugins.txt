@@ -5,7 +5,7 @@ apache-httpcomponents-client-5-api:5.4-124.v31e2987e48f4
 asm-api:9.7.1-97.v4cc844130d97
 authentication-tokens:1.119.v50285141b_7e1
 bootstrap5-api:5.3.3-1
-bouncycastle-api:2.30.1.79-254.vfdb_814e7791e
+bouncycastle-api:2.30.1.80-256.vf98926042a_9b_
 branch-api:2.1206.vd9f35001c95c
 caffeine-api:3.1.8-133.v17b_1ff2e0599
 checks-api:2.2.1
