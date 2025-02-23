@@ -43,7 +43,7 @@ junit:1312.v1a_235a_b_94a_31
 kubernetes-client-api:6.10.0-240.v57880ce8b_0b_2
 kubernetes-credentials:190.v03c305394deb_
 mailer:489.vd4b_25144138f
-metrics:4.2.21-458.vcf496cb_839e4
+metrics:4.2.21-461.v881e35d8fa_b_a_
 mina-sshd-api-common:2.14.0-138.v6341ee58e1df
 mina-sshd-api-core:2.14.0-138.v6341ee58e1df
 okhttp-api:4.11.0-183.va_87fc7a_89810
