@@ -20,7 +20,6 @@ homekit:
         - input_select
         - vacuum
       exclude_entities:
-        - binary_sensor.front_door_motion
         - binary_sensor.iphone_focus
         - binary_sensor.ipad_focus
       exclude_entity_globs:
@@ -28,10 +27,6 @@ homekit:
         - switch.adaptive_lighting_*
         - sensor.bitter_lake_*
         - sensor.average_*
-        - sensor.*_ac_target_temperature
-        - switch.*_ac_power_status
-        - "*anova_precision*"
-        - sensor.gw1100b*
         - sensor.current_bill*
         - sensor.typical_monthly*
         - sensor.electricity_maps*
@@ -41,13 +36,6 @@ homekit:
     filter:
       include_domains:
         - light
-  - name: HA4
-    advertise_ip: 192.168.1.86
-    port: 21067
-    mode: accessory
-    filter:
-      include_domains:
-        - lock
 
 http:
   use_x_forwarded_for: true
@@ -55,7 +43,7 @@ http:
     - 0.0.0.0/0
 sonos:
   media_player:
-    advertise_addr: 192.168.1.86
+    advertise_addr: 192.168.1.81
 
 recorder:
   commit_interval: 10
@@ -67,65 +55,9 @@ tts:
 ffmpeg:
 
 automation: !include_dir_merge_list automation
-script: !include scripts.yaml
 scene: !include scenes.yaml
 
-sensor:
-  - platform: min_max
-    name: "Average Indoor Temperature"
-    type: mean
-    round_digits: 2
-    entity_ids:
-      - sensor.nest_temperature_sensor_guest_room_temperature
-      - sensor.nest_temperature_sensor_bedroom_temperature
-      - sensor.nest_temperature_sensor_living_room_temperature
-      - sensor.dining_room_temperature
-      # these only exist in the summer
-      # - sensor.010000faf8e6_ac_ambient_temperature
-      # - sensor.d828c9927b02_ac_ambient_temperature
-  - platform: min_max
-    name: "Average Outdoor Temperature"
-    type: mean
-    round_digits: 2
-    entity_ids:
-      - sensor.front_door_sensor_temperature
-
 light:
-  - platform: group
-    name: "Bathroom Lights"
-    unique_id: bathroom_lights
-    entities:
-      - light.bathroom_left
-      - light.bathroom_right
-  - platform: group
-    name: "Dining Overhead Lights"
-    unique_id: dining_overhead_lights
-    entities:
-      - light.dining_1
-      - light.dining_2
-      - light.dining_3
-  - platform: group
-    name: "Kitchen Overhead Lights"
-    unique_id: kitchen_overhead_lights
-    entities:
-      - light.kitchen_1
-      - light.kitchen_2
-      - light.kitchen_3
-  - platform: group
-    name: "Side Bollards"
-    unique_id: side_bollards
-    entities:
-      - light.side_path_door_bollard
-      - light.side_path_middle_bollard
-      - light.trash_bollard
-  - platform: group
-    name: "Front Bollards"
-    unique_id: front_bollards
-    entities:
-      - light.front_door_bollard
-      - light.front_middle_bollard
-      - light.address_light_bollard
-      - light.garage_door_bollard
   - platform: group
     name: "Bronze Lamp"
     unique_id: bronze_lamp
@@ -133,93 +65,17 @@ light:
       - light.bronze_lamp_upper
       - light.bronze_lamp_lower
       - light.bronze_lamp_middle
-  - platform: switch
-    name: "Front porch light"
-    entity_id: switch.front_porch_light
-  - platform: switch
-    name: "Rail lights"
-    entity_id: switch.patio_lights
-  - platform: switch
-    name: "Upper"
-    entity_id: switch.lower
-  - platform: switch
-    name: "Lower"
-    entity_id: switch.upper
-  - platform: switch
-    name: "String Lights"
-    entity_id: switch.backyard_lights
-  - platform: switch
-    name: "Guest Overhead Light"
-    entity_id: switch.overhead_light
-  - platform: switch
-    name: "Salt Lamp"
-    entity_id: switch.sonoff_1002162e11
-
-binary_sensor:
-  - platform: group
-    name: "Outdoor Motion"
-    unique_id: outdoor_motion
-    entities:
-      - binary_sensor.side_door_sensor_motion
-      - binary_sensor.front_door_sensor_motion
-      - binary_sensor.front_door_motion
-  - platform: group
-    name: "Stairway Motion"
-    unique_id: stairway_motion
-    entities:
-      - binary_sensor.lower_stairway_motion_sensor_motion
-      - binary_sensor.upper_stairway_motion_sensor_motion
 
 input_boolean:
-  guest_mode:
-    name: Guest Mode
-    icon: mdi:bag-suitcase
   sun_is_down:
     name: Sun is down
     icon: mdi:weather-sunset-down
   holiday_lights_enabled:
     name: Holiday Lights Enabled
     icon: phu:light-string
-  enable_heater:
-    name: Enable Heater
-    icon: mdi:gas-burner
   awake:
     name: Awake
     icon: mdi:sleep
-
-input_number:
-  night_temperature:
-    name: Night Temperature
-    min: 15.0
-    max: 25.0
-    unit_of_measurement: "°C"
-    icon: mdi:moon-waning-crescent
-    step: 0.5
-    mode: slider
-  day_temperature:
-    name: Day Temperature
-    min: 15.0
-    max: 25.0
-    unit_of_measurement: "°C"
-    icon: mdi:weather-sunny
-    step: 0.5
-    mode: slider
-  away_temperature:
-    name: Away Temperature
-    min: 15.0
-    max: 25.0
-    unit_of_measurement: "°C"
-    icon: mdi:walk
-    step: 0.5
-    mode: slider
-  morning_temperature:
-    name: Morning Temperature
-    min: 15.0
-    max: 25.0
-    unit_of_measurement: "°C"
-    icon: mdi:weather-sunset-up
-    step: 0.5
-    mode: slider
 
 input_datetime:
   wake_up:

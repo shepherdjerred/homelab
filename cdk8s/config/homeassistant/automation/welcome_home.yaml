@@ -9,52 +9,11 @@
       alias: Jerred enters home zone
   condition: []
   action:
-    - data: {}
-      target:
-        entity_id: lock.front_door
-      alias: Unlock the front door
-      action: lock.unlock
     - alias: Turn on lights
       action: scene.turn_on
       target:
         entity_id: scene.dining_room_bright
       data: {}
-    - alias: Set the heater
-      if:
-        - condition: state
-          entity_id: input_boolean.enable_heater
-          state: "on"
-          alias: Heater is enabled
-      then:
-        - data:
-            temperature: "{{ states('input_number.day_temperature') }}"
-          enabled: true
-          target:
-            entity_id: climate.dining_room
-          action: climate.set_temperature
-    - alias: Brighten the Bollards
-      if:
-        - condition: state
-          entity_id: input_boolean.sun_is_down
-          state: "on"
-          alias: Sun is down
-      then:
-        - alias: Brighten Bollards
-          action: scene.turn_on
-          target:
-            entity_id: scene.bollards_bright
-          data: {}
-        - delay:
-            hours: 0
-            minutes: 2
-            seconds: 0
-            milliseconds: 0
-          alias: Wait for 2 minutes
-        - alias: Dim Bollards
-          action: scene.turn_on
-          data: {}
-          target:
-            entity_id: scene.bollards_dimmed
     - alias: Send Roomba home
       if:
         - condition: and

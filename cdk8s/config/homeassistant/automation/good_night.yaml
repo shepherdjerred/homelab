@@ -1,6 +1,6 @@
 - id: "1664593118148"
   alias: Good Night
-  description: Turn off lights, play rain sounds, and set the heater
+  description: Turn off lights, play rain sounds
   triggers:
     - event_type: ios.action_fired
       event_data:
@@ -77,44 +77,4 @@
                       entity_id: media_player.bedroom
                     alias: Increase volume
               alias: Gradually increase volume
-        - if:
-            - condition: state
-              entity_id: input_boolean.enable_heater
-              state: "on"
-              alias: Heater enabled
-          then:
-            - data:
-                hvac_mode: heat
-                temperature: "{{ states('input_number.night_temperature') }}"
-              enabled: true
-              target:
-                entity_id: climate.dining_room
-              action: climate.set_temperature
-              alias: Set heater temperature
-          alias: Set the heater
-        - alias: Turn off holiday lights
-          if:
-            - condition: state
-              entity_id: input_boolean.holiday_lights_enabled
-              state: "on"
-              alias: Holiday lights enabled
-          then:
-            - action: light.turn_off
-              metadata: {}
-              data: {}
-              target:
-                entity_id: light.porch_festiva_lights
-              alias: Turn off christmas tree lights
-            - action: light.turn_off
-              metadata: {}
-              data: {}
-              target:
-                entity_id: light.christmas_tree_lights
-              alias: Turn off Christmas tree
-        - alias: Turn off front porch lights
-          action: light.turn_off
-          metadata: {}
-          data: {}
-          target:
-            entity_id: light.porch_rail_lights
   mode: single
