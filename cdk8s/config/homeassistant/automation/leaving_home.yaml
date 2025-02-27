@@ -18,7 +18,7 @@
       then:
         - data: {}
           target:
-            entity_id: vacuum.roomba_combo
+            entity_id: vacuum.roomba
           action: vacuum.start
           alias: Start Roomba
   mode: single

@@ -11,12 +11,12 @@
       state: "not_home"
       alias: Jerred is not home
     - condition: state
-      entity_id: vacuum.roomba_combo
+      entity_id: vacuum.roomba
       state: "docked"
       alias: Vacuum is docked
   action:
     - service: vacuum.start
       target:
-        entity_id: vacuum.roomba_combo
+        entity_id: vacuum.roomba
       alias: Start vacuum
   mode: single
