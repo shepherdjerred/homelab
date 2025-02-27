@@ -2,7 +2,7 @@ default_config:
 
 homekit:
   - name: HA1
-    advertise_ip: 192.168.1.86
+    advertise_ip: 192.168.1.81
     port: 21063
     filter:
       include_domains:
@@ -31,7 +31,7 @@ homekit:
         - sensor.typical_monthly*
         - sensor.electricity_maps*
   - name: HA2
-    advertise_ip: 192.168.1.86
+    advertise_ip: 192.168.1.81
     port: 21064
     filter:
       include_domains:
