@@ -1,7 +1,7 @@
 ansicolor:1.0.5
 antisamy-markup-formatter:162.v0e6ec0fcfcf6
 apache-httpcomponents-client-4-api:4.5.14-208.v438351942757
-apache-httpcomponents-client-5-api:5.4-135.v4da_349961256
+apache-httpcomponents-client-5-api:5.4-136.v5a_21779c63f8
 asm-api:9.7.1-97.v4cc844130d97
 authentication-tokens:1.119.v50285141b_7e1
 bootstrap5-api:5.3.3-1
