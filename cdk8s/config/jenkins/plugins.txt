@@ -25,7 +25,7 @@ github-api:1.321-478.vc9ce627ce001
 github-branch-source:1807.v50351eb_7dd13
 github-checks:589.v845136f916cd
 github:1.40.0
-gson-api:2.11.0-85.v1f4e87273c33
+gson-api:2.11.0-109.v1ef91dd0829a_
 instance-identity:201.vd2a_b_5a_468a_a_6
 ionicons-api:74.v93d5eb_813d5f
 jackson2-api:2.17.0-379.v02de8ec9f64c
