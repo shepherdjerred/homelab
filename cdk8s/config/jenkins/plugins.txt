@@ -38,7 +38,7 @@ jjwt-api:0.11.5-112.ve82dfb_224b_a_d
 joda-time-api:2.13.0-93.v9934da_29b_a_e9
 jquery3-api:3.7.1-2
 json-api:20241224-119.va_dca_a_b_ea_7da_5
-json-path-api:2.9.0-118.v7f23ed82a_8b_8
+json-path-api:2.9.0-138.vc943da_d833b_6
 junit:1312.v1a_235a_b_94a_31
 kubernetes-client-api:6.10.0-240.v57880ce8b_0b_2
 kubernetes-credentials:190.v03c305394deb_
