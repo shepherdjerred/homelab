@@ -1,5 +1,4 @@
 import { App, Chart } from "cdk8s";
-import { createEspHomeDeployment } from "../services/home/esphome.ts";
 import { createInvidiousDeployment } from "../services/frontends/invidious.ts";
 import { createTedditDeployment } from "../services/frontends/teddit.ts";
 import { createGolinkDeployment } from "../services/golink.ts";
@@ -37,7 +36,6 @@ export function createLamportChart(app: App) {
   });
 
   // TODO: create one namespace/argocd app per service
-  createEspHomeDeployment(chart);
   createBazarrDeployment(chart);
   createTautulliDeployment(chart);
   createInvidiousDeployment(chart);
