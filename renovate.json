@@ -1,11 +1,16 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "github>Omochice/renovate-config:deno"],
+  "extends": [
+    "config:recommended",
+    "github>Omochice/renovate-config:deno"
+  ],
   "customManagers": [
     {
       "customType": "regex",
       "description": "Update versions.ts",
-      "fileMatch": ["cdk8s/src/versions.ts"],
+      "fileMatch": [
+        "cdk8s/src/versions.ts"
+      ],
       "matchStrings": [
         "\\/\\/ renovate: datasource=(?<datasource>[0-9a-z-\\.]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?))?\\s*\"(?<packageName>.+?)\":\\s*\"(?<currentValue>.+?)?(?:@(?<currentDigest>.+?))?\""
       ]
@@ -14,29 +19,43 @@
   "automerge": true,
   "packageRules": [
     {
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "pinDigests": true
     },
     {
-      "matchDatasources": ["jenkins"],
-      "schedule": ["* 0-4 * * *"],
+      "matchDatasources": [
+        "jenkins"
+      ],
+      "schedule": [
+        "* 0-4 * * *"
+      ],
       "minimumReleaseAge": "7 days"
     },
     {
-      "matchPackageNames": ["k3s"],
-      "matchDatasources": ["custom.k3s"],
+      "matchPackageNames": [
+        "k3s"
+      ],
+      "matchDatasources": [
+        "custom.k3s"
+      ],
       "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<compatibility>\\+k3s)(?<build>\\d+)$",
       "automerge": false
     },
     {
-      "matchPackagePatterns": ["^cdk8s"],
-      "groupName": "cdk8s"
+      "groupName": "cdk8s",
+      "matchPackageNames": [
+        "/^cdk8s/"
+      ]
     }
   ],
   "pre-commit": {
     "enabled": true
   },
-  "schedule": ["after 3am on Sunday"],
+  "schedule": [
+    "after 3am on Sunday"
+  ],
   "minimumReleaseAge": "30 days",
   "customDatasources": {
     "k3s": {
@@ -46,5 +65,7 @@
       ]
     }
   },
-  "reviewers": ["shepherdjerred"]
+  "reviewers": [
+    "shepherdjerred"
+  ]
 }
