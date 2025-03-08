@@ -27,6 +27,10 @@
       "matchDatasources": ["custom.k3s"],
       "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<compatibility>\\+k3s)(?<build>\\d+)$",
       "automerge": false
+    },
+    {
+      "matchPackagePatterns": ["^cdk8s"],
+      "groupName": "cdk8s"
     }
   ],
   "pre-commit": {
