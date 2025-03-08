@@ -1,5 +1,20 @@
 {
   "modules": {
+    "https://esm.sh/@types/balanced-match@~1.0.4/index.d.ts": {
+      "headers": {
+        "location": "https://esm.sh/@types/balanced-match@1.0.4/index.d.ts"
+      }
+    },
+    "https://esm.sh/@types/brace-expansion@~1.1.2/index.d.ts": {
+      "headers": {
+        "location": "https://esm.sh/@types/brace-expansion@1.1.2/index.d.ts"
+      }
+    },
+    "https://esm.sh/@types/minimatch@~3.0.5/index.d.ts": {
+      "headers": {
+        "location": "https://esm.sh/@types/minimatch@3.0.5/index.d.ts"
+      }
+    },
     "https://esm.sh/balanced-match@1.0.2?target=denonext": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
@@ -89,6 +104,12 @@
         "location": "https://esm.sh/minimatch@3.1.2?target=denonext"
       }
     },
+    "https://esm.sh/remeda@2.18.0": {
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "x-typescript-types": "https://esm.sh/v135/remeda@2.18.0/dist/index.d.ts"
+      }
+    },
     "https://esm.sh/ts-pattern@5.6.0": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
@@ -104,6 +125,138 @@
     "https://esm.sh/ts-pattern@5.6.0/dist/types/IsMatching.d.ts": {},
     "https://esm.sh/ts-pattern@5.6.0/dist/types/Match.d.ts": {},
     "https://esm.sh/ts-pattern@5.6.0/dist/types/Pattern.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/CoercedArray-DRz3tqda.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/Deduped-BcgFsruc.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/EnumerableStringKeyOf-BQ4aR5ep.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/EnumerableStringKeyedValueOf-CLzltniW.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/ExactRecord-D_crnhD3.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/GuardType-C8IpVeqb.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/IfBoundedRecord-CWXFCISn.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/IntRangeInclusive-Cn-qsrAN.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/IsUnion-Bx34mF34.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/IterableContainer-CtfinwiH.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/Mapped-oLjj1faZ.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/NTuple-BgsZT9dJ.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/NarrowedTo-CDIykNaN.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/NonEmptyArray-C9Od1wmF.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/ReconstructedRecord-D5917eE2.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/RemedaTypeError-C4mozr3m.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/ReorderedArray-DFPIAkRH.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/TupleParts-CP0H7BrE.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/TupleSplits-eRE__Ilo.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/UpsertProp-BMO2m6Bb.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/addProp.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/allPass.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/anyPass.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/countBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/differenceWith.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/doNothing.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/dropFirstBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/dropLast.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/dropLastWhile.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/dropWhile.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/endsWith.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/findIndex.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/findLast.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/findLastIndex.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/firstBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/flatMap.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/forEach.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/forEachObj.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/fromEntries.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/fromKeys.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/groupBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/hasAtLeast.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/hasSubObject.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/indexBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/intersectionWith.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isArray.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isBigInt.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isBoolean.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isDate.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isDeepEqual.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isDefined.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isEmpty.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isError.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isFunction.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isIncludedIn.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isNonNull.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isNonNullish.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isNot.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isNullish.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isNumber.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isObjectType.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isPlainObject.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isPromise.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isShallowEqual.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isStrictEqual.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isString.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isSymbol.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/isTruthy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/mapKeys.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/mapToObj.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/mapValues.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/mapWithFeedback.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/meanBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/mergeAll.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/mergeDeep.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/nthBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/objOf.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/omitBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/partialBind.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/partialLastBind.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/pathOr.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/pickBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/pullObject.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/purryOrderRules-BKXCPBNx.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/randomBigInt.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/randomInteger.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/randomString.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/rankBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/setPath.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/sliceString.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/sortBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/sortedIndex.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/sortedIndexBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/sortedIndexWith.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/sortedLastIndex.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/sortedLastIndexBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/splitAt.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/splitWhen.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/startsWith.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/stringToPath.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/sumBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/swapIndices.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/swapProps.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/takeFirstBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/takeLast.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/takeLastWhile.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/takeWhile.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/toCamelCase.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/toKebabCase.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/toLowerCase.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/toSnakeCase.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/toUpperCase.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/uniqueBy.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/uniqueWith.d.ts": {},
+    "https://esm.sh/v135/remeda@2.18.0/dist/zipWith.d.ts": {},
+    "https://esm.sh/v135/type-fest@4.30.1/source/camel-cased-properties-deep.d.ts": {},
+    "https://esm.sh/v135/type-fest@4.30.1/source/delimiter-cased-properties-deep.d.ts": {},
+    "https://esm.sh/v135/type-fest@4.30.1/source/delimiter-cased-properties.d.ts": {},
+    "https://esm.sh/v135/type-fest@4.30.1/source/kebab-cased-properties-deep.d.ts": {},
+    "https://esm.sh/v135/type-fest@4.30.1/source/multidimensional-readonly-array.d.ts": {},
+    "https://esm.sh/v135/type-fest@4.30.1/source/pascal-cased-properties-deep.d.ts": {},
+    "https://esm.sh/v135/type-fest@4.30.1/source/simplify.d": {
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8"
+      }
+    },
+    "https://esm.sh/v135/type-fest@4.30.1/source/snake-cased-properties-deep.d.ts": {},
+    "https://esm.sh/v135/type-fest@4.30.1/source/union-to-intersection.d": {
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8"
+      }
+    },
     "https://esm.sh/yaml@2.7.0/denonext/browser/dist/doc/applyReviver.mjs": {},
     "https://esm.sh/yaml@2.7.0/denonext/browser/dist/doc/createNode.mjs": {},
     "https://esm.sh/yaml@2.7.0/denonext/browser/dist/nodes/Alias.mjs": {},
