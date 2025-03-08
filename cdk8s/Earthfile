@@ -5,21 +5,8 @@ deno:
   FROM denoland/deno
   WORKDIR /workspace
 
-# download dependencies
-deps:
-  FROM +deno
-  COPY --dir deno* src imports patch.ts .
-  RUN deno install --frozen=true
-
 build:
-  FROM +deps
-  COPY --dir config .
+  FROM +deno
+  COPY --dir deno* src imports config vendor patch.ts .
   RUN deno task build
   SAVE ARTIFACT dist AS LOCAL dist
-
-# update Deno lockfile
-lock:
-  FROM +deno
-  COPY --dir deno.json .
-  RUN deno install
-  SAVE ARTIFACT deno.lock AS LOCAL deno.lock

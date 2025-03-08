@@ -1,7 +1,7 @@
 {
   "tasks": {
     "lint": "deno check src/app.ts",
-    "build": "rm -rf dist/ && deno run -A src/app.ts && deno task patch",
+    "build": "rm -rf dist/ && deno run --cached-only -A src/app.ts && deno task patch",
     "patch": "./patch.ts",
     "update-imports": "./update-imports.ts",
     "up": "deno task build && kubectl apply -f dist",
@@ -28,5 +28,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "checkJs": true
-  }
+  },
+  "vendor": true
 }

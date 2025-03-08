@@ -6,11 +6,11 @@ repos:
       - id: renovate-config-validator
         language_version: "22.8.0"
     # TODO: sandbox Deno
-  - repo: https://github.com/nozaq/pre-commit-deno
-    rev: 0.1.0
-    hooks:
-      - id: deno-fmt
-      - id: deno-lint
+  # - repo: https://github.com/nozaq/pre-commit-deno
+  #   rev: 0.1.0
+  #   hooks:
+  #     - id: deno-fmt
+  #     - id: deno-lint
   - repo: local
     hooks:
       - id: check
