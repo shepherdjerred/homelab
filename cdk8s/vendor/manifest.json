@@ -95,6 +95,15 @@
         "x-typescript-types": "https://esm.sh/ts-pattern@5.6.0/dist/index.d.ts"
       }
     },
+    "https://esm.sh/ts-pattern@5.6.0/dist/types/BuildMany.d.ts": {},
+    "https://esm.sh/ts-pattern@5.6.0/dist/types/DeepExclude.d.ts": {},
+    "https://esm.sh/ts-pattern@5.6.0/dist/types/DistributeUnions.d.ts": {},
+    "https://esm.sh/ts-pattern@5.6.0/dist/types/ExtractPreciseValue.d.ts": {},
+    "https://esm.sh/ts-pattern@5.6.0/dist/types/FindSelected.d.ts": {},
+    "https://esm.sh/ts-pattern@5.6.0/dist/types/InvertPattern.d.ts": {},
+    "https://esm.sh/ts-pattern@5.6.0/dist/types/IsMatching.d.ts": {},
+    "https://esm.sh/ts-pattern@5.6.0/dist/types/Match.d.ts": {},
+    "https://esm.sh/ts-pattern@5.6.0/dist/types/Pattern.d.ts": {},
     "https://esm.sh/yaml@2.7.0/denonext/browser/dist/doc/applyReviver.mjs": {},
     "https://esm.sh/yaml@2.7.0/denonext/browser/dist/doc/createNode.mjs": {},
     "https://esm.sh/yaml@2.7.0/denonext/browser/dist/nodes/Alias.mjs": {},

@@ -94,9 +94,10 @@ const versions = {
   // renovate: datasource=helm registry=https://itzg.github.io/minecraft-server-charts versioning=semver
   "minecraft": "4.20.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "openthread/otbr": "latest",
+  "openthread/otbr":
+    "latest@sha256:a93395c2554c6925943cfa6effc98b556bb70f5d2398bc9e038ac6bfc2880bc6",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
-  "jorenn92/maintainerr": "latest",
+  "jorenn92/maintainerr": "2.10.0",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   "loki": "6.25.0",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
