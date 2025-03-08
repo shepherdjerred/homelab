@@ -6,28 +6,43 @@
         "x-typescript-types": "https://esm.sh/@types/balanced-match@~1.0.4/index.d.ts"
       }
     },
+    "https://esm.sh/balanced-match@^1.0.0?target=denonext": {
+      "headers": {
+        "location": "https://esm.sh/balanced-match@1.0.2?target=denonext"
+      }
+    },
     "https://esm.sh/brace-expansion@1.1.11?target=denonext": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
         "x-typescript-types": "https://esm.sh/@types/brace-expansion@~1.1.2/index.d.ts"
       }
     },
-    "https://esm.sh/cdk8s-plus-30@2.2.17": {
+    "https://esm.sh/brace-expansion@^1.1.7?target=denonext": {
       "headers": {
-        "content-type": "application/javascript; charset=utf-8",
-        "x-typescript-types": "https://esm.sh/cdk8s-plus-30@2.2.17/lib/index.d.ts"
+        "location": "https://esm.sh/brace-expansion@1.1.11?target=denonext"
       }
     },
-    "https://esm.sh/cdk8s@2.69.34": {
+    "https://esm.sh/cdk8s-plus-30@2.3.2": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
-        "x-typescript-types": "https://esm.sh/cdk8s@2.69.34/lib/index.d.ts"
+        "x-typescript-types": "https://esm.sh/cdk8s-plus-30@2.3.2/lib/index.d.ts"
       }
     },
-    "https://esm.sh/cdk8s@2.69.34?target=denonext": {
+    "https://esm.sh/cdk8s@2.69.48": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
-        "x-typescript-types": "https://esm.sh/cdk8s@2.69.34/lib/index.d.ts"
+        "x-typescript-types": "https://esm.sh/cdk8s@2.69.48/lib/index.d.ts"
+      }
+    },
+    "https://esm.sh/cdk8s@2.69.48?target=denonext": {
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "x-typescript-types": "https://esm.sh/cdk8s@2.69.48/lib/index.d.ts"
+      }
+    },
+    "https://esm.sh/cdk8s@^2.68.11?target=denonext": {
+      "headers": {
+        "location": "https://esm.sh/cdk8s@2.69.48?target=denonext"
       }
     },
     "https://esm.sh/constructs@10.4.2": {
@@ -42,16 +57,36 @@
         "x-typescript-types": "https://esm.sh/constructs@10.4.2/lib/index.d.ts"
       }
     },
+    "https://esm.sh/constructs@^10.3.0?target=denonext": {
+      "headers": {
+        "location": "https://esm.sh/constructs@10.4.2?target=denonext"
+      }
+    },
+    "https://esm.sh/constructs@^10?target=denonext": {
+      "headers": {
+        "location": "https://esm.sh/constructs@10.4.2?target=denonext"
+      }
+    },
     "https://esm.sh/fast-json-patch@3.1.1?target=denonext": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
         "x-typescript-types": "https://esm.sh/fast-json-patch@3.1.1/index.d.ts"
       }
     },
+    "https://esm.sh/fast-json-patch@^3.1.1?target=denonext": {
+      "headers": {
+        "location": "https://esm.sh/fast-json-patch@3.1.1?target=denonext"
+      }
+    },
     "https://esm.sh/minimatch@3.1.2?target=denonext": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
         "x-typescript-types": "https://esm.sh/@types/minimatch@~3.0.5/index.d.ts"
+      }
+    },
+    "https://esm.sh/minimatch@^3.1.2?target=denonext": {
+      "headers": {
+        "location": "https://esm.sh/minimatch@3.1.2?target=denonext"
       }
     },
     "https://esm.sh/ts-pattern@5.6.0": {
