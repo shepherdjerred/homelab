@@ -1,4 +1,4 @@
-ansicolor:1.0.5
+ansicolor:1.0.6
 antisamy-markup-formatter:162.v0e6ec0fcfcf6
 apache-httpcomponents-client-4-api:4.5.14-208.v438351942757
 apache-httpcomponents-client-5-api:5.4-136.v5a_21779c63f8
