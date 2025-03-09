@@ -1,0 +1,8 @@
+{
+  "name": "homelab",
+  "engineVersion": "v0.16.2",
+  "sdk": {
+    "source": "typescript"
+  },
+  "source": "dagger"
+}
