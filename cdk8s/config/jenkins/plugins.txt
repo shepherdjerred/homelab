@@ -77,5 +77,5 @@ workflow-durable-task-step:1405.v1fcd4a_d00096
 workflow-job:1498.v33a_0c6f3a_4b_4
 workflow-multibranch:803.v08103b_87c280
 workflow-scm-step:427.v4ca_6512e7df1
-workflow-step-api:686.v603d058a_e148
+workflow-step-api:700.v6e45cb_a_5a_a_21
 workflow-support:961.v51869f7b_d409
