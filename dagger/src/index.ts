@@ -1,8 +1,7 @@
 import { dag, Directory, func, object } from "@dagger.io/dagger";
 
 @object()
-// deno-lint-ignore no-unused-vars
-class Homelab {
+export class Homelab {
   @func()
   async build(source: Directory) {
     const build = await this.buildEnv(source)
