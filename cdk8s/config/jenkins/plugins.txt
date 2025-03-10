@@ -8,7 +8,7 @@ bootstrap5-api:5.3.3-1
 bouncycastle-api:2.30.1.80-256.vf98926042a_9b_
 branch-api:2.1206.vd9f35001c95c
 caffeine-api:3.1.8-133.v17b_1ff2e0599
-checks-api:2.2.1
+checks-api:2.2.2
 cloud-stats:336.v788e4055508b_
 cloudbees-folder:6.976.v4dc79fb_c458d
 commons-lang3-api:3.17.0-84.vb_b_938040b_078
