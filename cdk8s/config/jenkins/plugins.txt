@@ -10,7 +10,7 @@ branch-api:2.1214.v3f652804588d
 caffeine-api:3.2.0-161.v691ef352cee1
 checks-api:2.2.2
 cloud-stats:377.vd8a_6c953e98e
-cloudbees-folder:6.980.v5a_cc0cb_25881
+cloudbees-folder:6.982.vf165a_16c9507
 commons-lang3-api:3.17.0-84.vb_b_938040b_078
 commons-text-api:1.13.0-153.v91dcd89e2a_22
 credentials-binding:687.v619cb_15e923f
@@ -28,7 +28,7 @@ github:1.40.0
 gson-api:2.12.1-113.v347686d6729f
 instance-identity:203.v15e81a_1b_7a_38
 ionicons-api:74.v93d5eb_813d5f
-jackson2-api:2.17.0-379.v02de8ec9f64c
+jackson2-api:2.17.0-389.va_5c7e45cd806
 jakarta-activation-api:2.1.3-1
 jakarta-mail-api:2.1.3-1
 javax-activation-api:1.2.0-8
@@ -55,13 +55,13 @@ pipeline-input-step:508.v584c0e9a_2177
 pipeline-milestone-step:119.vdfdc43fc3b_9a_
 pipeline-model-api:2.2218.v56d0cda_37c72
 pipeline-model-definition:2.2218.v56d0cda_37c72
-pipeline-model-extensions:2.2218.v56d0cda_37c72
+pipeline-model-extensions:2.2234.v4a_b_13b_8cd590
 pipeline-stage-step:312.v8cd10304c27a_
 pipeline-stage-tags-metadata:2.2218.v56d0cda_37c72
 plain-credentials:183.va_de8f1dd5a_2b_
 plugin-util-api:6.0.0
 prism-api:1.29.0-18
-scm-api:698.v8e3b_c788f0a_6
+scm-api:703.v72ff4b_259600
 script-security:1373.vb_b_4a_a_c26fa_00
 snakeyaml-api:2.3-123.v13484c65210a_
 ssh-credentials:355.v9b_e5b_cde5003
@@ -72,10 +72,10 @@ trilead-api:2.147.vb_73cc728a_32e
 variant:70.va_d9f17f859e0
 workflow-api:1363.v03f731255494
 workflow-basic-steps:1079.vce64b_a_929c5a_
-workflow-cps:4011.v91e9951fa_d5b_
+workflow-cps:4018.vf02e01888da_f
 workflow-durable-task-step:1405.v1fcd4a_d00096
 workflow-job:1498.v33a_0c6f3a_4b_4
 workflow-multibranch:803.v08103b_87c280
 workflow-scm-step:427.v4ca_6512e7df1
-workflow-step-api:686.v603d058a_e148
+workflow-step-api:700.v6e45cb_a_5a_a_21
 workflow-support:961.v51869f7b_d409
