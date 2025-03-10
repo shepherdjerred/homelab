@@ -16,7 +16,7 @@ commons-text-api:1.13.0-153.v91dcd89e2a_22
 credentials-binding:687.v619cb_15e923f
 credentials:1405.vb_cda_74a_f8974
 display-url-api:2.209.v582ed814ff2f
-durable-task:581.v299a_5609d767
+durable-task:587.v84b_877235b_45
 echarts-api:5.5.1-5
 eddsa-api:0.3.0-4.v84c6f0f4969e
 font-awesome-api:6.6.0-2
