@@ -54,7 +54,7 @@ pipeline-groovy-lib:752.vdddedf804e72
 pipeline-input-step:513.v7eb_fe7e2c0fc
 pipeline-milestone-step:119.vdfdc43fc3b_9a_
 pipeline-model-api:2.2234.v4a_b_13b_8cd590
-pipeline-model-definition:2.2234.v4a_b_13b_8cd590
+pipeline-model-definition:2.2247.va_423189a_7dff
 pipeline-model-extensions:2.2234.v4a_b_13b_8cd590
 pipeline-stage-step:312.v8cd10304c27a_
 pipeline-stage-tags-metadata:2.2247.va_423189a_7dff
