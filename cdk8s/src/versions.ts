@@ -96,7 +96,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr": "2.10.0",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
-  "loki": "6.25.0",
+  "loki": "6.25.1",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   "promtail": "6.16.6",
   "shepherdjerred/scout-for-lol/beta": "1.0.112",
