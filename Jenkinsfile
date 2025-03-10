@@ -24,7 +24,8 @@ pipeline {
                         value: false
                     - name: dind
                       image: docker:dind
-                      env:
+                      securityContext:
+                          privileged: true
                       command: ["sleep"]
                       args: ["1h"]
 '''
