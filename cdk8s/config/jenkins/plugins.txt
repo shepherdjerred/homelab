@@ -7,7 +7,7 @@ authentication-tokens:1.119.v50285141b_7e1
 bootstrap5-api:5.3.3-1
 bouncycastle-api:2.30.1.80-256.vf98926042a_9b_
 branch-api:2.1208.vf528356feca_4
-caffeine-api:3.1.8-133.v17b_1ff2e0599
+caffeine-api:3.2.0-161.v691ef352cee1
 checks-api:2.2.2
 cloud-stats:336.v788e4055508b_
 cloudbees-folder:6.980.v5a_cc0cb_25881
