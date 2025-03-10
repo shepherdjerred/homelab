@@ -62,7 +62,7 @@ plain-credentials:183.va_de8f1dd5a_2b_
 plugin-util-api:5.1.0
 prism-api:1.29.0-18
 scm-api:698.v8e3b_c788f0a_6
-script-security:1369.v9b_98a_4e95b_2d
+script-security:1373.vb_b_4a_a_c26fa_00
 snakeyaml-api:2.3-123.v13484c65210a_
 ssh-credentials:349.vb_8b_6b_9709f5b_
 ssh-slaves:3.1021.va_cc11b_de26a_e
