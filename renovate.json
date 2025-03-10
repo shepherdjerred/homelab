@@ -31,7 +31,8 @@
       "schedule": [
         "* 0-4 * * *"
       ],
-      "minimumReleaseAge": "7 days"
+      "minimumReleaseAge": "7 days",
+      "groupName": "jenkins updates"
     },
     {
       "matchPackageNames": [
