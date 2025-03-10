@@ -10,7 +10,7 @@ branch-api:2.1214.v3f652804588d
 caffeine-api:3.2.0-161.v691ef352cee1
 checks-api:2.2.2
 cloud-stats:377.vd8a_6c953e98e
-cloudbees-folder:6.982.vf165a_16c9507
+cloudbees-folder:6.985.va_f1635030cc5
 commons-lang3-api:3.17.0-84.vb_b_938040b_078
 commons-text-api:1.13.0-153.v91dcd89e2a_22
 credentials-binding:687.v619cb_15e923f
