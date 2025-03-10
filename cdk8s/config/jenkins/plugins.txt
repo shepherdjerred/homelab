@@ -73,7 +73,7 @@ variant:60.v7290fc0eb_b_cd
 workflow-api:1336.vee415d95c521
 workflow-basic-steps:1079.vce64b_a_929c5a_
 workflow-cps:4007.vd705fc76a_34e
-workflow-durable-task-step:1398.vf6c9e89e5988
+workflow-durable-task-step:1405.v1fcd4a_d00096
 workflow-job:1476.v90f02a_225559
 workflow-multibranch:800.v5f0a_a_660950e
 workflow-scm-step:427.v4ca_6512e7df1
