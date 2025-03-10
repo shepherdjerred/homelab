@@ -1,5 +1,5 @@
 ansicolor:1.0.6
-antisamy-markup-formatter:162.v0e6ec0fcfcf6
+antisamy-markup-formatter:173.v680e3a_b_69ff3
 apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
 apache-httpcomponents-client-5-api:5.4-136.v5a_21779c63f8
 asm-api:9.7.1-97.v4cc844130d97
