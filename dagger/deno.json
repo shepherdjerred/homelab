@@ -1,6 +1,0 @@
-{
-  "imports": {
-    "@dagger.io/dagger": "npm:@dagger.io/dagger"
-  },
-  "nodeModulesDir": "auto"
-}
