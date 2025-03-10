@@ -14,7 +14,7 @@ cloudbees-folder:6.980.v5a_cc0cb_25881
 commons-lang3-api:3.17.0-84.vb_b_938040b_078
 commons-text-api:1.13.0-153.v91dcd89e2a_22
 credentials-binding:687.v619cb_15e923f
-credentials:1405.vb_cda_74a_f8974
+credentials:1408.va_622a_b_f5b_1b_1
 display-url-api:2.209.v582ed814ff2f
 durable-task:581.v299a_5609d767
 echarts-api:5.5.1-5
