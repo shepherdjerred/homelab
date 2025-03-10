@@ -46,7 +46,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                curl -fsSL https://dl.dagger.io/dagger/install.sh | BIN_DIR=/tmp/dagger/bin DAGGER_VERSION=$DAGGER_VERSION sh
+                wget -qO- https://dl.dagger.io/dagger/install.sh | BIN_DIR=/tmp/dagger/bin DAGGER_VERSION=$DAGGER_VERSION sh
                 dagger call build --source=./cdk8s export --path=dist/
                 '''
             }
