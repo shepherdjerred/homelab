@@ -32,7 +32,7 @@ jackson2-api:2.17.0-389.va_5c7e45cd806
 jakarta-activation-api:2.1.3-1
 jakarta-mail-api:2.1.3-1
 javax-activation-api:1.2.0-8
-javax-mail-api:1.6.2-10
+javax-mail-api:1.6.2-11
 jaxb:2.3.9-133.vb_ec76a_73f706
 jjwt-api:0.11.5-112.ve82dfb_224b_a_d
 joda-time-api:2.13.1-115.va_6b_5f8efb_1d8
