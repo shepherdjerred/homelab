@@ -94,7 +94,8 @@ const versions = {
   "openthread/otbr":
     "latest@sha256:a93395c2554c6925943cfa6effc98b556bb70f5d2398bc9e038ac6bfc2880bc6",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
-  "jorenn92/maintainerr": "2.10.0",
+  "jorenn92/maintainerr":
+    "2.10.0@sha256:e4d6c5c1017a2e6969d87c10d3c80f5d221096dc06863c5004774ea5c7621606",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   "loki": "6.25.1",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
