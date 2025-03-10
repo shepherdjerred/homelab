@@ -35,7 +35,7 @@ repos:
         pass_filenames: false
   # note: you need to run `pre-commit install --hook-type commit-msg`
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: v9.20.0
+    rev: v9.21.0
     hooks:
       - id: commitlint
         language_version: "22.8.0"
