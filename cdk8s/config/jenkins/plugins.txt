@@ -4,7 +4,7 @@ apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
 apache-httpcomponents-client-5-api:5.4-136.v5a_21779c63f8
 asm-api:9.7.1-97.v4cc844130d97
 authentication-tokens:1.131.v7199556c3004
-bootstrap5-api:5.3.3-1
+bootstrap5-api:5.3.3-3
 bouncycastle-api:2.30.1.80-256.vf98926042a_9b_
 branch-api:2.1214.v3f652804588d
 caffeine-api:3.2.0-161.v691ef352cee1
