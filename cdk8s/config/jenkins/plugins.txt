@@ -23,7 +23,7 @@ font-awesome-api:6.7.2-1
 git-client:6.1.2
 github-api:1.321-478.vc9ce627ce001
 github-branch-source:1810.v913311241fa_9
-github-checks:589.v845136f916cd
+github-checks:602.v264a_83610da_6
 github:1.42.0
 gson-api:2.12.1-113.v347686d6729f
 instance-identity:203.v15e81a_1b_7a_38
