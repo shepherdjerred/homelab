@@ -28,7 +28,7 @@ github:1.41.0
 gson-api:2.12.1-113.v347686d6729f
 instance-identity:203.v15e81a_1b_7a_38
 ionicons-api:82.v0597178874e1
-jackson2-api:2.17.0-389.va_5c7e45cd806
+jackson2-api:2.18.3-402.v74c4eb_f122b_2
 jakarta-activation-api:2.1.3-2
 jakarta-mail-api:2.1.3-2
 javax-activation-api:1.2.0-8
