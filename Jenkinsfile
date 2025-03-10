@@ -9,7 +9,7 @@ pipeline {
                     - name: tailscale
                       image: tailscale/tailscale
                       securityContext:
-                          privileged: true
+                        privileged: true
                       env:
                       - name: TS_AUTHKEY
                         valueFrom:
@@ -25,7 +25,7 @@ pipeline {
                     - name: dind
                       image: docker:dind
                       securityContext:
-                          privileged: true
+                        privileged: true
                       command: ["sleep"]
                       args: ["1h"]
 '''
