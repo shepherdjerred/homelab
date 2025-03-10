@@ -24,7 +24,7 @@
     },
     {
       "matchDatasources": ["jenkins"],
-      "groupName": "jenkins updates"
+      "groupName": "jenkins"
     },
     {
       "matchPackageNames": ["k3s"],
