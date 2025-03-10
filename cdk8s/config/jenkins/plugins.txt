@@ -34,7 +34,7 @@ jakarta-mail-api:2.1.3-1
 javax-activation-api:1.2.0-8
 javax-mail-api:1.6.2-10
 jaxb:2.3.9-133.vb_ec76a_73f706
-jjwt-api:0.11.5-112.ve82dfb_224b_a_d
+jjwt-api:0.11.5-120.v0268cf544b_89
 joda-time-api:2.13.1-115.va_6b_5f8efb_1d8
 jquery3-api:3.7.1-3
 json-api:20250107-125.v28b_a_ffa_eb_f01
