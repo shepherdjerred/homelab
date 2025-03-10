@@ -1,0 +1,38 @@
+open_covers_with_delay:
+  alias: Open Covers with Delay
+  sequence:
+    - variables:
+        covers: !input cover_entities
+    - repeat:
+        count: "{{ covers.split(',') | length }}"
+        sequence:
+          - action: cover.open_cover
+            target:
+              entity_id: "{{ covers[repeat.index - 1] }}"
+          - delay: "00:00:01"
+  mode: single
+  fields:
+    cover_entities:
+      name: Cover Entities
+      description: List of cover entities to open
+      required: true
+      example: "cover.garage_door, cover.front_door"
+close_covers_with_delay:
+  alias: Close Covers with Delay
+  sequence:
+    - variables:
+        covers: !input cover_entities
+    - repeat:
+        count: "{{ covers.split(',') | length }}"
+        sequence:
+          - action: cover.close_cover
+            target:
+              entity_id: "{{ covers[repeat.index - 1] }}"
+          - delay: "00:00:01"
+  mode: single
+  fields:
+    cover_entities:
+      name: Cover Entities
+      description: List of cover entities to close
+      required: true
+      example: "cover.garage_door, cover.front_door"
