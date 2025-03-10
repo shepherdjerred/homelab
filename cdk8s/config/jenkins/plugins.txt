@@ -35,7 +35,7 @@ javax-activation-api:1.2.0-7
 javax-mail-api:1.6.2-10
 jaxb:2.3.9-1
 jjwt-api:0.11.5-112.ve82dfb_224b_a_d
-joda-time-api:2.13.0-93.v9934da_29b_a_e9
+joda-time-api:2.13.1-115.va_6b_5f8efb_1d8
 jquery3-api:3.7.1-2
 json-api:20241224-119.va_dca_a_b_ea_7da_5
 json-path-api:2.9.0-138.vc943da_d833b_6
