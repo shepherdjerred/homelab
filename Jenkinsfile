@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            defaultContainer 'earthly'
+            defaultContainer 'dind'
             inheritFrom 'default'
             yaml '''
             spec:
