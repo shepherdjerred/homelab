@@ -22,7 +22,7 @@ eddsa-api:0.3.0-4.v84c6f0f4969e
 font-awesome-api:6.6.0-2
 git-client:6.1.1
 github-api:1.321-478.vc9ce627ce001
-github-branch-source:1807.v50351eb_7dd13
+github-branch-source:1810.v913311241fa_9
 github-checks:589.v845136f916cd
 github:1.40.0
 gson-api:2.12.1-113.v347686d6729f
