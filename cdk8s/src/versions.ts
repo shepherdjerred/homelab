@@ -19,7 +19,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
   "kube-prometheus-stack": "69.2.0",
   // renovate: datasource=github-releases versioning=semver-coerced
-  "rancher/system-upgrade-controller": "v0.14.2",
+  "rancher/system-upgrade-controller": "v0.15.2",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
   "tailscale-operator": "1.80.3",
   // renovate: datasource=helm registryUrl=https://backube.github.io/helm-charts/ versioning=semver
