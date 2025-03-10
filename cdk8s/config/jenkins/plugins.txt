@@ -19,7 +19,7 @@ display-url-api:2.209.v582ed814ff2f
 durable-task:587.v84b_877235b_45
 echarts-api:5.5.1-5
 eddsa-api:0.3.0-13.v7cb_69ed68f00
-font-awesome-api:6.6.0-2
+font-awesome-api:6.7.2-1
 git-client:6.1.1
 github-api:1.321-478.vc9ce627ce001
 github-branch-source:1810.v913311241fa_9
