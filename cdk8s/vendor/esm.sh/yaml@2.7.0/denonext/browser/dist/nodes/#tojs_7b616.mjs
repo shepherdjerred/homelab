@@ -1,0 +1,3 @@
+/* esm.sh - yaml@2.7.0/browser/dist/nodes/toJS */
+import{hasAnchor as f}from"./identity.mjs";function s(r,e,n){if(Array.isArray(r))return r.map((o,t)=>s(o,String(t),n));if(r&&typeof r.toJSON=="function"){if(!n||!f(r))return r.toJSON(e,n);let o={aliasCount:0,count:1,res:void 0};n.anchors.set(r,o),n.onCreate=i=>{o.res=i,delete n.onCreate};let t=r.toJSON(e,n);return n.onCreate&&n.onCreate(t),t}return typeof r=="bigint"&&!n?.keep?Number(r):r}export{s as toJS};
+//# sourceMappingURL=toJS.mjs.map
