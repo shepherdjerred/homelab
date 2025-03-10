@@ -59,7 +59,7 @@ pipeline-model-extensions:2.2218.v56d0cda_37c72
 pipeline-stage-step:312.v8cd10304c27a_
 pipeline-stage-tags-metadata:2.2218.v56d0cda_37c72
 plain-credentials:183.va_de8f1dd5a_2b_
-plugin-util-api:5.1.0
+plugin-util-api:6.0.0
 prism-api:1.29.0-18
 scm-api:698.v8e3b_c788f0a_6
 script-security:1373.vb_b_4a_a_c26fa_00
