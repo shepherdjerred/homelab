@@ -22,10 +22,11 @@ homekit:
       exclude_entities:
         - binary_sensor.iphone_focus
         - binary_sensor.ipad_focus
+        - binary_sensor.roomba_bin_full
       exclude_entity_globs:
         - binary_sensor.*entertainment_configuration
         - switch.adaptive_lighting_*
-        - sensor.bitter_lake_*
+        - sensor.the_victor_229_*
         - sensor.average_*
         - sensor.current_bill*
         - sensor.typical_monthly*
