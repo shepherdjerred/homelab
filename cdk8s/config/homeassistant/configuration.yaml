@@ -19,6 +19,7 @@ homekit:
         - binary_sensor
         - input_select
         - vacuum
+        - script
       exclude_entities:
         - binary_sensor.iphone_focus
         - binary_sensor.ipad_focus
