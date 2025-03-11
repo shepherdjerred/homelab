@@ -31,6 +31,8 @@
     "https://esm.sh/minimatch@3.1.2?target=denonext": "4d1367aff41856e84350a30289fa3a7214c7c1d4fd7f808e9f1c6db4f8944de8",
     "https://esm.sh/remeda@2.20.1": "a992f3d74db659b37d1de639aa1c4f8d4207b1a37372b7e36adfc87109c660a1",
     "https://esm.sh/remeda@2.20.1/denonext/remeda.mjs": "d3534eda2994c9ea2b2bafdbc79e2ec797de5eed9fc1327c47f163e4784cf974",
+    "https://esm.sh/remeda@2.21.1": "350ea3f6df35db372ef806a12ec856cb4631c3686ec9c6b66abda08f257a3697",
+    "https://esm.sh/remeda@2.21.1/denonext/remeda.mjs": "90c788b69d9a1763f7c7478b899a4b01f20b0d1c80d4f711cbbd4bfc7eaa1dce",
     "https://esm.sh/ts-pattern@5.6.0": "0200f12fddef676fdd4823ddb58f6ffc11b7c5dfe8d348b59a9b9ccb2769eec1",
     "https://esm.sh/ts-pattern@5.6.0/denonext/ts-pattern.mjs": "ef961b0f9db560a3a1f9e1c1b8c792be6aea75c38644e2720612cbb23899f612",
     "https://esm.sh/yaml@2.7.0/denonext/browser/dist/doc/anchors.mjs": "de806cc83f471d6e660fa30a82a78f689070bef161636e92f20a2191a403591f",
