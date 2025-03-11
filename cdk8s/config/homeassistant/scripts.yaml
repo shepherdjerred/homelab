@@ -7,11 +7,11 @@ open_covers_with_delay:
       example: "cover.living_room, cover.bedroom"
   sequence:
     - repeat:
-        count: "{{ cover_entities | length }}"
+        count: "{{ cover_entities.split(',') | length }}"
         sequence:
           - service: cover.open_cover
             target:
-              entity_id: "{{ cover_entities[repeat.index - 1] }}"
+              entity_id: "{{ cover_entities.split(',')[repeat.index - 1] }}"
           - delay: "00:00:01"
   mode: single
   max_exceeded: silent
