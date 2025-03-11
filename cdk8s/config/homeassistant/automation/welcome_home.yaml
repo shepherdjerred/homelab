@@ -9,11 +9,6 @@
       alias: Jerred enters home zone
   condition: []
   action:
-    - alias: Turn on lights
-      action: scene.turn_on
-      target:
-        entity_id: scene.dining_room_bright
-      data: {}
     - alias: Send Roomba home
       if:
         - condition: and

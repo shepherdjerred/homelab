@@ -11,12 +11,6 @@
   action:
     - action: scene.turn_on
       target:
-        entity_id: scene.dining_room_bright
-      data:
-        transition: 10
-      alias: Turn on dining room lights
-    - action: scene.turn_on
-      target:
         entity_id: scene.living_room_bright
       data:
         transition: 10
