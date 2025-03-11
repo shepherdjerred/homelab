@@ -24,6 +24,8 @@ homekit:
         - binary_sensor.iphone_focus
         - binary_sensor.ipad_focus
         - binary_sensor.roomba_bin_full
+        - script.close_covers_with_delay
+        - script.open_covers_with_delay
       exclude_entity_globs:
         - binary_sensor.*entertainment_configuration
         - switch.adaptive_lighting_*
