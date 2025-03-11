@@ -70,6 +70,12 @@ light:
       - light.bronze_lamp_upper
       - light.bronze_lamp_lower
       - light.bronze_lamp_middle
+  - platform: group
+    name: "R&B Lamp"
+    unique_id: r_b_lamp
+    entities:
+      - light.room_and_board_1
+      - light.room_and_board_2
 
 input_boolean:
   sun_is_down:
