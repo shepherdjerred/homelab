@@ -69,18 +69,6 @@
                       seconds: 5
                       milliseconds: 0
               alias: Gradually increase volume
-        - alias: Turn on holiday lights
-          if:
-            - condition: state
-              entity_id: input_boolean.holiday_lights_enabled
-              state: "on"
-              alias: Holiday lights enabled
-          then:
-            - action: scene.turn_on
-              metadata: {}
-              target:
-                entity_id: scene.new_scene
-              alias: Turn on holiday scene
     - delay:
         hours: 0
         minutes: 15
