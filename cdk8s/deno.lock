@@ -35,6 +35,8 @@
     "https://esm.sh/remeda@2.21.1/denonext/remeda.mjs": "90c788b69d9a1763f7c7478b899a4b01f20b0d1c80d4f711cbbd4bfc7eaa1dce",
     "https://esm.sh/ts-pattern@5.6.0": "0200f12fddef676fdd4823ddb58f6ffc11b7c5dfe8d348b59a9b9ccb2769eec1",
     "https://esm.sh/ts-pattern@5.6.0/denonext/ts-pattern.mjs": "ef961b0f9db560a3a1f9e1c1b8c792be6aea75c38644e2720612cbb23899f612",
+    "https://esm.sh/ts-pattern@5.6.2": "2b50c3eefb22a25c46f75d79418cc44f2fe8f22e081e3d2762f1f9f05ed4aa3d",
+    "https://esm.sh/ts-pattern@5.6.2/denonext/ts-pattern.mjs": "d22461345e05a1dc51f6fea52163619abc795b9ccc7ea3d1f631600df1bef9fc",
     "https://esm.sh/yaml@2.7.0/denonext/browser/dist/doc/anchors.mjs": "de806cc83f471d6e660fa30a82a78f689070bef161636e92f20a2191a403591f",
     "https://esm.sh/yaml@2.7.0/denonext/browser/dist/doc/applyReviver.mjs": "1c2f25ea8df0a043afebc0605f12fe361999177e9992fc13e8027566f12ea132",
     "https://esm.sh/yaml@2.7.0/denonext/browser/dist/doc/createNode.mjs": "e043391749e207ee6abbd6c061d606cc72ab81dc3c63313d6d9e79f8aa7c83f9",
