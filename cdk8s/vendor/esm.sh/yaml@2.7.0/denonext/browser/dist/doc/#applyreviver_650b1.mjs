@@ -1,3 +1,0 @@
-/* esm.sh - yaml@2.7.0/browser/dist/doc/applyReviver */
-function s(o,c,d,e){if(e&&typeof e=="object")if(Array.isArray(e))for(let f=0,t=e.length;f<t;++f){let n=e[f],i=s(o,e,String(f),n);i===void 0?delete e[f]:i!==n&&(e[f]=i)}else if(e instanceof Map)for(let f of Array.from(e.keys())){let t=e.get(f),n=s(o,e,f,t);n===void 0?e.delete(f):n!==t&&e.set(f,n)}else if(e instanceof Set)for(let f of Array.from(e)){let t=s(o,e,f,f);t===void 0?e.delete(f):t!==f&&(e.delete(f),e.add(t))}else for(let[f,t]of Object.entries(e)){let n=s(o,e,f,t);n===void 0?delete e[f]:n!==t&&(e[f]=n)}return o.call(c,d,e)}export{s as applyReviver};
-//# sourceMappingURL=applyReviver.mjs.map
