@@ -77,4 +77,6 @@
                       entity_id: media_player.bedroom
                     alias: Increase volume
               alias: Gradually increase volume
+    - action: script.close_bedroom_covers
+      alias: Close bedroom covers
   mode: single

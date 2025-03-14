@@ -35,8 +35,10 @@
   action:
     - action: scene.turn_on
       target:
-        entity_id: scene.living_room_bright
+        entity_id: scene.living_room_dimmed
       data:
         transition: 10
-      alias: Turn on living room bright
+      alias: Turn on living room dimmed
+    - action: script.open_all_living_room_tv_covers
+      alias: Open living room and TV covers
   mode: single

@@ -75,6 +75,8 @@
         seconds: 0
         milliseconds: 0
       alias: Delay 15 minutes
+    - action: script.open_bedroom_covers
+      alias: Open bedroom covers
     - action: scene.turn_on
       target:
         entity_id: scene.bedroom_bright
