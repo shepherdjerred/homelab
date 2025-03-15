@@ -46,10 +46,10 @@
         "x-typescript-types": "https://esm.sh/cdk8s-plus-30@2.3.4/X-ZWNkazhz/lib/index.d.ts"
       }
     },
-    "https://esm.sh/cdk8s@2.69.50?standalone": {
+    "https://esm.sh/cdk8s@2.69.53?standalone": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
-        "x-typescript-types": "https://esm.sh/cdk8s@2.69.50/lib/index.d.ts"
+        "x-typescript-types": "https://esm.sh/cdk8s@2.69.53/lib/index.d.ts"
       }
     },
     "https://esm.sh/constructs@10.4.2": {
