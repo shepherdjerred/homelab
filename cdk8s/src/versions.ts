@@ -95,7 +95,7 @@ const versions = {
     "latest@sha256:b16826429ba5103c0e6de09e19ab144dde2bfc8286b3796a501be2a805f9fe5f",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr":
-    "2.10.0@sha256:e4d6c5c1017a2e6969d87c10d3c80f5d221096dc06863c5004774ea5c7621606",
+    "2.11.0@sha256:95b2825a7b4f89aa0d05c500198428638c1b60b680b307e49ea533ebaff8765f",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   "loki": "6.27.0",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
