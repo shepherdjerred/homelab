@@ -18,6 +18,7 @@ import { createDdnsDeployment } from "../services/ddns.ts";
 import { createUpgradePlan } from "../plan.ts";
 import { createOtbrDeployment } from "../services/home/otbr.ts";
 import { createMaintainerrDeployment } from "../services/torrents/maintainerr.ts";
+import { createStashDeployment } from "../services/media/stash.ts";
 
 export function createLamportChart(app: App) {
   const chart = new Chart(app, "lamport", {
@@ -54,4 +55,5 @@ export function createLamportChart(app: App) {
   createUpgradePlan(chart);
   createOtbrDeployment(chart);
   createMaintainerrDeployment(chart);
+  createStashDeployment(chart);
 }
