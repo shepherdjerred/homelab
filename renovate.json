@@ -20,8 +20,11 @@
     {
       "matchDatasources": ["jenkins"],
       "schedule": ["* 0-4 * * *"],
-      "minimumReleaseAge": "7 days",
-      "groupName": "jenkins"
+      "minimumReleaseAge": "7 days"
+    },
+    {
+      "groupName": "jenkins",
+      "matchManagers": ["jenkins"]
     },
     {
       "matchPackageNames": ["k3s"],
