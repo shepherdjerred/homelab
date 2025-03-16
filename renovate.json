@@ -20,10 +20,7 @@
     {
       "matchDatasources": ["jenkins"],
       "schedule": ["* 0-4 * * *"],
-      "minimumReleaseAge": "7 days"
-    },
-    {
-      "matchDatasources": ["jenkins"],
+      "minimumReleaseAge": "7 days",
       "groupName": "jenkins"
     },
     {
