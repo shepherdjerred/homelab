@@ -3,6 +3,7 @@ import { Chart } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import versions from "../../versions.ts";
 
 export function createStashDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "stash", {
@@ -34,7 +35,7 @@ export function createStashDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: "stashapp/stash",
+      image: `stashapp/stash:${versions["stash"]}`,
       portNumber: 9999,
       volumeMounts: [
         {

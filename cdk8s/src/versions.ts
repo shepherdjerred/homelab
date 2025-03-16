@@ -102,6 +102,8 @@ const versions = {
   "promtail": "6.16.6",
   "shepherdjerred/scout-for-lol/beta": "1.0.142",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "stash": "v0.27.2",
 };
 
 export default versions;
