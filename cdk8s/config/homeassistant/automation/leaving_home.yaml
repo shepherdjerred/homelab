@@ -9,6 +9,12 @@
       alias: Jerred leaves home
   condition: []
   action:
+    - alias: Lower thermostat
+      action: climate.set_temperature
+      target:
+        entity_id: climate.living_room_ac
+      data:
+        hvac_mode: off
     - alias: Turn on the Roomba
       if:
         - condition: time
