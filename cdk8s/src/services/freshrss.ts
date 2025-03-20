@@ -21,6 +21,9 @@ export function createFreshRssDeployment(chart: Chart) {
   deployment.addContainer(
     withCommonProps({
       image: `freshrss/freshrss:${versions["freshrss/freshrss"]}`,
+      securityContext: {
+        ensureNonRoot: false,
+      },
       volumeMounts: [
         {
           path: "/var/www/FreshRSS/data",
