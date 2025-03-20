@@ -23,6 +23,7 @@ export function createFreshRssDeployment(chart: Chart) {
       image: `freshrss/freshrss:${versions["freshrss/freshrss"]}`,
       securityContext: {
         ensureNonRoot: false,
+        readOnlyRootFilesystem: false,
       },
       volumeMounts: [
         {
