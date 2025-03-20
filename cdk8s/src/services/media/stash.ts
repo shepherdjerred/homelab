@@ -35,7 +35,7 @@ export function createStashDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: `stashapp/stash:${versions["stash"]}`,
+      image: `stashapp/stash:${versions["stashapp/stash"]}`,
       portNumber: 9999,
       volumeMounts: [
         {

@@ -103,7 +103,11 @@ const versions = {
   "shepherdjerred/scout-for-lol/beta": "1.0.142",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "stash": "v0.27.2",
+  "stashapp/stash":
+    "v0.28.1@sha256:645f6c15b079410d50d488dbeb247c92f25534094dad4e15d886e47648b897f7",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "freshrss/freshrss":
+    "1.26.1@sha256:bca4407f1f3ecb2e02bd57f704593c64f89bbf3fad53f03ebcf4baecb0122de6",
 };
 
 export default versions;

@@ -19,6 +19,7 @@ import { createUpgradePlan } from "../plan.ts";
 import { createOtbrDeployment } from "../services/home/otbr.ts";
 import { createMaintainerrDeployment } from "../services/torrents/maintainerr.ts";
 import { createStashDeployment } from "../services/media/stash.ts";
+import { createFreshRssDeployment } from "../services/freshrss.ts";
 
 export function createLamportChart(app: App) {
   const chart = new Chart(app, "lamport", {
@@ -56,4 +57,5 @@ export function createLamportChart(app: App) {
   createOtbrDeployment(chart);
   createMaintainerrDeployment(chart);
   createStashDeployment(chart);
+  createFreshRssDeployment(chart);
 }
