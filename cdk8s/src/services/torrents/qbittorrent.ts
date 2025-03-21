@@ -42,6 +42,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
         readOnlyRootFilesystem: false,
       },
       envVariables: {
+        DOT: EnvValue.fromValue("off"),
         UPDATER_PERIOD: EnvValue.fromValue("24h"),
         VPN_SERVICE_PROVIDER: EnvValue.fromValue("airvpn"),
         VPN_TYPE: EnvValue.fromValue("wireguard"),
