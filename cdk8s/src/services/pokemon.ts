@@ -42,7 +42,7 @@ export function createPokemonDeployment(chart: Chart) {
           "vaults/v64ocnykdqju4ui6j6pua56xw4/items/kab5nk2p2o35pxzcxucnhxaepm",
       },
       metadata: {
-        name: "golink-restic-onepassword-item",
+        name: "pokemon-restic-onepassword-item",
       },
     },
   );
