@@ -2,6 +2,7 @@ import {
   ConfigMap,
   Deployment,
   DeploymentStrategy,
+  EmptyDirMedium,
   EnvValue,
   Secret,
   Service,
@@ -115,6 +116,12 @@ export function createPokemonDeployment(chart: Chart) {
           path: `/home/user/packages/frontend/roms/liquid_crystal.gba`,
           subPath: "liquid_crystal.gba",
           volume: configVolume,
+        },
+        {
+          path: "/dev/shm",
+          volume: Volume.fromEmptyDir(chart, "shm-volume", "/dev/shm", {
+            medium: EmptyDirMedium.MEMORY,
+          }),
         },
       ],
     }),
