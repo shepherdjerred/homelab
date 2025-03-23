@@ -1,5 +1,4 @@
 import {
-  ConfigMap,
   Deployment,
   DeploymentStrategy,
   EmptyDirMedium,
@@ -13,7 +12,6 @@ import { withCommonProps } from "../utils/common.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import { encodeBase64 } from "@std/encoding";
 
 export function createPokemonDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "pokemon", {
@@ -22,6 +20,7 @@ export function createPokemonDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "pokemon-volume", {});
+  const romVolume = Volume.fromEmptyDir(chart, "rom-volume", "rom");
 
   //   const resticOnepasswordItem = new OnePasswordItem(
   //     chart,
@@ -75,16 +74,6 @@ export function createPokemonDeployment(chart: Chart) {
     item.name,
   );
 
-  const config = new ConfigMap(chart, "pokemon-cm");
-  const fileContents = Deno.readFileSync(
-    "config/pokemon/games/liquid_crystal.gba",
-  );
-  config.addBinaryData(
-    "liquid_crystal.gba",
-    encodeBase64(fileContents),
-  );
-  const configVolume = Volume.fromConfigMap(chart, "pokemon-cm-volume", config);
-
   deployment.addContainer(
     withCommonProps({
       image: `ghcr.io/shepherdjerred/discord-plays-pokemon:latest`,
@@ -123,9 +112,8 @@ export function createPokemonDeployment(chart: Chart) {
           }),
         },
         {
-          path: `/home/user/packages/frontend/roms/liquid_crystal.gba`,
-          subPath: "liquid_crystal.gba",
-          volume: configVolume,
+          path: `/home/user/packages/frontend/roms`,
+          volume: romVolume,
         },
         {
           path: "/dev/shm",

@@ -12,7 +12,6 @@
     "diff": "KUBECTL_EXTERNAL_DIFF=delta DELTA_PAGER=bat BAT_PAGER=/opt/homebrew/bin/less kubectl diff -f dist/lamport.k8s.yaml"
   },
   "imports": {
-    "@std/encoding": "jsr:@std/encoding@^1.0.7",
     "cdk8s": "https://esm.sh/cdk8s@2.69.53?standalone",
     "cdk8s-plus": "https://esm.sh/cdk8s-plus-30@2.3.4?external=cdk8s",
     "constructs": "https://esm.sh/constructs@10.4.2",
