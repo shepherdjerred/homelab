@@ -120,7 +120,7 @@ export function createPokemonDeployment(chart: Chart) {
           }),
         },
         {
-          path: `/home/ubuntu/packages/frontend/roms`,
+          path: `/home/ubuntu/packages/frontend/dist/roms`,
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "pokemon-rom-pvc",
