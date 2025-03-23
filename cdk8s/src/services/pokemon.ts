@@ -83,6 +83,7 @@ export function createPokemonDeployment(chart: Chart) {
         REFRESH: EnvValue.fromValue("60"),
         PASSWD: EnvValue.fromValue("password"),
         BASIC_AUTH_PASSWORD: EnvValue.fromValue("password"),
+        KASMVNC_ENABLE: EnvValue.fromValue("true"),
       },
       securityContext: {
         ensureNonRoot: false,
