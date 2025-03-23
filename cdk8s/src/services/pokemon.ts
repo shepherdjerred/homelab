@@ -9,13 +9,8 @@ import {
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
-import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import {
-  ReplicationSource,
-  ReplicationSourceSpecResticCopyMethod,
-} from "../../imports/volsync.backube.ts";
-import versions from "../versions.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
+import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createPokemonDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "pokemon", {
@@ -24,16 +19,6 @@ export function createPokemonDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "pokemon-pvc", {});
-
-  //   const item = new OnePasswordItem(chart, "tailscale-auth-key-onepassword", {
-  //     spec: {
-  //       itemPath:
-  //         "vaults/v64ocnykdqju4ui6j6pua56xw4/items/t5scpnlhnxvu25dneg6jdd7c7q",
-  //     },
-  //     metadata: {
-  //       name: "tailscale-auth-key",
-  //     },
-  //   });
 
   //   const resticOnepasswordItem = new OnePasswordItem(
   //     chart,
@@ -74,24 +59,28 @@ export function createPokemonDeployment(chart: Chart) {
   //     },
   //   });
 
+  const item = new OnePasswordItem(chart, "pokemon-config", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/hwyhh64dyu3s7w37q7oj7r4qn4",
+    },
+  });
+
+  const secret = Secret.fromSecretName(
+    chart,
+    "pokemon-config-secret",
+    item.name,
+  );
+
   deployment.addContainer(
     withCommonProps({
       image: `ghcr.io/shepherdjerred/discord-plays-pokemon:latest`,
       envVariables: {
-        APPLICATION_ID: EnvValue.fromValue("1094065369058131978"),
         SIZEW: EnvValue.fromValue("1920"),
         SIZEH: EnvValue.fromValue("1080"),
         REFRESH: EnvValue.fromValue("60"),
         PASSWD: EnvValue.fromValue("password"),
         BASIC_AUTH_PASSWORD: EnvValue.fromValue("password"),
-        // TS_AUTH_KEY: EnvValue.fromSecretValue({
-        //   secret: Secret.fromSecretName(
-        //     chart,
-        //     "tailscale-auth-key",
-        //     item.name,
-        //   ),
-        //   key: "credential",
-        // }),
       },
       volumeMounts: [
         {
@@ -101,6 +90,17 @@ export function createPokemonDeployment(chart: Chart) {
             "pokemon-pvc",
             localPathVolume.claim,
           ),
+        },
+        {
+          path: "/home/user/packages/backend/config.toml",
+          subPath: "config.toml",
+          volume: Volume.fromSecret(chart, "pokemon-config-volume", secret, {
+            items: {
+              "config.toml": {
+                path: "config.toml",
+              },
+            },
+          }),
         },
       ],
     }),
