@@ -88,10 +88,6 @@ export function createPokemonDeployment(chart: Chart) {
         REFRESH: EnvValue.fromValue("60"),
         PASSWD: EnvValue.fromValue("password"),
         BASIC_AUTH_PASSWORD: EnvValue.fromValue("password"),
-        SELKIES_TURN_PROTOCOL: EnvValue.fromValue("udp"),
-        SELKIES_TURN_PORT: EnvValue.fromValue("3478"),
-        TURN_MIN_PORT: EnvValue.fromValue("65534"),
-        TURN_MAX_PORT: EnvValue.fromValue("65535"),
         SELKIES_ENCODER: EnvValue.fromValue("vah264enc"),
       },
       securityContext: {
