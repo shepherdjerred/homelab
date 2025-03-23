@@ -101,7 +101,7 @@ export function createPokemonDeployment(chart: Chart) {
           ),
         },
         {
-          path: "/home/user/packages/backend/config.toml",
+          path: "/home/user/config.toml",
           subPath: "config.toml",
           volume: Volume.fromSecret(chart, "pokemon-config-volume", secret, {
             items: {
