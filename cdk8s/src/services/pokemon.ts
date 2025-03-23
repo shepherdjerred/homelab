@@ -87,6 +87,9 @@ export function createPokemonDeployment(chart: Chart) {
         PASSWD: EnvValue.fromValue("password"),
         BASIC_AUTH_PASSWORD: EnvValue.fromValue("password"),
       },
+      securityContext: {
+        ensureNonRoot: false,
+      },
       volumeMounts: [
         {
           path: "/home/user/Downloads",
