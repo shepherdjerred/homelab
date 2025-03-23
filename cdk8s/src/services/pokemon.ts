@@ -120,7 +120,7 @@ export function createPokemonDeployment(chart: Chart) {
         },
         {
           path: "/dev/shm",
-          volume: Volume.fromEmptyDir(chart, "shm-volume", "/dev/shm", {
+          volume: Volume.fromEmptyDir(chart, "shm-volume", "shm", {
             medium: EmptyDirMedium.MEMORY,
             sizeLimit: Size.gibibytes(8),
           }),
