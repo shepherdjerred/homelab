@@ -8,7 +8,7 @@ import {
   Service,
   Volume,
 } from "cdk8s-plus";
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
@@ -121,6 +121,7 @@ export function createPokemonDeployment(chart: Chart) {
           path: "/dev/shm",
           volume: Volume.fromEmptyDir(chart, "shm-volume", "/dev/shm", {
             medium: EmptyDirMedium.MEMORY,
+            sizeLimit: Size.gibibytes(4),
           }),
         },
       ],
