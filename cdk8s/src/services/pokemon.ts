@@ -3,6 +3,7 @@ import {
   DeploymentStrategy,
   EmptyDirMedium,
   EnvValue,
+  Protocol,
   Secret,
   Service,
   Volume,
@@ -105,6 +106,19 @@ export function createPokemonDeployment(chart: Chart) {
         privileged: true,
         allowPrivilegeEscalation: true,
       },
+      ports: [
+        {
+          name: "selkies",
+          number: 8181,
+          protocol: Protocol.TCP,
+        },
+        {
+          name: "ui",
+          number: 8080,
+          protocol: Protocol.TCP,
+        },
+      ],
+
       volumeMounts: [
         {
           path: "/home/ubuntu/Downloads",
