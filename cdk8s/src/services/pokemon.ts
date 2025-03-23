@@ -2,7 +2,6 @@ import {
   ConfigMap,
   Deployment,
   DeploymentStrategy,
-  EmptyDirMedium,
   EnvValue,
   Secret,
   Service,
@@ -90,6 +89,7 @@ export function createPokemonDeployment(chart: Chart) {
       },
       securityContext: {
         ensureNonRoot: false,
+        readOnlyRootFilesystem: false,
       },
       volumeMounts: [
         {
@@ -115,12 +115,6 @@ export function createPokemonDeployment(chart: Chart) {
           path: `/home/user/packages/frontend/roms/liquid_crystal.gba`,
           subPath: "liquid_crystal.gba",
           volume: configVolume,
-        },
-        {
-          path: "/tmp",
-          volume: Volume.fromEmptyDir(chart, "tmpfs-volume", "/tmp", {
-            medium: EmptyDirMedium.MEMORY,
-          }),
         },
       ],
     }),
