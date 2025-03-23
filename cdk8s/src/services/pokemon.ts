@@ -138,10 +138,6 @@ export function createPokemonDeployment(chart: Chart) {
     }),
   );
 
-  ApiObject.of(deployment).addJsonPatch(
-    JsonPatch.add("/spec/template/spec/hostNetwork", true),
-  );
-
   const uiService = new Service(chart, "ui-service", {
     selector: deployment,
     ports: [{ port: 8081 }],
