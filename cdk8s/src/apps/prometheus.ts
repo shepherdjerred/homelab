@@ -1,7 +1,6 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
-import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { createIngress } from "../utils/tailscale.ts";
 
 export function createPrometheusApp(chart: Chart) {
@@ -23,21 +22,6 @@ export function createPrometheusApp(chart: Chart) {
     9090,
     ["prometheus"],
     false,
-  );
-
-  const discordWebhook = new OnePasswordItem(
-    chart,
-    "discord-webhook-onepassword",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/tgiqmxwr5ojlvltnkuefzipgqq",
-      },
-      metadata: {
-        name: "discord-alertmanager-webhook",
-        namespace: "prometheus",
-      },
-    },
   );
 
   return new Application(chart, "prometheus-app", {
@@ -94,34 +78,7 @@ export function createPrometheusApp(chart: Chart) {
               },
             },
             alertmanager: {
-              config: {
-                receivers: [
-                  {
-                    name: "discord",
-                    // https://prometheus.io/docs/alerting/latest/configuration/#discord_config
-                    discord_configs: [{
-                      webhook_url:
-                        // TODO: use a secret for this
-                        "https://discord.com/api/webhooks/1320815049303916604/XIMrjirLmUPxZeHIp7qh0tZHttVLiDC7h-yz0K9j57ky1MQYY4SIzzAB_RxAmiAmh4YP",
-                    }],
-                  },
-                ],
-                route: {
-                  receiver: "discord",
-                  routes: [
-                    {
-                      receiver: "discord",
-                      matchers: [
-                        'alertname = "Watchdog"',
-                      ],
-                    },
-                  ],
-                },
-              },
               alertmanagerSpec: {
-                secrets: [
-                  discordWebhook.name,
-                ],
                 externalUrl: "https://alertmanager.tailnet-1a49.ts.net",
                 storage: {
                   volumeClaimTemplate: {
