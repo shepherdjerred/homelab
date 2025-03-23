@@ -2,6 +2,7 @@ import {
   ConfigMap,
   Deployment,
   DeploymentStrategy,
+  EmptyDirMedium,
   EnvValue,
   Secret,
   Service,
@@ -117,7 +118,9 @@ export function createPokemonDeployment(chart: Chart) {
         },
         {
           path: "/tmp",
-          volume: Volume.fromEmptyDir(chart, "tmpfs-volume", "/tmp"),
+          volume: Volume.fromEmptyDir(chart, "tmpfs-volume", "/tmp", {
+            medium: EmptyDirMedium.MEMORY,
+          }),
         },
       ],
     }),
