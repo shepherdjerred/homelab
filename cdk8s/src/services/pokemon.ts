@@ -92,10 +92,14 @@ export function createPokemonDeployment(chart: Chart) {
         SELKIES_TURN_PORT: EnvValue.fromValue("3478"),
         TURN_MIN_PORT: EnvValue.fromValue("65534"),
         TURN_MAX_PORT: EnvValue.fromValue("65535"),
+        WEBRTC_ENCODER: EnvValue.fromValue("x264enc"),
+        SELKIES_ENCODER: EnvValue.fromValue("x264enc"),
       },
       securityContext: {
         ensureNonRoot: false,
         readOnlyRootFilesystem: false,
+        user: 1000,
+        group: 1000,
         // TODO: unsure if this is necessary
         privileged: true,
         allowPrivilegeEscalation: true,
