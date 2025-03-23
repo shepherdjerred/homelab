@@ -1,4 +1,5 @@
 import {
+  ConfigMap,
   Deployment,
   DeploymentStrategy,
   EnvValue,
@@ -18,7 +19,7 @@ export function createPokemonDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "pokemon-pvc", {});
+  const localPathVolume = new LocalPathVolume(chart, "pokemon-volume", {});
 
   //   const resticOnepasswordItem = new OnePasswordItem(
   //     chart,
@@ -72,6 +73,10 @@ export function createPokemonDeployment(chart: Chart) {
     item.name,
   );
 
+  const config = new ConfigMap(chart, "pokemon-cm");
+  config.addDirectory("config/pokemon");
+  const configVolume = Volume.fromConfigMap(chart, "pokemon-cm-volume", config);
+
   deployment.addContainer(
     withCommonProps({
       image: `ghcr.io/shepherdjerred/discord-plays-pokemon:latest`,
@@ -101,6 +106,11 @@ export function createPokemonDeployment(chart: Chart) {
               },
             },
           }),
+        },
+        {
+          path: `/home/user/packages/frontend/roms/liquid_crystal.gba`,
+          subPath: "liquid_crystal.gba",
+          volume: configVolume,
         },
       ],
     }),
