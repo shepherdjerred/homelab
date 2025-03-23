@@ -6,6 +6,7 @@ import {
   EnvValue,
   Secret,
   Service,
+  ServiceType,
   Volume,
 } from "cdk8s-plus";
 import { Chart, Size } from "cdk8s";
@@ -128,14 +129,10 @@ export function createPokemonDeployment(chart: Chart) {
     }),
   );
 
-  const selkiesService = new Service(chart, "selkies-service", {
+  new Service(chart, "selkies-service", {
     selector: deployment,
     ports: [{ port: 8080 }],
-  });
-
-  new TailscaleIngress(chart, "selkies-tailscale-ingress", {
-    service: selkiesService,
-    host: "pokebot-selkies",
+    type: ServiceType.NODE_PORT,
   });
 
   const uiService = new Service(chart, "ui-service", {
