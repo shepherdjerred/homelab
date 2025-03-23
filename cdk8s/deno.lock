@@ -1,9 +1,15 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@std/encoding@^1.0.7": "1.0.7",
     "npm:@types/node@*": "22.12.0",
     "npm:cdk8s-plus-27@*": "2.9.5_cdk8s@2.69.53__constructs@10.4.2_constructs@10.4.2",
     "npm:cdk8s@*": "2.69.53_constructs@10.4.2"
+  },
+  "jsr": {
+    "@std/encoding@1.0.7": {
+      "integrity": "f631247c1698fef289f2de9e2a33d571e46133b38d042905e3eac3715030a82d"
+    }
   },
   "npm": {
     "@colors/colors@1.6.0": {
@@ -1174,5 +1180,10 @@
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/merge.js": "8004f9d4c737e69f5d871ff61e2966460c907036b7a514751d66f8f9b06572b1",
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/stubFalse.js": "fd1d278ab0f9329d2b39c180bb97fcbfb609ec117f89443fc2ed898b633493ea",
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/toPlainObject.js": "9345d80139f01e8768e0a134266ea2fc1196c22afc0f4022de66cb9a68b52a70"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/encoding@^1.0.7"
+    ]
   }
 }

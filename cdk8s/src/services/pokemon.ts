@@ -13,6 +13,7 @@ import { withCommonProps } from "../utils/common.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import { encodeBase64 } from "@std/encoding";
 
 export function createPokemonDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "pokemon", {
@@ -75,9 +76,12 @@ export function createPokemonDeployment(chart: Chart) {
   );
 
   const config = new ConfigMap(chart, "pokemon-cm");
-  config.addFile(
+  const fileContents = Deno.readFileSync(
     "config/pokemon/games/liquid_crystal.gba",
-    "liquid_crystal.gba",
+  );
+  config.addBinaryData(
+    "config/pokemon/games/liquid_crystal.gba",
+    encodeBase64(fileContents),
   );
   const configVolume = Volume.fromConfigMap(chart, "pokemon-cm-volume", config);
 
