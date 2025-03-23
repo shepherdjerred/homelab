@@ -115,6 +115,10 @@ export function createPokemonDeployment(chart: Chart) {
           subPath: "liquid_crystal.gba",
           volume: configVolume,
         },
+        {
+          path: "/tmp",
+          volume: Volume.fromEmptyDir(chart, "tmpfs-volume", "/tmp"),
+        },
       ],
     }),
   );
