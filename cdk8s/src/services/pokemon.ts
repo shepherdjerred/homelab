@@ -109,12 +109,12 @@ export function createPokemonDeployment(chart: Chart) {
       ports: [
         {
           name: "selkies",
-          number: 8181,
+          number: 8080,
           protocol: Protocol.TCP,
         },
         {
           name: "ui",
-          number: 8080,
+          number: 8181,
           protocol: Protocol.TCP,
         },
       ],
@@ -160,7 +160,7 @@ export function createPokemonDeployment(chart: Chart) {
 
   const selkiesService = new Service(chart, "selkies-service", {
     selector: deployment,
-    ports: [{ port: 8181 }],
+    ports: [{ port: 8080 }],
   });
 
   new TailscaleIngress(chart, "selkies-tailscale-ingress", {
