@@ -11,16 +11,6 @@ import { createIngress } from "../utils/tailscale.ts";
 export function createMinecraftApp(chart: Chart) {
   createIngress(
     chart,
-    "minecraft-dynmap-ingress",
-    "minecraft",
-    "minecraft-minecraft-dynmap",
-    8123,
-    ["minecraft-dynmap"],
-    true,
-  );
-
-  createIngress(
-    chart,
     "minecraft-bluemap-ingress",
     "minecraft",
     "minecraft-minecraft-bluemap",
@@ -105,18 +95,6 @@ export function createMinecraftApp(chart: Chart) {
               nodePort: 25566,
               servicePort: "",
               extraPorts: [
-                {
-                  service: {
-                    enabled: true,
-                    port: 8123,
-                  },
-                  protocol: "TCP",
-                  containerPort: 8123,
-                  name: "dynmap",
-                  ingress: {
-                    enabled: false,
-                  },
-                },
                 {
                   service: {
                     enabled: true,
