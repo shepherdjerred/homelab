@@ -14,9 +14,14 @@ import { TailscaleIngress } from "../utils/tailscale.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createPokemonDeployment(chart: Chart) {
+  const GID = 1000;
+
   const deployment = new Deployment(chart, "pokemon", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    securityContext: {
+      fsGroup: GID,
+    },
   });
 
   const localPathVolume = new LocalPathVolume(chart, "pokemon-volume", {});
