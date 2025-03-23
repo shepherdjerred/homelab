@@ -80,7 +80,7 @@ export function createPokemonDeployment(chart: Chart) {
     "config/pokemon/games/liquid_crystal.gba",
   );
   config.addBinaryData(
-    "config/pokemon/games/liquid_crystal.gba",
+    "liquid_crystal.gba",
     encodeBase64(fileContents),
   );
   const configVolume = Volume.fromConfigMap(chart, "pokemon-cm-volume", config);
