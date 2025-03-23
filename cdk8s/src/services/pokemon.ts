@@ -12,9 +12,14 @@ import { withCommonProps } from "../utils/common.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import {
+  ReplicationSource,
+  ReplicationSourceSpecResticCopyMethod,
+} from "../../imports/volsync.backube.ts";
 
 export function createPokemonDeployment(chart: Chart) {
   const GID = 1000;
+  const UID = 1000;
 
   const deployment = new Deployment(chart, "pokemon", {
     replicas: 1,
@@ -27,44 +32,44 @@ export function createPokemonDeployment(chart: Chart) {
   const localPathVolume = new LocalPathVolume(chart, "pokemon-volume", {});
   const romVolume = new LocalPathVolume(chart, "pokemon-rom-volume", {});
 
-  //   const resticOnepasswordItem = new OnePasswordItem(
-  //     chart,
-  //     "golink-restic-onepassword",
-  //     {
-  //       spec: {
-  //         itemPath:
-  //           "vaults/v64ocnykdqju4ui6j6pua56xw4/items/55dd4k7uxlbtayhzxkxfxu7aqm",
-  //       },
-  //       metadata: {
-  //         name: "golink-restic-onepassword-item",
-  //       },
-  //     },
-  //   );
+  const resticOnepasswordItem = new OnePasswordItem(
+    chart,
+    "pokemon-restic-onepassword",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/kab5nk2p2o35pxzcxucnhxaepm",
+      },
+      metadata: {
+        name: "golink-restic-onepassword-item",
+      },
+    },
+  );
 
-  //   new ReplicationSource(chart, "golink-replication-source", {
-  //     spec: {
-  //       sourcePvc: localPathVolume.claim.name,
-  //       trigger: {
-  //         schedule: "*/15 * * * *",
-  //       },
-  //       restic: {
-  //         repository: resticOnepasswordItem.name,
-  //         copyMethod: ReplicationSourceSpecResticCopyMethod.DIRECT,
-  //         pruneIntervalDays: 7,
-  //         retain: {
-  //           daily: 7,
-  //           weekly: 4,
-  //           monthly: 12,
-  //         },
-  //         // match up with the UID/GID of the container
-  //         // https://volsync.readthedocs.io/en/stable/usage/permissionmodel.html#mover-s-security-context
-  //         moverSecurityContext: {
-  //           runAsUser: UID,
-  //           runAsGroup: GID,
-  //         },
-  //       },
-  //     },
-  //   });
+  new ReplicationSource(chart, "pokemon-replication-source", {
+    spec: {
+      sourcePvc: localPathVolume.claim.name,
+      trigger: {
+        schedule: "*/15 * * * *",
+      },
+      restic: {
+        repository: resticOnepasswordItem.name,
+        copyMethod: ReplicationSourceSpecResticCopyMethod.DIRECT,
+        pruneIntervalDays: 7,
+        retain: {
+          daily: 7,
+          weekly: 4,
+          monthly: 12,
+        },
+        // match up with the UID/GID of the container
+        // https://volsync.readthedocs.io/en/stable/usage/permissionmodel.html#mover-s-security-context
+        moverSecurityContext: {
+          runAsUser: UID,
+          runAsGroup: GID,
+        },
+      },
+    },
+  });
 
   const item = new OnePasswordItem(chart, "pokemon-config", {
     spec: {
