@@ -6,7 +6,6 @@ import {
   EnvValue,
   Secret,
   Service,
-  ServiceType,
   Volume,
 } from "cdk8s-plus";
 import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
@@ -76,7 +75,10 @@ export function createPokemonDeployment(chart: Chart) {
   );
 
   const config = new ConfigMap(chart, "pokemon-cm");
-  config.addDirectory("config/pokemon");
+  config.addFile(
+    "config/pokemon/games/liquid_crystal.gba",
+    "liquid_crystal.gba",
+  );
   const configVolume = Volume.fromConfigMap(chart, "pokemon-cm-volume", config);
 
   deployment.addContainer(
@@ -132,11 +134,9 @@ export function createPokemonDeployment(chart: Chart) {
     }),
   );
 
-  new Service(chart, "selkies-service", {
-    selector: deployment,
-    ports: [{ port: 8080, nodePort: 8080 }],
-    type: ServiceType.NODE_PORT,
-  });
+  ApiObject.of(deployment).addJsonPatch(
+    JsonPatch.add("/spec/template/spec/hostNetwork", true),
+  );
 
   const uiService = new Service(chart, "ui-service", {
     selector: deployment,
