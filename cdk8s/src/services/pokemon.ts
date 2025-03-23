@@ -134,7 +134,7 @@ export function createPokemonDeployment(chart: Chart) {
 
   new Service(chart, "selkies-service", {
     selector: deployment,
-    ports: [{ port: 8080 }],
+    ports: [{ port: 8080, nodePort: 8080 }],
     type: ServiceType.NODE_PORT,
   });
 
