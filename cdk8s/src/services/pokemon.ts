@@ -94,6 +94,7 @@ export function createPokemonDeployment(chart: Chart) {
         PASSWD: EnvValue.fromValue("password"),
         BASIC_AUTH_PASSWORD: EnvValue.fromValue("password"),
         SELKIES_ENCODER: EnvValue.fromValue("vah264enc"),
+        KASMVNC_ENABLE: EnvValue.fromValue("true"),
       },
       securityContext: {
         ensureNonRoot: false,
@@ -143,9 +144,19 @@ export function createPokemonDeployment(chart: Chart) {
     }),
   );
 
+  const selkiesService = new Service(chart, "selkies-service", {
+    selector: deployment,
+    ports: [{ port: 8181 }],
+  });
+
+  new TailscaleIngress(chart, "selkies-tailscale-ingress", {
+    service: selkiesService,
+    host: "selkies",
+  });
+
   const uiService = new Service(chart, "ui-service", {
     selector: deployment,
-    ports: [{ port: 8181, targetPort: 8181 }],
+    ports: [{ port: 8181 }],
   });
 
   new TailscaleIngress(chart, "ui-tailscale-ingress", {
