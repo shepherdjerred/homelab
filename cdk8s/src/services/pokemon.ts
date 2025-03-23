@@ -20,7 +20,7 @@ export function createPokemonDeployment(chart: Chart) {
   });
 
   const localPathVolume = new LocalPathVolume(chart, "pokemon-volume", {});
-  const romVolume = Volume.fromEmptyDir(chart, "rom-volume", "rom");
+  const romVolume = new LocalPathVolume(chart, "pokemon-rom-volume", {});
 
   //   const resticOnepasswordItem = new OnePasswordItem(
   //     chart,
@@ -113,7 +113,11 @@ export function createPokemonDeployment(chart: Chart) {
         },
         {
           path: `/home/user/packages/frontend/roms`,
-          volume: romVolume,
+          volume: Volume.fromPersistentVolumeClaim(
+            chart,
+            "pokemon-rom-pvc",
+            romVolume.claim,
+          ),
         },
         {
           path: "/dev/shm",
