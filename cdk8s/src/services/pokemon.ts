@@ -106,7 +106,7 @@ export function createPokemonDeployment(chart: Chart) {
       },
       volumeMounts: [
         {
-          path: "/home/user/Downloads",
+          path: "/home/ubuntu/Downloads",
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "pokemon-pvc",
@@ -114,7 +114,7 @@ export function createPokemonDeployment(chart: Chart) {
           ),
         },
         {
-          path: "/home/user/config.toml",
+          path: "/home/ubuntu/config.toml",
           subPath: "config.toml",
           volume: Volume.fromSecret(chart, "pokemon-config-volume", secret, {
             items: {
@@ -125,7 +125,7 @@ export function createPokemonDeployment(chart: Chart) {
           }),
         },
         {
-          path: `/home/user/packages/frontend/roms`,
+          path: `/home/ubuntu/packages/frontend/roms`,
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "pokemon-rom-pvc",
