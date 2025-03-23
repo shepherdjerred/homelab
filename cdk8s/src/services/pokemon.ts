@@ -137,7 +137,7 @@ export function createPokemonDeployment(chart: Chart) {
 
   const uiService = new Service(chart, "ui-service", {
     selector: deployment,
-    ports: [{ port: 8083 }],
+    ports: [{ port: 9090 }],
   });
 
   new TailscaleIngress(chart, "ui-tailscale-ingress", {
