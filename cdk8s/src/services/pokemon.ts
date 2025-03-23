@@ -9,7 +9,7 @@ import {
   ServiceType,
   Volume,
 } from "cdk8s-plus";
-import { Chart, Size } from "cdk8s";
+import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { LocalPathVolume } from "../utils/localPathVolume.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
@@ -92,6 +92,9 @@ export function createPokemonDeployment(chart: Chart) {
       securityContext: {
         ensureNonRoot: false,
         readOnlyRootFilesystem: false,
+        // TODO: unsure if this is necessary
+        privileged: true,
+        allowPrivilegeEscalation: true,
       },
       volumeMounts: [
         {
@@ -145,4 +148,15 @@ export function createPokemonDeployment(chart: Chart) {
     host: "pokebot",
     funnel: true,
   });
+
+  ApiObject.of(deployment).addJsonPatch(
+    JsonPatch.add(
+      "/spec/template/spec/containers/0/resources",
+      {
+        limits: {
+          "gpu.intel.com/i915": 1,
+        },
+      },
+    ),
+  );
 }
