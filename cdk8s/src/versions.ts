@@ -80,7 +80,7 @@ const versions = {
     "2025.3.4@sha256:5d510569a2ceaa2fa8f8a34b91bddd36f5f7f03e4cb23e942f245e4a5a98bbef",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing":
-    "1.29.3@sha256:bbdb4582d1d2e0751add972b652790885f3b02d65d3871aa6618ca5d652e5489",
+    "1.29.3@sha256:b6ac659b64b09c86a6640edc59c2b78a59dad6a79b426be309061501b29bedb0",
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v2.6.1",
   // renovate: datasource=helm registry=https://chartmuseum.github.io/charts versioning=semver
