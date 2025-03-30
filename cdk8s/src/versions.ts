@@ -32,7 +32,7 @@ const versions = {
     "7.2@sha256:b4a87db2a71377bebf2f7d649bef0cf6671372045bbdbabfbc9ca0202ebf332e",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver-coerced
   "earthly/satellite":
-    "v0.8.15@sha256:eec750b0800104e14f49f97cf92dcb9c2449ee4d9c630d7d88a1eeff920429e3",
+    "v0.8.15@sha256:2142b7770427ca6ca5d60de79a0d91284eed02a148e931219c8c0155c88b6645",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "teddit/teddit":
     "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
