@@ -65,7 +65,7 @@ const versions = {
     "4.6.7@sha256:55f15d44396315551f87294a176efae733b16e283f38980308e46073950257c6",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/radarr":
-    "5.20.2@sha256:de82a83c39316ef10024a17e6d0f5238bc27347b39ce4508a633604b4f48302d",
+    "5.21.1@sha256:32235ce605d88a9d7dd881565286f358e657f6556b2c6ddc797c7ffbb717b432",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/sonarr":
     "4.0.14@sha256:aa566541ea012f41dd0eedc8bbc67910456713b750d1ace663950ce934269036",
