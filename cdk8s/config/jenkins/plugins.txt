@@ -4,7 +4,7 @@ apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
 apache-httpcomponents-client-5-api:5.4-136.v5a_21779c63f8
 asm-api:9.7.1-97.v4cc844130d97
 authentication-tokens:1.131.v7199556c3004
-bootstrap5-api:5.3.3-2
+bootstrap5-api:5.3.3-3
 bouncycastle-api:2.30.1.80-256.vf98926042a_9b_
 branch-api:2.1214.v3f652804588d
 caffeine-api:3.2.0-161.v691ef352cee1
@@ -17,7 +17,7 @@ credentials-binding:687.v619cb_15e923f
 credentials:1408.va_622a_b_f5b_1b_1
 display-url-api:2.209.v582ed814ff2f
 durable-task:587.v84b_877235b_45
-echarts-api:5.5.1-6
+echarts-api:5.6.0-2
 eddsa-api:0.3.0-13.v7cb_69ed68f00
 font-awesome-api:6.7.2-1
 git-client:6.1.2
