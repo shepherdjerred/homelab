@@ -19,7 +19,8 @@
     },
     {
       "matchDatasources": ["jenkins"],
-      "schedule": ["* 0-4 * * *"]
+      "schedule": ["* 0-4 * * *"],
+      "minimumReleaseAge": "45 days"
     },
     {
       "groupName": "jenkins",
