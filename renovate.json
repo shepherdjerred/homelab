@@ -25,7 +25,10 @@
     },
     {
       "groupName": "jenkins",
-      "matchManagers": ["jenkins"],
+      "matchManagers": ["jenkins"]
+    },
+    {
+      "groupName": "jenkins",
       "matchPackageNames": ["jenkins"]
     },
     {
