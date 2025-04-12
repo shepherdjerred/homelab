@@ -21,7 +21,7 @@
       "matchDatasources": ["jenkins"],
       "schedule": ["* 0-4 * * *"],
       "constraintsFiltering": "strict",
-      "constraints": { "jenkins": ">= 2.0 <= 2.492.3 " }
+      "constraints": { "jenkins": ">= 2.0 <= 2.492.3" }
     },
     {
       "groupName": "jenkins",
