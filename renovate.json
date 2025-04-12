@@ -25,7 +25,8 @@
     },
     {
       "groupName": "jenkins",
-      "matchManagers": ["jenkins"]
+      "matchManagers": ["jenkins"],
+      "matchPackageNames": ["jenkins"]
     },
     {
       "matchPackageNames": ["k3s"],
