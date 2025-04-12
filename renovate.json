@@ -20,7 +20,8 @@
     {
       "matchDatasources": ["jenkins"],
       "schedule": ["* 0-4 * * *"],
-      "minimumReleaseAge": "45 days"
+      "constraintsFiltering": "strict",
+      "constraints": { "jenkins": ">= 2.0 <= 2.492.3 " }
     },
     {
       "groupName": "jenkins",
