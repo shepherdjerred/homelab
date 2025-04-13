@@ -1,6 +1,9 @@
 {
   "version": "4",
   "redirects": {
+    "https://esm.sh/@types/balanced-match@~1.0.4/index.d.ts": "https://esm.sh/@types/balanced-match@1.0.4/index.d.ts",
+    "https://esm.sh/@types/brace-expansion@~1.1.2/index.d.ts": "https://esm.sh/@types/brace-expansion@1.1.2/index.d.ts",
+    "https://esm.sh/@types/minimatch@~3.0.5/index.d.ts": "https://esm.sh/@types/minimatch@3.0.5/index.d.ts",
     "https://esm.sh/balanced-match@^1.0.0?target=denonext": "https://esm.sh/balanced-match@1.0.2?target=denonext",
     "https://esm.sh/brace-expansion@^1.1.7?target=denonext": "https://esm.sh/brace-expansion@1.1.11?target=denonext",
     "https://esm.sh/constructs@^10.3.0?target=denonext": "https://esm.sh/constructs@10.4.2?target=denonext",
@@ -21,6 +24,8 @@
     "https://esm.sh/constructs@10.4.2?target=denonext": "1bfbc507eaaa2eca688b78443c61c22f287bb65b3b8194beab6534c458121f35",
     "https://esm.sh/minimatch@3.1.2/denonext/minimatch.mjs": "9afbcc692479261d66232c959ec17f204d4dd55f6297e3f0dbce3d70586c171c",
     "https://esm.sh/minimatch@3.1.2?target=denonext": "4d1367aff41856e84350a30289fa3a7214c7c1d4fd7f808e9f1c6db4f8944de8",
+    "https://esm.sh/remeda@2.21.2": "52ac9fe1fb9e808f800e58e2c065b5dddd5b121232b8e527d4c541560bda398f",
+    "https://esm.sh/remeda@2.21.2/denonext/remeda.mjs": "0e8f73cc86f70b55586d25c9caded73e4f28c06433afaf9f6cb1994c7e02c96c",
     "https://esm.sh/ts-pattern@5.6.2": "2b50c3eefb22a25c46f75d79418cc44f2fe8f22e081e3d2762f1f9f05ed4aa3d",
     "https://esm.sh/ts-pattern@5.6.2/denonext/ts-pattern.mjs": "d22461345e05a1dc51f6fea52163619abc795b9ccc7ea3d1f631600df1bef9fc",
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/_Hash.js": "7221393e8931adc88430d3badefee1568ffccf91a6efcd9dda2be498f4a09551",
