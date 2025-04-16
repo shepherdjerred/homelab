@@ -97,7 +97,7 @@ const versions = {
   "loki": "6.28.0",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   "promtail": "6.16.6",
-  "shepherdjerred/scout-for-lol/beta": "1.0.147",
+  "shepherdjerred/scout-for-lol/beta": "1.0.155",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "stashapp/stash":
