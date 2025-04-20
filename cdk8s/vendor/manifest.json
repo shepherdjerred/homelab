@@ -1,6 +1,6 @@
 {
   "folders": {
-    "https://esm.sh/cdk8s-plus-30@2.3.4/X-ZWNkazhz/": "esm.sh/cdk8s-plus-30@2.3.4/#x-zwnkazhz_8fd06"
+    "https://esm.sh/cdk8s-plus-30@2.3.6/X-ZWNkazhz/": "esm.sh/cdk8s-plus-30@2.3.6/#x-zwnkazhz_8fd06"
   },
   "modules": {
     "https://esm.sh/@types/balanced-match@~1.0.4/index.d.ts": {
@@ -40,16 +40,16 @@
         "location": "https://esm.sh/brace-expansion@1.1.11?target=denonext"
       }
     },
-    "https://esm.sh/cdk8s-plus-30@2.3.4?external=cdk8s": {
+    "https://esm.sh/cdk8s-plus-30@2.3.6?external=cdk8s": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
-        "x-typescript-types": "https://esm.sh/cdk8s-plus-30@2.3.4/X-ZWNkazhz/lib/index.d.ts"
+        "x-typescript-types": "https://esm.sh/cdk8s-plus-30@2.3.6/X-ZWNkazhz/lib/index.d.ts"
       }
     },
-    "https://esm.sh/cdk8s@2.69.53?standalone": {
+    "https://esm.sh/cdk8s@2.69.55?standalone": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
-        "x-typescript-types": "https://esm.sh/cdk8s@2.69.53/lib/index.d.ts"
+        "x-typescript-types": "https://esm.sh/cdk8s@2.69.55/lib/index.d.ts"
       }
     },
     "https://esm.sh/constructs@10.4.2": {
