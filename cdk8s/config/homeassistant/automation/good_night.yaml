@@ -79,10 +79,8 @@
               alias: Gradually increase volume
     - action: script.close_bedroom_covers
       alias: Close bedroom covers
-    - alias: Turn input_boolean.turn_off bedroom heater
-      action: climate.turn_off
-      target:
-        entity_id: climate.bedroom_thermostat
+    - action: script.open_all_living_room_tv_covers
+      alias: Open all living room and TV covers
     - alias: Turn off living room AC
       action: climate.turn_off
       target:

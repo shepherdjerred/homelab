@@ -9,15 +9,11 @@
       alias: Jerred leaves home
   condition: []
   action:
-    - alias: Lower thermostat
-      action: climate.turn_off
-      target:
-        entity_id: climate.living_room_ac
     - alias: Turn on the Roomba
       if:
         - condition: time
-          before: "19:00:00"
-          after: 07:00:00
+          before: "21:00:00"
+          after: 06:00:00
           alias: Within Roomba operating hours
       then:
         - data: {}

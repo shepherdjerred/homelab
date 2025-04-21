@@ -23,4 +23,6 @@
       alias: Turn on bedroom lights
     - action: script.close_all_living_room_tv_covers
       alias: Close TV and living room covers
+    - action: script.close_bedroom_covers
+      alias: Close bedroom covers
   mode: single
