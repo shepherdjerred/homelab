@@ -34,5 +34,5 @@
         entity_id: climate.bedroom_thermostat
       data:
         hvac_mode: heat
-        temperature: 22
+        temperature: 24
   mode: single

@@ -1,0 +1,15 @@
+alias: 🔥 Advanced Heating Control V5
+description: ""
+use_blueprint:
+  path: panhans/advanced_heating_control.yaml
+  input:
+    input_trvs:
+      - climate.living_room
+      - climate.bedroom_thermostat
+      - climate.office_thermostat
+    input_hvac_mode: auto
+    input_temperature_sensor: sensor.living_room_current_temperature
+    input_temperature_eco_static: 18
+    input_off_if_nobody_home: true
+    input_persons:
+      - person.jerred
