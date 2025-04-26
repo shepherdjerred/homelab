@@ -10,23 +10,27 @@ import {
 function doThing(
   { logger, hass, scheduler }: TServiceParams,
 ) {
-  logger.info("Doing thing");
-  const mySwitch = hass.refBy.id("switch.bedroom_overhead_lights");
-  scheduler.cron({
-    schedule: CronExpression.EVERY_DAY_AT_8PM,
-    exec: () => mySwitch.turn_on(),
+  const mySwitch = hass.refBy.id("switch.office_overhead_lights");
+  mySwitch.onUpdate(async (state) => {
+    logger.info("Switch state changed", mySwitch.state);
+    if (state.state === "on") {
+      // wait for 5 seconds
+      await scheduler.setTimeout(
+        async () => {
+          await mySwitch.turn_off();
+        },
+        5000, // wait for 5 seconds
+      );
+    }
   });
-  scheduler.cron({
-    schedule: CronExpression.EVERY_DAY_AT_5AM,
-    exec: () => mySwitch.turn_off(),
-  });
-  logger.info("Scheduled cron jobs");
 }
 
-CreateApplication({
+const app = CreateApplication({
   libraries: [LIB_HASS, LIB_SYNAPSE, LIB_AUTOMATION],
   name: "automation",
   services: {
     doThing,
   },
 });
+
+app.bootstrap();
