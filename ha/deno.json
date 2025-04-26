@@ -1,0 +1,15 @@
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts",
+    "type-writer": "./node_modules/@digital-alchemy/type-writer/scripts/run.sh"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1",
+    "@digital-alchemy/core": "npm:@digital-alchemy/core@^25.4.2",
+    "@digital-alchemy/hass": "npm:@digital-alchemy/hass@^25.3.2",
+    "@digital-alchemy/automation": "npm:@digital-alchemy/automation@^25.3.1",
+    "@digital-alchemy/synapse": "npm:@digital-alchemy/synapse@^25.3.1",
+    "@digital-alchemy/type-writer": "npm:@digital-alchemy/type-writer@^25.3.2"
+  },
+  "vendor": true
+}

@@ -1,0 +1,1523 @@
+{
+  "manifest": {
+    "/rejects.ts": {
+      "size": 3767,
+      "checksum": "sha256-aea90018b414da3af625268c6af8d9948560613d8b07cccfb8069489a17d39a6"
+    },
+    "/instance_of_test.ts": {
+      "size": 3880,
+      "checksum": "sha256-9544dfeb5639b5c5a4824ddecf74ced9c39d406a7b52b1346623607e73acfcb8"
+    },
+    "/strict_equals.ts": {
+      "size": 2119,
+      "checksum": "sha256-131ddfdd856305e55bbd2a7071b087e8f5eb401243ce1baf011190960e1996be"
+    },
+    "/assertion_error.ts": {
+      "size": 821,
+      "checksum": "sha256-f0af4185f68c474917279205950926ab66cfcee5d0211889d86a12c90cc9ba90"
+    },
+    "/is_error.ts": {
+      "size": 2344,
+      "checksum": "sha256-7a14887b0bc1623ce95d58eb0c73156699714040dcdcc2fe5a509fcba38fe218"
+    },
+    "/not_match.ts": {
+      "size": 905,
+      "checksum": "sha256-52e8743df3b35b50d204b8844ee91d11cc3cabb2d101f93cc2599df0e6144b68"
+    },
+    "/throws.ts": {
+      "size": 3251,
+      "checksum": "sha256-da8c0645e5069cc07b67a406a776a37aeab8fe8b650bd6e4729442e80cda3503"
+    },
+    "/greater_or_equal_test.ts": {
+      "size": 449,
+      "checksum": "sha256-eabfeb274302f9dae7d7ef8a3dcbb977efd3b8fa5d20957b8a2e51bc09912d44"
+    },
+    "/LICENSE": {
+      "size": 1075,
+      "checksum": "sha256-0961f97da6619d5fe9ddb98649191d5ca6e958856ea5252f4cce7c9b85513819"
+    },
+    "/unreachable.ts": {
+      "size": 570,
+      "checksum": "sha256-427e5b60e680002109ee9e1b9d07b3463c53462c180591ad459f4843b3b8db72"
+    },
+    "/false_test.ts": {
+      "size": 543,
+      "checksum": "sha256-de02ebdadc6c9e6eb266f5ed74d68a29e3584e2fb3c40de49f11594beea03248"
+    },
+    "/string_includes.ts": {
+      "size": 933,
+      "checksum": "sha256-155227bf554ddc418b30a562b303f04ebb716232eedfad6a438cd65986593e1f"
+    },
+    "/greater_test.ts": {
+      "size": 446,
+      "checksum": "sha256-44b631fb77687606ca8386f0c26bf8db76b6b8b9a6605fb61162013bcaed3c1c"
+    },
+    "/greater_or_equal.ts": {
+      "size": 1069,
+      "checksum": "sha256-74efe3c3eefda54552b526ddf7156bda8b242b7e724de63899811c729e1024b7"
+    },
+    "/not_instance_of_test.ts": {
+      "size": 1041,
+      "checksum": "sha256-d5f5e8b635627a9987acdf6fd7fa9cf157d970c809e89e56125a39bb0bb4a657"
+    },
+    "/match.ts": {
+      "size": 885,
+      "checksum": "sha256-9a659cf8aec70061859698dbb65ba0c6b0de416ca00434e67d7cd14b7780b221"
+    },
+    "/is_error_test.ts": {
+      "size": 2457,
+      "checksum": "sha256-ef360471bef67b2bc7adcefd5c415fb6fd122e3878d5020fe288536938915a55"
+    },
+    "/mod.ts": {
+      "size": 1459,
+      "checksum": "sha256-346b16d78ea413bfd2d7d110a085af034306089388888cd6436357bdca38bec8"
+    },
+    "/almost_equals.ts": {
+      "size": 1915,
+      "checksum": "sha256-b80925d31aa1abe88f037ca9ab47d4baba9a97ab1f18bd3f74f350d77b57ff2a"
+    },
+    "/equal_test.ts": {
+      "size": 14052,
+      "checksum": "sha256-f3c2717a7b550e2a982e45c4aad5036596e7689e6c1f87e8b9f122b67b6e4234"
+    },
+    "/string_includes_test.ts": {
+      "size": 1127,
+      "checksum": "sha256-63ab0a0db7478e11d48d1a3ce0f25a5ccb09b96cc8d1fc8094eb7c3c9270bd0a"
+    },
+    "/equals_test.ts": {
+      "size": 4908,
+      "checksum": "sha256-8bae32e28fdd07cecbe255f784f361ca7fc7796a2a6d95fbb6e87b3bcc171292"
+    },
+    "/strict_equals_test.ts": {
+      "size": 1866,
+      "checksum": "sha256-538352418bcc420898a64455598d8c1957a80a2cd89293e4fa75a27c6913290f"
+    },
+    "/not_match_test.ts": {
+      "size": 806,
+      "checksum": "sha256-2183343ef0df2fbb362d22a6dac7790077ee35feaaad1c58afdb2bb7a5da434b"
+    },
+    "/unimplemented_test.ts": {
+      "size": 450,
+      "checksum": "sha256-edbaa426972dc15e24fa4d9afe343c1d31e2109fca985c54e4b564e887e3147f"
+    },
+    "/unreachable_test.ts": {
+      "size": 350,
+      "checksum": "sha256-8c81bbcdf6c826f9e302e7bf8bb75bc776d59d3cafdccc921b2eb3c11802e1b0"
+    },
+    "/object_match_test.ts": {
+      "size": 11263,
+      "checksum": "sha256-e886f30673314f1c3337ec43464b3309208ff95a2eaec9de436246533298a0c4"
+    },
+    "/not_equals_test.ts": {
+      "size": 1078,
+      "checksum": "sha256-ba1a8aab82566cbc2c99e184788867ae925aaa01ee5d9d50830024f907db3954"
+    },
+    "/match_test.ts": {
+      "size": 815,
+      "checksum": "sha256-6c687ec684dc12432da052c79e9b00875bc41e65650db8bdae89cb763ecb6b2d"
+    },
+    "/not_equals.ts": {
+      "size": 1201,
+      "checksum": "sha256-289f475e09b37051b9a9dcf1dbc86f032a2c69b34accbff6653a22f40d31206f"
+    },
+    "/unstable_never_test.ts": {
+      "size": 694,
+      "checksum": "sha256-f8770accd4aa07121846580c275c60f88a9db00f605c70552f7617e066d812b7"
+    },
+    "/fail.ts": {
+      "size": 577,
+      "checksum": "sha256-e0ce8a4b215869fd328c11e2ac0f094ca5434d85d0503223f2d84f0cb5ffa6d4"
+    },
+    "/unimplemented.ts": {
+      "size": 600,
+      "checksum": "sha256-b5d6d66666482ffb48d207741efd541d314f30bd420578b83cb620502bb34567"
+    },
+    "/less_test.ts": {
+      "size": 249,
+      "checksum": "sha256-c2f86986c0a120542b599a9cf35c59953b568b9587b513b7557bc6b0e4746f4b"
+    },
+    "/instance_of.ts": {
+      "size": 1996,
+      "checksum": "sha256-dc9d7c668a8a19804caa98d802730c47db521fc978a4023fd46bfc9bf4815011"
+    },
+    "/assert_test.ts": {
+      "size": 383,
+      "checksum": "sha256-8efb5efc4b877f3cb6b31880fdabacea345af342e0fdd6184fbb7bb25d17b113"
+    },
+    "/fail_test.ts": {
+      "size": 327,
+      "checksum": "sha256-b061d8da1664ed0037212119d0f3fd6a6d2ed4e0015c3bb882a3754176f8abf6"
+    },
+    "/assert.ts": {
+      "size": 659,
+      "checksum": "sha256-b22b57c970931709293a7a4c1e8260588985105349dbe98aec5bf6eb6b792284"
+    },
+    "/throws_test.ts": {
+      "size": 3604,
+      "checksum": "sha256-a8d96f5fc103f174757ed89bd050d1f4e8f79104729fb398b8e5e151e07c9f82"
+    },
+    "/assertion_error_test.ts": {
+      "size": 370,
+      "checksum": "sha256-ea5e1918c59230cbbaf70fde72f940268aabeb2b9e5e1236e82ab578c1be1844"
+    },
+    "/equals.ts": {
+      "size": 2176,
+      "checksum": "sha256-ee4b22ad7b9a26a46490a34b9107427cdacb0604c87573f586d3e73787386c0c"
+    },
+    "/less_or_equal_test.ts": {
+      "size": 262,
+      "checksum": "sha256-0a4c9e6f257ffc98a7f96631543058cead55047497daeac1e14dbb62697902ba"
+    },
+    "/deno.json": {
+      "size": 1183,
+      "checksum": "sha256-490738d08d833e65d9632e86c041a74d9b3ba696d95655af428ec3965fbd70ad"
+    },
+    "/not_strict_equals.ts": {
+      "size": 1223,
+      "checksum": "sha256-298e1238f3e69dd5ac6e08d6d918e9a521f7874af2c3676290fb4ae422a65167"
+    },
+    "/not_strict_equals_test.ts": {
+      "size": 794,
+      "checksum": "sha256-61bb21f277a3efe7e9f6f95a029f87b199e3954d8c5caae1d3c50040d502bfd6"
+    },
+    "/not_instance_of.ts": {
+      "size": 1118,
+      "checksum": "sha256-3224dc435227bdd98a163bb151836ada5d45e039d5c0088c9813e58de967923e"
+    },
+    "/greater.ts": {
+      "size": 995,
+      "checksum": "sha256-c030bdff03e6fe5bf72aa73850c7831a3cfcc50b9c2bf0b7148ec6ba7437d057"
+    },
+    "/less.ts": {
+      "size": 946,
+      "checksum": "sha256-6be4b47c8faca0435537f44c53c45ebece01787cec37ccb158563887abdf59ad"
+    },
+    "/array_includes.ts": {
+      "size": 1722,
+      "checksum": "sha256-1673e79ec11c06be67ee824a4492141f763d56e9dd9919c952397c3d127bd3f1"
+    },
+    "/less_or_equal.ts": {
+      "size": 1051,
+      "checksum": "sha256-b6734fbbfcb822d7817d512f6046cb30c17684fe1098023a2a175e26493a2eba"
+    },
+    "/false.ts": {
+      "size": 755,
+      "checksum": "sha256-1db6f659e265d1ad1828ef16212689e82b2684270daa9afc52796a4801db7d41"
+    },
+    "/rejects_test.ts": {
+      "size": 3587,
+      "checksum": "sha256-765333d4eff833bff330dd1c5601293f7d146ab1cfd2ebdc0a56873a441ec0f4"
+    },
+    "/almost_equals_test.ts": {
+      "size": 2436,
+      "checksum": "sha256-b73416cff1befab929b3c6f2e5f8e1107cefc312dc927fee12fd4d8aba1e63a2"
+    },
+    "/unstable_never.ts": {
+      "size": 3011,
+      "checksum": "sha256-cc45a5206fdbe8ae84058f39b4fdd0b8af69c7b67a6b443c4b6e52aead48cd55"
+    },
+    "/exists_test.ts": {
+      "size": 1107,
+      "checksum": "sha256-849a7cf3df5824a369374e35894bcdb1d6f516c0bf847e77258ef563d0f79a83"
+    },
+    "/exists.ts": {
+      "size": 916,
+      "checksum": "sha256-172da3dbd3a8e511ce86a7243aa82114473238adbdfa74dd4db192733bb3ece1"
+    },
+    "/array_includes_test.ts": {
+      "size": 1974,
+      "checksum": "sha256-72e79fd68e2149ca4ef929aa1216394ab9852e08c0a5ac36addfdcf3c3684a76"
+    },
+    "/equal.ts": {
+      "size": 5949,
+      "checksum": "sha256-f53218253eb927cebf658f7397f14821b61d9605a21fa921099b837b894a1e8d"
+    },
+    "/object_match.ts": {
+      "size": 6923,
+      "checksum": "sha256-bb730a3173e1e4f96532141037a6496be77598a9379b5ed5215ed377aef09efe"
+    }
+  },
+  "moduleGraph2": {
+    "/almost_equals.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/rejects.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./is_error.ts",
+          "specifierRange": [
+            [
+              3,
+              30
+            ],
+            [
+              3,
+              45
+            ]
+          ]
+        }
+      ]
+    },
+    "/not_equals.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./equal.ts",
+          "specifierRange": [
+            [
+              3,
+              22
+            ],
+            [
+              3,
+              34
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              4,
+              31
+            ],
+            [
+              4,
+              53
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/format",
+          "specifierRange": [
+            [
+              5,
+              23
+            ],
+            [
+              5,
+              56
+            ]
+          ]
+        }
+      ]
+    },
+    "/unreachable.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/match.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/mod.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./almost_equals.ts",
+          "specifierRange": [
+            [
+              20,
+              14
+            ],
+            [
+              20,
+              34
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./array_includes.ts",
+          "specifierRange": [
+            [
+              21,
+              14
+            ],
+            [
+              21,
+              35
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./equals.ts",
+          "specifierRange": [
+            [
+              22,
+              14
+            ],
+            [
+              22,
+              27
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./exists.ts",
+          "specifierRange": [
+            [
+              23,
+              14
+            ],
+            [
+              23,
+              27
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./false.ts",
+          "specifierRange": [
+            [
+              24,
+              14
+            ],
+            [
+              24,
+              26
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./greater_or_equal.ts",
+          "specifierRange": [
+            [
+              25,
+              14
+            ],
+            [
+              25,
+              37
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./greater.ts",
+          "specifierRange": [
+            [
+              26,
+              14
+            ],
+            [
+              26,
+              28
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./instance_of.ts",
+          "specifierRange": [
+            [
+              27,
+              14
+            ],
+            [
+              27,
+              32
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./is_error.ts",
+          "specifierRange": [
+            [
+              28,
+              14
+            ],
+            [
+              28,
+              29
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./less_or_equal.ts",
+          "specifierRange": [
+            [
+              29,
+              14
+            ],
+            [
+              29,
+              34
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./less.ts",
+          "specifierRange": [
+            [
+              30,
+              14
+            ],
+            [
+              30,
+              25
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./match.ts",
+          "specifierRange": [
+            [
+              31,
+              14
+            ],
+            [
+              31,
+              26
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./not_equals.ts",
+          "specifierRange": [
+            [
+              32,
+              14
+            ],
+            [
+              32,
+              31
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./not_instance_of.ts",
+          "specifierRange": [
+            [
+              33,
+              14
+            ],
+            [
+              33,
+              36
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./not_match.ts",
+          "specifierRange": [
+            [
+              34,
+              14
+            ],
+            [
+              34,
+              30
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./not_strict_equals.ts",
+          "specifierRange": [
+            [
+              35,
+              14
+            ],
+            [
+              35,
+              38
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./object_match.ts",
+          "specifierRange": [
+            [
+              36,
+              14
+            ],
+            [
+              36,
+              33
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./rejects.ts",
+          "specifierRange": [
+            [
+              37,
+              14
+            ],
+            [
+              37,
+              28
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./strict_equals.ts",
+          "specifierRange": [
+            [
+              38,
+              14
+            ],
+            [
+              38,
+              34
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./string_includes.ts",
+          "specifierRange": [
+            [
+              39,
+              14
+            ],
+            [
+              39,
+              36
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./throws.ts",
+          "specifierRange": [
+            [
+              40,
+              14
+            ],
+            [
+              40,
+              27
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./assert.ts",
+          "specifierRange": [
+            [
+              41,
+              14
+            ],
+            [
+              41,
+              27
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              42,
+              14
+            ],
+            [
+              42,
+              36
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./equal.ts",
+          "specifierRange": [
+            [
+              43,
+              14
+            ],
+            [
+              43,
+              26
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./fail.ts",
+          "specifierRange": [
+            [
+              44,
+              14
+            ],
+            [
+              44,
+              25
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./unimplemented.ts",
+          "specifierRange": [
+            [
+              45,
+              14
+            ],
+            [
+              45,
+              34
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "export",
+          "specifier": "./unreachable.ts",
+          "specifierRange": [
+            [
+              46,
+              14
+            ],
+            [
+              46,
+              32
+            ]
+          ]
+        }
+      ]
+    },
+    "/string_includes.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/greater.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/format",
+          "specifierRange": [
+            [
+              2,
+              23
+            ],
+            [
+              2,
+              56
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              3,
+              31
+            ],
+            [
+              3,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/equal.ts": {},
+    "/not_strict_equals.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/format",
+          "specifierRange": [
+            [
+              3,
+              23
+            ],
+            [
+              3,
+              56
+            ]
+          ]
+        }
+      ]
+    },
+    "/is_error.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/styles",
+          "specifierRange": [
+            [
+              3,
+              30
+            ],
+            [
+              3,
+              63
+            ]
+          ]
+        }
+      ]
+    },
+    "/fail.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/false.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/equals.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./equal.ts",
+          "specifierRange": [
+            [
+              2,
+              22
+            ],
+            [
+              2,
+              34
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/build-message",
+          "specifierRange": [
+            [
+              3,
+              29
+            ],
+            [
+              3,
+              69
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/diff",
+          "specifierRange": [
+            [
+              4,
+              21
+            ],
+            [
+              4,
+              52
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/diff-str",
+          "specifierRange": [
+            [
+              5,
+              24
+            ],
+            [
+              5,
+              59
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/format",
+          "specifierRange": [
+            [
+              6,
+              23
+            ],
+            [
+              6,
+              56
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              8,
+              31
+            ],
+            [
+              8,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/instance_of.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/not_match.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/unimplemented.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/unstable_never.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/format",
+          "specifierRange": [
+            [
+              2,
+              23
+            ],
+            [
+              2,
+              56
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              3,
+              31
+            ],
+            [
+              3,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/greater_or_equal.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/format",
+          "specifierRange": [
+            [
+              2,
+              23
+            ],
+            [
+              2,
+              56
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              3,
+              31
+            ],
+            [
+              3,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/object_match.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./equals.ts",
+          "specifierRange": [
+            [
+              2,
+              29
+            ],
+            [
+              2,
+              42
+            ]
+          ]
+        }
+      ]
+    },
+    "/not_instance_of.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./false.ts",
+          "specifierRange": [
+            [
+              2,
+              28
+            ],
+            [
+              2,
+              40
+            ]
+          ]
+        }
+      ]
+    },
+    "/less_or_equal.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/format",
+          "specifierRange": [
+            [
+              2,
+              23
+            ],
+            [
+              2,
+              56
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              3,
+              31
+            ],
+            [
+              3,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/assert.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/assertion_error.ts": {},
+    "/strict_equals.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/build-message",
+          "specifierRange": [
+            [
+              2,
+              29
+            ],
+            [
+              2,
+              69
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/diff",
+          "specifierRange": [
+            [
+              3,
+              21
+            ],
+            [
+              3,
+              52
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/diff-str",
+          "specifierRange": [
+            [
+              4,
+              24
+            ],
+            [
+              4,
+              59
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/format",
+          "specifierRange": [
+            [
+              5,
+              23
+            ],
+            [
+              5,
+              56
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/styles",
+          "specifierRange": [
+            [
+              6,
+              20
+            ],
+            [
+              6,
+              53
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              7,
+              31
+            ],
+            [
+              7,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/array_includes.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./equal.ts",
+          "specifierRange": [
+            [
+              2,
+              22
+            ],
+            [
+              2,
+              34
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/format",
+          "specifierRange": [
+            [
+              3,
+              23
+            ],
+            [
+              3,
+              56
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              4,
+              31
+            ],
+            [
+              4,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/throws.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./is_error.ts",
+          "specifierRange": [
+            [
+              2,
+              30
+            ],
+            [
+              2,
+              45
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              3,
+              31
+            ],
+            [
+              3,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/less.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "jsr:@std/internal@^1.0.5/format",
+          "specifierRange": [
+            [
+              2,
+              23
+            ],
+            [
+              2,
+              56
+            ]
+          ]
+        },
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              3,
+              31
+            ],
+            [
+              3,
+              53
+            ]
+          ]
+        }
+      ]
+    },
+    "/exists.ts": {
+      "dependencies": [
+        {
+          "type": "static",
+          "kind": "import",
+          "specifier": "./assertion_error.ts",
+          "specifierRange": [
+            [
+              2,
+              31
+            ],
+            [
+              2,
+              53
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "exports": {
+    ".": "./mod.ts",
+    "./assert": "./assert.ts",
+    "./almost-equals": "./almost_equals.ts",
+    "./array-includes": "./array_includes.ts",
+    "./equals": "./equals.ts",
+    "./exists": "./exists.ts",
+    "./false": "./false.ts",
+    "./greater": "./greater.ts",
+    "./greater-or-equal": "./greater_or_equal.ts",
+    "./instance-of": "./instance_of.ts",
+    "./is-error": "./is_error.ts",
+    "./less": "./less.ts",
+    "./less-or-equal": "./less_or_equal.ts",
+    "./match": "./match.ts",
+    "./unstable-never": "./unstable_never.ts",
+    "./not-equals": "./not_equals.ts",
+    "./not-instance-of": "./not_instance_of.ts",
+    "./not-match": "./not_match.ts",
+    "./not-strict-equals": "./not_strict_equals.ts",
+    "./object-match": "./object_match.ts",
+    "./rejects": "./rejects.ts",
+    "./strict-equals": "./strict_equals.ts",
+    "./string-includes": "./string_includes.ts",
+    "./throws": "./throws.ts",
+    "./assertion-error": "./assertion_error.ts",
+    "./equal": "./equal.ts",
+    "./fail": "./fail.ts",
+    "./unimplemented": "./unimplemented.ts",
+    "./unreachable": "./unreachable.ts"
+  }
+}
