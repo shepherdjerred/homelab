@@ -94,7 +94,7 @@ const versions = {
   "jorenn92/maintainerr":
     "2.14.0@sha256:61ed94bec0ea71b6b289b45ee82acc2c5d94b954026e6cbb1d5262aad6811b59",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
-  "loki": "6.28.0",
+  "loki": "6.29.0",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   "promtail": "6.16.6",
   "shepherdjerred/scout-for-lol/beta": "1.0.165",
