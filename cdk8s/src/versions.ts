@@ -89,7 +89,7 @@ const versions = {
   "minecraft": "4.20.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "openthread/otbr":
-    "latest@sha256:4e5273c316be91a6038227e5483213539da1ea9fde5d55820b1431c99f892e4c",
+    "latest@sha256:50b503f95527d567271c641a034d491b53199e7293f43ac6371f1daae636759e",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr":
     "2.14.0@sha256:61ed94bec0ea71b6b289b45ee82acc2c5d94b954026e6cbb1d5262aad6811b59",
