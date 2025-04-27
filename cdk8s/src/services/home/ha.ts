@@ -5,7 +5,7 @@ import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 
 export function createHaDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "ha", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
 
