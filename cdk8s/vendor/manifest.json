@@ -206,21 +206,21 @@
     "https://esm.sh/remeda@2.21.2/dist/uniqueBy.d.ts": {},
     "https://esm.sh/remeda@2.21.2/dist/uniqueWith.d.ts": {},
     "https://esm.sh/remeda@2.21.2/dist/zipWith.d.ts": {},
-    "https://esm.sh/ts-pattern@5.6.2": {
+    "https://esm.sh/ts-pattern@5.7.0": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
-        "x-typescript-types": "https://esm.sh/ts-pattern@5.6.2/dist/index.d.ts"
+        "x-typescript-types": "https://esm.sh/ts-pattern@5.7.0/dist/index.d.ts"
       }
     },
-    "https://esm.sh/ts-pattern@5.6.2/dist/types/BuildMany.d.ts": {},
-    "https://esm.sh/ts-pattern@5.6.2/dist/types/DeepExclude.d.ts": {},
-    "https://esm.sh/ts-pattern@5.6.2/dist/types/DistributeUnions.d.ts": {},
-    "https://esm.sh/ts-pattern@5.6.2/dist/types/ExtractPreciseValue.d.ts": {},
-    "https://esm.sh/ts-pattern@5.6.2/dist/types/FindSelected.d.ts": {},
-    "https://esm.sh/ts-pattern@5.6.2/dist/types/InvertPattern.d.ts": {},
-    "https://esm.sh/ts-pattern@5.6.2/dist/types/IsMatching.d.ts": {},
-    "https://esm.sh/ts-pattern@5.6.2/dist/types/Match.d.ts": {},
-    "https://esm.sh/ts-pattern@5.6.2/dist/types/Pattern.d.ts": {},
+    "https://esm.sh/ts-pattern@5.7.0/dist/types/BuildMany.d.ts": {},
+    "https://esm.sh/ts-pattern@5.7.0/dist/types/DeepExclude.d.ts": {},
+    "https://esm.sh/ts-pattern@5.7.0/dist/types/DistributeUnions.d.ts": {},
+    "https://esm.sh/ts-pattern@5.7.0/dist/types/ExtractPreciseValue.d.ts": {},
+    "https://esm.sh/ts-pattern@5.7.0/dist/types/FindSelected.d.ts": {},
+    "https://esm.sh/ts-pattern@5.7.0/dist/types/InvertPattern.d.ts": {},
+    "https://esm.sh/ts-pattern@5.7.0/dist/types/IsMatching.d.ts": {},
+    "https://esm.sh/ts-pattern@5.7.0/dist/types/Match.d.ts": {},
+    "https://esm.sh/ts-pattern@5.7.0/dist/types/Pattern.d.ts": {},
     "https://esm.sh/type-fest@4.37.0/source/camel-cased-properties-deep.d.ts": {},
     "https://esm.sh/type-fest@4.37.0/source/delimiter-cased-properties-deep.d.ts": {},
     "https://esm.sh/type-fest@4.37.0/source/delimiter-cased-properties.d.ts": {},

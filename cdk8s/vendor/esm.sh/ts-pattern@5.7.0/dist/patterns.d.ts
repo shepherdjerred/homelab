@@ -78,7 +78,7 @@ export type infer<pattern> = InvertPattern<NoInfer<pattern>, unknown>;
  * type Narrowed = P.narrow<Input, typeof Pattern>
  * //     ^? ['a', 'a' | 'b']
  */
-export type narrow<input, pattern extends Pattern<any>> = ExtractPreciseValue<input, InvertPattern<pattern, input>>;
+export type narrow<input, pattern> = ExtractPreciseValue<input, InvertPattern<pattern, input>>;
 /**
  * `P.optional(subpattern)` takes a sub pattern and returns a pattern which matches if the
  * key is undefined or if it is defined and the sub pattern matches its value.

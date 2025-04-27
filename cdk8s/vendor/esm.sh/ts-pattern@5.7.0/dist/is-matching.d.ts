@@ -1,5 +1,6 @@
 import { Pattern, UnknownProperties } from './types/Pattern.d.ts';
 import * as P from './patterns.d.ts';
+import { WithDefault } from './types/helpers.d.ts';
 /**
  * This constraint allows using additional properties
  * in object patterns. See "should allow targetting unknown properties"
@@ -35,5 +36,5 @@ export declare function isMatching<const p extends Pattern<unknown>>(pattern: p)
  *    return input.name
  *  }
  */
-export declare function isMatching<const T, const P extends PatternConstraint<T>>(pattern: P, value: T): value is P.infer<P>;
+export declare function isMatching<const T, const P extends PatternConstraint<T>>(pattern: P, value: T): value is T & WithDefault<P.narrow<T, P>, P.infer<P>>;
 export {};
