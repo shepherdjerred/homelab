@@ -90,19 +90,19 @@ export type Match<i, o, handledCases extends any[] = [], inferredOutput = never>
      *
      * [Read the documentation for `.exhaustive()` on GitHub](https://github.com/gvergnaud/ts-pattern#exhaustive)
      *
-     * */
-    exhaustive: DeepExcludeAll<i, handledCases> extends infer remainingCases ? [remainingCases] extends [never] ? () => PickReturnValue<o, inferredOutput> : NonExhaustiveError<remainingCases> : never;
+     */
+    exhaustive: DeepExcludeAll<i, handledCases> extends infer remainingCases ? [remainingCases] extends [never] ? Exhaustive<o, inferredOutput> : NonExhaustiveError<remainingCases> : never;
     /**
      * `.run()` return the resulting value.
      *
      * ⚠️ calling this function is unsafe, and may throw if no pattern matches your input.
-     * */
+     */
     run(): PickReturnValue<o, inferredOutput>;
     /**
      * `.returnType<T>()` Lets you specify the return type for all of your branches.
      *
      * [Read the documentation for `.returnType()` on GitHub](https://github.com/gvergnaud/ts-pattern#returnType)
-     * */
+     */
     returnType: [inferredOutput] extends [never] ? <output>() => Match<i, output, handledCases> : TSPatternError<'calling `.returnType<T>()` is only allowed directly after `match(...)`.'>;
 };
 /**
@@ -125,5 +125,37 @@ export type Match<i, o, handledCases extends any[] = [], inferredOutput = never>
 type DeepExcludeAll<a, tupleList extends any[]> = [a] extends [never] ? never : tupleList extends [infer excluded, ...infer tail] ? DeepExcludeAll<DeepExclude<a, excluded>, tail> : a;
 type MakeTuples<ps extends readonly any[], value> = {
     -readonly [index in keyof ps]: InvertPatternForExclude<ps[index], value>;
+};
+/**
+ * The type of an overloaded function for `.exhaustive`,
+ * permitting calling it with or without a catch-all handler function.
+ *
+ * By default, TS-Pattern will throw an error if a runtime value isn't handled.
+ */
+type Exhaustive<output, inferredOutput> = {
+    /**
+     * `.exhaustive()` checks that all cases are handled, and returns the result value.
+     *
+     * If you get a `NonExhaustiveError`, it means that you aren't handling
+     * all cases. You should probably add another `.with(...)` clause
+     * to match the missing case and prevent runtime errors.
+     *
+     * [Read the documentation for `.exhaustive()` on GitHub](https://github.com/gvergnaud/ts-pattern#exhaustive)
+     *
+     */
+    (): PickReturnValue<output, inferredOutput>;
+    /**
+     * `.exhaustive(fallback)` checks that all cases are handled and returns the result value.
+     *
+     * The fallback function will be called if your input value doesn't match any pattern.
+     * This can only happen if the value you passed to `match` has an incorrect type.
+     *
+     * If you get a `NonExhaustiveError`, it means that you aren't handling
+     * all cases. You should probably add another `.with(...)` clause
+     * to match the missing case.
+     *
+     * [Read the documentation for `.exhaustive()` on GitHub](https://github.com/gvergnaud/ts-pattern#exhaustive)
+     */
+    <otherOutput>(handler: (unexpectedValue: unknown) => PickReturnValue<output, otherOutput>): PickReturnValue<output, Union<inferredOutput, otherOutput>>;
 };
 export {};
