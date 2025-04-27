@@ -37,8 +37,6 @@ export function createHaDeployment(chart: Chart) {
       securityContext: {
         ensureNonRoot: false,
         readOnlyRootFilesystem: false,
-        user: 1000,
-        group: 1000,
         // TODO: unsure if this is necessary
         privileged: true,
         allowPrivilegeEscalation: true,
