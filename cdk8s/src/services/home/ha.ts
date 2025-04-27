@@ -30,7 +30,7 @@ export function createHaDeployment(chart: Chart) {
           secret,
           key: "password",
         }),
-        HASS_URL: EnvValue.fromValue(
+        HASS_BASE_URL: EnvValue.fromValue(
           "https://homeassistant.tailnet-1a49.ts.net",
         ),
       },

@@ -9,3 +9,8 @@ build:
   COPY --dir src .
   ENTRYPOINT bun run src/main.ts
   SAVE IMAGE --push ghcr.io/shepherdjerred/homelab:latest
+
+run:
+  FROM +build
+  COPY .env .
+  RUN bun run src/main.ts
