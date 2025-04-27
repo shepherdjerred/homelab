@@ -1,10 +1,9 @@
 import type { TServiceParams } from "@digital-alchemy/core";
+import { closeCoversWithDelay } from "../util.ts";
 
 export function indoorLightsSunset({ hass, logger, automation }: TServiceParams) {
   const livingRoomScene = hass.refBy.id("scene.living_room_bright");
   const bedroomScene = hass.refBy.id("scene.bedroom_bright");
-  const closeLivingRoomCovers = hass.refBy.id("script.close_all_living_room_tv_covers");
-  const closeBedroomCovers = hass.refBy.id("script.close_bedroom_covers");
 
   automation.solar.onEvent({
     eventName: "sunset",
@@ -14,21 +13,6 @@ export function indoorLightsSunset({ hass, logger, automation }: TServiceParams)
       await hass.call.notify.notify({
         title: "Sunset Lights",
         message: "The indoor lights have been adjusted for sunset.",
-        data: {
-          actions: [
-            {
-              action: "sunset_lights",
-              title: "Sunset Lights",
-              icon: "mdi:weather-night",
-            },
-          ],
-          push: {
-            sound: "default",
-          },
-          channel: "sunset_lights",
-          sticky: true,
-          color: "#FFA500",
-        },
       });
 
       logger.debug("Turning on living room scene");
@@ -38,10 +22,15 @@ export function indoorLightsSunset({ hass, logger, automation }: TServiceParams)
       await bedroomScene.turn_on({ transition: 10 });
 
       logger.debug("Closing living room covers");
-      await closeLivingRoomCovers.turn_on();
+      await closeCoversWithDelay(hass, [
+        "cover.living_room_left",
+        "cover.living_room_right",
+        "cover.tv_left",
+        "cover.tv_right",
+      ]);
 
       logger.debug("Closing bedroom covers");
-      await closeBedroomCovers.turn_on();
+      await closeCoversWithDelay(hass, ["cover.bedroom_left", "cover.bedroom_right"]);
     },
   });
 }

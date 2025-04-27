@@ -1,50 +1,28 @@
 import type { TServiceParams } from "@digital-alchemy/core";
-import { wait } from "./util.ts";
+import { wait, openCoversWithDelay } from "../util.ts";
 
 export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   const bedroomScene = hass.refBy.id("scene.bedroom_dimmed");
   const bedroomMediaPlayer = hass.refBy.id("media_player.bedroom");
   const bedroomBrightScene = hass.refBy.id("scene.bedroom_bright");
-  const openBedroomCovers = hass.refBy.id("script.open_bedroom_covers");
   const bathroomMediaPlayers = [hass.refBy.id("media_player.main_bathroom")];
 
   scheduler.cron({
     schedule: "0 8 * * 1-5", // Every weekday at 8am
-    exec: async () => {
-      logger.info("Good Morning automation triggered for weekday");
-      await run();
-    },
+    exec: runFirst,
   });
 
   scheduler.cron({
     schedule: "0 9 * * 6,0", // Every weekend at 9am
-    exec: async () => {
-      logger.info("Good Morning automation triggered for weekend");
-      await run();
-    },
+    exec: runFirst,
   });
 
-  async function run() {
+  async function runFirst() {
     logger.info("Good Morning automation triggered");
 
     await hass.call.notify.notify({
       title: "Good Morning",
       message: "Good Morning! Have a great day ahead.",
-      data: {
-        actions: [
-          {
-            action: "good_morning",
-            title: "Good Morning",
-            icon: "mdi:weather-sunny",
-          },
-        ],
-        push: {
-          sound: "default",
-        },
-        channel: "good_morning",
-        sticky: true,
-        color: "#FFD700",
-      },
     });
 
     logger.debug("Turning on bedroom dimmed scene");
@@ -65,14 +43,16 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
     for (let i = 0; i < 2; i++) {
       logger.debug(`Increasing bedroom media player volume (step ${(i + 1).toString()})`);
       await bedroomMediaPlayer.volume_up();
-      await wait(5000);
+      await wait({
+        amount: 5,
+        unit: "s",
+      });
     }
 
-    logger.debug("Waiting for 15 minutes before next actions");
-    await wait(5000);
+    await wait({ amount: 15, unit: "m" });
 
     logger.debug("Opening bedroom covers");
-    await openBedroomCovers.turn_on();
+    await openCoversWithDelay(hass, ["cover.bedroom_left", "cover.bedroom_right"]);
 
     logger.debug("Turning on bedroom bright scene");
     await bedroomBrightScene.turn_on({ transition: 60 });
@@ -90,7 +70,10 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
     for (let i = 0; i < 3; i++) {
       logger.debug(`Increasing bedroom media player volume (step ${(i + 1).toString()})`);
       await bedroomMediaPlayer.volume_up();
-      await wait(5000);
+      await wait({
+        amount: 5,
+        unit: "s",
+      });
     }
   }
 }

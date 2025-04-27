@@ -1,10 +1,10 @@
-import { goodMorning } from "./goodMorning.ts";
-import { goodNight } from "./goodNight.ts";
-import { indoorLightsSunrise } from "./indoorLightsSunrise.ts";
-import { welcomeHome } from "./welcomeHome.ts";
-import { runVacuumIfNotHome } from "./runVacuumIfNotHome.ts";
-import { leavingHome } from "./leavingHome.ts";
-import { indoorLightsSunset } from "./indoorLightsSunset.ts";
+import { goodMorning } from "./workflows/goodMorning.ts";
+import { goodNight } from "./workflows/goodNight.ts";
+import { indoorLightsSunrise } from "./workflows/indoorLightsSunrise.ts";
+import { welcomeHome } from "./workflows/welcomeHome.ts";
+import { runVacuumIfNotHome } from "./workflows/runVacuumIfNotHome.ts";
+import { leavingHome } from "./workflows/leavingHome.ts";
+import { indoorLightsSunset } from "./workflows/indoorLightsSunset.ts";
 
 import { LIB_HASS } from "@digital-alchemy/hass";
 import { LIB_SYNAPSE } from "@digital-alchemy/synapse";

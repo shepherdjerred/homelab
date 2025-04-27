@@ -1,12 +1,10 @@
 import type { TServiceParams } from "@digital-alchemy/core";
 import { z } from "zod";
-import { wait } from "./util.ts";
+import { wait, openCoversWithDelay, closeCoversWithDelay } from "../util.ts";
 
 export function goodNight({ hass, logger, context }: TServiceParams) {
   const bedroomScene = hass.refBy.id("scene.bedroom_dimmed");
   const bedroomMediaPlayer = hass.refBy.id("media_player.bedroom");
-  const closeBedroomCovers = hass.refBy.id("script.close_bedroom_covers");
-  const openLivingRoomCovers = hass.refBy.id("script.open_all_living_room_tv_covers");
   const bedroomLight = hass.refBy.id("light.bedroom");
 
   hass.socket.onEvent({
@@ -30,21 +28,6 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
       await hass.call.notify.notify({
         title: "Good Night",
         message: "Good Night! Sleep well.",
-        data: {
-          actions: [
-            {
-              action: "good_night",
-              title: "Good Night",
-              icon: "mdi:bed",
-            },
-          ],
-          push: {
-            sound: "default",
-          },
-          channel: "good_night",
-          sticky: true,
-          color: "#000000",
-        },
       });
 
       if (bedroomLight.state === "on") {
@@ -66,15 +49,23 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
 
       for (let i = 0; i < 5; i++) {
         logger.debug(`Increasing bedroom media player volume (step ${(i + 1).toString()})`);
-        await wait(5000);
+        await wait({
+          amount: 5,
+          unit: "s",
+        });
         await bedroomMediaPlayer.volume_up();
       }
 
       logger.debug("Closing bedroom covers");
-      await closeBedroomCovers.turn_on();
+      await closeCoversWithDelay(hass, ["cover.bedroom_left", "cover.bedroom_right"]);
 
       logger.debug("Opening living room covers");
-      await openLivingRoomCovers.turn_on();
+      await openCoversWithDelay(hass, [
+        "cover.living_room_left",
+        "cover.living_room_right",
+        "cover.tv_left",
+        "cover.tv_right",
+      ]);
     },
   });
 }
