@@ -25,4 +25,4 @@ const app = CreateApplication({
   },
 });
 
-app.bootstrap();
+await app.bootstrap();

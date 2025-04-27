@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "lint": "biome lint",
-    "lint:fix": "biome lint --write"
+    "lint": "npx eslint . && npx prettier --check .",
+    "lint:fix": "npx eslint . --fix && npx prettier --write ."
   },
   "type": "module",
   "author": "",
@@ -15,9 +15,13 @@
     "@digital-alchemy/core": "^25.4.2",
     "@digital-alchemy/hass": "^25.3.2",
     "@digital-alchemy/synapse": "^25.3.1",
-    "typescript": "^5.8.3"
+    "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4"
+    "@eslint/js": "^9.25.1",
+    "eslint": "^9.25.1",
+    "prettier": "3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.0"
   }
 }
