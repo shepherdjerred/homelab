@@ -51,14 +51,14 @@ sonos:
 
 recorder:
   commit_interval: 10
-  purge_keep_days: 90
+  purge_keep_days: 180
 
 # Text to speech
 tts:
   - platform: google_translate
 ffmpeg:
 
-automation: !include_dir_merge_list automation
+automation: !include automation.yaml
 scene: !include scenes.yaml
 script: !include scripts.yaml
 

@@ -72,23 +72,9 @@ export function createHomeAssistantDeployment(chart: Chart) {
     .filter((entry) => entry.isFile)
     .map((entry) => entry.name);
 
-  const automationFiles = Array.from(
-    Deno.readDirSync("config/homeassistant/automation"),
-  )
-    .filter((entry) => entry.isFile)
-    .map((entry) => entry.name);
-
   const config = new ConfigMap(chart, "ha-cm");
   config.addDirectory("config/homeassistant");
   const configVolume = Volume.fromConfigMap(chart, "ha-cm-volume", config);
-
-  const automationConfig = new ConfigMap(chart, "ha-automation-cm");
-  automationConfig.addDirectory("config/homeassistant/automation");
-  const automationConfigVolume = Volume.fromConfigMap(
-    chart,
-    "ha-automation-cm-volume",
-    automationConfig,
-  );
 
   deployment.addContainer(
     withCommonProps({
@@ -121,13 +107,6 @@ export function createHomeAssistantDeployment(chart: Chart) {
             path: `/config/${file}`,
             subPath: file,
             volume: configVolume,
-          };
-        })),
-        ...(automationFiles.map((file) => {
-          return {
-            path: `/config/automation/${file}`,
-            subPath: file,
-            volume: automationConfigVolume,
           };
         })),
       ],
