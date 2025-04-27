@@ -1,4 +1,4 @@
-import { TServiceParams } from "@digital-alchemy/core";
+import type { TServiceParams } from "@digital-alchemy/core";
 
 export function welcomeHome({ hass, logger }: TServiceParams) {
     const personJerred = hass.refBy.id("person.jerred");

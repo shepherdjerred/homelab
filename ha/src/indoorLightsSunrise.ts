@@ -1,4 +1,4 @@
-import { TServiceParams } from "@digital-alchemy/core";
+import type { TServiceParams } from "@digital-alchemy/core";
 
 export function indoorLightsSunrise(
     { hass, logger, automation }: TServiceParams,
@@ -11,7 +11,7 @@ export function indoorLightsSunrise(
     automation.solar.onEvent({
         eventName: "sunrise",
         exec: async () => {
-            logger.info(`Indoor lights (sunrise) automation triggered`);
+            logger.info("Indoor lights (sunrise) automation triggered");
 
             hass.call.notify.notify({
                 title: "Sunrise Lights",

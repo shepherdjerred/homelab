@@ -1,4 +1,4 @@
-import { CronExpression, TServiceParams } from "@digital-alchemy/core";
+import { CronExpression, type TServiceParams } from "@digital-alchemy/core";
 
 export function runVacuumIfNotHome(
     { hass, scheduler, logger }: TServiceParams,

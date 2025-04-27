@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "lint": "biome lint",
+    "lint:fix": "biome lint --write"
   },
   "type": "module",
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-only",
   "description": "",
   "dependencies": {
     "@digital-alchemy/automation": "^25.3.1",
@@ -14,5 +16,8 @@
     "@digital-alchemy/hass": "^25.3.2",
     "@digital-alchemy/synapse": "^25.3.1",
     "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4"
   }
 }

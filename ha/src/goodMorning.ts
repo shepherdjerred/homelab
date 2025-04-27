@@ -1,4 +1,4 @@
-import { TServiceParams } from "@digital-alchemy/core";
+import type { TServiceParams } from "@digital-alchemy/core";
 
 export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
     const bedroomScene = hass.refBy.id("scene.bedroom_dimmed");
