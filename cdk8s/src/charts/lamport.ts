@@ -20,6 +20,7 @@ import { createMaintainerrDeployment } from "../services/torrents/maintainerr.ts
 import { createStashDeployment } from "../services/media/stash.ts";
 import { createFreshRssDeployment } from "../services/freshrss.ts";
 import { createPokemonDeployment } from "../services/pokemon.ts";
+import { createHaDeployment } from "../services/home/ha.ts";
 
 export function createLamportChart(app: App) {
   const chart = new Chart(app, "lamport", {
@@ -58,4 +59,5 @@ export function createLamportChart(app: App) {
   createStashDeployment(chart);
   createFreshRssDeployment(chart);
   createPokemonDeployment(chart);
+  createHaDeployment(chart);
 }

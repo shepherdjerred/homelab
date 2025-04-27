@@ -6,6 +6,9 @@ ci:
   BUILD --auto-skip +pre-commit
   BUILD --auto-skip ./cdk8s+build
   WAIT
+    BUILD --auto-skip ./ha+build
+  END
+  WAIT
     BUILD ./cdk8s/helm+publish --version=$version
   END
   BUILD +sync

@@ -1,0 +1,15 @@
+VERSION 0.8
+
+build:
+  ARG --required git_sha
+  ARG --required version
+  FROM oven/bun
+  RUN apt update && apt install python3 build-essential -y
+  WORKDIR /usr/src/app
+  COPY package.json bun.lock .
+  RUN bun install --frozen-lockfile
+  COPY --dir src .
+  ENTRYPOINT ["bun", "run", "./src/main.ts"]\
+  SAVE IMAGE --push ghcr.io/shepherdjerred/homelab:$version
+  SAVE IMAGE --push ghcr.io/shepherdjerred/homelab:$git_sha
+  SAVE IMAGE --push ghcr.io/shepherdjerred/homelab:latest

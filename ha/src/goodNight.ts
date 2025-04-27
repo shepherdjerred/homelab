@@ -1,7 +1,7 @@
 import { TServiceParams } from "@digital-alchemy/core";
 
 export function goodNight(
-    { hass, scheduler, logger, context, synapse }: TServiceParams,
+    { hass, scheduler, logger, context }: TServiceParams,
 ) {
     const bedroomScene = hass.refBy.id("scene.bedroom_dimmed");
     const bedroomMediaPlayer = hass.refBy.id("media_player.bedroom");
