@@ -13,18 +13,18 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
 
   // one hour before
   scheduler.cron({
-    schedule: [`0 ${(weekday - 1).toString()} * * 1-5`, `0 ${(weekend - 1).toString()} * 6,0`],
+    schedule: [`0 ${(weekday - 1).toString()} * * 1-5`, `0 ${(weekend - 1).toString()} * * 6,0`],
     exec: runEarly,
   });
 
   scheduler.cron({
-    schedule: [`0 ${weekday.toString()} * * 1-5`, `0 ${weekend.toString()} * 6,0`],
+    schedule: [`0 ${weekday.toString()} * * 1-5`, `0 ${weekend.toString()} * * 6,0`],
     exec: runWakeUp,
   });
 
   // 15 minutes later
   scheduler.cron({
-    schedule: [`15 ${weekday.toString()} * * 1-5`, `15 ${weekend.toString()} * 6,0`],
+    schedule: [`15 ${weekday.toString()} * * 1-5`, `15 ${weekend.toString()} * * 6,0`],
     exec: runGetUp,
   });
 
