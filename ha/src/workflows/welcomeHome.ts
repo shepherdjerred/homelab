@@ -10,7 +10,7 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
       newState: ENTITY_STATE<"person.jerred"> | undefined,
       oldState: ENTITY_STATE<"person.jerred"> | undefined,
     ) => {
-      if (oldState && newState && newState.state === "home" && oldState.state !== "home") {
+      if (oldState && newState && newState.state === "home" && oldState.state === "away") {
         logger.info("Welcome Home automation triggered");
 
         await hass.call.notify.notify({
@@ -18,7 +18,7 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
           message: "Welcome back! Hope you had a great time.",
         });
 
-        if (roomba.attributes.status !== "Charging" && roomba.attributes.status !== "Docked") {
+        if (roomba.attributes.status !== "charging" && roomba.attributes.status !== "docked") {
           logger.debug("Commanding Roomba to return to base");
           await roomba.return_to_base();
         }

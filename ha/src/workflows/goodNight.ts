@@ -22,7 +22,7 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
         .safeParse(event);
 
       if (!result.success || result.data.data.actionID !== "A91A15AA-479E-416C-8F51-BD983A999266") {
-        logger.debug("Event actionID does not match, ignoring");
+        logger.debug("Event actionID does not match; ignoring");
       }
 
       await hass.call.notify.notify({
@@ -47,7 +47,7 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
         media_content_type: "favorite_item_id",
       });
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 7; i++) {
         logger.debug(`Increasing bedroom media player volume (step ${(i + 1).toString()})`);
         await wait({
           amount: 5,
