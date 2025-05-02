@@ -4,6 +4,8 @@ import type { ENTITY_STATE } from "@digital-alchemy/hass";
 export function welcomeHome({ hass, logger }: TServiceParams) {
   const personJerred = hass.refBy.id("person.jerred");
   const roomba = hass.refBy.id("vacuum.roomba");
+  const entrywayLight = hass.refBy.id("switch.entryway_overhead_lights");
+  const livingRoomScene = hass.refBy.id("scene.living_room_bright");
 
   personJerred.onUpdate(
     async (
@@ -17,6 +19,12 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
           title: "Welcome Home",
           message: "Welcome back! Hope you had a great time.",
         });
+
+        logger.debug("Turning on entryway light");
+        await entrywayLight.turn_on();
+
+        logger.debug("Setting living room scene to bright");
+        await livingRoomScene.turn_on();
 
         if (roomba.attributes.status !== "charging" && roomba.attributes.status !== "docked") {
           logger.debug("Commanding Roomba to return to base");

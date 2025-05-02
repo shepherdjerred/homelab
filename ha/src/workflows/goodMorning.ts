@@ -7,9 +7,15 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   const bedroomBrightScene = hass.refBy.id("scene.bedroom_bright");
   const extraMediaPlayers = [hass.refBy.id("media_player.main_bathroom"), hass.refBy.id("media_player.entryway")];
   const bedroomHeater = hass.refBy.id("climate.bedroom_thermostat");
+  const entrywayLight = hass.refBy.id("switch.entryway_overhead_lights");
+  const mainBathroomLight = hass.refBy.id("switch.main_bathroom_lights");
 
   const weekday = 8;
   const weekend = 9;
+
+  const startVolume = 0;
+  const earlyVolumeSteps = 3;
+  const lateVolumeSteps = 5;
 
   // one hour before
   scheduler.cron({
@@ -31,7 +37,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   async function runEarly() {
     logger.info("Turning on bedroom heater");
     await bedroomHeater.set_temperature({
-      temperature: 23,
+      temperature: 24,
     });
   }
 
@@ -50,7 +56,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
     await bedroomMediaPlayer.unjoin();
 
     logger.debug("Setting bedroom media player volume to 0");
-    await bedroomMediaPlayer.volume_set({ volume_level: 0 });
+    await bedroomMediaPlayer.volume_set({ volume_level: startVolume });
 
     logger.debug("Playing media on bedroom media player");
     await bedroomMediaPlayer.play_media({
@@ -58,7 +64,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
       media_content_type: "favorite_item_id",
     });
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < earlyVolumeSteps; i++) {
       logger.debug(`Increasing bedroom media player volume (step ${(i + 1).toString()})`);
       await bedroomMediaPlayer.volume_up();
       await wait({
@@ -66,6 +72,10 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
         unit: "s",
       });
     }
+
+    // turn on the main bathroom light
+    logger.debug("Turning on main bathroom light");
+    await mainBathroomLight.turn_on();
   }
 
   async function runGetUp() {
@@ -77,7 +87,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
 
     for (const player of extraMediaPlayers) {
       logger.debug(`Setting volume to 0 for ${player.entity_id}`);
-      await player.volume_set({ volume_level: 0 });
+      await player.volume_set({ volume_level: startVolume });
     }
 
     logger.debug("Joining bathroom media players to bedroom media player");
@@ -85,7 +95,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
       group_members: extraMediaPlayers.map((p) => p.entity_id),
     });
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < lateVolumeSteps; i++) {
       logger.debug(`Increasing bedroom media player volume (step ${(i + 1).toString()})`);
       await bedroomMediaPlayer.volume_up();
       await Promise.all(
@@ -100,7 +110,25 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
       });
     }
 
+    // increase the volume of the extra media players to match the bedroom media player
+    for (let i = 0; i < earlyVolumeSteps; i++) {
+      await Promise.all(
+        extraMediaPlayers.map(async (player) => {
+          logger.debug(`Increasing volume for ${player.entity_id}`);
+          await player.volume_up();
+        }),
+      );
+      await wait({
+        amount: 5,
+        unit: "s",
+      });
+    }
+
     logger.debug("Turning off bedroom heater");
     await bedroomHeater.turn_off();
+
+    // turn on the entryway light
+    logger.debug("Turning on entryway light");
+    await entrywayLight.turn_on();
   }
 }

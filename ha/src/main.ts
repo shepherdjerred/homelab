@@ -1,6 +1,5 @@
 import { goodMorning } from "./workflows/goodMorning.ts";
 import { goodNight } from "./workflows/goodNight.ts";
-import { indoorLightsSunrise } from "./workflows/indoorLightsSunrise.ts";
 import { welcomeHome } from "./workflows/welcomeHome.ts";
 import { runVacuumIfNotHome } from "./workflows/runVacuumIfNotHome.ts";
 import { leavingHome } from "./workflows/leavingHome.ts";
@@ -17,7 +16,6 @@ const app = CreateApplication({
   services: {
     goodMorning,
     goodNight,
-    indoorLightsSunrise,
     welcomeHome,
     runVacuumIfNotHome,
     leavingHome,

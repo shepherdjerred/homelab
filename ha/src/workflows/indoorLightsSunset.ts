@@ -2,8 +2,8 @@ import type { TServiceParams } from "@digital-alchemy/core";
 import { closeCoversWithDelay } from "../util.ts";
 
 export function indoorLightsSunset({ hass, logger, automation }: TServiceParams) {
-  const livingRoomScene = hass.refBy.id("scene.living_room_bright");
-  const bedroomScene = hass.refBy.id("scene.bedroom_bright");
+  const livingRoomScene = hass.refBy.id("scene.living_room_dimmed");
+  const bedroomScene = hass.refBy.id("scene.bedroom_dimmed");
 
   automation.solar.onEvent({
     eventName: "sunset",

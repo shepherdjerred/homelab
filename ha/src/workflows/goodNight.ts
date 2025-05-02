@@ -47,7 +47,7 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
         media_content_type: "favorite_item_id",
       });
 
-      for (let i = 0; i < 7; i++) {
+      for (let i = 0; i < 9; i++) {
         logger.debug(`Increasing bedroom media player volume (step ${(i + 1).toString()})`);
         await wait({
           amount: 5,

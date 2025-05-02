@@ -13,6 +13,14 @@ export function leavingHome({ hass, logger }: TServiceParams) {
         message: "Goodbye! The Roomba will start cleaning soon.",
       });
 
+      // turn off all lights
+      logger.debug("Turning off all lights");
+      const lights = hass.refBy.domain("light");
+      for (const light of lights) {
+        await light.turn_off();
+      }
+      logger.debug("All lights turned off");
+
       if (roomba.attributes.status === "charging" || roomba.attributes.status === "docked") {
         logger.debug("Commanding Roomba to start cleaning");
         await roomba.start();
