@@ -5,7 +5,7 @@ export function leavingHome({ hass, logger }: TServiceParams) {
   const roomba = hass.refBy.id("vacuum.roomba");
 
   personJerred.onUpdate(async (newState, oldState) => {
-    if (newState.state === "away" && oldState.state === "home") {
+    if (newState.state === "not_home" && oldState.state === "home") {
       logger.info("Leaving Home automation triggered");
 
       await hass.call.notify.notify({

@@ -10,7 +10,7 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
       newState: ENTITY_STATE<"person.jerred"> | undefined,
       oldState: ENTITY_STATE<"person.jerred"> | undefined,
     ) => {
-      if (oldState && newState && newState.state === "home" && oldState.state === "away") {
+      if (oldState && newState && newState.state === "home" && oldState.state === "not_home") {
         logger.info("Welcome Home automation triggered");
 
         await hass.call.notify.notify({

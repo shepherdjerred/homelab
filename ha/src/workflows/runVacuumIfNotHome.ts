@@ -10,7 +10,7 @@ export function runVacuumIfNotHome({ hass, scheduler, logger }: TServiceParams) 
       logger.info("Run Vacuum if Not Home automation triggered");
 
       logger.debug("Checking conditions for vacuum execution");
-      if (personJerred.state === "away" && roomba.state === "docked") {
+      if (personJerred.state === "not_home" && roomba.state === "docked") {
         logger.debug("Conditions met, starting Roomba");
 
         await hass.call.notify.notify({
