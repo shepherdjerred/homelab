@@ -1,4 +1,5 @@
 import type { TServiceParams } from "@digital-alchemy/core";
+import { shouldStartCleaning } from "../util.ts";
 
 export function leavingHome({ hass, logger }: TServiceParams) {
   const personJerred = hass.refBy.id("person.jerred");
@@ -21,7 +22,7 @@ export function leavingHome({ hass, logger }: TServiceParams) {
       }
       logger.debug("All lights turned off");
 
-      if (roomba.attributes.status === "charging" || roomba.attributes.status === "docked") {
+      if (shouldStartCleaning(roomba.state)) {
         logger.debug("Commanding Roomba to start cleaning");
         await roomba.start();
       }

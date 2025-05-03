@@ -1,5 +1,6 @@
 import type { TServiceParams } from "@digital-alchemy/core";
 import type { ENTITY_STATE } from "@digital-alchemy/hass";
+import { shouldStopCleaning } from "../util.ts";
 
 export function welcomeHome({ hass, logger }: TServiceParams) {
   const personJerred = hass.refBy.id("person.jerred");
@@ -26,7 +27,7 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
         logger.debug("Setting living room scene to bright");
         await livingRoomScene.turn_on();
 
-        if (roomba.attributes.status !== "charging" && roomba.attributes.status !== "docked") {
+        if (shouldStopCleaning(roomba.state)) {
           logger.debug("Commanding Roomba to return to base");
           await roomba.return_to_base();
         }

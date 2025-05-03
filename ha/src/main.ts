@@ -9,6 +9,7 @@ import { LIB_HASS } from "@digital-alchemy/hass";
 import { LIB_SYNAPSE } from "@digital-alchemy/synapse";
 import { LIB_AUTOMATION } from "@digital-alchemy/automation";
 import { CreateApplication } from "@digital-alchemy/core";
+import { roombaError } from "./workflows/roombaError.ts";
 
 const app = CreateApplication({
   libraries: [LIB_HASS, LIB_SYNAPSE, LIB_AUTOMATION],
@@ -20,6 +21,7 @@ const app = CreateApplication({
     runVacuumIfNotHome,
     leavingHome,
     indoorLightsSunset,
+    roombaError,
   },
 });
 
