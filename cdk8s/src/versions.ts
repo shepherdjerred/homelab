@@ -38,7 +38,7 @@ const versions = {
     "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "itzg/minecraft-server":
-    "2025.4.0-java21@sha256:ebd8e1308013c320168f436076dc5e854172be0131dd89c8406c5a4b6bc3da0a",
+    "2025.4.2-java21@sha256:b4b149e64bfec97dd61fcbf2269643344691898e16a328b71492e79a571392a9",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "lavalink-devs/lavalink":
     "4.0.8@sha256:cd119c5c902804a8934cc1f13377dd6c5c5de76afadfd8bdd02f4011ce85339a",
