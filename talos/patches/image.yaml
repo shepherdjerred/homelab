@@ -1,0 +1,4 @@
+machine:
+  install:
+    image: factory.talos.dev/metal-installer/4eff65c43fdf4f5315f1914a2583c2072bfaf6b6f8a8cdf29eaabe663230c4aa:v1.10.0
+    wipe: true

@@ -1,0 +1,8 @@
+customization:
+  systemExtensions:
+  officialExtensions:
+    - siderolabs/i915
+    - siderolabs/intel-ucode
+    - siderolabs/mdadm
+    - siderolabs/tailscale
+    - siderolabs/zfs
