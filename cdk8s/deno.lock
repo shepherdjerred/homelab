@@ -1,5 +1,5 @@
 {
-  "version": "4",
+  "version": "5",
   "redirects": {
     "https://esm.sh/@types/balanced-match@~1.0.4/index.d.ts": "https://esm.sh/@types/balanced-match@1.0.4/index.d.ts",
     "https://esm.sh/@types/brace-expansion@~1.1.2/index.d.ts": "https://esm.sh/@types/brace-expansion@1.1.2/index.d.ts",
@@ -15,10 +15,10 @@
     "https://esm.sh/balanced-match@1.0.2?target=denonext": "0212d336642dd2f874fe13604bf5eaa2caf08c1dab84e87f4b284d9e8972d9c9",
     "https://esm.sh/brace-expansion@1.1.11/denonext/brace-expansion.mjs": "3ff9824fb0073fcf8f5c3a591485ec540b07d40b965d05ee6bfe04fb8da82704",
     "https://esm.sh/brace-expansion@1.1.11?target=denonext": "4bab1de035b4c92ab513cc9583c2f5745b188d66fb9f8deb5e22bfaffd3f1603",
-    "https://esm.sh/cdk8s-plus-30@2.3.7/X-ZWNkazhz/denonext/cdk8s-plus-30.mjs": "866a7e3c2fdc7b9d0f84ae5e9ec13a4c6a94ac404fd81eb3da7213c6710ddbec",
-    "https://esm.sh/cdk8s-plus-30@2.3.7?external=cdk8s": "5c193f986a116a3adf9d8600603777f41b38f23aec919f5c3dc3ed7a1332a05c",
-    "https://esm.sh/cdk8s@2.69.57/denonext/cdk8s.bundle.mjs": "64a4149201d0f3f7b8e90fa5ba03c342649c56acad62a3912d03eba2c472bdb7",
-    "https://esm.sh/cdk8s@2.69.57?standalone": "af4706863a00c1e5939ea39ee9a394d16be54a1250bb363c2f453b4df3f8048a",
+    "https://esm.sh/cdk8s-plus-30@2.3.9/X-ZWNkazhz/denonext/cdk8s-plus-30.mjs": "c5c1cbb0e9a7c14531f330601905253b11589827c579e71e2d6b02d4ea3d6d0d",
+    "https://esm.sh/cdk8s-plus-30@2.3.9?external=cdk8s": "21f660af5e006561d2d54270969f5c265e0be02aac0d8d27d6d8b79dad9f810e",
+    "https://esm.sh/cdk8s@2.69.60/denonext/cdk8s.bundle.mjs": "3ff073989056c59ea34d8732b1b01d305729e392cc83f0b3ed5ae236edc88dc1",
+    "https://esm.sh/cdk8s@2.69.60?standalone": "367a7b8fc5bd855b234e6f02a6f71ecc56e88fc3c4b837b223983130e7fe51c0",
     "https://esm.sh/constructs@10.4.2": "1bfbc507eaaa2eca688b78443c61c22f287bb65b3b8194beab6534c458121f35",
     "https://esm.sh/constructs@10.4.2/denonext/constructs.mjs": "cdefe2b617067050086af372d96372aa8d78cac42f274452d10ada2d22647ef5",
     "https://esm.sh/constructs@10.4.2?target=denonext": "1bfbc507eaaa2eca688b78443c61c22f287bb65b3b8194beab6534c458121f35",
