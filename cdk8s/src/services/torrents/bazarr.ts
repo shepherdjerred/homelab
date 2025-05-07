@@ -66,12 +66,6 @@ export function createBazarrDeployment(chart: Chart) {
     ports: [{ port: 6767 }],
   });
 
-  // TODO: do this for all services
-  // setup IPv6
-  ApiObject.of(service).addJsonPatch(
-    JsonPatch.add("/spec/ipFamilyPolicy", "RequireDualStack"),
-  );
-
   new TailscaleIngress(chart, "bazarr-tailscale-ingress", {
     service,
     host: "bazarr",

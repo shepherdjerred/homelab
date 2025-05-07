@@ -87,9 +87,6 @@ const versions = {
   "chartmuseum": "3.10.3",
   // renovate: datasource=helm registry=https://itzg.github.io/minecraft-server-charts versioning=semver
   "minecraft": "4.20.0",
-  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "openthread/otbr":
-    "latest@sha256:42ea7f4f109ab5528c73b10f26359abd0498a4ad6397bfb406533b2cd65feb28",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr":
     "2.14.0@sha256:61ed94bec0ea71b6b289b45ee82acc2c5d94b954026e6cbb1d5262aad6811b59",

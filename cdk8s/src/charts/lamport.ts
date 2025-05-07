@@ -15,7 +15,6 @@ import { KubeNamespace } from "../../imports/k8s.ts";
 import { createEarthlyDeployment } from "../services/dev/earthly.ts";
 import { createDdnsDeployment } from "../services/ddns.ts";
 import { createUpgradePlan } from "../plan.ts";
-import { createOtbrDeployment } from "../services/home/otbr.ts";
 import { createMaintainerrDeployment } from "../services/torrents/maintainerr.ts";
 import { createStashDeployment } from "../services/media/stash.ts";
 import { createFreshRssDeployment } from "../services/freshrss.ts";
@@ -54,7 +53,6 @@ export function createLamportChart(app: App) {
   createEarthlyDeployment(chart);
   createDdnsDeployment(chart);
   createUpgradePlan(chart);
-  createOtbrDeployment(chart);
   createMaintainerrDeployment(chart);
   createStashDeployment(chart);
   createFreshRssDeployment(chart);

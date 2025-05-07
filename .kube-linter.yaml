@@ -16,5 +16,3 @@ checks:
     - "privilege-escalation-container"
     # some containers require this
     - "host-network"
-    # used by otbr
-    - "drop-net-raw-capability"

@@ -1,6 +1,134 @@
-# Talos
+# Installation
 
-## Generate Config
+## Talos
 
 1. Create `secrets.yaml`
-2. Run `talosctl gen config --with-secrets secrets.yaml --config-patch-control-plane @patches/scheduling.yaml --config-patch @patches/image.yaml torvalds https://192.168.1.81:6443`
+1. Create the configuration file:
+
+    ```bash
+    talosctl gen config \
+      --with-secrets secrets.yaml \
+      --config-patch-control-plane @patches/scheduling.yaml \
+      --config-patch @patches/image.yaml \
+      --config-patch @patches/tailscale.yaml \
+      torvalds https://192.168.1.81:6443 --force
+    ```
+
+1. Configure `endpoints` in `talosconfig`
+    * This allows commands to be run without the `--endpoints` argument
+
+1. Move the talosconfig:
+    * This allows commands to be run without the `--talosconfig` argument
+
+    ```bash
+    mv talosconfig ~/.talos/config
+    ```
+
+1. Apply the configuration:
+
+    ```bash
+    talosctl apply-config --insecure --nodes 192.168.1.81 --file controlplane.yaml
+    ```
+
+1. If needed, update:
+
+    ```bash
+    talosctl apply-config --nodes 192.168.1.81 --file controlplane.yaml
+    ```
+
+    Upgrade:
+
+    ```bash
+    talosctl upgrade --nodes 192.168.1.81 --image <image>
+    ```
+
+1. Bootstrap the Kubernetes cluster:
+
+    ```bash
+    talosctl bootstrap --nodes 192.168.1.81
+    ```
+
+1. Create a Kubernetes configuration:
+
+    ```bash
+    talosctl kubeconfig --nodes 192.168.1.81
+    ```
+
+## Kubernetes
+
+1. Install `helm`:
+
+   ```bash
+   brew install helm
+   ```
+
+1. Install Argo CD manually:
+
+   > [!NOTE] This will be imported into Argo CD itself as part of the CDK8s
+   > manifest
+
+   ```bash
+   kubectl create namespace argocd
+   helm repo add argo https://argoproj.github.io/argo-helm
+   helm install argocd argo/argo-cd --namespace argocd
+   ```
+
+1. Set the credentials in the `secrets` directory:
+
+   * Be sure not to commit any changes to these files so that secrets don't
+     leak.
+   * These should be the only credentials that are manually set. Everything else
+     can be retrieved from 1Password.
+   * Annoyingly, the credential in `1password-secret.yaml` _must_ be base64
+     encoded.
+
+     ```bash
+     cat 1password-credentials.json | base64 -w 0
+     ```
+
+     ```bash
+     kubectl create namespace 1password
+     kubectl apply -f secrets/1password-secret.yaml
+     kubectl apply -f secrets/1password-token.yaml
+     ```
+
+1. Build and deploy the manifests in this repo:
+
+   ```bash
+   cd cdk8s && deno task up
+   ```
+
+1. Get the initial Argo CD `admin` password:
+
+   ```bash
+   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+   ```
+
+1. Change Argo CD the `admin` password.
+
+## ZFS
+
+Adapted from <https://www.roosmaa.net/blog/2024/setting-up-zfs-on-talos/>
+
+1. Create a shell with `pods/shell.yaml`:
+
+    ```bash
+    kubectl apply -f pods/shell.yaml
+    ```
+
+1. Try to run a ZFS command:
+
+    ```bash
+    kubectl exec pod/shell -n maintenance -- \
+      nsenter --mount=/proc/1/ns/mnt -- \
+      zpool status
+    ```
+
+1. Create a ZFS pool:
+
+    ```bash
+    kubectl exec pod/shell -n maintenance -- \
+      nsenter --mount=/proc/1/ns/mnt -- \
+      zpool create -m legacy -f zfspv-pool \
+      /dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X511734N
+    ```
