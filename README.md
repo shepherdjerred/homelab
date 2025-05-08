@@ -31,7 +31,6 @@ some things I'm proud of:
 - Automated dependency updates
   - For Docker images (w/ pinned SHAs)
   - For Helm charts
-  - For Kubernetes/k3s
   - For Jenkins plugins
   - For Deno dependencies
   - [My approach](https://github.com/shepherdjerred/homelab/blob/main/cdk8s/src/versions.ts)
@@ -39,61 +38,69 @@ some things I'm proud of:
 
 ## Installation
 
-These instructions are for future me, so that I can re-create my cluster from
-scratch if needed.
+### Talos
 
-### Host Setup
+1. Create `secrets.yaml`
+1. Create the configuration file:
 
-At some point I should automate these steps, either as a part of a script, my
-dotfiles, ansible, etc.
+    ```bash
+    talosctl gen config \
+      --with-secrets secrets.yaml \
+      --config-patch-control-plane @patches/scheduling.yaml \
+      --config-patch @patches/image.yaml \
+      --config-patch @patches/tailscale.yaml \
+      torvalds https://192.168.1.81:6443 --force
+    ```
 
-- Install Tailscale
-- Install Linuxbrew
-- Install fish, vim, helix, rtx, languages (Deno), etc.
-- Set fish as the default shell
-- Configure fish
-- Setup auto-updates with Ubuntu
+1. Configure `endpoints` in `talosconfig`
+    - This allows commands to be run without the `--endpoints` argument
 
-  - <https://help.ubuntu.com/community/AutomaticSecurityUpdates>
+1. Move the talosconfig:
+    - This allows commands to be run without the `--talosconfig` argument
 
-- Set `KUBE_CONFIG`
-- Update kernel parameters:
-  <https://docs.k3s.io/security/hardening-guide#set-kernel-parameters>
-- Increase number of file watchers:
+    ```bash
+    mv talosconfig ~/.talos/config
+    ```
 
-  ```
-  sudo sysctl -w fs.inotify.max_user_watches=1990692
-  sudo sysctl -w fs.inotify.max_user_instances=512
-  sudo sysctl -w fs.inotify.max_queued_events=65536
-  ```
+1. Apply the configuration:
 
-### Cluster Setup
+    ```bash
+    talosctl apply-config --insecure --nodes 192.168.1.81 --file controlplane.yaml
+    ```
 
-1. Copy `k3s` to `/etc/rancher/k3s/`
+1. If needed, update:
 
-   ```bash
-   sudo cp -r k3s/. /etc/rancher/k3s/
-   ```
+    ```bash
+    talosctl apply-config --nodes 192.168.1.81 --file controlplane.yaml
+    ```
 
-1. Install k3s.
+    Upgrade:
 
-   ```bash
-   curl -sfL https://get.k3s.io | sh -
-   ```
+    ```bash
+    talosctl upgrade --nodes 192.168.1.81 --image <image>
+    ```
 
-1. Copy the Kubernetes configuration
+1. Bootstrap the Kubernetes cluster:
 
-   ```bash
-   rm -rfv ~/.kube && mkdir ~/.kube && sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && sudo chown $USER:$USER ~/.kube/config && chmod 600 ~/.kube/config
-   ```
+    ```bash
+    talosctl bootstrap --nodes 192.168.1.81
+    ```
 
-1. Install `helm`.
+1. Create a Kubernetes configuration:
+
+    ```bash
+    talosctl kubeconfig --nodes 192.168.1.81
+    ```
+
+### Kubernetes
+
+1. Install `helm`:
 
    ```bash
    brew install helm
    ```
 
-1. Install Argo CD manually.
+1. Install Argo CD manually:
 
    > [!NOTE] This will be imported into Argo CD itself as part of the CDK8s
    > manifest
@@ -104,7 +111,7 @@ dotfiles, ansible, etc.
    helm install argocd argo/argo-cd --namespace argocd
    ```
 
-1. Set the credentials in the `secrets` directory.
+1. Set the credentials in the `secrets` directory:
 
    - Be sure not to commit any changes to these files so that secrets don't
      leak.
@@ -123,16 +130,61 @@ dotfiles, ansible, etc.
      kubectl apply -f secrets/1password-token.yaml
      ```
 
-1. Build and deploy the manifests in this repo
+1. Build and deploy the manifests in this repo:
 
    ```bash
    cd cdk8s && deno task up
    ```
 
-1. Get the initial Argo CD `admin` password.
+1. Get the initial Argo CD `admin` password:
 
    ```bash
    kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
    ```
 
 1. Change Argo CD the `admin` password.
+
+### ZFS
+
+Adapted from <https://www.roosmaa.net/blog/2024/setting-up-zfs-on-talos/>
+
+1. Create a shell with `pods/shell.yaml`:
+
+    ```bash
+    kubectl apply -f pods/shell.yaml
+    ```
+
+1. Try to run a ZFS command:
+
+    ```bash
+    kubectl exec pod/shell -n maintenance -- \
+      nsenter --mount=/proc/1/ns/mnt -- \
+      zpool status
+    ```
+
+1. Create a ZFS pool:
+
+    ```bash
+    # for nvme storage
+    kubectl exec pod/shell -n maintenance -- \
+      nsenter --mount=/proc/1/ns/mnt -- \
+      zpool create -m legacy -f zfspv-pool-nvme \
+      /dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X511734N
+
+    # for hdd storage
+    kubectl exec pod/shell -n maintenance -- \
+      nsenter --mount=/proc/1/ns/mnt -- \
+      zpool create -m legacy -f zfspv-pool-hdd raidz2 \
+      /dev/sda \
+      /dev/sdb \
+      /dev/sdc \
+      /dev/sdd \
+      /dev/sde
+    ```
+
+1. Install OpenEBS:
+
+    ```bash
+    helm repo add openebs https://openebs.github.io/openebs
+    helm install openebs --namespace openebs openebs/openebs --set engines.replicated.mayastor.enabled=false --set engines.local.lvm.enabled=false --set zfs-localpv.zfsNode.encrKeysDir=/var --create-namespace
+    ```
