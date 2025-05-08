@@ -14,22 +14,21 @@ import { createSonarrDeployment } from "../services/torrents/sonarr.ts";
 import { KubeNamespace } from "../../imports/k8s.ts";
 import { createEarthlyDeployment } from "../services/dev/earthly.ts";
 import { createDdnsDeployment } from "../services/ddns.ts";
-import { createUpgradePlan } from "../plan.ts";
 import { createMaintainerrDeployment } from "../services/torrents/maintainerr.ts";
 import { createStashDeployment } from "../services/media/stash.ts";
 import { createFreshRssDeployment } from "../services/freshrss.ts";
 import { createPokemonDeployment } from "../services/pokemon.ts";
 import { createHaDeployment } from "../services/home/ha.ts";
 
-export function createLamportChart(app: App) {
-  const chart = new Chart(app, "lamport", {
-    namespace: "lamport",
+export function createTorvaldsChart(app: App) {
+  const chart = new Chart(app, "torvalds", {
+    namespace: "torvalds",
     disableResourceNameHashes: true,
   });
 
-  new KubeNamespace(chart, "lamport", {
+  new KubeNamespace(chart, "torvalds", {
     metadata: {
-      name: "lamport",
+      name: "torvalds",
       annotations: {
         // https://volsync.readthedocs.io/en/stable/usage/permissionmodel.html#controlling-mover-permissions
         "volsync.backube/privileged-movers": "true",
@@ -52,7 +51,6 @@ export function createLamportChart(app: App) {
   createProwlarrDeployment(chart);
   createEarthlyDeployment(chart);
   createDdnsDeployment(chart);
-  createUpgradePlan(chart);
   createMaintainerrDeployment(chart);
   createStashDeployment(chart);
   createFreshRssDeployment(chart);

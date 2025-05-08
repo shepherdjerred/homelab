@@ -1,32 +1,9 @@
 machine:
   install:
-    image: factory.talos.dev/metal-installer/4eff65c43fdf4f5315f1914a2583c2072bfaf6b6f8a8cdf29eaabe663230c4aa:v1.10.0
+    image: factory.talos.dev/metal-installer/1612e3d9548d23f80819529fecb71683b235380f86f9e37adb0070736752423a:v1.10.1
     disk: /dev/nvme0n1
     wipe: true
   kernel:
     modules:
       - name: i915
       - name: zfs
-  kubelet:
-    extraMounts:
-      - destination: /var/mnt/storage
-        type: bind
-        source: /var/mnt/storage
-        options:
-          - bind
-          - rshared
-          - rw
-      - destination: /var/mnt/external
-        type: bind
-        source: /var/mnt/external
-        options:
-          - bind
-          - rshared
-          - rw
-  disks:
-    - device: /dev/md127
-      partitions:
-        - mountpoint: /var/mnt/storage
-    - device: /dev/sdf2
-      partitions:
-        - mountpoint: /var/mnt/external

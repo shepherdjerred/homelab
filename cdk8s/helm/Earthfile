@@ -23,10 +23,10 @@ build:
 
   RUN helm package .
   SAVE ARTIFACT *.yaml AS LOCAL dist/
-  SAVE ARTIFACT lamport-$version.tgz AS LOCAL dist/
+  SAVE ARTIFACT torvalds-$version.tgz AS LOCAL dist/
 
 publish:
   ARG repo=https://chartmuseum.tailnet-1a49.ts.net
   ARG --required version
   COPY +build/ .
-  RUN --secret=chartmuseum_username --secret=chartmuseum_password --push --no-cache curl -f -u $chartmuseum_username:$chartmuseum_password --data-binary "@lamport-$version.tgz" $repo/api/charts
+  RUN --secret=chartmuseum_username --secret=chartmuseum_password --push --no-cache curl -f -u $chartmuseum_username:$chartmuseum_password --data-binary "@torvalds-$version.tgz" $repo/api/charts

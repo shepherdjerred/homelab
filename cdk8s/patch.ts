@@ -3,12 +3,12 @@
 // on macOS use gsed, on Linux use sed
 const sedCommand = Deno.build.os === "darwin" ? "gsed" : "sed";
 
-// replace "gpu.intel.com/i915: null" with "gpu.intel.com/i915: 1" in dist/lamport.k8s.yaml
+// replace "gpu.intel.com/i915: null" with "gpu.intel.com/i915: 1" in dist/torvalds.k8s.yaml
 const command = new Deno.Command(sedCommand, {
   args: [
     "-i",
     "s/gpu.intel.com\\/i915: null/gpu.intel.com\\/i915: 1/g",
-    "dist/lamport.k8s.yaml",
+    "dist/torvalds.k8s.yaml",
   ],
 });
 

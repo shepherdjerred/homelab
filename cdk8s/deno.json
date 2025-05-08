@@ -15,7 +15,7 @@
     },
     "update-imports": "./update-imports.ts",
     "up": "deno task build && kubectl apply -f dist",
-    "diff": "KUBECTL_EXTERNAL_DIFF=delta DELTA_PAGER=bat BAT_PAGER=/opt/homebrew/bin/less kubectl diff -f dist/lamport.k8s.yaml"
+    "diff": "KUBECTL_EXTERNAL_DIFF=delta DELTA_PAGER=bat BAT_PAGER=/opt/homebrew/bin/less kubectl diff -f dist/torvalds.k8s.yaml"
   },
   "imports": {
     "cdk8s": "https://esm.sh/cdk8s@2.69.60?standalone",

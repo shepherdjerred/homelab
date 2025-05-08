@@ -55,8 +55,8 @@ export function createEarthlyDeployment(chart: Chart) {
       envVariables: {
         EARTHLY_ORG: EnvValue.fromValue("sjerred"),
         EARTHLY_TOKEN: tokenEnvValue,
-        SATELLITE_NAME: EnvValue.fromValue("lamport"),
-        SATELLITE_HOST: EnvValue.fromValue("lamport.tailnet-1a49.ts.net"),
+        SATELLITE_NAME: EnvValue.fromValue("torvalds"),
+        SATELLITE_HOST: EnvValue.fromValue("torvalds.tailnet-1a49.ts.net"),
         CACHE_SIZE_PCT: EnvValue.fromValue("10"),
         BUILDKIT_MAX_PARALLELISM: EnvValue.fromValue("24"),
       },

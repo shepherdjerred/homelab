@@ -127,8 +127,26 @@ Adapted from <https://www.roosmaa.net/blog/2024/setting-up-zfs-on-talos/>
 1. Create a ZFS pool:
 
     ```bash
+    # for nvme storage
     kubectl exec pod/shell -n maintenance -- \
       nsenter --mount=/proc/1/ns/mnt -- \
-      zpool create -m legacy -f zfspv-pool \
+      zpool create -m legacy -f zfspv-pool-nvme \
       /dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X511734N
+
+    # for hdd storage
+    kubectl exec pod/shell -n maintenance -- \
+      nsenter --mount=/proc/1/ns/mnt -- \
+      zpool create -m legacy -f zfspv-pool-hdd raidz2 \
+      /dev/sda \
+      /dev/sdb \
+      /dev/sdc \
+      /dev/sdd \
+      /dev/sde
+    ```
+
+1. Install OpenEBS:
+
+    ```bash
+    helm repo add openebs https://openebs.github.io/openebs
+    helm install openebs --namespace openebs openebs/openebs --set engines.replicated.mayastor.enabled=false --set engines.local.lvm.enabled=false --set zfs-localpv.zfsNode.encrKeysDir=/var --create-namespace
     ```

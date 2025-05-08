@@ -1,10 +1,10 @@
 # Homelab
 
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
-![ArgoCD badge](https://argocd.tailnet-1a49.ts.net/api/badge?name=lamport)
+![ArgoCD badge](https://argocd.tailnet-1a49.ts.net/api/badge?name=torvalds)
 
 This repository contains resources related to my homelab, currently called
-`lamport`. I give each of my servers a unique name so that I can keep track of
+`torvalds`. I give each of my servers a unique name so that I can keep track of
 them over time.
 
 Currently my server is managed with Kubernetes. I've used Docker, Ansible, and

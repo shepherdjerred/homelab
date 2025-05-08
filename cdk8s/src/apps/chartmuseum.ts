@@ -43,7 +43,7 @@ export function createChartMuseumApp(chart: Chart) {
         helm: {
           parameters: [
             { name: "persistence.enabled", value: "true" },
-            { name: "persistence.storageClass", value: "local-path" },
+            { name: "persistence.storageClass", value: "zfspv-pool-hdd" },
             { name: "env.open.DISABLE_API", value: "false" },
             { name: "env.open.AUTH_ANONYMOUS_GET", value: "true" },
             { name: "env.existingSecret", value: basicAuth.name },

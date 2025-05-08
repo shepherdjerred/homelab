@@ -18,7 +18,8 @@ export class LocalPathVolume extends Construct {
     super(scope, id);
     const baseProps: PersistentVolumeClaimProps = {
       // storage size doesn't matter for local-path
-      storage: Size.gibibytes(2),
+      storage: Size.gibibytes(8),
+      storageClassName: "host-zfs-ssd",
       accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
       metadata: {

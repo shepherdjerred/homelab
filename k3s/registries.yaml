@@ -1,5 +1,0 @@
-# /etc/rancher/k3s/registries.yaml
-mirrors:
-  docker.io:
-  registry.k8s.io:
-  ghcr.io:
