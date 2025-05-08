@@ -56,7 +56,7 @@ export function createPrometheusApp(chart: Chart) {
               persistence: {
                 enabled: true,
                 type: "pvc",
-                storageClassName: "zfspv-pool-hdd",
+                storageClassName: "",
                 accessModes: ["ReadWriteOnce"],
                 size: "8Gi",
               },
@@ -83,7 +83,7 @@ export function createPrometheusApp(chart: Chart) {
                 storage: {
                   volumeClaimTemplate: {
                     spec: {
-                      storageClassName: "zfspv-pool-hdd",
+                      storageClassName: "host-zfs-hdd",
                       accessModes: ["ReadWriteOnce"],
                       resources: {
                         requests: {
@@ -102,7 +102,7 @@ export function createPrometheusApp(chart: Chart) {
                 storageSpec: {
                   volumeClaimTemplate: {
                     spec: {
-                      storageClassName: "zfspv-pool-hdd",
+                      storageClassName: "host-zfs-hdd",
                       accessModes: ["ReadWriteOnce"],
                       resources: {
                         requests: {

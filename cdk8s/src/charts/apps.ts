@@ -18,11 +18,24 @@ import { createChartMuseumApp } from "../apps/chartmuseum.ts";
 import { createMinecraftApp } from "../apps/minecraft.ts";
 import { createLokiApp } from "../apps/loki.ts";
 import { createPromtailApp } from "../apps/promtail.ts";
+import { Namespace } from "cdk8s-plus";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
     namespace: "argocd",
     disableResourceNameHashes: true,
+  });
+
+  new Namespace(chart, `scout-beta-namespace`, {
+    metadata: {
+      name: `scout-beta`,
+    },
+  });
+
+  new Namespace(chart, `scout-prod-namespace`, {
+    metadata: {
+      name: `scout-prod`,
+    },
   });
 
   createOnePasswordApp(chart);
