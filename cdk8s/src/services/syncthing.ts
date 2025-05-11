@@ -1,6 +1,6 @@
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
 import { Chart } from "cdk8s";
-import { LocalPathVolume } from "../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
 import {
   LINUXSERVER_GID,
   withCommonLinuxServerProps,
@@ -17,13 +17,13 @@ export function createSyncthingDeployment(chart: Chart) {
     },
   });
 
-  const configLocalPathVolume = new LocalPathVolume(
+  const configLocalPathVolume = new ZfsSsdVolume(
     chart,
     "syncthing-config",
     {},
   );
 
-  const dataLocalPathVolume = new LocalPathVolume(
+  const dataLocalPathVolume = new ZfsSsdVolume(
     chart,
     "syncthing-data",
     {},

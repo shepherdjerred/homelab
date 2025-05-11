@@ -1,14 +1,24 @@
-import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
+import {
+  Deployment,
+  DeploymentStrategy,
+  type PersistentVolumeClaim,
+  Service,
+  Volume,
+} from "cdk8s-plus";
 import { Chart } from "cdk8s";
 import {
   LINUXSERVER_GID,
   withCommonLinuxServerProps,
 } from "../../utils/linuxserver.ts";
-import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
+import { ZfsHddVolume } from "../../utils/zfsHddVolume.ts";
 
-export function createSonarrDeployment(chart: Chart) {
+export function createSonarrDeployment(chart: Chart, claims: {
+  tv: PersistentVolumeClaim;
+  downloads: PersistentVolumeClaim;
+}) {
   const deployment = new Deployment(chart, "sonarr", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
@@ -17,7 +27,7 @@ export function createSonarrDeployment(chart: Chart) {
     },
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "sonarr-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "sonarr-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -33,24 +43,18 @@ export function createSonarrDeployment(chart: Chart) {
           ),
         },
         {
-          volume: Volume.fromHostPath(
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "sonarr-torrents-bind-mount",
-            "sonarr-torrents-bind-mount",
-            {
-              path: "/mnt/storage/downloads/torrents",
-            },
+            "sonarr-torrents-hdd-volume",
+            claims.downloads,
           ),
           path: "/downloads",
         },
         {
-          volume: Volume.fromHostPath(
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "sonarr-tv-bind-mount",
-            "sonarr-tv-bind-mount",
-            {
-              path: "/mnt/storage/media/tv",
-            },
+            "sonarr-tv-hdd-volume",
+            claims.tv,
           ),
           path: "/tv",
         },

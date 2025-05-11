@@ -1,14 +1,24 @@
-import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
+import {
+  Deployment,
+  DeploymentStrategy,
+  type PersistentVolumeClaim,
+  Service,
+  Volume,
+} from "cdk8s-plus";
 import { Chart } from "cdk8s";
 import {
   LINUXSERVER_GID,
   withCommonLinuxServerProps,
 } from "../../utils/linuxserver.ts";
-import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
+import { ZfsHddVolume } from "../../utils/zfsHddVolume.ts";
 
-export function createRadarrDeployment(chart: Chart) {
+export function createRadarrDeployment(chart: Chart, claims: {
+  movies: PersistentVolumeClaim;
+  downloads: PersistentVolumeClaim;
+}) {
   const deployment = new Deployment(chart, "radarr", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
@@ -17,7 +27,7 @@ export function createRadarrDeployment(chart: Chart) {
     },
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "radarr-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "radarr-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -33,24 +43,18 @@ export function createRadarrDeployment(chart: Chart) {
           ),
         },
         {
-          volume: Volume.fromHostPath(
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "radarr-torrents-bind-mount",
-            "radarr-torrents-bind-mount",
-            {
-              path: "/mnt/storage/downloads/torrents",
-            },
+            "radarr-torrents-hdd-volume",
+            claims.downloads,
           ),
           path: "/downloads",
         },
         {
-          volume: Volume.fromHostPath(
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "radarr-movies-bind-mount",
-            "radarr-movies-bind-mount",
-            {
-              path: "/mnt/storage/media/movies",
-            },
+            "radarr-movies-hdd-volume",
+            claims.movies,
           ),
           path: "/movies",
         },

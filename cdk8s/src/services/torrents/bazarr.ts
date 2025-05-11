@@ -2,22 +2,27 @@ import {
   Deployment,
   DeploymentStrategy,
   EnvValue,
+  type PersistentVolumeClaim,
   Service,
   Volume,
 } from "cdk8s-plus";
-import { ApiObject, Chart, JsonPatch } from "cdk8s";
+import { Chart } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
+import { ZfsHddVolume } from "../../utils/zfsHddVolume.ts";
 
-export function createBazarrDeployment(chart: Chart) {
+export function createBazarrDeployment(chart: Chart, claims: {
+  tv: PersistentVolumeClaim;
+  movies: PersistentVolumeClaim;
+}) {
   const deployment = new Deployment(chart, "bazarr", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "bazarr-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "bazarr-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -36,24 +41,18 @@ export function createBazarrDeployment(chart: Chart) {
           ),
         },
         {
-          volume: Volume.fromHostPath(
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "bazarr-movies-bind-mount",
-            "bazarr-movies-bind-mount",
-            {
-              path: "/mnt/storage/media/movies",
-            },
+            "bazarr-movies-hdd-volume",
+            claims.movies,
           ),
           path: "/movies",
         },
         {
-          volume: Volume.fromHostPath(
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "bazarr-tv-bind-mount",
-            "bazarr-tv-bind-mount",
-            {
-              path: "/mnt/storage/media/tv",
-            },
+            "bazarr-tv-hdd-volume",
+            claims.tv,
           ),
           path: "/tv",
         },

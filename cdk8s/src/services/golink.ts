@@ -7,12 +7,8 @@ import {
 } from "cdk8s-plus";
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../utils/common.ts";
-import { LocalPathVolume } from "../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import {
-  ReplicationSource,
-  ReplicationSourceSpecResticCopyMethod,
-} from "../../imports/volsync.backube.ts";
 import versions from "../versions.ts";
 
 export function createGolinkDeployment(chart: Chart) {
@@ -27,7 +23,7 @@ export function createGolinkDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "golink-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "golink-pvc", {});
 
   const item = new OnePasswordItem(chart, "tailscale-auth-key-onepassword", {
     spec: {
@@ -36,45 +32,6 @@ export function createGolinkDeployment(chart: Chart) {
     },
     metadata: {
       name: "tailscale-auth-key",
-    },
-  });
-
-  const resticOnepasswordItem = new OnePasswordItem(
-    chart,
-    "golink-restic-onepassword",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/55dd4k7uxlbtayhzxkxfxu7aqm",
-      },
-      metadata: {
-        name: "golink-restic-onepassword-item",
-      },
-    },
-  );
-
-  new ReplicationSource(chart, "golink-replication-source", {
-    spec: {
-      sourcePvc: localPathVolume.claim.name,
-      trigger: {
-        schedule: "*/15 * * * *",
-      },
-      restic: {
-        repository: resticOnepasswordItem.name,
-        copyMethod: ReplicationSourceSpecResticCopyMethod.DIRECT,
-        pruneIntervalDays: 7,
-        retain: {
-          daily: 7,
-          weekly: 4,
-          monthly: 12,
-        },
-        // match up with the UID/GID of the container
-        // https://volsync.readthedocs.io/en/stable/usage/permissionmodel.html#mover-s-security-context
-        moverSecurityContext: {
-          runAsUser: UID,
-          runAsGroup: GID,
-        },
-      },
     },
   });
 

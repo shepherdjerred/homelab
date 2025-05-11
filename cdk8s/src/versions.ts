@@ -5,8 +5,6 @@ const versions = {
   "argo-cd": "7.8.23",
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
   "cert-manager": "v1.17.1",
-  // renovate: datasource=github-releases versioning=semver-coerced
-  "kubernetes-csi/external-snapshotter": "v8.2.1",
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
   "intel-device-plugins-operator": "0.32.0",
   // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver
@@ -15,15 +13,8 @@ const versions = {
   "node-feature-discovery": "0.17.2",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
   "kube-prometheus-stack": "70.4.1",
-  // renovate: datasource=github-releases versioning=semver-coerced
-  "rancher/system-upgrade-controller": "v0.15.2",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
   "tailscale-operator": "1.82.0",
-  // renovate: datasource=helm registryUrl=https://backube.github.io/helm-charts/ versioning=semver
-  "volsync": "0.12.1",
-  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
-  "library/postgres":
-    "16.2@sha256:4aea012537edfad80f98d870a36e6b90b4c09b27be7f4b4759d72db863baeebb",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/redis":
     "7.2@sha256:d90ca1ebf9c8259ca0259eb465ebfe993395e8efc6f1e68253b68676c8d36b76",
@@ -36,9 +27,6 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "itzg/minecraft-server":
     "2025.4.2-java21@sha256:b4b149e64bfec97dd61fcbf2269643344691898e16a328b71492e79a571392a9",
-  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "lavalink-devs/lavalink":
-    "4.0.8@sha256:cd119c5c902804a8934cc1f13377dd6c5c5de76afadfd8bdd02f4011ce85339a",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=loose
   "plexinc/pms-docker":
     "1.41.6.9685-d301f511a@sha256:a13f35ef4719603e65ce867df9056bf7f99993510b64aa7f91e94e4741482870",

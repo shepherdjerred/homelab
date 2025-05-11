@@ -2,7 +2,7 @@ import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
 import { Chart } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
-import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import versions from "../../versions.ts";
 
 export function createStashDeployment(chart: Chart) {
@@ -11,23 +11,23 @@ export function createStashDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const longhornVolumeData = new LocalPathVolume(chart, "stash-data", {});
-  const longhornVolumeGenerated = new LocalPathVolume(
+  const longhornVolumeData = new ZfsSsdVolume(chart, "stash-data", {});
+  const longhornVolumeGenerated = new ZfsSsdVolume(
     chart,
     "stash-generated",
     {},
   );
-  const longhornVolumeMetadata = new LocalPathVolume(
+  const longhornVolumeMetadata = new ZfsSsdVolume(
     chart,
     "stash-metadata",
     {},
   );
-  const longhornVolumeBlobs = new LocalPathVolume(
+  const longhornVolumeBlobs = new ZfsSsdVolume(
     chart,
     "stash-blobs",
     {},
   );
-  const longhornVolumeConfig = new LocalPathVolume(
+  const longhornVolumeConfig = new ZfsSsdVolume(
     chart,
     "stash-config",
     {},

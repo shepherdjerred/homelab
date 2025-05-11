@@ -11,7 +11,6 @@ import { createProwlarrDeployment } from "../services/torrents/prowlarr.ts";
 import { createQBitTorrentDeployment } from "../services/torrents/qbittorrent.ts";
 import { createRadarrDeployment } from "../services/torrents/radarr.ts";
 import { createSonarrDeployment } from "../services/torrents/sonarr.ts";
-import { KubeNamespace } from "../../imports/k8s.ts";
 import { createEarthlyDeployment } from "../services/dev/earthly.ts";
 import { createDdnsDeployment } from "../services/ddns.ts";
 import { createMaintainerrDeployment } from "../services/torrents/maintainerr.ts";
@@ -19,6 +18,7 @@ import { createStashDeployment } from "../services/media/stash.ts";
 import { createFreshRssDeployment } from "../services/freshrss.ts";
 import { createPokemonDeployment } from "../services/pokemon.ts";
 import { createHaDeployment } from "../services/home/ha.ts";
+import { ZfsHddVolume } from "../utils/zfsHddVolume.ts";
 
 export function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
@@ -26,26 +26,38 @@ export function createTorvaldsChart(app: App) {
     disableResourceNameHashes: true,
   });
 
-  new KubeNamespace(chart, "torvalds", {
-    metadata: {
-      name: "torvalds",
-      annotations: {
-        // https://volsync.readthedocs.io/en/stable/usage/permissionmodel.html#controlling-mover-permissions
-        "volsync.backube/privileged-movers": "true",
-      },
-    },
-  });
+  const tvVolume = new ZfsHddVolume(chart, "plex-tv-hdd-pvc", {});
+  const downloadsVolume = new ZfsHddVolume(chart, "qbittorrent-hdd-pvc", {});
+  const moviesVolume = new ZfsHddVolume(chart, "plex-movies-hdd-pvc", {});
+  const otherVolume = new ZfsHddVolume(chart, "plex-other-hdd-pvc", {});
+  const musicVolume = new ZfsHddVolume(chart, "plex-music-hdd-pvc", {});
 
   // TODO: create one namespace/argocd app per service
-  createBazarrDeployment(chart);
+  createBazarrDeployment(chart, {
+    tv: tvVolume.claim,
+    movies: moviesVolume.claim,
+  });
   createTautulliDeployment(chart);
   createTedditDeployment(chart);
-  createPlexDeployment(chart);
-  createRadarrDeployment(chart);
+  createPlexDeployment(chart, {
+    tv: tvVolume.claim,
+    movies: moviesVolume.claim,
+    other: otherVolume.claim,
+    music: musicVolume.claim,
+  });
+  createRadarrDeployment(chart, {
+    movies: moviesVolume.claim,
+    downloads: downloadsVolume.claim,
+  });
   createHomeAssistantDeployment(chart);
   createOverseerrDeployment(chart);
-  createQBitTorrentDeployment(chart);
-  createSonarrDeployment(chart);
+  createQBitTorrentDeployment(chart, {
+    downloads: downloadsVolume.claim,
+  });
+  createSonarrDeployment(chart, {
+    tv: tvVolume.claim,
+    downloads: downloadsVolume.claim,
+  });
   createSyncthingDeployment(chart);
   createGolinkDeployment(chart);
   createProwlarrDeployment(chart);

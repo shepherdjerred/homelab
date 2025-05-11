@@ -2,19 +2,22 @@ import {
   Deployment,
   DeploymentStrategy,
   EnvValue,
+  type PersistentVolumeClaim,
   Secret,
   Service,
   Volume,
 } from "cdk8s-plus";
 import { Chart } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
 
-export function createQBitTorrentDeployment(chart: Chart) {
+export function createQBitTorrentDeployment(chart: Chart, claims: {
+  downloads: PersistentVolumeClaim;
+}) {
   const item = new OnePasswordItem(chart, "mullvad", {
     spec: {
       itemPath:
@@ -27,7 +30,7 @@ export function createQBitTorrentDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "qbittorrent-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "qbittorrent-pvc", {});
 
   deployment.addContainer(
     withCommonProps({
@@ -85,15 +88,11 @@ export function createQBitTorrentDeployment(chart: Chart) {
             localPathVolume.claim,
           ),
         },
-        // TODO: replace this with a shared volume on the RAID array
         {
-          volume: Volume.fromHostPath(
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "qbittorrent-bind-mount",
-            "qbittorrent-bind-mount",
-            {
-              path: "/mnt/storage/downloads/torrents",
-            },
+            "qbittorrent-hdd-volume",
+            claims.download,
           ),
           path: "/downloads",
         },

@@ -4,7 +4,7 @@ import {
   LINUXSERVER_GID,
   withCommonLinuxServerProps,
 } from "../../utils/linuxserver.ts";
-import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
 
@@ -17,7 +17,7 @@ export function createMaintainerrDeployment(chart: Chart) {
     },
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "maintainerr-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "maintainerr-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({

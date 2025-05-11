@@ -8,13 +8,8 @@ import {
 } from "cdk8s-plus";
 import { ApiObject, Chart, JsonPatch } from "cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
-import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
-import {
-  ReplicationSource,
-  ReplicationSourceSpecResticCopyMethod,
-} from "../../../imports/volsync.backube.ts";
-import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 
 export function createHomeAssistantDeployment(chart: Chart) {
@@ -23,7 +18,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const claim = new LocalPathVolume(
+  const claim = new ZfsSsdVolume(
     chart,
     "homeassistant-pvc",
     {},
@@ -34,39 +29,6 @@ export function createHomeAssistantDeployment(chart: Chart) {
     "homeassistant-volume",
     claim.claim,
   );
-
-  const resticOnepasswordItem = new OnePasswordItem(
-    chart,
-    "homeassistant-restic-onepassword",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/rm4mkzt3quaa7x2digkkfbamou",
-      },
-      metadata: {
-        name: "homeassistant-restic-onepassword-item",
-      },
-    },
-  );
-
-  new ReplicationSource(chart, "homeassistant-replication-source", {
-    spec: {
-      sourcePvc: claim.claim.name,
-      trigger: {
-        schedule: "*/15 * * * *",
-      },
-      restic: {
-        repository: resticOnepasswordItem.name,
-        copyMethod: ReplicationSourceSpecResticCopyMethod.DIRECT,
-        pruneIntervalDays: 7,
-        retain: {
-          daily: 7,
-          weekly: 4,
-          monthly: 12,
-        },
-      },
-    },
-  });
 
   const files = Array.from(Deno.readDirSync("config/homeassistant"))
     .filter((entry) => entry.isFile)

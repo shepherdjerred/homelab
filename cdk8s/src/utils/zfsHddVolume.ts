@@ -8,7 +8,7 @@ import {
 import { Construct } from "constructs";
 import { Size } from "cdk8s";
 
-export class LocalPathVolume extends Construct {
+export class ZfsHddVolume extends Construct {
   public readonly claim: PersistentVolumeClaim;
   constructor(
     scope: Construct,
@@ -19,7 +19,7 @@ export class LocalPathVolume extends Construct {
     const baseProps: PersistentVolumeClaimProps = {
       // storage size doesn't matter for local-path
       storage: Size.gibibytes(8),
-      storageClassName: "host-zfs-ssd",
+      storageClassName: "host-zfs-hdd",
       accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
       metadata: {

@@ -8,7 +8,7 @@ import {
 import { Service } from "cdk8s-plus";
 import { Volume } from "cdk8s-plus";
 import { Chart } from "cdk8s";
-import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { withCommonProps } from "../../utils/common.ts";
 import versions from "../../versions.ts";
@@ -19,7 +19,7 @@ export function createEarthlyDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "earthly-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "earthly-pvc", {});
 
   const token = new OnePasswordItem(chart, "earthly-onepassword", {
     spec: {

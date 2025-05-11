@@ -12,7 +12,7 @@ import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 import type { Stage } from "../../charts/scout.ts";
 import { match } from "ts-pattern";
-import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 
 export function createScoutDeployment(chart: Chart, stage: Stage) {
   const deployment = new Deployment(chart, "scout-backend", {
@@ -54,7 +54,7 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
     },
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "scout-storage-claim", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "scout-storage-claim", {});
 
   deployment.addContainer(withCommonProps({
     image: image,

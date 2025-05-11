@@ -1,7 +1,7 @@
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../utils/common.ts";
-import { LocalPathVolume } from "../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
 import versions from "../versions.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
 
@@ -11,8 +11,8 @@ export function createFreshRssDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const freshRssDataVolume = new LocalPathVolume(chart, "freshrss-data", {});
-  const freshRssExtensionsVolme = new LocalPathVolume(
+  const freshRssDataVolume = new ZfsSsdVolume(chart, "freshrss-data", {});
+  const freshRssExtensionsVolme = new ZfsSsdVolume(
     chart,
     "freshrss-extensions",
     {},

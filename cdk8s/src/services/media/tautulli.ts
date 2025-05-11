@@ -1,7 +1,7 @@
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
 import { Chart } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
 
@@ -11,7 +11,7 @@ export function createTautulliDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new LocalPathVolume(chart, "tautulli-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "tautulli-pvc", {});
 
   deployment.addContainer(
     withCommonLinuxServerProps({

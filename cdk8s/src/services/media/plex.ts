@@ -3,17 +3,23 @@ import {
   DeploymentStrategy,
   EmptyDirMedium,
   EnvValue,
+  type PersistentVolumeClaim,
   Protocol,
   Service,
   Volume,
 } from "cdk8s-plus";
 import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
-import { LocalPathVolume } from "../../utils/localPathVolume.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
 
-export function createPlexDeployment(chart: Chart) {
+export function createPlexDeployment(chart: Chart, claims: {
+  tv: PersistentVolumeClaim;
+  movies: PersistentVolumeClaim;
+  other: PersistentVolumeClaim;
+  music: PersistentVolumeClaim;
+}) {
   const GID = 1000;
 
   const deployment = new Deployment(chart, "plex", {
@@ -24,7 +30,7 @@ export function createPlexDeployment(chart: Chart) {
     },
   });
 
-  const localPathVolume = new LocalPathVolume(
+  const localPathVolume = new ZfsSsdVolume(
     chart,
     "plex-pvc",
     {},
@@ -122,46 +128,34 @@ export function createPlexDeployment(chart: Chart) {
           ),
         },
         {
-          volume: Volume.fromHostPath(
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "plex-tv-bind-mount",
-            "plex-tv-bind-mount",
-            {
-              path: "/mnt/storage/media/tv",
-            },
+            "plex-tv-hdd-volume",
+            claims.tv,
           ),
           path: "/data/tv",
         },
         {
-          volume: Volume.fromHostPath(
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "plex-movies-bind-mount",
-            "plex-movies-bind-mount",
-            {
-              path: "/mnt/storage/media/movies",
-            },
+            "plex-movies-hdd-volume",
+            claims.movies,
           ),
           path: "/data/movies",
         },
         {
-          volume: Volume.fromHostPath(
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "plex-other-bind-mount",
-            "plex-other-bind-mount",
-            {
-              path: "/mnt/storage/media/other",
-            },
+            "plex-other-hdd-volume",
+            claims.other,
           ),
           path: "/data/other",
         },
         {
-          volume: Volume.fromHostPath(
+          volume: Volume.fromPersistentVolumeClaim(
             chart,
-            "plex-music-bind-mount",
-            "plex-music-bind-mount",
-            {
-              path: "/mnt/storage/media/music",
-            },
+            "plex-music-hdd-volume",
+            claims.music,
           ),
           path: "/data/music",
         },
