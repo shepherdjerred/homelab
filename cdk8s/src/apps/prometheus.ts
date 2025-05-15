@@ -83,7 +83,7 @@ export function createPrometheusApp(chart: Chart) {
                 storage: {
                   volumeClaimTemplate: {
                     spec: {
-                      storageClassName: "host-zfs-hdd",
+                      storageClassName: "host-zfs-hdd-shared",
                       accessModes: ["ReadWriteOnce"],
                       resources: {
                         requests: {
@@ -102,7 +102,7 @@ export function createPrometheusApp(chart: Chart) {
                 storageSpec: {
                   volumeClaimTemplate: {
                     spec: {
-                      storageClassName: "host-zfs-hdd",
+                      storageClassName: "host-zfs-hdd-shared",
                       accessModes: ["ReadWriteOnce"],
                       resources: {
                         requests: {

@@ -29,8 +29,6 @@ export function createTorvaldsChart(app: App) {
   const tvVolume = new ZfsHddVolume(chart, "plex-tv-hdd-pvc", {});
   const downloadsVolume = new ZfsHddVolume(chart, "qbittorrent-hdd-pvc", {});
   const moviesVolume = new ZfsHddVolume(chart, "plex-movies-hdd-pvc", {});
-  const otherVolume = new ZfsHddVolume(chart, "plex-other-hdd-pvc", {});
-  const musicVolume = new ZfsHddVolume(chart, "plex-music-hdd-pvc", {});
 
   // TODO: create one namespace/argocd app per service
   createBazarrDeployment(chart, {
@@ -42,8 +40,6 @@ export function createTorvaldsChart(app: App) {
   createPlexDeployment(chart, {
     tv: tvVolume.claim,
     movies: moviesVolume.claim,
-    other: otherVolume.claim,
-    music: musicVolume.claim,
   });
   createRadarrDeployment(chart, {
     movies: moviesVolume.claim,

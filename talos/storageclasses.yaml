@@ -1,6 +1,36 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
+  name: host-zfs-ssd-shared
+provisioner: zfs.csi.openebs.io
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+parameters:
+  fstype: "zfs"
+  poolname: "zfspv-pool-nvme"
+  compression: "off"
+  dedup: "off"
+  recordsize: 128k
+  shared: "yes"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: host-zfs-hdd-shared
+provisioner: zfs.csi.openebs.io
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+parameters:
+  fstype: "zfs"
+  poolname: "zfspv-pool-hdd"
+  compression: "off"
+  dedup: "off"
+  recordsize: 128k
+  shared: "yes"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
   name: host-zfs-ssd
 provisioner: zfs.csi.openebs.io
 allowVolumeExpansion: true
@@ -11,6 +41,7 @@ parameters:
   compression: "off"
   dedup: "off"
   recordsize: 128k
+  shared: "yes"
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -25,6 +56,7 @@ parameters:
   compression: "off"
   dedup: "off"
   recordsize: 128k
+  shared: "yes"
 ---
 kind: VolumeSnapshotClass
 apiVersion: snapshot.storage.k8s.io/v1

@@ -17,9 +17,8 @@ export class ZfsHddVolume extends Construct {
   ) {
     super(scope, id);
     const baseProps: PersistentVolumeClaimProps = {
-      // storage size doesn't matter for local-path
-      storage: Size.gibibytes(8),
-      storageClassName: "host-zfs-hdd",
+      storage: props.storage || Size.gibibytes(8),
+      storageClassName: "host-zfs-hdd-shared",
       accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
       metadata: {

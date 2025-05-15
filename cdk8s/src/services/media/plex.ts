@@ -17,8 +17,6 @@ import versions from "../../versions.ts";
 export function createPlexDeployment(chart: Chart, claims: {
   tv: PersistentVolumeClaim;
   movies: PersistentVolumeClaim;
-  other: PersistentVolumeClaim;
-  music: PersistentVolumeClaim;
 }) {
   const GID = 1000;
 
@@ -142,22 +140,6 @@ export function createPlexDeployment(chart: Chart, claims: {
             claims.movies,
           ),
           path: "/data/movies",
-        },
-        {
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "plex-other-hdd-volume",
-            claims.other,
-          ),
-          path: "/data/other",
-        },
-        {
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "plex-music-hdd-volume",
-            claims.music,
-          ),
-          path: "/data/music",
         },
         {
           volume: Volume.fromEmptyDir(

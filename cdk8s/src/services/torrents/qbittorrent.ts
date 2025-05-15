@@ -92,7 +92,7 @@ export function createQBitTorrentDeployment(chart: Chart, claims: {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "qbittorrent-hdd-volume",
-            claims.download,
+            claims.downloads,
           ),
           path: "/downloads",
         },

@@ -17,9 +17,8 @@ export class ZfsSsdVolume extends Construct {
   ) {
     super(scope, id);
     const baseProps: PersistentVolumeClaimProps = {
-      // storage size doesn't matter for local-path
-      storage: Size.gibibytes(8),
-      storageClassName: "host-zfs-ssd",
+      storage: props.storage || Size.gibibytes(8),
+      storageClassName: "host-zfs-ssd-shared",
       accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
       metadata: {
