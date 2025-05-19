@@ -85,7 +85,7 @@ export interface AcceleratorFunctionProps {
 /**
  * Converts an object of type 'AcceleratorFunctionProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_AcceleratorFunctionProps(
   obj: AcceleratorFunctionProps | undefined,
 ): Record<string, any> | undefined {
@@ -100,7 +100,7 @@ export function toJson_AcceleratorFunctionProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * AcceleratorFunctionSpec contains actual specs for AcceleratorFunction.
@@ -127,7 +127,7 @@ export interface AcceleratorFunctionSpec {
 /**
  * Converts an object of type 'AcceleratorFunctionSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_AcceleratorFunctionSpec(
   obj: AcceleratorFunctionSpec | undefined,
 ): Record<string, any> | undefined {
@@ -143,7 +143,7 @@ export function toJson_AcceleratorFunctionSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FpgaRegion is a specification for a FPGA region resource which can be programmed
@@ -223,7 +223,7 @@ export interface FpgaRegionProps {
 /**
  * Converts an object of type 'FpgaRegionProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FpgaRegionProps(
   obj: FpgaRegionProps | undefined,
 ): Record<string, any> | undefined {
@@ -238,7 +238,7 @@ export function toJson_FpgaRegionProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FpgaRegionSpec contains actual specs for FpgaRegion.
@@ -255,7 +255,7 @@ export interface FpgaRegionSpec {
 /**
  * Converts an object of type 'FpgaRegionSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FpgaRegionSpec(
   obj: FpgaRegionSpec | undefined,
 ): Record<string, any> | undefined {
@@ -269,4 +269,4 @@ export function toJson_FpgaRegionSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */

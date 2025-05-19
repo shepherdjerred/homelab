@@ -81,7 +81,7 @@ export interface NodeFeatureProps {
 /**
  * Converts an object of type 'NodeFeatureProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureProps(
   obj: NodeFeatureProps | undefined,
 ): Record<string, any> | undefined {
@@ -96,7 +96,7 @@ export function toJson_NodeFeatureProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Specification of the NodeFeature, containing features discovered for a node.
@@ -122,7 +122,7 @@ export interface NodeFeatureSpec {
 /**
  * Converts an object of type 'NodeFeatureSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureSpec(
   obj: NodeFeatureSpec | undefined,
 ): Record<string, any> | undefined {
@@ -142,7 +142,7 @@ export function toJson_NodeFeatureSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Features is the full "raw" features data that has been discovered.
@@ -175,7 +175,7 @@ export interface NodeFeatureSpecFeatures {
 /**
  * Converts an object of type 'NodeFeatureSpecFeatures' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureSpecFeatures(
   obj: NodeFeatureSpecFeatures | undefined,
 ): Record<string, any> | undefined {
@@ -213,7 +213,7 @@ export function toJson_NodeFeatureSpecFeatures(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * AttributeFeatureSet is a set of features having string value.
@@ -232,7 +232,7 @@ export interface NodeFeatureSpecFeaturesAttributes {
 /**
  * Converts an object of type 'NodeFeatureSpecFeaturesAttributes' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureSpecFeaturesAttributes(
   obj: NodeFeatureSpecFeaturesAttributes | undefined,
 ): Record<string, any> | undefined {
@@ -251,7 +251,7 @@ export function toJson_NodeFeatureSpecFeaturesAttributes(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FlagFeatureSet is a set of simple features only containing names without values.
@@ -270,7 +270,7 @@ export interface NodeFeatureSpecFeaturesFlags {
 /**
  * Converts an object of type 'NodeFeatureSpecFeaturesFlags' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureSpecFeaturesFlags(
   obj: NodeFeatureSpecFeaturesFlags | undefined,
 ): Record<string, any> | undefined {
@@ -289,7 +289,7 @@ export function toJson_NodeFeatureSpecFeaturesFlags(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * InstanceFeatureSet is a set of features each of which is an instance having multiple attributes.
@@ -308,7 +308,7 @@ export interface NodeFeatureSpecFeaturesInstances {
 /**
  * Converts an object of type 'NodeFeatureSpecFeaturesInstances' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureSpecFeaturesInstances(
   obj: NodeFeatureSpecFeaturesInstances | undefined,
 ): Record<string, any> | undefined {
@@ -324,7 +324,7 @@ export function toJson_NodeFeatureSpecFeaturesInstances(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * InstanceFeature represents one instance of a complex features, e.g. a device.
@@ -343,7 +343,7 @@ export interface NodeFeatureSpecFeaturesInstancesElements {
 /**
  * Converts an object of type 'NodeFeatureSpecFeaturesInstancesElements' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureSpecFeaturesInstancesElements(
   obj: NodeFeatureSpecFeaturesInstancesElements | undefined,
 ): Record<string, any> | undefined {
@@ -362,7 +362,7 @@ export function toJson_NodeFeatureSpecFeaturesInstancesElements(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NodeFeatureGroup resource holds Node pools by featureGroup
@@ -444,7 +444,7 @@ export interface NodeFeatureGroupProps {
 /**
  * Converts an object of type 'NodeFeatureGroupProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupProps(
   obj: NodeFeatureGroupProps | undefined,
 ): Record<string, any> | undefined {
@@ -459,7 +459,7 @@ export function toJson_NodeFeatureGroupProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Spec defines the rules to be evaluated.
@@ -478,7 +478,7 @@ export interface NodeFeatureGroupSpec {
 /**
  * Converts an object of type 'NodeFeatureGroupSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpec(
   obj: NodeFeatureGroupSpec | undefined,
 ): Record<string, any> | undefined {
@@ -494,7 +494,7 @@ export function toJson_NodeFeatureGroupSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * GroupRule defines a rule for nodegroup filtering.
@@ -527,7 +527,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRules {
 /**
  * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRules' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpecFeatureGroupRules(
   obj: NodeFeatureGroupSpecFeatureGroupRules | undefined,
 ): Record<string, any> | undefined {
@@ -547,7 +547,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRules(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MatchAnyElem specifies one sub-matcher of MatchAny.
@@ -567,7 +567,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAny {
 /**
  * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchAny' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAny(
   obj: NodeFeatureGroupSpecFeatureGroupRulesMatchAny | undefined,
 ): Record<string, any> | undefined {
@@ -583,7 +583,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAny(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FeatureMatcherTerm defines requirements against one feature set. All
@@ -624,7 +624,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures {
 /**
  * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures(
   obj: NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures | undefined,
 ): Record<string, any> | undefined {
@@ -652,7 +652,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FeatureMatcherTerm defines requirements against one feature set. All
@@ -693,7 +693,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures {
 /**
  * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures(
   obj: NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures | undefined,
 ): Record<string, any> | undefined {
@@ -721,7 +721,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeature
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MatchExpression specifies an expression to evaluate against a set of input
@@ -754,7 +754,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressi
 /**
  * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions(
   obj:
     | NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions
@@ -771,7 +771,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchEx
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MatchName in an expression that is matched against the name of each
@@ -802,7 +802,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName {
 /**
  * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName(
   obj: NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName | undefined,
 ): Record<string, any> | undefined {
@@ -817,7 +817,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchNa
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MatchExpression specifies an expression to evaluate against a set of input
@@ -850,7 +850,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatch
 /**
  * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions(
   obj:
     | NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions
@@ -867,7 +867,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeature
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MatchName in an expression that is matched against the name of each
@@ -899,7 +899,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatch
 /**
  * Converts an object of type 'NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName(
   obj:
     | NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName
@@ -916,7 +916,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeature
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Op is the operator to be applied.
@@ -1112,7 +1112,7 @@ export interface NodeFeatureRuleProps {
 /**
  * Converts an object of type 'NodeFeatureRuleProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleProps(
   obj: NodeFeatureRuleProps | undefined,
 ): Record<string, any> | undefined {
@@ -1127,7 +1127,7 @@ export function toJson_NodeFeatureRuleProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Spec defines the rules to be evaluated.
@@ -1146,7 +1146,7 @@ export interface NodeFeatureRuleSpec {
 /**
  * Converts an object of type 'NodeFeatureRuleSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleSpec(
   obj: NodeFeatureRuleSpec | undefined,
 ): Record<string, any> | undefined {
@@ -1160,7 +1160,7 @@ export function toJson_NodeFeatureRuleSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Rule defines a rule for node customization such as labeling.
@@ -1249,7 +1249,7 @@ export interface NodeFeatureRuleSpecRules {
 /**
  * Converts an object of type 'NodeFeatureRuleSpecRules' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleSpecRules(
   obj: NodeFeatureRuleSpecRules | undefined,
 ): Record<string, any> | undefined {
@@ -1296,7 +1296,7 @@ export function toJson_NodeFeatureRuleSpecRules(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MatchAnyElem specifies one sub-matcher of MatchAny.
@@ -1315,7 +1315,7 @@ export interface NodeFeatureRuleSpecRulesMatchAny {
 /**
  * Converts an object of type 'NodeFeatureRuleSpecRulesMatchAny' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleSpecRulesMatchAny(
   obj: NodeFeatureRuleSpecRulesMatchAny | undefined,
 ): Record<string, any> | undefined {
@@ -1331,7 +1331,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAny(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FeatureMatcherTerm defines requirements against one feature set. All
@@ -1370,7 +1370,7 @@ export interface NodeFeatureRuleSpecRulesMatchFeatures {
 /**
  * Converts an object of type 'NodeFeatureRuleSpecRulesMatchFeatures' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleSpecRulesMatchFeatures(
   obj: NodeFeatureRuleSpecRulesMatchFeatures | undefined,
 ): Record<string, any> | undefined {
@@ -1396,7 +1396,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeatures(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The node this Taint is attached to has the "effect" on
@@ -1440,7 +1440,7 @@ export interface NodeFeatureRuleSpecRulesTaints {
 /**
  * Converts an object of type 'NodeFeatureRuleSpecRulesTaints' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleSpecRulesTaints(
   obj: NodeFeatureRuleSpecRulesTaints | undefined,
 ): Record<string, any> | undefined {
@@ -1457,7 +1457,7 @@ export function toJson_NodeFeatureRuleSpecRulesTaints(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FeatureMatcherTerm defines requirements against one feature set. All
@@ -1497,7 +1497,7 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeatures {
 /**
  * Converts an object of type 'NodeFeatureRuleSpecRulesMatchAnyMatchFeatures' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeatures(
   obj: NodeFeatureRuleSpecRulesMatchAnyMatchFeatures | undefined,
 ): Record<string, any> | undefined {
@@ -1524,7 +1524,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeatures(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MatchExpression specifies an expression to evaluate against a set of input
@@ -1556,7 +1556,7 @@ export interface NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions {
 /**
  * Converts an object of type 'NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions(
   obj: NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions | undefined,
 ): Record<string, any> | undefined {
@@ -1571,7 +1571,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MatchName in an expression that is matched against the name of each
@@ -1602,7 +1602,7 @@ export interface NodeFeatureRuleSpecRulesMatchFeaturesMatchName {
 /**
  * Converts an object of type 'NodeFeatureRuleSpecRulesMatchFeaturesMatchName' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchName(
   obj: NodeFeatureRuleSpecRulesMatchFeaturesMatchName | undefined,
 ): Record<string, any> | undefined {
@@ -1617,7 +1617,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchName(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MatchExpression specifies an expression to evaluate against a set of input
@@ -1649,7 +1649,7 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions {
 /**
  * Converts an object of type 'NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions(
   obj:
     | NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions
@@ -1666,7 +1666,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpress
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MatchName in an expression that is matched against the name of each
@@ -1697,7 +1697,7 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName {
 /**
  * Converts an object of type 'NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName(
   obj: NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName | undefined,
 ): Record<string, any> | undefined {
@@ -1712,7 +1712,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Op is the operator to be applied.

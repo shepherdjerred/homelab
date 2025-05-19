@@ -6981,7 +6981,7 @@ export interface KubeMutatingWebhookConfigurationProps {
 /**
  * Converts an object of type 'KubeMutatingWebhookConfigurationProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeMutatingWebhookConfigurationProps(
   obj: KubeMutatingWebhookConfigurationProps | undefined,
 ): Record<string, any> | undefined {
@@ -6996,7 +6996,7 @@ export function toJson_KubeMutatingWebhookConfigurationProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MutatingWebhookConfigurationList is a list of MutatingWebhookConfiguration.
@@ -7022,7 +7022,7 @@ export interface KubeMutatingWebhookConfigurationListProps {
 /**
  * Converts an object of type 'KubeMutatingWebhookConfigurationListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeMutatingWebhookConfigurationListProps(
   obj: KubeMutatingWebhookConfigurationListProps | undefined,
 ): Record<string, any> | undefined {
@@ -7039,7 +7039,7 @@ export function toJson_KubeMutatingWebhookConfigurationListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ValidatingWebhookConfiguration describes the configuration of and admission webhook that accept or reject and object without changing it.
@@ -7065,7 +7065,7 @@ export interface KubeValidatingWebhookConfigurationProps {
 /**
  * Converts an object of type 'KubeValidatingWebhookConfigurationProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeValidatingWebhookConfigurationProps(
   obj: KubeValidatingWebhookConfigurationProps | undefined,
 ): Record<string, any> | undefined {
@@ -7080,7 +7080,7 @@ export function toJson_KubeValidatingWebhookConfigurationProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ValidatingWebhookConfigurationList is a list of ValidatingWebhookConfiguration.
@@ -7106,7 +7106,7 @@ export interface KubeValidatingWebhookConfigurationListProps {
 /**
  * Converts an object of type 'KubeValidatingWebhookConfigurationListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeValidatingWebhookConfigurationListProps(
   obj: KubeValidatingWebhookConfigurationListProps | undefined,
 ): Record<string, any> | undefined {
@@ -7123,7 +7123,7 @@ export function toJson_KubeValidatingWebhookConfigurationListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Storage version of a specific resource.
@@ -7149,7 +7149,7 @@ export interface KubeStorageVersionV1Alpha1Props {
 /**
  * Converts an object of type 'KubeStorageVersionV1Alpha1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeStorageVersionV1Alpha1Props(
   obj: KubeStorageVersionV1Alpha1Props | undefined,
 ): Record<string, any> | undefined {
@@ -7164,7 +7164,7 @@ export function toJson_KubeStorageVersionV1Alpha1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A list of StorageVersions.
@@ -7190,7 +7190,7 @@ export interface KubeStorageVersionListV1Alpha1Props {
 /**
  * Converts an object of type 'KubeStorageVersionListV1Alpha1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeStorageVersionListV1Alpha1Props(
   obj: KubeStorageVersionListV1Alpha1Props | undefined,
 ): Record<string, any> | undefined {
@@ -7205,7 +7205,7 @@ export function toJson_KubeStorageVersionListV1Alpha1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ControllerRevision implements an immutable snapshot of state data. Clients are responsible for serializing and deserializing the objects that contain their internal state. Once a ControllerRevision has been successfully created, it can not be updated. The API Server will fail validation of all requests that attempt to mutate the Data field. ControllerRevisions may, however, be deleted. Note that, due to its use by both the DaemonSet and StatefulSet controllers for update and rollback, this object is beta. However, it may be subject to name and representation changes in future releases, and clients should not depend on its stability. It is primarily for internal use by controllers.
@@ -7238,7 +7238,7 @@ export interface KubeControllerRevisionProps {
 /**
  * Converts an object of type 'KubeControllerRevisionProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeControllerRevisionProps(
   obj: KubeControllerRevisionProps | undefined,
 ): Record<string, any> | undefined {
@@ -7254,7 +7254,7 @@ export function toJson_KubeControllerRevisionProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ControllerRevisionList is a resource containing a list of ControllerRevision objects.
@@ -7280,7 +7280,7 @@ export interface KubeControllerRevisionListProps {
 /**
  * Converts an object of type 'KubeControllerRevisionListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeControllerRevisionListProps(
   obj: KubeControllerRevisionListProps | undefined,
 ): Record<string, any> | undefined {
@@ -7295,7 +7295,7 @@ export function toJson_KubeControllerRevisionListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DaemonSet represents the configuration of a daemon set.
@@ -7321,7 +7321,7 @@ export interface KubeDaemonSetProps {
 /**
  * Converts an object of type 'KubeDaemonSetProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeDaemonSetProps(
   obj: KubeDaemonSetProps | undefined,
 ): Record<string, any> | undefined {
@@ -7336,7 +7336,7 @@ export function toJson_KubeDaemonSetProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DaemonSetList is a collection of daemon sets.
@@ -7362,7 +7362,7 @@ export interface KubeDaemonSetListProps {
 /**
  * Converts an object of type 'KubeDaemonSetListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeDaemonSetListProps(
   obj: KubeDaemonSetListProps | undefined,
 ): Record<string, any> | undefined {
@@ -7377,7 +7377,7 @@ export function toJson_KubeDaemonSetListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Deployment enables declarative updates for Pods and ReplicaSets.
@@ -7403,7 +7403,7 @@ export interface KubeDeploymentProps {
 /**
  * Converts an object of type 'KubeDeploymentProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeDeploymentProps(
   obj: KubeDeploymentProps | undefined,
 ): Record<string, any> | undefined {
@@ -7418,7 +7418,7 @@ export function toJson_KubeDeploymentProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DeploymentList is a list of Deployments.
@@ -7444,7 +7444,7 @@ export interface KubeDeploymentListProps {
 /**
  * Converts an object of type 'KubeDeploymentListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeDeploymentListProps(
   obj: KubeDeploymentListProps | undefined,
 ): Record<string, any> | undefined {
@@ -7459,7 +7459,7 @@ export function toJson_KubeDeploymentListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ReplicaSet ensures that a specified number of pod replicas are running at any given time.
@@ -7485,7 +7485,7 @@ export interface KubeReplicaSetProps {
 /**
  * Converts an object of type 'KubeReplicaSetProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeReplicaSetProps(
   obj: KubeReplicaSetProps | undefined,
 ): Record<string, any> | undefined {
@@ -7500,7 +7500,7 @@ export function toJson_KubeReplicaSetProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ReplicaSetList is a collection of ReplicaSets.
@@ -7526,7 +7526,7 @@ export interface KubeReplicaSetListProps {
 /**
  * Converts an object of type 'KubeReplicaSetListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeReplicaSetListProps(
   obj: KubeReplicaSetListProps | undefined,
 ): Record<string, any> | undefined {
@@ -7541,7 +7541,7 @@ export function toJson_KubeReplicaSetListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * StatefulSet represents a set of pods with consistent identities. Identities are defined as:
@@ -7571,7 +7571,7 @@ export interface KubeStatefulSetProps {
 /**
  * Converts an object of type 'KubeStatefulSetProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeStatefulSetProps(
   obj: KubeStatefulSetProps | undefined,
 ): Record<string, any> | undefined {
@@ -7586,7 +7586,7 @@ export function toJson_KubeStatefulSetProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * StatefulSetList is a collection of StatefulSets.
@@ -7612,7 +7612,7 @@ export interface KubeStatefulSetListProps {
 /**
  * Converts an object of type 'KubeStatefulSetListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeStatefulSetListProps(
   obj: KubeStatefulSetListProps | undefined,
 ): Record<string, any> | undefined {
@@ -7627,7 +7627,7 @@ export function toJson_KubeStatefulSetListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * TokenRequest requests a token for a given service account.
@@ -7653,7 +7653,7 @@ export interface KubeTokenRequestProps {
 /**
  * Converts an object of type 'KubeTokenRequestProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeTokenRequestProps(
   obj: KubeTokenRequestProps | undefined,
 ): Record<string, any> | undefined {
@@ -7668,7 +7668,7 @@ export function toJson_KubeTokenRequestProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * TokenReview attempts to authenticate a token to a known user. Note: TokenReview requests may be cached by the webhook token authenticator plugin in the kube-apiserver.
@@ -7694,7 +7694,7 @@ export interface KubeTokenReviewProps {
 /**
  * Converts an object of type 'KubeTokenReviewProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeTokenReviewProps(
   obj: KubeTokenReviewProps | undefined,
 ): Record<string, any> | undefined {
@@ -7709,7 +7709,7 @@ export function toJson_KubeTokenReviewProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LocalSubjectAccessReview checks whether or not a user or group can perform an action in a given namespace. Having a namespace scoped resource makes it much easier to grant namespace scoped policy that includes permissions checking.
@@ -7735,7 +7735,7 @@ export interface KubeLocalSubjectAccessReviewProps {
 /**
  * Converts an object of type 'KubeLocalSubjectAccessReviewProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeLocalSubjectAccessReviewProps(
   obj: KubeLocalSubjectAccessReviewProps | undefined,
 ): Record<string, any> | undefined {
@@ -7750,7 +7750,7 @@ export function toJson_KubeLocalSubjectAccessReviewProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SelfSubjectAccessReview checks whether or the current user can perform an action.  Not filling in a spec.namespace means "in all namespaces".  Self is a special case, because users should always be able to check whether they can perform an action
@@ -7776,7 +7776,7 @@ export interface KubeSelfSubjectAccessReviewProps {
 /**
  * Converts an object of type 'KubeSelfSubjectAccessReviewProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeSelfSubjectAccessReviewProps(
   obj: KubeSelfSubjectAccessReviewProps | undefined,
 ): Record<string, any> | undefined {
@@ -7791,7 +7791,7 @@ export function toJson_KubeSelfSubjectAccessReviewProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SelfSubjectRulesReview enumerates the set of actions the current user can perform within a namespace. The returned list of actions may be incomplete depending on the server's authorization mode, and any errors experienced during the evaluation. SelfSubjectRulesReview should be used by UIs to show/hide actions, or to quickly let an end user reason about their permissions. It should NOT Be used by external systems to drive authorization decisions as this raises confused deputy, cache lifetime/revocation, and correctness concerns. SubjectAccessReview, and LocalAccessReview are the correct way to defer authorization decisions to the API server.
@@ -7817,7 +7817,7 @@ export interface KubeSelfSubjectRulesReviewProps {
 /**
  * Converts an object of type 'KubeSelfSubjectRulesReviewProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeSelfSubjectRulesReviewProps(
   obj: KubeSelfSubjectRulesReviewProps | undefined,
 ): Record<string, any> | undefined {
@@ -7832,7 +7832,7 @@ export function toJson_KubeSelfSubjectRulesReviewProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SubjectAccessReview checks whether or not a user or group can perform an action.
@@ -7858,7 +7858,7 @@ export interface KubeSubjectAccessReviewProps {
 /**
  * Converts an object of type 'KubeSubjectAccessReviewProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeSubjectAccessReviewProps(
   obj: KubeSubjectAccessReviewProps | undefined,
 ): Record<string, any> | undefined {
@@ -7873,7 +7873,7 @@ export function toJson_KubeSubjectAccessReviewProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * configuration of a horizontal pod autoscaler.
@@ -7899,7 +7899,7 @@ export interface KubeHorizontalPodAutoscalerProps {
 /**
  * Converts an object of type 'KubeHorizontalPodAutoscalerProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeHorizontalPodAutoscalerProps(
   obj: KubeHorizontalPodAutoscalerProps | undefined,
 ): Record<string, any> | undefined {
@@ -7914,7 +7914,7 @@ export function toJson_KubeHorizontalPodAutoscalerProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * list of horizontal pod autoscaler objects.
@@ -7940,7 +7940,7 @@ export interface KubeHorizontalPodAutoscalerListProps {
 /**
  * Converts an object of type 'KubeHorizontalPodAutoscalerListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeHorizontalPodAutoscalerListProps(
   obj: KubeHorizontalPodAutoscalerListProps | undefined,
 ): Record<string, any> | undefined {
@@ -7955,7 +7955,7 @@ export function toJson_KubeHorizontalPodAutoscalerListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Scale represents a scaling request for a resource.
@@ -7981,7 +7981,7 @@ export interface KubeScaleProps {
 /**
  * Converts an object of type 'KubeScaleProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeScaleProps(
   obj: KubeScaleProps | undefined,
 ): Record<string, any> | undefined {
@@ -7996,7 +7996,7 @@ export function toJson_KubeScaleProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HorizontalPodAutoscaler is the configuration for a horizontal pod autoscaler, which automatically manages the replica count of any resource implementing the scale subresource based on the metrics specified.
@@ -8022,7 +8022,7 @@ export interface KubeHorizontalPodAutoscalerV2Props {
 /**
  * Converts an object of type 'KubeHorizontalPodAutoscalerV2Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeHorizontalPodAutoscalerV2Props(
   obj: KubeHorizontalPodAutoscalerV2Props | undefined,
 ): Record<string, any> | undefined {
@@ -8037,7 +8037,7 @@ export function toJson_KubeHorizontalPodAutoscalerV2Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HorizontalPodAutoscalerList is a list of horizontal pod autoscaler objects.
@@ -8063,7 +8063,7 @@ export interface KubeHorizontalPodAutoscalerListV2Props {
 /**
  * Converts an object of type 'KubeHorizontalPodAutoscalerListV2Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeHorizontalPodAutoscalerListV2Props(
   obj: KubeHorizontalPodAutoscalerListV2Props | undefined,
 ): Record<string, any> | undefined {
@@ -8080,7 +8080,7 @@ export function toJson_KubeHorizontalPodAutoscalerListV2Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HorizontalPodAutoscaler is the configuration for a horizontal pod autoscaler, which automatically manages the replica count of any resource implementing the scale subresource based on the metrics specified.
@@ -8106,7 +8106,7 @@ export interface KubeHorizontalPodAutoscalerV2Beta2Props {
 /**
  * Converts an object of type 'KubeHorizontalPodAutoscalerV2Beta2Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeHorizontalPodAutoscalerV2Beta2Props(
   obj: KubeHorizontalPodAutoscalerV2Beta2Props | undefined,
 ): Record<string, any> | undefined {
@@ -8121,7 +8121,7 @@ export function toJson_KubeHorizontalPodAutoscalerV2Beta2Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HorizontalPodAutoscalerList is a list of horizontal pod autoscaler objects.
@@ -8147,7 +8147,7 @@ export interface KubeHorizontalPodAutoscalerListV2Beta2Props {
 /**
  * Converts an object of type 'KubeHorizontalPodAutoscalerListV2Beta2Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeHorizontalPodAutoscalerListV2Beta2Props(
   obj: KubeHorizontalPodAutoscalerListV2Beta2Props | undefined,
 ): Record<string, any> | undefined {
@@ -8164,7 +8164,7 @@ export function toJson_KubeHorizontalPodAutoscalerListV2Beta2Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CronJob represents the configuration of a single cron job.
@@ -8190,7 +8190,7 @@ export interface KubeCronJobProps {
 /**
  * Converts an object of type 'KubeCronJobProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCronJobProps(
   obj: KubeCronJobProps | undefined,
 ): Record<string, any> | undefined {
@@ -8205,7 +8205,7 @@ export function toJson_KubeCronJobProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CronJobList is a collection of cron jobs.
@@ -8231,7 +8231,7 @@ export interface KubeCronJobListProps {
 /**
  * Converts an object of type 'KubeCronJobListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCronJobListProps(
   obj: KubeCronJobListProps | undefined,
 ): Record<string, any> | undefined {
@@ -8246,7 +8246,7 @@ export function toJson_KubeCronJobListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Job represents the configuration of a single job.
@@ -8272,7 +8272,7 @@ export interface KubeJobProps {
 /**
  * Converts an object of type 'KubeJobProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeJobProps(
   obj: KubeJobProps | undefined,
 ): Record<string, any> | undefined {
@@ -8287,7 +8287,7 @@ export function toJson_KubeJobProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * JobList is a collection of jobs.
@@ -8313,7 +8313,7 @@ export interface KubeJobListProps {
 /**
  * Converts an object of type 'KubeJobListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeJobListProps(
   obj: KubeJobListProps | undefined,
 ): Record<string, any> | undefined {
@@ -8328,7 +8328,7 @@ export function toJson_KubeJobListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CertificateSigningRequest objects provide a mechanism to obtain x509 certificates by submitting a certificate signing request, and having it asynchronously approved and issued.
@@ -8358,7 +8358,7 @@ export interface KubeCertificateSigningRequestProps {
 /**
  * Converts an object of type 'KubeCertificateSigningRequestProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCertificateSigningRequestProps(
   obj: KubeCertificateSigningRequestProps | undefined,
 ): Record<string, any> | undefined {
@@ -8373,7 +8373,7 @@ export function toJson_KubeCertificateSigningRequestProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CertificateSigningRequestList is a collection of CertificateSigningRequest objects
@@ -8397,7 +8397,7 @@ export interface KubeCertificateSigningRequestListProps {
 /**
  * Converts an object of type 'KubeCertificateSigningRequestListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCertificateSigningRequestListProps(
   obj: KubeCertificateSigningRequestListProps | undefined,
 ): Record<string, any> | undefined {
@@ -8414,7 +8414,7 @@ export function toJson_KubeCertificateSigningRequestListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Lease defines a lease concept.
@@ -8440,7 +8440,7 @@ export interface KubeLeaseProps {
 /**
  * Converts an object of type 'KubeLeaseProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeLeaseProps(
   obj: KubeLeaseProps | undefined,
 ): Record<string, any> | undefined {
@@ -8455,7 +8455,7 @@ export function toJson_KubeLeaseProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LeaseList is a list of Lease objects.
@@ -8481,7 +8481,7 @@ export interface KubeLeaseListProps {
 /**
  * Converts an object of type 'KubeLeaseListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeLeaseListProps(
   obj: KubeLeaseListProps | undefined,
 ): Record<string, any> | undefined {
@@ -8496,7 +8496,7 @@ export function toJson_KubeLeaseListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Binding ties one object to another; for example, a pod is bound to a node by a scheduler. Deprecated in 1.7, please use the bindings subresource of pods instead.
@@ -8522,7 +8522,7 @@ export interface KubeBindingProps {
 /**
  * Converts an object of type 'KubeBindingProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeBindingProps(
   obj: KubeBindingProps | undefined,
 ): Record<string, any> | undefined {
@@ -8537,7 +8537,7 @@ export function toJson_KubeBindingProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ComponentStatus (and ComponentStatusList) holds the cluster validation info. Deprecated: This API is deprecated in v1.19+
@@ -8563,7 +8563,7 @@ export interface KubeComponentStatusProps {
 /**
  * Converts an object of type 'KubeComponentStatusProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeComponentStatusProps(
   obj: KubeComponentStatusProps | undefined,
 ): Record<string, any> | undefined {
@@ -8578,7 +8578,7 @@ export function toJson_KubeComponentStatusProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Status of all the conditions for the component as a list of ComponentStatus objects. Deprecated: This API is deprecated in v1.19+
@@ -8604,7 +8604,7 @@ export interface KubeComponentStatusListProps {
 /**
  * Converts an object of type 'KubeComponentStatusListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeComponentStatusListProps(
   obj: KubeComponentStatusListProps | undefined,
 ): Record<string, any> | undefined {
@@ -8619,7 +8619,7 @@ export function toJson_KubeComponentStatusListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ConfigMap holds configuration data for pods to consume.
@@ -8659,7 +8659,7 @@ export interface KubeConfigMapProps {
 /**
  * Converts an object of type 'KubeConfigMapProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeConfigMapProps(
   obj: KubeConfigMapProps | undefined,
 ): Record<string, any> | undefined {
@@ -8686,7 +8686,7 @@ export function toJson_KubeConfigMapProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ConfigMapList is a resource containing a list of ConfigMap objects.
@@ -8712,7 +8712,7 @@ export interface KubeConfigMapListProps {
 /**
  * Converts an object of type 'KubeConfigMapListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeConfigMapListProps(
   obj: KubeConfigMapListProps | undefined,
 ): Record<string, any> | undefined {
@@ -8727,7 +8727,7 @@ export function toJson_KubeConfigMapListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Endpoints is a collection of endpoints that implement the actual service. Example:
@@ -8765,7 +8765,7 @@ export interface KubeEndpointsProps {
 /**
  * Converts an object of type 'KubeEndpointsProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeEndpointsProps(
   obj: KubeEndpointsProps | undefined,
 ): Record<string, any> | undefined {
@@ -8780,7 +8780,7 @@ export function toJson_KubeEndpointsProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EndpointsList is a list of endpoints.
@@ -8806,7 +8806,7 @@ export interface KubeEndpointsListProps {
 /**
  * Converts an object of type 'KubeEndpointsListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeEndpointsListProps(
   obj: KubeEndpointsListProps | undefined,
 ): Record<string, any> | undefined {
@@ -8821,7 +8821,7 @@ export function toJson_KubeEndpointsListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Event is a report of an event somewhere in the cluster. It generally denotes some state change in the system. Events have a limited retention time and triggers and messages may evolve with time.  Event consumers should not rely on the timing of an event with a given Reason reflecting a consistent underlying trigger, or the continued existence of events with that Reason.  Events should be treated as informative, best-effort, supplemental data.
@@ -8938,7 +8938,7 @@ export interface KubeEventProps {
 /**
  * Converts an object of type 'KubeEventProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeEventProps(
   obj: KubeEventProps | undefined,
 ): Record<string, any> | undefined {
@@ -8966,7 +8966,7 @@ export function toJson_KubeEventProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EventList is a list of Event objects.
@@ -8992,7 +8992,7 @@ export interface KubeEventListProps {
 /**
  * Converts an object of type 'KubeEventListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeEventListProps(
   obj: KubeEventListProps | undefined,
 ): Record<string, any> | undefined {
@@ -9007,7 +9007,7 @@ export function toJson_KubeEventListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LimitRange sets resource usage limits for each kind of resource in a Namespace.
@@ -9033,7 +9033,7 @@ export interface KubeLimitRangeProps {
 /**
  * Converts an object of type 'KubeLimitRangeProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeLimitRangeProps(
   obj: KubeLimitRangeProps | undefined,
 ): Record<string, any> | undefined {
@@ -9048,7 +9048,7 @@ export function toJson_KubeLimitRangeProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LimitRangeList is a list of LimitRange items.
@@ -9074,7 +9074,7 @@ export interface KubeLimitRangeListProps {
 /**
  * Converts an object of type 'KubeLimitRangeListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeLimitRangeListProps(
   obj: KubeLimitRangeListProps | undefined,
 ): Record<string, any> | undefined {
@@ -9089,7 +9089,7 @@ export function toJson_KubeLimitRangeListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Namespace provides a scope for Names. Use of multiple namespaces is optional.
@@ -9115,7 +9115,7 @@ export interface KubeNamespaceProps {
 /**
  * Converts an object of type 'KubeNamespaceProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeNamespaceProps(
   obj: KubeNamespaceProps | undefined,
 ): Record<string, any> | undefined {
@@ -9130,7 +9130,7 @@ export function toJson_KubeNamespaceProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NamespaceList is a list of Namespaces.
@@ -9156,7 +9156,7 @@ export interface KubeNamespaceListProps {
 /**
  * Converts an object of type 'KubeNamespaceListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeNamespaceListProps(
   obj: KubeNamespaceListProps | undefined,
 ): Record<string, any> | undefined {
@@ -9171,7 +9171,7 @@ export function toJson_KubeNamespaceListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Node is a worker node in Kubernetes. Each node will have a unique identifier in the cache (i.e. in etcd).
@@ -9197,7 +9197,7 @@ export interface KubeNodeProps {
 /**
  * Converts an object of type 'KubeNodeProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeNodeProps(
   obj: KubeNodeProps | undefined,
 ): Record<string, any> | undefined {
@@ -9212,7 +9212,7 @@ export function toJson_KubeNodeProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NodeList is the whole list of all Nodes which have been registered with master.
@@ -9238,7 +9238,7 @@ export interface KubeNodeListProps {
 /**
  * Converts an object of type 'KubeNodeListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeNodeListProps(
   obj: KubeNodeListProps | undefined,
 ): Record<string, any> | undefined {
@@ -9253,7 +9253,7 @@ export function toJson_KubeNodeListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PersistentVolume (PV) is a storage resource provisioned by an administrator. It is analogous to a node. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes
@@ -9279,7 +9279,7 @@ export interface KubePersistentVolumeProps {
 /**
  * Converts an object of type 'KubePersistentVolumeProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePersistentVolumeProps(
   obj: KubePersistentVolumeProps | undefined,
 ): Record<string, any> | undefined {
@@ -9294,7 +9294,7 @@ export function toJson_KubePersistentVolumeProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PersistentVolumeClaim is a user's request for and claim to a persistent volume
@@ -9320,7 +9320,7 @@ export interface KubePersistentVolumeClaimProps {
 /**
  * Converts an object of type 'KubePersistentVolumeClaimProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePersistentVolumeClaimProps(
   obj: KubePersistentVolumeClaimProps | undefined,
 ): Record<string, any> | undefined {
@@ -9335,7 +9335,7 @@ export function toJson_KubePersistentVolumeClaimProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PersistentVolumeClaimList is a list of PersistentVolumeClaim items.
@@ -9361,7 +9361,7 @@ export interface KubePersistentVolumeClaimListProps {
 /**
  * Converts an object of type 'KubePersistentVolumeClaimListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePersistentVolumeClaimListProps(
   obj: KubePersistentVolumeClaimListProps | undefined,
 ): Record<string, any> | undefined {
@@ -9376,7 +9376,7 @@ export function toJson_KubePersistentVolumeClaimListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PersistentVolumeList is a list of PersistentVolume items.
@@ -9402,7 +9402,7 @@ export interface KubePersistentVolumeListProps {
 /**
  * Converts an object of type 'KubePersistentVolumeListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePersistentVolumeListProps(
   obj: KubePersistentVolumeListProps | undefined,
 ): Record<string, any> | undefined {
@@ -9417,7 +9417,7 @@ export function toJson_KubePersistentVolumeListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Pod is a collection of containers that can run on a host. This resource is created by clients and scheduled onto hosts.
@@ -9443,7 +9443,7 @@ export interface KubePodProps {
 /**
  * Converts an object of type 'KubePodProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePodProps(
   obj: KubePodProps | undefined,
 ): Record<string, any> | undefined {
@@ -9458,7 +9458,7 @@ export function toJson_KubePodProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodList is a list of Pods.
@@ -9484,7 +9484,7 @@ export interface KubePodListProps {
 /**
  * Converts an object of type 'KubePodListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePodListProps(
   obj: KubePodListProps | undefined,
 ): Record<string, any> | undefined {
@@ -9499,7 +9499,7 @@ export function toJson_KubePodListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodTemplate describes a template for creating copies of a predefined pod.
@@ -9525,7 +9525,7 @@ export interface KubePodTemplateProps {
 /**
  * Converts an object of type 'KubePodTemplateProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePodTemplateProps(
   obj: KubePodTemplateProps | undefined,
 ): Record<string, any> | undefined {
@@ -9540,7 +9540,7 @@ export function toJson_KubePodTemplateProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodTemplateList is a list of PodTemplates.
@@ -9566,7 +9566,7 @@ export interface KubePodTemplateListProps {
 /**
  * Converts an object of type 'KubePodTemplateListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePodTemplateListProps(
   obj: KubePodTemplateListProps | undefined,
 ): Record<string, any> | undefined {
@@ -9581,7 +9581,7 @@ export function toJson_KubePodTemplateListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ReplicationController represents the configuration of a replication controller.
@@ -9607,7 +9607,7 @@ export interface KubeReplicationControllerProps {
 /**
  * Converts an object of type 'KubeReplicationControllerProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeReplicationControllerProps(
   obj: KubeReplicationControllerProps | undefined,
 ): Record<string, any> | undefined {
@@ -9622,7 +9622,7 @@ export function toJson_KubeReplicationControllerProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ReplicationControllerList is a collection of replication controllers.
@@ -9648,7 +9648,7 @@ export interface KubeReplicationControllerListProps {
 /**
  * Converts an object of type 'KubeReplicationControllerListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeReplicationControllerListProps(
   obj: KubeReplicationControllerListProps | undefined,
 ): Record<string, any> | undefined {
@@ -9663,7 +9663,7 @@ export function toJson_KubeReplicationControllerListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourceQuota sets aggregate quota restrictions enforced per namespace
@@ -9689,7 +9689,7 @@ export interface KubeResourceQuotaProps {
 /**
  * Converts an object of type 'KubeResourceQuotaProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeResourceQuotaProps(
   obj: KubeResourceQuotaProps | undefined,
 ): Record<string, any> | undefined {
@@ -9704,7 +9704,7 @@ export function toJson_KubeResourceQuotaProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourceQuotaList is a list of ResourceQuota items.
@@ -9730,7 +9730,7 @@ export interface KubeResourceQuotaListProps {
 /**
  * Converts an object of type 'KubeResourceQuotaListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeResourceQuotaListProps(
   obj: KubeResourceQuotaListProps | undefined,
 ): Record<string, any> | undefined {
@@ -9745,7 +9745,7 @@ export function toJson_KubeResourceQuotaListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Secret holds secret data of a certain type. The total bytes of the values in the Data field must be less than MaxSecretSize bytes.
@@ -9792,7 +9792,7 @@ export interface KubeSecretProps {
 /**
  * Converts an object of type 'KubeSecretProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeSecretProps(
   obj: KubeSecretProps | undefined,
 ): Record<string, any> | undefined {
@@ -9820,7 +9820,7 @@ export function toJson_KubeSecretProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SecretList is a list of Secret.
@@ -9846,7 +9846,7 @@ export interface KubeSecretListProps {
 /**
  * Converts an object of type 'KubeSecretListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeSecretListProps(
   obj: KubeSecretListProps | undefined,
 ): Record<string, any> | undefined {
@@ -9861,7 +9861,7 @@ export function toJson_KubeSecretListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Service is a named abstraction of software service (for example, mysql) consisting of local port (for example 3306) that the proxy listens on, and the selector that determines which pods will answer requests sent through the proxy.
@@ -9887,7 +9887,7 @@ export interface KubeServiceProps {
 /**
  * Converts an object of type 'KubeServiceProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeServiceProps(
   obj: KubeServiceProps | undefined,
 ): Record<string, any> | undefined {
@@ -9902,7 +9902,7 @@ export function toJson_KubeServiceProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ServiceAccount binds together: * a name, understood by users, and perhaps by peripheral systems, for an identity * a principal that can be authenticated and authorized * a set of secrets
@@ -9942,7 +9942,7 @@ export interface KubeServiceAccountProps {
 /**
  * Converts an object of type 'KubeServiceAccountProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeServiceAccountProps(
   obj: KubeServiceAccountProps | undefined,
 ): Record<string, any> | undefined {
@@ -9961,7 +9961,7 @@ export function toJson_KubeServiceAccountProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ServiceAccountList is a list of ServiceAccount objects
@@ -9987,7 +9987,7 @@ export interface KubeServiceAccountListProps {
 /**
  * Converts an object of type 'KubeServiceAccountListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeServiceAccountListProps(
   obj: KubeServiceAccountListProps | undefined,
 ): Record<string, any> | undefined {
@@ -10002,7 +10002,7 @@ export function toJson_KubeServiceAccountListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ServiceList holds a list of services.
@@ -10028,7 +10028,7 @@ export interface KubeServiceListProps {
 /**
  * Converts an object of type 'KubeServiceListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeServiceListProps(
   obj: KubeServiceListProps | undefined,
 ): Record<string, any> | undefined {
@@ -10043,7 +10043,7 @@ export function toJson_KubeServiceListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EndpointSlice represents a subset of the endpoints that implement a service. For a given service there may be multiple EndpointSlice objects, selected by labels, which must be joined to produce the full set of endpoints.
@@ -10083,7 +10083,7 @@ export interface KubeEndpointSliceProps {
 /**
  * Converts an object of type 'KubeEndpointSliceProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeEndpointSliceProps(
   obj: KubeEndpointSliceProps | undefined,
 ): Record<string, any> | undefined {
@@ -10100,7 +10100,7 @@ export function toJson_KubeEndpointSliceProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EndpointSliceList represents a list of endpoint slices
@@ -10126,7 +10126,7 @@ export interface KubeEndpointSliceListProps {
 /**
  * Converts an object of type 'KubeEndpointSliceListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeEndpointSliceListProps(
   obj: KubeEndpointSliceListProps | undefined,
 ): Record<string, any> | undefined {
@@ -10141,7 +10141,7 @@ export function toJson_KubeEndpointSliceListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FlowSchema defines the schema of a group of flows. Note that a flow is made up of a set of inbound API requests with similar attributes and is identified by a pair of strings: the name of the FlowSchema and a "flow distinguisher".
@@ -10167,7 +10167,7 @@ export interface KubeFlowSchemaV1Beta1Props {
 /**
  * Converts an object of type 'KubeFlowSchemaV1Beta1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeFlowSchemaV1Beta1Props(
   obj: KubeFlowSchemaV1Beta1Props | undefined,
 ): Record<string, any> | undefined {
@@ -10182,7 +10182,7 @@ export function toJson_KubeFlowSchemaV1Beta1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FlowSchemaList is a list of FlowSchema objects.
@@ -10208,7 +10208,7 @@ export interface KubeFlowSchemaListV1Beta1Props {
 /**
  * Converts an object of type 'KubeFlowSchemaListV1Beta1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeFlowSchemaListV1Beta1Props(
   obj: KubeFlowSchemaListV1Beta1Props | undefined,
 ): Record<string, any> | undefined {
@@ -10223,7 +10223,7 @@ export function toJson_KubeFlowSchemaListV1Beta1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PriorityLevelConfiguration represents the configuration of a priority level.
@@ -10249,7 +10249,7 @@ export interface KubePriorityLevelConfigurationV1Beta1Props {
 /**
  * Converts an object of type 'KubePriorityLevelConfigurationV1Beta1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePriorityLevelConfigurationV1Beta1Props(
   obj: KubePriorityLevelConfigurationV1Beta1Props | undefined,
 ): Record<string, any> | undefined {
@@ -10264,7 +10264,7 @@ export function toJson_KubePriorityLevelConfigurationV1Beta1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PriorityLevelConfigurationList is a list of PriorityLevelConfiguration objects.
@@ -10290,7 +10290,7 @@ export interface KubePriorityLevelConfigurationListV1Beta1Props {
 /**
  * Converts an object of type 'KubePriorityLevelConfigurationListV1Beta1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePriorityLevelConfigurationListV1Beta1Props(
   obj: KubePriorityLevelConfigurationListV1Beta1Props | undefined,
 ): Record<string, any> | undefined {
@@ -10307,7 +10307,7 @@ export function toJson_KubePriorityLevelConfigurationListV1Beta1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FlowSchema defines the schema of a group of flows. Note that a flow is made up of a set of inbound API requests with similar attributes and is identified by a pair of strings: the name of the FlowSchema and a "flow distinguisher".
@@ -10333,7 +10333,7 @@ export interface KubeFlowSchemaV1Beta2Props {
 /**
  * Converts an object of type 'KubeFlowSchemaV1Beta2Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeFlowSchemaV1Beta2Props(
   obj: KubeFlowSchemaV1Beta2Props | undefined,
 ): Record<string, any> | undefined {
@@ -10348,7 +10348,7 @@ export function toJson_KubeFlowSchemaV1Beta2Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FlowSchemaList is a list of FlowSchema objects.
@@ -10374,7 +10374,7 @@ export interface KubeFlowSchemaListV1Beta2Props {
 /**
  * Converts an object of type 'KubeFlowSchemaListV1Beta2Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeFlowSchemaListV1Beta2Props(
   obj: KubeFlowSchemaListV1Beta2Props | undefined,
 ): Record<string, any> | undefined {
@@ -10389,7 +10389,7 @@ export function toJson_KubeFlowSchemaListV1Beta2Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PriorityLevelConfiguration represents the configuration of a priority level.
@@ -10415,7 +10415,7 @@ export interface KubePriorityLevelConfigurationV1Beta2Props {
 /**
  * Converts an object of type 'KubePriorityLevelConfigurationV1Beta2Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePriorityLevelConfigurationV1Beta2Props(
   obj: KubePriorityLevelConfigurationV1Beta2Props | undefined,
 ): Record<string, any> | undefined {
@@ -10430,7 +10430,7 @@ export function toJson_KubePriorityLevelConfigurationV1Beta2Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PriorityLevelConfigurationList is a list of PriorityLevelConfiguration objects.
@@ -10456,7 +10456,7 @@ export interface KubePriorityLevelConfigurationListV1Beta2Props {
 /**
  * Converts an object of type 'KubePriorityLevelConfigurationListV1Beta2Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePriorityLevelConfigurationListV1Beta2Props(
   obj: KubePriorityLevelConfigurationListV1Beta2Props | undefined,
 ): Record<string, any> | undefined {
@@ -10473,7 +10473,7 @@ export function toJson_KubePriorityLevelConfigurationListV1Beta2Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Ingress is a collection of rules that allow inbound connections to reach the endpoints defined by a backend. An Ingress can be configured to give services externally-reachable urls, load balance traffic, terminate SSL, offer name based virtual hosting etc.
@@ -10499,7 +10499,7 @@ export interface KubeIngressProps {
 /**
  * Converts an object of type 'KubeIngressProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeIngressProps(
   obj: KubeIngressProps | undefined,
 ): Record<string, any> | undefined {
@@ -10514,7 +10514,7 @@ export function toJson_KubeIngressProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IngressClass represents the class of the Ingress, referenced by the Ingress Spec. The `ingressclass.kubernetes.io/is-default-class` annotation can be used to indicate that an IngressClass should be considered default. When a single IngressClass resource has this annotation set to true, new Ingress resources without a class specified will be assigned this default class.
@@ -10540,7 +10540,7 @@ export interface KubeIngressClassProps {
 /**
  * Converts an object of type 'KubeIngressClassProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeIngressClassProps(
   obj: KubeIngressClassProps | undefined,
 ): Record<string, any> | undefined {
@@ -10555,7 +10555,7 @@ export function toJson_KubeIngressClassProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IngressClassList is a collection of IngressClasses.
@@ -10581,7 +10581,7 @@ export interface KubeIngressClassListProps {
 /**
  * Converts an object of type 'KubeIngressClassListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeIngressClassListProps(
   obj: KubeIngressClassListProps | undefined,
 ): Record<string, any> | undefined {
@@ -10596,7 +10596,7 @@ export function toJson_KubeIngressClassListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IngressList is a collection of Ingress.
@@ -10622,7 +10622,7 @@ export interface KubeIngressListProps {
 /**
  * Converts an object of type 'KubeIngressListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeIngressListProps(
   obj: KubeIngressListProps | undefined,
 ): Record<string, any> | undefined {
@@ -10637,7 +10637,7 @@ export function toJson_KubeIngressListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NetworkPolicy describes what network traffic is allowed for a set of Pods
@@ -10663,7 +10663,7 @@ export interface KubeNetworkPolicyProps {
 /**
  * Converts an object of type 'KubeNetworkPolicyProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeNetworkPolicyProps(
   obj: KubeNetworkPolicyProps | undefined,
 ): Record<string, any> | undefined {
@@ -10678,7 +10678,7 @@ export function toJson_KubeNetworkPolicyProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NetworkPolicyList is a list of NetworkPolicy objects.
@@ -10704,7 +10704,7 @@ export interface KubeNetworkPolicyListProps {
 /**
  * Converts an object of type 'KubeNetworkPolicyListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeNetworkPolicyListProps(
   obj: KubeNetworkPolicyListProps | undefined,
 ): Record<string, any> | undefined {
@@ -10719,7 +10719,7 @@ export function toJson_KubeNetworkPolicyListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ClusterCIDR represents a single configuration for per-Node Pod CIDR allocations when the MultiCIDRRangeAllocator is enabled (see the config for kube-controller-manager).  A cluster may have any number of ClusterCIDR resources, all of which will be considered when allocating a CIDR for a Node.  A ClusterCIDR is eligible to be used for a given Node when the node selector matches the node in question and has free CIDRs to allocate.  In case of multiple matching ClusterCIDR resources, the allocator will attempt to break ties using internal heuristics, but any ClusterCIDR whose node selector matches the Node may be used.
@@ -10745,7 +10745,7 @@ export interface KubeClusterCidrv1Alpha1Props {
 /**
  * Converts an object of type 'KubeClusterCidrv1Alpha1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeClusterCidrv1Alpha1Props(
   obj: KubeClusterCidrv1Alpha1Props | undefined,
 ): Record<string, any> | undefined {
@@ -10760,7 +10760,7 @@ export function toJson_KubeClusterCidrv1Alpha1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ClusterCIDRList contains a list of ClusterCIDR.
@@ -10786,7 +10786,7 @@ export interface KubeClusterCidrListV1Alpha1Props {
 /**
  * Converts an object of type 'KubeClusterCidrListV1Alpha1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeClusterCidrListV1Alpha1Props(
   obj: KubeClusterCidrListV1Alpha1Props | undefined,
 ): Record<string, any> | undefined {
@@ -10801,7 +10801,7 @@ export function toJson_KubeClusterCidrListV1Alpha1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * RuntimeClass defines a class of container runtime supported in the cluster. The RuntimeClass is used to determine which container runtime is used to run all containers in a pod. RuntimeClasses are manually defined by a user or cluster provisioner, and referenced in the PodSpec. The Kubelet is responsible for resolving the RuntimeClassName reference before running the pod.  For more details, see https://kubernetes.io/docs/concepts/containers/runtime-class/
@@ -10842,7 +10842,7 @@ export interface KubeRuntimeClassProps {
 /**
  * Converts an object of type 'KubeRuntimeClassProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeRuntimeClassProps(
   obj: KubeRuntimeClassProps | undefined,
 ): Record<string, any> | undefined {
@@ -10859,7 +10859,7 @@ export function toJson_KubeRuntimeClassProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * RuntimeClassList is a list of RuntimeClass objects.
@@ -10885,7 +10885,7 @@ export interface KubeRuntimeClassListProps {
 /**
  * Converts an object of type 'KubeRuntimeClassListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeRuntimeClassListProps(
   obj: KubeRuntimeClassListProps | undefined,
 ): Record<string, any> | undefined {
@@ -10900,7 +10900,7 @@ export function toJson_KubeRuntimeClassListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Eviction evicts a pod from its node subject to certain policies and safety constraints. This is a subresource of Pod.  A request to cause such an eviction is created by POSTing to .../pods/<pod name>/evictions.
@@ -10926,7 +10926,7 @@ export interface KubeEvictionProps {
 /**
  * Converts an object of type 'KubeEvictionProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeEvictionProps(
   obj: KubeEvictionProps | undefined,
 ): Record<string, any> | undefined {
@@ -10941,7 +10941,7 @@ export function toJson_KubeEvictionProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodDisruptionBudget is an object to define the max disruption that can be caused to a collection of pods
@@ -10967,7 +10967,7 @@ export interface KubePodDisruptionBudgetProps {
 /**
  * Converts an object of type 'KubePodDisruptionBudgetProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePodDisruptionBudgetProps(
   obj: KubePodDisruptionBudgetProps | undefined,
 ): Record<string, any> | undefined {
@@ -10982,7 +10982,7 @@ export function toJson_KubePodDisruptionBudgetProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodDisruptionBudgetList is a collection of PodDisruptionBudgets.
@@ -11008,7 +11008,7 @@ export interface KubePodDisruptionBudgetListProps {
 /**
  * Converts an object of type 'KubePodDisruptionBudgetListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePodDisruptionBudgetListProps(
   obj: KubePodDisruptionBudgetListProps | undefined,
 ): Record<string, any> | undefined {
@@ -11023,7 +11023,7 @@ export function toJson_KubePodDisruptionBudgetListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ClusterRole is a cluster level, logical grouping of PolicyRules that can be referenced as a unit by a RoleBinding or ClusterRoleBinding.
@@ -11056,7 +11056,7 @@ export interface KubeClusterRoleProps {
 /**
  * Converts an object of type 'KubeClusterRoleProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeClusterRoleProps(
   obj: KubeClusterRoleProps | undefined,
 ): Record<string, any> | undefined {
@@ -11072,7 +11072,7 @@ export function toJson_KubeClusterRoleProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ClusterRoleBinding references a ClusterRole, but not contain it.  It can reference a ClusterRole in the global namespace, and adds who information via Subject.
@@ -11105,7 +11105,7 @@ export interface KubeClusterRoleBindingProps {
 /**
  * Converts an object of type 'KubeClusterRoleBindingProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeClusterRoleBindingProps(
   obj: KubeClusterRoleBindingProps | undefined,
 ): Record<string, any> | undefined {
@@ -11121,7 +11121,7 @@ export function toJson_KubeClusterRoleBindingProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ClusterRoleBindingList is a collection of ClusterRoleBindings
@@ -11147,7 +11147,7 @@ export interface KubeClusterRoleBindingListProps {
 /**
  * Converts an object of type 'KubeClusterRoleBindingListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeClusterRoleBindingListProps(
   obj: KubeClusterRoleBindingListProps | undefined,
 ): Record<string, any> | undefined {
@@ -11162,7 +11162,7 @@ export function toJson_KubeClusterRoleBindingListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ClusterRoleList is a collection of ClusterRoles
@@ -11188,7 +11188,7 @@ export interface KubeClusterRoleListProps {
 /**
  * Converts an object of type 'KubeClusterRoleListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeClusterRoleListProps(
   obj: KubeClusterRoleListProps | undefined,
 ): Record<string, any> | undefined {
@@ -11203,7 +11203,7 @@ export function toJson_KubeClusterRoleListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Role is a namespaced, logical grouping of PolicyRules that can be referenced as a unit by a RoleBinding.
@@ -11229,7 +11229,7 @@ export interface KubeRoleProps {
 /**
  * Converts an object of type 'KubeRoleProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeRoleProps(
   obj: KubeRoleProps | undefined,
 ): Record<string, any> | undefined {
@@ -11244,7 +11244,7 @@ export function toJson_KubeRoleProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * RoleBinding references a role, but does not contain it.  It can reference a Role in the same namespace or a ClusterRole in the global namespace. It adds who information via Subjects and namespace information by which namespace it exists in.  RoleBindings in a given namespace only have effect in that namespace.
@@ -11277,7 +11277,7 @@ export interface KubeRoleBindingProps {
 /**
  * Converts an object of type 'KubeRoleBindingProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeRoleBindingProps(
   obj: KubeRoleBindingProps | undefined,
 ): Record<string, any> | undefined {
@@ -11293,7 +11293,7 @@ export function toJson_KubeRoleBindingProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * RoleBindingList is a collection of RoleBindings
@@ -11319,7 +11319,7 @@ export interface KubeRoleBindingListProps {
 /**
  * Converts an object of type 'KubeRoleBindingListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeRoleBindingListProps(
   obj: KubeRoleBindingListProps | undefined,
 ): Record<string, any> | undefined {
@@ -11334,7 +11334,7 @@ export function toJson_KubeRoleBindingListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * RoleList is a collection of Roles
@@ -11360,7 +11360,7 @@ export interface KubeRoleListProps {
 /**
  * Converts an object of type 'KubeRoleListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeRoleListProps(
   obj: KubeRoleListProps | undefined,
 ): Record<string, any> | undefined {
@@ -11375,7 +11375,7 @@ export function toJson_KubeRoleListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PriorityClass defines mapping from a priority class name to the priority integer value. The value can be any valid integer.
@@ -11423,7 +11423,7 @@ export interface KubePriorityClassProps {
 /**
  * Converts an object of type 'KubePriorityClassProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePriorityClassProps(
   obj: KubePriorityClassProps | undefined,
 ): Record<string, any> | undefined {
@@ -11441,7 +11441,7 @@ export function toJson_KubePriorityClassProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PriorityClassList is a collection of priority classes.
@@ -11467,7 +11467,7 @@ export interface KubePriorityClassListProps {
 /**
  * Converts an object of type 'KubePriorityClassListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubePriorityClassListProps(
   obj: KubePriorityClassListProps | undefined,
 ): Record<string, any> | undefined {
@@ -11482,7 +11482,7 @@ export function toJson_KubePriorityClassListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CSIDriver captures information about a Container Storage Interface (CSI) volume driver deployed on the cluster. Kubernetes attach detach controller uses this object to determine whether attach is required. Kubelet uses this object to determine whether pod information needs to be passed on mount. CSIDriver objects are non-namespaced.
@@ -11508,7 +11508,7 @@ export interface KubeCsiDriverProps {
 /**
  * Converts an object of type 'KubeCsiDriverProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCsiDriverProps(
   obj: KubeCsiDriverProps | undefined,
 ): Record<string, any> | undefined {
@@ -11523,7 +11523,7 @@ export function toJson_KubeCsiDriverProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CSIDriverList is a collection of CSIDriver objects.
@@ -11549,7 +11549,7 @@ export interface KubeCsiDriverListProps {
 /**
  * Converts an object of type 'KubeCsiDriverListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCsiDriverListProps(
   obj: KubeCsiDriverListProps | undefined,
 ): Record<string, any> | undefined {
@@ -11564,7 +11564,7 @@ export function toJson_KubeCsiDriverListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CSINode holds information about all CSI drivers installed on a node. CSI drivers do not need to create the CSINode object directly. As long as they use the node-driver-registrar sidecar container, the kubelet will automatically populate the CSINode object for the CSI driver as part of kubelet plugin registration. CSINode has the same name as a node. If the object is missing, it means either there are no CSI Drivers available on the node, or the Kubelet version is low enough that it doesn't create this object. CSINode has an OwnerReference that points to the corresponding node object.
@@ -11590,7 +11590,7 @@ export interface KubeCsiNodeProps {
 /**
  * Converts an object of type 'KubeCsiNodeProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCsiNodeProps(
   obj: KubeCsiNodeProps | undefined,
 ): Record<string, any> | undefined {
@@ -11605,7 +11605,7 @@ export function toJson_KubeCsiNodeProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CSINodeList is a collection of CSINode objects.
@@ -11631,7 +11631,7 @@ export interface KubeCsiNodeListProps {
 /**
  * Converts an object of type 'KubeCsiNodeListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCsiNodeListProps(
   obj: KubeCsiNodeListProps | undefined,
 ): Record<string, any> | undefined {
@@ -11646,7 +11646,7 @@ export function toJson_KubeCsiNodeListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CSIStorageCapacity stores the result of one CSI GetCapacity call. For a given StorageClass, this describes the available capacity in a particular topology segment.  This can be used when considering where to instantiate new PersistentVolumes.
@@ -11709,7 +11709,7 @@ export interface KubeCsiStorageCapacityProps {
 /**
  * Converts an object of type 'KubeCsiStorageCapacityProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCsiStorageCapacityProps(
   obj: KubeCsiStorageCapacityProps | undefined,
 ): Record<string, any> | undefined {
@@ -11727,7 +11727,7 @@ export function toJson_KubeCsiStorageCapacityProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CSIStorageCapacityList is a collection of CSIStorageCapacity objects.
@@ -11753,7 +11753,7 @@ export interface KubeCsiStorageCapacityListProps {
 /**
  * Converts an object of type 'KubeCsiStorageCapacityListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCsiStorageCapacityListProps(
   obj: KubeCsiStorageCapacityListProps | undefined,
 ): Record<string, any> | undefined {
@@ -11768,7 +11768,7 @@ export function toJson_KubeCsiStorageCapacityListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * StorageClass describes the parameters for a class of storage for which PersistentVolumes can be dynamically provisioned.
@@ -11839,7 +11839,7 @@ export interface KubeStorageClassProps {
 /**
  * Converts an object of type 'KubeStorageClassProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeStorageClassProps(
   obj: KubeStorageClassProps | undefined,
 ): Record<string, any> | undefined {
@@ -11867,7 +11867,7 @@ export function toJson_KubeStorageClassProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * StorageClassList is a collection of storage classes.
@@ -11893,7 +11893,7 @@ export interface KubeStorageClassListProps {
 /**
  * Converts an object of type 'KubeStorageClassListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeStorageClassListProps(
   obj: KubeStorageClassListProps | undefined,
 ): Record<string, any> | undefined {
@@ -11908,7 +11908,7 @@ export function toJson_KubeStorageClassListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * VolumeAttachment captures the intent to attach or detach the specified volume to/from the specified node.
@@ -11936,7 +11936,7 @@ export interface KubeVolumeAttachmentProps {
 /**
  * Converts an object of type 'KubeVolumeAttachmentProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeVolumeAttachmentProps(
   obj: KubeVolumeAttachmentProps | undefined,
 ): Record<string, any> | undefined {
@@ -11951,7 +11951,7 @@ export function toJson_KubeVolumeAttachmentProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * VolumeAttachmentList is a collection of VolumeAttachment objects.
@@ -11977,7 +11977,7 @@ export interface KubeVolumeAttachmentListProps {
 /**
  * Converts an object of type 'KubeVolumeAttachmentListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeVolumeAttachmentListProps(
   obj: KubeVolumeAttachmentListProps | undefined,
 ): Record<string, any> | undefined {
@@ -11992,7 +11992,7 @@ export function toJson_KubeVolumeAttachmentListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CSIStorageCapacity stores the result of one CSI GetCapacity call. For a given StorageClass, this describes the available capacity in a particular topology segment.  This can be used when considering where to instantiate new PersistentVolumes.
@@ -12055,7 +12055,7 @@ export interface KubeCsiStorageCapacityV1Beta1Props {
 /**
  * Converts an object of type 'KubeCsiStorageCapacityV1Beta1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCsiStorageCapacityV1Beta1Props(
   obj: KubeCsiStorageCapacityV1Beta1Props | undefined,
 ): Record<string, any> | undefined {
@@ -12073,7 +12073,7 @@ export function toJson_KubeCsiStorageCapacityV1Beta1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CSIStorageCapacityList is a collection of CSIStorageCapacity objects.
@@ -12099,7 +12099,7 @@ export interface KubeCsiStorageCapacityListV1Beta1Props {
 /**
  * Converts an object of type 'KubeCsiStorageCapacityListV1Beta1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCsiStorageCapacityListV1Beta1Props(
   obj: KubeCsiStorageCapacityListV1Beta1Props | undefined,
 ): Record<string, any> | undefined {
@@ -12116,7 +12116,7 @@ export function toJson_KubeCsiStorageCapacityListV1Beta1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CustomResourceDefinition represents a resource that should be exposed on the API server.  Its name MUST be in the format <.spec.name>.<.spec.group>.
@@ -12142,7 +12142,7 @@ export interface KubeCustomResourceDefinitionProps {
 /**
  * Converts an object of type 'KubeCustomResourceDefinitionProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCustomResourceDefinitionProps(
   obj: KubeCustomResourceDefinitionProps | undefined,
 ): Record<string, any> | undefined {
@@ -12157,7 +12157,7 @@ export function toJson_KubeCustomResourceDefinitionProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CustomResourceDefinitionList is a list of CustomResourceDefinition objects.
@@ -12183,7 +12183,7 @@ export interface KubeCustomResourceDefinitionListProps {
 /**
  * Converts an object of type 'KubeCustomResourceDefinitionListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeCustomResourceDefinitionListProps(
   obj: KubeCustomResourceDefinitionListProps | undefined,
 ): Record<string, any> | undefined {
@@ -12198,7 +12198,7 @@ export function toJson_KubeCustomResourceDefinitionListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Status is a return value for calls that don't return other objects.
@@ -12245,7 +12245,7 @@ export interface KubeStatusProps {
 /**
  * Converts an object of type 'KubeStatusProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeStatusProps(
   obj: KubeStatusProps | undefined,
 ): Record<string, any> | undefined {
@@ -12263,7 +12263,7 @@ export function toJson_KubeStatusProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * APIService represents a server for a particular GroupVersion. Name must be "version.group".
@@ -12289,7 +12289,7 @@ export interface KubeApiServiceProps {
 /**
  * Converts an object of type 'KubeApiServiceProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeApiServiceProps(
   obj: KubeApiServiceProps | undefined,
 ): Record<string, any> | undefined {
@@ -12304,7 +12304,7 @@ export function toJson_KubeApiServiceProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * APIServiceList is a list of APIService objects.
@@ -12330,7 +12330,7 @@ export interface KubeApiServiceListProps {
 /**
  * Converts an object of type 'KubeApiServiceListProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KubeApiServiceListProps(
   obj: KubeApiServiceListProps | undefined,
 ): Record<string, any> | undefined {
@@ -12345,7 +12345,7 @@ export function toJson_KubeApiServiceListProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create.
@@ -12476,7 +12476,7 @@ export interface ObjectMeta {
 /**
  * Converts an object of type 'ObjectMeta' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ObjectMeta(
   obj: ObjectMeta | undefined,
 ): Record<string, any> | undefined {
@@ -12518,7 +12518,7 @@ export function toJson_ObjectMeta(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MutatingWebhook describes an admission webhook and the resources and operations it applies to.
@@ -12655,7 +12655,7 @@ export interface MutatingWebhook {
 /**
  * Converts an object of type 'MutatingWebhook' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_MutatingWebhook(
   obj: MutatingWebhook | undefined,
 ): Record<string, any> | undefined {
@@ -12679,7 +12679,7 @@ export function toJson_MutatingWebhook(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ListMeta describes metadata that synthetic resources must have, including lists and various status objects. A resource may have only one of {ObjectMeta, ListMeta}.
@@ -12719,7 +12719,7 @@ export interface ListMeta {
 /**
  * Converts an object of type 'ListMeta' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ListMeta(
   obj: ListMeta | undefined,
 ): Record<string, any> | undefined {
@@ -12736,7 +12736,7 @@ export function toJson_ListMeta(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ValidatingWebhook describes an admission webhook and the resources and operations it applies to.
@@ -12859,7 +12859,7 @@ export interface ValidatingWebhook {
 /**
  * Converts an object of type 'ValidatingWebhook' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ValidatingWebhook(
   obj: ValidatingWebhook | undefined,
 ): Record<string, any> | undefined {
@@ -12882,7 +12882,7 @@ export function toJson_ValidatingWebhook(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DaemonSetSpec is the specification of a daemon set.
@@ -12931,7 +12931,7 @@ export interface DaemonSetSpec {
 /**
  * Converts an object of type 'DaemonSetSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DaemonSetSpec(
   obj: DaemonSetSpec | undefined,
 ): Record<string, any> | undefined {
@@ -12949,7 +12949,7 @@ export function toJson_DaemonSetSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DeploymentSpec is the specification of the desired behavior of the Deployment.
@@ -13021,7 +13021,7 @@ export interface DeploymentSpec {
 /**
  * Converts an object of type 'DeploymentSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DeploymentSpec(
   obj: DeploymentSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13042,7 +13042,7 @@ export function toJson_DeploymentSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ReplicaSetSpec is the specification of a ReplicaSet.
@@ -13084,7 +13084,7 @@ export interface ReplicaSetSpec {
 /**
  * Converts an object of type 'ReplicaSetSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ReplicaSetSpec(
   obj: ReplicaSetSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13101,7 +13101,7 @@ export function toJson_ReplicaSetSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A StatefulSetSpec is the specification of a StatefulSet.
@@ -13185,7 +13185,7 @@ export interface StatefulSetSpec {
 /**
  * Converts an object of type 'StatefulSetSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_StatefulSetSpec(
   obj: StatefulSetSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13213,7 +13213,7 @@ export function toJson_StatefulSetSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * TokenRequestSpec contains client provided parameters of a token request.
@@ -13246,7 +13246,7 @@ export interface TokenRequestSpec {
 /**
  * Converts an object of type 'TokenRequestSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_TokenRequestSpec(
   obj: TokenRequestSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13262,7 +13262,7 @@ export function toJson_TokenRequestSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * TokenReviewSpec is a description of the token authentication request.
@@ -13288,7 +13288,7 @@ export interface TokenReviewSpec {
 /**
  * Converts an object of type 'TokenReviewSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_TokenReviewSpec(
   obj: TokenReviewSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13303,7 +13303,7 @@ export function toJson_TokenReviewSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SubjectAccessReviewSpec is a description of the access request.  Exactly one of ResourceAuthorizationAttributes and NonResourceAuthorizationAttributes must be set
@@ -13357,7 +13357,7 @@ export interface SubjectAccessReviewSpec {
 /**
  * Converts an object of type 'SubjectAccessReviewSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SubjectAccessReviewSpec(
   obj: SubjectAccessReviewSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13384,7 +13384,7 @@ export function toJson_SubjectAccessReviewSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SelfSubjectAccessReviewSpec is a description of the access request.  Exactly one of ResourceAuthorizationAttributes and NonResourceAuthorizationAttributes must be set
@@ -13410,7 +13410,7 @@ export interface SelfSubjectAccessReviewSpec {
 /**
  * Converts an object of type 'SelfSubjectAccessReviewSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SelfSubjectAccessReviewSpec(
   obj: SelfSubjectAccessReviewSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13427,7 +13427,7 @@ export function toJson_SelfSubjectAccessReviewSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SelfSubjectRulesReviewSpec defines the specification for SelfSubjectRulesReview.
@@ -13446,7 +13446,7 @@ export interface SelfSubjectRulesReviewSpec {
 /**
  * Converts an object of type 'SelfSubjectRulesReviewSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SelfSubjectRulesReviewSpec(
   obj: SelfSubjectRulesReviewSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13460,7 +13460,7 @@ export function toJson_SelfSubjectRulesReviewSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * specification of a horizontal pod autoscaler.
@@ -13500,7 +13500,7 @@ export interface HorizontalPodAutoscalerSpec {
 /**
  * Converts an object of type 'HorizontalPodAutoscalerSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HorizontalPodAutoscalerSpec(
   obj: HorizontalPodAutoscalerSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13517,7 +13517,7 @@ export function toJson_HorizontalPodAutoscalerSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ScaleSpec describes the attributes of a scale subresource.
@@ -13536,7 +13536,7 @@ export interface ScaleSpec {
 /**
  * Converts an object of type 'ScaleSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ScaleSpec(
   obj: ScaleSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13550,7 +13550,7 @@ export function toJson_ScaleSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HorizontalPodAutoscalerSpec describes the desired functionality of the HorizontalPodAutoscaler.
@@ -13597,7 +13597,7 @@ export interface HorizontalPodAutoscalerSpecV2 {
 /**
  * Converts an object of type 'HorizontalPodAutoscalerSpecV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HorizontalPodAutoscalerSpecV2(
   obj: HorizontalPodAutoscalerSpecV2 | undefined,
 ): Record<string, any> | undefined {
@@ -13615,7 +13615,7 @@ export function toJson_HorizontalPodAutoscalerSpecV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HorizontalPodAutoscalerSpec describes the desired functionality of the HorizontalPodAutoscaler.
@@ -13662,7 +13662,7 @@ export interface HorizontalPodAutoscalerSpecV2Beta2 {
 /**
  * Converts an object of type 'HorizontalPodAutoscalerSpecV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HorizontalPodAutoscalerSpecV2Beta2(
   obj: HorizontalPodAutoscalerSpecV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -13682,7 +13682,7 @@ export function toJson_HorizontalPodAutoscalerSpecV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CronJobSpec describes how the job execution will look like and when it will actually run.
@@ -13753,7 +13753,7 @@ export interface CronJobSpec {
 /**
  * Converts an object of type 'CronJobSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CronJobSpec(
   obj: CronJobSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13774,7 +13774,7 @@ export function toJson_CronJobSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * JobSpec describes how the job execution will look like.
@@ -13873,7 +13873,7 @@ export interface JobSpec {
 /**
  * Converts an object of type 'JobSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_JobSpec(
   obj: JobSpec | undefined,
 ): Record<string, any> | undefined {
@@ -13897,7 +13897,7 @@ export function toJson_JobSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CertificateSigningRequestSpec contains the certificate request.
@@ -14009,7 +14009,7 @@ export interface CertificateSigningRequestSpec {
 /**
  * Converts an object of type 'CertificateSigningRequestSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CertificateSigningRequestSpec(
   obj: CertificateSigningRequestSpec | undefined,
 ): Record<string, any> | undefined {
@@ -14036,7 +14036,7 @@ export function toJson_CertificateSigningRequestSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LeaseSpec is a specification of a Lease.
@@ -14083,7 +14083,7 @@ export interface LeaseSpec {
 /**
  * Converts an object of type 'LeaseSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LeaseSpec(
   obj: LeaseSpec | undefined,
 ): Record<string, any> | undefined {
@@ -14101,7 +14101,7 @@ export function toJson_LeaseSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ObjectReference contains enough information to let you inspect or modify the referred object.
@@ -14162,7 +14162,7 @@ export interface ObjectReference {
 /**
  * Converts an object of type 'ObjectReference' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ObjectReference(
   obj: ObjectReference | undefined,
 ): Record<string, any> | undefined {
@@ -14182,7 +14182,7 @@ export function toJson_ObjectReference(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Information about the condition of a component.
@@ -14222,7 +14222,7 @@ export interface ComponentCondition {
 /**
  * Converts an object of type 'ComponentCondition' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ComponentCondition(
   obj: ComponentCondition | undefined,
 ): Record<string, any> | undefined {
@@ -14239,7 +14239,7 @@ export function toJson_ComponentCondition(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EndpointSubset is a group of addresses with a common set of ports. The expanded set of endpoints is the Cartesian product of Addresses x Ports. For example, given:
@@ -14282,7 +14282,7 @@ export interface EndpointSubset {
 /**
  * Converts an object of type 'EndpointSubset' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EndpointSubset(
   obj: EndpointSubset | undefined,
 ): Record<string, any> | undefined {
@@ -14300,7 +14300,7 @@ export function toJson_EndpointSubset(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EventSource contains information for an event.
@@ -14326,7 +14326,7 @@ export interface EventSource {
 /**
  * Converts an object of type 'EventSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EventSource(
   obj: EventSource | undefined,
 ): Record<string, any> | undefined {
@@ -14341,7 +14341,7 @@ export function toJson_EventSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EventSeries contain information on series of events, i.e. thing that was/is happening continuously for some time. How often to update the EventSeries is up to the event reporters. The default event reporter in "k8s.io/client-go/tools/events/event_broadcaster.go" shows how this struct is updated on heartbeats and can guide customized reporter implementations.
@@ -14367,7 +14367,7 @@ export interface EventSeries {
 /**
  * Converts an object of type 'EventSeries' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EventSeries(
   obj: EventSeries | undefined,
 ): Record<string, any> | undefined {
@@ -14382,7 +14382,7 @@ export function toJson_EventSeries(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LimitRangeSpec defines a min/max usage limit for resources that match on kind.
@@ -14401,7 +14401,7 @@ export interface LimitRangeSpec {
 /**
  * Converts an object of type 'LimitRangeSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LimitRangeSpec(
   obj: LimitRangeSpec | undefined,
 ): Record<string, any> | undefined {
@@ -14415,7 +14415,7 @@ export function toJson_LimitRangeSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NamespaceSpec describes the attributes on a Namespace.
@@ -14434,7 +14434,7 @@ export interface NamespaceSpec {
 /**
  * Converts an object of type 'NamespaceSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NamespaceSpec(
   obj: NamespaceSpec | undefined,
 ): Record<string, any> | undefined {
@@ -14448,7 +14448,7 @@ export function toJson_NamespaceSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NodeSpec describes the attributes that a node is created with.
@@ -14509,7 +14509,7 @@ export interface NodeSpec {
 /**
  * Converts an object of type 'NodeSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeSpec(
   obj: NodeSpec | undefined,
 ): Record<string, any> | undefined {
@@ -14529,7 +14529,7 @@ export function toJson_NodeSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PersistentVolumeSpec is the specification of a persistent volume.
@@ -14751,7 +14751,7 @@ export interface PersistentVolumeSpec {
 /**
  * Converts an object of type 'PersistentVolumeSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PersistentVolumeSpec(
   obj: PersistentVolumeSpec | undefined,
 ): Record<string, any> | undefined {
@@ -14805,7 +14805,7 @@ export function toJson_PersistentVolumeSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PersistentVolumeClaimSpec describes the common attributes of storage devices and allows a Source for provider-specific attributes
@@ -14878,7 +14878,7 @@ export interface PersistentVolumeClaimSpec {
 /**
  * Converts an object of type 'PersistentVolumeClaimSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PersistentVolumeClaimSpec(
   obj: PersistentVolumeClaimSpec | undefined,
 ): Record<string, any> | undefined {
@@ -14899,7 +14899,7 @@ export function toJson_PersistentVolumeClaimSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodSpec is a description of a pod.
@@ -15186,7 +15186,7 @@ export interface PodSpec {
 /**
  * Converts an object of type 'PodSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodSpec(
   obj: PodSpec | undefined,
 ): Record<string, any> | undefined {
@@ -15254,7 +15254,7 @@ export function toJson_PodSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodTemplateSpec describes the data a pod should have when created from a template
@@ -15280,7 +15280,7 @@ export interface PodTemplateSpec {
 /**
  * Converts an object of type 'PodTemplateSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodTemplateSpec(
   obj: PodTemplateSpec | undefined,
 ): Record<string, any> | undefined {
@@ -15295,7 +15295,7 @@ export function toJson_PodTemplateSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ReplicationControllerSpec is the specification of a replication controller.
@@ -15337,7 +15337,7 @@ export interface ReplicationControllerSpec {
 /**
  * Converts an object of type 'ReplicationControllerSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ReplicationControllerSpec(
   obj: ReplicationControllerSpec | undefined,
 ): Record<string, any> | undefined {
@@ -15359,7 +15359,7 @@ export function toJson_ReplicationControllerSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourceQuotaSpec defines the desired hard limits to enforce for Quota.
@@ -15392,7 +15392,7 @@ export interface ResourceQuotaSpec {
 /**
  * Converts an object of type 'ResourceQuotaSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ResourceQuotaSpec(
   obj: ResourceQuotaSpec | undefined,
 ): Record<string, any> | undefined {
@@ -15413,7 +15413,7 @@ export function toJson_ResourceQuotaSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ServiceSpec describes the attributes that a user creates on a service.
@@ -15565,7 +15565,7 @@ export interface ServiceSpec {
 /**
  * Converts an object of type 'ServiceSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ServiceSpec(
   obj: ServiceSpec | undefined,
 ): Record<string, any> | undefined {
@@ -15604,7 +15604,7 @@ export function toJson_ServiceSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.
@@ -15623,7 +15623,7 @@ export interface LocalObjectReference {
 /**
  * Converts an object of type 'LocalObjectReference' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LocalObjectReference(
   obj: LocalObjectReference | undefined,
 ): Record<string, any> | undefined {
@@ -15637,7 +15637,7 @@ export function toJson_LocalObjectReference(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Endpoint represents a single logical "backend" implementing a service.
@@ -15705,7 +15705,7 @@ export interface Endpoint {
 /**
  * Converts an object of type 'Endpoint' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Endpoint(
   obj: Endpoint | undefined,
 ): Record<string, any> | undefined {
@@ -15731,7 +15731,7 @@ export function toJson_Endpoint(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EndpointPort is a tuple that describes a single port.
@@ -15772,7 +15772,7 @@ export interface EndpointPort {
 /**
  * Converts an object of type 'EndpointPort' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EndpointPort(
   obj: EndpointPort | undefined,
 ): Record<string, any> | undefined {
@@ -15789,7 +15789,7 @@ export function toJson_EndpointPort(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FlowSchemaSpec describes how the FlowSchema's specification looks like.
@@ -15830,7 +15830,7 @@ export interface FlowSchemaSpecV1Beta1 {
 /**
  * Converts an object of type 'FlowSchemaSpecV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FlowSchemaSpecV1Beta1(
   obj: FlowSchemaSpecV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -15852,7 +15852,7 @@ export function toJson_FlowSchemaSpecV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PriorityLevelConfigurationSpec specifies the configuration of a priority level.
@@ -15878,7 +15878,7 @@ export interface PriorityLevelConfigurationSpecV1Beta1 {
 /**
  * Converts an object of type 'PriorityLevelConfigurationSpecV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PriorityLevelConfigurationSpecV1Beta1(
   obj: PriorityLevelConfigurationSpecV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -15893,7 +15893,7 @@ export function toJson_PriorityLevelConfigurationSpecV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FlowSchemaSpec describes how the FlowSchema's specification looks like.
@@ -15934,7 +15934,7 @@ export interface FlowSchemaSpecV1Beta2 {
 /**
  * Converts an object of type 'FlowSchemaSpecV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FlowSchemaSpecV1Beta2(
   obj: FlowSchemaSpecV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -15956,7 +15956,7 @@ export function toJson_FlowSchemaSpecV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PriorityLevelConfigurationSpec specifies the configuration of a priority level.
@@ -15982,7 +15982,7 @@ export interface PriorityLevelConfigurationSpecV1Beta2 {
 /**
  * Converts an object of type 'PriorityLevelConfigurationSpecV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PriorityLevelConfigurationSpecV1Beta2(
   obj: PriorityLevelConfigurationSpecV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -15997,7 +15997,7 @@ export function toJson_PriorityLevelConfigurationSpecV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IngressSpec describes the Ingress the user wishes to exist.
@@ -16037,7 +16037,7 @@ export interface IngressSpec {
 /**
  * Converts an object of type 'IngressSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IngressSpec(
   obj: IngressSpec | undefined,
 ): Record<string, any> | undefined {
@@ -16054,7 +16054,7 @@ export function toJson_IngressSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IngressClassSpec provides information about the class of an Ingress.
@@ -16080,7 +16080,7 @@ export interface IngressClassSpec {
 /**
  * Converts an object of type 'IngressClassSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IngressClassSpec(
   obj: IngressClassSpec | undefined,
 ): Record<string, any> | undefined {
@@ -16095,7 +16095,7 @@ export function toJson_IngressClassSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NetworkPolicySpec provides the specification of a NetworkPolicy
@@ -16135,7 +16135,7 @@ export interface NetworkPolicySpec {
 /**
  * Converts an object of type 'NetworkPolicySpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NetworkPolicySpec(
   obj: NetworkPolicySpec | undefined,
 ): Record<string, any> | undefined {
@@ -16152,7 +16152,7 @@ export function toJson_NetworkPolicySpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ClusterCIDRSpec defines the desired state of ClusterCIDR.
@@ -16192,7 +16192,7 @@ export interface ClusterCidrSpecV1Alpha1 {
 /**
  * Converts an object of type 'ClusterCidrSpecV1Alpha1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ClusterCidrSpecV1Alpha1(
   obj: ClusterCidrSpecV1Alpha1 | undefined,
 ): Record<string, any> | undefined {
@@ -16209,7 +16209,7 @@ export function toJson_ClusterCidrSpecV1Alpha1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Overhead structure represents the resource overhead associated with running a pod.
@@ -16228,7 +16228,7 @@ export interface Overhead {
 /**
  * Converts an object of type 'Overhead' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Overhead(
   obj: Overhead | undefined,
 ): Record<string, any> | undefined {
@@ -16247,7 +16247,7 @@ export function toJson_Overhead(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Scheduling specifies the scheduling constraints for nodes supporting a RuntimeClass.
@@ -16273,7 +16273,7 @@ export interface Scheduling {
 /**
  * Converts an object of type 'Scheduling' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Scheduling(
   obj: Scheduling | undefined,
 ): Record<string, any> | undefined {
@@ -16293,7 +16293,7 @@ export function toJson_Scheduling(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DeleteOptions may be provided when deleting an API object.
@@ -16355,7 +16355,7 @@ export interface DeleteOptions {
 /**
  * Converts an object of type 'DeleteOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DeleteOptions(
   obj: DeleteOptions | undefined,
 ): Record<string, any> | undefined {
@@ -16375,7 +16375,7 @@ export function toJson_DeleteOptions(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodDisruptionBudgetSpec is a description of a PodDisruptionBudget.
@@ -16408,7 +16408,7 @@ export interface PodDisruptionBudgetSpec {
 /**
  * Converts an object of type 'PodDisruptionBudgetSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodDisruptionBudgetSpec(
   obj: PodDisruptionBudgetSpec | undefined,
 ): Record<string, any> | undefined {
@@ -16424,7 +16424,7 @@ export function toJson_PodDisruptionBudgetSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * AggregationRule describes how to locate ClusterRoles to aggregate into the ClusterRole
@@ -16443,7 +16443,7 @@ export interface AggregationRule {
 /**
  * Converts an object of type 'AggregationRule' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_AggregationRule(
   obj: AggregationRule | undefined,
 ): Record<string, any> | undefined {
@@ -16459,7 +16459,7 @@ export function toJson_AggregationRule(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PolicyRule holds information that describes a policy rule, but does not contain information about who the rule applies to or which namespace the rule applies to.
@@ -16506,7 +16506,7 @@ export interface PolicyRule {
 /**
  * Converts an object of type 'PolicyRule' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PolicyRule(
   obj: PolicyRule | undefined,
 ): Record<string, any> | undefined {
@@ -16524,7 +16524,7 @@ export function toJson_PolicyRule(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * RoleRef contains information that points to the role being used
@@ -16557,7 +16557,7 @@ export interface RoleRef {
 /**
  * Converts an object of type 'RoleRef' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RoleRef(
   obj: RoleRef | undefined,
 ): Record<string, any> | undefined {
@@ -16573,7 +16573,7 @@ export function toJson_RoleRef(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Subject contains a reference to the object or user identities a role binding applies to.  This can either hold a direct API object reference, or a value for non-objects such as user and group names.
@@ -16614,7 +16614,7 @@ export interface Subject {
 /**
  * Converts an object of type 'Subject' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Subject(
   obj: Subject | undefined,
 ): Record<string, any> | undefined {
@@ -16631,7 +16631,7 @@ export function toJson_Subject(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CSIDriverSpec is the specification of a CSIDriver.
@@ -16737,7 +16737,7 @@ export interface CsiDriverSpec {
 /**
  * Converts an object of type 'CsiDriverSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CsiDriverSpec(
   obj: CsiDriverSpec | undefined,
 ): Record<string, any> | undefined {
@@ -16758,7 +16758,7 @@ export function toJson_CsiDriverSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CSINodeSpec holds information about the specification of all CSI drivers installed on a node
@@ -16777,7 +16777,7 @@ export interface CsiNodeSpec {
 /**
  * Converts an object of type 'CsiNodeSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CsiNodeSpec(
   obj: CsiNodeSpec | undefined,
 ): Record<string, any> | undefined {
@@ -16791,7 +16791,7 @@ export function toJson_CsiNodeSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * @schema io.k8s.apimachinery.pkg.api.resource.Quantity
@@ -16831,7 +16831,7 @@ export interface LabelSelector {
 /**
  * Converts an object of type 'LabelSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LabelSelector(
   obj: LabelSelector | undefined,
 ): Record<string, any> | undefined {
@@ -16853,7 +16853,7 @@ export function toJson_LabelSelector(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A topology selector term represents the result of label queries. A null or empty topology selector term matches no objects. The requirements of them are ANDed. It provides a subset of functionality as NodeSelectorTerm. This is an alpha feature and may change in the future.
@@ -16872,7 +16872,7 @@ export interface TopologySelectorTerm {
 /**
  * Converts an object of type 'TopologySelectorTerm' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_TopologySelectorTerm(
   obj: TopologySelectorTerm | undefined,
 ): Record<string, any> | undefined {
@@ -16888,7 +16888,7 @@ export function toJson_TopologySelectorTerm(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * VolumeAttachmentSpec is the specification of a VolumeAttachment request.
@@ -16921,7 +16921,7 @@ export interface VolumeAttachmentSpec {
 /**
  * Converts an object of type 'VolumeAttachmentSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeAttachmentSpec(
   obj: VolumeAttachmentSpec | undefined,
 ): Record<string, any> | undefined {
@@ -16937,7 +16937,7 @@ export function toJson_VolumeAttachmentSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CustomResourceDefinitionSpec describes how a user wants their resource to appear
@@ -16991,7 +16991,7 @@ export interface CustomResourceDefinitionSpec {
 /**
  * Converts an object of type 'CustomResourceDefinitionSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CustomResourceDefinitionSpec(
   obj: CustomResourceDefinitionSpec | undefined,
 ): Record<string, any> | undefined {
@@ -17012,7 +17012,7 @@ export function toJson_CustomResourceDefinitionSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * StatusDetails is a set of additional properties that MAY be set by the server to provide additional information about a response. The Reason field of a Status object defines what attributes will be set. Clients must ignore fields that do not match the defined type of each attribute, and should assume that any attribute may be empty, invalid, or under defined.
@@ -17066,7 +17066,7 @@ export interface StatusDetails {
 /**
  * Converts an object of type 'StatusDetails' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_StatusDetails(
   obj: StatusDetails | undefined,
 ): Record<string, any> | undefined {
@@ -17085,7 +17085,7 @@ export function toJson_StatusDetails(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * APIServiceSpec contains information for locating and communicating with a server. Only https is supported, though you are able to disable certificate verification.
@@ -17146,7 +17146,7 @@ export interface ApiServiceSpec {
 /**
  * Converts an object of type 'ApiServiceSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ApiServiceSpec(
   obj: ApiServiceSpec | undefined,
 ): Record<string, any> | undefined {
@@ -17166,7 +17166,7 @@ export function toJson_ApiServiceSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ManagedFieldsEntry is a workflow-id, a FieldSet and the group version of the resource that the fieldset applies to.
@@ -17227,7 +17227,7 @@ export interface ManagedFieldsEntry {
 /**
  * Converts an object of type 'ManagedFieldsEntry' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ManagedFieldsEntry(
   obj: ManagedFieldsEntry | undefined,
 ): Record<string, any> | undefined {
@@ -17247,7 +17247,7 @@ export function toJson_ManagedFieldsEntry(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * OwnerReference contains enough information to let you identify an owning object. An owning object must be in the same namespace as the dependent, or be cluster-scoped, so there is no namespace field.
@@ -17302,7 +17302,7 @@ export interface OwnerReference {
 /**
  * Converts an object of type 'OwnerReference' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_OwnerReference(
   obj: OwnerReference | undefined,
 ): Record<string, any> | undefined {
@@ -17321,7 +17321,7 @@ export function toJson_OwnerReference(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * WebhookClientConfig contains the information to make a TLS connection with the webhook
@@ -17366,7 +17366,7 @@ export interface WebhookClientConfig {
 /**
  * Converts an object of type 'WebhookClientConfig' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_WebhookClientConfig(
   obj: WebhookClientConfig | undefined,
 ): Record<string, any> | undefined {
@@ -17382,7 +17382,7 @@ export function toJson_WebhookClientConfig(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * RuleWithOperations is a tuple of Operations and Resources. It is recommended to make sure that all the tuple expansions are valid.
@@ -17436,7 +17436,7 @@ export interface RuleWithOperations {
 /**
  * Converts an object of type 'RuleWithOperations' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RuleWithOperations(
   obj: RuleWithOperations | undefined,
 ): Record<string, any> | undefined {
@@ -17454,7 +17454,7 @@ export function toJson_RuleWithOperations(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DaemonSetUpdateStrategy is a struct used to control the update strategy for a DaemonSet.
@@ -17481,7 +17481,7 @@ export interface DaemonSetUpdateStrategy {
 /**
  * Converts an object of type 'DaemonSetUpdateStrategy' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DaemonSetUpdateStrategy(
   obj: DaemonSetUpdateStrategy | undefined,
 ): Record<string, any> | undefined {
@@ -17496,7 +17496,7 @@ export function toJson_DaemonSetUpdateStrategy(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DeploymentStrategy describes how to replace existing pods with new ones.
@@ -17523,7 +17523,7 @@ export interface DeploymentStrategy {
 /**
  * Converts an object of type 'DeploymentStrategy' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DeploymentStrategy(
   obj: DeploymentStrategy | undefined,
 ): Record<string, any> | undefined {
@@ -17538,7 +17538,7 @@ export function toJson_DeploymentStrategy(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * StatefulSetPersistentVolumeClaimRetentionPolicy describes the policy used for PVCs created from the StatefulSet VolumeClaimTemplates.
@@ -17564,7 +17564,7 @@ export interface StatefulSetPersistentVolumeClaimRetentionPolicy {
 /**
  * Converts an object of type 'StatefulSetPersistentVolumeClaimRetentionPolicy' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_StatefulSetPersistentVolumeClaimRetentionPolicy(
   obj: StatefulSetPersistentVolumeClaimRetentionPolicy | undefined,
 ): Record<string, any> | undefined {
@@ -17579,7 +17579,7 @@ export function toJson_StatefulSetPersistentVolumeClaimRetentionPolicy(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * StatefulSetUpdateStrategy indicates the strategy that the StatefulSet controller will use to perform updates. It includes any additional parameters necessary to perform the update for the indicated strategy.
@@ -17606,7 +17606,7 @@ export interface StatefulSetUpdateStrategy {
 /**
  * Converts an object of type 'StatefulSetUpdateStrategy' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_StatefulSetUpdateStrategy(
   obj: StatefulSetUpdateStrategy | undefined,
 ): Record<string, any> | undefined {
@@ -17621,7 +17621,7 @@ export function toJson_StatefulSetUpdateStrategy(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * BoundObjectReference is a reference to an object that a token is bound to.
@@ -17661,7 +17661,7 @@ export interface BoundObjectReference {
 /**
  * Converts an object of type 'BoundObjectReference' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_BoundObjectReference(
   obj: BoundObjectReference | undefined,
 ): Record<string, any> | undefined {
@@ -17678,7 +17678,7 @@ export function toJson_BoundObjectReference(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NonResourceAttributes includes the authorization attributes available for non-resource requests to the Authorizer interface
@@ -17704,7 +17704,7 @@ export interface NonResourceAttributes {
 /**
  * Converts an object of type 'NonResourceAttributes' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NonResourceAttributes(
   obj: NonResourceAttributes | undefined,
 ): Record<string, any> | undefined {
@@ -17719,7 +17719,7 @@ export function toJson_NonResourceAttributes(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourceAttributes includes the authorization attributes available for resource requests to the Authorizer interface
@@ -17780,7 +17780,7 @@ export interface ResourceAttributes {
 /**
  * Converts an object of type 'ResourceAttributes' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ResourceAttributes(
   obj: ResourceAttributes | undefined,
 ): Record<string, any> | undefined {
@@ -17800,7 +17800,7 @@ export function toJson_ResourceAttributes(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CrossVersionObjectReference contains enough information to let you identify the referred resource.
@@ -17833,7 +17833,7 @@ export interface CrossVersionObjectReference {
 /**
  * Converts an object of type 'CrossVersionObjectReference' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CrossVersionObjectReference(
   obj: CrossVersionObjectReference | undefined,
 ): Record<string, any> | undefined {
@@ -17849,7 +17849,7 @@ export function toJson_CrossVersionObjectReference(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HorizontalPodAutoscalerBehavior configures the scaling behavior of the target in both Up and Down directions (scaleUp and scaleDown fields respectively).
@@ -17878,7 +17878,7 @@ export interface HorizontalPodAutoscalerBehaviorV2 {
 /**
  * Converts an object of type 'HorizontalPodAutoscalerBehaviorV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HorizontalPodAutoscalerBehaviorV2(
   obj: HorizontalPodAutoscalerBehaviorV2 | undefined,
 ): Record<string, any> | undefined {
@@ -17893,7 +17893,7 @@ export function toJson_HorizontalPodAutoscalerBehaviorV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MetricSpec specifies how to scale based on a single metric (only `type` and one other matching field should be set at once).
@@ -17947,7 +17947,7 @@ export interface MetricSpecV2 {
 /**
  * Converts an object of type 'MetricSpecV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_MetricSpecV2(
   obj: MetricSpecV2 | undefined,
 ): Record<string, any> | undefined {
@@ -17968,7 +17968,7 @@ export function toJson_MetricSpecV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CrossVersionObjectReference contains enough information to let you identify the referred resource.
@@ -18001,7 +18001,7 @@ export interface CrossVersionObjectReferenceV2 {
 /**
  * Converts an object of type 'CrossVersionObjectReferenceV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CrossVersionObjectReferenceV2(
   obj: CrossVersionObjectReferenceV2 | undefined,
 ): Record<string, any> | undefined {
@@ -18017,7 +18017,7 @@ export function toJson_CrossVersionObjectReferenceV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HorizontalPodAutoscalerBehavior configures the scaling behavior of the target in both Up and Down directions (scaleUp and scaleDown fields respectively).
@@ -18046,7 +18046,7 @@ export interface HorizontalPodAutoscalerBehaviorV2Beta2 {
 /**
  * Converts an object of type 'HorizontalPodAutoscalerBehaviorV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HorizontalPodAutoscalerBehaviorV2Beta2(
   obj: HorizontalPodAutoscalerBehaviorV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -18061,7 +18061,7 @@ export function toJson_HorizontalPodAutoscalerBehaviorV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MetricSpec specifies how to scale based on a single metric (only `type` and one other matching field should be set at once).
@@ -18115,7 +18115,7 @@ export interface MetricSpecV2Beta2 {
 /**
  * Converts an object of type 'MetricSpecV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_MetricSpecV2Beta2(
   obj: MetricSpecV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -18136,7 +18136,7 @@ export function toJson_MetricSpecV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CrossVersionObjectReference contains enough information to let you identify the referred resource.
@@ -18169,7 +18169,7 @@ export interface CrossVersionObjectReferenceV2Beta2 {
 /**
  * Converts an object of type 'CrossVersionObjectReferenceV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CrossVersionObjectReferenceV2Beta2(
   obj: CrossVersionObjectReferenceV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -18185,7 +18185,7 @@ export function toJson_CrossVersionObjectReferenceV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * JobTemplateSpec describes the data a Job should have when created from a template
@@ -18211,7 +18211,7 @@ export interface JobTemplateSpec {
 /**
  * Converts an object of type 'JobTemplateSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_JobTemplateSpec(
   obj: JobTemplateSpec | undefined,
 ): Record<string, any> | undefined {
@@ -18226,7 +18226,7 @@ export function toJson_JobTemplateSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodFailurePolicy describes how failed pods influence the backoffLimit.
@@ -18245,7 +18245,7 @@ export interface PodFailurePolicy {
 /**
  * Converts an object of type 'PodFailurePolicy' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodFailurePolicy(
   obj: PodFailurePolicy | undefined,
 ): Record<string, any> | undefined {
@@ -18259,7 +18259,7 @@ export function toJson_PodFailurePolicy(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EndpointAddress is a tuple that describes single IP address.
@@ -18299,7 +18299,7 @@ export interface EndpointAddress {
 /**
  * Converts an object of type 'EndpointAddress' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EndpointAddress(
   obj: EndpointAddress | undefined,
 ): Record<string, any> | undefined {
@@ -18316,7 +18316,7 @@ export function toJson_EndpointAddress(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LimitRangeItem defines a min/max usage limit for any resource that matches on kind.
@@ -18370,7 +18370,7 @@ export interface LimitRangeItem {
 /**
  * Converts an object of type 'LimitRangeItem' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LimitRangeItem(
   obj: LimitRangeItem | undefined,
 ): Record<string, any> | undefined {
@@ -18414,7 +18414,7 @@ export function toJson_LimitRangeItem(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NodeConfigSource specifies a source of node configuration. Exactly one subfield (excluding metadata) must be non-nil. This API is deprecated since 1.22
@@ -18433,7 +18433,7 @@ export interface NodeConfigSource {
 /**
  * Converts an object of type 'NodeConfigSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeConfigSource(
   obj: NodeConfigSource | undefined,
 ): Record<string, any> | undefined {
@@ -18447,7 +18447,7 @@ export function toJson_NodeConfigSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The node this Taint is attached to has the "effect" on any pod that does not tolerate the Taint.
@@ -18487,7 +18487,7 @@ export interface Taint {
 /**
  * Converts an object of type 'Taint' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Taint(
   obj: Taint | undefined,
 ): Record<string, any> | undefined {
@@ -18504,7 +18504,7 @@ export function toJson_Taint(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Persistent Disk resource in AWS.
@@ -18546,7 +18546,7 @@ export interface AwsElasticBlockStoreVolumeSource {
 /**
  * Converts an object of type 'AwsElasticBlockStoreVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_AwsElasticBlockStoreVolumeSource(
   obj: AwsElasticBlockStoreVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -18563,7 +18563,7 @@ export function toJson_AwsElasticBlockStoreVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * AzureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.
@@ -18618,7 +18618,7 @@ export interface AzureDiskVolumeSource {
 /**
  * Converts an object of type 'AzureDiskVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_AzureDiskVolumeSource(
   obj: AzureDiskVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -18637,7 +18637,7 @@ export function toJson_AzureDiskVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * AzureFile represents an Azure File Service mount on the host and bind mount to the pod.
@@ -18677,7 +18677,7 @@ export interface AzureFilePersistentVolumeSource {
 /**
  * Converts an object of type 'AzureFilePersistentVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_AzureFilePersistentVolumeSource(
   obj: AzureFilePersistentVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -18694,7 +18694,7 @@ export function toJson_AzureFilePersistentVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Ceph Filesystem mount that lasts the lifetime of a pod Cephfs volumes do not support ownership management or SELinux relabeling.
@@ -18749,7 +18749,7 @@ export interface CephFsPersistentVolumeSource {
 /**
  * Converts an object of type 'CephFsPersistentVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CephFsPersistentVolumeSource(
   obj: CephFsPersistentVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -18768,7 +18768,7 @@ export function toJson_CephFsPersistentVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a cinder volume resource in Openstack. A Cinder volume must exist before mounting to a container. The volume must also be in the same region as the kubelet. Cinder volumes support ownership management and SELinux relabeling.
@@ -18809,7 +18809,7 @@ export interface CinderPersistentVolumeSource {
 /**
  * Converts an object of type 'CinderPersistentVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CinderPersistentVolumeSource(
   obj: CinderPersistentVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -18826,7 +18826,7 @@ export function toJson_CinderPersistentVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents storage that is managed by an external CSI volume driver (Beta feature)
@@ -18909,7 +18909,7 @@ export interface CsiPersistentVolumeSource {
 /**
  * Converts an object of type 'CsiPersistentVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CsiPersistentVolumeSource(
   obj: CsiPersistentVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -18941,7 +18941,7 @@ export function toJson_CsiPersistentVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Fibre Channel volume. Fibre Channel volumes can only be mounted as read/write once. Fibre Channel volumes support ownership management and SELinux relabeling.
@@ -18989,7 +18989,7 @@ export interface FcVolumeSource {
 /**
  * Converts an object of type 'FcVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FcVolumeSource(
   obj: FcVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19007,7 +19007,7 @@ export function toJson_FcVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FlexPersistentVolumeSource represents a generic persistent volume resource that is provisioned/attached using an exec based plugin.
@@ -19054,7 +19054,7 @@ export interface FlexPersistentVolumeSource {
 /**
  * Converts an object of type 'FlexPersistentVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FlexPersistentVolumeSource(
   obj: FlexPersistentVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19077,7 +19077,7 @@ export function toJson_FlexPersistentVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Flocker volume mounted by the Flocker agent. One and only one of datasetName and datasetUUID should be set. Flocker volumes do not support ownership management or SELinux relabeling.
@@ -19103,7 +19103,7 @@ export interface FlockerVolumeSource {
 /**
  * Converts an object of type 'FlockerVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FlockerVolumeSource(
   obj: FlockerVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19118,7 +19118,7 @@ export function toJson_FlockerVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Persistent Disk resource in Google Compute Engine.
@@ -19161,7 +19161,7 @@ export interface GcePersistentDiskVolumeSource {
 /**
  * Converts an object of type 'GcePersistentDiskVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_GcePersistentDiskVolumeSource(
   obj: GcePersistentDiskVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19178,7 +19178,7 @@ export function toJson_GcePersistentDiskVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Glusterfs mount that lasts the lifetime of a pod. Glusterfs volumes do not support ownership management or SELinux relabeling.
@@ -19219,7 +19219,7 @@ export interface GlusterfsPersistentVolumeSource {
 /**
  * Converts an object of type 'GlusterfsPersistentVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_GlusterfsPersistentVolumeSource(
   obj: GlusterfsPersistentVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19236,7 +19236,7 @@ export function toJson_GlusterfsPersistentVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a host path mapped into a pod. Host path volumes do not support ownership management or SELinux relabeling.
@@ -19263,7 +19263,7 @@ export interface HostPathVolumeSource {
 /**
  * Converts an object of type 'HostPathVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HostPathVolumeSource(
   obj: HostPathVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19278,7 +19278,7 @@ export function toJson_HostPathVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ISCSIPersistentVolumeSource represents an ISCSI disk. ISCSI volumes can only be mounted as read/write once. ISCSI volumes support ownership management and SELinux relabeling.
@@ -19369,7 +19369,7 @@ export interface IscsiPersistentVolumeSource {
 /**
  * Converts an object of type 'IscsiPersistentVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IscsiPersistentVolumeSource(
   obj: IscsiPersistentVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19393,7 +19393,7 @@ export function toJson_IscsiPersistentVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Local represents directly-attached storage with node affinity (Beta feature)
@@ -19419,7 +19419,7 @@ export interface LocalVolumeSource {
 /**
  * Converts an object of type 'LocalVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LocalVolumeSource(
   obj: LocalVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19434,7 +19434,7 @@ export function toJson_LocalVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents an NFS mount that lasts the lifetime of a pod. NFS volumes do not support ownership management or SELinux relabeling.
@@ -19468,7 +19468,7 @@ export interface NfsVolumeSource {
 /**
  * Converts an object of type 'NfsVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NfsVolumeSource(
   obj: NfsVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19484,7 +19484,7 @@ export function toJson_NfsVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * VolumeNodeAffinity defines constraints that limit what nodes this volume can be accessed from.
@@ -19503,7 +19503,7 @@ export interface VolumeNodeAffinity {
 /**
  * Converts an object of type 'VolumeNodeAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeNodeAffinity(
   obj: VolumeNodeAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -19517,7 +19517,7 @@ export function toJson_VolumeNodeAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Photon Controller persistent disk resource.
@@ -19543,7 +19543,7 @@ export interface PhotonPersistentDiskVolumeSource {
 /**
  * Converts an object of type 'PhotonPersistentDiskVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PhotonPersistentDiskVolumeSource(
   obj: PhotonPersistentDiskVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19558,7 +19558,7 @@ export function toJson_PhotonPersistentDiskVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PortworxVolumeSource represents a Portworx volume resource.
@@ -19591,7 +19591,7 @@ export interface PortworxVolumeSource {
 /**
  * Converts an object of type 'PortworxVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PortworxVolumeSource(
   obj: PortworxVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19607,7 +19607,7 @@ export function toJson_PortworxVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Quobyte mount that lasts the lifetime of a pod. Quobyte volumes do not support ownership management or SELinux relabeling.
@@ -19664,7 +19664,7 @@ export interface QuobyteVolumeSource {
 /**
  * Converts an object of type 'QuobyteVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_QuobyteVolumeSource(
   obj: QuobyteVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19683,7 +19683,7 @@ export function toJson_QuobyteVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Rados Block Device mount that lasts the lifetime of a pod. RBD volumes support ownership management and SELinux relabeling.
@@ -19756,7 +19756,7 @@ export interface RbdPersistentVolumeSource {
 /**
  * Converts an object of type 'RbdPersistentVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RbdPersistentVolumeSource(
   obj: RbdPersistentVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19777,7 +19777,7 @@ export function toJson_RbdPersistentVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ScaleIOPersistentVolumeSource represents a persistent ScaleIO volume
@@ -19861,7 +19861,7 @@ export interface ScaleIoPersistentVolumeSource {
 /**
  * Converts an object of type 'ScaleIoPersistentVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ScaleIoPersistentVolumeSource(
   obj: ScaleIoPersistentVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19884,7 +19884,7 @@ export function toJson_ScaleIoPersistentVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a StorageOS persistent volume resource.
@@ -19931,7 +19931,7 @@ export interface StorageOsPersistentVolumeSource {
 /**
  * Converts an object of type 'StorageOsPersistentVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_StorageOsPersistentVolumeSource(
   obj: StorageOsPersistentVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -19949,7 +19949,7 @@ export function toJson_StorageOsPersistentVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a vSphere volume resource.
@@ -19989,7 +19989,7 @@ export interface VsphereVirtualDiskVolumeSource {
 /**
  * Converts an object of type 'VsphereVirtualDiskVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VsphereVirtualDiskVolumeSource(
   obj: VsphereVirtualDiskVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -20006,7 +20006,7 @@ export function toJson_VsphereVirtualDiskVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * TypedLocalObjectReference contains enough information to let you locate the typed referenced object inside the same namespace.
@@ -20039,7 +20039,7 @@ export interface TypedLocalObjectReference {
 /**
  * Converts an object of type 'TypedLocalObjectReference' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_TypedLocalObjectReference(
   obj: TypedLocalObjectReference | undefined,
 ): Record<string, any> | undefined {
@@ -20055,7 +20055,7 @@ export function toJson_TypedLocalObjectReference(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourceRequirements describes the compute resource requirements.
@@ -20081,7 +20081,7 @@ export interface ResourceRequirements {
 /**
  * Converts an object of type 'ResourceRequirements' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ResourceRequirements(
   obj: ResourceRequirements | undefined,
 ): Record<string, any> | undefined {
@@ -20106,7 +20106,7 @@ export function toJson_ResourceRequirements(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Affinity is a group of affinity scheduling rules.
@@ -20139,7 +20139,7 @@ export interface Affinity {
 /**
  * Converts an object of type 'Affinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Affinity(
   obj: Affinity | undefined,
 ): Record<string, any> | undefined {
@@ -20155,7 +20155,7 @@ export function toJson_Affinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A single application container that you want to run within a pod.
@@ -20327,7 +20327,7 @@ export interface Container {
 /**
  * Converts an object of type 'Container' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Container(
   obj: Container | undefined,
 ): Record<string, any> | undefined {
@@ -20362,7 +20362,7 @@ export function toJson_Container(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodDNSConfig defines the DNS parameters of a pod in addition to those generated from DNSPolicy.
@@ -20395,7 +20395,7 @@ export interface PodDnsConfig {
 /**
  * Converts an object of type 'PodDnsConfig' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodDnsConfig(
   obj: PodDnsConfig | undefined,
 ): Record<string, any> | undefined {
@@ -20411,7 +20411,7 @@ export function toJson_PodDnsConfig(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * An EphemeralContainer is a temporary container that you may add to an existing Pod for user-initiated activities such as debugging. Ephemeral containers have no resource or scheduling guarantees, and they will not be restarted when they exit or when a Pod is removed or restarted. The kubelet may evict a Pod if an ephemeral container causes the Pod to exceed its resource allocation.
@@ -20594,7 +20594,7 @@ export interface EphemeralContainer {
 /**
  * Converts an object of type 'EphemeralContainer' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EphemeralContainer(
   obj: EphemeralContainer | undefined,
 ): Record<string, any> | undefined {
@@ -20630,7 +20630,7 @@ export function toJson_EphemeralContainer(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HostAlias holds the mapping between IP and hostnames that will be injected as an entry in the pod's hosts file.
@@ -20656,7 +20656,7 @@ export interface HostAlias {
 /**
  * Converts an object of type 'HostAlias' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HostAlias(
   obj: HostAlias | undefined,
 ): Record<string, any> | undefined {
@@ -20671,7 +20671,7 @@ export function toJson_HostAlias(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodOS defines the OS parameters of a pod.
@@ -20690,7 +20690,7 @@ export interface PodOs {
 /**
  * Converts an object of type 'PodOs' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodOs(
   obj: PodOs | undefined,
 ): Record<string, any> | undefined {
@@ -20704,7 +20704,7 @@ export function toJson_PodOs(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodReadinessGate contains the reference to a pod condition
@@ -20723,7 +20723,7 @@ export interface PodReadinessGate {
 /**
  * Converts an object of type 'PodReadinessGate' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodReadinessGate(
   obj: PodReadinessGate | undefined,
 ): Record<string, any> | undefined {
@@ -20737,7 +20737,7 @@ export function toJson_PodReadinessGate(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodSecurityContext holds pod-level security attributes and common container settings. Some fields are also present in container.securityContext.  Field values of container.securityContext take precedence over field values of PodSecurityContext.
@@ -20824,7 +20824,7 @@ export interface PodSecurityContext {
 /**
  * Converts an object of type 'PodSecurityContext' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodSecurityContext(
   obj: PodSecurityContext | undefined,
 ): Record<string, any> | undefined {
@@ -20847,7 +20847,7 @@ export function toJson_PodSecurityContext(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>.
@@ -20895,7 +20895,7 @@ export interface Toleration {
 /**
  * Converts an object of type 'Toleration' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Toleration(
   obj: Toleration | undefined,
 ): Record<string, any> | undefined {
@@ -20913,7 +20913,7 @@ export function toJson_Toleration(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * TopologySpreadConstraint specifies how to spread matching pods among the given topology.
@@ -20992,7 +20992,7 @@ export interface TopologySpreadConstraint {
 /**
  * Converts an object of type 'TopologySpreadConstraint' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_TopologySpreadConstraint(
   obj: TopologySpreadConstraint | undefined,
 ): Record<string, any> | undefined {
@@ -21013,7 +21013,7 @@ export function toJson_TopologySpreadConstraint(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Volume represents a named volume in a pod that may be accessed by any container in the pod.
@@ -21248,7 +21248,7 @@ export interface Volume {
 /**
  * Converts an object of type 'Volume' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Volume(
   obj: Volume | undefined,
 ): Record<string, any> | undefined {
@@ -21299,7 +21299,7 @@ export function toJson_Volume(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A scope selector represents the AND of the selectors represented by the scoped-resource selector requirements.
@@ -21318,7 +21318,7 @@ export interface ScopeSelector {
 /**
  * Converts an object of type 'ScopeSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ScopeSelector(
   obj: ScopeSelector | undefined,
 ): Record<string, any> | undefined {
@@ -21334,7 +21334,7 @@ export function toJson_ScopeSelector(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ServicePort contains information on service's port.
@@ -21389,7 +21389,7 @@ export interface ServicePort {
 /**
  * Converts an object of type 'ServicePort' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ServicePort(
   obj: ServicePort | undefined,
 ): Record<string, any> | undefined {
@@ -21408,7 +21408,7 @@ export function toJson_ServicePort(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SessionAffinityConfig represents the configurations of session affinity.
@@ -21427,7 +21427,7 @@ export interface SessionAffinityConfig {
 /**
  * Converts an object of type 'SessionAffinityConfig' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SessionAffinityConfig(
   obj: SessionAffinityConfig | undefined,
 ): Record<string, any> | undefined {
@@ -21441,7 +21441,7 @@ export function toJson_SessionAffinityConfig(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EndpointConditions represents the current condition of an endpoint.
@@ -21474,7 +21474,7 @@ export interface EndpointConditions {
 /**
  * Converts an object of type 'EndpointConditions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EndpointConditions(
   obj: EndpointConditions | undefined,
 ): Record<string, any> | undefined {
@@ -21490,7 +21490,7 @@ export function toJson_EndpointConditions(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EndpointHints provides hints describing how an endpoint should be consumed.
@@ -21509,7 +21509,7 @@ export interface EndpointHints {
 /**
  * Converts an object of type 'EndpointHints' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EndpointHints(
   obj: EndpointHints | undefined,
 ): Record<string, any> | undefined {
@@ -21523,7 +21523,7 @@ export function toJson_EndpointHints(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FlowDistinguisherMethod specifies the method of a flow distinguisher.
@@ -21542,7 +21542,7 @@ export interface FlowDistinguisherMethodV1Beta1 {
 /**
  * Converts an object of type 'FlowDistinguisherMethodV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FlowDistinguisherMethodV1Beta1(
   obj: FlowDistinguisherMethodV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -21556,7 +21556,7 @@ export function toJson_FlowDistinguisherMethodV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PriorityLevelConfigurationReference contains information that points to the "request-priority" being used.
@@ -21575,7 +21575,7 @@ export interface PriorityLevelConfigurationReferenceV1Beta1 {
 /**
  * Converts an object of type 'PriorityLevelConfigurationReferenceV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PriorityLevelConfigurationReferenceV1Beta1(
   obj: PriorityLevelConfigurationReferenceV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -21589,7 +21589,7 @@ export function toJson_PriorityLevelConfigurationReferenceV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PolicyRulesWithSubjects prescribes a test that applies to a request to an apiserver. The test considers the subject making the request, the verb being requested, and the resource to be acted upon. This PolicyRulesWithSubjects matches a request if and only if both (a) at least one member of subjects matches the request and (b) at least one member of resourceRules or nonResourceRules matches the request.
@@ -21622,7 +21622,7 @@ export interface PolicyRulesWithSubjectsV1Beta1 {
 /**
  * Converts an object of type 'PolicyRulesWithSubjectsV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PolicyRulesWithSubjectsV1Beta1(
   obj: PolicyRulesWithSubjectsV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -21642,7 +21642,7 @@ export function toJson_PolicyRulesWithSubjectsV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LimitedPriorityLevelConfiguration specifies how to handle requests that are subject to limits. It addresses two issues:
@@ -21674,7 +21674,7 @@ export interface LimitedPriorityLevelConfigurationV1Beta1 {
 /**
  * Converts an object of type 'LimitedPriorityLevelConfigurationV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LimitedPriorityLevelConfigurationV1Beta1(
   obj: LimitedPriorityLevelConfigurationV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -21689,7 +21689,7 @@ export function toJson_LimitedPriorityLevelConfigurationV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FlowDistinguisherMethod specifies the method of a flow distinguisher.
@@ -21708,7 +21708,7 @@ export interface FlowDistinguisherMethodV1Beta2 {
 /**
  * Converts an object of type 'FlowDistinguisherMethodV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FlowDistinguisherMethodV1Beta2(
   obj: FlowDistinguisherMethodV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -21722,7 +21722,7 @@ export function toJson_FlowDistinguisherMethodV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PriorityLevelConfigurationReference contains information that points to the "request-priority" being used.
@@ -21741,7 +21741,7 @@ export interface PriorityLevelConfigurationReferenceV1Beta2 {
 /**
  * Converts an object of type 'PriorityLevelConfigurationReferenceV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PriorityLevelConfigurationReferenceV1Beta2(
   obj: PriorityLevelConfigurationReferenceV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -21755,7 +21755,7 @@ export function toJson_PriorityLevelConfigurationReferenceV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PolicyRulesWithSubjects prescribes a test that applies to a request to an apiserver. The test considers the subject making the request, the verb being requested, and the resource to be acted upon. This PolicyRulesWithSubjects matches a request if and only if both (a) at least one member of subjects matches the request and (b) at least one member of resourceRules or nonResourceRules matches the request.
@@ -21788,7 +21788,7 @@ export interface PolicyRulesWithSubjectsV1Beta2 {
 /**
  * Converts an object of type 'PolicyRulesWithSubjectsV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PolicyRulesWithSubjectsV1Beta2(
   obj: PolicyRulesWithSubjectsV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -21808,7 +21808,7 @@ export function toJson_PolicyRulesWithSubjectsV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LimitedPriorityLevelConfiguration specifies how to handle requests that are subject to limits. It addresses two issues:
@@ -21840,7 +21840,7 @@ export interface LimitedPriorityLevelConfigurationV1Beta2 {
 /**
  * Converts an object of type 'LimitedPriorityLevelConfigurationV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LimitedPriorityLevelConfigurationV1Beta2(
   obj: LimitedPriorityLevelConfigurationV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -21855,7 +21855,7 @@ export function toJson_LimitedPriorityLevelConfigurationV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IngressBackend describes all endpoints for a given service and port.
@@ -21881,7 +21881,7 @@ export interface IngressBackend {
 /**
  * Converts an object of type 'IngressBackend' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IngressBackend(
   obj: IngressBackend | undefined,
 ): Record<string, any> | undefined {
@@ -21896,7 +21896,7 @@ export function toJson_IngressBackend(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IngressRule represents the rules mapping the paths under a specified host to the related backend services. Incoming requests are first evaluated for a host match, then routed to the backend associated with the matching IngressRuleValue.
@@ -21927,7 +21927,7 @@ export interface IngressRule {
 /**
  * Converts an object of type 'IngressRule' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IngressRule(
   obj: IngressRule | undefined,
 ): Record<string, any> | undefined {
@@ -21942,7 +21942,7 @@ export function toJson_IngressRule(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IngressTLS describes the transport layer security associated with an Ingress.
@@ -21969,7 +21969,7 @@ export interface IngressTls {
 /**
  * Converts an object of type 'IngressTls' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IngressTls(
   obj: IngressTls | undefined,
 ): Record<string, any> | undefined {
@@ -21984,7 +21984,7 @@ export function toJson_IngressTls(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IngressClassParametersReference identifies an API object. This can be used to specify a cluster or namespace-scoped resource.
@@ -22031,7 +22031,7 @@ export interface IngressClassParametersReference {
 /**
  * Converts an object of type 'IngressClassParametersReference' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IngressClassParametersReference(
   obj: IngressClassParametersReference | undefined,
 ): Record<string, any> | undefined {
@@ -22049,7 +22049,7 @@ export function toJson_IngressClassParametersReference(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NetworkPolicyEgressRule describes a particular set of traffic that is allowed out of pods matched by a NetworkPolicySpec's podSelector. The traffic must match both ports and to. This type is beta-level in 1.8
@@ -22075,7 +22075,7 @@ export interface NetworkPolicyEgressRule {
 /**
  * Converts an object of type 'NetworkPolicyEgressRule' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NetworkPolicyEgressRule(
   obj: NetworkPolicyEgressRule | undefined,
 ): Record<string, any> | undefined {
@@ -22090,7 +22090,7 @@ export function toJson_NetworkPolicyEgressRule(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NetworkPolicyIngressRule describes a particular set of traffic that is allowed to the pods matched by a NetworkPolicySpec's podSelector. The traffic must match both ports and from.
@@ -22116,7 +22116,7 @@ export interface NetworkPolicyIngressRule {
 /**
  * Converts an object of type 'NetworkPolicyIngressRule' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NetworkPolicyIngressRule(
   obj: NetworkPolicyIngressRule | undefined,
 ): Record<string, any> | undefined {
@@ -22131,7 +22131,7 @@ export function toJson_NetworkPolicyIngressRule(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector represents the union of the results of one or more label queries over a set of nodes; that is, it represents the OR of the selectors represented by the node selector terms.
@@ -22150,7 +22150,7 @@ export interface NodeSelector {
 /**
  * Converts an object of type 'NodeSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeSelector(
   obj: NodeSelector | undefined,
 ): Record<string, any> | undefined {
@@ -22166,7 +22166,7 @@ export function toJson_NodeSelector(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
@@ -22202,7 +22202,7 @@ export interface Preconditions {
 /**
  * Converts an object of type 'Preconditions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Preconditions(
   obj: Preconditions | undefined,
 ): Record<string, any> | undefined {
@@ -22217,7 +22217,7 @@ export function toJson_Preconditions(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * @schema io.k8s.apimachinery.pkg.util.intstr.IntOrString
@@ -22257,7 +22257,7 @@ export interface TokenRequest {
 /**
  * Converts an object of type 'TokenRequest' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_TokenRequest(
   obj: TokenRequest | undefined,
 ): Record<string, any> | undefined {
@@ -22272,7 +22272,7 @@ export function toJson_TokenRequest(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CSINodeDriver holds information about the specification of one CSI driver installed on a node
@@ -22312,7 +22312,7 @@ export interface CsiNodeDriver {
 /**
  * Converts an object of type 'CsiNodeDriver' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CsiNodeDriver(
   obj: CsiNodeDriver | undefined,
 ): Record<string, any> | undefined {
@@ -22329,7 +22329,7 @@ export function toJson_CsiNodeDriver(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
@@ -22362,7 +22362,7 @@ export interface LabelSelectorRequirement {
 /**
  * Converts an object of type 'LabelSelectorRequirement' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LabelSelectorRequirement(
   obj: LabelSelectorRequirement | undefined,
 ): Record<string, any> | undefined {
@@ -22378,7 +22378,7 @@ export function toJson_LabelSelectorRequirement(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A topology selector requirement is a selector that matches given label. This is an alpha feature and may change in the future.
@@ -22404,7 +22404,7 @@ export interface TopologySelectorLabelRequirement {
 /**
  * Converts an object of type 'TopologySelectorLabelRequirement' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_TopologySelectorLabelRequirement(
   obj: TopologySelectorLabelRequirement | undefined,
 ): Record<string, any> | undefined {
@@ -22419,7 +22419,7 @@ export function toJson_TopologySelectorLabelRequirement(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * VolumeAttachmentSource represents a volume that should be attached. Right now only PersistenVolumes can be attached via external attacher, in future we may allow also inline volumes in pods. Exactly one member can be set.
@@ -22445,7 +22445,7 @@ export interface VolumeAttachmentSource {
 /**
  * Converts an object of type 'VolumeAttachmentSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeAttachmentSource(
   obj: VolumeAttachmentSource | undefined,
 ): Record<string, any> | undefined {
@@ -22460,7 +22460,7 @@ export function toJson_VolumeAttachmentSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CustomResourceConversion describes how to convert different versions of a CR.
@@ -22487,7 +22487,7 @@ export interface CustomResourceConversion {
 /**
  * Converts an object of type 'CustomResourceConversion' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CustomResourceConversion(
   obj: CustomResourceConversion | undefined,
 ): Record<string, any> | undefined {
@@ -22502,7 +22502,7 @@ export function toJson_CustomResourceConversion(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CustomResourceDefinitionNames indicates the names to serve this CustomResourceDefinition
@@ -22558,7 +22558,7 @@ export interface CustomResourceDefinitionNames {
 /**
  * Converts an object of type 'CustomResourceDefinitionNames' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CustomResourceDefinitionNames(
   obj: CustomResourceDefinitionNames | undefined,
 ): Record<string, any> | undefined {
@@ -22577,7 +22577,7 @@ export function toJson_CustomResourceDefinitionNames(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CustomResourceDefinitionVersion describes a version for CRD.
@@ -22646,7 +22646,7 @@ export interface CustomResourceDefinitionVersion {
 /**
  * Converts an object of type 'CustomResourceDefinitionVersion' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CustomResourceDefinitionVersion(
   obj: CustomResourceDefinitionVersion | undefined,
 ): Record<string, any> | undefined {
@@ -22669,7 +22669,7 @@ export function toJson_CustomResourceDefinitionVersion(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * StatusCause provides more information about an api.Status failure, including cases when multiple errors are encountered.
@@ -22706,7 +22706,7 @@ export interface StatusCause {
 /**
  * Converts an object of type 'StatusCause' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_StatusCause(
   obj: StatusCause | undefined,
 ): Record<string, any> | undefined {
@@ -22722,7 +22722,7 @@ export function toJson_StatusCause(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ServiceReference holds a reference to Service.legacy.k8s.io
@@ -22763,7 +22763,7 @@ export interface ServiceReference {
 /**
  * Converts an object of type 'ServiceReference' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ServiceReference(
   obj: ServiceReference | undefined,
 ): Record<string, any> | undefined {
@@ -22780,7 +22780,7 @@ export function toJson_ServiceReference(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Spec to control the desired behavior of daemon set rolling update.
@@ -22806,7 +22806,7 @@ export interface RollingUpdateDaemonSet {
 /**
  * Converts an object of type 'RollingUpdateDaemonSet' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RollingUpdateDaemonSet(
   obj: RollingUpdateDaemonSet | undefined,
 ): Record<string, any> | undefined {
@@ -22821,7 +22821,7 @@ export function toJson_RollingUpdateDaemonSet(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Spec to control the desired behavior of rolling update.
@@ -22849,7 +22849,7 @@ export interface RollingUpdateDeployment {
 /**
  * Converts an object of type 'RollingUpdateDeployment' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RollingUpdateDeployment(
   obj: RollingUpdateDeployment | undefined,
 ): Record<string, any> | undefined {
@@ -22864,7 +22864,7 @@ export function toJson_RollingUpdateDeployment(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * RollingUpdateStatefulSetStrategy is used to communicate parameter for RollingUpdateStatefulSetStrategyType.
@@ -22891,7 +22891,7 @@ export interface RollingUpdateStatefulSetStrategy {
 /**
  * Converts an object of type 'RollingUpdateStatefulSetStrategy' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RollingUpdateStatefulSetStrategy(
   obj: RollingUpdateStatefulSetStrategy | undefined,
 ): Record<string, any> | undefined {
@@ -22906,7 +22906,7 @@ export function toJson_RollingUpdateStatefulSetStrategy(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HPAScalingRules configures the scaling behavior for one direction. These Rules are applied after calculating DesiredReplicas from metrics for the HPA. They can limit the scaling velocity by specifying scaling policies. They can prevent flapping by specifying the stabilization window, so that the number of replicas is not set instantly, instead, the safest value from the stabilization window is chosen.
@@ -22939,7 +22939,7 @@ export interface HpaScalingRulesV2 {
 /**
  * Converts an object of type 'HpaScalingRulesV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HpaScalingRulesV2(
   obj: HpaScalingRulesV2 | undefined,
 ): Record<string, any> | undefined {
@@ -22955,7 +22955,7 @@ export function toJson_HpaScalingRulesV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ContainerResourceMetricSource indicates how to scale on a resource metric known to Kubernetes, as specified in requests and limits, describing each pod in the current scale target (e.g. CPU or memory).  The values will be averaged together before being compared to the target.  Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the "pods" source.  Only one "target" type should be set.
@@ -22988,7 +22988,7 @@ export interface ContainerResourceMetricSourceV2 {
 /**
  * Converts an object of type 'ContainerResourceMetricSourceV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ContainerResourceMetricSourceV2(
   obj: ContainerResourceMetricSourceV2 | undefined,
 ): Record<string, any> | undefined {
@@ -23004,7 +23004,7 @@ export function toJson_ContainerResourceMetricSourceV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ExternalMetricSource indicates how to scale on a metric not associated with any Kubernetes object (for example length of queue in cloud messaging service, or QPS from loadbalancer running outside of cluster).
@@ -23030,7 +23030,7 @@ export interface ExternalMetricSourceV2 {
 /**
  * Converts an object of type 'ExternalMetricSourceV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ExternalMetricSourceV2(
   obj: ExternalMetricSourceV2 | undefined,
 ): Record<string, any> | undefined {
@@ -23045,7 +23045,7 @@ export function toJson_ExternalMetricSourceV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ObjectMetricSource indicates how to scale on a metric describing a kubernetes object (for example, hits-per-second on an Ingress object).
@@ -23078,7 +23078,7 @@ export interface ObjectMetricSourceV2 {
 /**
  * Converts an object of type 'ObjectMetricSourceV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ObjectMetricSourceV2(
   obj: ObjectMetricSourceV2 | undefined,
 ): Record<string, any> | undefined {
@@ -23096,7 +23096,7 @@ export function toJson_ObjectMetricSourceV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodsMetricSource indicates how to scale on a metric describing each pod in the current scale target (for example, transactions-processed-per-second). The values will be averaged together before being compared to the target value.
@@ -23122,7 +23122,7 @@ export interface PodsMetricSourceV2 {
 /**
  * Converts an object of type 'PodsMetricSourceV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodsMetricSourceV2(
   obj: PodsMetricSourceV2 | undefined,
 ): Record<string, any> | undefined {
@@ -23137,7 +23137,7 @@ export function toJson_PodsMetricSourceV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourceMetricSource indicates how to scale on a resource metric known to Kubernetes, as specified in requests and limits, describing each pod in the current scale target (e.g. CPU or memory).  The values will be averaged together before being compared to the target.  Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the "pods" source.  Only one "target" type should be set.
@@ -23163,7 +23163,7 @@ export interface ResourceMetricSourceV2 {
 /**
  * Converts an object of type 'ResourceMetricSourceV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ResourceMetricSourceV2(
   obj: ResourceMetricSourceV2 | undefined,
 ): Record<string, any> | undefined {
@@ -23178,7 +23178,7 @@ export function toJson_ResourceMetricSourceV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HPAScalingRules configures the scaling behavior for one direction. These Rules are applied after calculating DesiredReplicas from metrics for the HPA. They can limit the scaling velocity by specifying scaling policies. They can prevent flapping by specifying the stabilization window, so that the number of replicas is not set instantly, instead, the safest value from the stabilization window is chosen.
@@ -23211,7 +23211,7 @@ export interface HpaScalingRulesV2Beta2 {
 /**
  * Converts an object of type 'HpaScalingRulesV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HpaScalingRulesV2Beta2(
   obj: HpaScalingRulesV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -23227,7 +23227,7 @@ export function toJson_HpaScalingRulesV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ContainerResourceMetricSource indicates how to scale on a resource metric known to Kubernetes, as specified in requests and limits, describing each pod in the current scale target (e.g. CPU or memory).  The values will be averaged together before being compared to the target.  Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the "pods" source.  Only one "target" type should be set.
@@ -23260,7 +23260,7 @@ export interface ContainerResourceMetricSourceV2Beta2 {
 /**
  * Converts an object of type 'ContainerResourceMetricSourceV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ContainerResourceMetricSourceV2Beta2(
   obj: ContainerResourceMetricSourceV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -23276,7 +23276,7 @@ export function toJson_ContainerResourceMetricSourceV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ExternalMetricSource indicates how to scale on a metric not associated with any Kubernetes object (for example length of queue in cloud messaging service, or QPS from loadbalancer running outside of cluster).
@@ -23302,7 +23302,7 @@ export interface ExternalMetricSourceV2Beta2 {
 /**
  * Converts an object of type 'ExternalMetricSourceV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ExternalMetricSourceV2Beta2(
   obj: ExternalMetricSourceV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -23317,7 +23317,7 @@ export function toJson_ExternalMetricSourceV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ObjectMetricSource indicates how to scale on a metric describing a kubernetes object (for example, hits-per-second on an Ingress object).
@@ -23348,7 +23348,7 @@ export interface ObjectMetricSourceV2Beta2 {
 /**
  * Converts an object of type 'ObjectMetricSourceV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ObjectMetricSourceV2Beta2(
   obj: ObjectMetricSourceV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -23366,7 +23366,7 @@ export function toJson_ObjectMetricSourceV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodsMetricSource indicates how to scale on a metric describing each pod in the current scale target (for example, transactions-processed-per-second). The values will be averaged together before being compared to the target value.
@@ -23392,7 +23392,7 @@ export interface PodsMetricSourceV2Beta2 {
 /**
  * Converts an object of type 'PodsMetricSourceV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodsMetricSourceV2Beta2(
   obj: PodsMetricSourceV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -23407,7 +23407,7 @@ export function toJson_PodsMetricSourceV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourceMetricSource indicates how to scale on a resource metric known to Kubernetes, as specified in requests and limits, describing each pod in the current scale target (e.g. CPU or memory).  The values will be averaged together before being compared to the target.  Such metrics are built in to Kubernetes, and have special scaling options on top of those available to normal per-pod metrics using the "pods" source.  Only one "target" type should be set.
@@ -23433,7 +23433,7 @@ export interface ResourceMetricSourceV2Beta2 {
 /**
  * Converts an object of type 'ResourceMetricSourceV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ResourceMetricSourceV2Beta2(
   obj: ResourceMetricSourceV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -23448,7 +23448,7 @@ export function toJson_ResourceMetricSourceV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodFailurePolicyRule describes how a pod failure is handled when the requirements are met. One of OnExitCodes and onPodConditions, but not both, can be used in each rule.
@@ -23487,7 +23487,7 @@ export interface PodFailurePolicyRule {
 /**
  * Converts an object of type 'PodFailurePolicyRule' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodFailurePolicyRule(
   obj: PodFailurePolicyRule | undefined,
 ): Record<string, any> | undefined {
@@ -23507,7 +23507,7 @@ export function toJson_PodFailurePolicyRule(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ConfigMapNodeConfigSource contains the information to reference a ConfigMap as a config source for the Node. This API is deprecated since 1.22: https://git.k8s.io/enhancements/keps/sig-node/281-dynamic-kubelet-configuration
@@ -23554,7 +23554,7 @@ export interface ConfigMapNodeConfigSource {
 /**
  * Converts an object of type 'ConfigMapNodeConfigSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ConfigMapNodeConfigSource(
   obj: ConfigMapNodeConfigSource | undefined,
 ): Record<string, any> | undefined {
@@ -23572,7 +23572,7 @@ export function toJson_ConfigMapNodeConfigSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SecretReference represents a Secret Reference. It has enough information to retrieve secret in any namespace
@@ -23598,7 +23598,7 @@ export interface SecretReference {
 /**
  * Converts an object of type 'SecretReference' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SecretReference(
   obj: SecretReference | undefined,
 ): Record<string, any> | undefined {
@@ -23613,7 +23613,7 @@ export function toJson_SecretReference(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Node affinity is a group of node affinity scheduling rules.
@@ -23640,7 +23640,7 @@ export interface NodeAffinity {
 /**
  * Converts an object of type 'NodeAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeAffinity(
   obj: NodeAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -23660,7 +23660,7 @@ export function toJson_NodeAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Pod affinity is a group of inter pod affinity scheduling rules.
@@ -23687,7 +23687,7 @@ export interface PodAffinity {
 /**
  * Converts an object of type 'PodAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodAffinity(
   obj: PodAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -23708,7 +23708,7 @@ export function toJson_PodAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Pod anti affinity is a group of inter pod anti affinity scheduling rules.
@@ -23735,7 +23735,7 @@ export interface PodAntiAffinity {
 /**
  * Converts an object of type 'PodAntiAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodAntiAffinity(
   obj: PodAntiAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -23756,7 +23756,7 @@ export function toJson_PodAntiAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EnvVar represents an environment variable present in a Container.
@@ -23790,7 +23790,7 @@ export interface EnvVar {
 /**
  * Converts an object of type 'EnvVar' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EnvVar(
   obj: EnvVar | undefined,
 ): Record<string, any> | undefined {
@@ -23806,7 +23806,7 @@ export function toJson_EnvVar(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EnvFromSource represents the source of a set of ConfigMaps
@@ -23839,7 +23839,7 @@ export interface EnvFromSource {
 /**
  * Converts an object of type 'EnvFromSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EnvFromSource(
   obj: EnvFromSource | undefined,
 ): Record<string, any> | undefined {
@@ -23855,7 +23855,7 @@ export function toJson_EnvFromSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Lifecycle describes actions that the management system should take in response to container lifecycle events. For the PostStart and PreStop lifecycle handlers, management of the container blocks until the action is complete, unless the container process fails, in which case the handler is aborted.
@@ -23881,7 +23881,7 @@ export interface Lifecycle {
 /**
  * Converts an object of type 'Lifecycle' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Lifecycle(
   obj: Lifecycle | undefined,
 ): Record<string, any> | undefined {
@@ -23896,7 +23896,7 @@ export function toJson_Lifecycle(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Probe describes a health check to be performed against a container to determine whether it is alive or ready to receive traffic.
@@ -23982,7 +23982,7 @@ export interface Probe {
 /**
  * Converts an object of type 'Probe' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Probe(
   obj: Probe | undefined,
 ): Record<string, any> | undefined {
@@ -24005,7 +24005,7 @@ export function toJson_Probe(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ContainerPort represents a network port in a single container.
@@ -24053,7 +24053,7 @@ export interface ContainerPort {
 /**
  * Converts an object of type 'ContainerPort' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ContainerPort(
   obj: ContainerPort | undefined,
 ): Record<string, any> | undefined {
@@ -24071,7 +24071,7 @@ export function toJson_ContainerPort(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SecurityContext holds security configuration that will be applied to a container. Some fields are present in both SecurityContext and PodSecurityContext.  When both are set, the values in SecurityContext take precedence.
@@ -24164,7 +24164,7 @@ export interface SecurityContext {
 /**
  * Converts an object of type 'SecurityContext' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SecurityContext(
   obj: SecurityContext | undefined,
 ): Record<string, any> | undefined {
@@ -24188,7 +24188,7 @@ export function toJson_SecurityContext(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * volumeDevice describes a mapping of a raw block device within a container.
@@ -24214,7 +24214,7 @@ export interface VolumeDevice {
 /**
  * Converts an object of type 'VolumeDevice' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeDevice(
   obj: VolumeDevice | undefined,
 ): Record<string, any> | undefined {
@@ -24229,7 +24229,7 @@ export function toJson_VolumeDevice(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * VolumeMount describes a mounting of a Volume within a container.
@@ -24286,7 +24286,7 @@ export interface VolumeMount {
 /**
  * Converts an object of type 'VolumeMount' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeMount(
   obj: VolumeMount | undefined,
 ): Record<string, any> | undefined {
@@ -24305,7 +24305,7 @@ export function toJson_VolumeMount(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodDNSConfigOption defines DNS resolver options of a pod.
@@ -24329,7 +24329,7 @@ export interface PodDnsConfigOption {
 /**
  * Converts an object of type 'PodDnsConfigOption' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodDnsConfigOption(
   obj: PodDnsConfigOption | undefined,
 ): Record<string, any> | undefined {
@@ -24344,7 +24344,7 @@ export function toJson_PodDnsConfigOption(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SELinuxOptions are the labels to be applied to the container
@@ -24384,7 +24384,7 @@ export interface SeLinuxOptions {
 /**
  * Converts an object of type 'SeLinuxOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SeLinuxOptions(
   obj: SeLinuxOptions | undefined,
 ): Record<string, any> | undefined {
@@ -24401,7 +24401,7 @@ export function toJson_SeLinuxOptions(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SeccompProfile defines a pod/container's seccomp profile settings. Only one profile source may be set.
@@ -24429,7 +24429,7 @@ export interface SeccompProfile {
 /**
  * Converts an object of type 'SeccompProfile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SeccompProfile(
   obj: SeccompProfile | undefined,
 ): Record<string, any> | undefined {
@@ -24444,7 +24444,7 @@ export function toJson_SeccompProfile(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Sysctl defines a kernel parameter to be set
@@ -24470,7 +24470,7 @@ export interface Sysctl {
 /**
  * Converts an object of type 'Sysctl' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Sysctl(
   obj: Sysctl | undefined,
 ): Record<string, any> | undefined {
@@ -24485,7 +24485,7 @@ export function toJson_Sysctl(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * WindowsSecurityContextOptions contain Windows-specific options and credentials.
@@ -24526,7 +24526,7 @@ export interface WindowsSecurityContextOptions {
 /**
  * Converts an object of type 'WindowsSecurityContextOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_WindowsSecurityContextOptions(
   obj: WindowsSecurityContextOptions | undefined,
 ): Record<string, any> | undefined {
@@ -24543,7 +24543,7 @@ export function toJson_WindowsSecurityContextOptions(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * AzureFile represents an Azure File Service mount on the host and bind mount to the pod.
@@ -24576,7 +24576,7 @@ export interface AzureFileVolumeSource {
 /**
  * Converts an object of type 'AzureFileVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_AzureFileVolumeSource(
   obj: AzureFileVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -24592,7 +24592,7 @@ export function toJson_AzureFileVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Ceph Filesystem mount that lasts the lifetime of a pod Cephfs volumes do not support ownership management or SELinux relabeling.
@@ -24647,7 +24647,7 @@ export interface CephFsVolumeSource {
 /**
  * Converts an object of type 'CephFsVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CephFsVolumeSource(
   obj: CephFsVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -24666,7 +24666,7 @@ export function toJson_CephFsVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a cinder volume resource in Openstack. A Cinder volume must exist before mounting to a container. The volume must also be in the same region as the kubelet. Cinder volumes support ownership management and SELinux relabeling.
@@ -24706,7 +24706,7 @@ export interface CinderVolumeSource {
 /**
  * Converts an object of type 'CinderVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CinderVolumeSource(
   obj: CinderVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -24723,7 +24723,7 @@ export function toJson_CinderVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Adapts a ConfigMap into a volume.
@@ -24766,7 +24766,7 @@ export interface ConfigMapVolumeSource {
 /**
  * Converts an object of type 'ConfigMapVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ConfigMapVolumeSource(
   obj: ConfigMapVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -24783,7 +24783,7 @@ export function toJson_ConfigMapVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a source location of a volume to mount, managed by an external CSI driver
@@ -24831,7 +24831,7 @@ export interface CsiVolumeSource {
 /**
  * Converts an object of type 'CsiVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CsiVolumeSource(
   obj: CsiVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -24856,7 +24856,7 @@ export function toJson_CsiVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DownwardAPIVolumeSource represents a volume containing downward API info. Downward API volumes support ownership management and SELinux relabeling.
@@ -24883,7 +24883,7 @@ export interface DownwardApiVolumeSource {
 /**
  * Converts an object of type 'DownwardApiVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DownwardApiVolumeSource(
   obj: DownwardApiVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -24898,7 +24898,7 @@ export function toJson_DownwardApiVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents an empty directory for a pod. Empty directory volumes support ownership management and SELinux relabeling.
@@ -24924,7 +24924,7 @@ export interface EmptyDirVolumeSource {
 /**
  * Converts an object of type 'EmptyDirVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EmptyDirVolumeSource(
   obj: EmptyDirVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -24939,7 +24939,7 @@ export function toJson_EmptyDirVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents an ephemeral volume that is handled by a normal storage driver.
@@ -24964,7 +24964,7 @@ export interface EphemeralVolumeSource {
 /**
  * Converts an object of type 'EphemeralVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EphemeralVolumeSource(
   obj: EphemeralVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -24980,7 +24980,7 @@ export function toJson_EphemeralVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FlexVolume represents a generic volume resource that is provisioned/attached using an exec based plugin.
@@ -25027,7 +25027,7 @@ export interface FlexVolumeSource {
 /**
  * Converts an object of type 'FlexVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FlexVolumeSource(
   obj: FlexVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -25050,7 +25050,7 @@ export function toJson_FlexVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a volume that is populated with the contents of a git repository. Git repo volumes do not support ownership management. Git repo volumes support SELinux relabeling.
@@ -25085,7 +25085,7 @@ export interface GitRepoVolumeSource {
 /**
  * Converts an object of type 'GitRepoVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_GitRepoVolumeSource(
   obj: GitRepoVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -25101,7 +25101,7 @@ export function toJson_GitRepoVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Glusterfs mount that lasts the lifetime of a pod. Glusterfs volumes do not support ownership management or SELinux relabeling.
@@ -25135,7 +25135,7 @@ export interface GlusterfsVolumeSource {
 /**
  * Converts an object of type 'GlusterfsVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_GlusterfsVolumeSource(
   obj: GlusterfsVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -25151,7 +25151,7 @@ export function toJson_GlusterfsVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents an ISCSI disk. ISCSI volumes can only be mounted as read/write once. ISCSI volumes support ownership management and SELinux relabeling.
@@ -25242,7 +25242,7 @@ export interface IscsiVolumeSource {
 /**
  * Converts an object of type 'IscsiVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IscsiVolumeSource(
   obj: IscsiVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -25266,7 +25266,7 @@ export function toJson_IscsiVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PersistentVolumeClaimVolumeSource references the user's PVC in the same namespace. This volume finds the bound PV and mounts that volume for the pod. A PersistentVolumeClaimVolumeSource is, essentially, a wrapper around another type of volume that is owned by someone else (the system).
@@ -25292,7 +25292,7 @@ export interface PersistentVolumeClaimVolumeSource {
 /**
  * Converts an object of type 'PersistentVolumeClaimVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PersistentVolumeClaimVolumeSource(
   obj: PersistentVolumeClaimVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -25307,7 +25307,7 @@ export function toJson_PersistentVolumeClaimVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a projected volume source
@@ -25333,7 +25333,7 @@ export interface ProjectedVolumeSource {
 /**
  * Converts an object of type 'ProjectedVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProjectedVolumeSource(
   obj: ProjectedVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -25348,7 +25348,7 @@ export function toJson_ProjectedVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a Rados Block Device mount that lasts the lifetime of a pod. RBD volumes support ownership management and SELinux relabeling.
@@ -25421,7 +25421,7 @@ export interface RbdVolumeSource {
 /**
  * Converts an object of type 'RbdVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RbdVolumeSource(
   obj: RbdVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -25442,7 +25442,7 @@ export function toJson_RbdVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ScaleIOVolumeSource represents a persistent ScaleIO volume
@@ -25527,7 +25527,7 @@ export interface ScaleIoVolumeSource {
 /**
  * Converts an object of type 'ScaleIoVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ScaleIoVolumeSource(
   obj: ScaleIoVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -25550,7 +25550,7 @@ export function toJson_ScaleIoVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Adapts a Secret into a volume.
@@ -25593,7 +25593,7 @@ export interface SecretVolumeSource {
 /**
  * Converts an object of type 'SecretVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SecretVolumeSource(
   obj: SecretVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -25610,7 +25610,7 @@ export function toJson_SecretVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents a StorageOS persistent volume resource.
@@ -25657,7 +25657,7 @@ export interface StorageOsVolumeSource {
 /**
  * Converts an object of type 'StorageOsVolumeSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_StorageOsVolumeSource(
   obj: StorageOsVolumeSource | undefined,
 ): Record<string, any> | undefined {
@@ -25675,7 +25675,7 @@ export function toJson_StorageOsVolumeSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A scoped-resource selector requirement is a selector that contains values, a scope name, and an operator that relates the scope name and values.
@@ -25708,7 +25708,7 @@ export interface ScopedResourceSelectorRequirement {
 /**
  * Converts an object of type 'ScopedResourceSelectorRequirement' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ScopedResourceSelectorRequirement(
   obj: ScopedResourceSelectorRequirement | undefined,
 ): Record<string, any> | undefined {
@@ -25724,7 +25724,7 @@ export function toJson_ScopedResourceSelectorRequirement(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ClientIPConfig represents the configurations of Client IP based session affinity.
@@ -25743,7 +25743,7 @@ export interface ClientIpConfig {
 /**
  * Converts an object of type 'ClientIpConfig' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ClientIpConfig(
   obj: ClientIpConfig | undefined,
 ): Record<string, any> | undefined {
@@ -25757,7 +25757,7 @@ export function toJson_ClientIpConfig(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ForZone provides information about which zones should consume this endpoint.
@@ -25776,7 +25776,7 @@ export interface ForZone {
 /**
  * Converts an object of type 'ForZone' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ForZone(
   obj: ForZone | undefined,
 ): Record<string, any> | undefined {
@@ -25790,7 +25790,7 @@ export function toJson_ForZone(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NonResourcePolicyRule is a predicate that matches non-resource requests according to their verb and the target non-resource URL. A NonResourcePolicyRule matches a request if and only if both (a) at least one member of verbs matches the request and (b) at least one member of nonResourceURLs matches the request.
@@ -25822,7 +25822,7 @@ export interface NonResourcePolicyRuleV1Beta1 {
 /**
  * Converts an object of type 'NonResourcePolicyRuleV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NonResourcePolicyRuleV1Beta1(
   obj: NonResourcePolicyRuleV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -25837,7 +25837,7 @@ export function toJson_NonResourcePolicyRuleV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourcePolicyRule is a predicate that matches some resource requests, testing the request's verb and the target resource. A ResourcePolicyRule matches a resource request if and only if: (a) at least one member of verbs matches the request, (b) at least one member of apiGroups matches the request, (c) at least one member of resources matches the request, and (d) either (d1) the request does not specify a namespace (i.e., `Namespace==""`) and clusterScope is true or (d2) the request specifies a namespace and least one member of namespaces matches the request's namespace.
@@ -25884,7 +25884,7 @@ export interface ResourcePolicyRuleV1Beta1 {
 /**
  * Converts an object of type 'ResourcePolicyRuleV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ResourcePolicyRuleV1Beta1(
   obj: ResourcePolicyRuleV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -25902,7 +25902,7 @@ export function toJson_ResourcePolicyRuleV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Subject matches the originator of a request, as identified by the request authentication system. There are three ways of matching an originator; by user, group, or service account.
@@ -25942,7 +25942,7 @@ export interface SubjectV1Beta1 {
 /**
  * Converts an object of type 'SubjectV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SubjectV1Beta1(
   obj: SubjectV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -25959,7 +25959,7 @@ export function toJson_SubjectV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LimitResponse defines how to handle requests that can not be executed right now.
@@ -25985,7 +25985,7 @@ export interface LimitResponseV1Beta1 {
 /**
  * Converts an object of type 'LimitResponseV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LimitResponseV1Beta1(
   obj: LimitResponseV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -26000,7 +26000,7 @@ export function toJson_LimitResponseV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NonResourcePolicyRule is a predicate that matches non-resource requests according to their verb and the target non-resource URL. A NonResourcePolicyRule matches a request if and only if both (a) at least one member of verbs matches the request and (b) at least one member of nonResourceURLs matches the request.
@@ -26032,7 +26032,7 @@ export interface NonResourcePolicyRuleV1Beta2 {
 /**
  * Converts an object of type 'NonResourcePolicyRuleV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NonResourcePolicyRuleV1Beta2(
   obj: NonResourcePolicyRuleV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -26047,7 +26047,7 @@ export function toJson_NonResourcePolicyRuleV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourcePolicyRule is a predicate that matches some resource requests, testing the request's verb and the target resource. A ResourcePolicyRule matches a resource request if and only if: (a) at least one member of verbs matches the request, (b) at least one member of apiGroups matches the request, (c) at least one member of resources matches the request, and (d) either (d1) the request does not specify a namespace (i.e., `Namespace==""`) and clusterScope is true or (d2) the request specifies a namespace and least one member of namespaces matches the request's namespace.
@@ -26094,7 +26094,7 @@ export interface ResourcePolicyRuleV1Beta2 {
 /**
  * Converts an object of type 'ResourcePolicyRuleV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ResourcePolicyRuleV1Beta2(
   obj: ResourcePolicyRuleV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -26112,7 +26112,7 @@ export function toJson_ResourcePolicyRuleV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Subject matches the originator of a request, as identified by the request authentication system. There are three ways of matching an originator; by user, group, or service account.
@@ -26152,7 +26152,7 @@ export interface SubjectV1Beta2 {
 /**
  * Converts an object of type 'SubjectV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SubjectV1Beta2(
   obj: SubjectV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -26169,7 +26169,7 @@ export function toJson_SubjectV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LimitResponse defines how to handle requests that can not be executed right now.
@@ -26195,7 +26195,7 @@ export interface LimitResponseV1Beta2 {
 /**
  * Converts an object of type 'LimitResponseV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LimitResponseV1Beta2(
   obj: LimitResponseV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -26210,7 +26210,7 @@ export function toJson_LimitResponseV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IngressServiceBackend references a Kubernetes Service as a Backend.
@@ -26236,7 +26236,7 @@ export interface IngressServiceBackend {
 /**
  * Converts an object of type 'IngressServiceBackend' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IngressServiceBackend(
   obj: IngressServiceBackend | undefined,
 ): Record<string, any> | undefined {
@@ -26251,7 +26251,7 @@ export function toJson_IngressServiceBackend(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HTTPIngressRuleValue is a list of http selectors pointing to backends. In the example: http://<host>/<path>?<searchpart> -> backend where where parts of the url correspond to RFC 3986, this resource will be used to match against everything after the last '/' and before the first '?' or '#'.
@@ -26270,7 +26270,7 @@ export interface HttpIngressRuleValue {
 /**
  * Converts an object of type 'HttpIngressRuleValue' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HttpIngressRuleValue(
   obj: HttpIngressRuleValue | undefined,
 ): Record<string, any> | undefined {
@@ -26284,7 +26284,7 @@ export function toJson_HttpIngressRuleValue(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NetworkPolicyPort describes a port to allow traffic on
@@ -26317,7 +26317,7 @@ export interface NetworkPolicyPort {
 /**
  * Converts an object of type 'NetworkPolicyPort' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NetworkPolicyPort(
   obj: NetworkPolicyPort | undefined,
 ): Record<string, any> | undefined {
@@ -26333,7 +26333,7 @@ export function toJson_NetworkPolicyPort(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * NetworkPolicyPeer describes a peer to allow traffic to/from. Only certain combinations of fields are allowed
@@ -26370,7 +26370,7 @@ export interface NetworkPolicyPeer {
 /**
  * Converts an object of type 'NetworkPolicyPeer' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NetworkPolicyPeer(
   obj: NetworkPolicyPeer | undefined,
 ): Record<string, any> | undefined {
@@ -26386,7 +26386,7 @@ export function toJson_NetworkPolicyPeer(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A null or empty node selector term matches no objects. The requirements of them are ANDed. The TopologySelectorTerm type implements a subset of the NodeSelectorTerm.
@@ -26412,7 +26412,7 @@ export interface NodeSelectorTerm {
 /**
  * Converts an object of type 'NodeSelectorTerm' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeSelectorTerm(
   obj: NodeSelectorTerm | undefined,
 ): Record<string, any> | undefined {
@@ -26431,7 +26431,7 @@ export function toJson_NodeSelectorTerm(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * VolumeNodeResources is a set of resource limits for scheduling of volumes.
@@ -26450,7 +26450,7 @@ export interface VolumeNodeResources {
 /**
  * Converts an object of type 'VolumeNodeResources' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeNodeResources(
   obj: VolumeNodeResources | undefined,
 ): Record<string, any> | undefined {
@@ -26464,7 +26464,7 @@ export function toJson_VolumeNodeResources(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * WebhookConversion describes how to call a conversion webhook
@@ -26490,7 +26490,7 @@ export interface WebhookConversion {
 /**
  * Converts an object of type 'WebhookConversion' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_WebhookConversion(
   obj: WebhookConversion | undefined,
 ): Record<string, any> | undefined {
@@ -26505,7 +26505,7 @@ export function toJson_WebhookConversion(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CustomResourceColumnDefinition specifies a column for server side printing.
@@ -26559,7 +26559,7 @@ export interface CustomResourceColumnDefinition {
 /**
  * Converts an object of type 'CustomResourceColumnDefinition' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CustomResourceColumnDefinition(
   obj: CustomResourceColumnDefinition | undefined,
 ): Record<string, any> | undefined {
@@ -26578,7 +26578,7 @@ export function toJson_CustomResourceColumnDefinition(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CustomResourceValidation is a list of validation methods for CustomResources.
@@ -26597,7 +26597,7 @@ export interface CustomResourceValidation {
 /**
  * Converts an object of type 'CustomResourceValidation' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CustomResourceValidation(
   obj: CustomResourceValidation | undefined,
 ): Record<string, any> | undefined {
@@ -26611,7 +26611,7 @@ export function toJson_CustomResourceValidation(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CustomResourceSubresources defines the status and scale subresources for CustomResources.
@@ -26637,7 +26637,7 @@ export interface CustomResourceSubresources {
 /**
  * Converts an object of type 'CustomResourceSubresources' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CustomResourceSubresources(
   obj: CustomResourceSubresources | undefined,
 ): Record<string, any> | undefined {
@@ -26652,7 +26652,7 @@ export function toJson_CustomResourceSubresources(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HPAScalingPolicy is a single policy which must hold true for a specified past interval.
@@ -26685,7 +26685,7 @@ export interface HpaScalingPolicyV2 {
 /**
  * Converts an object of type 'HpaScalingPolicyV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HpaScalingPolicyV2(
   obj: HpaScalingPolicyV2 | undefined,
 ): Record<string, any> | undefined {
@@ -26701,7 +26701,7 @@ export function toJson_HpaScalingPolicyV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MetricTarget defines the target value, average value, or average utilization of a specific metric
@@ -26741,7 +26741,7 @@ export interface MetricTargetV2 {
 /**
  * Converts an object of type 'MetricTargetV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_MetricTargetV2(
   obj: MetricTargetV2 | undefined,
 ): Record<string, any> | undefined {
@@ -26758,7 +26758,7 @@ export function toJson_MetricTargetV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MetricIdentifier defines the name and optionally selector for a metric
@@ -26784,7 +26784,7 @@ export interface MetricIdentifierV2 {
 /**
  * Converts an object of type 'MetricIdentifierV2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_MetricIdentifierV2(
   obj: MetricIdentifierV2 | undefined,
 ): Record<string, any> | undefined {
@@ -26799,7 +26799,7 @@ export function toJson_MetricIdentifierV2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HPAScalingPolicy is a single policy which must hold true for a specified past interval.
@@ -26832,7 +26832,7 @@ export interface HpaScalingPolicyV2Beta2 {
 /**
  * Converts an object of type 'HpaScalingPolicyV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HpaScalingPolicyV2Beta2(
   obj: HpaScalingPolicyV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -26848,7 +26848,7 @@ export function toJson_HpaScalingPolicyV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MetricTarget defines the target value, average value, or average utilization of a specific metric
@@ -26888,7 +26888,7 @@ export interface MetricTargetV2Beta2 {
 /**
  * Converts an object of type 'MetricTargetV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_MetricTargetV2Beta2(
   obj: MetricTargetV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -26905,7 +26905,7 @@ export function toJson_MetricTargetV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * MetricIdentifier defines the name and optionally selector for a metric
@@ -26931,7 +26931,7 @@ export interface MetricIdentifierV2Beta2 {
 /**
  * Converts an object of type 'MetricIdentifierV2Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_MetricIdentifierV2Beta2(
   obj: MetricIdentifierV2Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -26946,7 +26946,7 @@ export function toJson_MetricIdentifierV2Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodFailurePolicyOnExitCodesRequirement describes the requirement for handling a failed pod based on its container exit codes. In particular, it lookups the .state.terminated.exitCode for each app container and init container status, represented by the .status.containerStatuses and .status.initContainerStatuses fields in the Pod status, respectively. Containers completed with success (exit code 0) are excluded from the requirement check.
@@ -26985,7 +26985,7 @@ export interface PodFailurePolicyOnExitCodesRequirement {
 /**
  * Converts an object of type 'PodFailurePolicyOnExitCodesRequirement' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodFailurePolicyOnExitCodesRequirement(
   obj: PodFailurePolicyOnExitCodesRequirement | undefined,
 ): Record<string, any> | undefined {
@@ -27001,7 +27001,7 @@ export function toJson_PodFailurePolicyOnExitCodesRequirement(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PodFailurePolicyOnPodConditionsPattern describes a pattern for matching an actual pod condition type.
@@ -27028,7 +27028,7 @@ export interface PodFailurePolicyOnPodConditionsPattern {
 /**
  * Converts an object of type 'PodFailurePolicyOnPodConditionsPattern' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodFailurePolicyOnPodConditionsPattern(
   obj: PodFailurePolicyOnPodConditionsPattern | undefined,
 ): Record<string, any> | undefined {
@@ -27043,7 +27043,7 @@ export function toJson_PodFailurePolicyOnPodConditionsPattern(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * An empty preferred scheduling term matches all objects with implicit weight 0 (i.e. it's a no-op). A null preferred scheduling term matches no objects (i.e. is also a no-op).
@@ -27069,7 +27069,7 @@ export interface PreferredSchedulingTerm {
 /**
  * Converts an object of type 'PreferredSchedulingTerm' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PreferredSchedulingTerm(
   obj: PreferredSchedulingTerm | undefined,
 ): Record<string, any> | undefined {
@@ -27084,7 +27084,7 @@ export function toJson_PreferredSchedulingTerm(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
@@ -27110,7 +27110,7 @@ export interface WeightedPodAffinityTerm {
 /**
  * Converts an object of type 'WeightedPodAffinityTerm' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_WeightedPodAffinityTerm(
   obj: WeightedPodAffinityTerm | undefined,
 ): Record<string, any> | undefined {
@@ -27125,7 +27125,7 @@ export function toJson_WeightedPodAffinityTerm(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running
@@ -27165,7 +27165,7 @@ export interface PodAffinityTerm {
 /**
  * Converts an object of type 'PodAffinityTerm' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PodAffinityTerm(
   obj: PodAffinityTerm | undefined,
 ): Record<string, any> | undefined {
@@ -27182,7 +27182,7 @@ export function toJson_PodAffinityTerm(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * EnvVarSource represents a source for the value of an EnvVar.
@@ -27222,7 +27222,7 @@ export interface EnvVarSource {
 /**
  * Converts an object of type 'EnvVarSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_EnvVarSource(
   obj: EnvVarSource | undefined,
 ): Record<string, any> | undefined {
@@ -27239,7 +27239,7 @@ export function toJson_EnvVarSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ConfigMapEnvSource selects a ConfigMap to populate the environment variables with.
@@ -27267,7 +27267,7 @@ export interface ConfigMapEnvSource {
 /**
  * Converts an object of type 'ConfigMapEnvSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ConfigMapEnvSource(
   obj: ConfigMapEnvSource | undefined,
 ): Record<string, any> | undefined {
@@ -27282,7 +27282,7 @@ export function toJson_ConfigMapEnvSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SecretEnvSource selects a Secret to populate the environment variables with.
@@ -27310,7 +27310,7 @@ export interface SecretEnvSource {
 /**
  * Converts an object of type 'SecretEnvSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SecretEnvSource(
   obj: SecretEnvSource | undefined,
 ): Record<string, any> | undefined {
@@ -27325,7 +27325,7 @@ export function toJson_SecretEnvSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LifecycleHandler defines a specific action that should be taken in a lifecycle hook. One and only one of the fields, except TCPSocket must be specified.
@@ -27358,7 +27358,7 @@ export interface LifecycleHandler {
 /**
  * Converts an object of type 'LifecycleHandler' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_LifecycleHandler(
   obj: LifecycleHandler | undefined,
 ): Record<string, any> | undefined {
@@ -27374,7 +27374,7 @@ export function toJson_LifecycleHandler(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ExecAction describes a "run in container" action.
@@ -27393,7 +27393,7 @@ export interface ExecAction {
 /**
  * Converts an object of type 'ExecAction' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ExecAction(
   obj: ExecAction | undefined,
 ): Record<string, any> | undefined {
@@ -27407,7 +27407,7 @@ export function toJson_ExecAction(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * @schema io.k8s.api.core.v1.GRPCAction
@@ -27433,7 +27433,7 @@ export interface GrpcAction {
 /**
  * Converts an object of type 'GrpcAction' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_GrpcAction(
   obj: GrpcAction | undefined,
 ): Record<string, any> | undefined {
@@ -27448,7 +27448,7 @@ export function toJson_GrpcAction(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HTTPGetAction describes an action based on HTTP Get requests.
@@ -27496,7 +27496,7 @@ export interface HttpGetAction {
 /**
  * Converts an object of type 'HttpGetAction' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HttpGetAction(
   obj: HttpGetAction | undefined,
 ): Record<string, any> | undefined {
@@ -27514,7 +27514,7 @@ export function toJson_HttpGetAction(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * TCPSocketAction describes an action based on opening a socket
@@ -27540,7 +27540,7 @@ export interface TcpSocketAction {
 /**
  * Converts an object of type 'TcpSocketAction' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_TcpSocketAction(
   obj: TcpSocketAction | undefined,
 ): Record<string, any> | undefined {
@@ -27555,7 +27555,7 @@ export function toJson_TcpSocketAction(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Adds and removes POSIX capabilities from running containers.
@@ -27581,7 +27581,7 @@ export interface Capabilities {
 /**
  * Converts an object of type 'Capabilities' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_Capabilities(
   obj: Capabilities | undefined,
 ): Record<string, any> | undefined {
@@ -27596,7 +27596,7 @@ export function toJson_Capabilities(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Maps a string key to a path within a volume.
@@ -27629,7 +27629,7 @@ export interface KeyToPath {
 /**
  * Converts an object of type 'KeyToPath' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_KeyToPath(
   obj: KeyToPath | undefined,
 ): Record<string, any> | undefined {
@@ -27645,7 +27645,7 @@ export function toJson_KeyToPath(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DownwardAPIVolumeFile represents information to create the file containing the pod field
@@ -27685,7 +27685,7 @@ export interface DownwardApiVolumeFile {
 /**
  * Converts an object of type 'DownwardApiVolumeFile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DownwardApiVolumeFile(
   obj: DownwardApiVolumeFile | undefined,
 ): Record<string, any> | undefined {
@@ -27702,7 +27702,7 @@ export function toJson_DownwardApiVolumeFile(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PersistentVolumeClaimTemplate is used to produce PersistentVolumeClaim objects as part of an EphemeralVolumeSource.
@@ -27728,7 +27728,7 @@ export interface PersistentVolumeClaimTemplate {
 /**
  * Converts an object of type 'PersistentVolumeClaimTemplate' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PersistentVolumeClaimTemplate(
   obj: PersistentVolumeClaimTemplate | undefined,
 ): Record<string, any> | undefined {
@@ -27743,7 +27743,7 @@ export function toJson_PersistentVolumeClaimTemplate(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Projection that may be projected along with other supported volume types
@@ -27783,7 +27783,7 @@ export interface VolumeProjection {
 /**
  * Converts an object of type 'VolumeProjection' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeProjection(
   obj: VolumeProjection | undefined,
 ): Record<string, any> | undefined {
@@ -27802,7 +27802,7 @@ export function toJson_VolumeProjection(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * GroupSubject holds detailed information for group-kind subject.
@@ -27821,7 +27821,7 @@ export interface GroupSubjectV1Beta1 {
 /**
  * Converts an object of type 'GroupSubjectV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_GroupSubjectV1Beta1(
   obj: GroupSubjectV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -27835,7 +27835,7 @@ export function toJson_GroupSubjectV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ServiceAccountSubject holds detailed information for service-account-kind subject.
@@ -27861,7 +27861,7 @@ export interface ServiceAccountSubjectV1Beta1 {
 /**
  * Converts an object of type 'ServiceAccountSubjectV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ServiceAccountSubjectV1Beta1(
   obj: ServiceAccountSubjectV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -27876,7 +27876,7 @@ export function toJson_ServiceAccountSubjectV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * UserSubject holds detailed information for user-kind subject.
@@ -27895,7 +27895,7 @@ export interface UserSubjectV1Beta1 {
 /**
  * Converts an object of type 'UserSubjectV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_UserSubjectV1Beta1(
   obj: UserSubjectV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -27909,7 +27909,7 @@ export function toJson_UserSubjectV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * QueuingConfiguration holds the configuration parameters for queuing
@@ -27942,7 +27942,7 @@ export interface QueuingConfigurationV1Beta1 {
 /**
  * Converts an object of type 'QueuingConfigurationV1Beta1' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_QueuingConfigurationV1Beta1(
   obj: QueuingConfigurationV1Beta1 | undefined,
 ): Record<string, any> | undefined {
@@ -27958,7 +27958,7 @@ export function toJson_QueuingConfigurationV1Beta1(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * GroupSubject holds detailed information for group-kind subject.
@@ -27977,7 +27977,7 @@ export interface GroupSubjectV1Beta2 {
 /**
  * Converts an object of type 'GroupSubjectV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_GroupSubjectV1Beta2(
   obj: GroupSubjectV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -27991,7 +27991,7 @@ export function toJson_GroupSubjectV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ServiceAccountSubject holds detailed information for service-account-kind subject.
@@ -28017,7 +28017,7 @@ export interface ServiceAccountSubjectV1Beta2 {
 /**
  * Converts an object of type 'ServiceAccountSubjectV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ServiceAccountSubjectV1Beta2(
   obj: ServiceAccountSubjectV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -28032,7 +28032,7 @@ export function toJson_ServiceAccountSubjectV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * UserSubject holds detailed information for user-kind subject.
@@ -28051,7 +28051,7 @@ export interface UserSubjectV1Beta2 {
 /**
  * Converts an object of type 'UserSubjectV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_UserSubjectV1Beta2(
   obj: UserSubjectV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -28065,7 +28065,7 @@ export function toJson_UserSubjectV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * QueuingConfiguration holds the configuration parameters for queuing
@@ -28098,7 +28098,7 @@ export interface QueuingConfigurationV1Beta2 {
 /**
  * Converts an object of type 'QueuingConfigurationV1Beta2' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_QueuingConfigurationV1Beta2(
   obj: QueuingConfigurationV1Beta2 | undefined,
 ): Record<string, any> | undefined {
@@ -28114,7 +28114,7 @@ export function toJson_QueuingConfigurationV1Beta2(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ServiceBackendPort is the service port being referenced.
@@ -28140,7 +28140,7 @@ export interface ServiceBackendPort {
 /**
  * Converts an object of type 'ServiceBackendPort' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ServiceBackendPort(
   obj: ServiceBackendPort | undefined,
 ): Record<string, any> | undefined {
@@ -28155,7 +28155,7 @@ export function toJson_ServiceBackendPort(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HTTPIngressPath associates a path with a backend. Incoming urls matching the path are forwarded to the backend.
@@ -28198,7 +28198,7 @@ export interface HttpIngressPath {
 /**
  * Converts an object of type 'HttpIngressPath' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HttpIngressPath(
   obj: HttpIngressPath | undefined,
 ): Record<string, any> | undefined {
@@ -28214,7 +28214,7 @@ export function toJson_HttpIngressPath(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IPBlock describes a particular CIDR (Ex. "192.168.1.1/24","2001:db9::/64") that is allowed to the pods matched by a NetworkPolicySpec's podSelector. The except entry describes CIDRs that should not be included within this rule.
@@ -28240,7 +28240,7 @@ export interface IpBlock {
 /**
  * Converts an object of type 'IpBlock' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IpBlock(
   obj: IpBlock | undefined,
 ): Record<string, any> | undefined {
@@ -28255,7 +28255,7 @@ export function toJson_IpBlock(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
@@ -28288,7 +28288,7 @@ export interface NodeSelectorRequirement {
 /**
  * Converts an object of type 'NodeSelectorRequirement' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeSelectorRequirement(
   obj: NodeSelectorRequirement | undefined,
 ): Record<string, any> | undefined {
@@ -28304,7 +28304,7 @@ export function toJson_NodeSelectorRequirement(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * JSONSchemaProps is a JSON-Schema following Specification Draft 4 (http://json-schema.org/).
@@ -28590,7 +28590,7 @@ export interface JsonSchemaProps {
 /**
  * Converts an object of type 'JsonSchemaProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_JsonSchemaProps(
   obj: JsonSchemaProps | undefined,
 ): Record<string, any> | undefined {
@@ -28670,7 +28670,7 @@ export function toJson_JsonSchemaProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * CustomResourceSubresourceScale defines how to serve the scale subresource for CustomResources.
@@ -28703,7 +28703,7 @@ export interface CustomResourceSubresourceScale {
 /**
  * Converts an object of type 'CustomResourceSubresourceScale' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_CustomResourceSubresourceScale(
   obj: CustomResourceSubresourceScale | undefined,
 ): Record<string, any> | undefined {
@@ -28719,7 +28719,7 @@ export function toJson_CustomResourceSubresourceScale(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Selects a key from a ConfigMap.
@@ -28752,7 +28752,7 @@ export interface ConfigMapKeySelector {
 /**
  * Converts an object of type 'ConfigMapKeySelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ConfigMapKeySelector(
   obj: ConfigMapKeySelector | undefined,
 ): Record<string, any> | undefined {
@@ -28768,7 +28768,7 @@ export function toJson_ConfigMapKeySelector(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ObjectFieldSelector selects an APIVersioned field of an object.
@@ -28794,7 +28794,7 @@ export interface ObjectFieldSelector {
 /**
  * Converts an object of type 'ObjectFieldSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ObjectFieldSelector(
   obj: ObjectFieldSelector | undefined,
 ): Record<string, any> | undefined {
@@ -28809,7 +28809,7 @@ export function toJson_ObjectFieldSelector(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourceFieldSelector represents container resources (cpu, memory) and their output format
@@ -28842,7 +28842,7 @@ export interface ResourceFieldSelector {
 /**
  * Converts an object of type 'ResourceFieldSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ResourceFieldSelector(
   obj: ResourceFieldSelector | undefined,
 ): Record<string, any> | undefined {
@@ -28858,7 +28858,7 @@ export function toJson_ResourceFieldSelector(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SecretKeySelector selects a key of a Secret.
@@ -28891,7 +28891,7 @@ export interface SecretKeySelector {
 /**
  * Converts an object of type 'SecretKeySelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SecretKeySelector(
   obj: SecretKeySelector | undefined,
 ): Record<string, any> | undefined {
@@ -28907,7 +28907,7 @@ export function toJson_SecretKeySelector(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * HTTPHeader describes a custom header to be used in HTTP probes
@@ -28933,7 +28933,7 @@ export interface HttpHeader {
 /**
  * Converts an object of type 'HttpHeader' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_HttpHeader(
   obj: HttpHeader | undefined,
 ): Record<string, any> | undefined {
@@ -28948,7 +28948,7 @@ export function toJson_HttpHeader(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Adapts a ConfigMap into a projected volume.
@@ -28983,7 +28983,7 @@ export interface ConfigMapProjection {
 /**
  * Converts an object of type 'ConfigMapProjection' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ConfigMapProjection(
   obj: ConfigMapProjection | undefined,
 ): Record<string, any> | undefined {
@@ -28999,7 +28999,7 @@ export function toJson_ConfigMapProjection(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Represents downward API info for projecting into a projected volume. Note that this is identical to a downwardAPI volume source without the default mode.
@@ -29018,7 +29018,7 @@ export interface DownwardApiProjection {
 /**
  * Converts an object of type 'DownwardApiProjection' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DownwardApiProjection(
   obj: DownwardApiProjection | undefined,
 ): Record<string, any> | undefined {
@@ -29032,7 +29032,7 @@ export function toJson_DownwardApiProjection(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Adapts a secret into a projected volume.
@@ -29067,7 +29067,7 @@ export interface SecretProjection {
 /**
  * Converts an object of type 'SecretProjection' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SecretProjection(
   obj: SecretProjection | undefined,
 ): Record<string, any> | undefined {
@@ -29083,7 +29083,7 @@ export function toJson_SecretProjection(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ServiceAccountTokenProjection represents a projected service account token volume. This projection can be used to insert a service account token into the pods runtime filesystem for use against APIs (Kubernetes API Server or otherwise).
@@ -29117,7 +29117,7 @@ export interface ServiceAccountTokenProjection {
 /**
  * Converts an object of type 'ServiceAccountTokenProjection' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ServiceAccountTokenProjection(
   obj: ServiceAccountTokenProjection | undefined,
 ): Record<string, any> | undefined {
@@ -29133,7 +29133,7 @@ export function toJson_ServiceAccountTokenProjection(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ExternalDocumentation allows referencing an external resource for extended documentation.
@@ -29155,7 +29155,7 @@ export interface ExternalDocumentation {
 /**
  * Converts an object of type 'ExternalDocumentation' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ExternalDocumentation(
   obj: ExternalDocumentation | undefined,
 ): Record<string, any> | undefined {
@@ -29170,7 +29170,7 @@ export function toJson_ExternalDocumentation(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ValidationRule describes a validation rule written in the CEL expression language.
@@ -29220,7 +29220,7 @@ export interface ValidationRule {
 /**
  * Converts an object of type 'ValidationRule' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ValidationRule(
   obj: ValidationRule | undefined,
 ): Record<string, any> | undefined {
@@ -29235,4 +29235,4 @@ export function toJson_ValidationRule(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */

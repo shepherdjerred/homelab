@@ -87,7 +87,7 @@ export interface DlbDevicePluginProps {
 /**
  * Converts an object of type 'DlbDevicePluginProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DlbDevicePluginProps(
   obj: DlbDevicePluginProps | undefined,
 ): Record<string, any> | undefined {
@@ -102,7 +102,7 @@ export function toJson_DlbDevicePluginProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DlbDevicePluginSpec defines the desired state of DlbDevicePlugin.
@@ -149,7 +149,7 @@ export interface DlbDevicePluginSpec {
 /**
  * Converts an object of type 'DlbDevicePluginSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DlbDevicePluginSpec(
   obj: DlbDevicePluginSpec | undefined,
 ): Record<string, any> | undefined {
@@ -174,7 +174,7 @@ export function toJson_DlbDevicePluginSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The pod this Toleration is attached to tolerates any taint that matches
@@ -232,7 +232,7 @@ export interface DlbDevicePluginSpecTolerations {
 /**
  * Converts an object of type 'DlbDevicePluginSpecTolerations' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DlbDevicePluginSpecTolerations(
   obj: DlbDevicePluginSpecTolerations | undefined,
 ): Record<string, any> | undefined {
@@ -250,7 +250,7 @@ export function toJson_DlbDevicePluginSpecTolerations(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DsaDevicePlugin is the Schema for the dsadeviceplugins API. It represents
@@ -336,7 +336,7 @@ export interface DsaDevicePluginProps {
 /**
  * Converts an object of type 'DsaDevicePluginProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DsaDevicePluginProps(
   obj: DsaDevicePluginProps | undefined,
 ): Record<string, any> | undefined {
@@ -351,7 +351,7 @@ export function toJson_DsaDevicePluginProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DsaDevicePluginSpec defines the desired state of DsaDevicePlugin.
@@ -412,7 +412,7 @@ export interface DsaDevicePluginSpec {
 /**
  * Converts an object of type 'DsaDevicePluginSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DsaDevicePluginSpec(
   obj: DsaDevicePluginSpec | undefined,
 ): Record<string, any> | undefined {
@@ -439,7 +439,7 @@ export function toJson_DsaDevicePluginSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The pod this Toleration is attached to tolerates any taint that matches
@@ -497,7 +497,7 @@ export interface DsaDevicePluginSpecTolerations {
 /**
  * Converts an object of type 'DsaDevicePluginSpecTolerations' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DsaDevicePluginSpecTolerations(
   obj: DsaDevicePluginSpecTolerations | undefined,
 ): Record<string, any> | undefined {
@@ -515,7 +515,7 @@ export function toJson_DsaDevicePluginSpecTolerations(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FpgaDevicePlugin is the Schema for the fpgadeviceplugins API. It represents
@@ -601,7 +601,7 @@ export interface FpgaDevicePluginProps {
 /**
  * Converts an object of type 'FpgaDevicePluginProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FpgaDevicePluginProps(
   obj: FpgaDevicePluginProps | undefined,
 ): Record<string, any> | undefined {
@@ -616,7 +616,7 @@ export function toJson_FpgaDevicePluginProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * FpgaDevicePluginSpec defines the desired state of FpgaDevicePlugin.
@@ -670,7 +670,7 @@ export interface FpgaDevicePluginSpec {
 /**
  * Converts an object of type 'FpgaDevicePluginSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FpgaDevicePluginSpec(
   obj: FpgaDevicePluginSpec | undefined,
 ): Record<string, any> | undefined {
@@ -696,7 +696,7 @@ export function toJson_FpgaDevicePluginSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Mode is a mode of the plugin's operation.
@@ -768,7 +768,7 @@ export interface FpgaDevicePluginSpecTolerations {
 /**
  * Converts an object of type 'FpgaDevicePluginSpecTolerations' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_FpgaDevicePluginSpecTolerations(
   obj: FpgaDevicePluginSpecTolerations | undefined,
 ): Record<string, any> | undefined {
@@ -786,7 +786,7 @@ export function toJson_FpgaDevicePluginSpecTolerations(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * GpuDevicePlugin is the Schema for the gpudeviceplugins API. It represents
@@ -872,7 +872,7 @@ export interface GpuDevicePluginProps {
 /**
  * Converts an object of type 'GpuDevicePluginProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_GpuDevicePluginProps(
   obj: GpuDevicePluginProps | undefined,
 ): Record<string, any> | undefined {
@@ -887,7 +887,7 @@ export function toJson_GpuDevicePluginProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * GpuDevicePluginSpec defines the desired state of GpuDevicePlugin.
@@ -966,7 +966,7 @@ export interface GpuDevicePluginSpec {
 /**
  * Converts an object of type 'GpuDevicePluginSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_GpuDevicePluginSpec(
   obj: GpuDevicePluginSpec | undefined,
 ): Record<string, any> | undefined {
@@ -995,7 +995,7 @@ export function toJson_GpuDevicePluginSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * PreferredAllocationPolicy sets the mode of allocating GPU devices on a node.
@@ -1069,7 +1069,7 @@ export interface GpuDevicePluginSpecTolerations {
 /**
  * Converts an object of type 'GpuDevicePluginSpecTolerations' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_GpuDevicePluginSpecTolerations(
   obj: GpuDevicePluginSpecTolerations | undefined,
 ): Record<string, any> | undefined {
@@ -1087,7 +1087,7 @@ export function toJson_GpuDevicePluginSpecTolerations(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IaaDevicePlugin is the Schema for the iaadeviceplugins API. It represents
@@ -1173,7 +1173,7 @@ export interface IaaDevicePluginProps {
 /**
  * Converts an object of type 'IaaDevicePluginProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IaaDevicePluginProps(
   obj: IaaDevicePluginProps | undefined,
 ): Record<string, any> | undefined {
@@ -1188,7 +1188,7 @@ export function toJson_IaaDevicePluginProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * IaaDevicePluginSpec defines the desired state of IaaDevicePlugin.
@@ -1249,7 +1249,7 @@ export interface IaaDevicePluginSpec {
 /**
  * Converts an object of type 'IaaDevicePluginSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IaaDevicePluginSpec(
   obj: IaaDevicePluginSpec | undefined,
 ): Record<string, any> | undefined {
@@ -1276,7 +1276,7 @@ export function toJson_IaaDevicePluginSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The pod this Toleration is attached to tolerates any taint that matches
@@ -1334,7 +1334,7 @@ export interface IaaDevicePluginSpecTolerations {
 /**
  * Converts an object of type 'IaaDevicePluginSpecTolerations' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_IaaDevicePluginSpecTolerations(
   obj: IaaDevicePluginSpecTolerations | undefined,
 ): Record<string, any> | undefined {
@@ -1352,7 +1352,7 @@ export function toJson_IaaDevicePluginSpecTolerations(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * QatDevicePlugin is the Schema for the qatdeviceplugins API. It represents the QAT device
@@ -1438,7 +1438,7 @@ export interface QatDevicePluginProps {
 /**
  * Converts an object of type 'QatDevicePluginProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_QatDevicePluginProps(
   obj: QatDevicePluginProps | undefined,
 ): Record<string, any> | undefined {
@@ -1453,7 +1453,7 @@ export function toJson_QatDevicePluginProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * QatDevicePluginSpec defines the desired state of QatDevicePlugin.
@@ -1537,7 +1537,7 @@ export interface QatDevicePluginSpec {
 /**
  * Converts an object of type 'QatDevicePluginSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_QatDevicePluginSpec(
   obj: QatDevicePluginSpec | undefined,
 ): Record<string, any> | undefined {
@@ -1567,7 +1567,7 @@ export function toJson_QatDevicePluginSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DpdkDriver is a DPDK device driver for configuring the QAT device.
@@ -1672,7 +1672,7 @@ export interface QatDevicePluginSpecTolerations {
 /**
  * Converts an object of type 'QatDevicePluginSpecTolerations' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_QatDevicePluginSpecTolerations(
   obj: QatDevicePluginSpecTolerations | undefined,
 ): Record<string, any> | undefined {
@@ -1690,7 +1690,7 @@ export function toJson_QatDevicePluginSpecTolerations(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SgxDevicePlugin is the Schema for the sgxdeviceplugins API. It represents
@@ -1776,7 +1776,7 @@ export interface SgxDevicePluginProps {
 /**
  * Converts an object of type 'SgxDevicePluginProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SgxDevicePluginProps(
   obj: SgxDevicePluginProps | undefined,
 ): Record<string, any> | undefined {
@@ -1791,7 +1791,7 @@ export function toJson_SgxDevicePluginProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * SgxDevicePluginSpec defines the desired state of SgxDevicePlugin.
@@ -1853,7 +1853,7 @@ export interface SgxDevicePluginSpec {
 /**
  * Converts an object of type 'SgxDevicePluginSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SgxDevicePluginSpec(
   obj: SgxDevicePluginSpec | undefined,
 ): Record<string, any> | undefined {
@@ -1880,7 +1880,7 @@ export function toJson_SgxDevicePluginSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The pod this Toleration is attached to tolerates any taint that matches
@@ -1938,7 +1938,7 @@ export interface SgxDevicePluginSpecTolerations {
 /**
  * Converts an object of type 'SgxDevicePluginSpecTolerations' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_SgxDevicePluginSpecTolerations(
   obj: SgxDevicePluginSpecTolerations | undefined,
 ): Record<string, any> | undefined {
@@ -1956,4 +1956,4 @@ export function toJson_SgxDevicePluginSpecTolerations(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */

@@ -4,8 +4,7 @@ import { ApiObject, ApiObjectMetadata, GroupVersionKind } from "cdk8s";
 import { Construct } from "constructs";
 
 /**
- * VolumeSnapshot is a user's request for either creating a point-in-time
-snapshot of a persistent volume, or binding to a pre-existing snapshot.
+ * VolumeSnapshot is a user's request for either creating a point-in-time snapshot of a persistent volume, or binding to a pre-existing snapshot.
  *
  * @schema VolumeSnapshot
  */
@@ -59,8 +58,7 @@ export class VolumeSnapshot extends ApiObject {
 }
 
 /**
- * VolumeSnapshot is a user's request for either creating a point-in-time
- * snapshot of a persistent volume, or binding to a pre-existing snapshot.
+ * VolumeSnapshot is a user's request for either creating a point-in-time snapshot of a persistent volume, or binding to a pre-existing snapshot.
  *
  * @schema VolumeSnapshot
  */
@@ -71,9 +69,7 @@ export interface VolumeSnapshotProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * spec defines the desired characteristics of a snapshot requested by a user.
-   * More info: https://kubernetes.io/docs/concepts/storage/volume-snapshots#volumesnapshots
-   * Required.
+   * spec defines the desired characteristics of a snapshot requested by a user. More info: https://kubernetes.io/docs/concepts/storage/volume-snapshots#volumesnapshots Required.
    *
    * @schema VolumeSnapshot#spec
    */
@@ -83,7 +79,7 @@ export interface VolumeSnapshotProps {
 /**
  * Converts an object of type 'VolumeSnapshotProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotProps(
   obj: VolumeSnapshotProps | undefined,
 ): Record<string, any> | undefined {
@@ -98,20 +94,16 @@ export function toJson_VolumeSnapshotProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * spec defines the desired characteristics of a snapshot requested by a user.
- * More info: https://kubernetes.io/docs/concepts/storage/volume-snapshots#volumesnapshots
- * Required.
+ * spec defines the desired characteristics of a snapshot requested by a user. More info: https://kubernetes.io/docs/concepts/storage/volume-snapshots#volumesnapshots Required.
  *
  * @schema VolumeSnapshotSpec
  */
 export interface VolumeSnapshotSpec {
   /**
-   * source specifies where a snapshot will be created from.
-   * This field is immutable after creation.
-   * Required.
+   * source specifies where a snapshot will be created from. This field is immutable after creation. Required.
    *
    * @schema VolumeSnapshotSpec#source
    */
@@ -119,17 +111,16 @@ export interface VolumeSnapshotSpec {
 
   /**
    * VolumeSnapshotClassName is the name of the VolumeSnapshotClass
-   * requested by the VolumeSnapshot.
-   * VolumeSnapshotClassName may be left nil to indicate that the default
-   * SnapshotClass should be used.
-   * A given cluster may have multiple default Volume SnapshotClasses: one
-   * default per CSI Driver. If a VolumeSnapshot does not specify a SnapshotClass,
-   * VolumeSnapshotSource will be checked to figure out what the associated
-   * CSI Driver is, and the default VolumeSnapshotClass associated with that
-   * CSI Driver will be used. If more than one VolumeSnapshotClass exist for
-   * a given CSI Driver and more than one have been marked as default,
-   * CreateSnapshot will fail and generate an event.
-   * Empty string is not allowed for this field.
+   * requested by the VolumeSnapshot. VolumeSnapshotClassName may be
+   * left nil to indicate that the default SnapshotClass should be used.
+   * A given cluster may have multiple default Volume SnapshotClasses:
+   * one default per CSI Driver. If a VolumeSnapshot does not specify
+   * a SnapshotClass, VolumeSnapshotSource will be checked to figure
+   * out what the associated CSI Driver is, and the default VolumeSnapshotClass
+   * associated with that CSI Driver will be used. If more than one VolumeSnapshotClass
+   * exist for a given CSI Driver and more than one have been marked
+   * as default, CreateSnapshot will fail and generate an event. Empty
+   * string is not allowed for this field.
    *
    * @schema VolumeSnapshotSpec#volumeSnapshotClassName
    */
@@ -139,7 +130,7 @@ export interface VolumeSnapshotSpec {
 /**
  * Converts an object of type 'VolumeSnapshotSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotSpec(
   obj: VolumeSnapshotSpec | undefined,
 ): Record<string, any> | undefined {
@@ -154,34 +145,23 @@ export function toJson_VolumeSnapshotSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * source specifies where a snapshot will be created from.
- * This field is immutable after creation.
- * Required.
+ * source specifies where a snapshot will be created from. This field is immutable after creation. Required.
  *
  * @schema VolumeSnapshotSpecSource
  */
 export interface VolumeSnapshotSpecSource {
   /**
-   * persistentVolumeClaimName specifies the name of the PersistentVolumeClaim
-   * object representing the volume from which a snapshot should be created.
-   * This PVC is assumed to be in the same namespace as the VolumeSnapshot
-   * object.
-   * This field should be set if the snapshot does not exists, and needs to be
-   * created.
-   * This field is immutable.
+   * persistentVolumeClaimName specifies the name of the PersistentVolumeClaim object representing the volume from which a snapshot should be created. This PVC is assumed to be in the same namespace as the VolumeSnapshot object. This field should be set if the snapshot does not exists, and needs to be created. This field is immutable.
    *
    * @schema VolumeSnapshotSpecSource#persistentVolumeClaimName
    */
   readonly persistentVolumeClaimName?: string;
 
   /**
-   * volumeSnapshotContentName specifies the name of a pre-existing VolumeSnapshotContent
-   * object representing an existing volume snapshot.
-   * This field should be set if the snapshot already exists and only needs a representation in Kubernetes.
-   * This field is immutable.
+   * volumeSnapshotContentName specifies the name of a pre-existing VolumeSnapshotContent object representing an existing volume snapshot. This field should be set if the snapshot already exists and only needs a representation in Kubernetes. This field is immutable.
    *
    * @schema VolumeSnapshotSpecSource#volumeSnapshotContentName
    */
@@ -191,7 +171,7 @@ export interface VolumeSnapshotSpecSource {
 /**
  * Converts an object of type 'VolumeSnapshotSpecSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotSpecSource(
   obj: VolumeSnapshotSpecSource | undefined,
 ): Record<string, any> | undefined {
@@ -206,7 +186,7 @@ export function toJson_VolumeSnapshotSpecSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * VolumeSnapshot is a user's request for either creating a point-in-time snapshot of a persistent volume, or binding to a pre-existing snapshot.
@@ -278,7 +258,9 @@ export interface VolumeSnapshotV1Beta1Props {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * spec defines the desired characteristics of a snapshot requested by a user. More info: https://kubernetes.io/docs/concepts/storage/volume-snapshots#volumesnapshots Required.
+   * spec defines the desired characteristics of a snapshot requested
+   * by a user. More info: https://kubernetes.io/docs/concepts/storage/volume-snapshots#volumesnapshots
+   * Required.
    *
    * @schema VolumeSnapshotV1Beta1#spec
    */
@@ -288,7 +270,7 @@ export interface VolumeSnapshotV1Beta1Props {
 /**
  * Converts an object of type 'VolumeSnapshotV1Beta1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotV1Beta1Props(
   obj: VolumeSnapshotV1Beta1Props | undefined,
 ): Record<string, any> | undefined {
@@ -303,10 +285,12 @@ export function toJson_VolumeSnapshotV1Beta1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * spec defines the desired characteristics of a snapshot requested by a user. More info: https://kubernetes.io/docs/concepts/storage/volume-snapshots#volumesnapshots Required.
+ * spec defines the desired characteristics of a snapshot requested
+ * by a user. More info: https://kubernetes.io/docs/concepts/storage/volume-snapshots#volumesnapshots
+ * Required.
  *
  * @schema VolumeSnapshotV1Beta1Spec
  */
@@ -319,7 +303,17 @@ export interface VolumeSnapshotV1Beta1Spec {
   readonly source: VolumeSnapshotV1Beta1SpecSource;
 
   /**
-   * VolumeSnapshotClassName is the name of the VolumeSnapshotClass requested by the VolumeSnapshot. VolumeSnapshotClassName may be left nil to indicate that the default SnapshotClass should be used. A given cluster may have multiple default Volume SnapshotClasses: one default per CSI Driver. If a VolumeSnapshot does not specify a SnapshotClass, VolumeSnapshotSource will be checked to figure out what the associated CSI Driver is, and the default VolumeSnapshotClass associated with that CSI Driver will be used. If more than one VolumeSnapshotClass exist for a given CSI Driver and more than one have been marked as default, CreateSnapshot will fail and generate an event. Empty string is not allowed for this field.
+   * VolumeSnapshotClassName is the name of the VolumeSnapshotClass
+   * requested by the VolumeSnapshot. VolumeSnapshotClassName may be
+   * left nil to indicate that the default SnapshotClass should be used.
+   * A given cluster may have multiple default Volume SnapshotClasses:
+   * one default per CSI Driver. If a VolumeSnapshot does not specify
+   * a SnapshotClass, VolumeSnapshotSource will be checked to figure
+   * out what the associated CSI Driver is, and the default VolumeSnapshotClass
+   * associated with that CSI Driver will be used. If more than one VolumeSnapshotClass
+   * exist for a given CSI Driver and more than one have been marked
+   * as default, CreateSnapshot will fail and generate an event. Empty
+   * string is not allowed for this field.
    *
    * @schema VolumeSnapshotV1Beta1Spec#volumeSnapshotClassName
    */
@@ -329,7 +323,7 @@ export interface VolumeSnapshotV1Beta1Spec {
 /**
  * Converts an object of type 'VolumeSnapshotV1Beta1Spec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotV1Beta1Spec(
   obj: VolumeSnapshotV1Beta1Spec | undefined,
 ): Record<string, any> | undefined {
@@ -344,7 +338,7 @@ export function toJson_VolumeSnapshotV1Beta1Spec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * source specifies where a snapshot will be created from. This field is immutable after creation. Required.
@@ -370,7 +364,7 @@ export interface VolumeSnapshotV1Beta1SpecSource {
 /**
  * Converts an object of type 'VolumeSnapshotV1Beta1SpecSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotV1Beta1SpecSource(
   obj: VolumeSnapshotV1Beta1SpecSource | undefined,
 ): Record<string, any> | undefined {
@@ -385,13 +379,10 @@ export function toJson_VolumeSnapshotV1Beta1SpecSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * VolumeSnapshotClass specifies parameters that a underlying storage system uses when
-creating a volume snapshot. A specific VolumeSnapshotClass is used by specifying its
-name in a VolumeSnapshot object.
-VolumeSnapshotClasses are non-namespaced
+ * VolumeSnapshotClass specifies parameters that a underlying storage system uses when creating a volume snapshot. A specific VolumeSnapshotClass is used by specifying its name in a VolumeSnapshot object. VolumeSnapshotClasses are non-namespaced
  *
  * @schema VolumeSnapshotClass
  */
@@ -449,10 +440,7 @@ export class VolumeSnapshotClass extends ApiObject {
 }
 
 /**
- * VolumeSnapshotClass specifies parameters that a underlying storage system uses when
- * creating a volume snapshot. A specific VolumeSnapshotClass is used by specifying its
- * name in a VolumeSnapshot object.
- * VolumeSnapshotClasses are non-namespaced
+ * VolumeSnapshotClass specifies parameters that a underlying storage system uses when creating a volume snapshot. A specific VolumeSnapshotClass is used by specifying its name in a VolumeSnapshot object. VolumeSnapshotClasses are non-namespaced
  *
  * @schema VolumeSnapshotClass
  */
@@ -463,28 +451,21 @@ export interface VolumeSnapshotClassProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * deletionPolicy determines whether a VolumeSnapshotContent created through
-   * the VolumeSnapshotClass should be deleted when its bound VolumeSnapshot is deleted.
-   * Supported values are "Retain" and "Delete".
-   * "Retain" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are kept.
-   * "Delete" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are deleted.
-   * Required.
+   * deletionPolicy determines whether a VolumeSnapshotContent created through the VolumeSnapshotClass should be deleted when its bound VolumeSnapshot is deleted. Supported values are "Retain" and "Delete". "Retain" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are kept. "Delete" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are deleted. Required.
    *
    * @schema VolumeSnapshotClass#deletionPolicy
    */
   readonly deletionPolicy: VolumeSnapshotClassDeletionPolicy;
 
   /**
-   * driver is the name of the storage driver that handles this VolumeSnapshotClass.
-   * Required.
+   * driver is the name of the storage driver that handles this VolumeSnapshotClass. Required.
    *
    * @schema VolumeSnapshotClass#driver
    */
   readonly driver: string;
 
   /**
-   * parameters is a key-value map with storage driver specific parameters for creating snapshots.
-   * These values are opaque to Kubernetes.
+   * parameters is a key-value map with storage driver specific parameters for creating snapshots. These values are opaque to Kubernetes.
    *
    * @schema VolumeSnapshotClass#parameters
    */
@@ -494,7 +475,7 @@ export interface VolumeSnapshotClassProps {
 /**
  * Converts an object of type 'VolumeSnapshotClassProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotClassProps(
   obj: VolumeSnapshotClassProps | undefined,
 ): Record<string, any> | undefined {
@@ -516,15 +497,10 @@ export function toJson_VolumeSnapshotClassProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * deletionPolicy determines whether a VolumeSnapshotContent created through
- * the VolumeSnapshotClass should be deleted when its bound VolumeSnapshot is deleted.
- * Supported values are "Retain" and "Delete".
- * "Retain" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are kept.
- * "Delete" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are deleted.
- * Required.
+ * deletionPolicy determines whether a VolumeSnapshotContent created through the VolumeSnapshotClass should be deleted when its bound VolumeSnapshot is deleted. Supported values are "Retain" and "Delete". "Retain" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are kept. "Delete" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are deleted. Required.
  *
  * @schema VolumeSnapshotClassDeletionPolicy
  */
@@ -629,7 +605,7 @@ export interface VolumeSnapshotClassV1Beta1Props {
 /**
  * Converts an object of type 'VolumeSnapshotClassV1Beta1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotClassV1Beta1Props(
   obj: VolumeSnapshotClassV1Beta1Props | undefined,
 ): Record<string, any> | undefined {
@@ -651,7 +627,7 @@ export function toJson_VolumeSnapshotClassV1Beta1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * deletionPolicy determines whether a VolumeSnapshotContent created through the VolumeSnapshotClass should be deleted when its bound VolumeSnapshot is deleted. Supported values are "Retain" and "Delete". "Retain" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are kept. "Delete" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are deleted. Required.
@@ -666,8 +642,7 @@ export enum VolumeSnapshotClassV1Beta1DeletionPolicy {
 }
 
 /**
- * VolumeSnapshotContent represents the actual "on-disk" snapshot object in the
-underlying storage system
+ * VolumeSnapshotContent represents the actual "on-disk" snapshot object in the underlying storage system
  *
  * @schema VolumeSnapshotContent
  */
@@ -725,8 +700,7 @@ export class VolumeSnapshotContent extends ApiObject {
 }
 
 /**
- * VolumeSnapshotContent represents the actual "on-disk" snapshot object in the
- * underlying storage system
+ * VolumeSnapshotContent represents the actual "on-disk" snapshot object in the underlying storage system
  *
  * @schema VolumeSnapshotContent
  */
@@ -737,8 +711,7 @@ export interface VolumeSnapshotContentProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * spec defines properties of a VolumeSnapshotContent created by the underlying storage system.
-   * Required.
+   * spec defines properties of a VolumeSnapshotContent created by the underlying storage system. Required.
    *
    * @schema VolumeSnapshotContent#spec
    */
@@ -748,7 +721,7 @@ export interface VolumeSnapshotContentProps {
 /**
  * Converts an object of type 'VolumeSnapshotContentProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotContentProps(
   obj: VolumeSnapshotContentProps | undefined,
 ): Record<string, any> | undefined {
@@ -763,84 +736,51 @@ export function toJson_VolumeSnapshotContentProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * spec defines properties of a VolumeSnapshotContent created by the underlying storage system.
- * Required.
+ * spec defines properties of a VolumeSnapshotContent created by the underlying storage system. Required.
  *
  * @schema VolumeSnapshotContentSpec
  */
 export interface VolumeSnapshotContentSpec {
   /**
-   * deletionPolicy determines whether this VolumeSnapshotContent and its physical snapshot on
-   * the underlying storage system should be deleted when its bound VolumeSnapshot is deleted.
-   * Supported values are "Retain" and "Delete".
-   * "Retain" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are kept.
-   * "Delete" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are deleted.
-   * For dynamically provisioned snapshots, this field will automatically be filled in by the
-   * CSI snapshotter sidecar with the "DeletionPolicy" field defined in the corresponding
-   * VolumeSnapshotClass.
-   * For pre-existing snapshots, users MUST specify this field when creating the
-   * VolumeSnapshotContent object.
-   * Required.
+   * deletionPolicy determines whether this VolumeSnapshotContent and its physical snapshot on the underlying storage system should be deleted when its bound VolumeSnapshot is deleted. Supported values are "Retain" and "Delete". "Retain" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are kept. "Delete" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are deleted. For dynamically provisioned snapshots, this field will automatically be filled in by the CSI snapshotter sidecar with the "DeletionPolicy" field defined in the corresponding VolumeSnapshotClass. For pre-existing snapshots, users MUST specify this field when creating the VolumeSnapshotContent object. Required.
    *
    * @schema VolumeSnapshotContentSpec#deletionPolicy
    */
   readonly deletionPolicy: VolumeSnapshotContentSpecDeletionPolicy;
 
   /**
-   * driver is the name of the CSI driver used to create the physical snapshot on
-   * the underlying storage system.
-   * This MUST be the same as the name returned by the CSI GetPluginName() call for
-   * that driver.
-   * Required.
+   * driver is the name of the CSI driver used to create the physical snapshot on the underlying storage system. This MUST be the same as the name returned by the CSI GetPluginName() call for that driver. Required.
    *
    * @schema VolumeSnapshotContentSpec#driver
    */
   readonly driver: string;
 
   /**
-   * source specifies whether the snapshot is (or should be) dynamically provisioned
-   * or already exists, and just requires a Kubernetes object representation.
-   * This field is immutable after creation.
-   * Required.
+   * source specifies whether the snapshot is (or should be) dynamically provisioned or already exists, and just requires a Kubernetes object representation. This field is immutable after creation. Required.
    *
    * @schema VolumeSnapshotContentSpec#source
    */
   readonly source: VolumeSnapshotContentSpecSource;
 
   /**
-   * SourceVolumeMode is the mode of the volume whose snapshot is taken.
-   * Can be either “Filesystem” or “Block”.
-   * If not specified, it indicates the source volume's mode is unknown.
-   * This field is immutable.
-   * This field is an alpha field.
+   * SourceVolumeMode is the mode of the volume whose snapshot is taken. Can be either “Filesystem” or “Block”. If not specified, it indicates the source volume's mode is unknown. This field is immutable. This field is an alpha field.
    *
    * @schema VolumeSnapshotContentSpec#sourceVolumeMode
    */
   readonly sourceVolumeMode?: string;
 
   /**
-   * name of the VolumeSnapshotClass from which this snapshot was (or will be)
-   * created.
-   * Note that after provisioning, the VolumeSnapshotClass may be deleted or
-   * recreated with different set of values, and as such, should not be referenced
-   * post-snapshot creation.
+   * name of the VolumeSnapshotClass from which this snapshot was (or will be) created. Note that after provisioning, the VolumeSnapshotClass may be deleted or recreated with different set of values, and as such, should not be referenced post-snapshot creation.
    *
    * @schema VolumeSnapshotContentSpec#volumeSnapshotClassName
    */
   readonly volumeSnapshotClassName?: string;
 
   /**
-   * volumeSnapshotRef specifies the VolumeSnapshot object to which this
-   * VolumeSnapshotContent object is bound.
-   * VolumeSnapshot.Spec.VolumeSnapshotContentName field must reference to
-   * this VolumeSnapshotContent's name for the bidirectional binding to be valid.
-   * For a pre-existing VolumeSnapshotContent object, name and namespace of the
-   * VolumeSnapshot object MUST be provided for binding to happen.
-   * This field is immutable after creation.
-   * Required.
+   * volumeSnapshotRef specifies the VolumeSnapshot object to which this VolumeSnapshotContent object is bound. VolumeSnapshot.Spec.VolumeSnapshotContentName field must reference to this VolumeSnapshotContent's name for the bidirectional binding to be valid. For a pre-existing VolumeSnapshotContent object, name and namespace of the VolumeSnapshot object MUST be provided for binding to happen. This field is immutable after creation. Required.
    *
    * @schema VolumeSnapshotContentSpec#volumeSnapshotRef
    */
@@ -850,7 +790,7 @@ export interface VolumeSnapshotContentSpec {
 /**
  * Converts an object of type 'VolumeSnapshotContentSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotContentSpec(
   obj: VolumeSnapshotContentSpec | undefined,
 ): Record<string, any> | undefined {
@@ -871,20 +811,10 @@ export function toJson_VolumeSnapshotContentSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * deletionPolicy determines whether this VolumeSnapshotContent and its physical snapshot on
- * the underlying storage system should be deleted when its bound VolumeSnapshot is deleted.
- * Supported values are "Retain" and "Delete".
- * "Retain" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are kept.
- * "Delete" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are deleted.
- * For dynamically provisioned snapshots, this field will automatically be filled in by the
- * CSI snapshotter sidecar with the "DeletionPolicy" field defined in the corresponding
- * VolumeSnapshotClass.
- * For pre-existing snapshots, users MUST specify this field when creating the
- * VolumeSnapshotContent object.
- * Required.
+ * deletionPolicy determines whether this VolumeSnapshotContent and its physical snapshot on the underlying storage system should be deleted when its bound VolumeSnapshot is deleted. Supported values are "Retain" and "Delete". "Retain" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are kept. "Delete" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are deleted. For dynamically provisioned snapshots, this field will automatically be filled in by the CSI snapshotter sidecar with the "DeletionPolicy" field defined in the corresponding VolumeSnapshotClass. For pre-existing snapshots, users MUST specify this field when creating the VolumeSnapshotContent object. Required.
  *
  * @schema VolumeSnapshotContentSpecDeletionPolicy
  */
@@ -896,28 +826,20 @@ export enum VolumeSnapshotContentSpecDeletionPolicy {
 }
 
 /**
- * source specifies whether the snapshot is (or should be) dynamically provisioned
- * or already exists, and just requires a Kubernetes object representation.
- * This field is immutable after creation.
- * Required.
+ * source specifies whether the snapshot is (or should be) dynamically provisioned or already exists, and just requires a Kubernetes object representation. This field is immutable after creation. Required.
  *
  * @schema VolumeSnapshotContentSpecSource
  */
 export interface VolumeSnapshotContentSpecSource {
   /**
-   * snapshotHandle specifies the CSI "snapshot_id" of a pre-existing snapshot on
-   * the underlying storage system for which a Kubernetes object representation
-   * was (or should be) created.
-   * This field is immutable.
+   * snapshotHandle specifies the CSI "snapshot_id" of a pre-existing snapshot on the underlying storage system for which a Kubernetes object representation was (or should be) created. This field is immutable.
    *
    * @schema VolumeSnapshotContentSpecSource#snapshotHandle
    */
   readonly snapshotHandle?: string;
 
   /**
-   * volumeHandle specifies the CSI "volume_id" of the volume from which a snapshot
-   * should be dynamically taken from.
-   * This field is immutable.
+   * volumeHandle specifies the CSI "volume_id" of the volume from which a snapshot should be dynamically taken from. This field is immutable.
    *
    * @schema VolumeSnapshotContentSpecSource#volumeHandle
    */
@@ -927,7 +849,7 @@ export interface VolumeSnapshotContentSpecSource {
 /**
  * Converts an object of type 'VolumeSnapshotContentSpecSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotContentSpecSource(
   obj: VolumeSnapshotContentSpecSource | undefined,
 ): Record<string, any> | undefined {
@@ -942,17 +864,10 @@ export function toJson_VolumeSnapshotContentSpecSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * volumeSnapshotRef specifies the VolumeSnapshot object to which this
- * VolumeSnapshotContent object is bound.
- * VolumeSnapshot.Spec.VolumeSnapshotContentName field must reference to
- * this VolumeSnapshotContent's name for the bidirectional binding to be valid.
- * For a pre-existing VolumeSnapshotContent object, name and namespace of the
- * VolumeSnapshot object MUST be provided for binding to happen.
- * This field is immutable after creation.
- * Required.
+ * volumeSnapshotRef specifies the VolumeSnapshot object to which this VolumeSnapshotContent object is bound. VolumeSnapshot.Spec.VolumeSnapshotContentName field must reference to this VolumeSnapshotContent's name for the bidirectional binding to be valid. For a pre-existing VolumeSnapshotContent object, name and namespace of the VolumeSnapshot object MUST be provided for binding to happen. This field is immutable after creation. Required.
  *
  * @schema VolumeSnapshotContentSpecVolumeSnapshotRef
  */
@@ -965,54 +880,53 @@ export interface VolumeSnapshotContentSpecVolumeSnapshotRef {
   readonly apiVersion?: string;
 
   /**
-   * If referring to a piece of an object instead of an entire object, this string
-   * should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2].
-   * For example, if the object reference is to a container within a pod, this would take on a value like:
-   * "spec.containers{name}" (where "name" refers to the name of the container that triggered
-   * the event) or if no container name is specified "spec.containers[2]" (container with
-   * index 2 in this pod). This syntax is chosen only to have some well-defined way of
-   * referencing a part of an object.
-   * TODO: this design is not final and this field is subject to change in the future.
+   * If referring to a piece of an object instead of
+   * an entire object, this string should contain a valid JSON/Go
+   * field access statement, such as desiredState.manifest.containers[2].
+   * For example, if the object reference is to a container within
+   * a pod, this would take on a value like: "spec.containers{name}"
+   * (where "name" refers to the name of the container that triggered
+   * the event) or if no container name is specified "spec.containers[2]"
+   * (container with index 2 in this pod). This syntax is chosen
+   * only to have some well-defined way of referencing a part of
+   * an object. TODO: this design is not final and this field is
+   * subject to change in the future.
    *
    * @schema VolumeSnapshotContentSpecVolumeSnapshotRef#fieldPath
    */
   readonly fieldPath?: string;
 
   /**
-   * Kind of the referent.
-   * More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+   * Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
    *
    * @schema VolumeSnapshotContentSpecVolumeSnapshotRef#kind
    */
   readonly kind?: string;
 
   /**
-   * Name of the referent.
-   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+   * Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
    *
    * @schema VolumeSnapshotContentSpecVolumeSnapshotRef#name
    */
   readonly name?: string;
 
   /**
-   * Namespace of the referent.
-   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
+   * Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
    *
    * @schema VolumeSnapshotContentSpecVolumeSnapshotRef#namespace
    */
   readonly namespace?: string;
 
   /**
-   * Specific resourceVersion to which this reference is made, if any.
-   * More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+   * Specific resourceVersion to which this reference
+   * is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
    *
    * @schema VolumeSnapshotContentSpecVolumeSnapshotRef#resourceVersion
    */
   readonly resourceVersion?: string;
 
   /**
-   * UID of the referent.
-   * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
+   * UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids
    *
    * @schema VolumeSnapshotContentSpecVolumeSnapshotRef#uid
    */
@@ -1022,7 +936,7 @@ export interface VolumeSnapshotContentSpecVolumeSnapshotRef {
 /**
  * Converts an object of type 'VolumeSnapshotContentSpecVolumeSnapshotRef' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotContentSpecVolumeSnapshotRef(
   obj: VolumeSnapshotContentSpecVolumeSnapshotRef | undefined,
 ): Record<string, any> | undefined {
@@ -1042,7 +956,7 @@ export function toJson_VolumeSnapshotContentSpecVolumeSnapshotRef(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * VolumeSnapshotContent represents the actual "on-disk" snapshot object in the underlying storage system
@@ -1124,7 +1038,7 @@ export interface VolumeSnapshotContentV1Beta1Props {
 /**
  * Converts an object of type 'VolumeSnapshotContentV1Beta1Props' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotContentV1Beta1Props(
   obj: VolumeSnapshotContentV1Beta1Props | undefined,
 ): Record<string, any> | undefined {
@@ -1139,7 +1053,7 @@ export function toJson_VolumeSnapshotContentV1Beta1Props(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * spec defines properties of a VolumeSnapshotContent created by the underlying storage system. Required.
@@ -1186,7 +1100,7 @@ export interface VolumeSnapshotContentV1Beta1Spec {
 /**
  * Converts an object of type 'VolumeSnapshotContentV1Beta1Spec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotContentV1Beta1Spec(
   obj: VolumeSnapshotContentV1Beta1Spec | undefined,
 ): Record<string, any> | undefined {
@@ -1207,7 +1121,7 @@ export function toJson_VolumeSnapshotContentV1Beta1Spec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * deletionPolicy determines whether this VolumeSnapshotContent and its physical snapshot on the underlying storage system should be deleted when its bound VolumeSnapshot is deleted. Supported values are "Retain" and "Delete". "Retain" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are kept. "Delete" means that the VolumeSnapshotContent and its physical snapshot on underlying storage system are deleted. For dynamically provisioned snapshots, this field will automatically be filled in by the CSI snapshotter sidecar with the "DeletionPolicy" field defined in the corresponding VolumeSnapshotClass. For pre-existing snapshots, users MUST specify this field when creating the  VolumeSnapshotContent object. Required.
@@ -1245,7 +1159,7 @@ export interface VolumeSnapshotContentV1Beta1SpecSource {
 /**
  * Converts an object of type 'VolumeSnapshotContentV1Beta1SpecSource' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotContentV1Beta1SpecSource(
   obj: VolumeSnapshotContentV1Beta1SpecSource | undefined,
 ): Record<string, any> | undefined {
@@ -1260,7 +1174,7 @@ export function toJson_VolumeSnapshotContentV1Beta1SpecSource(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * volumeSnapshotRef specifies the VolumeSnapshot object to which this VolumeSnapshotContent object is bound. VolumeSnapshot.Spec.VolumeSnapshotContentName field must reference to this VolumeSnapshotContent's name for the bidirectional binding to be valid. For a pre-existing VolumeSnapshotContent object, name and namespace of the VolumeSnapshot object MUST be provided for binding to happen. This field is immutable after creation. Required.
@@ -1276,7 +1190,17 @@ export interface VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef {
   readonly apiVersion?: string;
 
   /**
-   * If referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: "spec.containers{name}" (where "name" refers to the name of the container that triggered the event) or if no container name is specified "spec.containers[2]" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object. TODO: this design is not final and this field is subject to change in the future.
+   * If referring to a piece of an object instead of
+   * an entire object, this string should contain a valid JSON/Go
+   * field access statement, such as desiredState.manifest.containers[2].
+   * For example, if the object reference is to a container within
+   * a pod, this would take on a value like: "spec.containers{name}"
+   * (where "name" refers to the name of the container that triggered
+   * the event) or if no container name is specified "spec.containers[2]"
+   * (container with index 2 in this pod). This syntax is chosen
+   * only to have some well-defined way of referencing a part of
+   * an object. TODO: this design is not final and this field is
+   * subject to change in the future.
    *
    * @schema VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef#fieldPath
    */
@@ -1304,7 +1228,8 @@ export interface VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef {
   readonly namespace?: string;
 
   /**
-   * Specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
+   * Specific resourceVersion to which this reference
+   * is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency
    *
    * @schema VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef#resourceVersion
    */
@@ -1321,7 +1246,7 @@ export interface VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef {
 /**
  * Converts an object of type 'VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef(
   obj: VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef | undefined,
 ): Record<string, any> | undefined {
@@ -1341,4 +1266,4 @@ export function toJson_VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */

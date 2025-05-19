@@ -9,7 +9,7 @@ node can be configured to act as a Tailscale subnet router and/or a Tailscale
 exit node.
 Connector is a cluster-scoped resource.
 More info:
-https://tailscale.com/kb/1236/kubernetes-operator#deploying-exit-nodes-and-subnet-routers-on-kubernetes-using-connector-custom-resource
+https://tailscale.com/kb/1441/kubernetes-operator-connector
  *
  * @schema Connector
  */
@@ -68,7 +68,7 @@ export class Connector extends ApiObject {
  * exit node.
  * Connector is a cluster-scoped resource.
  * More info:
- * https://tailscale.com/kb/1236/kubernetes-operator#deploying-exit-nodes-and-subnet-routers-on-kubernetes-using-connector-custom-resource
+ * https://tailscale.com/kb/1441/kubernetes-operator-connector
  *
  * @schema Connector
  */
@@ -91,7 +91,7 @@ export interface ConnectorProps {
 /**
  * Converts an object of type 'ConnectorProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ConnectorProps(
   obj: ConnectorProps | undefined,
 ): Record<string, any> | undefined {
@@ -106,7 +106,7 @@ export function toJson_ConnectorProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ConnectorSpec describes the desired Tailscale component.
@@ -117,8 +117,28 @@ export function toJson_ConnectorProps(
  */
 export interface ConnectorSpec {
   /**
-   * ExitNode defines whether the Connector node should act as a
-   * Tailscale exit node. Defaults to false.
+   * AppConnector defines whether the Connector device should act as a Tailscale app connector. A Connector that is
+   * configured as an app connector cannot be a subnet router or an exit node. If this field is unset, the
+   * Connector does not act as an app connector.
+   * Note that you will need to manually configure the permissions and the domains for the app connector via the
+   * Admin panel.
+   * Note also that the main tested and supported use case of this config option is to deploy an app connector on
+   * Kubernetes to access SaaS applications available on the public internet. Using the app connector to expose
+   * cluster workloads or other internal workloads to tailnet might work, but this is not a use case that we have
+   * tested or optimised for.
+   * If you are using the app connector to access SaaS applications because you need a predictable egress IP that
+   * can be whitelisted, it is also your responsibility to ensure that cluster traffic from the connector flows
+   * via that predictable IP, for example by enforcing that cluster egress traffic is routed via an egress NAT
+   * device with a static IP address.
+   * https://tailscale.com/kb/1281/app-connectors
+   *
+   * @schema ConnectorSpec#appConnector
+   */
+  readonly appConnector?: ConnectorSpecAppConnector;
+
+  /**
+   * ExitNode defines whether the Connector device should act as a Tailscale exit node. Defaults to false.
+   * This field is mutually exclusive with the appConnector field.
    * https://tailscale.com/kb/1103/exit-nodes
    *
    * @default false.
@@ -148,9 +168,11 @@ export interface ConnectorSpec {
   readonly proxyClass?: string;
 
   /**
-   * SubnetRouter defines subnet routes that the Connector node should
-   * expose to tailnet. If unset, none are exposed.
+   * SubnetRouter defines subnet routes that the Connector device should
+   * expose to tailnet as a Tailscale subnet router.
    * https://tailscale.com/kb/1019/subnets/
+   * If this field is unset, the device does not get configured as a Tailscale subnet router.
+   * This field is mutually exclusive with the appConnector field.
    *
    * @schema ConnectorSpec#subnetRouter
    */
@@ -162,7 +184,7 @@ export interface ConnectorSpec {
    * To autoapprove the subnet routes or exit node defined by a Connector,
    * you can configure Tailscale ACLs to give these tags the necessary
    * permissions.
-   * See https://tailscale.com/kb/1018/acls/#auto-approvers-for-routes-and-exit-nodes.
+   * See https://tailscale.com/kb/1337/acl-syntax#autoapprovers.
    * If you specify custom tags here, you must also make the operator an owner of these tags.
    * See  https://tailscale.com/kb/1236/kubernetes-operator/#setting-up-the-kubernetes-operator.
    * Tags cannot be changed once a Connector node has been created.
@@ -177,12 +199,13 @@ export interface ConnectorSpec {
 /**
  * Converts an object of type 'ConnectorSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ConnectorSpec(
   obj: ConnectorSpec | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "appConnector": toJson_ConnectorSpecAppConnector(obj.appConnector),
     "exitNode": obj.exitNode,
     "hostname": obj.hostname,
     "proxyClass": obj.proxyClass,
@@ -195,12 +218,64 @@ export function toJson_ConnectorSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * SubnetRouter defines subnet routes that the Connector node should
- * expose to tailnet. If unset, none are exposed.
+ * AppConnector defines whether the Connector device should act as a Tailscale app connector. A Connector that is
+ * configured as an app connector cannot be a subnet router or an exit node. If this field is unset, the
+ * Connector does not act as an app connector.
+ * Note that you will need to manually configure the permissions and the domains for the app connector via the
+ * Admin panel.
+ * Note also that the main tested and supported use case of this config option is to deploy an app connector on
+ * Kubernetes to access SaaS applications available on the public internet. Using the app connector to expose
+ * cluster workloads or other internal workloads to tailnet might work, but this is not a use case that we have
+ * tested or optimised for.
+ * If you are using the app connector to access SaaS applications because you need a predictable egress IP that
+ * can be whitelisted, it is also your responsibility to ensure that cluster traffic from the connector flows
+ * via that predictable IP, for example by enforcing that cluster egress traffic is routed via an egress NAT
+ * device with a static IP address.
+ * https://tailscale.com/kb/1281/app-connectors
+ *
+ * @schema ConnectorSpecAppConnector
+ */
+export interface ConnectorSpecAppConnector {
+  /**
+   * Routes are optional preconfigured routes for the domains routed via the app connector.
+   * If not set, routes for the domains will be discovered dynamically.
+   * If set, the app connector will immediately be able to route traffic using the preconfigured routes, but may
+   * also dynamically discover other routes.
+   * https://tailscale.com/kb/1332/apps-best-practices#preconfiguration
+   *
+   * @schema ConnectorSpecAppConnector#routes
+   */
+  readonly routes?: string[];
+}
+
+/**
+ * Converts an object of type 'ConnectorSpecAppConnector' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ConnectorSpecAppConnector(
+  obj: ConnectorSpecAppConnector | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "routes": obj.routes?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * SubnetRouter defines subnet routes that the Connector device should
+ * expose to tailnet as a Tailscale subnet router.
  * https://tailscale.com/kb/1019/subnets/
+ * If this field is unset, the device does not get configured as a Tailscale subnet router.
+ * This field is mutually exclusive with the appConnector field.
  *
  * @schema ConnectorSpecSubnetRouter
  */
@@ -219,7 +294,7 @@ export interface ConnectorSpecSubnetRouter {
 /**
  * Converts an object of type 'ConnectorSpecSubnetRouter' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ConnectorSpecSubnetRouter(
   obj: ConnectorSpecSubnetRouter | undefined,
 ): Record<string, any> | undefined {
@@ -233,7 +308,7 @@ export function toJson_ConnectorSpecSubnetRouter(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * DNSConfig can be deployed to cluster to make a subset of Tailscale MagicDNS
@@ -363,7 +438,7 @@ export interface DnsConfigProps {
 /**
  * Converts an object of type 'DnsConfigProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DnsConfigProps(
   obj: DnsConfigProps | undefined,
 ): Record<string, any> | undefined {
@@ -378,7 +453,7 @@ export function toJson_DnsConfigProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Spec describes the desired DNS configuration.
@@ -402,7 +477,7 @@ export interface DnsConfigSpec {
 /**
  * Converts an object of type 'DnsConfigSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DnsConfigSpec(
   obj: DnsConfigSpec | undefined,
 ): Record<string, any> | undefined {
@@ -416,7 +491,7 @@ export function toJson_DnsConfigSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configuration for a nameserver that can resolve ts.net DNS names
@@ -439,7 +514,7 @@ export interface DnsConfigSpecNameserver {
 /**
  * Converts an object of type 'DnsConfigSpecNameserver' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DnsConfigSpecNameserver(
   obj: DnsConfigSpecNameserver | undefined,
 ): Record<string, any> | undefined {
@@ -453,7 +528,7 @@ export function toJson_DnsConfigSpecNameserver(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Nameserver image. Defaults to tailscale/k8s-nameserver:unstable.
@@ -480,7 +555,7 @@ export interface DnsConfigSpecNameserverImage {
 /**
  * Converts an object of type 'DnsConfigSpecNameserverImage' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_DnsConfigSpecNameserverImage(
   obj: DnsConfigSpecNameserverImage | undefined,
 ): Record<string, any> | undefined {
@@ -495,7 +570,7 @@ export function toJson_DnsConfigSpecNameserverImage(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ProxyClass describes a set of configuration parameters that can be applied to
@@ -506,7 +581,7 @@ given ProxyClass to resources created for a Connector, use
 connector.spec.proxyClass field.
 ProxyClass is a cluster scoped resource.
 More info:
-https://tailscale.com/kb/1236/kubernetes-operator#cluster-resource-customization-using-proxyclass-custom-resource.
+https://tailscale.com/kb/1445/kubernetes-operator-customization#cluster-resource-customization-using-proxyclass-custom-resource
  *
  * @schema ProxyClass
  */
@@ -568,7 +643,7 @@ export class ProxyClass extends ApiObject {
  * connector.spec.proxyClass field.
  * ProxyClass is a cluster scoped resource.
  * More info:
- * https://tailscale.com/kb/1236/kubernetes-operator#cluster-resource-customization-using-proxyclass-custom-resource.
+ * https://tailscale.com/kb/1445/kubernetes-operator-customization#cluster-resource-customization-using-proxyclass-custom-resource
  *
  * @schema ProxyClass
  */
@@ -590,7 +665,7 @@ export interface ProxyClassProps {
 /**
  * Converts an object of type 'ProxyClassProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassProps(
   obj: ProxyClassProps | undefined,
 ): Record<string, any> | undefined {
@@ -605,7 +680,7 @@ export function toJson_ProxyClassProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Specification of the desired state of the ProxyClass resource.
@@ -642,12 +717,31 @@ export interface ProxyClassSpec {
    * @schema ProxyClassSpec#tailscale
    */
   readonly tailscale?: ProxyClassSpecTailscale;
+
+  /**
+   * Set UseLetsEncryptStagingEnvironment to true to issue TLS
+   * certificates for any HTTPS endpoints exposed to the tailnet from
+   * LetsEncrypt's staging environment.
+   * https://letsencrypt.org/docs/staging-environment/
+   * This setting only affects Tailscale Ingress resources.
+   * By default Ingress TLS certificates are issued from LetsEncrypt's
+   * production environment.
+   * Changing this setting true -> false, will result in any
+   * existing certs being re-issued from the production environment.
+   * Changing this setting false (default) -> true, when certs have already
+   * been provisioned from production environment will NOT result in certs
+   * being re-issued from the staging environment before they need to be
+   * renewed.
+   *
+   * @schema ProxyClassSpec#useLetsEncryptStagingEnvironment
+   */
+  readonly useLetsEncryptStagingEnvironment?: boolean;
 }
 
 /**
  * Converts an object of type 'ProxyClassSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpec(
   obj: ProxyClassSpec | undefined,
 ): Record<string, any> | undefined {
@@ -656,6 +750,7 @@ export function toJson_ProxyClassSpec(
     "metrics": toJson_ProxyClassSpecMetrics(obj.metrics),
     "statefulSet": toJson_ProxyClassSpecStatefulSet(obj.statefulSet),
     "tailscale": toJson_ProxyClassSpecTailscale(obj.tailscale),
+    "useLetsEncryptStagingEnvironment": obj.useLetsEncryptStagingEnvironment,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -663,7 +758,7 @@ export function toJson_ProxyClassSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configuration for proxy metrics. Metrics are currently not supported
@@ -678,25 +773,48 @@ export function toJson_ProxyClassSpec(
 export interface ProxyClassSpecMetrics {
   /**
    * Setting enable to true will make the proxy serve Tailscale metrics
-   * at <pod-ip>:9001/debug/metrics.
+   * at <pod-ip>:9002/metrics.
+   * A metrics Service named <proxy-statefulset>-metrics will also be created in the operator's namespace and will
+   * serve the metrics at <service-ip>:9002/metrics.
+   *
+   * In 1.78.x and 1.80.x, this field also serves as the default value for
+   * .spec.statefulSet.pod.tailscaleContainer.debug.enable. From 1.82.0, both
+   * fields will independently default to false.
+   *
    * Defaults to false.
    *
    * @default false.
    * @schema ProxyClassSpecMetrics#enable
    */
   readonly enable: boolean;
+
+  /**
+   * Enable to create a Prometheus ServiceMonitor for scraping the proxy's Tailscale metrics.
+   * The ServiceMonitor will select the metrics Service that gets created when metrics are enabled.
+   * The ingested metrics for each Service monitor will have labels to identify the proxy:
+   * ts_proxy_type: ingress_service|ingress_resource|connector|proxygroup
+   * ts_proxy_parent_name: name of the parent resource (i.e name of the Connector, Tailscale Ingress, Tailscale Service or ProxyGroup)
+   * ts_proxy_parent_namespace: namespace of the parent resource (if the parent resource is not cluster scoped)
+   * job: ts_<proxy type>_[<parent namespace>]_<parent_name>
+   *
+   * @schema ProxyClassSpecMetrics#serviceMonitor
+   */
+  readonly serviceMonitor?: ProxyClassSpecMetricsServiceMonitor;
 }
 
 /**
  * Converts an object of type 'ProxyClassSpecMetrics' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecMetrics(
   obj: ProxyClassSpecMetrics | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
     "enable": obj.enable,
+    "serviceMonitor": toJson_ProxyClassSpecMetricsServiceMonitor(
+      obj.serviceMonitor,
+    ),
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -704,7 +822,7 @@ export function toJson_ProxyClassSpecMetrics(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configuration parameters for the proxy's StatefulSet. Tailscale
@@ -751,7 +869,7 @@ export interface ProxyClassSpecStatefulSet {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSet' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSet(
   obj: ProxyClassSpecStatefulSet | undefined,
 ): Record<string, any> | undefined {
@@ -777,7 +895,7 @@ export function toJson_ProxyClassSpecStatefulSet(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * TailscaleConfig contains options to configure the tailscale-specific
@@ -791,7 +909,7 @@ export interface ProxyClassSpecTailscale {
    * routes advertized by other nodes on the tailnet, such as subnet
    * routes.
    * This is equivalent of passing --accept-routes flag to a tailscale Linux client.
-   * https://tailscale.com/kb/1019/subnets#use-your-subnet-routes-from-other-machines
+   * https://tailscale.com/kb/1019/subnets#use-your-subnet-routes-from-other-devices
    * Defaults to false.
    *
    * @default false.
@@ -803,7 +921,7 @@ export interface ProxyClassSpecTailscale {
 /**
  * Converts an object of type 'ProxyClassSpecTailscale' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecTailscale(
   obj: ProxyClassSpecTailscale | undefined,
 ): Record<string, any> | undefined {
@@ -817,7 +935,61 @@ export function toJson_ProxyClassSpecTailscale(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * Enable to create a Prometheus ServiceMonitor for scraping the proxy's Tailscale metrics.
+ * The ServiceMonitor will select the metrics Service that gets created when metrics are enabled.
+ * The ingested metrics for each Service monitor will have labels to identify the proxy:
+ * ts_proxy_type: ingress_service|ingress_resource|connector|proxygroup
+ * ts_proxy_parent_name: name of the parent resource (i.e name of the Connector, Tailscale Ingress, Tailscale Service or ProxyGroup)
+ * ts_proxy_parent_namespace: namespace of the parent resource (if the parent resource is not cluster scoped)
+ * job: ts_<proxy type>_[<parent namespace>]_<parent_name>
+ *
+ * @schema ProxyClassSpecMetricsServiceMonitor
+ */
+export interface ProxyClassSpecMetricsServiceMonitor {
+  /**
+   * If Enable is set to true, a Prometheus ServiceMonitor will be created. Enable can only be set to true if metrics are enabled.
+   *
+   * @schema ProxyClassSpecMetricsServiceMonitor#enable
+   */
+  readonly enable: boolean;
+
+  /**
+   * Labels to add to the ServiceMonitor.
+   * Labels must be valid Kubernetes labels.
+   * https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set
+   *
+   * @schema ProxyClassSpecMetricsServiceMonitor#labels
+   */
+  readonly labels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecMetricsServiceMonitor' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyClassSpecMetricsServiceMonitor(
+  obj: ProxyClassSpecMetricsServiceMonitor | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "enable": obj.enable,
+    "labels": ((obj.labels) === undefined)
+      ? undefined
+      : (Object.entries(obj.labels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configuration for the proxy Pod.
@@ -916,12 +1088,22 @@ export interface ProxyClassSpecStatefulSetPod {
    * @schema ProxyClassSpecStatefulSetPod#tolerations
    */
   readonly tolerations?: ProxyClassSpecStatefulSetPodTolerations[];
+
+  /**
+   * Proxy Pod's topology spread constraints.
+   * By default Tailscale Kubernetes operator does not apply any topology spread constraints.
+   * https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/
+   *
+   * @schema ProxyClassSpecStatefulSetPod#topologySpreadConstraints
+   */
+  readonly topologySpreadConstraints?:
+    ProxyClassSpecStatefulSetPodTopologySpreadConstraints[];
 }
 
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPod' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPod(
   obj: ProxyClassSpecStatefulSetPod | undefined,
 ): Record<string, any> | undefined {
@@ -963,6 +1145,9 @@ export function toJson_ProxyClassSpecStatefulSetPod(
     "tolerations": obj.tolerations?.map((y) =>
       toJson_ProxyClassSpecStatefulSetPodTolerations(y)
     ),
+    "topologySpreadConstraints": obj.topologySpreadConstraints?.map((y) =>
+      toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraints(y)
+    ),
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -970,7 +1155,7 @@ export function toJson_ProxyClassSpecStatefulSetPod(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Proxy Pod's affinity rules.
@@ -1006,7 +1191,7 @@ export interface ProxyClassSpecStatefulSetPodAffinity {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinity(
   obj: ProxyClassSpecStatefulSetPodAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -1029,7 +1214,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LocalObjectReference contains enough information to let you locate the
@@ -1053,7 +1238,7 @@ export interface ProxyClassSpecStatefulSetPodImagePullSecrets {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodImagePullSecrets' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodImagePullSecrets(
   obj: ProxyClassSpecStatefulSetPodImagePullSecrets | undefined,
 ): Record<string, any> | undefined {
@@ -1067,7 +1252,7 @@ export function toJson_ProxyClassSpecStatefulSetPodImagePullSecrets(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Proxy Pod's security context.
@@ -1154,6 +1339,35 @@ export interface ProxyClassSpecStatefulSetPodSecurityContext {
   readonly runAsUser?: number;
 
   /**
+   * seLinuxChangePolicy defines how the container's SELinux label is applied to all volumes used by the Pod.
+   * It has no effect on nodes that do not support SELinux or to volumes does not support SELinux.
+   * Valid values are "MountOption" and "Recursive".
+   *
+   * "Recursive" means relabeling of all files on all Pod volumes by the container runtime.
+   * This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node.
+   *
+   * "MountOption" mounts all eligible Pod volumes with `-o context` mount option.
+   * This requires all Pods that share the same volume to use the same SELinux label.
+   * It is not possible to share the same volume among privileged and unprivileged Pods.
+   * Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
+   * whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
+   * CSIDriver instance. Other volumes are always re-labelled recursively.
+   * "MountOption" value is allowed only when SELinuxMount feature gate is enabled.
+   *
+   * If not specified and SELinuxMount feature gate is enabled, "MountOption" is used.
+   * If not specified and SELinuxMount feature gate is disabled, "MountOption" is used for ReadWriteOncePod volumes
+   * and "Recursive" for all other volumes.
+   *
+   * This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
+   *
+   * All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema ProxyClassSpecStatefulSetPodSecurityContext#seLinuxChangePolicy
+   */
+  readonly seLinuxChangePolicy?: string;
+
+  /**
    * The SELinux context to be applied to all containers.
    * If unspecified, the container runtime will allocate a random SELinux context for each
    * container.  May also be set in SecurityContext.  If set in
@@ -1176,17 +1390,30 @@ export interface ProxyClassSpecStatefulSetPodSecurityContext {
     ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile;
 
   /**
-   * A list of groups applied to the first process run in each container, in addition
-   * to the container's primary GID, the fsGroup (if specified), and group memberships
-   * defined in the container image for the uid of the container process. If unspecified,
-   * no additional groups are added to any container. Note that group memberships
-   * defined in the container image for the uid of the container process are still effective,
-   * even if they are not included in this list.
+   * A list of groups applied to the first process run in each container, in
+   * addition to the container's primary GID and fsGroup (if specified).  If
+   * the SupplementalGroupsPolicy feature is enabled, the
+   * supplementalGroupsPolicy field determines whether these are in addition
+   * to or instead of any group memberships defined in the container image.
+   * If unspecified, no additional groups are added, though group memberships
+   * defined in the container image may still be used, depending on the
+   * supplementalGroupsPolicy field.
    * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema ProxyClassSpecStatefulSetPodSecurityContext#supplementalGroups
    */
   readonly supplementalGroups?: number[];
+
+  /**
+   * Defines how supplemental groups of the first container processes are calculated.
+   * Valid values are "Merge" and "Strict". If not specified, "Merge" is used.
+   * (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled
+   * and the container runtime must implement support for this feature.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema ProxyClassSpecStatefulSetPodSecurityContext#supplementalGroupsPolicy
+   */
+  readonly supplementalGroupsPolicy?: string;
 
   /**
    * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
@@ -1212,7 +1439,7 @@ export interface ProxyClassSpecStatefulSetPodSecurityContext {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodSecurityContext' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodSecurityContext(
   obj: ProxyClassSpecStatefulSetPodSecurityContext | undefined,
 ): Record<string, any> | undefined {
@@ -1227,6 +1454,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContext(
     "runAsGroup": obj.runAsGroup,
     "runAsNonRoot": obj.runAsNonRoot,
     "runAsUser": obj.runAsUser,
+    "seLinuxChangePolicy": obj.seLinuxChangePolicy,
     "seLinuxOptions":
       toJson_ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions(
         obj.seLinuxOptions,
@@ -1236,6 +1464,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContext(
         obj.seccompProfile,
       ),
     "supplementalGroups": obj.supplementalGroups?.map((y) => y),
+    "supplementalGroupsPolicy": obj.supplementalGroupsPolicy,
     "sysctls": obj.sysctls?.map((y) =>
       toJson_ProxyClassSpecStatefulSetPodSecurityContextSysctls(y)
     ),
@@ -1250,7 +1479,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContext(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configuration for the proxy container running tailscale.
@@ -1258,6 +1487,14 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContext(
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainer
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleContainer {
+  /**
+   * Configuration for enabling extra debug information in the container.
+   * Not recommended for production use.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleContainer#debug
+   */
+  readonly debug?: ProxyClassSpecStatefulSetPodTailscaleContainerDebug;
+
   /**
    * List of environment variables to set in the container.
    * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables
@@ -1308,11 +1545,12 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainer {
 
   /**
    * Container security context.
-   * Security context specified here will override the security context by the operator.
-   * By default the operator:
-   * - sets 'privileged: true' for the init container
-   * - set NET_ADMIN capability for tailscale container for proxies that
-   * are created for Services or Connector.
+   * Security context specified here will override the security context set by the operator.
+   * By default the operator sets the Tailscale container and the Tailscale init container to privileged
+   * for proxies created for Tailscale ingress and egress Service, Connector and ProxyGroup.
+   * You can reduce the permissions of the Tailscale container to cap NET_ADMIN by
+   * installing device plugin in your cluster and configuring the proxies tun device to be created
+   * by the device plugin, see  https://github.com/tailscale/tailscale/issues/10814#issuecomment-2479977752
    * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainer#securityContext
@@ -1324,12 +1562,15 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainer {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainer' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainer(
   obj: ProxyClassSpecStatefulSetPodTailscaleContainer | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "debug": toJson_ProxyClassSpecStatefulSetPodTailscaleContainerDebug(
+      obj.debug,
+    ),
     "env": obj.env?.map((y) =>
       toJson_ProxyClassSpecStatefulSetPodTailscaleContainerEnv(y)
     ),
@@ -1349,7 +1590,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainer(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configuration for the proxy init container that enables forwarding.
@@ -1357,6 +1598,14 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainer(
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer
  */
 export interface ProxyClassSpecStatefulSetPodTailscaleInitContainer {
+  /**
+   * Configuration for enabling extra debug information in the container.
+   * Not recommended for production use.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer#debug
+   */
+  readonly debug?: ProxyClassSpecStatefulSetPodTailscaleInitContainerDebug;
+
   /**
    * List of environment variables to set in the container.
    * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#environment-variables
@@ -1408,11 +1657,12 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainer {
 
   /**
    * Container security context.
-   * Security context specified here will override the security context by the operator.
-   * By default the operator:
-   * - sets 'privileged: true' for the init container
-   * - set NET_ADMIN capability for tailscale container for proxies that
-   * are created for Services or Connector.
+   * Security context specified here will override the security context set by the operator.
+   * By default the operator sets the Tailscale container and the Tailscale init container to privileged
+   * for proxies created for Tailscale ingress and egress Service, Connector and ProxyGroup.
+   * You can reduce the permissions of the Tailscale container to cap NET_ADMIN by
+   * installing device plugin in your cluster and configuring the proxies tun device to be created
+   * by the device plugin, see  https://github.com/tailscale/tailscale/issues/10814#issuecomment-2479977752
    * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer#securityContext
@@ -1424,12 +1674,15 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainer {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainer' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainer(
   obj: ProxyClassSpecStatefulSetPodTailscaleInitContainer | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
+    "debug": toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerDebug(
+      obj.debug,
+    ),
     "env": obj.env?.map((y) =>
       toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv(y)
     ),
@@ -1450,7 +1703,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainer(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The pod this Toleration is attached to tolerates any taint that matches
@@ -1508,7 +1761,7 @@ export interface ProxyClassSpecStatefulSetPodTolerations {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTolerations' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTolerations(
   obj: ProxyClassSpecStatefulSetPodTolerations | undefined,
 ): Record<string, any> | undefined {
@@ -1526,7 +1779,184 @@ export function toJson_ProxyClassSpecStatefulSetPodTolerations(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * TopologySpreadConstraint specifies how to spread matching pods among the given topology.
+ *
+ * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraints
+ */
+export interface ProxyClassSpecStatefulSetPodTopologySpreadConstraints {
+  /**
+   * LabelSelector is used to find matching pods.
+   * Pods that match this label selector are counted to determine the number of pods
+   * in their corresponding topology domain.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraints#labelSelector
+   */
+  readonly labelSelector?:
+    ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector;
+
+  /**
+   * MatchLabelKeys is a set of pod label keys to select the pods over which
+   * spreading will be calculated. The keys are used to lookup values from the
+   * incoming pod labels, those key-value labels are ANDed with labelSelector
+   * to select the group of existing pods over which spreading will be calculated
+   * for the incoming pod. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector.
+   * MatchLabelKeys cannot be set when LabelSelector isn't set.
+   * Keys that don't exist in the incoming pod labels will
+   * be ignored. A null or empty list means only match against labelSelector.
+   *
+   * This is a beta field and requires the MatchLabelKeysInPodTopologySpread feature gate to be enabled (enabled by default).
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraints#matchLabelKeys
+   */
+  readonly matchLabelKeys?: string[];
+
+  /**
+   * MaxSkew describes the degree to which pods may be unevenly distributed.
+   * When `whenUnsatisfiable=DoNotSchedule`, it is the maximum permitted difference
+   * between the number of matching pods in the target topology and the global minimum.
+   * The global minimum is the minimum number of matching pods in an eligible domain
+   * or zero if the number of eligible domains is less than MinDomains.
+   * For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same
+   * labelSelector spread as 2/2/1:
+   * In this case, the global minimum is 1.
+   * | zone1 | zone2 | zone3 |
+   * |  P P  |  P P  |   P   |
+   * - if MaxSkew is 1, incoming pod can only be scheduled to zone3 to become 2/2/2;
+   * scheduling it onto zone1(zone2) would make the ActualSkew(3-1) on zone1(zone2)
+   * violate MaxSkew(1).
+   * - if MaxSkew is 2, incoming pod can be scheduled onto any zone.
+   * When `whenUnsatisfiable=ScheduleAnyway`, it is used to give higher precedence
+   * to topologies that satisfy it.
+   * It's a required field. Default value is 1 and 0 is not allowed.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraints#maxSkew
+   */
+  readonly maxSkew: number;
+
+  /**
+   * MinDomains indicates a minimum number of eligible domains.
+   * When the number of eligible domains with matching topology keys is less than minDomains,
+   * Pod Topology Spread treats "global minimum" as 0, and then the calculation of Skew is performed.
+   * And when the number of eligible domains with matching topology keys equals or greater than minDomains,
+   * this value has no effect on scheduling.
+   * As a result, when the number of eligible domains is less than minDomains,
+   * scheduler won't schedule more than maxSkew Pods to those domains.
+   * If value is nil, the constraint behaves as if MinDomains is equal to 1.
+   * Valid values are integers greater than 0.
+   * When value is not nil, WhenUnsatisfiable must be DoNotSchedule.
+   *
+   * For example, in a 3-zone cluster, MaxSkew is set to 2, MinDomains is set to 5 and pods with the same
+   * labelSelector spread as 2/2/2:
+   * | zone1 | zone2 | zone3 |
+   * |  P P  |  P P  |  P P  |
+   * The number of domains is less than 5(MinDomains), so "global minimum" is treated as 0.
+   * In this situation, new pod with the same labelSelector cannot be scheduled,
+   * because computed skew will be 3(3 - 0) if new Pod is scheduled to any of the three zones,
+   * it will violate MaxSkew.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraints#minDomains
+   */
+  readonly minDomains?: number;
+
+  /**
+   * NodeAffinityPolicy indicates how we will treat Pod's nodeAffinity/nodeSelector
+   * when calculating pod topology spread skew. Options are:
+   * - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations.
+   * - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations.
+   *
+   * If this value is nil, the behavior is equivalent to the Honor policy.
+   * This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraints#nodeAffinityPolicy
+   */
+  readonly nodeAffinityPolicy?: string;
+
+  /**
+   * NodeTaintsPolicy indicates how we will treat node taints when calculating
+   * pod topology spread skew. Options are:
+   * - Honor: nodes without taints, along with tainted nodes for which the incoming pod
+   * has a toleration, are included.
+   * - Ignore: node taints are ignored. All nodes are included.
+   *
+   * If this value is nil, the behavior is equivalent to the Ignore policy.
+   * This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraints#nodeTaintsPolicy
+   */
+  readonly nodeTaintsPolicy?: string;
+
+  /**
+   * TopologyKey is the key of node labels. Nodes that have a label with this key
+   * and identical values are considered to be in the same topology.
+   * We consider each <key, value> as a "bucket", and try to put balanced number
+   * of pods into each bucket.
+   * We define a domain as a particular instance of a topology.
+   * Also, we define an eligible domain as a domain whose nodes meet the requirements of
+   * nodeAffinityPolicy and nodeTaintsPolicy.
+   * e.g. If TopologyKey is "kubernetes.io/hostname", each Node is a domain of that topology.
+   * And, if TopologyKey is "topology.kubernetes.io/zone", each zone is a domain of that topology.
+   * It's a required field.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraints#topologyKey
+   */
+  readonly topologyKey: string;
+
+  /**
+   * WhenUnsatisfiable indicates how to deal with a pod if it doesn't satisfy
+   * the spread constraint.
+   * - DoNotSchedule (default) tells the scheduler not to schedule it.
+   * - ScheduleAnyway tells the scheduler to schedule the pod in any location,
+   * but giving higher precedence to topologies that would help reduce the
+   * skew.
+   * A constraint is considered "Unsatisfiable" for an incoming pod
+   * if and only if every possible node assignment for that pod would violate
+   * "MaxSkew" on some topology.
+   * For example, in a 3-zone cluster, MaxSkew is set to 1, and pods with the same
+   * labelSelector spread as 3/1/1:
+   * | zone1 | zone2 | zone3 |
+   * | P P P |   P   |   P   |
+   * If WhenUnsatisfiable is set to DoNotSchedule, incoming pod can only be scheduled
+   * to zone2(zone3) to become 3/2/1(3/1/2) as ActualSkew(2-1) on zone2(zone3) satisfies
+   * MaxSkew(1). In other words, the cluster can still be imbalanced, but scheduler
+   * won't make it *more* imbalanced.
+   * It's a required field.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraints#whenUnsatisfiable
+   */
+  readonly whenUnsatisfiable: string;
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStatefulSetPodTopologySpreadConstraints' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraints(
+  obj: ProxyClassSpecStatefulSetPodTopologySpreadConstraints | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "labelSelector":
+      toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector(
+        obj.labelSelector,
+      ),
+    "matchLabelKeys": obj.matchLabelKeys?.map((y) => y),
+    "maxSkew": obj.maxSkew,
+    "minDomains": obj.minDomains,
+    "nodeAffinityPolicy": obj.nodeAffinityPolicy,
+    "nodeTaintsPolicy": obj.nodeTaintsPolicy,
+    "topologyKey": obj.topologyKey,
+    "whenUnsatisfiable": obj.whenUnsatisfiable,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Describes node affinity scheduling rules for the pod.
@@ -1566,7 +1996,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinity {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityNodeAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinity(
   obj: ProxyClassSpecStatefulSetPodAffinityNodeAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -1589,7 +2019,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
@@ -1631,7 +2061,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinity {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinity(
   obj: ProxyClassSpecStatefulSetPodAffinityPodAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -1656,7 +2086,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
@@ -1698,7 +2128,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity(
   obj: ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -1723,7 +2153,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * appArmorProfile is the AppArmor options to use by the containers in this pod.
@@ -1757,7 +2187,7 @@ export interface ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile(
   obj: ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile | undefined,
 ): Record<string, any> | undefined {
@@ -1772,7 +2202,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfil
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The SELinux context to be applied to all containers.
@@ -1817,7 +2247,7 @@ export interface ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions(
   obj: ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions | undefined,
 ): Record<string, any> | undefined {
@@ -1834,7 +2264,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The seccomp options to use by the containers in this pod.
@@ -1869,7 +2299,7 @@ export interface ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile(
   obj: ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile | undefined,
 ): Record<string, any> | undefined {
@@ -1884,7 +2314,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Sysctl defines a kernel parameter to be set
@@ -1910,7 +2340,7 @@ export interface ProxyClassSpecStatefulSetPodSecurityContextSysctls {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodSecurityContextSysctls' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodSecurityContextSysctls(
   obj: ProxyClassSpecStatefulSetPodSecurityContextSysctls | undefined,
 ): Record<string, any> | undefined {
@@ -1925,7 +2355,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextSysctls(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The Windows specific settings applied to all containers.
@@ -1977,7 +2407,7 @@ export interface ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions(
   obj: ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions | undefined,
 ): Record<string, any> | undefined {
@@ -1994,7 +2424,50 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * Configuration for enabling extra debug information in the container.
+ * Not recommended for production use.
+ *
+ * @schema ProxyClassSpecStatefulSetPodTailscaleContainerDebug
+ */
+export interface ProxyClassSpecStatefulSetPodTailscaleContainerDebug {
+  /**
+   * Enable tailscaled's HTTP pprof endpoints at <pod-ip>:9001/debug/pprof/
+   * and internal debug metrics endpoint at <pod-ip>:9001/debug/metrics, where
+   * 9001 is a container port named "debug". The endpoints and their responses
+   * may change in backwards incompatible ways in the future, and should not
+   * be considered stable.
+   *
+   * In 1.78.x and 1.80.x, this setting will default to the value of
+   * .spec.metrics.enable, and requests to the "metrics" port matching the
+   * mux pattern /debug/ will be forwarded to the "debug" port. In 1.82.x,
+   * this setting will default to false, and no requests will be proxied.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleContainerDebug#enable
+   */
+  readonly enable?: boolean;
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainerDebug' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerDebug(
+  obj: ProxyClassSpecStatefulSetPodTailscaleContainerDebug | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "enable": obj.enable,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerEnv
@@ -2026,7 +2499,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerEnv {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainerEnv' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerEnv(
   obj: ProxyClassSpecStatefulSetPodTailscaleContainerEnv | undefined,
 ): Record<string, any> | undefined {
@@ -2041,7 +2514,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerEnv(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always.
@@ -2112,7 +2585,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerResources {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainerResources' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResources(
   obj: ProxyClassSpecStatefulSetPodTailscaleContainerResources | undefined,
 ): Record<string, any> | undefined {
@@ -2140,15 +2613,16 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResources(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Container security context.
- * Security context specified here will override the security context by the operator.
- * By default the operator:
- * - sets 'privileged: true' for the init container
- * - set NET_ADMIN capability for tailscale container for proxies that
- * are created for Services or Connector.
+ * Security context specified here will override the security context set by the operator.
+ * By default the operator sets the Tailscale container and the Tailscale init container to privileged
+ * for proxies created for Tailscale ingress and egress Service, Connector and ProxyGroup.
+ * You can reduce the permissions of the Tailscale container to cap NET_ADMIN by
+ * installing device plugin in your cluster and configuring the proxies tun device to be created
+ * by the device plugin, see  https://github.com/tailscale/tailscale/issues/10814#issuecomment-2479977752
  * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext
@@ -2201,7 +2675,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext {
 
   /**
    * procMount denotes the type of proc mount to use for the containers.
-   * The default is DefaultProcMount which uses the container runtime defaults for
+   * The default value is Default which uses the container runtime defaults for
    * readonly paths and masked paths.
    * This requires the ProcMountType feature flag to be enabled.
    * Note that this field cannot be set when spec.os.name is windows.
@@ -2293,7 +2767,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext
@@ -2335,7 +2809,50 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * Configuration for enabling extra debug information in the container.
+ * Not recommended for production use.
+ *
+ * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerDebug
+ */
+export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerDebug {
+  /**
+   * Enable tailscaled's HTTP pprof endpoints at <pod-ip>:9001/debug/pprof/
+   * and internal debug metrics endpoint at <pod-ip>:9001/debug/metrics, where
+   * 9001 is a container port named "debug". The endpoints and their responses
+   * may change in backwards incompatible ways in the future, and should not
+   * be considered stable.
+   *
+   * In 1.78.x and 1.80.x, this setting will default to the value of
+   * .spec.metrics.enable, and requests to the "metrics" port matching the
+   * mux pattern /debug/ will be forwarded to the "debug" port. In 1.82.x,
+   * this setting will default to false, and no requests will be proxied.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerDebug#enable
+   */
+  readonly enable?: boolean;
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainerDebug' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerDebug(
+  obj: ProxyClassSpecStatefulSetPodTailscaleInitContainerDebug | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "enable": obj.enable,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv
@@ -2367,7 +2884,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv(
   obj: ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv | undefined,
 ): Record<string, any> | undefined {
@@ -2382,7 +2899,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always.
@@ -2453,7 +2970,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerResources {
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainerResources' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResources(
   obj: ProxyClassSpecStatefulSetPodTailscaleInitContainerResources | undefined,
 ): Record<string, any> | undefined {
@@ -2483,15 +3000,16 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResourc
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Container security context.
- * Security context specified here will override the security context by the operator.
- * By default the operator:
- * - sets 'privileged: true' for the init container
- * - set NET_ADMIN capability for tailscale container for proxies that
- * are created for Services or Connector.
+ * Security context specified here will override the security context set by the operator.
+ * By default the operator sets the Tailscale container and the Tailscale init container to privileged
+ * for proxies created for Tailscale ingress and egress Service, Connector and ProxyGroup.
+ * You can reduce the permissions of the Tailscale container to cap NET_ADMIN by
+ * installing device plugin in your cluster and configuring the proxies tun device to be created
+ * by the device plugin, see  https://github.com/tailscale/tailscale/issues/10814#issuecomment-2479977752
  * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#security-context
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext
@@ -2544,7 +3062,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
 
   /**
    * procMount denotes the type of proc mount to use for the containers.
-   * The default is DefaultProcMount which uses the container runtime defaults for
+   * The default value is Default which uses the container runtime defaults for
    * readonly paths and masked paths.
    * This requires the ProcMountType feature flag to be enabled.
    * Note that this field cannot be set when spec.os.name is windows.
@@ -2636,7 +3154,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext
@@ -2678,7 +3196,64 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * LabelSelector is used to find matching pods.
+ * Pods that match this label selector are counted to determine the number of pods
+ * in their corresponding topology domain.
+ *
+ * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector
+ */
+export interface ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector {
+  /**
+   * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector#matchExpressions
+   */
+  readonly matchExpressions?:
+    ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions[];
+
+  /**
+   * matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
+   * map is equivalent to an element of matchExpressions, whose key field is "key", the
+   * operator is "In", and the values array contains only "value". The requirements are ANDed.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector#matchLabels
+   */
+  readonly matchLabels?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector(
+  obj:
+    | ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "matchExpressions": obj.matchExpressions?.map((y) =>
+      toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions(
+        y,
+      )
+    ),
+    "matchLabels": ((obj.matchLabels) === undefined)
+      ? undefined
+      : (Object.entries(obj.matchLabels).reduce(
+        (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+        {},
+      )),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * An empty preferred scheduling term matches all objects with implicit weight 0
@@ -2706,7 +3281,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuring
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
@@ -2726,7 +3301,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * If the affinity requirements specified by this field are not met at
@@ -2750,7 +3325,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringS
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
@@ -2770,7 +3345,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredD
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
@@ -2798,7 +3373,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
@@ -2818,7 +3393,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Defines a set of pods (namely those matching the labelSelector
@@ -2849,7 +3424,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
@@ -2864,7 +3439,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
@@ -2907,7 +3482,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
@@ -2934,7 +3509,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
@@ -2962,7 +3537,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
@@ -2982,7 +3557,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Defines a set of pods (namely those matching the labelSelector
@@ -3013,7 +3588,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
@@ -3028,7 +3603,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
@@ -3071,7 +3646,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
@@ -3098,7 +3673,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourceClaim references one entry in PodSpec.ResourceClaims.
@@ -3114,12 +3689,21 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims {
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims#name
    */
   readonly name: string;
+
+  /**
+   * Request is the name chosen for a request in the referenced claim.
+   * If empty, everything from the claim is made available, otherwise
+   * only the result of this request.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims#request
+   */
+  readonly request?: string;
 }
 
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims
@@ -3128,6 +3712,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResourcesCl
   if (obj === undefined) return undefined;
   const result = {
     "name": obj.name,
+    "request": obj.request,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -3135,7 +3720,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResourcesCl
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits
@@ -3214,7 +3799,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAp
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile
@@ -3231,7 +3816,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The capabilities to add/drop when running containers.
@@ -3260,7 +3845,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCa
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities
@@ -3277,7 +3862,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The SELinux context to be applied to the container.
@@ -3321,7 +3906,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSe
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeLinuxOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeLinuxOptions(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeLinuxOptions
@@ -3340,7 +3925,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The seccomp options to use by this container. If seccomp options are
@@ -3377,7 +3962,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSe
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile
@@ -3394,7 +3979,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The Windows specific settings applied to all containers.
@@ -3446,7 +4031,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWi
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions
@@ -3465,7 +4050,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourceClaim references one entry in PodSpec.ResourceClaims.
@@ -3481,12 +4066,21 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClai
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims#name
    */
   readonly name: string;
+
+  /**
+   * Request is the name chosen for a request in the referenced claim.
+   * If empty, everything from the claim is made available, otherwise
+   * only the result of this request.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims#request
+   */
+  readonly request?: string;
 }
 
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims
@@ -3495,6 +4089,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResourc
   if (obj === undefined) return undefined;
   const result = {
     "name": obj.name,
+    "request": obj.request,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -3502,7 +4097,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResourc
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits
@@ -3581,7 +4176,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile
@@ -3598,7 +4193,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The capabilities to add/drop when running containers.
@@ -3627,7 +4222,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities
@@ -3644,7 +4239,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The SELinux context to be applied to the container.
@@ -3688,7 +4283,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeLinuxOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeLinuxOptions(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeLinuxOptions
@@ -3707,7 +4302,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The seccomp options to use by this container. If seccomp options are
@@ -3744,7 +4339,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile
@@ -3761,7 +4356,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The Windows specific settings applied to all containers.
@@ -3813,7 +4408,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions(
   obj:
     | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions
@@ -3832,7 +4427,63 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * A label selector requirement is a selector that contains values, a key, and an operator that
+ * relates the key and values.
+ *
+ * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions
+ */
+export interface ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions {
+  /**
+   * key is the label key that the selector applies to.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions#key
+   */
+  readonly key: string;
+
+  /**
+   * operator represents a key's relationship to a set of values.
+   * Valid operators are In, NotIn, Exists and DoesNotExist.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions#operator
+   */
+  readonly operator: string;
+
+  /**
+   * values is an array of string values. If the operator is In or NotIn,
+   * the values array must be non-empty. If the operator is Exists or DoesNotExist,
+   * the values array must be empty. This array is replaced during a strategic
+   * merge patch.
+   *
+   * @schema ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions#values
+   */
+  readonly values?: string[];
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions(
+  obj:
+    | ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions
+    | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "key": obj.key,
+    "operator": obj.operator,
+    "values": obj.values?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector term, associated with the corresponding weight.
@@ -3860,7 +4511,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuring
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
@@ -3885,7 +4536,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A null or empty node selector term matches no objects. The requirements of
@@ -3915,7 +4566,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringS
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
@@ -3940,7 +4591,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredD
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Required. A pod affinity term, associated with the corresponding weight.
@@ -3966,7 +4617,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
@@ -3981,7 +4632,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
@@ -4024,7 +4675,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
@@ -4051,7 +4702,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over a set of resources, in this case pods.
@@ -4081,7 +4732,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
@@ -4107,7 +4758,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over the set of namespaces that the term applies to.
@@ -4140,7 +4791,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
@@ -4166,7 +4817,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Required. A pod affinity term, associated with the corresponding weight.
@@ -4192,7 +4843,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
@@ -4207,7 +4858,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
@@ -4250,7 +4901,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
@@ -4277,7 +4928,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over a set of resources, in this case pods.
@@ -4307,7 +4958,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
@@ -4333,7 +4984,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over the set of namespaces that the term applies to.
@@ -4366,7 +5017,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
@@ -4392,7 +5043,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector requirement is a selector that contains values, a key, and an operator
@@ -4431,7 +5082,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuring
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
@@ -4449,7 +5100,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector requirement is a selector that contains values, a key, and an operator
@@ -4488,7 +5139,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuring
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
@@ -4506,7 +5157,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector requirement is a selector that contains values, a key, and an operator
@@ -4545,7 +5196,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringS
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
@@ -4563,7 +5214,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredD
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector requirement is a selector that contains values, a key, and an operator
@@ -4602,7 +5253,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringS
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
@@ -4620,7 +5271,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredD
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over a set of resources, in this case pods.
@@ -4650,7 +5301,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
@@ -4676,7 +5327,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over the set of namespaces that the term applies to.
@@ -4709,7 +5360,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
@@ -4735,7 +5386,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -4773,7 +5424,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
@@ -4791,7 +5442,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -4829,7 +5480,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
@@ -4847,7 +5498,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over a set of resources, in this case pods.
@@ -4877,7 +5528,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
@@ -4903,7 +5554,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over the set of namespaces that the term applies to.
@@ -4936,7 +5587,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
@@ -4962,7 +5613,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -5000,7 +5651,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
@@ -5018,7 +5669,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -5056,7 +5707,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
@@ -5074,7 +5725,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -5112,7 +5763,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
@@ -5130,7 +5781,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -5168,7 +5819,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
@@ -5186,7 +5837,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -5224,7 +5875,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
@@ -5242,7 +5893,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -5280,7 +5931,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
 /**
  * Converts an object of type 'ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
   obj:
     | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
@@ -5298,9 +5949,221 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
+ * ProxyGroup defines a set of Tailscale devices that will act as proxies.
+Currently only egress ProxyGroups are supported.
+
+Use the tailscale.com/proxy-group annotation on a Service to specify that
+the egress proxy should be implemented by a ProxyGroup instead of a single
+dedicated proxy. In addition to running a highly available set of proxies,
+ProxyGroup also allows for serving many annotated Services from a single
+set of proxies to minimise resource consumption.
+
+More info: https://tailscale.com/kb/1438/kubernetes-operator-cluster-egress
+ *
+ * @schema ProxyGroup
+ */
+export class ProxyGroup extends ApiObject {
+  /**
+   * Returns the apiVersion and kind for "ProxyGroup"
+   */
+  public static readonly GVK: GroupVersionKind = {
+    apiVersion: "tailscale.com/v1alpha1",
+    kind: "ProxyGroup",
+  };
+
+  /**
+   * Renders a Kubernetes manifest for "ProxyGroup".
+   *
+   * This can be used to inline resource manifests inside other objects (e.g. as templates).
+   *
+   * @param props initialization props
+   */
+  public static manifest(props: ProxyGroupProps): any {
+    return {
+      ...ProxyGroup.GVK,
+      ...toJson_ProxyGroupProps(props),
+    };
+  }
+
+  /**
+   * Defines a "ProxyGroup" API object
+   * @param scope the scope in which to define this object
+   * @param id a scope-local name for the object
+   * @param props initialization props
+   */
+  public constructor(scope: Construct, id: string, props: ProxyGroupProps) {
+    super(scope, id, {
+      ...ProxyGroup.GVK,
+      ...props,
+    });
+  }
+
+  /**
+   * Renders the object to Kubernetes JSON.
+   */
+  public override toJson(): any {
+    const resolved = super.toJson();
+
+    return {
+      ...ProxyGroup.GVK,
+      ...toJson_ProxyGroupProps(resolved),
+    };
+  }
+}
+
+/**
+ * ProxyGroup defines a set of Tailscale devices that will act as proxies.
+ * Currently only egress ProxyGroups are supported.
+ *
+ * Use the tailscale.com/proxy-group annotation on a Service to specify that
+ * the egress proxy should be implemented by a ProxyGroup instead of a single
+ * dedicated proxy. In addition to running a highly available set of proxies,
+ * ProxyGroup also allows for serving many annotated Services from a single
+ * set of proxies to minimise resource consumption.
+ *
+ * More info: https://tailscale.com/kb/1438/kubernetes-operator-cluster-egress
+ *
+ * @schema ProxyGroup
+ */
+export interface ProxyGroupProps {
+  /**
+   * @schema ProxyGroup#metadata
+   */
+  readonly metadata?: ApiObjectMetadata;
+
+  /**
+   * Spec describes the desired ProxyGroup instances.
+   *
+   * @schema ProxyGroup#spec
+   */
+  readonly spec: ProxyGroupSpec;
+}
+
+/**
+ * Converts an object of type 'ProxyGroupProps' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyGroupProps(
+  obj: ProxyGroupProps | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "metadata": obj.metadata,
+    "spec": toJson_ProxyGroupSpec(obj.spec),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * Spec describes the desired ProxyGroup instances.
+ *
+ * @schema ProxyGroupSpec
+ */
+export interface ProxyGroupSpec {
+  /**
+   * HostnamePrefix is the hostname prefix to use for tailnet devices created
+   * by the ProxyGroup. Each device will have the integer number from its
+   * StatefulSet pod appended to this prefix to form the full hostname.
+   * HostnamePrefix can contain lower case letters, numbers and dashes, it
+   * must not start with a dash and must be between 1 and 62 characters long.
+   *
+   * @schema ProxyGroupSpec#hostnamePrefix
+   */
+  readonly hostnamePrefix?: string;
+
+  /**
+   * ProxyClass is the name of the ProxyClass custom resource that contains
+   * configuration options that should be applied to the resources created
+   * for this ProxyGroup. If unset, and there is no default ProxyClass
+   * configured, the operator will create resources with the default
+   * configuration.
+   *
+   * @schema ProxyGroupSpec#proxyClass
+   */
+  readonly proxyClass?: string;
+
+  /**
+   * Replicas specifies how many replicas to create the StatefulSet with.
+   * Defaults to 2.
+   *
+   * @default 2.
+   * @schema ProxyGroupSpec#replicas
+   */
+  readonly replicas?: number;
+
+  /**
+   * Tags that the Tailscale devices will be tagged with. Defaults to [tag:k8s].
+   * If you specify custom tags here, make sure you also make the operator
+   * an owner of these tags.
+   * See  https://tailscale.com/kb/1236/kubernetes-operator/#setting-up-the-kubernetes-operator.
+   * Tags cannot be changed once a ProxyGroup device has been created.
+   * Tag values must be in form ^tag:[a-zA-Z][a-zA-Z0-9-]*$.
+   *
+   * @default tag:k8s].
+   * @schema ProxyGroupSpec#tags
+   */
+  readonly tags?: string[];
+
+  /**
+   * Type of the ProxyGroup proxies. Currently the only supported type is egress.
+   * Type is immutable once a ProxyGroup is created.
+   *
+   * @schema ProxyGroupSpec#type
+   */
+  readonly type: ProxyGroupSpecType;
+}
+
+/**
+ * Converts an object of type 'ProxyGroupSpec' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyGroupSpec(
+  obj: ProxyGroupSpec | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) return undefined;
+  const result = {
+    "hostnamePrefix": obj.hostnamePrefix,
+    "proxyClass": obj.proxyClass,
+    "replicas": obj.replicas,
+    "tags": obj.tags?.map((y) => y),
+    "type": obj.type,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined) ? r : ({ ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * Type of the ProxyGroup proxies. Currently the only supported type is egress.
+ * Type is immutable once a ProxyGroup is created.
+ *
+ * @schema ProxyGroupSpecType
+ */
+export enum ProxyGroupSpecType {
+  /** egress */
+  EGRESS = "egress",
+  /** ingress */
+  INGRESS = "ingress",
+}
+
+/**
+ * Recorder defines a tsrecorder device for recording SSH sessions. By default,
+it will store recordings in a local ephemeral volume. If you want to persist
+recordings, you can configure an S3-compatible API for storage.
+
+More info: https://tailscale.com/kb/1484/kubernetes-operator-deploying-tsrecorder
+ *
  * @schema Recorder
  */
 export class Recorder extends ApiObject {
@@ -5353,6 +6216,12 @@ export class Recorder extends ApiObject {
 }
 
 /**
+ * Recorder defines a tsrecorder device for recording SSH sessions. By default,
+ * it will store recordings in a local ephemeral volume. If you want to persist
+ * recordings, you can configure an S3-compatible API for storage.
+ *
+ * More info: https://tailscale.com/kb/1484/kubernetes-operator-deploying-tsrecorder
+ *
  * @schema Recorder
  */
 export interface RecorderProps {
@@ -5372,7 +6241,7 @@ export interface RecorderProps {
 /**
  * Converts an object of type 'RecorderProps' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderProps(
   obj: RecorderProps | undefined,
 ): Record<string, any> | undefined {
@@ -5387,7 +6256,7 @@ export function toJson_RecorderProps(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Spec describes the desired recorder instance.
@@ -5440,7 +6309,7 @@ export interface RecorderSpec {
 /**
  * Converts an object of type 'RecorderSpec' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpec(
   obj: RecorderSpec | undefined,
 ): Record<string, any> | undefined {
@@ -5457,7 +6326,7 @@ export function toJson_RecorderSpec(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configuration parameters for the Recorder's StatefulSet. The operator
@@ -5497,7 +6366,7 @@ export interface RecorderSpecStatefulSet {
 /**
  * Converts an object of type 'RecorderSpecStatefulSet' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSet(
   obj: RecorderSpecStatefulSet | undefined,
 ): Record<string, any> | undefined {
@@ -5523,7 +6392,7 @@ export function toJson_RecorderSpecStatefulSet(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configure where to store session recordings. By default, recordings will
@@ -5545,7 +6414,7 @@ export interface RecorderSpecStorage {
 /**
  * Converts an object of type 'RecorderSpecStorage' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStorage(
   obj: RecorderSpecStorage | undefined,
 ): Record<string, any> | undefined {
@@ -5559,7 +6428,7 @@ export function toJson_RecorderSpecStorage(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configuration for pods created by the Recorder's StatefulSet.
@@ -5641,7 +6510,7 @@ export interface RecorderSpecStatefulSetPod {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPod' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPod(
   obj: RecorderSpecStatefulSetPod | undefined,
 ): Record<string, any> | undefined {
@@ -5683,7 +6552,7 @@ export function toJson_RecorderSpecStatefulSetPod(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configure an S3-compatible API for storage. Required if the UI is not
@@ -5720,7 +6589,7 @@ export interface RecorderSpecStorageS3 {
 /**
  * Converts an object of type 'RecorderSpecStorageS3' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStorageS3(
   obj: RecorderSpecStorageS3 | undefined,
 ): Record<string, any> | undefined {
@@ -5736,7 +6605,7 @@ export function toJson_RecorderSpecStorageS3(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Affinity rules for Recorder Pods. By default, the operator does not
@@ -5771,7 +6640,7 @@ export interface RecorderSpecStatefulSetPodAffinity {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinity(
   obj: RecorderSpecStatefulSetPodAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -5793,7 +6662,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configuration for the Recorder container running tailscale.
@@ -5857,7 +6726,7 @@ export interface RecorderSpecStatefulSetPodContainer {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodContainer' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainer(
   obj: RecorderSpecStatefulSetPodContainer | undefined,
 ): Record<string, any> | undefined {
@@ -5882,7 +6751,7 @@ export function toJson_RecorderSpecStatefulSetPodContainer(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * LocalObjectReference contains enough information to let you locate the
@@ -5906,7 +6775,7 @@ export interface RecorderSpecStatefulSetPodImagePullSecrets {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodImagePullSecrets' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodImagePullSecrets(
   obj: RecorderSpecStatefulSetPodImagePullSecrets | undefined,
 ): Record<string, any> | undefined {
@@ -5920,7 +6789,7 @@ export function toJson_RecorderSpecStatefulSetPodImagePullSecrets(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Security context for Recorder Pods. By default, the operator does not
@@ -6006,6 +6875,35 @@ export interface RecorderSpecStatefulSetPodSecurityContext {
   readonly runAsUser?: number;
 
   /**
+   * seLinuxChangePolicy defines how the container's SELinux label is applied to all volumes used by the Pod.
+   * It has no effect on nodes that do not support SELinux or to volumes does not support SELinux.
+   * Valid values are "MountOption" and "Recursive".
+   *
+   * "Recursive" means relabeling of all files on all Pod volumes by the container runtime.
+   * This may be slow for large volumes, but allows mixing privileged and unprivileged Pods sharing the same volume on the same node.
+   *
+   * "MountOption" mounts all eligible Pod volumes with `-o context` mount option.
+   * This requires all Pods that share the same volume to use the same SELinux label.
+   * It is not possible to share the same volume among privileged and unprivileged Pods.
+   * Eligible volumes are in-tree FibreChannel and iSCSI volumes, and all CSI volumes
+   * whose CSI driver announces SELinux support by setting spec.seLinuxMount: true in their
+   * CSIDriver instance. Other volumes are always re-labelled recursively.
+   * "MountOption" value is allowed only when SELinuxMount feature gate is enabled.
+   *
+   * If not specified and SELinuxMount feature gate is enabled, "MountOption" is used.
+   * If not specified and SELinuxMount feature gate is disabled, "MountOption" is used for ReadWriteOncePod volumes
+   * and "Recursive" for all other volumes.
+   *
+   * This field affects only Pods that have SELinux label set, either in PodSecurityContext or in SecurityContext of all containers.
+   *
+   * All Pods that use the same volume should use the same seLinuxChangePolicy, otherwise some pods can get stuck in ContainerCreating state.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema RecorderSpecStatefulSetPodSecurityContext#seLinuxChangePolicy
+   */
+  readonly seLinuxChangePolicy?: string;
+
+  /**
    * The SELinux context to be applied to all containers.
    * If unspecified, the container runtime will allocate a random SELinux context for each
    * container.  May also be set in SecurityContext.  If set in
@@ -6028,17 +6926,30 @@ export interface RecorderSpecStatefulSetPodSecurityContext {
     RecorderSpecStatefulSetPodSecurityContextSeccompProfile;
 
   /**
-   * A list of groups applied to the first process run in each container, in addition
-   * to the container's primary GID, the fsGroup (if specified), and group memberships
-   * defined in the container image for the uid of the container process. If unspecified,
-   * no additional groups are added to any container. Note that group memberships
-   * defined in the container image for the uid of the container process are still effective,
-   * even if they are not included in this list.
+   * A list of groups applied to the first process run in each container, in
+   * addition to the container's primary GID and fsGroup (if specified).  If
+   * the SupplementalGroupsPolicy feature is enabled, the
+   * supplementalGroupsPolicy field determines whether these are in addition
+   * to or instead of any group memberships defined in the container image.
+   * If unspecified, no additional groups are added, though group memberships
+   * defined in the container image may still be used, depending on the
+   * supplementalGroupsPolicy field.
    * Note that this field cannot be set when spec.os.name is windows.
    *
    * @schema RecorderSpecStatefulSetPodSecurityContext#supplementalGroups
    */
   readonly supplementalGroups?: number[];
+
+  /**
+   * Defines how supplemental groups of the first container processes are calculated.
+   * Valid values are "Merge" and "Strict". If not specified, "Merge" is used.
+   * (Alpha) Using the field requires the SupplementalGroupsPolicy feature gate to be enabled
+   * and the container runtime must implement support for this feature.
+   * Note that this field cannot be set when spec.os.name is windows.
+   *
+   * @schema RecorderSpecStatefulSetPodSecurityContext#supplementalGroupsPolicy
+   */
+  readonly supplementalGroupsPolicy?: string;
 
   /**
    * Sysctls hold a list of namespaced sysctls used for the pod. Pods with unsupported
@@ -6064,7 +6975,7 @@ export interface RecorderSpecStatefulSetPodSecurityContext {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodSecurityContext' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodSecurityContext(
   obj: RecorderSpecStatefulSetPodSecurityContext | undefined,
 ): Record<string, any> | undefined {
@@ -6079,6 +6990,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContext(
     "runAsGroup": obj.runAsGroup,
     "runAsNonRoot": obj.runAsNonRoot,
     "runAsUser": obj.runAsUser,
+    "seLinuxChangePolicy": obj.seLinuxChangePolicy,
     "seLinuxOptions":
       toJson_RecorderSpecStatefulSetPodSecurityContextSeLinuxOptions(
         obj.seLinuxOptions,
@@ -6088,6 +7000,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContext(
         obj.seccompProfile,
       ),
     "supplementalGroups": obj.supplementalGroups?.map((y) => y),
+    "supplementalGroupsPolicy": obj.supplementalGroupsPolicy,
     "sysctls": obj.sysctls?.map((y) =>
       toJson_RecorderSpecStatefulSetPodSecurityContextSysctls(y)
     ),
@@ -6102,7 +7015,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContext(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The pod this Toleration is attached to tolerates any taint that matches
@@ -6160,7 +7073,7 @@ export interface RecorderSpecStatefulSetPodTolerations {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodTolerations' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodTolerations(
   obj: RecorderSpecStatefulSetPodTolerations | undefined,
 ): Record<string, any> | undefined {
@@ -6178,7 +7091,7 @@ export function toJson_RecorderSpecStatefulSetPodTolerations(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Configure environment variable credentials for managing objects in the
@@ -6200,7 +7113,7 @@ export interface RecorderSpecStorageS3Credentials {
 /**
  * Converts an object of type 'RecorderSpecStorageS3Credentials' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStorageS3Credentials(
   obj: RecorderSpecStorageS3Credentials | undefined,
 ): Record<string, any> | undefined {
@@ -6214,7 +7127,7 @@ export function toJson_RecorderSpecStorageS3Credentials(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Describes node affinity scheduling rules for the pod.
@@ -6254,7 +7167,7 @@ export interface RecorderSpecStatefulSetPodAffinityNodeAffinity {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityNodeAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinity(
   obj: RecorderSpecStatefulSetPodAffinityNodeAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -6277,7 +7190,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Describes pod affinity scheduling rules (e.g. co-locate this pod in the same node, zone, etc. as some other pod(s)).
@@ -6319,7 +7232,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinity {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinity(
   obj: RecorderSpecStatefulSetPodAffinityPodAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -6344,7 +7257,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Describes pod anti-affinity scheduling rules (e.g. avoid putting this pod in the same node, zone, etc. as some other pod(s)).
@@ -6386,7 +7299,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinity {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinity' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinity(
   obj: RecorderSpecStatefulSetPodAffinityPodAntiAffinity | undefined,
 ): Record<string, any> | undefined {
@@ -6411,7 +7324,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinity(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * @schema RecorderSpecStatefulSetPodContainerEnv
@@ -6443,7 +7356,7 @@ export interface RecorderSpecStatefulSetPodContainerEnv {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodContainerEnv' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerEnv(
   obj: RecorderSpecStatefulSetPodContainerEnv | undefined,
 ): Record<string, any> | undefined {
@@ -6458,7 +7371,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerEnv(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Image pull policy. One of Always, Never, IfNotPresent. Defaults to Always.
@@ -6524,7 +7437,7 @@ export interface RecorderSpecStatefulSetPodContainerResources {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodContainerResources' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerResources(
   obj: RecorderSpecStatefulSetPodContainerResources | undefined,
 ): Record<string, any> | undefined {
@@ -6552,7 +7465,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerResources(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Container security context. By default, the operator does not apply any
@@ -6609,7 +7522,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContext {
 
   /**
    * procMount denotes the type of proc mount to use for the containers.
-   * The default is DefaultProcMount which uses the container runtime defaults for
+   * The default value is Default which uses the container runtime defaults for
    * readonly paths and masked paths.
    * This requires the ProcMountType feature flag to be enabled.
    * Note that this field cannot be set when spec.os.name is windows.
@@ -6701,7 +7614,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContext {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodContainerSecurityContext' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerSecurityContext(
   obj: RecorderSpecStatefulSetPodContainerSecurityContext | undefined,
 ): Record<string, any> | undefined {
@@ -6741,7 +7654,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContext(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * appArmorProfile is the AppArmor options to use by the containers in this pod.
@@ -6775,7 +7688,7 @@ export interface RecorderSpecStatefulSetPodSecurityContextAppArmorProfile {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodSecurityContextAppArmorProfile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodSecurityContextAppArmorProfile(
   obj: RecorderSpecStatefulSetPodSecurityContextAppArmorProfile | undefined,
 ): Record<string, any> | undefined {
@@ -6790,7 +7703,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContextAppArmorProfile(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The SELinux context to be applied to all containers.
@@ -6835,7 +7748,7 @@ export interface RecorderSpecStatefulSetPodSecurityContextSeLinuxOptions {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodSecurityContextSeLinuxOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodSecurityContextSeLinuxOptions(
   obj: RecorderSpecStatefulSetPodSecurityContextSeLinuxOptions | undefined,
 ): Record<string, any> | undefined {
@@ -6852,7 +7765,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContextSeLinuxOptions(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The seccomp options to use by the containers in this pod.
@@ -6887,7 +7800,7 @@ export interface RecorderSpecStatefulSetPodSecurityContextSeccompProfile {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodSecurityContextSeccompProfile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodSecurityContextSeccompProfile(
   obj: RecorderSpecStatefulSetPodSecurityContextSeccompProfile | undefined,
 ): Record<string, any> | undefined {
@@ -6902,7 +7815,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContextSeccompProfile(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Sysctl defines a kernel parameter to be set
@@ -6928,7 +7841,7 @@ export interface RecorderSpecStatefulSetPodSecurityContextSysctls {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodSecurityContextSysctls' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodSecurityContextSysctls(
   obj: RecorderSpecStatefulSetPodSecurityContextSysctls | undefined,
 ): Record<string, any> | undefined {
@@ -6943,7 +7856,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContextSysctls(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The Windows specific settings applied to all containers.
@@ -6995,7 +7908,7 @@ export interface RecorderSpecStatefulSetPodSecurityContextWindowsOptions {
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodSecurityContextWindowsOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodSecurityContextWindowsOptions(
   obj: RecorderSpecStatefulSetPodSecurityContextWindowsOptions | undefined,
 ): Record<string, any> | undefined {
@@ -7012,7 +7925,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContextWindowsOptions(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Use a Kubernetes Secret from the operator's namespace as the source of
@@ -7036,7 +7949,7 @@ export interface RecorderSpecStorageS3CredentialsSecret {
 /**
  * Converts an object of type 'RecorderSpecStorageS3CredentialsSecret' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStorageS3CredentialsSecret(
   obj: RecorderSpecStorageS3CredentialsSecret | undefined,
 ): Record<string, any> | undefined {
@@ -7050,7 +7963,7 @@ export function toJson_RecorderSpecStorageS3CredentialsSecret(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * An empty preferred scheduling term matches all objects with implicit weight 0
@@ -7078,7 +7991,7 @@ export interface RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSc
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
   obj:
     | RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
@@ -7098,7 +8011,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDu
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * If the affinity requirements specified by this field are not met at
@@ -7122,7 +8035,7 @@ export interface RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSch
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
   obj:
     | RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
@@ -7142,7 +8055,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDur
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
@@ -7170,7 +8083,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSch
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
@@ -7190,7 +8103,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Defines a set of pods (namely those matching the labelSelector
@@ -7221,7 +8134,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSche
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
@@ -7236,7 +8149,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSche
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
@@ -7279,7 +8192,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSche
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
@@ -7306,7 +8219,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuri
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)
@@ -7334,7 +8247,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDurin
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
@@ -7354,7 +8267,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Defines a set of pods (namely those matching the labelSelector
@@ -7385,7 +8298,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuring
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
@@ -7400,7 +8313,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuring
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
@@ -7443,7 +8356,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuring
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
@@ -7470,7 +8383,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequired
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * ResourceClaim references one entry in PodSpec.ResourceClaims.
@@ -7486,18 +8399,28 @@ export interface RecorderSpecStatefulSetPodContainerResourcesClaims {
    * @schema RecorderSpecStatefulSetPodContainerResourcesClaims#name
    */
   readonly name: string;
+
+  /**
+   * Request is the name chosen for a request in the referenced claim.
+   * If empty, everything from the claim is made available, otherwise
+   * only the result of this request.
+   *
+   * @schema RecorderSpecStatefulSetPodContainerResourcesClaims#request
+   */
+  readonly request?: string;
 }
 
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodContainerResourcesClaims' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerResourcesClaims(
   obj: RecorderSpecStatefulSetPodContainerResourcesClaims | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) return undefined;
   const result = {
     "name": obj.name,
+    "request": obj.request,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -7505,7 +8428,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerResourcesClaims(
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * @schema RecorderSpecStatefulSetPodContainerResourcesLimits
@@ -7576,7 +8499,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContextAppArmorProfi
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodContainerSecurityContextAppArmorProfile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextAppArmorProfile(
   obj:
     | RecorderSpecStatefulSetPodContainerSecurityContextAppArmorProfile
@@ -7593,7 +8516,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextAppArmo
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The capabilities to add/drop when running containers.
@@ -7622,7 +8545,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContextCapabilities 
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodContainerSecurityContextCapabilities' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextCapabilities(
   obj:
     | RecorderSpecStatefulSetPodContainerSecurityContextCapabilities
@@ -7639,7 +8562,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextCapabil
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The SELinux context to be applied to the container.
@@ -7683,7 +8606,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContextSeLinuxOption
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodContainerSecurityContextSeLinuxOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeLinuxOptions(
   obj:
     | RecorderSpecStatefulSetPodContainerSecurityContextSeLinuxOptions
@@ -7702,7 +8625,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeLinux
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The seccomp options to use by this container. If seccomp options are
@@ -7739,7 +8662,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContextSeccompProfil
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodContainerSecurityContextSeccompProfile' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeccompProfile(
   obj:
     | RecorderSpecStatefulSetPodContainerSecurityContextSeccompProfile
@@ -7756,7 +8679,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeccomp
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * The Windows specific settings applied to all containers.
@@ -7808,7 +8731,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContextWindowsOption
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodContainerSecurityContextWindowsOptions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextWindowsOptions(
   obj:
     | RecorderSpecStatefulSetPodContainerSecurityContextWindowsOptions
@@ -7827,7 +8750,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextWindows
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector term, associated with the corresponding weight.
@@ -7855,7 +8778,7 @@ export interface RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSc
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
   obj:
     | RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
@@ -7880,7 +8803,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDu
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A null or empty node selector term matches no objects. The requirements of
@@ -7910,7 +8833,7 @@ export interface RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSch
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
   obj:
     | RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
@@ -7935,7 +8858,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDur
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Required. A pod affinity term, associated with the corresponding weight.
@@ -7961,7 +8884,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSch
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
@@ -7976,7 +8899,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSch
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
@@ -8019,7 +8942,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSch
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
@@ -8046,7 +8969,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over a set of resources, in this case pods.
@@ -8076,7 +8999,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSche
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
@@ -8102,7 +9025,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuri
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over the set of namespaces that the term applies to.
@@ -8135,7 +9058,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSche
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
@@ -8161,7 +9084,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuri
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * Required. A pod affinity term, associated with the corresponding weight.
@@ -8187,7 +9110,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDurin
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
@@ -8202,7 +9125,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDurin
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is an alpha field and requires enabling MatchLabelKeysInPodAffinity feature gate.
+   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
@@ -8245,7 +9168,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDurin
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm
@@ -8272,7 +9195,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over a set of resources, in this case pods.
@@ -8302,7 +9225,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuring
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector
@@ -8328,7 +9251,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequired
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over the set of namespaces that the term applies to.
@@ -8361,7 +9284,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuring
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelector
@@ -8387,7 +9310,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequired
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector requirement is a selector that contains values, a key, and an operator
@@ -8426,7 +9349,7 @@ export interface RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSc
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
   obj:
     | RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
@@ -8444,7 +9367,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDu
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector requirement is a selector that contains values, a key, and an operator
@@ -8483,7 +9406,7 @@ export interface RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSc
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
   obj:
     | RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
@@ -8501,7 +9424,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDu
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector requirement is a selector that contains values, a key, and an operator
@@ -8540,7 +9463,7 @@ export interface RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSch
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions(
   obj:
     | RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchExpressions
@@ -8558,7 +9481,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDur
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A node selector requirement is a selector that contains values, a key, and an operator
@@ -8597,7 +9520,7 @@ export interface RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSch
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
   obj:
     | RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
@@ -8615,7 +9538,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDur
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over a set of resources, in this case pods.
@@ -8645,7 +9568,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSch
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
@@ -8671,7 +9594,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over the set of namespaces that the term applies to.
@@ -8704,7 +9627,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSch
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
@@ -8730,7 +9653,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -8768,7 +9691,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSche
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
@@ -8786,7 +9709,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuri
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -8824,7 +9747,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSche
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
@@ -8842,7 +9765,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuri
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over a set of resources, in this case pods.
@@ -8872,7 +9795,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDurin
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelector
@@ -8898,7 +9821,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label query over the set of namespaces that the term applies to.
@@ -8931,7 +9854,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDurin
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelector
@@ -8957,7 +9880,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -8995,7 +9918,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuring
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchExpressions
@@ -9013,7 +9936,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequired
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -9051,7 +9974,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuring
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionNamespaceSelectorMatchExpressions
@@ -9069,7 +9992,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequired
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -9107,7 +10030,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSch
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
@@ -9125,7 +10048,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -9163,7 +10086,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSch
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
@@ -9181,7 +10104,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -9219,7 +10142,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDurin
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermLabelSelectorMatchExpressions
@@ -9237,7 +10160,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
  * A label selector requirement is a selector that contains values, a key, and an operator that
@@ -9275,7 +10198,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDurin
 /**
  * Converts an object of type 'RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions' to JSON representation.
  */
-/* eslint-disable max-len, quote-props */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions(
   obj:
     | RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTermNamespaceSelectorMatchExpressions
@@ -9293,4 +10216,4 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     {},
   );
 }
-/* eslint-enable max-len, quote-props */
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
