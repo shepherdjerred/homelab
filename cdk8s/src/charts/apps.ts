@@ -23,8 +23,6 @@ export function createAppsChart(app: App) {
     disableResourceNameHashes: true,
   });
 
-  
-
   new Namespace(chart, `scout-beta-namespace`, {
     metadata: {
       name: `scout-beta`,
