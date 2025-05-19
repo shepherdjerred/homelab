@@ -1,5 +1,2 @@
 cluster:
   allowSchedulingOnControlPlanes: true
-  # apiServer:
-  #   extraArgs:
-  #     service-port-range: "8000-32767"
