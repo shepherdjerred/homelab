@@ -5,8 +5,8 @@ import {
   VolumeSnapshotClassDeletionPolicy,
 } from "../imports/snapshot.storage.k8s.io.ts";
 
-export const SSD_STORAGE_CLASS = "host-zfs-ssd";
-export const HDD_STORAGE_CLASS = "host-zfs-hdd";
+export const SSD_STORAGE_CLASS = "zfs-ssd";
+export const HDD_STORAGE_CLASS = "zfs-hdd";
 
 export function createStorageClasses(chart: Chart) {
   new KubeStorageClass(chart, "host-zfs-ssd", {
