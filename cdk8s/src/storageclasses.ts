@@ -15,13 +15,14 @@ export function createStorageClasses(chart: Chart) {
     allowVolumeExpansion: true,
     reclaimPolicy: "Retain",
     parameters: {
-      fstype: "zfs",
+      "csi.storage.k8s.io/fstype": "zfs",
       poolname: "zfspv-pool-nvme",
       compression: "off",
       dedup: "off",
       recordsize: "128k",
       shared: "yes",
     },
+    volumeBindingMode: "WaitForFirstConsumer",
   });
 
   new KubeStorageClass(chart, "host-zfs-hdd", {
@@ -30,13 +31,14 @@ export function createStorageClasses(chart: Chart) {
     allowVolumeExpansion: true,
     reclaimPolicy: "Retain",
     parameters: {
-      fstype: "zfs",
+      "csi.storage.k8s.io/fstype": "zfs",
       poolname: "zfspv-pool-hdd",
       compression: "off",
       dedup: "off",
       recordsize: "128k",
       shared: "yes",
     },
+    volumeBindingMode: "WaitForFirstConsumer",
   });
 
   new VolumeSnapshotClass(chart, "host-zfs-snapshot", {

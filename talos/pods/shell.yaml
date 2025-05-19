@@ -19,6 +19,10 @@ spec:
       hostPath:
         path: /var/mnt
         type: Directory
+    - name: host-root
+      hostPath:
+        path: /
+        type: Directory
   containers:
     - command: ["sleep", "infinity"]
       image: debian
@@ -29,3 +33,5 @@ spec:
       volumeMounts:
         - name: var-mnt
           mountPath: /var/mnt
+        - name: host-root
+          mountPath: /host-root

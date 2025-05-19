@@ -17,6 +17,7 @@ import { createLokiApp } from "../apps/loki.ts";
 import { createPromtailApp } from "../apps/promtail.ts";
 import { Namespace } from "cdk8s-plus";
 import { createStorageClasses } from "../storageclasses.ts";
+import { createOpenEBSApp } from "../apps/openebs.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -25,6 +26,12 @@ export function createAppsChart(app: App) {
   });
 
   createStorageClasses(chart);
+
+  new Namespace(chart, `torvals-namespace`, {
+    metadata: {
+      name: `torvalds`,
+    },
+  });
 
   new Namespace(chart, `scout-beta-namespace`, {
     metadata: {
@@ -38,6 +45,7 @@ export function createAppsChart(app: App) {
     },
   });
 
+  createOpenEBSApp(chart);
   createOnePasswordApp(chart);
   createArgoCdApp(chart);
   createTailscaleApp(chart);

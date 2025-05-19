@@ -83,7 +83,7 @@ some things I'm proud of:
 1. Bootstrap the Kubernetes cluster:
 
     ```bash
-    talosctl bootstrap --nodes 192.168.1.81
+    talosctl bootstrap --nodes 192.168.1.8    talosctl bootstrap --nodes 192.168.1.811
     ```
 
 1. Create a Kubernetes configuration:
