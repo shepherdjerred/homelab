@@ -1,0 +1,3 @@
+/* esm.sh - yaml@2.7.1/browser/dist/nodes/Scalar */
+import{SCALAR as r}from"./identity.mjs";import{NodeBase as O}from"./Node.mjs";import{toJS as s}from"./toJS.mjs";var p=o=>!o||typeof o!="function"&&typeof o!="object",t=class extends O{constructor(L){super(r),this.value=L}toJSON(L,e){return e?.keep?this.value:s(this.value,L,e)}toString(){return String(this.value)}};t.BLOCK_FOLDED="BLOCK_FOLDED";t.BLOCK_LITERAL="BLOCK_LITERAL";t.PLAIN="PLAIN";t.QUOTE_DOUBLE="QUOTE_DOUBLE";t.QUOTE_SINGLE="QUOTE_SINGLE";export{t as Scalar,p as isScalarValue};
+//# sourceMappingURL=Scalar.mjs.map

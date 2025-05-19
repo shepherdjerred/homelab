@@ -1,4 +1,4 @@
-import type { App } from "https://esm.sh/cdk8s@2.69.60/lib/app.d.ts";
+import type { Chart } from "cdk8s";
 import { KubeStorageClass } from "../imports/k8s.ts";
 import {
   VolumeSnapshotClass,
@@ -8,8 +8,8 @@ import {
 export const SSD_STORAGE_CLASS = "host-zfs-ssd";
 export const HDD_STORAGE_CLASS = "host-zfs-hdd";
 
-export function createStorageClasses(app: App) {
-  new KubeStorageClass(app, "host-zfs-ssd", {
+export function createStorageClasses(chart: Chart) {
+  new KubeStorageClass(chart, "host-zfs-ssd", {
     metadata: { name: SSD_STORAGE_CLASS },
     provisioner: "zfs.csi.openebs.io",
     allowVolumeExpansion: true,
@@ -24,7 +24,7 @@ export function createStorageClasses(app: App) {
     },
   });
 
-  new KubeStorageClass(app, "host-zfs-hdd", {
+  new KubeStorageClass(chart, "host-zfs-hdd", {
     metadata: { name: HDD_STORAGE_CLASS },
     provisioner: "zfs.csi.openebs.io",
     allowVolumeExpansion: true,
@@ -39,7 +39,7 @@ export function createStorageClasses(app: App) {
     },
   });
 
-  new VolumeSnapshotClass(app, "host-zfs-snapshot", {
+  new VolumeSnapshotClass(chart, "host-zfs-snapshot", {
     metadata: { name: "host-zfs-snapshot" },
     driver: "zfs.csi.openebs.io",
     deletionPolicy: VolumeSnapshotClassDeletionPolicy.DELETE,

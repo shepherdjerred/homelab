@@ -40,16 +40,32 @@
         "location": "https://esm.sh/brace-expansion@1.1.11?target=denonext"
       }
     },
+    "https://esm.sh/cdk8s": {
+      "headers": {
+        "location": "https://esm.sh/cdk8s@2.69.70"
+      }
+    },
     "https://esm.sh/cdk8s-plus-30@2.3.9?external=cdk8s": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
         "x-typescript-types": "https://esm.sh/cdk8s-plus-30@2.3.9/X-ZWNkazhz/lib/index.d.ts"
       }
     },
+    "https://esm.sh/cdk8s@2.69.60/lib/chart.js": {
+      "headers": {
+        "x-typescript-types": "https://esm.sh/cdk8s@2.69.60/lib/chart.d.ts"
+      }
+    },
     "https://esm.sh/cdk8s@2.69.60?standalone": {
       "headers": {
         "content-type": "application/javascript; charset=utf-8",
         "x-typescript-types": "https://esm.sh/cdk8s@2.69.60/lib/index.d.ts"
+      }
+    },
+    "https://esm.sh/cdk8s@2.69.70": {
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "x-typescript-types": "https://esm.sh/cdk8s@2.69.70/lib/index.d.ts"
       }
     },
     "https://esm.sh/constructs@10.4.2": {
@@ -72,6 +88,11 @@
     "https://esm.sh/constructs@^10?target=denonext": {
       "headers": {
         "location": "https://esm.sh/constructs@10.4.2?target=denonext"
+      }
+    },
+    "https://esm.sh/fast-json-patch@^3.1.1?target=denonext": {
+      "headers": {
+        "location": "https://esm.sh/fast-json-patch@3.1.1?target=denonext"
       }
     },
     "https://esm.sh/minimatch@3.1.2?target=denonext": {
@@ -246,6 +267,38 @@
     "https://esm.sh/type-fest@4.41.0/source/multidimensional-readonly-array.d.ts": {},
     "https://esm.sh/type-fest@4.41.0/source/pascal-cased-properties-deep.d.ts": {},
     "https://esm.sh/type-fest@4.41.0/source/snake-cased-properties-deep.d.ts": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/doc/applyReviver.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/doc/createNode.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/nodes/Alias.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/nodes/Collection.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/nodes/Node.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/nodes/Pair.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/nodes/Scalar.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/nodes/YAMLMap.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/nodes/YAMLSeq.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/nodes/addPairToJSMap.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/nodes/toJS.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/stringify/foldFlowLines.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/stringify/stringifyCollection.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/stringify/stringifyComment.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/stringify/stringifyNumber.mjs": {},
+    "https://esm.sh/yaml@2.7.1/denonext/browser/dist/stringify/stringifyString.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/doc/applyReviver.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/doc/createNode.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/nodes/Alias.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/nodes/Collection.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/nodes/Node.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/nodes/Pair.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/nodes/Scalar.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/nodes/YAMLMap.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/nodes/YAMLSeq.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/nodes/addPairToJSMap.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/nodes/toJS.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/stringify/foldFlowLines.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/stringify/stringifyCollection.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/stringify/stringifyComment.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/stringify/stringifyNumber.mjs": {},
+    "https://esm.sh/yaml@2.8.0/denonext/browser/dist/stringify/stringifyString.mjs": {},
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/_Hash.js": {},
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/_ListCache.js": {},
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/_Map.js": {},

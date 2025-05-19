@@ -16,12 +16,15 @@ import { createMinecraftApp } from "../apps/minecraft.ts";
 import { createLokiApp } from "../apps/loki.ts";
 import { createPromtailApp } from "../apps/promtail.ts";
 import { Namespace } from "cdk8s-plus";
+import { createStorageClasses } from "../storageclasses.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
     namespace: "argocd",
     disableResourceNameHashes: true,
   });
+
+  createStorageClasses(chart);
 
   new Namespace(chart, `scout-beta-namespace`, {
     metadata: {
