@@ -31,7 +31,9 @@ export function createPlexDeployment(chart: Chart, claims: {
   const localPathVolume = new ZfsSsdVolume(
     chart,
     "plex-pvc",
-    {},
+    {
+      storage: Size.gibibytes(512),
+    },
   );
 
   deployment.addContainer(

@@ -6,12 +6,11 @@ import {
   Service,
   Volume,
 } from "cdk8s-plus";
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
-import { ZfsHddVolume } from "../../utils/zfsHddVolume.ts";
 
 export function createBazarrDeployment(chart: Chart, claims: {
   tv: PersistentVolumeClaim;
@@ -22,7 +21,9 @@ export function createBazarrDeployment(chart: Chart, claims: {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "bazarr-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "bazarr-pvc", {
+    storage: Size.gibibytes(8),
+  });
 
   deployment.addContainer(
     withCommonLinuxServerProps({

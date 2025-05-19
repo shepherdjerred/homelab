@@ -6,7 +6,7 @@ import {
   Service,
   Volume,
 } from "cdk8s-plus";
-import { ApiObject, Chart, JsonPatch } from "cdk8s";
+import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
@@ -21,7 +21,9 @@ export function createHomeAssistantDeployment(chart: Chart) {
   const claim = new ZfsSsdVolume(
     chart,
     "homeassistant-pvc",
-    {},
+    {
+      storage: Size.gibibytes(32),
+    },
   );
 
   const volume = Volume.fromPersistentVolumeClaim(

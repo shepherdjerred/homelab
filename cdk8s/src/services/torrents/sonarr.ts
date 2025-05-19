@@ -5,7 +5,7 @@ import {
   Service,
   Volume,
 } from "cdk8s-plus";
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import {
   LINUXSERVER_GID,
   withCommonLinuxServerProps,
@@ -13,7 +13,6 @@ import {
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
-import { ZfsHddVolume } from "../../utils/zfsHddVolume.ts";
 
 export function createSonarrDeployment(chart: Chart, claims: {
   tv: PersistentVolumeClaim;
@@ -27,7 +26,9 @@ export function createSonarrDeployment(chart: Chart, claims: {
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "sonarr-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "sonarr-pvc", {
+    storage: Size.gibibytes(8),
+  });
 
   deployment.addContainer(
     withCommonLinuxServerProps({

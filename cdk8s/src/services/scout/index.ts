@@ -6,7 +6,7 @@ import {
   Secret,
   Volume,
 } from "cdk8s-plus";
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import versions from "../../versions.ts";
@@ -54,7 +54,9 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "scout-storage-claim", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "scout-storage-claim", {
+    storage: Size.gibibytes(8),
+  });
 
   deployment.addContainer(withCommonProps({
     image: image,

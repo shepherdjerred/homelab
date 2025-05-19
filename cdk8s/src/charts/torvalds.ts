@@ -1,4 +1,4 @@
-import { App, Chart } from "cdk8s";
+import { App, Chart, Size } from "cdk8s";
 import { createTedditDeployment } from "../services/frontends/teddit.ts";
 import { createGolinkDeployment } from "../services/golink.ts";
 import { createHomeAssistantDeployment } from "../services/home/homeassistant.ts";
@@ -26,9 +26,15 @@ export function createTorvaldsChart(app: App) {
     disableResourceNameHashes: true,
   });
 
-  const tvVolume = new ZfsHddVolume(chart, "plex-tv-hdd-pvc", {});
-  const downloadsVolume = new ZfsHddVolume(chart, "qbittorrent-hdd-pvc", {});
-  const moviesVolume = new ZfsHddVolume(chart, "plex-movies-hdd-pvc", {});
+  const tvVolume = new ZfsHddVolume(chart, "plex-tv-hdd-pvc", {
+    storage: Size.tebibytes(8),
+  });
+  const downloadsVolume = new ZfsHddVolume(chart, "qbittorrent-hdd-pvc", {
+    storage: Size.tebibytes(1),
+  });
+  const moviesVolume = new ZfsHddVolume(chart, "plex-movies-hdd-pvc", {
+    storage: Size.tebibytes(8),
+  });
 
   // TODO: create one namespace/argocd app per service
   createBazarrDeployment(chart, {

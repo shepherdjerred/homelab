@@ -2,6 +2,7 @@ import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
+import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
 
 export function createPrometheusApp(chart: Chart) {
   createIngress(
@@ -83,7 +84,7 @@ export function createPrometheusApp(chart: Chart) {
                 storage: {
                   volumeClaimTemplate: {
                     spec: {
-                      storageClassName: "host-zfs-hdd-shared",
+                      storageClassName: HDD_STORAGE_CLASS,
                       accessModes: ["ReadWriteOnce"],
                       resources: {
                         requests: {
@@ -102,7 +103,7 @@ export function createPrometheusApp(chart: Chart) {
                 storageSpec: {
                   volumeClaimTemplate: {
                     spec: {
-                      storageClassName: "host-zfs-hdd-shared",
+                      storageClassName: HDD_STORAGE_CLASS,
                       accessModes: ["ReadWriteOnce"],
                       resources: {
                         requests: {

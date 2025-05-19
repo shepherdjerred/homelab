@@ -3,6 +3,7 @@ import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { createIngress } from "../utils/tailscale.ts";
+import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
 
 export function createChartMuseumApp(chart: Chart) {
   createIngress(
@@ -43,7 +44,7 @@ export function createChartMuseumApp(chart: Chart) {
         helm: {
           parameters: [
             { name: "persistence.enabled", value: "true" },
-            { name: "persistence.storageClass", value: "host-zfs-hdd" },
+            { name: "persistence.storageClass", value: HDD_STORAGE_CLASS },
             { name: "env.open.DISABLE_API", value: "false" },
             { name: "env.open.AUTH_ANONYMOUS_GET", value: "true" },
             { name: "env.existingSecret", value: basicAuth.name },

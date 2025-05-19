@@ -1,5 +1,5 @@
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
 import versions from "../versions.ts";
@@ -11,11 +11,15 @@ export function createFreshRssDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const freshRssDataVolume = new ZfsSsdVolume(chart, "freshrss-data", {});
+  const freshRssDataVolume = new ZfsSsdVolume(chart, "freshrss-data", {
+    storage: Size.gibibytes(32),
+  });
   const freshRssExtensionsVolme = new ZfsSsdVolume(
     chart,
     "freshrss-extensions",
-    {},
+    {
+      storage: Size.gibibytes(8),
+    },
   );
 
   deployment.addContainer(

@@ -1,5 +1,5 @@
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import {
   LINUXSERVER_GID,
   withCommonLinuxServerProps,
@@ -17,7 +17,9 @@ export function createMaintainerrDeployment(chart: Chart) {
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "maintainerr-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "maintainerr-pvc", {
+    storage: Size.gibibytes(8),
+  });
 
   deployment.addContainer(
     withCommonLinuxServerProps({

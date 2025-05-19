@@ -1,5 +1,5 @@
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
@@ -11,7 +11,9 @@ export function createProwlarrDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "prowlarr-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "prowlarr-pvc", {
+    storage: Size.gibibytes(8),
+  });
 
   deployment.addContainer(
     withCommonLinuxServerProps({

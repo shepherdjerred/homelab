@@ -1,5 +1,5 @@
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus";
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
 import {
   LINUXSERVER_GID,
@@ -20,13 +20,17 @@ export function createSyncthingDeployment(chart: Chart) {
   const configLocalPathVolume = new ZfsSsdVolume(
     chart,
     "syncthing-config",
-    {},
+    {
+      storage: Size.gibibytes(8),
+    },
   );
 
   const dataLocalPathVolume = new ZfsSsdVolume(
     chart,
     "syncthing-data",
-    {},
+    {
+      storage: Size.gibibytes(512),
+    },
   );
 
   deployment.addContainer(

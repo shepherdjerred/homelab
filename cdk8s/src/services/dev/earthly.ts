@@ -1,13 +1,6 @@
-import {
-  Deployment,
-  DeploymentStrategy,
-  EnvValue,
-  Secret,
-  ServiceType,
-} from "cdk8s-plus";
-import { Service } from "cdk8s-plus";
+import { Deployment, DeploymentStrategy, EnvValue, Secret } from "cdk8s-plus";
 import { Volume } from "cdk8s-plus";
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 import { withCommonProps } from "../../utils/common.ts";
@@ -19,7 +12,9 @@ export function createEarthlyDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "earthly-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "earthly-pvc", {
+    storage: Size.tebibytes(1),
+  });
 
   const token = new OnePasswordItem(chart, "earthly-onepassword", {
     spec: {

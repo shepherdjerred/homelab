@@ -16,7 +16,6 @@ import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createPokemonDeployment(chart: Chart) {
   const GID = 1000;
-  const UID = 1000;
 
   const deployment = new Deployment(chart, "pokemon", {
     replicas: 0,
@@ -26,8 +25,12 @@ export function createPokemonDeployment(chart: Chart) {
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "pokemon-volume", {});
-  const romVolume = new ZfsSsdVolume(chart, "pokemon-rom-volume", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "pokemon-volume", {
+    storage: Size.gibibytes(8),
+  });
+  const romVolume = new ZfsSsdVolume(chart, "pokemon-rom-volume", {
+    storage: Size.gibibytes(8),
+  });
 
   const item = new OnePasswordItem(chart, "pokemon-config", {
     spec: {

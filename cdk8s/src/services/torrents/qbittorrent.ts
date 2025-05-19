@@ -7,7 +7,7 @@ import {
   Service,
   Volume,
 } from "cdk8s-plus";
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
@@ -30,7 +30,9 @@ export function createQBitTorrentDeployment(chart: Chart, claims: {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "qbittorrent-pvc", {});
+  const localPathVolume = new ZfsSsdVolume(chart, "qbittorrent-pvc", {
+    storage: Size.gibibytes(8),
+  });
 
   deployment.addContainer(
     withCommonProps({

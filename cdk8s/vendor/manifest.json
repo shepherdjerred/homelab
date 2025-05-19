@@ -228,6 +228,24 @@
     "https://esm.sh/type-fest@4.37.0/source/multidimensional-readonly-array.d.ts": {},
     "https://esm.sh/type-fest@4.37.0/source/pascal-cased-properties-deep.d.ts": {},
     "https://esm.sh/type-fest@4.37.0/source/snake-cased-properties-deep.d.ts": {},
+    "https://esm.sh/type-fest@4.41.0": {
+      "headers": {
+        "content-type": "application/javascript; charset=utf-8",
+        "x-typescript-types": "https://esm.sh/type-fest@4.41.0/index.d.ts"
+      }
+    },
+    "https://esm.sh/type-fest@4.41.0/index.js": {
+      "headers": {
+        "x-typescript-types": "https://esm.sh/type-fest@4.41.0/index.d.ts"
+      }
+    },
+    "https://esm.sh/type-fest@4.41.0/source/camel-cased-properties-deep.d.ts": {},
+    "https://esm.sh/type-fest@4.41.0/source/delimiter-cased-properties-deep.d.ts": {},
+    "https://esm.sh/type-fest@4.41.0/source/delimiter-cased-properties.d.ts": {},
+    "https://esm.sh/type-fest@4.41.0/source/kebab-cased-properties-deep.d.ts": {},
+    "https://esm.sh/type-fest@4.41.0/source/multidimensional-readonly-array.d.ts": {},
+    "https://esm.sh/type-fest@4.41.0/source/pascal-cased-properties-deep.d.ts": {},
+    "https://esm.sh/type-fest@4.41.0/source/snake-cased-properties-deep.d.ts": {},
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/_Hash.js": {},
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/_ListCache.js": {},
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/_Map.js": {},
