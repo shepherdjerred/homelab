@@ -27,9 +27,30 @@ export function createAppsChart(app: App) {
 
   createStorageClasses(chart);
 
-  new Namespace(chart, `torvals-namespace`, {
+  new Namespace(chart, `openebs-namespace`, {
+    metadata: {
+      name: `openebs`,
+      labels: {
+        "pod-security.kubernetes.io/enforce": "privileged",
+      },
+    },
+  });
+
+  new Namespace(chart, `maintenance-namespace`, {
+    metadata: {
+      name: `maintenance`,
+      labels: {
+        "pod-security.kubernetes.io/audit": "restricted",
+      },
+    },
+  });
+
+  new Namespace(chart, `torvalds-namespace`, {
     metadata: {
       name: `torvalds`,
+      labels: {
+        "pod-security.kubernetes.io/enforce": "privileged",
+      },
     },
   });
 

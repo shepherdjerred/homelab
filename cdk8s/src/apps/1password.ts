@@ -3,6 +3,8 @@ import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 
 export function createOnePasswordApp(chart: Chart) {
+  // TODO: create the 1password secrets here
+
   new Application(chart, "1password-app", {
     metadata: {
       name: "1password",

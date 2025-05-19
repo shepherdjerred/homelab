@@ -15,7 +15,8 @@ export function createStorageClasses(chart: Chart) {
     allowVolumeExpansion: true,
     reclaimPolicy: "Retain",
     parameters: {
-      "csi.storage.k8s.io/fstype": "zfs",
+      fstype: "zfs",
+      // "csi.storage.k8s.io/fstype": "zfs",
       poolname: "zfspv-pool-nvme",
       compression: "off",
       dedup: "off",
@@ -31,7 +32,8 @@ export function createStorageClasses(chart: Chart) {
     allowVolumeExpansion: true,
     reclaimPolicy: "Retain",
     parameters: {
-      "csi.storage.k8s.io/fstype": "zfs",
+      fstype: "zfs",
+      // "csi.storage.k8s.io/fstype": "zfs",
       poolname: "zfspv-pool-hdd",
       compression: "off",
       dedup: "off",
