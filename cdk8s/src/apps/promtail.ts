@@ -1,8 +1,18 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
+import { Namespace } from "cdk8s-plus";
 
 export function createPromtailApp(chart: Chart) {
+  new Namespace(chart, "promtail-namespcae", {
+    metadata: {
+      name: "promtail",
+      labels: {
+        "pod-security.kubernetes.io/enforce": "privileged",
+      },
+    },
+  });
+
   new Application(chart, "promtail-app", {
     metadata: {
       name: "promtail",

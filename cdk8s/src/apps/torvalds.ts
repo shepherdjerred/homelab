@@ -1,7 +1,17 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import { Namespace } from "cdk8s-plus";
 
 export function createTorvaldsApp(chart: Chart) {
+  new Namespace(chart, `torvalds-namespace`, {
+    metadata: {
+      name: `torvalds`,
+      labels: {
+        "pod-security.kubernetes.io/enforce": "privileged",
+      },
+    },
+  });
+
   return new Application(chart, "torvalds-app", {
     metadata: {
       name: "torvalds",

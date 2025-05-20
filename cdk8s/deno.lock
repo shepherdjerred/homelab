@@ -15,6 +15,7 @@
     }
   },
   "redirects": {
+    "https://deno.land/": "https://deno.com/",
     "https://esm.sh/@types/balanced-match@~1.0.4/index.d.ts": "https://esm.sh/@types/balanced-match@1.0.4/index.d.ts",
     "https://esm.sh/@types/brace-expansion@~1.1.2/index.d.ts": "https://esm.sh/@types/brace-expansion@1.1.2/index.d.ts",
     "https://esm.sh/@types/minimatch@~3.0.5/index.d.ts": "https://esm.sh/@types/minimatch@3.0.5/index.d.ts",

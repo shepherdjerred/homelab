@@ -1,4 +1,4 @@
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
@@ -57,9 +57,9 @@ export function createPrometheusApp(chart: Chart) {
               persistence: {
                 enabled: true,
                 type: "pvc",
-                storageClassName: "",
+                storageClassName: HDD_STORAGE_CLASS,
                 accessModes: ["ReadWriteOnce"],
-                size: "8Gi",
+                size: Size.gibibytes(32).asString(),
               },
               sidecar: {
                 datasources: {
@@ -88,7 +88,7 @@ export function createPrometheusApp(chart: Chart) {
                       accessModes: ["ReadWriteOnce"],
                       resources: {
                         requests: {
-                          storage: "8Gi",
+                          storage: Size.gibibytes(8).asString(),
                         },
                       },
                       selector: null,
@@ -107,7 +107,7 @@ export function createPrometheusApp(chart: Chart) {
                       accessModes: ["ReadWriteOnce"],
                       resources: {
                         requests: {
-                          storage: "8Gi",
+                          storage: Size.gibibytes(32).asString(),
                         },
                       },
                       selector: null,

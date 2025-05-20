@@ -1,8 +1,18 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
+import { Namespace } from "cdk8s-plus";
 
 export function createIntelDevicePluginOperatorApp(chart: Chart) {
+  new Namespace(chart, "intel-plugin-namespcae", {
+    metadata: {
+      name: "intel-device-plugin-operator",
+      labels: {
+        "pod-security.kubernetes.io/enforce": "privileged",
+      },
+    },
+  });
+
   new Application(chart, "intel-plugins-app", {
     metadata: {
       name: "intel-device-plugin-operator",

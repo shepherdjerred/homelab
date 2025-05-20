@@ -1,8 +1,18 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
+import { Namespace } from "cdk8s-plus";
 
 export function createOpenEBSApp(chart: Chart) {
+  new Namespace(chart, `openebs-namespace`, {
+    metadata: {
+      name: `openebs`,
+      labels: {
+        "pod-security.kubernetes.io/enforce": "privileged",
+      },
+    },
+  });
+
   new Application(chart, "openebs-app", {
     metadata: {
       name: "openebs",

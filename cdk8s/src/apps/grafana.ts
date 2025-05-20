@@ -2,8 +2,18 @@ import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
+import { Namespace } from "cdk8s-plus";
 
 export function createGrafanaApp(chart: Chart) {
+  new Namespace(chart, "prometheus-namespcae", {
+    metadata: {
+      name: "prometheus",
+      labels: {
+        "pod-security.kubernetes.io/enforce": "privileged",
+      },
+    },
+  });
+
   createIngress(
     chart,
     "grafana-ingress",

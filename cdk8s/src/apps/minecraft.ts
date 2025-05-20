@@ -1,7 +1,8 @@
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
+import { SSD_STORAGE_CLASS } from "../storageclasses.ts";
 
 export function createMinecraftApp(chart: Chart) {
   createIngress(
@@ -62,7 +63,9 @@ export function createMinecraftApp(chart: Chart) {
               ],
             },
             persistence: {
+              storageClass: SSD_STORAGE_CLASS,
               dataDir: {
+                size: Size.gibibytes(64).asString(),
                 enabled: true,
               },
             },

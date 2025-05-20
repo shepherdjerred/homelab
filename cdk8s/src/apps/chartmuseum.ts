@@ -1,4 +1,4 @@
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
@@ -45,6 +45,7 @@ export function createChartMuseumApp(chart: Chart) {
           parameters: [
             { name: "persistence.enabled", value: "true" },
             { name: "persistence.storageClass", value: HDD_STORAGE_CLASS },
+            { name: "persistence.size", value: Size.gibibytes(32).asString() },
             { name: "env.open.DISABLE_API", value: "false" },
             { name: "env.open.AUTH_ANONYMOUS_GET", value: "true" },
             { name: "env.existingSecret", value: basicAuth.name },

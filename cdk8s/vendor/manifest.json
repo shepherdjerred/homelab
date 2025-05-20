@@ -3,6 +3,12 @@
     "https://esm.sh/cdk8s-plus-30@2.3.9/X-ZWNkazhz/": "esm.sh/cdk8s-plus-30@2.3.9/#x-zwnkazhz_8fd06"
   },
   "modules": {
+    "https://deno.com/": {},
+    "https://deno.land/": {
+      "headers": {
+        "location": "https://deno.com/"
+      }
+    },
     "https://esm.sh/@types/balanced-match@~1.0.4/index.d.ts": {
       "headers": {
         "location": "https://esm.sh/@types/balanced-match@1.0.4/index.d.ts"

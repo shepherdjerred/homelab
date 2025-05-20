@@ -1,8 +1,9 @@
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
+import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
 
 export function createJenkinsApp(chart: Chart) {
   createIngress(
@@ -107,6 +108,10 @@ export function createJenkinsApp(chart: Chart) {
         chart: "jenkins",
         helm: {
           valuesObject: {
+            persistence: {
+              storageClass: HDD_STORAGE_CLASS,
+              size: Size.gibibytes(128).asString(),
+            },
             controller: {
               additionalPlugins: plugins,
               sidecars: {
