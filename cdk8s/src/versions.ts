@@ -88,7 +88,7 @@ const versions = {
     "v0.28.1@sha256:645f6c15b079410d50d488dbeb247c92f25534094dad4e15d886e47648b897f7",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "freshrss/freshrss":
-    "1.26.1@sha256:bca4407f1f3ecb2e02bd57f704593c64f89bbf3fad53f03ebcf4baecb0122de6",
+    "1.26.2@sha256:ac8ba074707a020b1a865ae6671f17b6110068142484cee9f36df02ed6c41130",
 };
 
 export default versions;
