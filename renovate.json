@@ -1,45 +1,65 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "github>Omochice/renovate-config:deno"],
+  "extends": [
+    "config:recommended",
+    "github>Omochice/renovate-config:deno"
+  ],
   "customManagers": [
     {
       "customType": "regex",
       "description": "Update versions.ts",
-      "fileMatch": ["cdk8s/src/versions.ts"],
+      "managerFilePatterns": [
+        "/cdk8s/src/versions.ts/"
+      ],
       "matchStrings": [
         "\\/\\/ renovate: datasource=(?<datasource>[0-9a-z-\\.]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?))?\\s*\"(?<packageName>.+?)\":\\s*\"(?<currentValue>.+?)?(?:@(?<currentDigest>.+?))?\""
       ]
     }
   ],
   "automerge": true,
-  "constraints": { "jenkins": ">= 2.0 <= 2.492.3" },
+  "constraints": {
+    "jenkins": ">= 2.0 <= 2.492.3"
+  },
   "packageRules": [
     {
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "pinDigests": true
     },
     {
       "groupName": "jenkins",
-      "matchManagers": ["jenkins"],
-      "schedule": ["* 0-4 * * *"],
+      "matchManagers": [
+        "jenkins"
+      ],
+      "schedule": [
+        "* 0-4 * * *"
+      ],
       "constraintsFiltering": "strict",
-
       "automerge": false
     },
     {
       "groupName": "jenkins",
-      "matchPackageNames": ["jenkins"]
+      "matchPackageNames": [
+        "jenkins"
+      ]
     },
     {
       "groupName": "cdk8s",
-      "matchPackageNames": ["/^cdk8s/"]
+      "matchPackageNames": [
+        "/^cdk8s/"
+      ]
     }
   ],
   "pre-commit": {
     "enabled": true
   },
-  "schedule": ["after 3am on Sunday"],
+  "schedule": [
+    "after 3am on Sunday"
+  ],
   "minimumReleaseAge": "30 days",
   "prHourlyLimit": 5,
-  "reviewers": ["shepherdjerred"]
+  "reviewers": [
+    "shepherdjerred"
+  ]
 }
