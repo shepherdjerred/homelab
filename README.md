@@ -17,17 +17,15 @@ I've spent a _lot_ of time making this project pleasant to work with. Here are
 some things I'm proud of:
 
 - Close to zero host setup
-  - It's literally just a few commands to deploy my entire cluster
+  - It's just a few commands to deploy my entire cluster
 - Entirely written in TypeScript built with [cdk8s](https://cdk8s.io/) and
   [Deno](https://deno.com/)
 - Automated backups
-  - The applications I care about are regularly backed up to
-    [BorgBase](https://www.borgbase.com/)
 - HTTPS ingress with [Tailscale](https://tailscale.com/)
 - All secrets managed with [1Password](https://1password.com/)
 - Jenkins CI w/ Earthly used by my open-source projects
 - Entirely automated deployment for updates, upgrades, etc.
-  - Commit-to-deployment takes about 1min
+  - Commit-to-deployment takes ~1min
 - Automated dependency updates
   - For Docker images (w/ pinned SHAs)
   - For Helm charts
@@ -154,14 +152,6 @@ Adapted from <https://www.roosmaa.net/blog/2024/setting-up-zfs-on-talos/>
     kubectl apply -f pods/shell.yaml
     ```
 
-1. Try to run a ZFS command:
-
-    ```bash
-    kubectl exec pod/shell -n maintenance -- \
-      nsenter --mount=/proc/1/ns/mnt -- \
-      zpool status
-    ```
-
 1. Create a ZFS pool:
 
     ```bash
@@ -180,11 +170,4 @@ Adapted from <https://www.roosmaa.net/blog/2024/setting-up-zfs-on-talos/>
       /dev/sdc \
       /dev/sdd \
       /dev/sde
-    ```
-
-1. Install OpenEBS:
-
-    ```bash
-    helm repo add openebs https://openebs.github.io/openebs
-    helm install openebs --namespace openebs openebs/openebs --set engines.replicated.mayastor.enabled=false --set engines.local.lvm.enabled=false --set zfs-localpv.zfsNode.encrKeysDir=/var --create-namespace
     ```

@@ -30,7 +30,7 @@ export function createLokiApp(chart: Chart) {
           valuesObject: {
             deploymentMode: "SingleBinary",
             singleBinary: {
-              persistance: {
+              persistence: {
                 storageClass: HDD_STORAGE_CLASS,
                 size: Size.gibibytes(32).asString(),
               },
@@ -38,10 +38,6 @@ export function createLokiApp(chart: Chart) {
             loki: {
               commonConfig: {
                 replication_factor: 1,
-                persistance: {
-                  storageClass: HDD_STORAGE_CLASS,
-                  size: Size.gibibytes(32).asString(),
-                },
               },
               auth_enabled: false,
               schemaConfig: {

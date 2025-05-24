@@ -37,6 +37,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   async function runEarly() {
     logger.info("Turning on bedroom heater");
     await bedroomHeater.set_temperature({
+      hvac_mode: "heat",
       temperature: 24,
     });
   }
