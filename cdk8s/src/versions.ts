@@ -4,7 +4,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
   "argo-cd": "7.8.23",
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
-  "cert-manager": "v1.17.1",
+  "cert-manager": "v1.17.2",
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
   "intel-device-plugins-operator": "0.32.0",
   // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver
