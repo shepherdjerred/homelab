@@ -14,27 +14,6 @@ export function createStashDeployment(chart: Chart) {
   const longhornVolumeData = new ZfsSsdVolume(chart, "stash-data", {
     storage: Size.gibibytes(64),
   });
-  const longhornVolumeGenerated = new ZfsSsdVolume(
-    chart,
-    "stash-generated",
-    {
-      storage: Size.gibibytes(64),
-    },
-  );
-  const longhornVolumeMetadata = new ZfsSsdVolume(
-    chart,
-    "stash-metadata",
-    {
-      storage: Size.gibibytes(8),
-    },
-  );
-  const longhornVolumeBlobs = new ZfsSsdVolume(
-    chart,
-    "stash-blobs",
-    {
-      storage: Size.gibibytes(8),
-    },
-  );
   const longhornVolumeConfig = new ZfsSsdVolume(
     chart,
     "stash-config",
@@ -54,30 +33,6 @@ export function createStashDeployment(chart: Chart) {
             chart,
             "stash-data-volume",
             longhornVolumeData.claim,
-          ),
-        },
-        {
-          path: "/generated",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "stash-generated-volume",
-            longhornVolumeGenerated.claim,
-          ),
-        },
-        {
-          path: "/metadata",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "stash-metadata-volume",
-            longhornVolumeMetadata.claim,
-          ),
-        },
-        {
-          path: "/blobs",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "stash-blobs-volume",
-            longhornVolumeBlobs.claim,
           ),
         },
         {

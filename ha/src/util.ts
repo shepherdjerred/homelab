@@ -39,7 +39,7 @@ export function isErrorState(state: ByIdProxy<"vacuum.roomba">["state"]) {
     .with("returning", () => false)
     .with("cleaning", () => false)
     .with("idle", () => false)
-    .with("unavailable", () => true)
+    .with("unavailable", () => false)
     .exhaustive();
 }
 
@@ -67,6 +67,13 @@ export function shouldStopCleaning(state: ByIdProxy<"vacuum.roomba">["state"]) {
     .with("idle", () => true)
     .with("unavailable", () => false)
     .exhaustive();
+}
+
+export function runIf(condition: boolean, promise: Promise<unknown>): Promise<unknown> {
+  if (condition) {
+    return promise;
+  }
+  return Promise.resolve();
 }
 
 export function runParallel(promises: Promise<unknown>[]): Promise<unknown> {
