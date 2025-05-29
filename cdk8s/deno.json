@@ -25,7 +25,7 @@
     "ts-pattern": "https://esm.sh/ts-pattern@5.7.0",
     "remeda": "https://esm.sh/remeda@2.21.2",
     "type-fest": "https://esm.sh/type-fest@4.41.0",
-    "ts-reset": "https://esm.sh/@total-typescript/ts-reset@0.4.2"
+    "ts-reset": "https://esm.sh/@total-typescript/ts-reset@0.6.1"
   },
   "compilerOptions": {
     "strict": true,
