@@ -81,7 +81,7 @@ const versions = {
   "promtail": "6.16.6",
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
   "openebs": "4.2.0",
-  "shepherdjerred/scout-for-lol/beta": "1.0.166",
+  "shepherdjerred/scout-for-lol/beta": "1.0.167",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "stashapp/stash":
