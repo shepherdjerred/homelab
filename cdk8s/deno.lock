@@ -1,9 +1,13 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:@total-typescript/ts-reset@0.6.1": "0.6.1",
     "npm:@types/node@*": "22.14.1"
   },
   "npm": {
+    "@total-typescript/ts-reset@0.6.1": {
+      "integrity": "sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg=="
+    },
     "@types/node@22.14.1": {
       "integrity": "sha512-u0HuPQwe/dHrItgHHpmw3N2fYCR6x4ivMNbPHRkBVP4CvN+kiRrKHWk3i8tXiO/joPwXLMYvF9TTF0eqgHIuOw==",
       "dependencies": [
@@ -304,5 +308,10 @@
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/merge.js": "8004f9d4c737e69f5d871ff61e2966460c907036b7a514751d66f8f9b06572b1",
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/stubFalse.js": "fd1d278ab0f9329d2b39c180bb97fcbfb609ec117f89443fc2ed898b633493ea",
     "https://raw.githubusercontent.com/lodash/lodash/4.17.21-es/toPlainObject.js": "9345d80139f01e8768e0a134266ea2fc1196c22afc0f4022de66cb9a68b52a70"
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:@total-typescript/ts-reset@0.6.1"
+    ]
   }
 }
