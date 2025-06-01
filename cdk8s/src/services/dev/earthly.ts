@@ -1,4 +1,11 @@
-import { Deployment, DeploymentStrategy, EnvValue, Secret } from "cdk8s-plus";
+import {
+  Deployment,
+  DeploymentStrategy,
+  EnvValue,
+  Secret,
+  Service,
+  ServiceType,
+} from "cdk8s-plus";
 import { Volume } from "cdk8s-plus";
 import { Chart, Size } from "cdk8s";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
@@ -52,6 +59,7 @@ export function createEarthlyDeployment(chart: Chart) {
         EARTHLY_TOKEN: tokenEnvValue,
         SATELLITE_NAME: EnvValue.fromValue("lamport"), // for the sake of not having to update all my Jenkinsfiles
         SATELLITE_HOST: EnvValue.fromValue("torvalds.tailnet-1a49.ts.net"),
+        SATELLITE_PORT: EnvValue.fromValue("30000"),
         CACHE_SIZE_PCT: EnvValue.fromValue("10"),
         BUILDKIT_MAX_PARALLELISM: EnvValue.fromValue("24"),
       },
@@ -68,10 +76,9 @@ export function createEarthlyDeployment(chart: Chart) {
     }),
   );
 
-  // TODO
-  // new Service(chart, "earthly-service", {
-  //   selector: deployment,
-  //   ports: [{ port: 8372, nodePort: 8372 }],
-  //   type: ServiceType.NODE_PORT,
-  // });
+  new Service(chart, "earthly-service", {
+    selector: deployment,
+    ports: [{ port: 8372, nodePort: 30000 }],
+    type: ServiceType.NODE_PORT,
+  });
 }

@@ -45,7 +45,7 @@ export function createMinecraftApp(chart: Chart) {
               forcegameMode: true,
               serviceType: "NodePort",
               port: 25566,
-              nodePort: 25566,
+              nodePort: 30001,
               servicePort: "",
               extraPorts: [
                 {
