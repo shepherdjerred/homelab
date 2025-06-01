@@ -1,16 +1,10 @@
 # TODO: add markdownlint
 repos:
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 40.1.1
+    rev: 40.36.8
     hooks:
       - id: renovate-config-validator
-        language_version: "22.8.0"
-    # TODO: sandbox Deno
-  # - repo: https://github.com/nozaq/pre-commit-deno
-  #   rev: 0.1.0
-  #   hooks:
-  #     - id: deno-fmt
-  #     - id: deno-lint
+        # language_version: "22.8.0"
   - repo: local
     hooks:
       - id: check
