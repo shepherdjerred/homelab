@@ -49,9 +49,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
 
   async function runWakeUp() {
     await runParallel([
-      bedroomHeater.set_temperature({
-        hvac_mode: "off",
-      }),
+      bedroomHeater.turn_off(),
       runIf(
         personJerred.state === "home",
         runParallel([
