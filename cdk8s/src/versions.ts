@@ -29,7 +29,7 @@ const versions = {
     "2025.5.0-java21@sha256:93ec97a346b7b27a79433de50cfe47854262ef9781fd92488fd7f82b8563cdbb",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=loose
   "plexinc/pms-docker":
-    "1.41.7.9799-5bce000f7@sha256:75c32bf1619e2bf25678c405ac6e64d1ac21f587f036972abd35e14c19fcfb52",
+    "1.41.7.9823-59f304c16@sha256:623d566f871c4b82d0b4392de2ab57886af09ef305ffb93d8de781c323ede6b9",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/tautulli":
     "2.15.2@sha256:b7c5608cb7622e969be36038e4a0a11efc58626f611452e7cef07ec82b26e602",
