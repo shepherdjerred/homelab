@@ -4,8 +4,20 @@ import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
 import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
+import { Namespace } from "cdk8s-plus";
 
 export function createJenkinsApp(chart: Chart) {
+  new Namespace(chart, `jenkins-namespace`, {
+    metadata: {
+      name: `jenkins`,
+      labels: {
+        "pod-security.kubernetes.io/enforce": "privileged",
+        "pod-security.kubernetes.io/audit": "privileged",
+        "pod-security.kubernetes.io/warn": "privileged",
+      },
+    },
+  });
+
   createIngress(
     chart,
     "jenkins-ingress",
@@ -177,7 +189,7 @@ export function createJenkinsApp(chart: Chart) {
                               {
                                 string: {
                                   description: "tailscale",
-                                  id: "TAILSCALE_AUTH_KEY",
+                                  id: "TS_AUTHKEY",
                                   scope: "GLOBAL",
                                   secret: `\${${tailscale.name}-TS_AUTHKEY}`,
                                 },

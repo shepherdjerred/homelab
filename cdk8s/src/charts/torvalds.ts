@@ -33,7 +33,7 @@ export function createTorvaldsChart(app: App) {
     storage: Size.tebibytes(1),
   });
   const moviesVolume = new ZfsHddVolume(chart, "plex-movies-hdd-pvc", {
-    storage: Size.tebibytes(2),
+    storage: Size.tebibytes(8),
   });
 
   // TODO: create one namespace/argocd app per service
