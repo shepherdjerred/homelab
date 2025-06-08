@@ -1,2 +1,6 @@
 [tools]
 bun = "latest"
+
+[tasks.check]
+description = "Check"
+run = "dagger call check-all --source=."
