@@ -1,0 +1,11 @@
+machine:
+  install:
+    image: factory.talos.dev/metal-installer/1612e3d9548d23f80819529fecb71683b235380f86f9e37adb0070736752423a:v1.10.1
+    disk: /dev/nvme0n1
+    wipe: true
+  network:
+    hostname: torvalds
+  kernel:
+    modules:
+      - name: i915
+      - name: zfs

@@ -2,5 +2,8 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
   "postStartCommand": "pre-commit install && pre-commit install -t commit-msg && (cd cdk8s/ && deno cache src/app.ts)"
 }

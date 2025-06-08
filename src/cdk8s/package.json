@@ -1,0 +1,25 @@
+{
+  "name": "@homelab/cdk8s",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "bun run src/app.ts",
+    "lint": "bunx tsc --noEmit",
+    "type-check": "bunx tsc --noEmit",
+    "test": "echo 'No tests configured for CDK8s'"
+  },
+  "dependencies": {
+    "cdk8s": "^2.69.60",
+    "cdk8s-plus-31": "^2.2.4",
+    "constructs": "^10.4.2",
+    "lodash": "^4.17.21",
+    "ts-pattern": "^5.7.0",
+    "remeda": "^2.21.2",
+    "type-fest": "^4.41.0",
+    "@total-typescript/ts-reset": "^0.6.1"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/bun": "latest"
+  }
+}

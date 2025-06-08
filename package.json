@@ -1,0 +1,23 @@
+{
+  "name": "homelab",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "src/cdk8s",
+    "src/ha"
+  ],
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  },
+  "scripts": {
+    "build": "bun run --filter=* build",
+    "test": "bun run --filter=* test",
+    "lint": "bun run --filter=* lint",
+    "type-check": "bun run --filter=* type-check"
+  }
+}

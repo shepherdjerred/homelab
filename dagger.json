@@ -1,0 +1,33 @@
+{
+  "name": "hello-dagger",
+  "engineVersion": "v0.18.9",
+  "sdk": {
+    "source": "typescript"
+  },
+  "source": ".dagger",
+  "views": [
+    {
+      "name": "clean-source",
+      "patterns": [
+        "**",
+        "!node_modules",
+        "!**/node_modules/**",
+        "!.dagger",
+        "!dist",
+        "!**/dist/**",
+        "!build",
+        "!**/build/**",
+        "!.next",
+        "!**/.next/**",
+        "!target",
+        "!**/target/**",
+        "!vendor",
+        "!**/vendor/**",
+        "!**/*.log",
+        "!**/.env",
+        "!**/.DS_Store"
+      ]
+    }
+  ],
+  "runtime": "bun"
+}

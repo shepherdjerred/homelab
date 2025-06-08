@@ -1,5 +1,0 @@
-apiVersion: v1alpha1
-kind: ExtensionServiceConfig
-name: tailscale
-environment:
-  - TS_AUTHKEY=tskey-auth-your-authkey-here

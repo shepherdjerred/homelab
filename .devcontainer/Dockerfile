@@ -1,4 +1,4 @@
-FROM ubuntu:noble@sha256:b59d21599a2b151e23eea5f6602f4af4d7d31c4e236d22bf0b62b86d2e386b8f
+FROM ubuntu:noble@sha256:6015f66923d7afbc53558d7ccffd325d43b4e249f41a6e93eef074c9505d2233
 
 RUN apt update -y && apt install -y gpg wget curl git
 RUN install -dm 755 /etc/apt/keyrings
@@ -10,6 +10,7 @@ RUN apt install -y mise
 RUN echo 'eval "$(mise activate bash --shims)"' >> ~/.bash_profile
 RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
 
+RUN mise global bun@latest
 RUN mise global deno@latest
 RUN mise global python@latest
 RUN mise global go@latest
@@ -27,3 +28,6 @@ RUN echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://p
 RUN chmod 644 /etc/apt/sources.list.d/kubernetes.list
 RUN apt-get update
 RUN apt-get install -y kubectl
+
+
+RUN curl -fsSL https://dl.dagger.io/dagger/install.sh | BIN_DIR=/usr/local/bin sh

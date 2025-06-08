@@ -1,5 +1,0 @@
-language: typescript
-app: false
-imports:
-  - k8s
-  - /dev/stdin
