@@ -1,4 +1,4 @@
-import merge from "merge";
+import { merge } from "lodash";
 import {
   PersistentVolumeAccessMode,
   PersistentVolumeClaim,
@@ -14,7 +14,7 @@ export class ZfsSsdVolume extends Construct {
   constructor(
     scope: Construct,
     id: string,
-    props: SetRequired<PersistentVolumeClaimProps, "storage">,
+    props: SetRequired<PersistentVolumeClaimProps, "storage">
   ) {
     super(scope, id);
     const baseProps: PersistentVolumeClaimProps = {
@@ -30,7 +30,7 @@ export class ZfsSsdVolume extends Construct {
     this.claim = new PersistentVolumeClaim(
       scope,
       `${id}-pvc`,
-      merge({}, baseProps, props),
+      merge({}, baseProps, props)
     );
   }
 }

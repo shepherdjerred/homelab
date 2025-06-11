@@ -1,4 +1,4 @@
-import merge from "merge";
+import { merge } from "lodash";
 import { ContainerProps, EnvValue } from "cdk8s-plus-31";
 
 export const ROOT_UID = 0;

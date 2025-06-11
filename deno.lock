@@ -1,0 +1,84 @@
+{
+  "version": "5",
+  "redirects": {
+    "https://esm.sh/@types/balanced-match@~1.0.4/index.d.ts": "https://esm.sh/@types/balanced-match@1.0.4/index.d.ts",
+    "https://esm.sh/@types/brace-expansion@~1.1.2/index.d.ts": "https://esm.sh/@types/brace-expansion@1.1.2/index.d.ts",
+    "https://esm.sh/@types/minimatch@~3.0.5/index.d.ts": "https://esm.sh/@types/minimatch@3.0.5/index.d.ts",
+    "https://esm.sh/balanced-match@^1.0.0?target=denonext": "https://esm.sh/balanced-match@1.0.2?target=denonext",
+    "https://esm.sh/brace-expansion@^1.1.7?target=denonext": "https://esm.sh/brace-expansion@1.1.11?target=denonext",
+    "https://esm.sh/constructs@^10.3.0?target=denonext": "https://esm.sh/constructs@10.4.2?target=denonext",
+    "https://esm.sh/constructs@^10?target=denonext": "https://esm.sh/constructs@10.4.2?target=denonext",
+    "https://esm.sh/minimatch@^3.1.2?target=denonext": "https://esm.sh/minimatch@3.1.2?target=denonext"
+  },
+  "remote": {
+    "https://esm.sh/balanced-match@1.0.2/denonext/balanced-match.mjs": "f5c1249307feeb11c86f01aad5a3e1956837aa506720754f39277b0318f3fca0",
+    "https://esm.sh/balanced-match@1.0.2?target=denonext": "0212d336642dd2f874fe13604bf5eaa2caf08c1dab84e87f4b284d9e8972d9c9",
+    "https://esm.sh/brace-expansion@1.1.11/denonext/brace-expansion.mjs": "3ff9824fb0073fcf8f5c3a591485ec540b07d40b965d05ee6bfe04fb8da82704",
+    "https://esm.sh/brace-expansion@1.1.11?target=denonext": "4bab1de035b4c92ab513cc9583c2f5745b188d66fb9f8deb5e22bfaffd3f1603",
+    "https://esm.sh/cdk8s-plus-30@2.3.9/X-ZWNkazhz/denonext/cdk8s-plus-30.mjs": "c5c1cbb0e9a7c14531f330601905253b11589827c579e71e2d6b02d4ea3d6d0d",
+    "https://esm.sh/cdk8s-plus-30@2.3.9?external=cdk8s": "21f660af5e006561d2d54270969f5c265e0be02aac0d8d27d6d8b79dad9f810e",
+    "https://esm.sh/cdk8s@2.69.60/denonext/cdk8s.bundle.mjs": "3ff073989056c59ea34d8732b1b01d305729e392cc83f0b3ed5ae236edc88dc1",
+    "https://esm.sh/cdk8s@2.69.60?standalone": "367a7b8fc5bd855b234e6f02a6f71ecc56e88fc3c4b837b223983130e7fe51c0",
+    "https://esm.sh/constructs@10.4.2": "1bfbc507eaaa2eca688b78443c61c22f287bb65b3b8194beab6534c458121f35",
+    "https://esm.sh/constructs@10.4.2/denonext/constructs.mjs": "cdefe2b617067050086af372d96372aa8d78cac42f274452d10ada2d22647ef5",
+    "https://esm.sh/constructs@10.4.2?target=denonext": "1bfbc507eaaa2eca688b78443c61c22f287bb65b3b8194beab6534c458121f35",
+    "https://esm.sh/minimatch@3.1.2/denonext/minimatch.mjs": "9afbcc692479261d66232c959ec17f204d4dd55f6297e3f0dbce3d70586c171c",
+    "https://esm.sh/minimatch@3.1.2?target=denonext": "4d1367aff41856e84350a30289fa3a7214c7c1d4fd7f808e9f1c6db4f8944de8",
+    "https://esm.sh/type-fest@4.41.0": "fabf6997a3adf11e45d11e3c4d58d0634ab98f9d72f3116f3694123818ccd457"
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@types/bun@latest",
+        "npm:typescript@5"
+      ]
+    },
+    "members": {
+      "src/cdk8s": {
+        "dependencies": [
+          "npm:@total-typescript/ts-reset@0.6.1"
+        ],
+        "packageJson": {
+          "dependencies": [
+            "npm:@total-typescript/ts-reset@~0.6.1",
+            "npm:@types/bun@latest",
+            "npm:cdk8s-plus-31@^2.2.4",
+            "npm:cdk8s@^2.69.60",
+            "npm:constructs@^10.4.2",
+            "npm:deepmerge@^4.3.1",
+            "npm:lodash@^4.17.21",
+            "npm:remeda@^2.21.2",
+            "npm:ts-pattern@^5.7.0",
+            "npm:type-fest@^4.41.0",
+            "npm:typescript@5"
+          ]
+        }
+      },
+      "src/ha": {
+        "packageJson": {
+          "dependencies": [
+            "npm:@ai-sdk/anthropic@^1.2.12",
+            "npm:@digital-alchemy/automation@^25.3.1",
+            "npm:@digital-alchemy/core@^25.4.2",
+            "npm:@digital-alchemy/hass@^25.3.2",
+            "npm:@digital-alchemy/synapse@^25.3.1",
+            "npm:@eslint/js@^9.28.0",
+            "npm:@mastra/libsql@0.10",
+            "npm:@mastra/loggers@0.10",
+            "npm:@mastra/mcp@~0.10.1",
+            "npm:@total-typescript/ts-reset@~0.6.1",
+            "npm:@types/bun@^1.2.15",
+            "npm:eslint@^9.28.0",
+            "npm:mastra@~0.10.1",
+            "npm:prettier@3.5.3",
+            "npm:remeda@^2.22.5",
+            "npm:ts-pattern@^5.7.1",
+            "npm:typescript-eslint@^8.33.0",
+            "npm:typescript@^5.8.3",
+            "npm:zod@^3.25.45"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@ import { Ingress, IngressBackend, IngressProps, Service } from "cdk8s-plus-31";
 import { ApiObject } from "cdk8s";
 import { JsonPatch } from "cdk8s";
 import { Construct } from "constructs";
-import merge from "merge";
+import { merge } from "lodash";
 import { Chart } from "cdk8s";
 import { KubeIngress } from "../../imports/k8s.ts";
 
@@ -19,7 +19,7 @@ export class TailscaleIngress extends Construct {
       host: string;
       funnel?: boolean;
       service: Service | ServiceObject;
-    },
+    }
   ) {
     super(scope, id);
 
@@ -44,14 +44,10 @@ export class TailscaleIngress extends Construct {
       };
     }
 
-    const ingress = new Ingress(
-      scope,
-      `${id}-ingress`,
-      merge({}, base, props),
-    );
+    const ingress = new Ingress(scope, `${id}-ingress`, merge({}, base, props));
 
     ApiObject.of(ingress).addJsonPatch(
-      JsonPatch.add("/spec/ingressClassName", "tailscale"),
+      JsonPatch.add("/spec/ingressClassName", "tailscale")
     );
   }
 }
@@ -63,7 +59,7 @@ export function createIngress(
   service: string,
   port: number,
   hosts: string[],
-  funnel: boolean,
+  funnel: boolean
 ) {
   const ingress = new KubeIngress(chart, name, {
     metadata: {

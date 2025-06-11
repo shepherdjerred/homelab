@@ -5,6 +5,7 @@ import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
 import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
 import { Namespace } from "cdk8s-plus-31";
+import { readFileSync } from "fs";
 
 export function createJenkinsApp(chart: Chart) {
   new Namespace(chart, `jenkins-namespace`, {
@@ -25,7 +26,7 @@ export function createJenkinsApp(chart: Chart) {
     "jenkins",
     8080,
     ["jenkins"],
-    true,
+    true
   );
 
   const tailscale = new OnePasswordItem(
@@ -40,23 +41,19 @@ export function createJenkinsApp(chart: Chart) {
         name: "tailscale-auth-key",
         namespace: "jenkins",
       },
-    },
+    }
   );
 
-  const jenkins = new OnePasswordItem(
-    chart,
-    "jenkins-admin-password",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/axi3lsa6uqjy2ns6pvyl4liiq4",
-      },
-      metadata: {
-        name: "jenkins-admin-password",
-        namespace: "jenkins",
-      },
+  const jenkins = new OnePasswordItem(chart, "jenkins-admin-password", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/axi3lsa6uqjy2ns6pvyl4liiq4",
     },
-  );
+    metadata: {
+      name: "jenkins-admin-password",
+      namespace: "jenkins",
+    },
+  });
 
   const earthly = new OnePasswordItem(chart, "earthly-onepassword-jenkins", {
     spec: {
@@ -102,9 +99,8 @@ export function createJenkinsApp(chart: Chart) {
     },
   });
 
-  const plugins = Deno.readTextFileSync("config/jenkins/plugins.txt").split(
-    "\n",
-  )
+  const plugins = readFileSync("config/jenkins/plugins.txt", "utf-8")
+    .split("\n")
     .filter(Boolean);
 
   new Application(chart, "jenkins-app", {
@@ -174,8 +170,7 @@ export function createJenkinsApp(chart: Chart) {
                                   appID: "830890",
                                   description: "github app",
                                   id: "github-app",
-                                  privateKey:
-                                    `\${${githubApp.name}-private-key}`,
+                                  privateKey: `\${${githubApp.name}-private-key}`,
                                 },
                               },
                               {

@@ -1,18 +1,7 @@
 {
-  "deno.enable": true,
-  "deno.lint": true,
-  "deno.codeLens.implementations": true,
-  "deno.cacheOnSave": true,
   "search.exclude": {
     "**/imports/*.ts": true,
     "**/dist/*.yaml": true
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "files.associations": {
-    "**/homeassistant/*.yaml": "home-assistant"
-  },
-  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
 }

@@ -7,6 +7,7 @@ import {
   Volume,
 } from "cdk8s-plus-31";
 import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
+import { readdirSync, statSync } from "fs";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
@@ -18,23 +19,19 @@ export function createHomeAssistantDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const claim = new ZfsSsdVolume(
-    chart,
-    "homeassistant-pvc",
-    {
-      storage: Size.gibibytes(32),
-    },
-  );
+  const claim = new ZfsSsdVolume(chart, "homeassistant-pvc", {
+    storage: Size.gibibytes(32),
+  });
 
   const volume = Volume.fromPersistentVolumeClaim(
     chart,
     "homeassistant-volume",
-    claim.claim,
+    claim.claim
   );
 
-  const files = Array.from(Deno.readDirSync("config/homeassistant"))
-    .filter((entry) => entry.isFile)
-    .map((entry) => entry.name);
+  const files = readdirSync("config/homeassistant")
+    .filter((entry) => statSync(`config/homeassistant/${entry}`).isFile())
+    .map((entry) => entry);
 
   const config = new ConfigMap(chart, "ha-cm");
   config.addDirectory("config/homeassistant");
@@ -66,21 +63,21 @@ export function createHomeAssistantDeployment(chart: Chart) {
           path: "/config",
           volume,
         },
-        ...(files.map((file) => {
+        ...files.map((file) => {
           return {
             path: `/config/${file}`,
             subPath: file,
             volume: configVolume,
           };
-        })),
+        }),
       ],
-    }),
+    })
   );
 
   // this simplifies mDNS
   // TODO: remove host networking
   ApiObject.of(deployment).addJsonPatch(
-    JsonPatch.add("/spec/template/spec/hostNetwork", true),
+    JsonPatch.add("/spec/template/spec/hostNetwork", true)
   );
 
   const service = new Service(chart, "homeassistant-service", {

@@ -1,6 +1,6 @@
 import { ContainerProps, EnvValue } from "cdk8s-plus-31";
 import { commonProps, ROOT_GID, ROOT_UID } from "./common.ts";
-import merge from "merge";
+import { merge } from "lodash";
 
 export const LINUXSERVER_UID = 1000;
 export const LINUXSERVER_GID = 1000;
@@ -23,7 +23,7 @@ const commonLinuxServerProps: Partial<ContainerProps> = {
 };
 
 export function withCommonLinuxServerProps(
-  props: ContainerProps,
+  props: ContainerProps
 ): ContainerProps {
   return merge({}, commonLinuxServerProps, props);
 }
