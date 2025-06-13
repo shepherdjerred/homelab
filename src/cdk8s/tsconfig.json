@@ -24,7 +24,8 @@
     // Maximum strictness for safety
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "exactOptionalPropertyTypes": true,
+    // cdk8s doesn't generate good types
+    "exactOptionalPropertyTypes": false,
     "noImplicitReturns": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUnusedLocals": true,

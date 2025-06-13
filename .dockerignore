@@ -11,4 +11,3 @@ vendor/
 .env
 .DS_Store
 bun.lock
-deno.lock

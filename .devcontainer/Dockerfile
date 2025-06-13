@@ -11,7 +11,6 @@ RUN echo 'eval "$(mise activate bash --shims)"' >> ~/.bash_profile
 RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
 
 RUN mise global bun@latest
-RUN mise global deno@latest
 RUN mise global python@latest
 RUN mise global go@latest
 RUN mise install

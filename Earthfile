@@ -34,9 +34,6 @@ sync:
 pre-commit:
   FROM python
   WORKDIR /workspace
-  RUN curl -fsSL https://deno.land/install.sh | sh
-  ENV DENO_INSTALL="/root/.deno"
-  ENV PATH="$DENO_INSTALL/bin:$PATH"
   RUN pip install pre-commit
   COPY +kube-linter/kube-linter /usr/local/bin/
 

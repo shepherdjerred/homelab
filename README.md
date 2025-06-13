@@ -19,7 +19,7 @@ some things I'm proud of:
 - Close to zero host setup
   - It's just a few commands to deploy my entire cluster
 - Entirely written in TypeScript built with [cdk8s](https://cdk8s.io/) and
-  [Deno](https://deno.com/)
+  [Bun](https://bun.sh/)
 - Automated backups
 - HTTPS ingress with [Tailscale](https://tailscale.com/)
 - All secrets managed with [1Password](https://1password.com/)
@@ -30,7 +30,7 @@ some things I'm proud of:
   - For Docker images (w/ pinned SHAs)
   - For Helm charts
   - For Jenkins plugins
-  - For Deno dependencies
+  - For Bun dependencies
   - [My approach](https://github.com/shepherdjerred/homelab/blob/main/cdk8s/src/versions.ts)
     allows all of my dependencies to be pinned and updated regularly
 
@@ -131,7 +131,7 @@ some things I'm proud of:
 1. Build and deploy the manifests in this repo:
 
    ```bash
-   cd cdk8s && deno task up
+   cd cdk8s
    ```
 
 1. Get the initial Argo CD `admin` password:

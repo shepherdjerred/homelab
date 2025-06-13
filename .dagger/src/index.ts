@@ -98,29 +98,6 @@ export class HelloDagger {
   }
 
   /**
-   * Builds the CDK8s application using Bun
-   */
-  @func()
-  async buildCdk8s(
-    @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-      ],
-    })
-    source: Directory
-  ): Promise<Directory> {
-    return this.getBaseContainer(source, "/workspace/src/cdk8s")
-      .withExec(["bun", "run", "build"])
-      .directory("/workspace/src/cdk8s");
-  }
-
-  /**
    * Type checks the CDK8s application using Bun
    */
   @func()
@@ -208,5 +185,40 @@ export class HelloDagger {
       .join("\n");
 
     return `Pipeline Results:\n${summary}`;
+  }
+
+  /**
+   * Builds and outputs Kubernetes manifests from CDK8s to a mounted directory
+   */
+  @func()
+  async buildK8sManifests(
+    @argument({
+      ignore: [
+        "node_modules",
+        "dist",
+        "build",
+        ".cache",
+        "*.log",
+        ".env*",
+        "!.env.example",
+      ],
+    })
+    source: Directory,
+    @argument({
+      description: "Directory to save the generated manifests to",
+    })
+    outputDir: Directory
+  ): Promise<Directory> {
+    // Build the CDK8s application
+    const builtContainer = this.getBaseContainer(source, "/workspace")
+      .withWorkdir("/workspace/src/cdk8s")
+      .withExec(["bun", "run", "src/app.ts"]);
+
+    // Copy the generated manifests to the output directory
+    const manifestsDir = builtContainer.directory("/workspace/src/cdk8s/dist");
+    await outputDir.withDirectory(".", manifestsDir);
+
+    // Return the output directory so Dagger copies it to the host
+    return outputDir;
   }
 }
