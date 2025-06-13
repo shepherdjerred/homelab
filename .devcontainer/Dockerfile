@@ -4,6 +4,7 @@ RUN apt update -y && apt install -y gpg wget curl git
 RUN install -dm 755 /etc/apt/keyrings
 RUN wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor > /etc/apt/keyrings/mise-archive-keyring.gpg
 RUN echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" > /etc/apt/sources.list.d/mise.list
+RUN echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=arm64] https://mise.jdx.dev/deb stable main" > /etc/apt/sources.list.d/mise.list
 RUN apt update
 RUN apt install -y mise
 
