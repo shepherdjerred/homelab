@@ -64,7 +64,7 @@ const versions = {
   "home-assistant/home-assistant": "2025.6.1",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing":
-    "1.29.6@sha256:644887112036dc36905ad651a5c7fddee209456261c11558792057035058b0ad",
+    "1.29.7@sha256:2600853512ea2744d88b05fba7524d4bc6d99e14975d408a7f53beee0a2b83e1",
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v2.7.4",
   // renovate: datasource=helm registry=https://chartmuseum.github.io/charts versioning=semver
