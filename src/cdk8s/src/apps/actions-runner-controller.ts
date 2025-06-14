@@ -1,5 +1,6 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
+import { Namespace } from "cdk8s-plus-31";
 import versions from "../versions.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
@@ -12,10 +13,9 @@ export function createActionsRunnerControllerApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
-        repoUrl:
-          "oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller",
+        repoUrl: "ghcr.io/actions/actions-runner-controller-charts",
         chart: "gha-runner-scale-set-controller",
-        targetRevision: versions["actions-runner-controller"],
+        targetRevision: versions["actions/actions-runner-controller"],
         helm: {
           valuesObject: {
             // TODO: Add controller-specific values if needed
@@ -29,6 +29,16 @@ export function createActionsRunnerControllerApp(chart: Chart) {
       syncPolicy: {
         automated: {},
         syncOptions: ["CreateNamespace=true"],
+      },
+    },
+  });
+
+  // Ensure the arc-runners namespace exists before creating secrets
+  new Namespace(chart, "arc-runners-namespace", {
+    metadata: {
+      name: "arc-runners",
+      labels: {
+        // Add any labels if needed
       },
     },
   });
@@ -57,15 +67,16 @@ export function createActionsRunnerControllerApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
-        repoUrl:
-          "oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set",
+        repoUrl: "ghcr.io/actions/actions-runner-controller-charts",
         chart: "gha-runner-scale-set",
-        targetRevision: versions["gha-runner-scale-set"],
+        targetRevision: versions["actions/actions-runner-controller"],
         helm: {
           valuesObject: {
             githubConfigUrl: "https://github.com/shepherdjerred/homelab",
-            githubConfigSecret: {
-              github_token: githubPat.name,
+            githubConfigSecret: githubPat.name,
+            controllerServiceAccount: {
+              namespace: "arc-system",
+              name: "actions-runner-controller-gha-rs-controller",
             },
           },
         },
