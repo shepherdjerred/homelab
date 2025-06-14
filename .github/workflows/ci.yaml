@@ -7,7 +7,7 @@ on:
 
 jobs:
   dagger-ci:
-    runs-on: [self-hosted, homelab-runner-set]
+    runs-on: [homelab-runner-set]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
