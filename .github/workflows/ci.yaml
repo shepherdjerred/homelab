@@ -27,7 +27,7 @@ jobs:
         env:
           ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
           GHCR_USERNAME: shepherdjerred
-          GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_PASSWORD: ${{ github.token }}
           CHART_VERSION: ${{ github.run_number }}
           CHARTMUSEUM_USERNAME: sjerred
           CHARTMUSEUM_PASSWORD: ${{ secrets.CHARTMUSEUM_PASSWORD }}
