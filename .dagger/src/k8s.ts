@@ -1,4 +1,4 @@
-import { argument, Directory, dag } from "@dagger.io/dagger";
+import { Directory, dag } from "@dagger.io/dagger";
 import { buildK8sManifests } from "./cdk8s";
 
 /**

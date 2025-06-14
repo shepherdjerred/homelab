@@ -31,6 +31,7 @@ jobs:
           CHART_VERSION: ${{ github.run_number }}
           CHARTMUSEUM_USERNAME: sjerred
           CHARTMUSEUM_PASSWORD: ${{ secrets.CHARTMUSEUM_PASSWORD }}
+          DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
         run: |
           dagger call ci \
             --source=. \

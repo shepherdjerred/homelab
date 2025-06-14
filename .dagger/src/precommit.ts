@@ -1,4 +1,4 @@
-import { dag, argument, Directory, File, Container } from "@dagger.io/dagger";
+import { dag, Directory } from "@dagger.io/dagger";
 
 export async function preCommit(
   source: Directory,
