@@ -18,6 +18,7 @@ import { createPromtailApp } from "../apps/promtail.ts";
 import { Namespace } from "cdk8s-plus-31";
 import { createStorageClasses } from "../storageclasses.ts";
 import { createOpenEBSApp } from "../apps/openebs.ts";
+import { createActionsRunnerControllerApp } from "../apps/actions-runner-controller.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -52,4 +53,5 @@ export function createAppsChart(app: App) {
   createMinecraftApp(chart);
   createLokiApp(chart);
   createPromtailApp(chart);
+  createActionsRunnerControllerApp(chart);
 }
