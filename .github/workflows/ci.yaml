@@ -34,26 +34,22 @@ jobs:
         run: |
           dagger call ci \
             --source=. \
-            --argocd-token env:ARGOCD_TOKEN \
+            --argocd-token env://ARGOCD_TOKEN \
             --ghcr-username "$GHCR_USERNAME" \
-            --ghcr-password env:GHCR_PASSWORD \
+            --ghcr-password env://GHCR_PASSWORD \
             --chart-version "$CHART_VERSION" \
             --chart-museum-username "$CHARTMUSEUM_USERNAME" \
-            --chart-museum-password env:CHARTMUSEUM_PASSWORD \
+            --chart-museum-password env://CHARTMUSEUM_PASSWORD \
             --env prod
 
       - name: Run Dagger CI pipeline (dev)
         if: github.event_name == 'pull_request' || github.ref != 'refs/heads/main'
-        env:
-          ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
-          GHCR_USERNAME: dummy
-          GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: |
           dagger call ci \
             --source=. \
             --argocd-token dummy \
-            --ghcr-username "$GHCR_USERNAME" \
-            --ghcr-password env:GHCR_PASSWORD \
+            --ghcr-username dummy \
+            --ghcr-password dummy \
             --chart-version dummy \
             --chart-museum-username dummy \
             --chart-museum-password dummy \

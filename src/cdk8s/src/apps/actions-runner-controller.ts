@@ -5,6 +5,18 @@ import versions from "../versions.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createActionsRunnerControllerApp(chart: Chart) {
+  // Ensure the arc-system namespace exists before creating controller resources
+  new Namespace(chart, "arc-system-namespace", {
+    metadata: {
+      name: "arc-system",
+      labels: {
+        "pod-security.kubernetes.io/enforce": "privileged",
+        "pod-security.kubernetes.io/audit": "privileged",
+        "pod-security.kubernetes.io/warn": "privileged",
+      },
+    },
+  });
+
   // Controller install (gha-runner-scale-set-controller)
   new Application(chart, "arc-controller-app", {
     metadata: {
@@ -38,7 +50,9 @@ export function createActionsRunnerControllerApp(chart: Chart) {
     metadata: {
       name: "arc-runners",
       labels: {
-        // Add any labels if needed
+        "pod-security.kubernetes.io/enforce": "privileged",
+        "pod-security.kubernetes.io/audit": "privileged",
+        "pod-security.kubernetes.io/warn": "privileged",
       },
     },
   });
@@ -77,6 +91,9 @@ export function createActionsRunnerControllerApp(chart: Chart) {
             controllerServiceAccount: {
               namespace: "arc-system",
               name: "actions-runner-controller-gha-rs-controller",
+            },
+            containerMode: {
+              type: "dind",
             },
           },
         },
