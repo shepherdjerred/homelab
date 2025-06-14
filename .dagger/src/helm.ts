@@ -1,4 +1,5 @@
-import { dag, Directory, Secret, argument } from "@dagger.io/dagger";
+import { dag, Directory, Secret } from "@dagger.io/dagger";
+import { Stage } from "./stage";
 
 /**
  * Build the Helm chart, update version/appVersion, and export artifacts.

@@ -1,4 +1,4 @@
-import { dag, argument, Secret } from "@dagger.io/dagger";
+import { dag, Secret } from "@dagger.io/dagger";
 
 /**
  * Triggers a sync operation on the ArgoCD application using the provided token as a Dagger Secret.

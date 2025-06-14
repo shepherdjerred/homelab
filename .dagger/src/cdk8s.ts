@@ -1,4 +1,4 @@
-import { argument, Directory } from "@dagger.io/dagger";
+import { Directory } from "@dagger.io/dagger";
 import { getBaseContainer } from "./base";
 
 export async function typeCheckCdk8s(source: Directory): Promise<string> {
