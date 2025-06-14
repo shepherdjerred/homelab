@@ -1,150 +1,28 @@
-import {
-  dag,
-  Container,
-  Directory,
-  object,
-  func,
-  argument,
-} from "@dagger.io/dagger";
+import { func, argument, Directory, object, Secret } from "@dagger.io/dagger";
+import { HA } from "./ha";
+import { CDK8s } from "./cdk8s";
+import { Precommit } from "./precommit";
+import { ArgoCD } from "./argocd";
+import { dag } from "@dagger.io/dagger";
 
-/**
- * NOTE: Dagger functions use ignore patterns to exclude build artifacts and dependencies
- * Example: dagger call build-ha --source=.
- */
 @object()
-export class HelloDagger {
-  // Common ignore patterns for all functions
+export class Homelab {
+  private ha: HA;
+  private cdk8s: CDK8s;
+  private precommit: Precommit;
+  private argocd: ArgoCD;
 
-  /**
-   * Creates a base container with common dependencies
-   */
-  private getBaseContainer(source: Directory, workdir: string): Container {
-    return dag
-      .container()
-      .from("oven/bun:latest")
-      .withExec(["apt-get", "update"])
-      .withExec(["apt-get", "install", "-y", "python3", "build-essential"])
-      .withMountedDirectory("/workspace", source)
-      .withWorkdir(workdir)
-      .withExec(["bun", "install"]);
-  }
-  /**
-   * Builds the HA TypeScript application using Bun
-   */
-  @func()
-  async buildHa(
-    @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-      ],
-    })
-    source: Directory
-  ): Promise<Directory> {
-    return this.getBaseContainer(source, "/workspace/src/ha")
-      .withExec(["bun", "run", "build"])
-      .directory("/workspace/src/ha");
+  constructor() {
+    this.ha = new HA();
+    this.cdk8s = new CDK8s();
+    this.precommit = new Precommit();
+    this.argocd = new ArgoCD();
   }
 
   /**
-   * Runs tests for the HA TypeScript application using Bun
-   */
-  @func()
-  async testHa(
-    @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-      ],
-    })
-    source: Directory
-  ): Promise<string> {
-    return this.getBaseContainer(source, "/workspace/src/ha")
-      .withExec(["bun", "test"])
-      .stdout();
-  }
-
-  /**
-   * Type checks the HA TypeScript application
-   */
-  @func()
-  async typeCheckHa(
-    @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-      ],
-    })
-    source: Directory
-  ): Promise<string> {
-    return this.getBaseContainer(source, "/workspace/src/ha")
-      .withExec(["bunx", "tsc", "--noEmit"])
-      .stdout();
-  }
-
-  /**
-   * Type checks the CDK8s application using Bun
-   */
-  @func()
-  async typeCheckCdk8s(
-    @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-      ],
-    })
-    source: Directory
-  ): Promise<string> {
-    return this.getBaseContainer(source, "/workspace/src/cdk8s")
-      .withExec(["bunx", "tsc", "--noEmit"])
-      .stdout();
-  }
-
-  /**
-   * Lints the HA project
-   */
-  @func()
-  async lintHa(
-    @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-      ],
-    })
-    source: Directory
-  ): Promise<string> {
-    return this.getBaseContainer(source, "/workspace/src/ha")
-      .withExec(["bun", "run", "lint"])
-      .stdout();
-  }
-
-  /**
-   * Runs all checks for the workspace
+   * Runs type check, test, and lint for HA, and type check for CDK8s in parallel.
+   * @param source The source directory to use for all checks.
+   * @returns A summary string of the results for each check.
    */
   @func()
   async checkAll(
@@ -158,40 +36,39 @@ export class HelloDagger {
         ".env*",
         "!.env.example",
       ],
+      defaultPath: ".",
     })
     source: Directory
   ): Promise<string> {
-    // Run HA checks
-    const haTypeCheck = this.typeCheckHa(source);
-    const haTest = this.testHa(source);
-    const haLint = this.lintHa(source);
-
-    // Run CDK8s checks
-    const cdk8sTypeCheck = this.typeCheckCdk8s(source);
-
-    // Wait for all to complete and return summary
+    const haTypeCheck = this.ha.typeCheckHa(source);
+    const haTest = this.ha.testHa(source);
+    const haLint = this.ha.lintHa(source);
+    const cdk8sTypeCheck = this.cdk8s.typeCheckCdk8s(source);
     const results = await Promise.allSettled([
       haTypeCheck,
       haTest,
       haLint,
       cdk8sTypeCheck,
     ]);
-
     const summary = results
       .map((result, index) => {
         const names = ["HA TypeCheck", "HA Test", "HA Lint", "CDK8s TypeCheck"];
         return `${names[index]}: ${result.status === "fulfilled" ? "PASSED" : "FAILED"}`;
       })
       .join("\n");
-
     return `Pipeline Results:\n${summary}`;
   }
 
   /**
-   * Builds and outputs Kubernetes manifests from CDK8s to a mounted directory
+   * Runs pre-commit, kube-linter, and ArgoCD sync as part of the CI pipeline.
+   * @param source The source directory for pre-commit and kube-linter.
+   * @param argocdToken The ArgoCD API token for authentication (as a Dagger Secret).
+   * @param targetArch The target architecture for kube-linter (default: "amd64").
+   * @param kubeLinterVersion The version of kube-linter to use (default: "v0.6.8").
+   * @returns A summary string of the results for each CI step.
    */
   @func()
-  async buildK8sManifests(
+  async ci(
     @argument({
       ignore: [
         "node_modules",
@@ -202,23 +79,18 @@ export class HelloDagger {
         ".env*",
         "!.env.example",
       ],
+      defaultPath: ".",
     })
     source: Directory,
-    @argument({
-      description: "Directory to save the generated manifests to",
-    })
-    outputDir: Directory
-  ): Promise<Directory> {
-    // Build the CDK8s application
-    const builtContainer = this.getBaseContainer(source, "/workspace")
-      .withWorkdir("/workspace/src/cdk8s")
-      .withExec(["bun", "run", "src/app.ts"]);
-
-    // Copy the generated manifests to the output directory
-    const manifestsDir = builtContainer.directory("/workspace/src/cdk8s/dist");
-    await outputDir.withDirectory(".", manifestsDir);
-
-    // Return the output directory so Dagger copies it to the host
-    return outputDir;
+    argocdToken: Secret,
+    targetArch: string = "amd64",
+    kubeLinterVersion: string = "v0.6.8"
+  ): Promise<string> {
+    const preCommitResult = await this.precommit.preCommit(source);
+    const syncResult = await this.argocd.sync(argocdToken);
+    return [
+      "Pre-commit result:\n" + preCommitResult,
+      "Sync result:\n" + syncResult,
+    ].join("\n\n");
   }
 }

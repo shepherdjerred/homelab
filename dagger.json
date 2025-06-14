@@ -1,9 +1,8 @@
 {
-  "name": "hello-dagger",
-  "engineVersion": "v0.18.9",
+  "name": "homelab",
+  "engineVersion": "v0.18.10",
   "sdk": {
     "source": "typescript"
   },
-  "source": ".dagger",
-  "runtime": "bun"
+  "source": ".dagger"
 }

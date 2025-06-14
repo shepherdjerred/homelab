@@ -23,7 +23,7 @@ some things I'm proud of:
 - Automated backups
 - HTTPS ingress with [Tailscale](https://tailscale.com/)
 - All secrets managed with [1Password](https://1password.com/)
-- Jenkins CI w/ Earthly used by my open-source projects
+- Jenkins CI w/ Dagger used by my open-source projects
 - Entirely automated deployment for updates, upgrades, etc.
   - Commit-to-deployment takes ~1min
 - Automated dependency updates

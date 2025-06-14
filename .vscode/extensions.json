@@ -3,7 +3,5 @@
     "ms-kubernetes-tools.vscode-kubernetes-tools",
     "esbenp.prettier-vscode",
     "github.vscode-github-actions",
-    "glehmann.earthlyls",
-    "earthly.earthfile-syntax-highlighting"
   ]
 }

@@ -1,6 +1,6 @@
 const versions = {
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
-  "connect": "1.17.0",
+  connect: "1.17.0",
   // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
   "argo-cd": "8.0.14",
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
@@ -8,7 +8,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
   "intel-device-plugins-operator": "0.32.1",
   // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver
-  "jenkins": "5.8.32",
+  jenkins: "5.8.32",
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
   "node-feature-discovery": "0.17.3",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
@@ -61,26 +61,25 @@ const versions = {
   "tailscale/golink":
     "main@sha256:b3f8bceb1d46cf98da46347f271d7b153877310e5c1918c181c081c19e3827c0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
-  "home-assistant/home-assistant":
-    "2025.5.3@sha256:8a99004ff832dbd535e6ac4d141042bc31141ff6a86b4d5bb288b3680fbceac1",
+  "home-assistant/home-assistant": "2025.6.1",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing":
     "1.29.6@sha256:644887112036dc36905ad651a5c7fddee209456261c11558792057035058b0ad",
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v2.7.4",
   // renovate: datasource=helm registry=https://chartmuseum.github.io/charts versioning=semver
-  "chartmuseum": "3.10.3",
+  chartmuseum: "3.10.3",
   // renovate: datasource=helm registry=https://itzg.github.io/minecraft-server-charts versioning=semver
-  "minecraft": "4.20.0",
+  minecraft: "4.20.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr":
     "2.17.0@sha256:d0700764e30cfb6c10b3e13c555427f931f2193c57effa3938458f146da504df",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
-  "loki": "6.30.1",
+  loki: "6.30.1",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
-  "promtail": "6.17.0",
+  promtail: "6.17.0",
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
-  "openebs": "4.2.0",
+  openebs: "4.2.0",
   "shepherdjerred/scout-for-lol/beta": "1.0.167",
   "shepherdjerred/scout-for-lol/prod": "1.0.2",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
