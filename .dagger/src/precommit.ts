@@ -42,7 +42,7 @@ export async function preCommit(
     .withExec([
       "sh",
       "-c",
-      "echo 'deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main' > /etc/apt/sources.list.d/mise.list",
+      `echo 'deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg] https://mise.jdx.dev/deb stable main' > /etc/apt/sources.list.d/mise.list`,
     ])
     .withExec(["apt-get", "update"])
     .withExec(["apt-get", "install", "-y", "mise"])
