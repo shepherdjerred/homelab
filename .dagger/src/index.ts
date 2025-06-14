@@ -8,6 +8,12 @@ import { buildAndPushHaImage } from "./ha";
 import { build as helmBuildFn, publish as helmPublishFn } from "./helm";
 import { Stage } from "./stage";
 
+type StepStatus = "passed" | "failed" | "skipped";
+interface StepResult {
+  status: StepStatus;
+  message: string;
+}
+
 @object()
 export class Homelab {
   /**
@@ -53,11 +59,15 @@ export class Homelab {
   }
 
   /**
-   * Runs pre-commit, kube-linter, ArgoCD sync, builds for CDK8s and HA, and publishes the HA image (if prod) as part of the CI pipeline.
+   * Runs pre-commit, kube-linter, ArgoCD sync, builds for CDK8s and HA, publishes the HA image (if prod), and publishes the Helm chart (if prod) as part of the CI pipeline.
    * @param source The source directory for pre-commit, kube-linter, and builds.
    * @param argocdToken The ArgoCD API token for authentication (as a Dagger Secret).
-   * @param registryUsername The container registry username (required for prod).
-   * @param registryPassword The container registry password (as a Dagger Secret, required for prod).
+   * @param ghcrUsername The GHCR username (required for prod).
+   * @param ghcrPassword The GHCR password (as a Dagger Secret, required for prod).
+   * @param chartVersion The Helm chart version to publish (required for prod).
+   * @param chartRepo The ChartMuseum repo URL (required for prod).
+   * @param chartMuseumUsername The ChartMuseum username (required for prod).
+   * @param chartMuseumPassword The ChartMuseum password (as a Dagger Secret, required for prod).
    * @param targetArch The target architecture for kube-linter (default: "amd64").
    * @param kubeLinterVersion The version of kube-linter to use (default: "v0.6.8").
    * @param env The environment (e.g., 'prod' or 'dev').
@@ -79,59 +89,107 @@ export class Homelab {
     })
     source: Directory,
     argocdToken: Secret,
-    registryUsername: string,
-    registryPassword: Secret,
+    @argument() ghcrUsername: string,
+    ghcrPassword: Secret,
+    @argument() chartVersion: string,
+    chartRepo: string = "https://chartmuseum.tailnet-1a49.ts.net",
+    @argument() chartMuseumUsername: string,
+    chartMuseumPassword: Secret,
     targetArch: string = "amd64",
     kubeLinterVersion: string = "v0.6.8",
     @argument() env: Stage = Stage.Dev
   ): Promise<string> {
-    const preCommitResult = await preCommit(
-      source,
-      targetArch,
-      kubeLinterVersion
-    );
-    let syncResult = "[SKIPPED] Not prod";
-    if (env === Stage.Prod) {
-      syncResult = await argocdSync(argocdToken);
-    }
-    // Build CDK8s manifests
-    let cdk8sBuildResult: string;
+    // Pre-commit
+    let preCommitResult: StepResult;
     try {
-      await buildK8sManifests(source, source); // outputDir is not used, just for build check
-      cdk8sBuildResult = "CDK8s Build: PASSED";
+      const msg = await preCommit(source, targetArch, kubeLinterVersion);
+      preCommitResult = { status: "passed", message: msg };
     } catch (e) {
-      cdk8sBuildResult = `CDK8s Build: FAILED\n${e}`;
+      preCommitResult = { status: "failed", message: String(e) };
     }
-    // Build HA
-    let haBuildResult: string;
-    try {
-      await buildHa(source);
-      haBuildResult = "HA Build: PASSED";
-    } catch (e) {
-      haBuildResult = `HA Build: FAILED\n${e}`;
-    }
-    // Publish HA image if prod
-    let haPublishResult = "[SKIPPED] Not prod";
+    // Sync
+    let syncResult: StepResult = {
+      status: "skipped",
+      message: "[SKIPPED] Not prod",
+    };
     if (env === Stage.Prod) {
       try {
-        haPublishResult = await this.publishHaImage(
-          source,
-          undefined, // use default image name
-          registryUsername,
-          registryPassword,
-          env
-        );
+        const msg = await argocdSync(argocdToken);
+        syncResult = { status: "passed", message: msg };
       } catch (e) {
-        haPublishResult = `HA Image Publish: FAILED\n${e}`;
+        syncResult = { status: "failed", message: String(e) };
       }
     }
-    return [
-      "Pre-commit result:\n" + preCommitResult,
-      "Sync result:\n" + syncResult,
-      cdk8sBuildResult,
-      haBuildResult,
-      "HA Image Publish result:\n" + haPublishResult,
+    // Build CDK8s
+    let cdk8sBuildResult: StepResult;
+    try {
+      await buildK8sManifests(source, source);
+      cdk8sBuildResult = { status: "passed", message: "CDK8s Build: PASSED" };
+    } catch (e) {
+      cdk8sBuildResult = {
+        status: "failed",
+        message: `CDK8s Build: FAILED\n${e}`,
+      };
+    }
+    // Build HA
+    let haBuildResult: StepResult;
+    try {
+      await buildHa(source);
+      haBuildResult = { status: "passed", message: "HA Build: PASSED" };
+    } catch (e) {
+      haBuildResult = { status: "failed", message: `HA Build: FAILED\n${e}` };
+    }
+    // Publish HA image if prod
+    let haPublishResult: StepResult = {
+      status: "skipped",
+      message: "[SKIPPED] Not prod",
+    };
+    if (env === Stage.Prod) {
+      haPublishResult = await this.publishHaImage(
+        source,
+        undefined, // use default image name
+        ghcrUsername,
+        ghcrPassword,
+        env
+      );
+    }
+    // Publish Helm chart if prod
+    let helmPublishResult: StepResult = {
+      status: "skipped",
+      message: "[SKIPPED] Not prod",
+    };
+    if (env === Stage.Prod) {
+      helmPublishResult = await this.helmPublish(
+        source,
+        chartVersion,
+        chartRepo,
+        chartMuseumUsername,
+        chartMuseumPassword,
+        env
+      );
+    }
+    // Build summary
+    const summary = [
+      `Pre-commit result:\n${preCommitResult.message}`,
+      `Sync result:\n${syncResult.message}`,
+      cdk8sBuildResult.message,
+      haBuildResult.message,
+      `HA Image Publish result:\n${haPublishResult.message}`,
+      `Helm Chart Publish result:\n${helmPublishResult.message}`,
     ].join("\n\n");
+    // Fail if any critical step failed
+    if (
+      preCommitResult.status === "failed" ||
+      syncResult.status === "failed" ||
+      cdk8sBuildResult.status === "failed" ||
+      haBuildResult.status === "failed" ||
+      (env === Stage.Prod &&
+        (haPublishResult.status === "failed" ||
+          helmPublishResult.status === "failed"))
+    ) {
+      throw new Error(summary);
+    }
+    return summary;
   }
 
   /**
@@ -369,17 +427,17 @@ export class Homelab {
   }
 
   /**
-   * Builds the HA image and optionally pushes it to the specified registry.
+   * Builds the HA image and optionally pushes it to GHCR, returning a StepResult.
    *
-   * - In 'prod', the image is built and pushed to the registry.
+   * - In 'prod', the image is built and pushed to GHCR.
    * - In 'dev', the image is built but not pushed.
    *
    * @param source The source directory.
    * @param imageName The image name (including tag), e.g. ghcr.io/shepherdjerred/homelab:latest
-   * @param registryUsername The registry username
-   * @param registryPassword The registry password (as a Dagger Secret)
+   * @param ghcrUsername The GHCR username
+   * @param ghcrPassword The GHCR password (as a Dagger Secret)
    * @param env The environment to run in: 'prod' to build and push, 'dev' to only build (default: 'dev').
-   * @returns The result of the build and/or push operation.
+   * @returns A StepResult object with status and message.
    */
   @func()
   async publishHaImage(
@@ -397,19 +455,24 @@ export class Homelab {
     })
     source: Directory,
     imageName: string = "ghcr.io/shepherdjerred/homelab:latest",
-    registryUsername: string,
-    registryPassword: Secret,
+    ghcrUsername: string,
+    ghcrPassword: Secret,
     @argument() env: Stage = Stage.Dev
-  ) {
+  ): Promise<StepResult> {
     if (env !== Stage.Prod) {
-      return "[SKIPPED] Not prod";
+      return { status: "skipped", message: "[SKIPPED] Not prod" };
     }
-    return buildAndPushHaImage(
-      source,
-      imageName,
-      registryUsername,
-      registryPassword
-    );
+    try {
+      const result = await buildAndPushHaImage(
+        source,
+        imageName,
+        ghcrUsername,
+        ghcrPassword
+      );
+      return { status: "passed", message: result };
+    } catch (e) {
+      return { status: "failed", message: `HA Image Publish: FAILED\n${e}` };
+    }
   }
 
   /**
@@ -427,27 +490,38 @@ export class Homelab {
   }
 
   /**
-   * Publishes the packaged Helm chart to a ChartMuseum repo.
+   * Publishes the packaged Helm chart to a ChartMuseum repo and returns a StepResult.
    * @param source The Helm chart source directory (should be src/cdk8s/helm).
    * @param version The version to publish.
    * @param repo The ChartMuseum repo URL.
-   * @param username The ChartMuseum username (secret).
-   * @param password The ChartMuseum password (secret).
+   * @param chartMuseumUsername The ChartMuseum username.
+   * @param chartMuseumPassword The ChartMuseum password (secret).
    * @param env The environment to run in: 'prod' to publish, 'dev' to skip (default: 'dev').
-   * @returns The curl output from the publish step, or a skipped message if not prod.
+   * @returns A StepResult object with status and message.
    */
   @func()
   async helmPublish(
     @argument({ defaultPath: "src/cdk8s/helm" }) source: Directory,
     @argument() version: string,
     @argument() repo: string = "https://chartmuseum.tailnet-1a49.ts.net",
-    username: Secret,
-    password: Secret,
+    chartMuseumUsername: string,
+    chartMuseumPassword: Secret,
     @argument() env: Stage = Stage.Dev
-  ) {
+  ): Promise<StepResult> {
     if (env !== Stage.Prod) {
-      return "[SKIPPED] Not prod";
+      return { status: "skipped", message: "[SKIPPED] Not prod" };
     }
-    return helmPublishFn(source, version, repo, username, password, env);
+    try {
+      const result = await helmPublishFn(
+        source,
+        version,
+        repo,
+        chartMuseumUsername,
+        chartMuseumPassword
+      );
+      return { status: "passed", message: result };
+    } catch (e) {
+      return { status: "failed", message: `Helm Chart Publish: FAILED\n${e}` };
+    }
   }
 }

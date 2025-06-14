@@ -17,11 +17,6 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
       - name: Install Dagger CLI
         run: |
           curl -L https://dl.dagger.io/dagger/install.sh | BIN_DIR=$HOME/.local/bin sh
@@ -31,24 +26,39 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
-          REGISTRY_USERNAME: shepherdjerred
-          REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+          GHCR_USERNAME: shepherdjerred
+          GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          CHART_VERSION: ${{ github.run_number }}
+          CHARTMUSEUM_USERNAME: sjerred
+          CHARTMUSEUM_PASSWORD: ${{ secrets.CHARTMUSEUM_PASSWORD }}
         run: |
           dagger call ci \
             --source=. \
             --argocd-token env:ARGOCD_TOKEN \
-            --registry-username "$REGISTRY_USERNAME" \
-            --registry-password env:REGISTRY_PASSWORD \
+            --ghcr-username "$GHCR_USERNAME" \
+            --ghcr-password env:GHCR_PASSWORD \
+            --chart-version "$CHART_VERSION" \
+            --chart-museum-username "$CHARTMUSEUM_USERNAME" \
+            --chart-museum-password env:CHARTMUSEUM_PASSWORD \
             --env prod
 
       - name: Run Dagger CI pipeline (dev)
         if: github.event_name == 'pull_request' || github.ref != 'refs/heads/main'
         env:
           ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+          GHCR_USERNAME: dummy
+          GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: |
           dagger call ci \
             --source=. \
             --argocd-token dummy \
-            --registry-username dummy \
-            --registry-password dummy \
+            --ghcr-username "$GHCR_USERNAME" \
+            --ghcr-password env:GHCR_PASSWORD \
+            --chart-version dummy \
+            --chart-museum-username dummy \
+            --chart-museum-password dummy \
             --env dev
+
+permissions:
+  contents: read
+  packages: write

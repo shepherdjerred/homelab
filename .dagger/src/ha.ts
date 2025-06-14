@@ -26,23 +26,23 @@ export async function lintHa(source: Directory): Promise<string> {
 }
 
 /**
- * Builds the HA image and optionally pushes it to the specified registry.
+ * Builds the HA image and optionally pushes it to GHCR.
  *
- * - In 'prod', the image is built and pushed to the registry.
+ * - In 'prod', the image is built and pushed to GHCR.
  * - In 'dev', the image is built but not pushed.
  *
  * @param source The source directory.
  * @param imageName The image name (including tag), e.g. ghcr.io/shepherdjerred/homelab:latest
- * @param registryUsername The registry username
- * @param registryPassword The registry password (as a string, should be passed as a secret from the CLI or environment)
+ * @param ghcrUsername The GHCR username
+ * @param ghcrPassword The GHCR password (as a string, should be passed as a secret from the CLI or environment)
  * @param env The environment to run in: 'prod' to build and push, 'dev' to only build (default: 'dev').
  * @returns The result of the build and/or push operation.
  */
 export async function buildAndPushHaImage(
   source: Directory,
   imageName: string = "ghcr.io/shepherdjerred/homelab:latest",
-  registryUsername: string,
-  registryPassword: Secret
+  ghcrUsername: string,
+  ghcrPassword: Secret
 ): Promise<string> {
   let container = dag
     .container()
@@ -55,11 +55,11 @@ export async function buildAndPushHaImage(
     .withEntrypoint(["bun", "run", "src/main.ts"]);
 
   // Optionally add registry auth
-  if (registryUsername && registryPassword) {
+  if (ghcrUsername && ghcrPassword) {
     container = container.withRegistryAuth(
       "ghcr.io",
-      registryUsername,
-      registryPassword
+      ghcrUsername,
+      ghcrPassword
     );
   }
 

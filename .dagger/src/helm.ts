@@ -38,16 +38,16 @@ export async function build(
  * @param source The Helm chart source directory (should be src/cdk8s/helm).
  * @param version The version to publish.
  * @param repo The ChartMuseum repo URL.
- * @param username The ChartMuseum username (secret).
- * @param password The ChartMuseum password (secret).
+ * @param chartMuseumUsername The ChartMuseum username.
+ * @param chartMuseumPassword The ChartMuseum password (secret).
  * @returns The curl output from the publish step.
  */
 export async function publish(
   source: Directory,
   version: string,
   repo: string = "https://chartmuseum.tailnet-1a49.ts.net",
-  username: Secret,
-  password: Secret
+  chartMuseumUsername: string,
+  chartMuseumPassword: Secret
 ): Promise<string> {
   const chartFile = `torvalds-${version}.tgz`;
   const container = dag
@@ -55,8 +55,8 @@ export async function publish(
     .from("alpine/helm:3")
     .withMountedDirectory("/workspace", source)
     .withWorkdir("/workspace")
-    .withSecretVariable("CHARTMUSEUM_USERNAME", username)
-    .withSecretVariable("CHARTMUSEUM_PASSWORD", password)
+    .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
+    .withSecretVariable("CHARTMUSEUM_PASSWORD", chartMuseumPassword)
     .withExec([
       "sh",
       "-c",
