@@ -99,46 +99,39 @@ export class Homelab {
     kubeLinterVersion: string = "v0.6.8",
     @argument() env: Stage = Stage.Dev
   ): Promise<string> {
-    // Pre-commit
-    let preCommitResult: StepResult;
-    try {
-      const msg = await preCommit(source, targetArch, kubeLinterVersion);
-      preCommitResult = { status: "passed", message: msg };
-    } catch (e) {
-      preCommitResult = { status: "failed", message: String(e) };
-    }
-    // Sync
-    let syncResult: StepResult = {
-      status: "skipped",
-      message: "[SKIPPED] Not prod",
-    };
-    if (env === Stage.Prod) {
-      try {
-        const msg = await argocdSync(argocdToken);
-        syncResult = { status: "passed", message: msg };
-      } catch (e) {
-        syncResult = { status: "failed", message: String(e) };
-      }
-    }
-    // Build CDK8s
-    let cdk8sBuildResult: StepResult;
-    try {
-      await buildK8sManifests(source, source);
-      cdk8sBuildResult = { status: "passed", message: "CDK8s Build: PASSED" };
-    } catch (e) {
-      cdk8sBuildResult = {
+    // Pre-commit (run async)
+    const preCommitPromise = preCommit(source, targetArch, kubeLinterVersion)
+      .then((msg) => ({ status: "passed", message: msg }))
+      .catch((e) => ({ status: "failed", message: String(e) }));
+
+    // Start builds in parallel
+    const cdk8sBuildPromise = buildK8sManifests(source, source)
+      .then(() => ({ status: "passed", message: "CDK8s Build: PASSED" }))
+      .catch((e) => ({
         status: "failed",
         message: `CDK8s Build: FAILED\n${e}`,
-      };
+      }));
+
+    const haBuildPromise = buildHa(source)
+      .then(() => ({ status: "passed", message: "HA Build: PASSED" }))
+      .catch((e) => ({ status: "failed", message: `HA Build: FAILED\n${e}` }));
+
+    let helmBuildPromise: Promise<Directory | undefined> =
+      Promise.resolve(undefined);
+    if (env === Stage.Prod) {
+      helmBuildPromise = this.helmBuild(
+        source.directory("src/cdk8s/helm"),
+        chartVersion
+      );
     }
-    // Build HA
-    let haBuildResult: StepResult;
-    try {
-      await buildHa(source);
-      haBuildResult = { status: "passed", message: "HA Build: PASSED" };
-    } catch (e) {
-      haBuildResult = { status: "failed", message: `HA Build: FAILED\n${e}` };
-    }
+
+    // Await builds
+    const [cdk8sBuildResult, haBuildResult, helmDist] = await Promise.all([
+      cdk8sBuildPromise,
+      haBuildPromise,
+      helmBuildPromise,
+    ]);
+
     // Publish HA image if prod
     let haPublishResult: StepResult = {
       status: "skipped",
@@ -158,9 +151,10 @@ export class Homelab {
       status: "skipped",
       message: "[SKIPPED] Not prod",
     };
-    if (env === Stage.Prod) {
+    if (env === Stage.Prod && helmDist) {
+      // Publish using the dist directory as the source
       helmPublishResult = await this.helmPublish(
-        source,
+        helmDist,
         chartVersion,
         chartRepo,
         chartMuseumUsername,
@@ -168,6 +162,21 @@ export class Homelab {
         env
       );
     }
+    // Sync (run only after successful Helm chart publish)
+    let syncResult: StepResult = {
+      status: "skipped",
+      message: "[SKIPPED] Not prod or chart publish failed",
+    };
+    if (env === Stage.Prod && helmPublishResult.status === "passed") {
+      try {
+        const msg = await argocdSync(argocdToken);
+        syncResult = { status: "passed", message: msg };
+      } catch (e) {
+        syncResult = { status: "failed", message: String(e) };
+      }
+    }
+    // Await pre-commit result before summary
+    const preCommitResult = await preCommitPromise;
     // Build summary
     const summary = [
       `Pre-commit result:\n${preCommitResult.message}`,
