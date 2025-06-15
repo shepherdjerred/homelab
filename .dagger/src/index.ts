@@ -8,8 +8,8 @@ import { buildAndPushHaImage } from "./ha";
 import { build as helmBuildFn, publish as helmPublishFn } from "./helm";
 import { Stage } from "./stage";
 
-type StepStatus = "passed" | "failed" | "skipped";
-interface StepResult {
+export type StepStatus = "passed" | "failed" | "skipped";
+export interface StepResult {
   status: StepStatus;
   message: string;
 }
@@ -138,13 +138,24 @@ export class Homelab {
       message: "[SKIPPED] Not prod",
     };
     if (env === Stage.Prod) {
+      // Push versioned tag
       haPublishResult = await this.publishHaImage(
         source,
-        undefined, // use default image name
+        `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
         ghcrUsername,
         ghcrPassword,
         env
       );
+      // Push latest tag
+      const haPublishLatestResult = await this.publishHaImage(
+        source,
+        `ghcr.io/shepherdjerred/homelab:latest`,
+        ghcrUsername,
+        ghcrPassword,
+        env
+      );
+      // Combine results
+      haPublishResult.message += `\nAlso pushed as latest:\n${haPublishLatestResult.message}`;
     }
     // Publish Helm chart if prod
     let helmPublishResult: StepResult = {
@@ -463,7 +474,7 @@ export class Homelab {
       defaultPath: ".",
     })
     source: Directory,
-    imageName: string = "ghcr.io/shepherdjerred/homelab:latest",
+    imageName: string,
     ghcrUsername: string,
     ghcrPassword: Secret,
     @argument() env: Stage = Stage.Dev

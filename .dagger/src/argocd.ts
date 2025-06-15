@@ -1,24 +1,33 @@
 import { dag, Secret } from "@dagger.io/dagger";
+import type { StepResult } from "./index";
 
 /**
  * Triggers a sync operation on the ArgoCD application using the provided token as a Dagger Secret.
  * @param argocdToken The ArgoCD API token for authentication (as a Dagger Secret).
- * @returns The stdout from the ArgoCD sync API call.
+ * @returns A StepResult object with status and message.
  */
-export async function sync(argocdToken: Secret): Promise<string> {
+export async function sync(argocdToken: Secret): Promise<StepResult> {
+  // Use curl to get both the response body and HTTP status code
   const container = dag
     .container()
     .from("curlimages/curl")
     .withSecretVariable("ARGOCD_TOKEN", argocdToken)
     .withExec([
-      "curl",
-      "-X",
-      "POST",
-      "https://argocd.tailnet-1a49.ts.net/api/v1/applications/torvalds/sync",
-      "-H",
-      "Authorization: Bearer $ARGOCD_TOKEN",
-      "-H",
-      "Content-Type: application/json",
+      "sh",
+      "-c",
+      // Output: body\nHTTP_CODE
+      "curl -s -w '\\n%{http_code}' -X POST https://argocd.tailnet-1a49.ts.net/api/v1/applications/torvalds/sync " +
+        "-H 'Cookie: argocd.token=$ARGOCD_TOKEN' " +
+        "-H 'Content-Type: application/json'",
     ]);
-  return container.stdout();
+  const output = await container.stdout();
+  // Split output into body and status code
+  const lastNewline = output.lastIndexOf("\n");
+  const body = output.slice(0, lastNewline);
+  const statusCode = output.slice(lastNewline + 1).trim();
+  if (statusCode.startsWith("2")) {
+    return { status: "passed", message: body };
+  } else {
+    return { status: "failed", message: body };
+  }
 }
