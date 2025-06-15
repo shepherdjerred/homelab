@@ -1,16 +1,16 @@
 import { dag, Secret } from "@dagger.io/dagger";
 import type { StepResult } from "./index";
+import { getCurlContainer } from "./base";
 
 /**
  * Triggers a sync operation on the ArgoCD application using the provided token as a Dagger Secret.
+ * Uses caching for improved performance.
  * @param argocdToken The ArgoCD API token for authentication (as a Dagger Secret).
  * @returns A StepResult object with status and message.
  */
 export async function sync(argocdToken: Secret): Promise<StepResult> {
   // Use curl to get both the response body and HTTP status code
-  const container = dag
-    .container()
-    .from("curlimages/curl")
+  const container = getCurlContainer()
     .withSecretVariable("ARGOCD_TOKEN", argocdToken)
     .withExec([
       "sh",

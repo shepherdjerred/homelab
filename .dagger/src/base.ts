@@ -54,6 +54,34 @@ export function getUbuntuBaseContainer(source: Directory): Container {
 }
 
 /**
+ * Returns a cached curl container optimized for HTTP operations.
+ * @returns A configured Container with curl and caching ready.
+ */
+export function getCurlContainer(): Container {
+  return dag
+    .container()
+    .from("curlimages/curl")
+    // Cache curl configuration and SSL certificates
+    .withMountedCache("/root/.curlrc", dag.cacheVolume("curl-config"))
+    .withMountedCache("/etc/ssl/certs", dag.cacheVolume("ssl-certs"))
+    // Cache DNS resolution
+    .withMountedCache("/tmp/curl-dns", dag.cacheVolume("curl-dns"));
+}
+
+/**
+ * Returns a cached kubectl container optimized for Kubernetes operations.
+ * @returns A configured Container with kubectl and caching ready.
+ */
+export function getKubectlContainer(): Container {
+  return dag
+    .container()
+    .from("bitnami/kubectl:latest")
+    // Cache kubectl configuration and temporary files
+    .withMountedCache("/root/.kube", dag.cacheVolume("kubectl-config"))
+    .withMountedCache("/tmp", dag.cacheVolume("kubectl-tmp"));
+}
+
+/**
  * Returns a container with mise (development tools) installed and cached.
  * @param baseContainer The base container to build upon.
  * @returns A configured Container with mise and tools ready.

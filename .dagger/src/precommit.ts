@@ -1,5 +1,5 @@
 import { dag, Directory } from "@dagger.io/dagger";
-import { getUbuntuBaseContainer, withMiseTools } from "./base";
+import { getUbuntuBaseContainer, withMiseTools, getCurlContainer } from "./base";
 
 export async function preCommit(
   source: Directory,
@@ -15,9 +15,7 @@ export async function preCommit(
   // Create a cache key based on version and arch for the binary
   const kubeLinterCacheKey = `kube-linter-${kubeLinterVersion}-${targetArch}`;
   
-  const kubeLinterFilePromise = dag
-    .container()
-    .from("curlimages/curl")
+  const kubeLinterFilePromise = getCurlContainer()
     // Cache downloaded binaries
     .withMountedCache("/tmp/downloads", dag.cacheVolume("binary-downloads"))
     .withExec([
