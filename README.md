@@ -31,7 +31,7 @@ some things I'm proud of:
   - For Helm charts
   - For Jenkins plugins
   - For Bun dependencies
-  - [My approach](https://github.com/shepherdjerred/homelab/blob/main/cdk8s/src/versions.ts)
+  - [My approach](https://github.com/shepherdjerred/homelab/blob/main/src/cdk8s/src/versions.ts)
     allows all of my dependencies to be pinned and updated regularly
 
 ## Installation
