@@ -109,7 +109,27 @@ export function createActionsRunnerControllerApp(chart: Chart) {
                 containers: [
                   {
                     name: "runner",
+                    image: "ghcr.io/actions/actions-runner:latest",
+                    command: ["/home/runner/run.sh"],
+                    env: [
+                      {
+                        name: "DOCKER_HOST",
+                        value: "unix:///var/run/docker.sock",
+                      },
+                      {
+                        name: "RUNNER_WAIT_FOR_DOCKER_IN_SECONDS",
+                        value: "120",
+                      },
+                    ],
                     volumeMounts: [
+                      {
+                        name: "work",
+                        mountPath: "/home/runner/_work",
+                      },
+                      {
+                        name: "dind-sock",
+                        mountPath: "/var/run",
+                      },
                       {
                         name: "gha-shared-cache",
                         mountPath: "/cache",
@@ -118,6 +138,18 @@ export function createActionsRunnerControllerApp(chart: Chart) {
                   },
                 ],
                 volumes: [
+                  {
+                    name: "work",
+                    emptyDir: {},
+                  },
+                  {
+                    name: "dind-sock",
+                    emptyDir: {},
+                  },
+                  {
+                    name: "dind-externals",
+                    emptyDir: {},
+                  },
                   {
                     name: "gha-shared-cache",
                     persistentVolumeClaim: {
