@@ -1,4 +1,4 @@
-import { dag, Secret } from "@dagger.io/dagger";
+import { Secret } from "@dagger.io/dagger";
 import type { StepResult } from "./index";
 import { getCurlContainer } from "./base";
 

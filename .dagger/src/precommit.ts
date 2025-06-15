@@ -4,11 +4,12 @@ import {
   withMiseTools,
   getCurlContainer,
 } from "./base";
+import versions from "./versions";
 
 export async function preCommit(
   source: Directory,
   targetArch: string = "amd64",
-  kubeLinterVersion: string = "v0.6.8"
+  kubeLinterVersion: string = versions["stackrox/kube-linter"]
 ): Promise<string> {
   // Prepare kube-linter download with caching
   const kubeLinterUrl =

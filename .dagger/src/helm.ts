@@ -1,5 +1,5 @@
 import { dag, Directory, Secret } from "@dagger.io/dagger";
-import versions from "../../src/cdk8s/src/versions";
+import versions from "./versions";
 
 /**
  * Build the Helm chart, update version/appVersion, and export artifacts.

@@ -1,4 +1,11 @@
-import { func, argument, Directory, object, Secret, dag } from "@dagger.io/dagger";
+import {
+  func,
+  argument,
+  Directory,
+  object,
+  Secret,
+  dag,
+} from "@dagger.io/dagger";
 import { buildHa, testHa, typeCheckHa, lintHa } from "./ha";
 import { typeCheckCdk8s, buildK8sManifests } from "./cdk8s";
 import { preCommit } from "./precommit";
@@ -7,7 +14,7 @@ import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
 import { build as helmBuildFn, publish as helmPublishFn } from "./helm";
 import { Stage } from "./stage";
-import versions from "../../src/cdk8s/src/versions";
+import versions from "./versions";
 
 export type StepStatus = "passed" | "failed" | "skipped";
 export interface StepResult {
@@ -91,7 +98,7 @@ export class Homelab {
         "sed",
         "-i",
         `s/"shepherdjerred\\/homelab":\\s*"[^"]*"/"shepherdjerred\\/homelab": "${version}"/`,
-        "src/cdk8s/src/versions.ts"
+        "src/cdk8s/src/versions.ts",
       ])
       .directory("/workspace");
   }
@@ -134,7 +141,7 @@ export class Homelab {
     @argument() chartMuseumUsername: string,
     chartMuseumPassword: Secret,
     targetArch: string = "amd64",
-    kubeLinterVersion: string = "v0.6.8",
+    kubeLinterVersion: string = versions["stackrox/kube-linter"],
     @argument() env: Stage = Stage.Dev
   ): Promise<string> {
     // Update HA version in versions.ts if prod
@@ -144,7 +151,11 @@ export class Homelab {
     }
 
     // Pre-commit (run async)
-    const preCommitPromise = preCommit(updatedSource, targetArch, kubeLinterVersion)
+    const preCommitPromise = preCommit(
+      updatedSource,
+      targetArch,
+      kubeLinterVersion
+    )
       .then((msg) => ({ status: "passed", message: msg }))
       .catch((e) => ({ status: "failed", message: String(e) }));
 
@@ -421,7 +432,7 @@ export class Homelab {
     })
     source: Directory,
     @argument({}) targetArch: string = "amd64",
-    @argument({}) kubeLinterVersion: string = "v0.6.8"
+    @argument({}) kubeLinterVersion: string = versions["stackrox/kube-linter"]
   ) {
     return preCommit(source, targetArch, kubeLinterVersion);
   }

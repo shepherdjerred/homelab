@@ -1,5 +1,5 @@
 import { dag, Container, Directory } from "@dagger.io/dagger";
-import versions from "../../src/cdk8s/src/versions";
+import versions from "./versions";
 
 /**
  * Returns a base Bun container with Python and build tools installed, the source directory mounted, and dependencies installed.

@@ -1,6 +1,6 @@
 import { Directory, dag, type Secret } from "@dagger.io/dagger";
 import { getBaseContainer } from "./base";
-import versions from "../../src/cdk8s/src/versions";
+import versions from "./versions";
 
 export async function buildHa(source: Directory): Promise<Directory> {
   return getBaseContainer(source, "/workspace/src/ha")
