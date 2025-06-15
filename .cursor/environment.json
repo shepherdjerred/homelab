@@ -1,0 +1,34 @@
+{
+  "name": "homelab-infrastructure",
+  "user": "dev",
+  "install": "bun install && bunx dagger develop",
+  "start": "bun run dev",
+  "terminals": [
+    {
+      "name": "CDK8s Development",
+      "command": "cd src/cdk8s && bun run dev",
+      "description": "Watches and rebuilds Kubernetes manifests using CDK8s when TypeScript files change"
+    },
+    {
+      "name": "Home Assistant Development",
+      "command": "cd src/ha && bun run dev",
+      "description": "Runs the Home Assistant application in development mode with hot reload"
+    },
+    {
+      "name": "Dagger Operations",
+      "command": "echo 'Available Dagger functions:' && dagger functions",
+      "description": "Shows available Dagger CI/CD pipeline functions and provides a terminal for running Dagger commands"
+    },
+    {
+      "name": "Kubernetes Tools",
+      "command": "echo 'Kubernetes development environment ready. Use kubectl, helm, and other K8s tools here.'",
+      "description": "Terminal for running Kubernetes commands like kubectl, helm, and cluster operations"
+    }
+  ],
+  "build": {
+    "dockerfile": "../.devcontainer/Dockerfile",
+    "context": "."
+  },
+  "snapshot": null,
+  "agentCanUpdateSnapshot": true
+}
