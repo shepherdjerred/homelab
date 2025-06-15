@@ -52,7 +52,7 @@ export async function buildAndPushHaImage(
     .withMountedDirectory("/usr/src/app", source)
     .withWorkdir("/usr/src/app/src/ha")
     .withExec(["bun", "install", "--frozen-lockfile"])
-    .withEntrypoint(["bun", "run", "src/main.ts"]);
+    .withEntrypoint(["bun", "src/main.ts"]);
 
   // Optionally add registry auth
   if (ghcrUsername && ghcrPassword) {
