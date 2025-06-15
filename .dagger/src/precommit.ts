@@ -49,6 +49,11 @@ export async function preCommit(
       "/root/.cache/pre-commit",
       dag.cacheVolume("pre-commit-cache")
     )
+    // Cache Bun install dependencies
+    .withMountedCache(
+      "/root/.bun/install/cache",
+      dag.cacheVolume("bun-install-cache")
+    )
     .withExec(["pre-commit", "run", "--all-files"]);
 
   return container.stdout();
