@@ -36,6 +36,7 @@ This is a homelab infrastructure project managing Kubernetes resources using cdk
 - Use Dagger for CI/CD pipelines
   - List available targets with `dagger functions`
   - Run targets with `dagger call <target>`
+  - **Dev Environment CI**: When running the `ci` target for the dev environment, use dummy values for secrets instead of real credentials to prevent accidental exposure and enable safe testing
   - Available Dagger targets:
     - `apply-k-8-s-config` - Applies Kubernetes manifests from the specified directory using kubectl
     - `build-and-apply-cdk-8-s` - Builds manifests with CDK8s and applies them to the cluster using kubectl
@@ -85,3 +86,17 @@ This is a homelab infrastructure project managing Kubernetes resources using cdk
 - Follow the existing project structure and patterns
 - Consider rollback strategies for changes
 - Verify Kubernetes YAML syntax and best practices
+
+## Documentation & Reference
+- Search documentation when needed for accurate and up-to-date information
+- Prefer official documentation over third-party sources
+- Key documentation resources:
+  - **Dagger**: @https://docs.dagger.io/ - For CI/CD workflows, containerized operations, and Dagger API reference
+  - **Bun**: @https://bun.sh/docs - For runtime, package manager, bundler, and test runner features
+  - **CDK8s**: https://cdk8s.io/docs/latest/ - For Kubernetes constructs, TypeScript APIs, and manifest generation
+  - **Kubernetes**: @https://kubernetes.io/docs/home/ - For core concepts, API reference, and best practices
+  - **TypeScript**: @https://www.typescriptlang.org/docs/ - For language features, compiler options, and type system
+  - **Digital Alchemy**: @https://docs.digital-alchemy.app/ - For Home Assistant integrations and automation patterns
+- When encountering unfamiliar APIs or patterns, consult the relevant documentation first
+- Reference current versions and compatibility requirements from official docs
+- Use documentation examples as templates for implementation patterns
