@@ -49,10 +49,10 @@ export async function preCommit(
       "/root/.cache/pre-commit",
       dag.cacheVolume("pre-commit-cache")
     )
-    // Cache Bun install dependencies
+    // Cache Bun install dependencies (version-specific to avoid native module conflicts)
     .withMountedCache(
       "/root/.bun/install/cache",
-      dag.cacheVolume("bun-install-cache")
+      dag.cacheVolume(`bun-install-cache-${versions["oven/bun"]}`)
     )
     .withExec(["pre-commit", "run", "--all-files"]);
 

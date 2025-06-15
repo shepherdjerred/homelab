@@ -104,7 +104,13 @@ export function withMiseTools(baseContainer: Container): Container {
         dag.cacheVolume("mise-cache")
       )
       .withExec(["mise", "trust"])
-      .withExec(["mise", "use", "bun@latest", "python@latest"])
+      .withExec([
+        "mise",
+        "use",
+        `bun@${versions["mise/bun"]}`,
+        `python@${versions["mise/python"]}`,
+        `node@${versions["mise/node"]}`,
+      ])
       .withEnvVariable("PATH", "/root/.local/share/mise/shims:${PATH}", {
         expand: true,
       })
