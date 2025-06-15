@@ -22,6 +22,10 @@ export interface StepResult {
   message: string;
 }
 
+export interface HelmBuildResult extends StepResult {
+  dist?: Directory;
+}
+
 @object()
 export class Homelab {
   /**
@@ -166,21 +170,25 @@ export class Homelab {
       .then(() => ({ status: "passed", message: "HA Build: PASSED" }))
       .catch((e) => ({ status: "failed", message: `HA Build: FAILED\n${e}` }));
 
-    let helmBuildPromise: Promise<Directory | undefined> =
-      Promise.resolve(undefined);
-    if (env === Stage.Prod) {
-      helmBuildPromise = this.helmBuild(
-        updatedSource.directory("src/cdk8s/helm"),
-        chartVersion
-      );
-    }
+    // Always build Helm chart (for both dev and prod)
+    const helmBuildPromise = this.helmBuild(
+      updatedSource.directory("src/cdk8s/helm"),
+      chartVersion || "dev-snapshot"
+    )
+      .then((dist) => ({
+        status: "passed" as StepStatus,
+        message: "Helm Build: PASSED",
+        dist,
+      }))
+      .catch((e) => ({
+        status: "failed" as StepStatus,
+        message: `Helm Build: FAILED\n${e}`,
+        dist: undefined,
+      }));
 
     // Await builds
-    const [cdk8sBuildResult, haBuildResult, helmDist] = await Promise.all([
-      cdk8sBuildPromise,
-      haBuildPromise,
-      helmBuildPromise,
-    ]);
+    const [cdk8sBuildResult, haBuildResult, helmBuildResult] =
+      await Promise.all([cdk8sBuildPromise, haBuildPromise, helmBuildPromise]);
 
     // Publish HA image if prod
     let haPublishResult: StepResult = {
@@ -212,10 +220,10 @@ export class Homelab {
       status: "skipped",
       message: "[SKIPPED] Not prod",
     };
-    if (env === Stage.Prod && helmDist) {
+    if (env === Stage.Prod && helmBuildResult.dist) {
       // Publish using the dist directory as the source
       helmPublishResult = await this.helmPublish(
-        helmDist,
+        helmBuildResult.dist,
         chartVersion,
         chartRepo,
         chartMuseumUsername,
@@ -240,6 +248,7 @@ export class Homelab {
       `Sync result:\n${syncResult.message}`,
       cdk8sBuildResult.message,
       haBuildResult.message,
+      helmBuildResult.message,
       `HA Image Publish result:\n${haPublishResult.message}`,
       `Helm Chart Publish result:\n${helmPublishResult.message}`,
     ].join("\n\n");
@@ -249,6 +258,7 @@ export class Homelab {
       syncResult.status === "failed" ||
       cdk8sBuildResult.status === "failed" ||
       haBuildResult.status === "failed" ||
+      helmBuildResult.status === "failed" ||
       (env === Stage.Prod &&
         (haPublishResult.status === "failed" ||
           helmPublishResult.status === "failed"))
@@ -495,7 +505,7 @@ export class Homelab {
    * Builds the HA image and optionally pushes it to GHCR, returning a StepResult.
    *
    * - In 'prod', the image is built and pushed to GHCR.
-   * - In 'dev', the image is built but not pushed.
+   * - In 'dev', the image is built but not pushed (dry-run).
    *
    * @param source The source directory.
    * @param imageName The image name (including tag), e.g. ghcr.io/shepherdjerred/homelab:latest
@@ -523,28 +533,28 @@ export class Homelab {
     ghcrUsername: string,
     ghcrPassword: Secret,
     @argument() env: Stage = Stage.Dev
-  ): Promise<string> {
-    if (env !== Stage.Prod) {
-      return JSON.stringify(
-        { status: "skipped", message: "[SKIPPED] Not prod" },
-        null,
-        2
-      );
-    }
+  ): Promise<StepResult> {
+    const isDryRun = env !== Stage.Prod;
+
     try {
       const result = await buildAndPushHaImage(
         source,
         imageName,
         ghcrUsername,
-        ghcrPassword
+        ghcrPassword,
+        isDryRun
       );
-      return JSON.stringify({ status: "passed", message: result }, null, 2);
+
+      if (isDryRun) {
+        return { status: "passed", message: `[DRY-RUN] ${result}` };
+      } else {
+        return { status: "passed", message: `Image published: ${result}` };
+      }
     } catch (e) {
-      return JSON.stringify(
-        { status: "failed", message: `HA Image Publish: FAILED\n${e}` },
-        null,
-        2
-      );
+      return {
+        status: "failed",
+        message: `HA Image Build/Publish: FAILED\n${e}`,
+      };
     }
   }
 
