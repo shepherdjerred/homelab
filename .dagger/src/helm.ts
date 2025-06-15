@@ -2,6 +2,7 @@ import { dag, Directory, Secret } from "@dagger.io/dagger";
 
 /**
  * Build the Helm chart, update version/appVersion, and export artifacts.
+ * Uses caching for improved build performance.
  * @param source The Helm chart source directory (should be src/cdk8s/helm).
  * @param version The version to set in Chart.yaml and appVersion.
  * @returns The dist directory with packaged chart and YAMLs.
@@ -13,6 +14,9 @@ export async function build(
   const container = dag
     .container()
     .from("alpine/helm:3")
+    // Cache Helm registry data and repositories
+    .withMountedCache("/root/.cache/helm", dag.cacheVolume("helm-cache"))
+    .withMountedCache("/root/.config/helm", dag.cacheVolume("helm-config"))
     .withMountedDirectory("/workspace", source)
     .withWorkdir("/workspace")
     // Update Chart.yaml version and appVersion
@@ -34,6 +38,7 @@ export async function build(
 
 /**
  * Publish the packaged Helm chart to a ChartMuseum repo.
+ * Uses caching for improved performance.
  * @param source The Helm chart source directory (should be src/cdk8s/helm).
  * @param version The version to publish.
  * @param repo The ChartMuseum repo URL.
@@ -52,6 +57,9 @@ export async function publish(
   const container = dag
     .container()
     .from("alpine/helm:3")
+    // Cache Helm registry data and repositories
+    .withMountedCache("/root/.cache/helm", dag.cacheVolume("helm-cache"))
+    .withMountedCache("/root/.config/helm", dag.cacheVolume("helm-config"))
     .withMountedDirectory("/workspace", source)
     .withWorkdir("/workspace")
     .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)

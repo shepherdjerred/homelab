@@ -1,58 +1,34 @@
 import { dag, Directory } from "@dagger.io/dagger";
+import { getUbuntuBaseContainer, withMiseTools } from "./base";
 
 export async function preCommit(
   source: Directory,
   targetArch: string = "amd64",
   kubeLinterVersion: string = "v0.6.8"
 ): Promise<string> {
-  // Prepare kube-linter download in parallel (to /tmp/kube-linter)
+  // Prepare kube-linter download with caching
   const kubeLinterUrl =
     targetArch === "arm64"
       ? `https://github.com/stackrox/kube-linter/releases/download/${kubeLinterVersion}/kube-linter-linux_arm64`
       : `https://github.com/stackrox/kube-linter/releases/download/${kubeLinterVersion}/kube-linter-linux`;
+  
+  // Create a cache key based on version and arch for the binary
+  const kubeLinterCacheKey = `kube-linter-${kubeLinterVersion}-${targetArch}`;
+  
   const kubeLinterFilePromise = dag
     .container()
     .from("curlimages/curl")
-    .withExec(["curl", "-fsSL", kubeLinterUrl, "-o", "/tmp/kube-linter"])
+    // Cache downloaded binaries
+    .withMountedCache("/tmp/downloads", dag.cacheVolume("binary-downloads"))
+    .withExec([
+      "sh", 
+      "-c", 
+      `if [ ! -f /tmp/downloads/${kubeLinterCacheKey} ]; then curl -fsSL ${kubeLinterUrl} -o /tmp/downloads/${kubeLinterCacheKey}; fi && cp /tmp/downloads/${kubeLinterCacheKey} /tmp/kube-linter`
+    ])
     .file("/tmp/kube-linter");
 
-  // Main container setup
-  const mainContainerPromise = dag
-    .container()
-    .from("ubuntu:noble")
-    .withWorkdir("/workspace")
-    .withMountedDirectory("/workspace", source)
-    .withExec(["apt-get", "update"])
-    .withExec([
-      "apt-get",
-      "install",
-      "-y",
-      "gpg",
-      "wget",
-      "curl",
-      "git",
-      "build-essential",
-    ])
-    .withExec(["install", "-dm", "755", "/etc/apt/keyrings"])
-    .withExec([
-      "sh",
-      "-c",
-      "wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor > /etc/apt/keyrings/mise-archive-keyring.gpg",
-    ])
-    .withExec([
-      "sh",
-      "-c",
-      `echo 'deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg] https://mise.jdx.dev/deb stable main' > /etc/apt/sources.list.d/mise.list`,
-    ])
-    .withExec(["apt-get", "update"])
-    .withExec(["apt-get", "install", "-y", "mise"])
-    .withExec(["mise", "trust"])
-    .withExec(["mise", "use", "bun@latest", "python@latest"])
-    .withEnvVariable("PATH", "/root/.local/share/mise/shims:${PATH}", {
-      expand: true,
-    })
-    .withExec(["pip", "install", "pre-commit"])
-    .withExec(["mise", "reshim"]);
+  // Main container setup using cached base
+  const mainContainerPromise = withMiseTools(getUbuntuBaseContainer(source));
 
   // Wait for both in parallel
   const [kubeLinterFile, mainContainer] = await Promise.all([
@@ -60,10 +36,13 @@ export async function preCommit(
     mainContainerPromise,
   ]);
 
-  // Add kube-linter to the main container
-  let container = mainContainer
+  // Add kube-linter to the main container and run pre-commit
+  const container = mainContainer
     .withFile("/usr/local/bin/kube-linter", kubeLinterFile)
     .withExec(["chmod", "+x", "/usr/local/bin/kube-linter"])
+    // Cache pre-commit environments
+    .withMountedCache("/root/.cache/pre-commit", dag.cacheVolume("pre-commit-cache"))
     .withExec(["pre-commit", "run", "--all-files"]);
+  
   return container.stdout();
 }

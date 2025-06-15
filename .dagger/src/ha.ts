@@ -27,15 +27,12 @@ export async function lintHa(source: Directory): Promise<string> {
 
 /**
  * Builds the HA image and optionally pushes it to GHCR.
- *
- * - In 'prod', the image is built and pushed to GHCR.
- * - In 'dev', the image is built but not pushed.
+ * Uses caching for improved build performance.
  *
  * @param source The source directory.
  * @param imageName The image name (including tag), e.g. ghcr.io/shepherdjerred/homelab:latest
  * @param ghcrUsername The GHCR username
  * @param ghcrPassword The GHCR password (as a string, should be passed as a secret from the CLI or environment)
- * @param env The environment to run in: 'prod' to build and push, 'dev' to only build (default: 'dev').
  * @returns The result of the build and/or push operation.
  */
 export async function buildAndPushHaImage(
@@ -47,10 +44,15 @@ export async function buildAndPushHaImage(
   let container = dag
     .container()
     .from("oven/bun:latest")
+    // Cache APT packages
+    .withMountedCache("/var/cache/apt", dag.cacheVolume("apt-cache"))
+    .withMountedCache("/var/lib/apt", dag.cacheVolume("apt-lib"))
     .withExec(["apt-get", "update"])
     .withExec(["apt-get", "install", "-y", "python3", "build-essential"])
     .withMountedDirectory("/usr/src/app", source)
     .withWorkdir("/usr/src/app/src/ha")
+    // Cache Bun dependencies for Docker build
+    .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache"))
     .withExec(["bun", "install", "--frozen-lockfile"])
     .withEntrypoint(["bun", "run", "src/main.ts"]);
 
