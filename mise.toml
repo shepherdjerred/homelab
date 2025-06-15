@@ -1,6 +1,7 @@
 [tools]
 bun = "latest"
 node = "latest"
+python = "latest"
 
 [tasks.check]
 description = "Check"

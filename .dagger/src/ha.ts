@@ -1,5 +1,9 @@
 import { Directory, dag, type Secret } from "@dagger.io/dagger";
-import { getBaseContainer } from "./base";
+import {
+  getBaseContainer,
+  getUbuntuBaseContainer,
+  withMiseTools,
+} from "./base";
 import versions from "./versions";
 
 export async function buildHa(source: Directory): Promise<Directory> {
@@ -42,24 +46,8 @@ export async function buildAndPushHaImage(
   ghcrUsername: string,
   ghcrPassword: Secret
 ): Promise<string> {
-  let container = dag
-    .container()
-    .from(`oven/bun:${versions["oven/bun"]}`)
-    // Cache APT packages
-    .withMountedCache("/var/cache/apt", dag.cacheVolume("apt-cache"))
-    .withMountedCache("/var/lib/apt", dag.cacheVolume("apt-lib"))
-    .withExec(["apt-get", "update"])
-    .withExec([
-      "apt-get",
-      "install",
-      "-y",
-      "python3",
-      "build-essential",
-      "nodejs",
-      "npm",
-    ])
-    .withMountedDirectory("/usr/src/app", source)
-    .withWorkdir("/usr/src/app/src/ha")
+  let container = withMiseTools(getUbuntuBaseContainer(source))
+    .withWorkdir("/workspace/src/ha")
     // Cache Bun dependencies for Docker build
     .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache"))
     .withExec(["bun", "install", "--frozen-lockfile"])
