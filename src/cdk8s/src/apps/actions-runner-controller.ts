@@ -78,6 +78,10 @@ export function createActionsRunnerControllerApp(chart: Chart) {
   // Shared RWX PVC for /cache in arc-runners namespace
   const sharedCacheVolume = new ZfsSsdVolume(chart, "gha-shared-cache", {
     storage: Size.gibibytes(100),
+    metadata: {
+      name: "gha-shared-cache",
+      namespace: "arc-runners",
+    },
   });
   const sharedCachePvc = sharedCacheVolume.claim;
 
@@ -123,14 +127,6 @@ export function createActionsRunnerControllerApp(chart: Chart) {
                     ],
                     volumeMounts: [
                       {
-                        name: "work",
-                        mountPath: "/home/runner/_work",
-                      },
-                      {
-                        name: "dind-sock",
-                        mountPath: "/var/run",
-                      },
-                      {
                         name: "gha-shared-cache",
                         mountPath: "/cache",
                       },
@@ -138,18 +134,6 @@ export function createActionsRunnerControllerApp(chart: Chart) {
                   },
                 ],
                 volumes: [
-                  {
-                    name: "work",
-                    emptyDir: {},
-                  },
-                  {
-                    name: "dind-sock",
-                    emptyDir: {},
-                  },
-                  {
-                    name: "dind-externals",
-                    emptyDir: {},
-                  },
                   {
                     name: "gha-shared-cache",
                     persistentVolumeClaim: {
