@@ -1,4 +1,5 @@
 import { dag, Container, Directory } from "@dagger.io/dagger";
+import versions from "../../src/cdk8s/src/versions";
 
 /**
  * Returns a base Bun container with Python and build tools installed, the source directory mounted, and dependencies installed.
@@ -14,7 +15,7 @@ export function getBaseContainer(
   return (
     dag
       .container()
-      .from("oven/bun:latest")
+      .from(`oven/bun:${versions["oven/bun"]}`)
       // Cache APT packages
       .withMountedCache("/var/cache/apt", dag.cacheVolume("apt-cache"))
       .withMountedCache("/var/lib/apt", dag.cacheVolume("apt-lib"))
@@ -40,7 +41,7 @@ export function getUbuntuBaseContainer(source: Directory): Container {
   return (
     dag
       .container()
-      .from("ubuntu:noble")
+      .from(`ubuntu:${versions.ubuntu}`)
       .withWorkdir("/workspace")
       .withMountedDirectory("/workspace", source)
       // Cache APT packages
@@ -65,7 +66,7 @@ export function getUbuntuBaseContainer(source: Directory): Container {
  * @returns A configured Container with curl and caching ready.
  */
 export function getCurlContainer(): Container {
-  return dag.container().from("curlimages/curl");
+  return dag.container().from(`curlimages/curl:${versions["curlimages/curl"]}`);
 }
 
 /**
@@ -73,7 +74,7 @@ export function getCurlContainer(): Container {
  * @returns A configured Container with kubectl and caching ready.
  */
 export function getKubectlContainer(): Container {
-  return dag.container().from("bitnami/kubectl:latest");
+  return dag.container().from(`bitnami/kubectl:${versions["bitnami/kubectl"]}`);
 }
 
 /**

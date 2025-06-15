@@ -1,5 +1,6 @@
 import { Directory, dag, type Secret } from "@dagger.io/dagger";
 import { getBaseContainer } from "./base";
+import versions from "../../src/cdk8s/src/versions";
 
 export async function buildHa(source: Directory): Promise<Directory> {
   return getBaseContainer(source, "/workspace/src/ha")
@@ -43,7 +44,7 @@ export async function buildAndPushHaImage(
 ): Promise<string> {
   let container = dag
     .container()
-    .from("oven/bun:latest")
+    .from(`oven/bun:${versions["oven/bun"]}`)
     // Cache APT packages
     .withMountedCache("/var/cache/apt", dag.cacheVolume("apt-cache"))
     .withMountedCache("/var/lib/apt", dag.cacheVolume("apt-lib"))

@@ -7,6 +7,7 @@ import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
 import { build as helmBuildFn, publish as helmPublishFn } from "./helm";
 import { Stage } from "./stage";
+import versions from "../../src/cdk8s/src/versions";
 
 export type StepStatus = "passed" | "failed" | "skipped";
 export interface StepResult {
@@ -83,7 +84,7 @@ export class Homelab {
   ): Promise<Directory> {
     return dag
       .container()
-      .from("alpine:latest")
+      .from(`alpine:${versions.alpine}`)
       .withMountedDirectory("/workspace", source)
       .withWorkdir("/workspace")
       .withExec([
