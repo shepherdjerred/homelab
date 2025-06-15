@@ -29,7 +29,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
       source: {
         repoUrl: "ghcr.io/actions/actions-runner-controller-charts",
         chart: "gha-runner-scale-set-controller",
-        targetRevision: versions["actions/actions-runner-controller"],
+        targetRevision: versions["gha-runner-scale-set-controller"],
         helm: {
           valuesObject: {
             // TODO: Add controller-specific values if needed
@@ -91,7 +91,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
       source: {
         repoUrl: "ghcr.io/actions/actions-runner-controller-charts",
         chart: "gha-runner-scale-set",
-        targetRevision: versions["actions/actions-runner-controller"],
+        targetRevision: versions["gha-runner-scale-set-runner"],
         helm: {
           valuesObject: {
             githubConfigUrl: "https://github.com/shepherdjerred/homelab",
