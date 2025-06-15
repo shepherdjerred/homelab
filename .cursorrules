@@ -1,0 +1,86 @@
+# Homelab Infrastructure Project Rules
+
+## Project Context
+This is a homelab infrastructure project managing Kubernetes resources using cdk8s and TypeScript. The project uses Bun as runtime, Talos Linux for Kubernetes, and follows infrastructure-as-code principles.
+
+## Tech Stack Preferences
+- **Runtime**: Bun (prefer Bun over Node.js)
+- **Language**: TypeScript with strict typing
+- **Infrastructure**: cdk8s for Kubernetes manifests
+- **Package Manager**: Bun (use `bun install`, `bun run`, etc.)
+- **Kubernetes Distribution**: Talos Linux
+
+## Code Style & Standards
+- Use strict TypeScript configuration
+- Prefer explicit typing over `any`
+- Use modern ES modules syntax (`import`/`export`)
+- Follow kebab-case for file names and Kubernetes resource names
+- Use camelCase for TypeScript variables and functions
+- Prefer functional programming patterns where appropriate
+
+## Infrastructure Guidelines
+- All Kubernetes resources should be defined using cdk8s constructs
+- Pin dependency versions (Docker images, Helm charts, etc.) with SHA hashes when possible
+- Follow the existing pattern for version management in `versions.ts`
+- Use proper Kubernetes labels and annotations
+- Implement proper resource requests and limits
+- Consider security contexts and pod security standards
+
+## Automation & CI/CD
+- Prefer GitOps approach with ArgoCD
+- Use pre-commit hooks for code quality
+- Implement proper backup strategies for stateful workloads
+- Use 1Password for secret management
+- Follow the existing Renovate configuration for dependency updates
+- Use Dagger for CI/CD pipelines
+  - List available targets with `dagger functions`
+  - Run targets with `dagger call <target>`
+  - Available Dagger targets:
+    - `apply-k-8-s-config` - Applies Kubernetes manifests from the specified directory using kubectl
+    - `build-and-apply-cdk-8-s` - Builds manifests with CDK8s and applies them to the cluster using kubectl
+    - `build-ha` - Builds the Home Assistant (HA) app
+    - `build-k-8-s-manifests` - Builds Kubernetes manifests using CDK8s
+    - `check-all` - Runs type check, test, and lint for HA, and type check for CDK8s in parallel
+    - `ci` - Runs pre-commit, kube-linter, ArgoCD sync, builds for CDK8s and HA, publishes the HA image (if prod), and publishes the Helm chart (if prod) as part of the CI pipeline
+    - `helm-build` - Builds the Helm chart, updates version/appVersion, and exports artifacts
+    - `helm-publish` - Publishes the packaged Helm chart to a ChartMuseum repo and returns a StepResult
+    - `lint-ha` - Lints the Home Assistant app
+
+## Security Best Practices
+- Never hardcode secrets in code
+- Use Kubernetes secrets and 1Password integration
+- Implement proper RBAC
+- Use network policies where appropriate
+- Prefer non-root containers
+- Implement security contexts
+
+## Documentation
+- Document complex infrastructure decisions
+- Include deployment instructions
+- Maintain up-to-date README files
+- Use inline comments for complex Kubernetes configurations
+
+## Error Handling
+- Implement proper error handling in TypeScript
+- Use meaningful error messages
+- Implement health checks for services
+- Consider failure scenarios in infrastructure design
+
+## Performance Considerations
+- Optimize resource usage (CPU/memory requests/limits)
+- Consider startup and readiness probes
+- Implement proper caching strategies
+- Monitor resource utilization
+
+## Workspace Specific
+- This project uses workspaces for `src/cdk8s` and `src/ha`
+- Run commands from appropriate workspace roots
+- Maintain consistent package.json structures across workspaces
+- Use `bun run --filter=*` for cross-workspace commands
+
+## When Suggesting Code Changes
+- Always consider the impact on the entire cluster
+- Test configurations locally when possible
+- Follow the existing project structure and patterns
+- Consider rollback strategies for changes
+- Verify Kubernetes YAML syntax and best practices
