@@ -61,5 +61,12 @@ export async function publish(
       "-c",
       `curl -f -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts`,
     ]);
-  return container.stdout();
+  try {
+    return await container.stdout();
+  } catch (err: any) {
+    if (err?.stderr?.includes("409") || err?.message?.includes("409")) {
+      return "409 Conflict: Chart already exists, treating as success.";
+    }
+    throw err;
+  }
 }
