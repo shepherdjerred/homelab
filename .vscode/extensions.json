@@ -2,6 +2,10 @@
   "recommendations": [
     "ms-kubernetes-tools.vscode-kubernetes-tools",
     "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-json",
     "github.vscode-github-actions",
+    "oven.bun-vscode",
+    "tamasfe.even-better-toml",
   ]
 }
