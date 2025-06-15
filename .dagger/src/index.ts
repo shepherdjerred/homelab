@@ -523,9 +523,13 @@ export class Homelab {
     ghcrUsername: string,
     ghcrPassword: Secret,
     @argument() env: Stage = Stage.Dev
-  ): Promise<StepResult> {
+  ): Promise<string> {
     if (env !== Stage.Prod) {
-      return { status: "skipped", message: "[SKIPPED] Not prod" };
+      return JSON.stringify(
+        { status: "skipped", message: "[SKIPPED] Not prod" },
+        null,
+        2
+      );
     }
     try {
       const result = await buildAndPushHaImage(
@@ -534,9 +538,13 @@ export class Homelab {
         ghcrUsername,
         ghcrPassword
       );
-      return { status: "passed", message: result };
+      return JSON.stringify({ status: "passed", message: result }, null, 2);
     } catch (e) {
-      return { status: "failed", message: `HA Image Publish: FAILED\n${e}` };
+      return JSON.stringify(
+        { status: "failed", message: `HA Image Publish: FAILED\n${e}` },
+        null,
+        2
+      );
     }
   }
 

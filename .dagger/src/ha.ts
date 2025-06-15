@@ -49,7 +49,15 @@ export async function buildAndPushHaImage(
     .withMountedCache("/var/cache/apt", dag.cacheVolume("apt-cache"))
     .withMountedCache("/var/lib/apt", dag.cacheVolume("apt-lib"))
     .withExec(["apt-get", "update"])
-    .withExec(["apt-get", "install", "-y", "python3", "build-essential"])
+    .withExec([
+      "apt-get",
+      "install",
+      "-y",
+      "python3",
+      "build-essential",
+      "nodejs",
+      "npm",
+    ])
     .withMountedDirectory("/usr/src/app", source)
     .withWorkdir("/usr/src/app/src/ha")
     // Cache Bun dependencies for Docker build
