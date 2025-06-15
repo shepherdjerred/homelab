@@ -16,7 +16,6 @@ export async function build(
     .from("alpine/helm:3")
     // Cache Helm registry data and repositories
     .withMountedCache("/root/.cache/helm", dag.cacheVolume("helm-cache"))
-    .withMountedCache("/root/.config/helm", dag.cacheVolume("helm-config"))
     .withMountedDirectory("/workspace", source)
     .withWorkdir("/workspace")
     // Update Chart.yaml version and appVersion
@@ -59,7 +58,6 @@ export async function publish(
     .from("alpine/helm:3")
     // Cache Helm registry data and repositories
     .withMountedCache("/root/.cache/helm", dag.cacheVolume("helm-cache"))
-    .withMountedCache("/root/.config/helm", dag.cacheVolume("helm-config"))
     .withMountedDirectory("/workspace", source)
     .withWorkdir("/workspace")
     .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)

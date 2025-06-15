@@ -11,19 +11,24 @@ export function getBaseContainer(
   source: Directory,
   workdir: string
 ): Container {
-  return dag
-    .container()
-    .from("oven/bun:latest")
-    // Cache APT packages
-    .withMountedCache("/var/cache/apt", dag.cacheVolume("apt-cache"))
-    .withMountedCache("/var/lib/apt", dag.cacheVolume("apt-lib"))
-    .withExec(["apt-get", "update"])
-    .withExec(["apt-get", "install", "-y", "python3", "build-essential"])
-    .withMountedDirectory("/workspace", source)
-    .withWorkdir(workdir)
-    // Cache Bun dependencies
-    .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache"))
-    .withExec(["bun", "install"]);
+  return (
+    dag
+      .container()
+      .from("oven/bun:latest")
+      // Cache APT packages
+      .withMountedCache("/var/cache/apt", dag.cacheVolume("apt-cache"))
+      .withMountedCache("/var/lib/apt", dag.cacheVolume("apt-lib"))
+      .withExec(["apt-get", "update"])
+      .withExec(["apt-get", "install", "-y", "python3", "build-essential"])
+      .withMountedDirectory("/workspace", source)
+      .withWorkdir(workdir)
+      // Cache Bun dependencies
+      .withMountedCache(
+        "/root/.bun/install/cache",
+        dag.cacheVolume("bun-cache")
+      )
+      .withExec(["bun", "install"])
+  );
 }
 
 /**
@@ -32,25 +37,27 @@ export function getBaseContainer(
  * @returns A configured Dagger Container ready for further commands.
  */
 export function getUbuntuBaseContainer(source: Directory): Container {
-  return dag
-    .container()
-    .from("ubuntu:noble")
-    .withWorkdir("/workspace")
-    .withMountedDirectory("/workspace", source)
-    // Cache APT packages
-    .withMountedCache("/var/cache/apt", dag.cacheVolume("apt-cache"))
-    .withMountedCache("/var/lib/apt", dag.cacheVolume("apt-lib"))
-    .withExec(["apt-get", "update"])
-    .withExec([
-      "apt-get",
-      "install",
-      "-y",
-      "gpg",
-      "wget",
-      "curl",
-      "git",
-      "build-essential",
-    ]);
+  return (
+    dag
+      .container()
+      .from("ubuntu:noble")
+      .withWorkdir("/workspace")
+      .withMountedDirectory("/workspace", source)
+      // Cache APT packages
+      .withMountedCache("/var/cache/apt", dag.cacheVolume("apt-cache"))
+      .withMountedCache("/var/lib/apt", dag.cacheVolume("apt-lib"))
+      .withExec(["apt-get", "update"])
+      .withExec([
+        "apt-get",
+        "install",
+        "-y",
+        "gpg",
+        "wget",
+        "curl",
+        "git",
+        "build-essential",
+      ])
+  );
 }
 
 /**
@@ -58,14 +65,7 @@ export function getUbuntuBaseContainer(source: Directory): Container {
  * @returns A configured Container with curl and caching ready.
  */
 export function getCurlContainer(): Container {
-  return dag
-    .container()
-    .from("curlimages/curl")
-    // Cache curl configuration and SSL certificates
-    .withMountedCache("/root/.curlrc", dag.cacheVolume("curl-config"))
-    .withMountedCache("/etc/ssl/certs", dag.cacheVolume("ssl-certs"))
-    // Cache DNS resolution
-    .withMountedCache("/tmp/curl-dns", dag.cacheVolume("curl-dns"));
+  return dag.container().from("curlimages/curl");
 }
 
 /**
@@ -73,12 +73,7 @@ export function getCurlContainer(): Container {
  * @returns A configured Container with kubectl and caching ready.
  */
 export function getKubectlContainer(): Container {
-  return dag
-    .container()
-    .from("bitnami/kubectl:latest")
-    // Cache kubectl configuration and temporary files
-    .withMountedCache("/root/.kube", dag.cacheVolume("kubectl-config"))
-    .withMountedCache("/tmp", dag.cacheVolume("kubectl-tmp"));
+  return dag.container().from("bitnami/kubectl:latest");
 }
 
 /**
@@ -87,29 +82,34 @@ export function getKubectlContainer(): Container {
  * @returns A configured Container with mise and tools ready.
  */
 export function withMiseTools(baseContainer: Container): Container {
-  return baseContainer
-    .withExec(["install", "-dm", "755", "/etc/apt/keyrings"])
-    .withExec([
-      "sh",
-      "-c",
-      "wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor > /etc/apt/keyrings/mise-archive-keyring.gpg",
-    ])
-    .withExec([
-      "sh",
-      "-c",
-      `echo 'deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg] https://mise.jdx.dev/deb stable main' > /etc/apt/sources.list.d/mise.list`,
-    ])
-    .withExec(["apt-get", "update"])
-    .withExec(["apt-get", "install", "-y", "mise"])
-    // Cache mise tools
-    .withMountedCache("/root/.local/share/mise", dag.cacheVolume("mise-cache"))
-    .withExec(["mise", "trust"])
-    .withExec(["mise", "use", "bun@latest", "python@latest"])
-    .withEnvVariable("PATH", "/root/.local/share/mise/shims:${PATH}", {
-      expand: true,
-    })
-    // Cache pip packages
-    .withMountedCache("/root/.cache/pip", dag.cacheVolume("pip-cache"))
-    .withExec(["pip", "install", "pre-commit"])
-    .withExec(["mise", "reshim"]);
+  return (
+    baseContainer
+      .withExec(["install", "-dm", "755", "/etc/apt/keyrings"])
+      .withExec([
+        "sh",
+        "-c",
+        "wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor > /etc/apt/keyrings/mise-archive-keyring.gpg",
+      ])
+      .withExec([
+        "sh",
+        "-c",
+        `echo 'deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg] https://mise.jdx.dev/deb stable main' > /etc/apt/sources.list.d/mise.list`,
+      ])
+      .withExec(["apt-get", "update"])
+      .withExec(["apt-get", "install", "-y", "mise"])
+      // Cache mise tools
+      .withMountedCache(
+        "/root/.local/share/mise",
+        dag.cacheVolume("mise-cache")
+      )
+      .withExec(["mise", "trust"])
+      .withExec(["mise", "use", "bun@latest", "python@latest"])
+      .withEnvVariable("PATH", "/root/.local/share/mise/shims:${PATH}", {
+        expand: true,
+      })
+      // Cache pip packages
+      .withMountedCache("/root/.cache/pip", dag.cacheVolume("pip-cache"))
+      .withExec(["pip", "install", "pre-commit"])
+      .withExec(["mise", "reshim"])
+  );
 }

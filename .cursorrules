@@ -17,6 +17,7 @@ This is a homelab infrastructure project managing Kubernetes resources using cdk
 - Follow kebab-case for file names and Kubernetes resource names
 - Use camelCase for TypeScript variables and functions
 - Prefer functional programming patterns where appropriate
+- Use conventional commits for all commit messages (e.g., `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`)
 
 ## Infrastructure Guidelines
 - All Kubernetes resources should be defined using cdk8s constructs
