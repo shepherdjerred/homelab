@@ -93,6 +93,8 @@ const versions = {
   "gha-runner-scale-set-controller": "0.12.0",
   // renovate: datasource=helm registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set-runner": "0.12.0",
+  // renovate: datasource=helm registryUrl=https://registry.dagger.io/dagger versioning=semver
+  "dagger-helm": "0.18.10",
 };
 
 export default versions;

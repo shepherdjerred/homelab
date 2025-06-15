@@ -3,8 +3,6 @@ import { Application } from "../../imports/argoproj.io.ts";
 import { Namespace } from "cdk8s-plus-31";
 import versions from "../versions.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import { Size } from "cdk8s";
-import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
 
 export function createActionsRunnerControllerApp(chart: Chart) {
   // Ensure the arc-system namespace exists before creating controller resources
@@ -75,16 +73,6 @@ export function createActionsRunnerControllerApp(chart: Chart) {
     }
   );
 
-  // Shared RWX PVC for /cache in arc-runners namespace
-  const sharedCacheVolume = new ZfsSsdVolume(chart, "gha-shared-cache", {
-    storage: Size.gibibytes(100),
-    metadata: {
-      name: "gha-shared-cache",
-      namespace: "arc-runners",
-    },
-  });
-  const sharedCachePvc = sharedCacheVolume.claim;
-
   // Runner set install (gha-runner-scale-set)
   new Application(chart, "arc-runner-set-app", {
     metadata: {
@@ -106,42 +94,8 @@ export function createActionsRunnerControllerApp(chart: Chart) {
               name: "actions-runner-controller-gha-rs-controller",
             },
             containerMode: {
+              // TODO: we might not need this with a remote Dagger engine
               type: "dind",
-            },
-            template: {
-              spec: {
-                containers: [
-                  {
-                    name: "runner",
-                    image: "ghcr.io/actions/actions-runner:latest",
-                    command: ["/home/runner/run.sh"],
-                    env: [
-                      {
-                        name: "DOCKER_HOST",
-                        value: "unix:///var/run/docker.sock",
-                      },
-                      {
-                        name: "RUNNER_WAIT_FOR_DOCKER_IN_SECONDS",
-                        value: "120",
-                      },
-                    ],
-                    volumeMounts: [
-                      {
-                        name: "gha-shared-cache",
-                        mountPath: "/cache",
-                      },
-                    ],
-                  },
-                ],
-                volumes: [
-                  {
-                    name: "gha-shared-cache",
-                    persistentVolumeClaim: {
-                      claimName: sharedCachePvc.name,
-                    },
-                  },
-                ],
-              },
             },
           },
         },
