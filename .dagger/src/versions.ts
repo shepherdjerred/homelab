@@ -9,7 +9,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   ubuntu: "noble",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "curlimages/curl": "8.13.0",
+  "curlimages/curl": "8.14.1",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "bitnami/kubectl": "1.33.1",
   // renovate: datasource=github-releases versioning=semver
