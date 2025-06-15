@@ -8,17 +8,16 @@ import versions from "./versions";
 
 export async function preCommit(
   source: Directory,
-  targetArch: string = "amd64",
-  kubeLinterVersion: string = versions["stackrox/kube-linter"]
+  targetArch: string = "amd64"
 ): Promise<string> {
   // Prepare kube-linter download with caching
   const kubeLinterUrl =
     targetArch === "arm64"
-      ? `https://github.com/stackrox/kube-linter/releases/download/${kubeLinterVersion}/kube-linter-linux_arm64`
-      : `https://github.com/stackrox/kube-linter/releases/download/${kubeLinterVersion}/kube-linter-linux`;
+      ? `https://github.com/stackrox/kube-linter/releases/download/${versions["stackrox/kube-linter"]}/kube-linter-linux_arm64`
+      : `https://github.com/stackrox/kube-linter/releases/download/${versions["stackrox/kube-linter"]}/kube-linter-linux`;
 
   // Create a cache key based on version and arch for the binary
-  const kubeLinterCacheKey = `kube-linter-${kubeLinterVersion}-${targetArch}`;
+  const kubeLinterCacheKey = `kube-linter-${versions["stackrox/kube-linter"]}-${targetArch}`;
 
   const kubeLinterFilePromise = getCurlContainer()
     // Cache downloaded binaries

@@ -141,7 +141,6 @@ export class Homelab {
     @argument() chartMuseumUsername: string,
     chartMuseumPassword: Secret,
     targetArch: string = "amd64",
-    kubeLinterVersion: string = versions["stackrox/kube-linter"],
     @argument() env: Stage = Stage.Dev
   ): Promise<string> {
     // Update HA version in versions.ts if prod
@@ -151,11 +150,7 @@ export class Homelab {
     }
 
     // Pre-commit (run async)
-    const preCommitPromise = preCommit(
-      updatedSource,
-      targetArch,
-      kubeLinterVersion
-    )
+    const preCommitPromise = preCommit(updatedSource, targetArch)
       .then((msg) => ({ status: "passed", message: msg }))
       .catch((e) => ({ status: "failed", message: String(e) }));
 
@@ -431,10 +426,9 @@ export class Homelab {
       defaultPath: ".",
     })
     source: Directory,
-    @argument({}) targetArch: string = "amd64",
-    @argument({}) kubeLinterVersion: string = versions["stackrox/kube-linter"]
+    @argument({}) targetArch: string = "amd64"
   ) {
-    return preCommit(source, targetArch, kubeLinterVersion);
+    return preCommit(source, targetArch);
   }
 
   /**
