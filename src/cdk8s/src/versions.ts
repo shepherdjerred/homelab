@@ -64,8 +64,7 @@ const versions = {
   "home-assistant/home-assistant":
     "2025.6.1@sha256:857745bd01589750174e60f2c477a65da1169c4f1c098a58db792baae7f7ada6",
   // Custom homelab HA image - updated by CI pipeline
-  "shepherdjerred/homelab":
-    "latest",
+  "shepherdjerred/homelab": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing":
     "1.29.7@sha256:2600853512ea2744d88b05fba7524d4bc6d99e14975d408a7f53beee0a2b83e1",
@@ -101,17 +100,17 @@ const versions = {
 
   // Dagger CI/CD Docker Images
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  alpine: "3.21.2",
+  alpine: "3.22.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "alpine/helm": "3.16.4",
+  "alpine/helm": "3.18.2",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "oven/bun": "1.1.42",
+  "oven/bun": "1.2.16",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  ubuntu: "noble-20250115",
+  ubuntu: "noble",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "curlimages/curl": "8.11.1",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "bitnami/kubectl": "1.32.0",
+  "bitnami/kubectl": "1.33.1",
 };
 
 export default versions;
