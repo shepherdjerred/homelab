@@ -38,6 +38,7 @@ jobs:
           CHARTMUSEUM_USERNAME: sjerred
           CHARTMUSEUM_PASSWORD: ${{ secrets.CHARTMUSEUM_PASSWORD }}
           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+          _EXPERIMENTAL_DAGGER_RUNNER_HOST: kube-pod://dagger-dagger-helm-engine-c65nq?namespace=dagger
         run: |
           dagger call ci \
             --source=. \
