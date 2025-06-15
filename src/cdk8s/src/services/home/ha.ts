@@ -2,6 +2,7 @@ import { Deployment, DeploymentStrategy, EnvValue, Secret } from "cdk8s-plus-31"
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
+import versions from "../../versions.ts";
 
 export function createHaDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "ha", {
@@ -24,7 +25,7 @@ export function createHaDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: `ghcr.io/shepherdjerred/homelab:latest`,
+      image: `ghcr.io/shepherdjerred/homelab:${versions["shepherdjerred/homelab"]}`,
       envVariables: {
         HASS_TOKEN: EnvValue.fromSecretValue({
           secret,

@@ -1,4 +1,4 @@
-import { func, argument, Directory, object, Secret } from "@dagger.io/dagger";
+import { func, argument, Directory, object, Secret, dag } from "@dagger.io/dagger";
 import { buildHa, testHa, typeCheckHa, lintHa } from "./ha";
 import { typeCheckCdk8s, buildK8sManifests } from "./cdk8s";
 import { preCommit } from "./precommit";
@@ -59,6 +59,43 @@ export class Homelab {
   }
 
   /**
+   * Update the versions.ts file with the HA image version for production builds
+   * @param source The source directory
+   * @param version The version to set for the HA image
+   * @returns The updated source directory
+   */
+  @func()
+  async updateHaVersion(
+    @argument({
+      ignore: [
+        "node_modules",
+        "dist",
+        "build",
+        ".cache",
+        "*.log",
+        ".env*",
+        "!.env.example",
+      ],
+      defaultPath: ".",
+    })
+    source: Directory,
+    @argument() version: string
+  ): Promise<Directory> {
+    return dag
+      .container()
+      .from("alpine:latest")
+      .withMountedDirectory("/workspace", source)
+      .withWorkdir("/workspace")
+      .withExec([
+        "sed",
+        "-i",
+        `s/"shepherdjerred\\/homelab":\\s*"[^"]*"/"shepherdjerred\\/homelab": "${version}"/`,
+        "src/cdk8s/src/versions.ts"
+      ])
+      .directory("/workspace");
+  }
+
+  /**
    * Runs pre-commit, kube-linter, ArgoCD sync, builds for CDK8s and HA, publishes the HA image (if prod), and publishes the Helm chart (if prod) as part of the CI pipeline.
    * @param source The source directory for pre-commit, kube-linter, and builds.
    * @param argocdToken The ArgoCD API token for authentication (as a Dagger Secret).
@@ -99,20 +136,26 @@ export class Homelab {
     kubeLinterVersion: string = "v0.6.8",
     @argument() env: Stage = Stage.Dev
   ): Promise<string> {
+    // Update HA version in versions.ts if prod
+    let updatedSource = source;
+    if (env === Stage.Prod) {
+      updatedSource = await this.updateHaVersion(source, chartVersion);
+    }
+
     // Pre-commit (run async)
-    const preCommitPromise = preCommit(source, targetArch, kubeLinterVersion)
+    const preCommitPromise = preCommit(updatedSource, targetArch, kubeLinterVersion)
       .then((msg) => ({ status: "passed", message: msg }))
       .catch((e) => ({ status: "failed", message: String(e) }));
 
     // Start builds in parallel
-    const cdk8sBuildPromise = buildK8sManifests(source, source)
+    const cdk8sBuildPromise = buildK8sManifests(updatedSource, updatedSource)
       .then(() => ({ status: "passed", message: "CDK8s Build: PASSED" }))
       .catch((e) => ({
         status: "failed",
         message: `CDK8s Build: FAILED\n${e}`,
       }));
 
-    const haBuildPromise = buildHa(source)
+    const haBuildPromise = buildHa(updatedSource)
       .then(() => ({ status: "passed", message: "HA Build: PASSED" }))
       .catch((e) => ({ status: "failed", message: `HA Build: FAILED\n${e}` }));
 
@@ -120,7 +163,7 @@ export class Homelab {
       Promise.resolve(undefined);
     if (env === Stage.Prod) {
       helmBuildPromise = this.helmBuild(
-        source.directory("src/cdk8s/helm"),
+        updatedSource.directory("src/cdk8s/helm"),
         chartVersion
       );
     }
@@ -140,7 +183,7 @@ export class Homelab {
     if (env === Stage.Prod) {
       // Push versioned tag
       haPublishResult = await this.publishHaImage(
-        source,
+        updatedSource,
         `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
         ghcrUsername,
         ghcrPassword,
@@ -148,7 +191,7 @@ export class Homelab {
       );
       // Push latest tag
       const haPublishLatestResult = await this.publishHaImage(
-        source,
+        updatedSource,
         `ghcr.io/shepherdjerred/homelab:latest`,
         ghcrUsername,
         ghcrPassword,
