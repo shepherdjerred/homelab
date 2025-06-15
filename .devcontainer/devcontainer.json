@@ -3,7 +3,7 @@
     "dockerfile": "Dockerfile"
   },
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2@sha256:842d2ed40827dc91b95ef727771e170b0e52272404f00dba063cee94eafac4bb": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
   "postStartCommand": "pre-commit install && pre-commit install -t commit-msg"
 }
