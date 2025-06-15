@@ -1,4 +1,5 @@
 import { dag, Directory, Secret } from "@dagger.io/dagger";
+import versions from "../../src/cdk8s/src/versions";
 
 /**
  * Build the Helm chart, update version/appVersion, and export artifacts.
@@ -13,7 +14,7 @@ export async function build(
 ): Promise<Directory> {
   const container = dag
     .container()
-    .from("alpine/helm:3")
+    .from(`alpine/helm:${versions["alpine/helm"]}`)
     // Cache Helm registry data and repositories
     .withMountedCache("/root/.cache/helm", dag.cacheVolume("helm-cache"))
     .withMountedCache("/root/.config/helm", dag.cacheVolume("helm-config"))
@@ -56,7 +57,7 @@ export async function publish(
   const chartFile = `torvalds-${version}.tgz`;
   const container = dag
     .container()
-    .from("alpine/helm:3")
+    .from(`alpine/helm:${versions["alpine/helm"]}`)
     // Cache Helm registry data and repositories
     .withMountedCache("/root/.cache/helm", dag.cacheVolume("helm-cache"))
     .withMountedCache("/root/.config/helm", dag.cacheVolume("helm-config"))

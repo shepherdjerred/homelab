@@ -95,6 +95,18 @@ const versions = {
   "gha-runner-scale-set-runner": "0.12.0",
   // renovate: datasource=helm registryUrl=oci://registry.dagger.io/dagger versioning=semver
   "dagger-helm": "0.18.10",
+
+  // Dagger CI/CD Docker images
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
+  "oven/bun": "1.1.48",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "ubuntu": "24.04",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "curlimages/curl": "8.12.1",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "bitnami/kubectl": "1.32.1",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "alpine/helm": "3.16.4",
 };
 
 export default versions;
