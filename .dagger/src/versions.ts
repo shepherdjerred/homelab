@@ -13,7 +13,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "bitnami/kubectl": "1.33.1",
   // renovate: datasource=github-releases versioning=semver
-  "stackrox/kube-linter": "v0.6.8",
+  "stackrox/kube-linter": "v0.7.2",
 };
 
 export default versions;
