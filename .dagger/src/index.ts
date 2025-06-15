@@ -438,7 +438,7 @@ export class Homelab {
    */
   @func()
   async sync(argocdToken: Secret) {
-    return argocdSync(argocdToken);
+    return JSON.stringify(await argocdSync(argocdToken), null, 2);
   }
 
   /**
