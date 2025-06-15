@@ -179,12 +179,8 @@ export class Homelab {
       message: "[SKIPPED] Not prod or chart publish failed",
     };
     if (env === Stage.Prod && helmPublishResult.status === "passed") {
-      try {
-        const msg = await argocdSync(argocdToken);
-        syncResult = { status: "passed", message: msg };
-      } catch (e) {
-        syncResult = { status: "failed", message: String(e) };
-      }
+      const sync = await argocdSync(argocdToken);
+      syncResult = sync;
     }
     // Await pre-commit result before summary
     const preCommitResult = await preCommitPromise;

@@ -23,11 +23,20 @@ export async function sync(argocdToken: Secret): Promise<StepResult> {
   const output = await container.stdout();
   // Split output into body and status code
   const lastNewline = output.lastIndexOf("\n");
-  const body = output.slice(0, lastNewline);
+  const bodyRaw = output.slice(0, lastNewline);
   const statusCode = output.slice(lastNewline + 1).trim();
+  let message: string;
+  try {
+    // Try to parse as JSON for better readability
+    const parsed = JSON.parse(bodyRaw);
+    message = JSON.stringify(parsed, null, 2);
+  } catch {
+    // Fallback to raw body if not JSON
+    message = bodyRaw;
+  }
   if (statusCode.startsWith("2")) {
-    return { status: "passed", message: body };
+    return { status: "passed", message };
   } else {
-    return { status: "failed", message: body };
+    return { status: "failed", message };
   }
 }
