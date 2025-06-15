@@ -89,7 +89,7 @@ const versions = {
   "freshrss/freshrss":
     "1.26.2@sha256:ac8ba074707a020b1a865ae6671f17b6110068142484cee9f36df02ed6c41130",
   // renovate: datasource=github-releases versioning=semver
-  "actions/actions-runner-controller": "0.12.0",
+  "actions/actions-runner-controller": "0.27.6",
 };
 
 export default versions;
