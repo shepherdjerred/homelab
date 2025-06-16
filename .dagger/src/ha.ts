@@ -4,7 +4,6 @@ import {
   getUbuntuBaseContainer,
   withMiseTools,
 } from "./base";
-import versions from "./versions";
 
 export async function buildHa(source: Directory): Promise<Directory> {
   return getBaseContainer(source, "/workspace/src/ha")
@@ -53,7 +52,7 @@ export async function buildAndPushHaImage(
     // Cache Bun dependencies for Docker build
     .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache"))
     .withExec(["bun", "install", "--frozen-lockfile"])
-    .withEntrypoint(["bun", "src/main.ts"]);
+    .withEntrypoint(["mise", "exec", "--", "bun", "src/main.ts"]);
 
   // Optionally add registry auth
   if (ghcrUsername && ghcrPassword) {
