@@ -108,7 +108,7 @@ export function withMiseTools(baseContainer: Container): Container {
         "mise",
         "use",
         "-g",
-        `bun@${versions["oven/bun"]}`,
+        `bun@${versions["bun"]}`,
         `python@${versions["python"]}`,
         `node@${versions["node"]}`,
       ])
