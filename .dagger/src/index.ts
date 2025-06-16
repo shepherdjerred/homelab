@@ -101,7 +101,7 @@ export class Homelab {
       .withExec([
         "sed",
         "-i",
-        `s/"shepherdjerred\\/homelab":\\s*"[^"]*"/"shepherdjerred\\/homelab": "${version}"/`,
+        `s/"shepherdjerred\\/homelab": "[^"]*"/"shepherdjerred\\/homelab": "${version}"/`,
         "src/cdk8s/src/versions.ts",
       ])
       .directory("/workspace");
