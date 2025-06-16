@@ -14,14 +14,10 @@ const versions = {
   "bitnami/kubectl": "1.33.1",
   // renovate: datasource=github-releases versioning=semver
   "stackrox/kube-linter": "v0.7.2",
-
-  // Mise tool versions
-  // renovate: datasource=github-releases versioning=semver
-  "mise/bun": "latest",
-  // renovate: datasource=github-releases versioning=semver
-  "mise/python": "latest",
-  // renovate: datasource=github-releases versioning=semver
-  "mise/node": "lts",
+  // renovate: datasource=python-version versioning=semver
+  python: "3.13.5",
+  // renovate: datasource=node-version versioning=semver
+  node: "lts",
 };
 
 export default versions;
