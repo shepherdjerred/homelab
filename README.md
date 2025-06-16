@@ -23,13 +23,12 @@ some things I'm proud of:
 - Automated backups
 - HTTPS ingress with [Tailscale](https://tailscale.com/)
 - All secrets managed with [1Password](https://1password.com/)
-- Jenkins CI w/ Dagger used by my open-source projects
+- GHA Runners w/ Dagger used by my open-source projects
 - Entirely automated deployment for updates, upgrades, etc.
   - Commit-to-deployment takes ~1min
 - Automated dependency updates
   - For Docker images (w/ pinned SHAs)
   - For Helm charts
-  - For Jenkins plugins
   - For Bun dependencies
   - [My approach](https://github.com/shepherdjerred/homelab/blob/main/src/cdk8s/src/versions.ts)
     allows all of my dependencies to be pinned and updated regularly

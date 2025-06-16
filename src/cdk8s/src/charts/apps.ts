@@ -9,7 +9,6 @@ import { createIntelDevicePluginOperatorApp } from "../apps/intel-device-plugin-
 import { createIntelGpuDevicePluginApp } from "../apps/intel-gpu-device-plugin.ts";
 import { createCertManagerApp } from "../apps/cert-manager.ts";
 import { createNfdApp } from "../apps/nfd.ts";
-import { createJenkinsApp } from "../apps/jenkins.ts";
 import { createGrafanaApp } from "../apps/grafana.ts";
 import { createChartMuseumApp } from "../apps/chartmuseum.ts";
 import { createMinecraftApp } from "../apps/minecraft.ts";
@@ -48,7 +47,6 @@ export function createAppsChart(app: App) {
   createIntelGpuDevicePluginApp(chart);
   createCertManagerApp(chart);
   createNfdApp(chart);
-  createJenkinsApp(chart);
   createGrafanaApp(chart);
   createChartMuseumApp(chart);
   createMinecraftApp(chart);

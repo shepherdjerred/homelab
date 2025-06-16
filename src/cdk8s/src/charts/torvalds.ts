@@ -11,7 +11,6 @@ import { createProwlarrDeployment } from "../services/torrents/prowlarr.ts";
 import { createQBitTorrentDeployment } from "../services/torrents/qbittorrent.ts";
 import { createRadarrDeployment } from "../services/torrents/radarr.ts";
 import { createSonarrDeployment } from "../services/torrents/sonarr.ts";
-import { createEarthlyDeployment } from "../services/dev/earthly.ts";
 import { createDdnsDeployment } from "../services/ddns.ts";
 import { createMaintainerrDeployment } from "../services/torrents/maintainerr.ts";
 import { createStashDeployment } from "../services/media/stash.ts";
@@ -63,7 +62,6 @@ export function createTorvaldsChart(app: App) {
   createSyncthingDeployment(chart);
   createGolinkDeployment(chart);
   createProwlarrDeployment(chart);
-  createEarthlyDeployment(chart);
   createDdnsDeployment(chart);
   createMaintainerrDeployment(chart);
   createStashDeployment(chart);

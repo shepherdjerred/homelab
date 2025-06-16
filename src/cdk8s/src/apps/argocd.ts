@@ -11,7 +11,7 @@ export function createArgoCdApp(chart: Chart) {
     "argocd-server",
     443,
     ["argocd"],
-    true,
+    true
   );
 
   new Application(chart, "argocd-app", {
@@ -35,6 +35,7 @@ export function createArgoCdApp(chart: Chart) {
                 "exec.enabled": true,
                 "timeout.reconciliation": "60s",
                 "statusbadge.enabled": true,
+                // TODO: rename
                 "accounts.jenkins": "apiKey",
                 "accounts.jenkins.enabled": true,
               },

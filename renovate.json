@@ -12,23 +12,10 @@
     }
   ],
   "automerge": true,
-  "constraints": {
-    "jenkins": ">= 2.0 <= 2.492.3"
-  },
   "packageRules": [
     {
       "matchDatasources": ["docker"],
       "pinDigests": true
-    },
-    {
-      "groupName": "jenkins",
-      "matchManagers": ["jenkins"],
-      "schedule": ["* 0-4 * * *"],
-      "automerge": false
-    },
-    {
-      "groupName": "jenkins",
-      "matchPackageNames": ["jenkins"]
     },
     {
       "groupName": "cdk8s",

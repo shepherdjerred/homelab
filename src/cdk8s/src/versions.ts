@@ -7,8 +7,6 @@ const versions = {
   "cert-manager": "v1.18.0",
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
   "intel-device-plugins-operator": "0.32.1",
-  // renovate: datasource=helm registryUrl=https://charts.jenkins.io versioning=semver
-  jenkins: "5.8.32",
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
   "node-feature-discovery": "0.17.3",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
@@ -18,9 +16,6 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/redis":
     "7.2@sha256:fc406aff11b00ada4365adfb9f373212a5433499c951878b78862bd9456bfd84",
-  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver-coerced
-  "earthly/satellite":
-    "v0.8.15@sha256:2142b7770427ca6ca5d60de79a0d91284eed02a148e931219c8c0155c88b6645",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "teddit/teddit":
     "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
