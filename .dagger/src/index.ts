@@ -197,7 +197,7 @@ export class Homelab {
     };
     if (env === Stage.Prod) {
       // Push versioned tag
-      haPublishResult = await this.publishHaImage(
+      haPublishResult = await this.internalPublishHaImage(
         updatedSource,
         `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
         ghcrUsername,
@@ -205,7 +205,7 @@ export class Homelab {
         env
       );
       // Push latest tag
-      const haPublishLatestResult = await this.publishHaImage(
+      const haPublishLatestResult = await this.internalPublishHaImage(
         updatedSource,
         `ghcr.io/shepherdjerred/homelab:latest`,
         ghcrUsername,
@@ -533,29 +533,36 @@ export class Homelab {
     ghcrUsername: string,
     ghcrPassword: Secret,
     @argument() env: Stage = Stage.Dev
-  ): Promise<StepResult> {
-    const isDryRun = env !== Stage.Prod;
-
-    try {
-      const result = await buildAndPushHaImage(
+  ): Promise<string> {
+    return JSON.stringify(
+      await this.internalPublishHaImage(
         source,
         imageName,
         ghcrUsername,
         ghcrPassword,
-        isDryRun
-      );
+        env
+      ),
+      null,
+      2
+    );
+  }
 
-      if (isDryRun) {
-        return { status: "passed", message: `[DRY-RUN] ${result}` };
-      } else {
-        return { status: "passed", message: `Image published: ${result}` };
-      }
-    } catch (e) {
-      return {
-        status: "failed",
-        message: `HA Image Build/Publish: FAILED\n${e}`,
-      };
-    }
+  async internalPublishHaImage(
+    source: Directory,
+    imageName: string,
+    ghcrUsername: string,
+    ghcrPassword: Secret,
+    @argument() env: Stage = Stage.Dev
+  ): Promise<StepResult> {
+    const isDryRun = env !== Stage.Prod;
+
+    return buildAndPushHaImage(
+      source,
+      imageName,
+      ghcrUsername,
+      ghcrPassword,
+      isDryRun
+    );
   }
 
   /**

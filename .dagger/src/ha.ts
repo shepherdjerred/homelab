@@ -4,6 +4,7 @@ import {
   getUbuntuBaseContainer,
   withMiseTools,
 } from "./base";
+import type { StepResult } from ".";
 
 export async function buildHa(source: Directory): Promise<Directory> {
   return getBaseContainer(source, "/workspace/src/ha")
@@ -46,7 +47,7 @@ export async function buildAndPushHaImage(
   ghcrUsername: string,
   ghcrPassword: Secret,
   dryRun: boolean = false
-): Promise<string> {
+): Promise<StepResult> {
   let container = withMiseTools(getUbuntuBaseContainer(source))
     .withWorkdir("/workspace/src/ha")
     // Cache Bun dependencies for Docker build
@@ -54,21 +55,30 @@ export async function buildAndPushHaImage(
     .withExec(["bun", "install", "--frozen-lockfile"])
     .withEntrypoint(["mise", "exec", "--", "bun", "src/main.ts"]);
 
-  // Optionally add registry auth
-  if (ghcrUsername && ghcrPassword) {
-    container = container.withRegistryAuth(
-      "ghcr.io",
-      ghcrUsername,
-      ghcrPassword
-    );
-  }
-
   // Build or publish the image based on dry-run flag
   if (dryRun) {
-    // For dry-run, just return the image ID to prove it built successfully
-    return `[DRY-RUN] Image built successfully but not published: ${imageName}`;
+    // For dry-run, export the image to the host Docker instance
+    const result = await container.export("image.tar.gz");
+    return {
+      status: "passed",
+      message: `Image built and exported to host Docker instance: ${result}`,
+    };
   } else {
     // Publish the image
-    return container.publish(imageName);
+    if (ghcrUsername && ghcrPassword) {
+      container = container.withRegistryAuth(
+        "ghcr.io",
+        ghcrUsername,
+        ghcrPassword
+      );
+    } else {
+      throw new Error("GHCR username and password are required");
+    }
+
+    const result = await container.publish(imageName);
+    return {
+      status: "passed",
+      message: `Image published: ${result}`,
+    };
   }
 }
