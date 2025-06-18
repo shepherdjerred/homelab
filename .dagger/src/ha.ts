@@ -1,10 +1,17 @@
-import { Directory, dag, type Secret } from "@dagger.io/dagger";
+import {
+  Directory,
+  dag,
+  type Secret,
+  Container,
+  type Platform,
+} from "@dagger.io/dagger";
 import {
   getBaseContainer,
   getUbuntuBaseContainer,
   withMiseTools,
 } from "./base";
 import type { StepResult } from ".";
+import versions from "./versions";
 
 export async function buildHa(source: Directory): Promise<Directory> {
   return getBaseContainer(source, "/workspace/src/ha")
@@ -48,37 +55,58 @@ export async function buildAndPushHaImage(
   ghcrPassword: Secret,
   dryRun: boolean = false
 ): Promise<StepResult> {
-  let container = withMiseTools(getUbuntuBaseContainer(source))
-    .withWorkdir("/workspace/src/ha")
-    // Cache Bun dependencies for Docker build
-    .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache"))
-    .withExec(["bun", "install", "--frozen-lockfile"])
-    .withEntrypoint(["mise", "exec", "--", "bun", "src/main.ts"]);
+  // Define platforms to build for
+  const platforms = ["linux/amd64", "linux/arm64"] as const;
+
+  // Build containers for each platform in parallel
+  const platformVariants = await Promise.all(
+    platforms.map(async (platform) => {
+      return (
+        (
+          await withMiseTools(
+            // Strangely, Dagger defines the Platform type in such a way that it cannot be instantiated
+            getUbuntuBaseContainer(source, platform as Platform)
+          )
+        )
+          .withDirectory("/workspace", source)
+          .withWorkdir("/workspace/src/ha")
+          // Cache Bun dependencies for Docker build
+          .withMountedCache(
+            "/root/.bun/install/cache",
+            dag.cacheVolume(`bun-cache-${platform}`)
+          )
+          .withExec(["bun", "install", "--frozen-lockfile"])
+          .withEntrypoint(["mise", "exec", "--", "bun", "src/main.ts"])
+      );
+    })
+  );
 
   // Build or publish the image based on dry-run flag
   if (dryRun) {
-    // For dry-run, export the image to the host Docker instance
-    const result = await container.export("image.tar.gz");
+    // For dry-run, build all platform variants to ensure they all work
+    await Promise.all(platformVariants.map((container) => container.sync()));
     return {
       status: "passed",
-      message: `Image built and exported to host Docker instance: ${result}`,
+      message: `Multi-platform image built successfully for platforms: ${platforms.join(", ")}`,
     };
   } else {
-    // Publish the image
+    // Publish the multi-platform image
     if (ghcrUsername && ghcrPassword) {
-      container = container.withRegistryAuth(
-        "ghcr.io",
-        ghcrUsername,
-        ghcrPassword
-      );
+      // Set up registry authentication on the base container
+      const publishContainer = dag
+        .container()
+        .withRegistryAuth("ghcr.io", ghcrUsername, ghcrPassword);
+
+      const result = await publishContainer.publish(imageName, {
+        platformVariants,
+      });
+
+      return {
+        status: "passed",
+        message: `Multi-platform image published: ${result}`,
+      };
     } else {
       throw new Error("GHCR username and password are required");
     }
-
-    const result = await container.publish(imageName);
-    return {
-      status: "passed",
-      message: `Image published: ${result}`,
-    };
   }
 }

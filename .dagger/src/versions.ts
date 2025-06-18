@@ -10,8 +10,7 @@ const versions = {
   "oven/bun":
     "1.2.16@sha256:ffd754d1d771513d7b21fb013b60bfc1e22e862d310e9727726d25d1827b6a06",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  ubuntu:
-    "noble@sha256:04f510bf1f2528604dc2ff46b517dbdbb85c262d62eacc4aa4d3629783036096",
+  ubuntu: "noble",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "curlimages/curl":
     "8.14.1@sha256:9a1ed35addb45476afa911696297f8e115993df459278ed036182dd2cd22b67b",

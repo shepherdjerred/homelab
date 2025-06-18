@@ -32,7 +32,9 @@ export async function preCommit(
     .file("/tmp/kube-linter");
 
   // Main container setup using cached base
-  const mainContainerPromise = withMiseTools(getUbuntuBaseContainer(source));
+  const mainContainerPromise = await withMiseTools(
+    getUbuntuBaseContainer(source)
+  );
 
   // Wait for both in parallel
   const [kubeLinterFile, mainContainer] = await Promise.all([
@@ -47,12 +49,12 @@ export async function preCommit(
     // Cache pre-commit environments
     .withMountedCache(
       "/root/.cache/pre-commit",
-      dag.cacheVolume("pre-commit-cache")
+      dag.cacheVolume(`pre-commit-cache-${await mainContainer.platform()}`)
     )
     // Cache Bun install dependencies (version-specific to avoid native module conflicts)
     .withMountedCache(
       "/root/.bun/install/cache",
-      dag.cacheVolume(`bun-install-cache-${versions["oven/bun"]}`)
+      dag.cacheVolume(`bun-install-cache-${await mainContainer.platform()}`)
     )
     .withExec(["pre-commit", "run", "--all-files"]);
 

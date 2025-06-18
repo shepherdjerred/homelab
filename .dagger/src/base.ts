@@ -1,4 +1,4 @@
-import { dag, Container, Directory } from "@dagger.io/dagger";
+import { dag, Container, Directory, type Platform } from "@dagger.io/dagger";
 import versions from "./versions";
 
 /**
@@ -35,18 +35,25 @@ export function getBaseContainer(
 /**
  * Returns a base Ubuntu container with common tools and caching configured.
  * @param source The source directory to mount into the container at /workspace.
+ * @param platform The platform to build for (optional).
  * @returns A configured Dagger Container ready for further commands.
  */
-export function getUbuntuBaseContainer(source: Directory): Container {
+export function getUbuntuBaseContainer(
+  source: Directory,
+  platform?: Platform
+): Container {
   return (
     dag
-      .container()
+      .container({ platform })
       .from(`ubuntu:${versions.ubuntu}`)
       .withWorkdir("/workspace")
       .withMountedDirectory("/workspace", source)
       // Cache APT packages
-      .withMountedCache("/var/cache/apt", dag.cacheVolume("apt-cache"))
-      .withMountedCache("/var/lib/apt", dag.cacheVolume("apt-lib"))
+      .withMountedCache(
+        "/var/cache/apt",
+        dag.cacheVolume(`apt-cache-${platform}`)
+      )
+      .withMountedCache("/var/lib/apt", dag.cacheVolume(`apt-lib-${platform}`))
       .withExec(["apt-get", "update"])
       .withExec([
         "apt-get",
@@ -82,7 +89,9 @@ export function getKubectlContainer(): Container {
  * @param baseContainer The base container to build upon.
  * @returns A configured Container with mise and tools ready.
  */
-export function withMiseTools(baseContainer: Container): Container {
+export async function withMiseTools(
+  baseContainer: Container
+): Promise<Container> {
   return (
     baseContainer
       .withExec(["install", "-dm", "755", "/etc/apt/keyrings"])
@@ -101,7 +110,7 @@ export function withMiseTools(baseContainer: Container): Container {
       // Cache mise tools
       .withMountedCache(
         "/root/.local/share/mise",
-        dag.cacheVolume("mise-cache")
+        dag.cacheVolume(`mise-cache-${await baseContainer.platform()}`)
       )
       .withExec(["mise", "trust"])
       .withExec([
@@ -116,7 +125,10 @@ export function withMiseTools(baseContainer: Container): Container {
         expand: true,
       })
       // Cache pip packages
-      .withMountedCache("/root/.cache/pip", dag.cacheVolume("pip-cache"))
+      .withMountedCache(
+        "/root/.cache/pip",
+        dag.cacheVolume(`pip-cache-${await baseContainer.platform()}`)
+      )
       .withExec(["pip", "install", "pre-commit"])
       .withExec(["mise", "reshim"])
   );
