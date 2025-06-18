@@ -76,7 +76,13 @@ export async function buildAndPushHaImage(
             dag.cacheVolume(`bun-cache-${platform}`)
           )
           .withExec(["bun", "install", "--frozen-lockfile"])
-          .withEntrypoint(["mise", "exec", "--", "bun", "src/main.ts"])
+          .withEntrypoint([
+            "mise",
+            "exec",
+            `bun@${versions["bun"]}`,
+            "--",
+            "bun",
+            "src/main.ts"])
       );
     })
   );
