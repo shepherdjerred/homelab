@@ -76,7 +76,7 @@ export async function buildAndPushHaImage(
             dag.cacheVolume(`bun-cache-${platform}`)
           )
           .withExec(["bun", "install", "--frozen-lockfile"])
-          .withEntrypoint([
+          .withDefaultArgs([
             "mise",
             "exec",
             `bun@${versions["bun"]}`,
