@@ -60,7 +60,7 @@ export class Homelab {
     const haTypeCheck = typeCheckHa(source);
     const haTest = testHa(source);
     const haLint = lintHa(source);
-    const cdk8sTypeCheck = typeCheckCdk8s(source);
+    const cdk8sTypeCheck = typeCheckCdk8s(source.directory("src/cdk8s"));
     const results = await Promise.allSettled([
       haTypeCheck,
       haTest,
@@ -166,7 +166,9 @@ export class Homelab {
       .catch((e) => ({ status: "failed", message: String(e) }));
 
     // Start builds in parallel
-    const cdk8sBuildPromise = buildK8sManifests(updatedSource, updatedSource)
+    const cdk8sBuildPromise = buildK8sManifests(
+      updatedSource.directory("src/cdk8s")
+    )
       .then(() => ({ status: "passed", message: "CDK8s Build: PASSED" }))
       .catch((e) => ({
         status: "failed",
@@ -180,6 +182,7 @@ export class Homelab {
     // Always build Helm chart (for both dev and prod)
     const helmBuildPromise = this.helmBuild(
       updatedSource.directory("src/cdk8s/helm"),
+      updatedSource.directory("src/cdk8s"),
       chartVersion || "dev-snapshot"
     )
       .then((dist) => ({
@@ -229,7 +232,7 @@ export class Homelab {
     };
     if (env === Stage.Prod && helmBuildResult.dist) {
       // Publish using the dist directory as the source
-      helmPublishResult = await this.helmPublish(
+      helmPublishResult = await this.helmPublishBuilt(
         helmBuildResult.dist,
         chartVersion,
         chartRepo,
@@ -377,7 +380,7 @@ export class Homelab {
 
   /**
    * Runs TypeScript type checking for the CDK8s project.
-   * @param source The source directory for the CDK8s project.
+   * @param source The CDK8s source directory.
    * @returns The stdout from the type check run.
    */
   @func()
@@ -393,7 +396,7 @@ export class Homelab {
         "!.env.example",
         ".dagger",
       ],
-      defaultPath: ".",
+      defaultPath: "src/cdk8s",
     })
     source: Directory
   ) {
@@ -402,7 +405,7 @@ export class Homelab {
 
   /**
    * Builds Kubernetes manifests using CDK8s.
-   * @param source The source directory for the CDK8s project.
+   * @param source The CDK8s source directory.
    * @param outputDir The output directory for the generated manifests.
    * @returns The output directory containing the generated manifests.
    */
@@ -419,12 +422,11 @@ export class Homelab {
         "!.env.example",
         ".dagger",
       ],
-      defaultPath: ".",
+      defaultPath: "src/cdk8s",
     })
-    source: Directory,
-    outputDir: Directory
+    source: Directory
   ) {
-    return buildK8sManifests(source, outputDir);
+    return buildK8sManifests(source);
   }
 
   /**
@@ -534,7 +536,7 @@ export class Homelab {
       ],
       defaultPath: ".",
     })
-    source: Directory,
+    source: Directory
   ): Promise<File> {
     return buildAndExportHaImage(source);
   }
@@ -607,20 +609,23 @@ export class Homelab {
   /**
    * Builds the Helm chart, updates version/appVersion, and exports artifacts.
    * @param source The Helm chart source directory (should be src/cdk8s/helm).
+   * @param cdkSource The CDK8s source directory (should be src/cdk8s).
    * @param version The version to set in Chart.yaml and appVersion.
    * @returns The dist directory with packaged chart and YAMLs.
    */
   @func()
   async helmBuild(
     @argument({ defaultPath: "src/cdk8s/helm" }) source: Directory,
+    @argument({ defaultPath: "src/cdk8s" }) cdkSource: Directory,
     @argument() version: string
   ) {
-    return helmBuildFn(source, version);
+    return helmBuildFn(source, cdkSource, version);
   }
 
   /**
    * Publishes the packaged Helm chart to a ChartMuseum repo and returns a StepResult.
    * @param source The Helm chart source directory (should be src/cdk8s/helm).
+   * @param cdkSource The CDK8s source directory (should be src/cdk8s).
    * @param version The version to publish.
    * @param repo The ChartMuseum repo URL.
    * @param chartMuseumUsername The ChartMuseum username.
@@ -631,6 +636,7 @@ export class Homelab {
   @func()
   async helmPublish(
     @argument({ defaultPath: "src/cdk8s/helm" }) source: Directory,
+    @argument({ defaultPath: "src/cdk8s" }) cdkSource: Directory,
     @argument() version: string,
     @argument() repo: string = "https://chartmuseum.tailnet-1a49.ts.net",
     chartMuseumUsername: string,
@@ -643,6 +649,7 @@ export class Homelab {
     try {
       const result = await helmPublishFn(
         source,
+        cdkSource,
         version,
         repo,
         chartMuseumUsername,
@@ -651,6 +658,60 @@ export class Homelab {
       return { status: "passed", message: result };
     } catch (e) {
       return { status: "failed", message: `Helm Chart Publish: FAILED\n${e}` };
+    }
+  }
+
+  /**
+   * Publishes a pre-built Helm chart to a ChartMuseum repo and returns a StepResult.
+   * This function works with the output of helmBuild (a dist directory).
+   * @param builtDist The built Helm chart dist directory (from helmBuild).
+   * @param version The version being published.
+   * @param repo The ChartMuseum repo URL.
+   * @param chartMuseumUsername The ChartMuseum username.
+   * @param chartMuseumPassword The ChartMuseum password (secret).
+   * @param env The environment to run in: 'prod' to publish, 'dev' to skip (default: 'dev').
+   * @returns A StepResult object with status and message.
+   */
+  @func()
+  async helmPublishBuilt(
+    builtDist: Directory,
+    @argument() version: string,
+    @argument() repo: string = "https://chartmuseum.tailnet-1a49.ts.net",
+    chartMuseumUsername: string,
+    chartMuseumPassword: Secret,
+    @argument() env: Stage = Stage.Dev
+  ): Promise<StepResult> {
+    if (env !== Stage.Prod) {
+      return { status: "skipped", message: "[SKIPPED] Not prod" };
+    }
+    try {
+      const chartFile = `torvalds-${version}.tgz`;
+      const result = await dag
+        .container()
+        .from(`alpine/helm:${versions["alpine/helm"]}`)
+        .withMountedDirectory("/workspace", builtDist)
+        .withWorkdir("/workspace")
+        .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
+        .withSecretVariable("CHARTMUSEUM_PASSWORD", chartMuseumPassword)
+        .withExec([
+          "sh",
+          "-c",
+          `curl -f -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts`,
+        ])
+        .stdout();
+
+      return { status: "passed", message: result };
+    } catch (err: any) {
+      if (err?.stderr?.includes("409") || err?.message?.includes("409")) {
+        return {
+          status: "passed",
+          message: "409 Conflict: Chart already exists, treating as success.",
+        };
+      }
+      return {
+        status: "failed",
+        message: `Helm Chart Publish: FAILED\n${err}`,
+      };
     }
   }
 }

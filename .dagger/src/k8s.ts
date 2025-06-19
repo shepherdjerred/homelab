@@ -26,6 +26,6 @@ export async function applyK8sConfig(
  * @returns The stdout from the kubectl apply command.
  */
 export async function buildAndApplyCdk8s(source: Directory): Promise<string> {
-  const manifestsDir = await buildK8sManifests(source, dag.directory());
+  const manifestsDir = await buildK8sManifests(source.directory("src/cdk8s"));
   return applyK8sConfig(manifestsDir, ".");
 }

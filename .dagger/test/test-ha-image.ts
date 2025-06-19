@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S bun
 
 import { $ } from "bun";
 
@@ -93,7 +93,8 @@ async function main() {
     for (let i = 0; i < maxRetries; i++) {
       console.log(`🔄 Connection attempt ${i + 1}/${maxRetries}...`);
 
-      const connectionResult = await $`timeout 5 bash -c "echo > /dev/tcp/${containerIP.trim()}/3000"`.nothrow();
+      const connectionResult =
+        await $`timeout 5 bash -c "echo > /dev/tcp/${containerIP.trim()}/3000"`.nothrow();
 
       if (connectionResult.exitCode === 0) {
         console.log("✅ Application is responding on port 3000");
@@ -102,13 +103,15 @@ async function main() {
       }
 
       if (i < maxRetries - 1) {
-        console.log(`⏳ Waiting ${retryDelay/1000}s before retry...`);
+        console.log(`⏳ Waiting ${retryDelay / 1000}s before retry...`);
         await new Promise((resolve) => setTimeout(resolve, retryDelay));
       }
     }
 
     if (!connected) {
-      throw new Error(`Application failed to respond on port 3000 after ${maxRetries} attempts`);
+      throw new Error(
+        `Application failed to respond on port 3000 after ${maxRetries} attempts`
+      );
     }
 
     console.log("🎉 All tests passed!");
@@ -120,13 +123,14 @@ async function main() {
     await $`docker rmi ${FULL_IMAGE_NAME}`.nothrow().quiet();
     await $`rm -f ${TAR_FILE}`.nothrow().quiet();
     console.log("✅ Cleanup completed");
-
   } catch (error) {
     console.error("❌ Test failed:", error);
     console.log("🔍 Container left running for inspection. Use:");
     console.log(`   docker logs ha-test-container`);
     console.log(`   docker exec -it ha-test-container /bin/bash`);
-    console.log(`   docker stop ha-test-container && docker rm ha-test-container  # when done`);
+    console.log(
+      `   docker stop ha-test-container && docker rm ha-test-container  # when done`
+    );
     process.exit(1);
   }
 }
