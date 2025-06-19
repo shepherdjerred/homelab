@@ -38,20 +38,18 @@ export async function lintHa(source: Directory): Promise<string> {
 }
 
 /**
- * Builds the HA image and exports it to a tar file for testing.
+ * Builds a container with the HA application ready to run.
  * Uses caching for improved build performance.
  *
  * @param source The source directory.
- * @returns The exported tar file
+ * @returns A configured Container ready to run the HA application.
  */
-export async function buildAndExportHaImage(
-  source: Directory,
-): Promise<File> {
+async function buildHaContainer(source: Directory): Promise<Container> {
   // Get just the HA source directory instead of the entire project
   const haSource = source.directory("src/ha");
 
   // Build the container
-  const container = (await withMiseTools(getUbuntuBaseContainer(source)))
+  return (await withMiseTools(getUbuntuBaseContainer(source)))
     .withDirectory("/app", haSource)
     .withWorkdir("/app")
     // Cache Bun dependencies for Docker build
@@ -65,8 +63,19 @@ export async function buildAndExportHaImage(
       "bun",
       "src/main.ts",
     ]);
+}
 
-  // Export the container as a tar file and return it directly
+/**
+ * Builds the HA image and exports it to a tar file for testing.
+ * Uses caching for improved build performance.
+ *
+ * @param source The source directory.
+ * @returns The exported tar file
+ */
+export async function buildAndExportHaImage(
+  source: Directory,
+): Promise<File> {
+  const container = await buildHaContainer(source);
   return container.asTarball();
 }
 
@@ -88,20 +97,7 @@ export async function buildAndPushHaImage(
   ghcrPassword: Secret,
   dryRun: boolean = false
 ): Promise<StepResult> {
-  // Build the container
-  const container = (await withMiseTools(getUbuntuBaseContainer(source)))
-    .withDirectory("/workspace", source)
-    .withWorkdir("/workspace/src/ha")
-    // Cache Bun dependencies for Docker build
-    .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache"))
-    .withExec(["bun", "install", "--frozen-lockfile"])
-    .withDefaultArgs([
-      "mise",
-      "exec",
-      `bun@${versions["bun"]}`,
-      "bun",
-      "src/main.ts",
-    ]);
+  const container = await buildHaContainer(source);
 
   // Build or publish the image based on dry-run flag
   if (dryRun) {
