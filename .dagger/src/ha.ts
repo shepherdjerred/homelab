@@ -67,8 +67,8 @@ export async function buildAndExportHaImage(
       "src/main.ts",
     ]);
 
-  // Export the container as a tar file and return it directly
-  return container.asTarball();
+  // Export the container as a tar file with proper tagging
+  return container.asTarball({ forcedRepoDigests: [imageName] });
 }
 
 /**

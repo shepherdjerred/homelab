@@ -29,6 +29,5 @@
     "dockerfile": "../.devcontainer/Dockerfile",
     "context": "."
   },
-  "snapshot": null,
   "agentCanUpdateSnapshot": true
 }
