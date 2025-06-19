@@ -1,6 +1,6 @@
 import { dag, Directory } from "@dagger.io/dagger";
 import {
-  getUbuntuBaseContainer,
+  getSystemContainer,
   withMiseTools,
   getCurlContainer,
 } from "./base";
@@ -25,30 +25,39 @@ export async function preCommit(source: Directory): Promise<string> {
     ])
     .file("/tmp/kube-linter");
 
-  // Main container setup using cached base
-  const mainContainerPromise = await withMiseTools(
-    getUbuntuBaseContainer(source)
-  );
+  // Create base container with mise tools and optimized dependency caching
+  const mainContainer = withMiseTools(getSystemContainer())
+    .withWorkdir("/workspace")
+    // Copy only dependency files first for optimal caching
+    .withFile("package.json", source.file("package.json"))
+    .withFile("bun.lock", source.file("bun.lock"))
+    // Create workspace directories and copy their package.json files
+    .withExec(["mkdir", "-p", "src/ha", "src/cdk8s"])
+    .withFile("src/ha/package.json", source.file("src/ha/package.json"))
+    .withFile("src/ha/bun.lock", source.file("src/ha/bun.lock"))
+    .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
+    // Install dependencies (cached unless dependency files change)
+    .withMountedCache(
+      "/root/.bun/install/cache",
+      dag.cacheVolume("bun-cache-root")
+    )
+    .withExec(["bun", "install"])
+    // Now copy the full source (source changes won't invalidate dependency layer)
+    .withMountedDirectory("/workspace", source);
 
   // Wait for both in parallel
-  const [kubeLinterFile, mainContainer] = await Promise.all([
+  const [kubeLinterFile] = await Promise.all([
     kubeLinterFilePromise,
-    mainContainerPromise,
   ]);
 
-  // Add kube-linter to the main container and run pre-commit
+  // Add kube-linter and run pre-commit
   const container = mainContainer
     .withFile("/usr/local/bin/kube-linter", kubeLinterFile)
     .withExec(["chmod", "+x", "/usr/local/bin/kube-linter"])
     // Cache pre-commit environments
     .withMountedCache(
       "/root/.cache/pre-commit",
-      dag.cacheVolume(`pre-commit-cache-${await mainContainer.platform()}`)
-    )
-    // Cache Bun install dependencies (version-specific to avoid native module conflicts)
-    .withMountedCache(
-      "/root/.bun/install/cache",
-      dag.cacheVolume(`bun-install-cache-${await mainContainer.platform()}`)
+      dag.cacheVolume("pre-commit-cache")
     )
     .withExec(["pre-commit", "run", "--all-files"]);
 

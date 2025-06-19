@@ -10,6 +10,7 @@ import { LIB_SYNAPSE } from "@digital-alchemy/synapse";
 import { LIB_AUTOMATION } from "@digital-alchemy/automation";
 import { CreateApplication } from "@digital-alchemy/core";
 import { roombaError } from "./workflows/roombaError.ts";
+import { mastraWorkflow } from "./workflows/mastra.ts";
 
 const app = CreateApplication({
   libraries: [LIB_HASS, LIB_SYNAPSE, LIB_AUTOMATION],
@@ -22,6 +23,7 @@ const app = CreateApplication({
     leavingHome,
     indoorLightsSunset,
     roombaError,
+    mastraWorkflow
   },
 });
 

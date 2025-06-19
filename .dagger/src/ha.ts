@@ -6,7 +6,7 @@ import {
   type File,
 } from "@dagger.io/dagger";
 import {
-  getBaseContainer,
+  getWorkspaceContainer,
   getUbuntuBaseContainer,
   withMiseTools,
 } from "./base";
@@ -14,47 +14,54 @@ import type { StepResult } from ".";
 import versions from "./versions";
 
 export async function buildHa(source: Directory): Promise<Directory> {
-  return getBaseContainer(source, "/workspace/src/ha")
+  return getWorkspaceContainer(source, "src/ha")
     .withExec(["bun", "run", "build"])
     .directory("/workspace/src/ha");
 }
 
 export async function testHa(source: Directory): Promise<string> {
-  return getBaseContainer(source, "/workspace/src/ha")
+  return getWorkspaceContainer(source, "src/ha")
     .withExec(["bun", "test"])
     .stdout();
 }
 
 export async function typeCheckHa(source: Directory): Promise<string> {
-  return getBaseContainer(source, "/workspace/src/ha")
+  return getWorkspaceContainer(source, "src/ha")
     .withExec(["bunx", "tsc", "--noEmit"])
     .stdout();
 }
 
 export async function lintHa(source: Directory): Promise<string> {
-  return getBaseContainer(source, "/workspace/src/ha")
+  return getWorkspaceContainer(source, "src/ha")
     .withExec(["bun", "run", "lint"])
     .stdout();
 }
 
 /**
  * Builds a container with the HA application ready to run.
- * Uses caching for improved build performance.
+ * Uses improved caching for better build performance.
  *
  * @param source The source directory.
  * @returns A configured Container ready to run the HA application.
  */
 async function buildHaContainer(source: Directory): Promise<Container> {
-  // Get just the HA source directory instead of the entire project
+  // Get just the HA source directory
   const haSource = source.directory("src/ha");
 
-  // Build the container
-  return (await withMiseTools(getUbuntuBaseContainer(source)))
-    .withDirectory("/app", haSource)
+  // Build the container with optimized layer caching
+  return withMiseTools(getUbuntuBaseContainer(source))
     .withWorkdir("/app")
-    // Cache Bun dependencies for Docker build
-    .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache"))
-    .withExec(["mise", "exec", `bun@${versions["bun"]}`, "--", "bun", "install", "--frozen-lockfile"])
+    // Copy dependency files first for caching
+    .withFile("package.json", haSource.file("package.json"))
+    .withFile("bun.lock", haSource.file("bun.lock"))
+    // Install dependencies (cached unless dependency files change)
+    .withMountedCache(
+      "/root/.bun/install/cache",
+      dag.cacheVolume("bun-cache-docker")
+    )
+    .withExec(["bun", "install", "--frozen-lockfile"])
+    // Copy the full source after dependencies are installed
+    .withDirectory("/app", haSource)
     .withDefaultArgs([
       "mise",
       "exec",

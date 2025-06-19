@@ -2,34 +2,101 @@ import { dag, Container, Directory, type Platform } from "@dagger.io/dagger";
 import versions from "./versions";
 
 /**
- * Returns a base Bun container with Python and build tools installed, the source directory mounted, and dependencies installed.
- * Uses cache volumes for improved performance across builds.
+ * Returns a base system container with OS packages installed (rarely changes).
+ * This layer is cached independently and only rebuilds when system dependencies change.
+ */
+export function getSystemContainer(platform?: Platform): Container {
+  return dag
+    .container({ platform })
+    .from(`ubuntu:${versions.ubuntu}`)
+    // Cache APT packages
+    .withMountedCache(
+      "/var/cache/apt",
+      dag.cacheVolume(`apt-cache-${platform || "default"}`)
+    )
+    .withMountedCache(
+      "/var/lib/apt",
+      dag.cacheVolume(`apt-lib-${platform || "default"}`)
+    )
+    .withExec(["apt-get", "update"])
+    .withExec([
+      "apt-get",
+      "install",
+      "-y",
+      "gpg",
+      "wget",
+      "curl",
+      "git",
+      "build-essential",
+      "python3",
+    ]);
+}
+
+/**
+ * Returns a container with mise development tools installed (bun, node, python).
+ * This provides a consistent runtime environment with all necessary tools.
+ */
+export function getMiseRuntimeContainer(platform?: Platform): Container {
+  return withMiseTools(getSystemContainer(platform));
+}
+
+/**
+ * Creates a workspace-specific container with dependencies installed.
+ * Uses Docker layer caching: copy dependency files -> install -> copy source.
+ * @param source The source directory
+ * @param workspacePath The path to the workspace (e.g., "src/ha", "src/cdk8s")
+ * @param platform Optional platform specification
+ * @returns A configured container with workspace dependencies installed
+ */
+export function getWorkspaceContainer(
+  source: Directory,
+  workspacePath: string,
+  platform?: Platform
+): Container {
+  const workspaceSource = source.directory(workspacePath);
+
+  let container = getMiseRuntimeContainer(platform)
+    .withWorkdir(`/workspace/${workspacePath}`)
+    // Copy package.json first (required)
+    .withFile("package.json", workspaceSource.file("package.json"));
+
+  // Only copy bun.lock for HA workspace (CDK8s doesn't have one)
+  if (workspacePath === "src/ha") {
+    container = container.withFile("bun.lock", workspaceSource.file("bun.lock"));
+  }
+
+  return container
+    // Install dependencies (cached unless dependency files change)
+    .withMountedCache(
+      "/root/.bun/install/cache",
+      dag.cacheVolume(`bun-cache-${platform || "default"}`)
+    )
+    .withExec(["bun", "install"])
+    // Now copy the full source (source changes won't invalidate dependency layer)
+    .withDirectory(".", workspaceSource);
+}
+
+/**
+ * Returns a base container with mise tools and dependencies installed.
  * @param source The source directory to mount into the container at /workspace.
  * @param workdir The working directory to set inside the container.
+ * @param platform Optional platform specification.
  * @returns A configured Dagger Container ready for further commands.
  */
 export function getBaseContainer(
   source: Directory,
-  workdir: string
+  workdir: string,
+  platform?: Platform
 ): Container {
-  return (
-    dag
-      .container()
-      .from(`oven/bun:${versions["oven/bun"]}`)
-      // Cache APT packages
-      .withMountedCache("/var/cache/apt", dag.cacheVolume("apt-cache"))
-      .withMountedCache("/var/lib/apt", dag.cacheVolume("apt-lib"))
-      .withExec(["apt-get", "update"])
-      .withExec(["apt-get", "install", "-y", "python3", "build-essential"])
-      .withMountedDirectory("/workspace", source)
-      .withWorkdir(workdir)
-      // Cache Bun dependencies
-      .withMountedCache(
-        "/root/.bun/install/cache",
-        dag.cacheVolume("bun-cache")
-      )
-      .withExec(["bun", "install"])
-  );
+  return getMiseRuntimeContainer(platform)
+    .withMountedDirectory("/workspace", source)
+    .withWorkdir(workdir)
+    // Cache Bun dependencies
+    .withMountedCache(
+      "/root/.bun/install/cache",
+      dag.cacheVolume(`bun-cache-${platform || "default"}`)
+    )
+    .withExec(["bun", "install"]);
 }
 
 /**
@@ -42,30 +109,9 @@ export function getUbuntuBaseContainer(
   source: Directory,
   platform?: Platform
 ): Container {
-  return (
-    dag
-      .container({ platform })
-      .from(`ubuntu:${versions.ubuntu}`)
-      .withWorkdir("/workspace")
-      .withMountedDirectory("/workspace", source)
-      // Cache APT packages
-      .withMountedCache(
-        "/var/cache/apt",
-        dag.cacheVolume(`apt-cache-${platform}`)
-      )
-      .withMountedCache("/var/lib/apt", dag.cacheVolume(`apt-lib-${platform}`))
-      .withExec(["apt-get", "update"])
-      .withExec([
-        "apt-get",
-        "install",
-        "-y",
-        "gpg",
-        "wget",
-        "curl",
-        "git",
-        "build-essential",
-      ])
-  );
+  return getSystemContainer(platform)
+    .withWorkdir("/workspace")
+    .withMountedDirectory("/workspace", source);
 }
 
 /**
@@ -86,13 +132,13 @@ export function getKubectlContainer(): Container {
 
 /**
  * Returns a container with mise (development tools) installed and cached.
+ * Uses improved caching for tool installation.
  * @param baseContainer The base container to build upon.
  * @returns A configured Container with mise and tools ready.
  */
-export async function withMiseTools(
+export function withMiseTools(
   baseContainer: Container
-): Promise<Container> {
-  const platform = await baseContainer.platform();
+): Container {
 
   return (
     baseContainer
@@ -109,17 +155,11 @@ export async function withMiseTools(
       ])
       .withExec(["apt-get", "update"])
       .withExec(["apt-get", "install", "-y", "mise"])
-      // First install to cache volume for speed
+      // Cache mise tools
       .withMountedCache(
-        "/tmp/mise-cache",
-        dag.cacheVolume(`mise-cache-${platform}`)
+        "/root/.local/share/mise",
+        dag.cacheVolume(`mise-tools`)
       )
-      // Copy existing cache to temp location if exists
-      .withExec([
-        "sh",
-        "-c",
-        "cp -r /tmp/mise-cache/* /root/.local/share/mise/ 2>/dev/null || true",
-      ])
       .withExec(["mise", "trust"])
       .withExec([
         "mise",
@@ -129,19 +169,13 @@ export async function withMiseTools(
         `python@${versions["python"]}`,
         `node@${versions["node"]}`,
       ])
-      // Copy installed tools back to cache for next time
-      .withExec([
-        "sh",
-        "-c",
-        "cp -r /root/.local/share/mise/* /tmp/mise-cache/ 2>/dev/null || true",
-      ])
       .withEnvVariable("PATH", "/root/.local/share/mise/shims:${PATH}", {
         expand: true,
       })
       // Cache pip packages
       .withMountedCache(
         "/root/.cache/pip",
-        dag.cacheVolume(`pip-cache-${await baseContainer.platform()}`)
+        dag.cacheVolume(`pip-cache`)
       )
       .withExec(["pip", "install", "pre-commit"])
       .withExec(["mise", "reshim"])
