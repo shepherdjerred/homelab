@@ -51,6 +51,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -94,6 +95,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -138,6 +140,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -288,6 +291,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -312,6 +316,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -336,6 +341,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -360,6 +366,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -384,6 +391,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -409,6 +417,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -434,6 +443,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -469,6 +479,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: "manifests",
     })
@@ -494,6 +505,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -505,8 +517,6 @@ export class Homelab {
   /**
    * Builds the HA image and exports it to a tar file for testing.
    * @param source The source directory for the HA app.
-   * @param imageName The image name (including tag), e.g. homelab-ha:test
-   * @param outputFile The output tar file name
    * @returns The exported tar file
    */
   @func()
@@ -520,14 +530,13 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })
     source: Directory,
-    imageName: string = "homelab-ha:test",
-    outputFile: string = "homelab-ha-test.tar"
   ): Promise<File> {
-    return buildAndExportHaImage(source, imageName, outputFile);
+    return buildAndExportHaImage(source);
   }
 
   /**
@@ -554,6 +563,7 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
+        ".dagger",
       ],
       defaultPath: ".",
     })

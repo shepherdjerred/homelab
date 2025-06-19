@@ -42,14 +42,10 @@ export async function lintHa(source: Directory): Promise<string> {
  * Uses caching for improved build performance.
  *
  * @param source The source directory.
- * @param imageName The image name (including tag), e.g. homelab-ha:test
- * @param outputFile The output tar file name
  * @returns The exported tar file
  */
 export async function buildAndExportHaImage(
   source: Directory,
-  imageName: string = "homelab-ha:test",
-  outputFile: string = "homelab-ha-test.tar"
 ): Promise<File> {
   // Build the container
   const container = (await withMiseTools(getUbuntuBaseContainer(source)))
