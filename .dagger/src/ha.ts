@@ -9,6 +9,7 @@ import {
   getWorkspaceContainer,
   getUbuntuBaseContainer,
   withMiseTools,
+  getMiseRuntimeContainer,
 } from "./base";
 import type { StepResult } from ".";
 import versions from "./versions";
@@ -49,7 +50,9 @@ async function buildHaContainer(source: Directory): Promise<Container> {
   const haSource = source.directory("src/ha");
 
   // Build the container with optimized layer caching
-  return withMiseTools(getUbuntuBaseContainer(source))
+  // Use getMiseRuntimeContainer() instead of withMiseTools(getUbuntuBaseContainer(source))
+  // to avoid invalidating mise layer when source files change
+  return getMiseRuntimeContainer()
     .withWorkdir("/app")
     // Copy dependency files first for caching
     .withFile("package.json", haSource.file("package.json"))
@@ -57,16 +60,12 @@ async function buildHaContainer(source: Directory): Promise<Container> {
     // Install dependencies (cached unless dependency files change)
     .withMountedCache(
       "/root/.bun/install/cache",
-      dag.cacheVolume("bun-cache-docker")
+      dag.cacheVolume("bun-cache-default")
     )
     .withExec(["bun", "install", "--frozen-lockfile"])
     // Copy the full source after dependencies are installed
     .withDirectory("/app", haSource)
     .withDefaultArgs([
-      "mise",
-      "exec",
-      `bun@${versions["bun"]}`,
-      "--",
       "bun",
       "src/main.ts",
     ]);

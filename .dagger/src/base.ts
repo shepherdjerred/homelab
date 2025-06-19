@@ -77,29 +77,6 @@ export function getWorkspaceContainer(
 }
 
 /**
- * Returns a base container with mise tools and dependencies installed.
- * @param source The source directory to mount into the container at /workspace.
- * @param workdir The working directory to set inside the container.
- * @param platform Optional platform specification.
- * @returns A configured Dagger Container ready for further commands.
- */
-export function getBaseContainer(
-  source: Directory,
-  workdir: string,
-  platform?: Platform
-): Container {
-  return getMiseRuntimeContainer(platform)
-    .withMountedDirectory("/workspace", source)
-    .withWorkdir(workdir)
-    // Cache Bun dependencies
-    .withMountedCache(
-      "/root/.bun/install/cache",
-      dag.cacheVolume(`bun-cache-${platform || "default"}`)
-    )
-    .withExec(["bun", "install"]);
-}
-
-/**
  * Returns a base Ubuntu container with common tools and caching configured.
  * @param source The source directory to mount into the container at /workspace.
  * @param platform The platform to build for (optional).

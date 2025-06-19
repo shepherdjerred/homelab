@@ -57,13 +57,15 @@ async function main() {
     // Wait a few seconds for the container to start
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
+    // Always print container logs for debugging
+    console.log("📋 Container logs:");
+    const logs = await $`docker logs ha-test-container`.text();
+    console.log(logs);
+
     // Check if the container is still running
     const containerStatus =
       await $`docker ps -q -f name=ha-test-container`.text();
     if (!containerStatus.trim()) {
-      // Container stopped, check logs
-      const logs = await $`docker logs ha-test-container`.text();
-      console.log("📋 Container logs:", logs);
       throw new Error("Container stopped unexpectedly");
     }
 
