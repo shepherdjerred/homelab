@@ -117,8 +117,6 @@ export class Homelab {
    * @param chartRepo The ChartMuseum repo URL (required for prod).
    * @param chartMuseumUsername The ChartMuseum username (required for prod).
    * @param chartMuseumPassword The ChartMuseum password (as a Dagger Secret, required for prod).
-   * @param targetArch The target architecture for kube-linter (default: "amd64").
-   * @param kubeLinterVersion The version of kube-linter to use (default: "v0.6.8").
    * @param env The environment (e.g., 'prod' or 'dev').
    * @returns A summary string of the results for each CI step.
    */
@@ -144,7 +142,6 @@ export class Homelab {
     chartRepo: string = "https://chartmuseum.tailnet-1a49.ts.net",
     @argument() chartMuseumUsername: string,
     chartMuseumPassword: Secret,
-    targetArch: string = "amd64",
     @argument() env: Stage = Stage.Dev
   ): Promise<string> {
     // Update HA version in versions.ts if prod
@@ -154,7 +151,7 @@ export class Homelab {
     }
 
     // Pre-commit (run async)
-    const preCommitPromise = preCommit(updatedSource, targetArch)
+    const preCommitPromise = preCommit(updatedSource)
       .then((msg) => ({ status: "passed", message: msg }))
       .catch((e) => ({ status: "failed", message: String(e) }));
 
@@ -417,8 +414,6 @@ export class Homelab {
   /**
    * Runs pre-commit hooks and kube-linter.
    * @param source The source directory to run pre-commit and kube-linter on.
-   * @param targetArch The target architecture for kube-linter (default: "amd64").
-   * @param kubeLinterVersion The version of kube-linter to use (default: "v0.6.8").
    * @returns The stdout from the pre-commit and kube-linter run.
    */
   @func()
@@ -435,10 +430,9 @@ export class Homelab {
       ],
       defaultPath: ".",
     })
-    source: Directory,
-    @argument({}) targetArch: string = "amd64"
+    source: Directory
   ) {
-    return preCommit(source, targetArch);
+    return preCommit(source);
   }
 
   /**

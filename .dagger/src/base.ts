@@ -92,6 +92,8 @@ export function getKubectlContainer(): Container {
 export async function withMiseTools(
   baseContainer: Container
 ): Promise<Container> {
+  const platform = await baseContainer.platform();
+
   return (
     baseContainer
       .withExec(["install", "-dm", "755", "/etc/apt/keyrings"])
@@ -107,11 +109,17 @@ export async function withMiseTools(
       ])
       .withExec(["apt-get", "update"])
       .withExec(["apt-get", "install", "-y", "mise"])
-      // Cache mise tools
+      // First install to cache volume for speed
       .withMountedCache(
-        "/root/.local/share/mise",
-        dag.cacheVolume(`mise-cache-${await baseContainer.platform()}`)
+        "/tmp/mise-cache",
+        dag.cacheVolume(`mise-cache-${platform}`)
       )
+      // Copy existing cache to temp location if exists
+      .withExec([
+        "sh",
+        "-c",
+        "cp -r /tmp/mise-cache/* /root/.local/share/mise/ 2>/dev/null || true",
+      ])
       .withExec(["mise", "trust"])
       .withExec([
         "mise",
@@ -120,6 +128,12 @@ export async function withMiseTools(
         `bun@${versions["bun"]}`,
         `python@${versions["python"]}`,
         `node@${versions["node"]}`,
+      ])
+      // Copy installed tools back to cache for next time
+      .withExec([
+        "sh",
+        "-c",
+        "cp -r /root/.local/share/mise/* /tmp/mise-cache/ 2>/dev/null || true",
       ])
       .withEnvVariable("PATH", "/root/.local/share/mise/shims:${PATH}", {
         expand: true,

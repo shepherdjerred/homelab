@@ -23,6 +23,7 @@ const versions = {
   python: "3.13.5",
   // renovate: datasource=node-version versioning=semver
   node: "lts",
+  // this is empty because we have to perform some string manipulation below
   bun: "",
 };
 
