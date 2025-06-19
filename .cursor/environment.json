@@ -1,7 +1,7 @@
 {
   "name": "homelab-infrastructure",
   "user": "dev",
-  "install": "bun install && bunx dagger develop",
+  "install": "bun install",
   "start": "bun run dev",
   "terminals": [
     {
@@ -13,11 +13,6 @@
       "name": "Home Assistant Development",
       "command": "cd src/ha && bun run dev",
       "description": "Runs the Home Assistant application in development mode with hot reload"
-    },
-    {
-      "name": "Dagger Operations",
-      "command": "echo 'Available Dagger functions:' && dagger functions",
-      "description": "Shows available Dagger CI/CD pipeline functions and provides a terminal for running Dagger commands"
     },
     {
       "name": "Kubernetes Tools",
