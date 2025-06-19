@@ -49,6 +49,11 @@ async function main() {
     // Step 5: Test the image by running it with a health check
     console.log("🏃 Testing image execution...");
 
+    // Clean up any existing container with the same name first
+    console.log("🧹 Cleaning up any existing test container...");
+    await $`docker stop ha-test-container`.nothrow().quiet();
+    await $`docker rm ha-test-container`.nothrow().quiet();
+
     // Run the container with a timeout to see if it starts without crashing
     const containerId =
       await $`docker run -d --name ha-test-container ${FULL_IMAGE_NAME}`.text();
@@ -71,45 +76,58 @@ async function main() {
 
     console.log("✅ Container is running successfully");
 
-    // Step 6: Check if the application responds (if it has a health endpoint)
-    // This is optional and depends on your HA app having a health check endpoint
-    try {
-      // Get the container IP or use localhost if port is mapped
-      console.log("🌐 Testing application response...");
-      const containerIP =
-        await $`docker inspect ha-test-container --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'`.text();
+    // Step 6: Check if the application responds
+    console.log("🌐 Testing application response...");
+    const containerIP =
+      await $`docker inspect ha-test-container --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'`.text();
 
-      if (containerIP.trim()) {
-        // Try to connect to the application (adjust port as needed)
-        // This is a basic connectivity test
-        await $`timeout 10 bash -c "echo > /dev/tcp/${containerIP.trim()}/3000"`.nothrow();
-        console.log("✅ Application appears to be responding");
+    if (!containerIP.trim()) {
+      throw new Error("Could not get container IP address");
+    }
+
+    // Try to connect to the application with retries
+    let connected = false;
+    const maxRetries = 2;
+    const retryDelay = 2000; // 2 seconds
+
+    for (let i = 0; i < maxRetries; i++) {
+      console.log(`🔄 Connection attempt ${i + 1}/${maxRetries}...`);
+
+      const connectionResult = await $`timeout 5 bash -c "echo > /dev/tcp/${containerIP.trim()}/3000"`.nothrow();
+
+      if (connectionResult.exitCode === 0) {
+        console.log("✅ Application is responding on port 3000");
+        connected = true;
+        break;
       }
-    } catch (error) {
-      console.log(
-        "⚠️  Could not test application response (this may be expected)"
-      );
+
+      if (i < maxRetries - 1) {
+        console.log(`⏳ Waiting ${retryDelay/1000}s before retry...`);
+        await new Promise((resolve) => setTimeout(resolve, retryDelay));
+      }
+    }
+
+    if (!connected) {
+      throw new Error(`Application failed to respond on port 3000 after ${maxRetries} attempts`);
     }
 
     console.log("🎉 All tests passed!");
-  } catch (error) {
-    console.error("❌ Test failed:", error);
-    process.exit(1);
-  } finally {
-    // Cleanup
-    console.log("🧹 Cleaning up...");
 
-    // Stop and remove the test container
+    // Cleanup only on success
+    console.log("🧹 Cleaning up...");
     await $`docker stop ha-test-container`.nothrow().quiet();
     await $`docker rm ha-test-container`.nothrow().quiet();
-
-    // Remove the test image
     await $`docker rmi ${FULL_IMAGE_NAME}`.nothrow().quiet();
-
-    // Remove the tar file
     await $`rm -f ${TAR_FILE}`.nothrow().quiet();
-
     console.log("✅ Cleanup completed");
+
+  } catch (error) {
+    console.error("❌ Test failed:", error);
+    console.log("🔍 Container left running for inspection. Use:");
+    console.log(`   docker logs ha-test-container`);
+    console.log(`   docker exec -it ha-test-container /bin/bash`);
+    console.log(`   docker stop ha-test-container && docker rm ha-test-container  # when done`);
+    process.exit(1);
   }
 }
 

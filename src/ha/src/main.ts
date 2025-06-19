@@ -23,7 +23,7 @@ const app = CreateApplication({
     leavingHome,
     indoorLightsSunset,
     roombaError,
-    mastraWorkflow
+    // mastraWorkflow
   },
 });
 

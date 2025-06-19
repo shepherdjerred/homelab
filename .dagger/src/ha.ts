@@ -66,6 +66,10 @@ async function buildHaContainer(source: Directory): Promise<Container> {
     // Copy the full source after dependencies are installed
     .withDirectory("/app", haSource)
     .withDefaultArgs([
+      "mise",
+      "exec",
+      `bun@${versions["bun"]}`,
+      "--",
       "bun",
       "src/main.ts",
     ]);
