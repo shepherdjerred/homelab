@@ -5,8 +5,15 @@ import {
   object,
   Secret,
   dag,
+  File,
 } from "@dagger.io/dagger";
-import { buildHa, testHa, typeCheckHa, lintHa } from "./ha";
+import {
+  buildHa,
+  testHa,
+  typeCheckHa,
+  lintHa,
+  buildAndExportHaImage,
+} from "./ha";
 import { typeCheckCdk8s, buildK8sManifests } from "./cdk8s";
 import { preCommit } from "./precommit";
 import { sync as argocdSync } from "./argocd";
@@ -493,6 +500,34 @@ export class Homelab {
     source: Directory
   ) {
     return buildAndApplyCdk8s(source);
+  }
+
+  /**
+   * Builds the HA image and exports it to a tar file for testing.
+   * @param source The source directory for the HA app.
+   * @param imageName The image name (including tag), e.g. homelab-ha:test
+   * @param outputFile The output tar file name
+   * @returns The exported tar file
+   */
+  @func()
+  async buildAndExportHaImage(
+    @argument({
+      ignore: [
+        "node_modules",
+        "dist",
+        "build",
+        ".cache",
+        "*.log",
+        ".env*",
+        "!.env.example",
+      ],
+      defaultPath: ".",
+    })
+    source: Directory,
+    imageName: string = "homelab-ha:test",
+    outputFile: string = "homelab-ha-test.tar"
+  ): Promise<File> {
+    return buildAndExportHaImage(source, imageName, outputFile);
   }
 
   /**

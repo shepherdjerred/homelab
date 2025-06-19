@@ -1,4 +1,10 @@
-import { Directory, dag, type Secret, Container } from "@dagger.io/dagger";
+import {
+  Directory,
+  dag,
+  type Secret,
+  Container,
+  type File,
+} from "@dagger.io/dagger";
 import {
   getBaseContainer,
   getUbuntuBaseContainer,
@@ -29,6 +35,40 @@ export async function lintHa(source: Directory): Promise<string> {
   return getBaseContainer(source, "/workspace/src/ha")
     .withExec(["bun", "run", "lint"])
     .stdout();
+}
+
+/**
+ * Builds the HA image and exports it to a tar file for testing.
+ * Uses caching for improved build performance.
+ *
+ * @param source The source directory.
+ * @param imageName The image name (including tag), e.g. homelab-ha:test
+ * @param outputFile The output tar file name
+ * @returns The exported tar file
+ */
+export async function buildAndExportHaImage(
+  source: Directory,
+  imageName: string = "homelab-ha:test",
+  outputFile: string = "homelab-ha-test.tar"
+): Promise<File> {
+  // Build the container
+  const container = (await withMiseTools(getUbuntuBaseContainer(source)))
+    .withDirectory("/workspace", source)
+    .withWorkdir("/workspace/src/ha")
+    // Cache Bun dependencies for Docker build
+    .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache"))
+    .withExec(["bun", "install", "--frozen-lockfile"])
+    .withDefaultArgs([
+      "mise",
+      "exec",
+      `bun@${versions["bun"]}`,
+      "--",
+      "bun",
+      "src/main.ts",
+    ]);
+
+  // Export the container as a tar file and return it directly
+  return container.asTarball();
 }
 
 /**
