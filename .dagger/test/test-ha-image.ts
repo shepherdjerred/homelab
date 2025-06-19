@@ -21,7 +21,7 @@ async function main() {
   try {
     // Step 1: Build the image using Dagger
     console.log("📦 Building HA image with Dagger...");
-    await $`dagger call build-and-export-ha-image --image-name ${FULL_IMAGE_NAME} --output-file ${TAR_FILE} export --path ${TAR_FILE}`;
+    await $`dagger call build-and-export-ha-image export --path ${TAR_FILE}`;
 
     // Step 2: Load the image into Docker
     console.log("📥 Loading image into Docker...");

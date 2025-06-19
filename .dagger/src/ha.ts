@@ -47,13 +47,16 @@ export async function lintHa(source: Directory): Promise<string> {
 export async function buildAndExportHaImage(
   source: Directory,
 ): Promise<File> {
+  // Get just the HA source directory instead of the entire project
+  const haSource = source.directory("src/ha");
+
   // Build the container
   const container = (await withMiseTools(getUbuntuBaseContainer(source)))
-    .withDirectory("/workspace", source)
-    .withWorkdir("/workspace/src/ha")
+    .withDirectory("/app", haSource)
+    .withWorkdir("/app")
     // Cache Bun dependencies for Docker build
     .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache"))
-    .withExec(["bun", "install", "--frozen-lockfile"])
+    .withExec(["mise", "exec", `bun@${versions["bun"]}`, "--", "bun", "install", "--frozen-lockfile"])
     .withDefaultArgs([
       "mise",
       "exec",
