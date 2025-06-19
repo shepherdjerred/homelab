@@ -11,11 +11,25 @@ RUN echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg] https://mis
 RUN apt update
 RUN apt install -y mise
 
+# Set up mise for root user
+RUN echo 'eval "$(mise activate bash --shims)"' >> ~/.bash_profile
+RUN echo 'eval "$(mise activate bash)"' >> ~/.bashrc
+
+RUN mise global bun@1.2.16
+RUN mise global python@3.13.5
+RUN mise global go@1.23.5
+RUN mise global node@lts
+RUN mise install
+RUN mise reshim
+
+RUN /root/.local/share/mise/shims/pip install pre-commit
+RUN /root/.local/share/mise/shims/go install golang.stackrox.io/kube-linter/cmd/kube-linter@v0.7.2
+
 # Create dev user with sudo privileges
 RUN useradd -m -s /bin/bash dev && \
     echo 'dev ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-# Switch to dev user for mise setup
+# Set up mise for dev user
 USER dev
 WORKDIR /home/dev
 
@@ -45,7 +59,3 @@ RUN apt-get update
 RUN apt-get install -y kubectl
 
 RUN curl -fsSL https://dl.dagger.io/dagger/install.sh | BIN_DIR=/usr/local/bin sh
-
-# Switch back to dev user as default
-USER dev
-WORKDIR /home/dev
