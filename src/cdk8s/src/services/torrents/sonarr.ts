@@ -11,13 +11,17 @@ import {
   withCommonLinuxServerProps,
 } from "../../utils/linuxserver.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
+import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
 
-export function createSonarrDeployment(chart: Chart, claims: {
-  tv: PersistentVolumeClaim;
-  downloads: PersistentVolumeClaim;
-}) {
+export function createSonarrDeployment(
+  chart: Chart,
+  claims: {
+    tv: PersistentVolumeClaim;
+    downloads: PersistentVolumeClaim;
+  }
+) {
   const deployment = new Deployment(chart, "sonarr", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
@@ -28,6 +32,7 @@ export function createSonarrDeployment(chart: Chart, claims: {
 
   const localPathVolume = new ZfsSsdVolume(chart, "sonarr-pvc", {
     storage: Size.gibibytes(8),
+    volume: getPersistentVolume(chart, "sonarr-pvc"),
   });
 
   deployment.addContainer(
@@ -40,14 +45,14 @@ export function createSonarrDeployment(chart: Chart, claims: {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "sonarr-volume",
-            localPathVolume.claim,
+            localPathVolume.claim
           ),
         },
         {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "sonarr-torrents-hdd-volume",
-            claims.downloads,
+            claims.downloads
           ),
           path: "/downloads",
         },
@@ -55,12 +60,12 @@ export function createSonarrDeployment(chart: Chart, claims: {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "sonarr-tv-hdd-volume",
-            claims.tv,
+            claims.tv
           ),
           path: "/tv",
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "sonarr-service", {

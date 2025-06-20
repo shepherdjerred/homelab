@@ -5,6 +5,7 @@ import { Namespace } from "cdk8s-plus-31";
 import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
 import { Size } from "cdk8s";
 import { KubeRole, KubeRoleBinding } from "../../imports/k8s.ts";
+import { getPersistentVolume } from "../utils/persistentVolumeMapping.ts";
 
 export function createDaggerApp(chart: Chart) {
   new Namespace(chart, "dagger-namespace", {
@@ -47,6 +48,7 @@ export function createDaggerApp(chart: Chart) {
   // Create a ZFS SSD PVC for Dagger data
   const dataPvc = new ZfsSsdVolume(chart, "dagger-data", {
     storage: Size.gibibytes(100),
+    volume: getPersistentVolume(chart, "gha-shared-cache"),
   });
 
   new Application(chart, "dagger-app", {

@@ -11,13 +11,17 @@ import {
 import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
+import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
 
-export function createPlexDeployment(chart: Chart, claims: {
-  tv: PersistentVolumeClaim;
-  movies: PersistentVolumeClaim;
-}) {
+export function createPlexDeployment(
+  chart: Chart,
+  claims: {
+    tv: PersistentVolumeClaim;
+    movies: PersistentVolumeClaim;
+  }
+) {
   const GID = 1000;
 
   const deployment = new Deployment(chart, "plex", {
@@ -28,21 +32,16 @@ export function createPlexDeployment(chart: Chart, claims: {
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(
-    chart,
-    "plex-pvc",
-    {
-      storage: Size.gibibytes(512),
-    },
-  );
+  const localPathVolume = new ZfsSsdVolume(chart, "plex-pvc", {
+    storage: Size.gibibytes(512),
+    volume: getPersistentVolume(chart, "plex-pvc"),
+  });
 
   deployment.addContainer(
     withCommonProps({
       image: `plexinc/pms-docker:${versions["plexinc/pms-docker"]}`,
       envVariables: {
-        ADVERTISE_IP: EnvValue.fromValue(
-          "https://plex.tailnet-1a49.ts.net",
-        ),
+        ADVERTISE_IP: EnvValue.fromValue("https://plex.tailnet-1a49.ts.net"),
       },
       // https://support.plex.tv/articles/201543147-what-network-ports-do-i-need-to-allow-through-my-firewall/
       ports: [
@@ -124,14 +123,14 @@ export function createPlexDeployment(chart: Chart, claims: {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "plex-volume",
-            localPathVolume.claim,
+            localPathVolume.claim
           ),
         },
         {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "plex-tv-hdd-volume",
-            claims.tv,
+            claims.tv
           ),
           path: "/data/tv",
         },
@@ -139,7 +138,7 @@ export function createPlexDeployment(chart: Chart, claims: {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "plex-movies-hdd-volume",
-            claims.movies,
+            claims.movies
           ),
           path: "/data/movies",
         },
@@ -151,12 +150,12 @@ export function createPlexDeployment(chart: Chart, claims: {
             {
               medium: EmptyDirMedium.MEMORY,
               sizeLimit: Size.gibibytes(8),
-            },
+            }
           ),
           path: "/transcode",
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "plex-service", {
@@ -171,13 +170,10 @@ export function createPlexDeployment(chart: Chart, claims: {
   });
 
   ApiObject.of(deployment).addJsonPatch(
-    JsonPatch.add(
-      "/spec/template/spec/containers/0/resources",
-      {
-        limits: {
-          "gpu.intel.com/i915": 1,
-        },
+    JsonPatch.add("/spec/template/spec/containers/0/resources", {
+      limits: {
+        "gpu.intel.com/i915": 1,
       },
-    ),
+    })
   );
 }

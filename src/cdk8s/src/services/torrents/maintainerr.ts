@@ -5,6 +5,7 @@ import {
   withCommonLinuxServerProps,
 } from "../../utils/linuxserver.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
+import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
 
@@ -19,6 +20,7 @@ export function createMaintainerrDeployment(chart: Chart) {
 
   const localPathVolume = new ZfsSsdVolume(chart, "maintainerr-pvc", {
     storage: Size.gibibytes(8),
+    volume: getPersistentVolume(chart, "maintainerr-pvc"),
   });
 
   deployment.addContainer(
@@ -31,11 +33,11 @@ export function createMaintainerrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "maintainerr-volume",
-            localPathVolume.claim,
+            localPathVolume.claim
           ),
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "maintainerr-service", {

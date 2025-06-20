@@ -9,15 +9,19 @@ import {
 } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
-import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { withCommonProps } from "../../utils/common.ts";
-import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
+import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
+import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
+import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 
-export function createQBitTorrentDeployment(chart: Chart, claims: {
-  downloads: PersistentVolumeClaim;
-}) {
+export function createQBitTorrentDeployment(
+  chart: Chart,
+  claims: {
+    downloads: PersistentVolumeClaim;
+  }
+) {
   const item = new OnePasswordItem(chart, "mullvad", {
     spec: {
       itemPath:
@@ -32,6 +36,7 @@ export function createQBitTorrentDeployment(chart: Chart, claims: {
 
   const localPathVolume = new ZfsSsdVolume(chart, "qbittorrent-pvc", {
     storage: Size.gibibytes(8),
+    volume: getPersistentVolume(chart, "qbittorrent-pvc"),
   });
 
   deployment.addContainer(
@@ -52,27 +57,23 @@ export function createQBitTorrentDeployment(chart: Chart, claims: {
         VPN_SERVICE_PROVIDER: EnvValue.fromValue("airvpn"),
         VPN_TYPE: EnvValue.fromValue("wireguard"),
         WIREGUARD_PRIVATE_KEY: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(
-            chart,
-            "airvpn-private-key",
-            item.name,
-          ),
+          secret: Secret.fromSecretName(chart, "airvpn-private-key", item.name),
           key: "private-key",
         }),
         WIREGUARD_PRESHARED_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(
             chart,
             "airvpn-preshared-key",
-            item.name,
+            item.name
           ),
           key: "preshared-key",
         }),
         WIREGUARD_ADDRESSES: EnvValue.fromValue(
-          "10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128",
+          "10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128"
         ),
         FIREWALL_VPN_INPUT_PORTS: EnvValue.fromValue("17826"),
       },
-    }),
+    })
   );
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -87,19 +88,19 @@ export function createQBitTorrentDeployment(chart: Chart, claims: {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "qbittorrent-volume",
-            localPathVolume.claim,
+            localPathVolume.claim
           ),
         },
         {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "qbittorrent-hdd-volume",
-            claims.downloads,
+            claims.downloads
           ),
           path: "/downloads",
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "qbittorrent-service", {

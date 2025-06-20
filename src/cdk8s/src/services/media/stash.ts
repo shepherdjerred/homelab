@@ -1,8 +1,9 @@
-import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
+import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
+import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
 import versions from "../../versions.ts";
 
 export function createStashDeployment(chart: Chart) {
@@ -13,14 +14,12 @@ export function createStashDeployment(chart: Chart) {
 
   const longhornVolumeData = new ZfsSsdVolume(chart, "stash-data", {
     storage: Size.gibibytes(64),
+    volume: getPersistentVolume(chart, "stash-data"),
   });
-  const longhornVolumeConfig = new ZfsSsdVolume(
-    chart,
-    "stash-config",
-    {
-      storage: Size.gibibytes(8),
-    },
-  );
+  const longhornVolumeConfig = new ZfsSsdVolume(chart, "stash-config", {
+    storage: Size.gibibytes(8),
+    volume: getPersistentVolume(chart, "stash-config"),
+  });
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -32,7 +31,7 @@ export function createStashDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "stash-data-volume",
-            longhornVolumeData.claim,
+            longhornVolumeData.claim
           ),
         },
         {
@@ -40,11 +39,11 @@ export function createStashDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "stash-config-volume",
-            longhornVolumeConfig.claim,
+            longhornVolumeConfig.claim
           ),
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "stash-service", {

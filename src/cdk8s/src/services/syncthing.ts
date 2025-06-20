@@ -1,6 +1,7 @@
-import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
+import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
+import { getPersistentVolume } from "../utils/persistentVolumeMapping.ts";
 import {
   LINUXSERVER_GID,
   withCommonLinuxServerProps,
@@ -17,21 +18,15 @@ export function createSyncthingDeployment(chart: Chart) {
     },
   });
 
-  const configLocalPathVolume = new ZfsSsdVolume(
-    chart,
-    "syncthing-config",
-    {
-      storage: Size.gibibytes(8),
-    },
-  );
+  const configLocalPathVolume = new ZfsSsdVolume(chart, "syncthing-config", {
+    storage: Size.gibibytes(8),
+    volume: getPersistentVolume(chart, "syncthing-config"),
+  });
 
-  const dataLocalPathVolume = new ZfsSsdVolume(
-    chart,
-    "syncthing-data",
-    {
-      storage: Size.gibibytes(512),
-    },
-  );
+  const dataLocalPathVolume = new ZfsSsdVolume(chart, "syncthing-data", {
+    storage: Size.gibibytes(512),
+    volume: getPersistentVolume(chart, "syncthing-data"),
+  });
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -45,7 +40,7 @@ export function createSyncthingDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "syncthing-volume",
-            configLocalPathVolume.claim,
+            configLocalPathVolume.claim
           ),
         },
         {
@@ -53,11 +48,11 @@ export function createSyncthingDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "syncthing-data-volume",
-            dataLocalPathVolume.claim,
+            dataLocalPathVolume.claim
           ),
         },
       ],
-    }),
+    })
   );
 
   const service = new Service(chart, "syncthing-service", {

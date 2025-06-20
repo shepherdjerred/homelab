@@ -18,6 +18,8 @@ import { createFreshRssDeployment } from "../services/freshrss.ts";
 import { createPokemonDeployment } from "../services/pokemon.ts";
 import { createHaDeployment } from "../services/home/ha.ts";
 import { ZfsHddVolume } from "../utils/zfsHddVolume.ts";
+import { getPersistentVolume } from "../utils/persistentVolumeMapping.ts";
+import { KubeNamespace } from "../../imports/k8s.ts";
 
 export function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
@@ -25,14 +27,23 @@ export function createTorvaldsChart(app: App) {
     disableResourceNameHashes: true,
   });
 
+  new KubeNamespace(chart, "argocd", {
+    metadata: {
+      name: "argocd",
+    },
+  });
+
   const tvVolume = new ZfsHddVolume(chart, "plex-tv-hdd-pvc", {
     storage: Size.tebibytes(2),
+    volume: getPersistentVolume(chart, "plex-tv-hdd-pvc"),
   });
   const downloadsVolume = new ZfsHddVolume(chart, "qbittorrent-hdd-pvc", {
     storage: Size.tebibytes(1),
+    volume: getPersistentVolume(chart, "qbittorrent-hdd-pvc"),
   });
   const moviesVolume = new ZfsHddVolume(chart, "plex-movies-hdd-pvc", {
     storage: Size.tebibytes(10),
+    volume: getPersistentVolume(chart, "plex-movies-hdd-pvc"),
   });
 
   // TODO: create one namespace/argocd app per service

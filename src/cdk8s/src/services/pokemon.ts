@@ -11,6 +11,7 @@ import {
 import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
+import { getPersistentVolume } from "../utils/persistentVolumeMapping.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
@@ -27,9 +28,11 @@ export function createPokemonDeployment(chart: Chart) {
 
   const localPathVolume = new ZfsSsdVolume(chart, "pokemon-volume", {
     storage: Size.gibibytes(8),
+    volume: getPersistentVolume(chart, "pokemon-volume"),
   });
   const romVolume = new ZfsSsdVolume(chart, "pokemon-rom-volume", {
     storage: Size.gibibytes(8),
+    volume: getPersistentVolume(chart, "pokemon-rom-volume"),
   });
 
   const item = new OnePasswordItem(chart, "pokemon-config", {
@@ -42,7 +45,7 @@ export function createPokemonDeployment(chart: Chart) {
   const secret = Secret.fromSecretName(
     chart,
     "pokemon-config-secret",
-    item.name,
+    item.name
   );
 
   deployment.addContainer(
@@ -85,7 +88,7 @@ export function createPokemonDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "pokemon-pvc",
-            localPathVolume.claim,
+            localPathVolume.claim
           ),
         },
         {
@@ -104,7 +107,7 @@ export function createPokemonDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "pokemon-rom-pvc",
-            romVolume.claim,
+            romVolume.claim
           ),
         },
         {
@@ -115,7 +118,7 @@ export function createPokemonDeployment(chart: Chart) {
           }),
         },
       ],
-    }),
+    })
   );
 
   const selkiesService = new Service(chart, "selkies-service", {
@@ -140,13 +143,10 @@ export function createPokemonDeployment(chart: Chart) {
   });
 
   ApiObject.of(deployment).addJsonPatch(
-    JsonPatch.add(
-      "/spec/template/spec/containers/0/resources",
-      {
-        limits: {
-          "gpu.intel.com/i915": 1,
-        },
+    JsonPatch.add("/spec/template/spec/containers/0/resources", {
+      limits: {
+        "gpu.intel.com/i915": 1,
       },
-    ),
+    })
   );
 }

@@ -11,6 +11,7 @@ import { readdirSync, statSync } from "fs";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
+import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
 import versions from "../../versions.ts";
 
 export function createHomeAssistantDeployment(chart: Chart) {
@@ -21,6 +22,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
 
   const claim = new ZfsSsdVolume(chart, "homeassistant-pvc", {
     storage: Size.gibibytes(32),
+    volume: getPersistentVolume(chart, "homeassistant-pvc"),
   });
 
   const volume = Volume.fromPersistentVolumeClaim(
