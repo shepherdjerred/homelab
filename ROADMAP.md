@@ -6,5 +6,6 @@
 - Workflow for turning on A/C while coming home
 - Fix volume in morning
 - Automatically fix types for HA project, e.g. roomba
+- Backups of all ZFS volumes
 
 ## Done
