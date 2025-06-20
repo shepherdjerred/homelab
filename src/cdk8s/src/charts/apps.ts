@@ -19,6 +19,7 @@ import { createStorageClasses } from "../storageclasses.ts";
 import { createOpenEBSApp } from "../apps/openebs.ts";
 import { createActionsRunnerControllerApp } from "../apps/actions-runner-controller.ts";
 import { createDaggerApp } from "../apps/dagger.ts";
+import { createVeleroApp } from "../apps/velero.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -54,4 +55,5 @@ export function createAppsChart(app: App) {
   createPromtailApp(chart);
   createActionsRunnerControllerApp(chart);
   createDaggerApp(chart);
+  createVeleroApp(chart);
 }

@@ -13,7 +13,7 @@ import { join } from "path";
  * 5. Checking that templates contain valid Kubernetes resources
  */
 
-const TEST_VERSION = "1.0.0-test";
+const TEST_VERSION = "1.0.0";
 const EXPORT_DIR = "./test-helm-chart-export";
 const CHART_NAME = "torvalds";
 const CHART_FILE = `${CHART_NAME}-${TEST_VERSION}.tgz`;

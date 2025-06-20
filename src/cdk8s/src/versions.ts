@@ -92,6 +92,8 @@ const versions = {
   "gha-runner-scale-set-runner": "0.12.0",
   // renovate: datasource=helm registryUrl=registry.dagger.io/dagger versioning=semver
   "dagger-helm": "0.18.10",
+  // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
+  velero: "10.0.5",
 };
 
 export default versions;

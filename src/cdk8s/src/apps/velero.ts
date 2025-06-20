@@ -1,0 +1,164 @@
+import { Chart } from "cdk8s";
+import { Application } from "../../imports/argoproj.io.ts";
+import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import {
+  BackupStorageLocation,
+  Schedule,
+  VolumeSnapshotLocation,
+} from "../../imports/velero.io.ts";
+import versions from "../versions.ts";
+import { Namespace } from "cdk8s-plus-31";
+
+export function createVeleroApp(chart: Chart) {
+  new Namespace(chart, `velero-namespace`, {
+    metadata: {
+      name: `velero`,
+      labels: {
+        "pod-security.kubernetes.io/enforce": "privileged",
+      },
+    },
+  });
+
+  // 1Password secret for cloud credentials (AWS/GCP/Azure)
+  const cloudCredentials = new OnePasswordItem(
+    chart,
+    "velero-cloud-credentials-onepassword",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/PLACEHOLDER-VELERO-CREDENTIALS-UUID",
+      },
+      metadata: {
+        name: "cloud-credentials",
+        namespace: "velero",
+      },
+    }
+  );
+
+  new BackupStorageLocation(chart, "velero-backup-storage-location", {
+    metadata: {
+      name: "default",
+      namespace: "velero",
+    },
+    spec: {
+      provider: "aws",
+      config: {
+        region: "minio",
+        s3Url: "http://minio.velero.svc:9000",
+      },
+      objectStorage: {
+        bucket: "velero",
+      },
+    },
+  });
+
+  // ZFS PV Volume Snapshot Location with incremental backups
+  new VolumeSnapshotLocation(chart, "velero-zfs-volume-snapshot-location", {
+    metadata: {
+      name: "zfspv-incr",
+      namespace: "velero",
+    },
+    spec: {
+      provider: "openebs.io/zfspv-blockstore",
+      config: {
+        bucket: "velero",
+        prefix: "zfs",
+        incrBackupCount: "15", // number of incremental backups we want to have
+        namespace: "openebs", // this is the namespace where ZFS-LocalPV creates all the CRs
+        provider: "aws",
+        region: "minio",
+        s3ForcePathStyle: "true",
+        s3Url: "http://minio.velero.svc:9000",
+      },
+    },
+  });
+
+  new Schedule(chart, "velero-backup-schedule", {
+    metadata: {
+      name: "schd",
+      namespace: "velero",
+    },
+    spec: {
+      schedule: "0 * * * *", // Every hour (at minute 0)
+      template: {
+        snapshotVolumes: true,
+        labelSelector: {
+          matchLabels: {
+            app: "velero",
+            component: "server",
+          },
+        },
+        volumeSnapshotLocations: ["zfspv-incr"],
+        storageLocation: "default",
+        // Velero natively does not support the incremental backup,
+        // so while taking the incremental backup we have to set the appropriate ttl for the backups so that we have
+        // full incremental backup group available for restore. For example, in the above case we creating a schedule to take the backup
+        // at every 1 hour and VolumeSnapshotLocation says we should keep 15 incremental backups then ttl should be set to 1 hour * (15 incr + 1 full) = 16 hours
+        // or more. So that the full backup and all the incremental backups are available for the restore. If we don't set the ttl correctly
+        // and full backup gets deleted, we won't be able use that backup, so we should make sure that correct ttl is set for the incremental backups schedule.
+        ttl: "48h", // 48 hours retention (16h minimum + buffer)
+      },
+    },
+  });
+
+  new Application(chart, "velero-app", {
+    metadata: {
+      name: "velero",
+    },
+    spec: {
+      project: "default",
+      source: {
+        // https://vmware-tanzu.github.io/helm-charts/
+        repoUrl: "https://vmware-tanzu.github.io/helm-charts",
+        chart: "velero",
+        targetRevision: versions.velero,
+        helm: {
+          releaseName: "velero",
+          valuesObject: {
+            // Credentials management
+            credentials: {
+              useSecret: true,
+              name: cloudCredentials.name,
+            },
+            // Init containers for plugins
+            initContainers: [
+              {
+                name: "velero-plugin-for-aws",
+                image: "velero/velero-plugin-for-aws:v1.10.0",
+                imagePullPolicy: "IfNotPresent",
+                volumeMounts: [
+                  {
+                    mountPath: "/target",
+                    name: "plugins",
+                  },
+                ],
+              },
+              {
+                name: "velero-plugin-for-openebs",
+                image: "openebs/velero-plugin:3.6.0",
+                imagePullPolicy: "IfNotPresent",
+                volumeMounts: [
+                  {
+                    mountPath: "/target",
+                    name: "plugins",
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      },
+      destination: {
+        server: "https://kubernetes.default.svc",
+        namespace: "velero",
+      },
+      syncPolicy: {
+        automated: {
+          prune: true,
+          selfHeal: true,
+        },
+        syncOptions: ["CreateNamespace=true"],
+      },
+    },
+  });
+}
