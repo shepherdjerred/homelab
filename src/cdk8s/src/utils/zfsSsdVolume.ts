@@ -8,15 +8,25 @@ import {
 import { Construct } from "constructs";
 import { SSD_STORAGE_CLASS } from "../storageclasses.ts";
 import type { SetRequired } from "type-fest";
+import { Size } from "cdk8s";
 
 export class ZfsSsdVolume extends Construct {
   public readonly claim: PersistentVolumeClaim;
   constructor(
     scope: Construct,
     id: string,
-    props: SetRequired<PersistentVolumeClaimProps, "storage">
+    props: Omit<
+      SetRequired<PersistentVolumeClaimProps, "storage">,
+      "storageClassName" | "accessModes" | "volumeMode" | "metadata"
+    >
   ) {
     super(scope, id);
+
+    // Check if storage is under 512GB for backup labeling
+    const storageSize = props.storage;
+    const shouldBackup =
+      storageSize.asString() < Size.gibibytes(512).asString();
+
     const baseProps: PersistentVolumeClaimProps = {
       storage: props.storage,
       storageClassName: SSD_STORAGE_CLASS,
@@ -24,6 +34,11 @@ export class ZfsSsdVolume extends Construct {
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
       metadata: {
         name: `${id}`,
+        labels: shouldBackup
+          ? {
+              "velero.io/backup": "enabled",
+            }
+          : undefined,
       },
     };
 

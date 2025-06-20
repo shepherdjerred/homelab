@@ -24,7 +24,7 @@ export function createSyncthingDeployment(chart: Chart) {
   });
 
   const dataLocalPathVolume = new ZfsSsdVolume(chart, "syncthing-data", {
-    storage: Size.gibibytes(512),
+    storage: Size.gibibytes(64),
     volume: getPersistentVolume(chart, "syncthing-data"),
   });
 

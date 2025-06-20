@@ -12,9 +12,6 @@ export const PV_MAPPINGS = {
   // Stash
   "stash-config": "pvc-0251fe18-ef4d-4625-b763-ed371552cbec", // 8Gi, zfs-ssd
   "stash-data": "pvc-32e059a1-cbc8-4ebc-9e22-7ebc2633e004", // 64Gi, zfs-ssd
-  "stash-blobs": "pvc-8714d24d-e490-42f2-9f98-9287fac7ecca", // 8Gi, zfs-ssd
-  "stash-generated": "pvc-916a6ec8-b37e-4218-a6b5-51923ead48b8", // 64Gi, zfs-ssd
-  "stash-metadata": "pvc-ee6f642c-c617-42c4-864d-e009bf2f44e0", // 8Gi, zfs-ssd
 
   // Plex
   "plex-pvc": "pvc-a055da77-79b9-4de4-878e-30550f3f7e23", // 512Gi, zfs-ssd
@@ -49,12 +46,10 @@ export const PV_MAPPINGS = {
   "scout-storage-claim": "pvc-e0b992c4-6bed-451f-9221-1d892a979041", // 8Gi, zfs-ssd
 
   // Dagger/CI
-  "earthly-pvc": "pvc-de8b6222-c896-431b-896f-712290c1cb77", // 1024Gi, zfs-ssd
   "gha-shared-cache": "pvc-53e9110e-086d-4374-8a7a-79c260843c77", // 100Gi, zfs-ssd
 
   // Infrastructure (HDD volumes)
   chartmuseum: "pvc-2ee7fd6a-b6aa-4482-943e-dda605a46684", // 32Gi, zfs-hdd
-  jenkins: "pvc-4a334553-dc38-456c-b72a-225e09ed0752", // 128Gi, zfs-hdd
   "minecraft-datadir": "pvc-9a0c91f4-bc51-4500-9237-54ce0c6821ef", // 32Gi, zfs-ssd
 
   // Monitoring (HDD volumes)

@@ -13,23 +13,19 @@ export function createChartMuseumApp(chart: Chart) {
     "chartmuseum",
     8080,
     ["chartmuseum"],
-    true,
+    true
   );
 
-  const basicAuth = new OnePasswordItem(
-    chart,
-    "chartmuseum-admin-password",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/wwoism5fsvmbisv4ef47yxqy2i",
-      },
-      metadata: {
-        name: "chartmuseum-basic-auth",
-        namespace: "chartmuseum",
-      },
+  const basicAuth = new OnePasswordItem(chart, "chartmuseum-admin-password", {
+    spec: {
+      itemPath:
+        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/wwoism5fsvmbisv4ef47yxqy2i",
     },
-  );
+    metadata: {
+      name: "chartmuseum-basic-auth",
+      namespace: "chartmuseum",
+    },
+  });
 
   return new Application(chart, "chartmuseum-app", {
     metadata: {
@@ -45,7 +41,7 @@ export function createChartMuseumApp(chart: Chart) {
           parameters: [
             { name: "persistence.enabled", value: "true" },
             { name: "persistence.storageClass", value: HDD_STORAGE_CLASS },
-            { name: "persistence.size", value: Size.gibibytes(32).asString() },
+            { name: "persistence.size", value: Size.gibibytes(8).asString() },
             { name: "env.open.DISABLE_API", value: "false" },
             { name: "env.open.AUTH_ANONYMOUS_GET", value: "true" },
             { name: "env.existingSecret", value: basicAuth.name },

@@ -84,8 +84,7 @@ export function createVeleroApp(chart: Chart) {
         snapshotVolumes: true,
         labelSelector: {
           matchLabels: {
-            app: "velero",
-            component: "server",
+            "velero.io/backup": "enabled",
           },
         },
         volumeSnapshotLocations: ["zfspv-incr"],

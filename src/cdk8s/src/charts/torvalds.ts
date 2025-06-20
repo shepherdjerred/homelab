@@ -42,7 +42,7 @@ export function createTorvaldsChart(app: App) {
     volume: getPersistentVolume(chart, "qbittorrent-hdd-pvc"),
   });
   const moviesVolume = new ZfsHddVolume(chart, "plex-movies-hdd-pvc", {
-    storage: Size.tebibytes(10),
+    storage: Size.tebibytes(4),
     volume: getPersistentVolume(chart, "plex-movies-hdd-pvc"),
   });
 

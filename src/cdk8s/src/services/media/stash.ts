@@ -13,7 +13,7 @@ export function createStashDeployment(chart: Chart) {
   });
 
   const longhornVolumeData = new ZfsSsdVolume(chart, "stash-data", {
-    storage: Size.gibibytes(64),
+    storage: Size.gibibytes(32),
     volume: getPersistentVolume(chart, "stash-data"),
   });
   const longhornVolumeConfig = new ZfsSsdVolume(chart, "stash-config", {

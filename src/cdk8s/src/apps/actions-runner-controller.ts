@@ -40,7 +40,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
       },
       syncPolicy: {
         automated: {},
-        syncOptions: ["CreateNamespace=true"],
+        syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
       },
     },
   });
@@ -106,7 +106,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
       },
       syncPolicy: {
         automated: {},
-        syncOptions: ["CreateNamespace=true"],
+        syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
       },
     },
   });
