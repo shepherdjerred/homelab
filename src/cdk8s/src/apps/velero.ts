@@ -26,7 +26,7 @@ export function createVeleroApp(chart: Chart) {
     {
       spec: {
         itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/PLACEHOLDER-VELERO-CREDENTIALS-UUID",
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/7thelujgeruxxp2qdsrqe2wd7q",
       },
       metadata: {
         name: "cloud-credentials",
@@ -43,11 +43,13 @@ export function createVeleroApp(chart: Chart) {
     spec: {
       provider: "aws",
       config: {
-        region: "minio",
-        s3Url: "http://minio.velero.svc:9000",
+        region: "auto", // Cloudflare R2 uses "auto" region
+        s3Url:
+          "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com", // Replace ACCOUNT_ID with your Cloudflare account ID
+        s3ForcePathStyle: "true",
       },
       objectStorage: {
-        bucket: "velero",
+        bucket: "homelab",
       },
     },
   });
@@ -61,14 +63,15 @@ export function createVeleroApp(chart: Chart) {
     spec: {
       provider: "openebs.io/zfspv-blockstore",
       config: {
-        bucket: "velero",
+        bucket: "homelab",
         prefix: "zfs",
         incrBackupCount: "15", // number of incremental backups we want to have
         namespace: "openebs", // this is the namespace where ZFS-LocalPV creates all the CRs
         provider: "aws",
-        region: "minio",
+        region: "auto", // Cloudflare R2 uses "auto" region
         s3ForcePathStyle: "true",
-        s3Url: "http://minio.velero.svc:9000",
+        s3Url:
+          "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com", // Replace ACCOUNT_ID with your Cloudflare account ID
       },
     },
   });
@@ -118,6 +121,7 @@ export function createVeleroApp(chart: Chart) {
             credentials: {
               useSecret: true,
               name: cloudCredentials.name,
+              existingSecret: cloudCredentials.name,
             },
             // Init containers for plugins
             initContainers: [
