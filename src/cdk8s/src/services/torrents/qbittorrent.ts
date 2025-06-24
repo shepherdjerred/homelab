@@ -36,7 +36,6 @@ export function createQBitTorrentDeployment(
 
   const localPathVolume = new ZfsSsdVolume(chart, "qbittorrent-pvc", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "qbittorrent-pvc"),
   });
 
   deployment.addContainer(

@@ -14,7 +14,6 @@ export function createProwlarrDeployment(chart: Chart) {
 
   const localPathVolume = new ZfsSsdVolume(chart, "prowlarr-pvc", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "prowlarr-pvc"),
   });
 
   deployment.addContainer(

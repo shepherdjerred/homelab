@@ -32,7 +32,6 @@ export function createSonarrDeployment(
 
   const localPathVolume = new ZfsSsdVolume(chart, "sonarr-pvc", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "sonarr-pvc"),
   });
 
   deployment.addContainer(

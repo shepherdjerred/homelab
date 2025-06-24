@@ -28,11 +28,9 @@ export function createPokemonDeployment(chart: Chart) {
 
   const localPathVolume = new ZfsSsdVolume(chart, "pokemon-volume", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "pokemon-volume"),
   });
   const romVolume = new ZfsSsdVolume(chart, "pokemon-rom-volume", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "pokemon-rom-volume"),
   });
 
   const item = new OnePasswordItem(chart, "pokemon-config", {

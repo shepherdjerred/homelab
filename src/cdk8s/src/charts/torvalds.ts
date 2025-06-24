@@ -35,15 +35,12 @@ export function createTorvaldsChart(app: App) {
 
   const tvVolume = new ZfsHddVolume(chart, "plex-tv-hdd-pvc", {
     storage: Size.tebibytes(2),
-    volume: getPersistentVolume(chart, "plex-tv-hdd-pvc"),
   });
   const downloadsVolume = new ZfsHddVolume(chart, "qbittorrent-hdd-pvc", {
     storage: Size.tebibytes(1),
-    volume: getPersistentVolume(chart, "qbittorrent-hdd-pvc"),
   });
   const moviesVolume = new ZfsHddVolume(chart, "plex-movies-hdd-pvc", {
     storage: Size.tebibytes(4),
-    volume: getPersistentVolume(chart, "plex-movies-hdd-pvc"),
   });
 
   // TODO: create one namespace/argocd app per service

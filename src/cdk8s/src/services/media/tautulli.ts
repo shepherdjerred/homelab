@@ -14,7 +14,6 @@ export function createTautulliDeployment(chart: Chart) {
 
   const localPathVolume = new ZfsSsdVolume(chart, "tautulli-pvc", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "tautulli-pvc"),
   });
 
   deployment.addContainer(

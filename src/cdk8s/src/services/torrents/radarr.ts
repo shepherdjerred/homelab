@@ -32,7 +32,6 @@ export function createRadarrDeployment(
 
   const localPathVolume = new ZfsSsdVolume(chart, "radarr-pvc", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "radarr-pvc"),
   });
 
   deployment.addContainer(

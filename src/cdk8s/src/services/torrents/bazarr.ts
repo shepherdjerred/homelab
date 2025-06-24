@@ -27,7 +27,6 @@ export function createBazarrDeployment(
 
   const localPathVolume = new ZfsSsdVolume(chart, "bazarr-pvc", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "bazarr-pvc"),
   });
 
   deployment.addContainer(

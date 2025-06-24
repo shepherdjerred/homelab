@@ -20,7 +20,6 @@ export function createMaintainerrDeployment(chart: Chart) {
 
   const localPathVolume = new ZfsSsdVolume(chart, "maintainerr-pvc", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "maintainerr-pvc"),
   });
 
   deployment.addContainer(

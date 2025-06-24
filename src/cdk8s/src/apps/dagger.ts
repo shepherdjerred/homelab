@@ -48,7 +48,6 @@ export function createDaggerApp(chart: Chart) {
   // Create a ZFS SSD PVC for Dagger data
   const dataPvc = new ZfsSsdVolume(chart, "dagger-data", {
     storage: Size.gibibytes(128),
-    volume: getPersistentVolume(chart, "gha-shared-cache"),
   });
 
   new Application(chart, "dagger-app", {

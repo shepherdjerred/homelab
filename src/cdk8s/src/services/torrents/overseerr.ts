@@ -14,7 +14,6 @@ export function createOverseerrDeployment(chart: Chart) {
 
   const localPathVolume = new ZfsSsdVolume(chart, "overseerr-pvc", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "overseerr-pvc"),
   });
 
   deployment.addContainer(

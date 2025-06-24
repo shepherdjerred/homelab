@@ -14,14 +14,12 @@ export function createFreshRssDeployment(chart: Chart) {
 
   const freshRssDataVolume = new ZfsSsdVolume(chart, "freshrss-data", {
     storage: Size.gibibytes(32),
-    volume: getPersistentVolume(chart, "freshrss-data"),
   });
   const freshRssExtensionsVolme = new ZfsSsdVolume(
     chart,
     "freshrss-extensions",
     {
       storage: Size.gibibytes(8),
-      volume: getPersistentVolume(chart, "freshrss-extensions"),
     }
   );
 

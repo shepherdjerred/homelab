@@ -26,7 +26,6 @@ export function createGolinkDeployment(chart: Chart) {
 
   const localPathVolume = new ZfsSsdVolume(chart, "golink-pvc", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "golink-pvc"),
   });
 
   const item = new OnePasswordItem(chart, "tailscale-auth-key-onepassword", {

@@ -52,7 +52,6 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
 
   const localPathVolume = new ZfsSsdVolume(chart, "scout-storage-claim", {
     storage: Size.gibibytes(8),
-    volume: getPersistentVolume(chart, "scout-storage-claim"),
   });
 
   deployment.addContainer(
