@@ -164,9 +164,10 @@ Adapted from <https://www.roosmaa.net/blog/2024/setting-up-zfs-on-talos/>
     kubectl exec pod/shell -n maintenance -- \
       nsenter --mount=/proc/1/ns/mnt -- \
       zpool create -m legacy -f zfspv-pool-hdd raidz2 \
-      /dev/sda \
       /dev/sdb \
       /dev/sdc \
       /dev/sdd \
-      /dev/sde
+      /dev/sde \
+      /dev/sdf \
+      /dev/sdg
     ```

@@ -120,7 +120,6 @@ export function createVeleroApp(chart: Chart) {
             // Credentials management
             credentials: {
               useSecret: true,
-              name: cloudCredentials.name,
               existingSecret: cloudCredentials.name,
             },
             // Init containers for plugins
