@@ -87,7 +87,7 @@ const versions = {
   "freshrss/freshrss":
     "1.26.3@sha256:f9733e2cdf754d82e25826324fb4cbf3d736d82e2d36bf8e379dd4f0eeee0932",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
-  "gha-runner-scale-set-controller": "0.12.0",
+  "gha-runner-scale-set-controller": "0.12.1",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set": "0.12.0",
   // renovate: datasource=docker registryUrl=https://registry.dagger.io versioning=loose
