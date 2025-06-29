@@ -95,7 +95,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
   velero: "10.0.5",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
-  "velero/velero-plugin-for-aws": "v1.10.0",
+  "velero/velero-plugin-for-aws": "v1.12.1",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "openebs/velero-plugin": "3.6.0",
   // renovate: datasource=github-releases versioning=semver
