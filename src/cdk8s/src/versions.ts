@@ -100,7 +100,7 @@ const versions = {
   "openebs/velero-plugin": "3.6.0",
   // renovate: datasource=github-releases versioning=semver
   "kubernetes/kubernetes": "v1.33.1",
-  // renovate: datasource=papermc versioning=semver
+  // renovate: datasource=custom.papermc versioning=semver
   paper: "1.21.4",
 };
 
