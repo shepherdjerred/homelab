@@ -99,7 +99,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "openebs/velero-plugin": "3.6.0",
   // renovate: datasource=github-releases versioning=semver
-  "kubernetes/kubernetes": "v1.33.1",
+  "kubernetes/kubernetes": "v1.33.2",
   // renovate: datasource=custom.papermc versioning=semver
   paper: "1.21.4",
 };
