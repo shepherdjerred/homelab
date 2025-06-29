@@ -1,11 +1,7 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
-import {
-  BackupStorageLocation,
-  Schedule,
-  VolumeSnapshotLocation,
-} from "../../imports/velero.io.ts";
+import { Schedule } from "../../imports/velero.io.ts";
 import versions from "../versions.ts";
 import { Namespace } from "cdk8s-plus-31";
 
@@ -34,47 +30,6 @@ export function createVeleroApp(chart: Chart) {
       },
     }
   );
-
-  new BackupStorageLocation(chart, "velero-backup-storage-location", {
-    metadata: {
-      name: "default",
-      namespace: "velero",
-    },
-    spec: {
-      provider: "aws",
-      config: {
-        region: "auto", // Cloudflare R2 uses "auto" region
-        s3Url:
-          "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com", // Replace ACCOUNT_ID with your Cloudflare account ID
-        s3ForcePathStyle: "true",
-      },
-      objectStorage: {
-        bucket: "homelab",
-      },
-    },
-  });
-
-  // ZFS PV Volume Snapshot Location with incremental backups
-  new VolumeSnapshotLocation(chart, "velero-zfs-volume-snapshot-location", {
-    metadata: {
-      name: "zfspv-incr",
-      namespace: "velero",
-    },
-    spec: {
-      provider: "openebs.io/zfspv-blockstore",
-      config: {
-        bucket: "homelab",
-        prefix: "zfs",
-        incrBackupCount: "15", // number of incremental backups we want to have
-        namespace: "openebs", // this is the namespace where ZFS-LocalPV creates all the CRs
-        provider: "aws",
-        region: "auto", // Cloudflare R2 uses "auto" region
-        s3ForcePathStyle: "true",
-        s3Url:
-          "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com", // Replace ACCOUNT_ID with your Cloudflare account ID
-      },
-    },
-  });
 
   new Schedule(chart, "velero-backup-schedule", {
     metadata: {
@@ -117,6 +72,40 @@ export function createVeleroApp(chart: Chart) {
         helm: {
           releaseName: "velero",
           valuesObject: {
+            // Velero configuration
+            configuration: {
+              backupStorageLocation: [
+                {
+                  name: "default",
+                  bucket: "homelab",
+                  default: true,
+                  provider: "aws",
+                  config: {
+                    region: "auto", // Cloudflare R2 uses "auto" region
+                    s3Url:
+                      "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
+                    s3ForcePathStyle: "true",
+                  },
+                },
+              ],
+              volumeSnapshotLocation: [
+                {
+                  name: "zfspv-incr",
+                  provider: "openebs.io/zfspv-blockstore",
+                  config: {
+                    bucket: "homelab",
+                    prefix: "zfs",
+                    incrBackupCount: "15", // number of incremental backups we want to have
+                    namespace: "openebs", // this is the namespace where ZFS-LocalPV creates all the CRs
+                    provider: "aws",
+                    region: "auto", // Cloudflare R2 uses "auto" region
+                    s3ForcePathStyle: "true",
+                    s3Url:
+                      "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
+                  },
+                },
+              ],
+            },
             // Credentials management
             credentials: {
               useSecret: true,

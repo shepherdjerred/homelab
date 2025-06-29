@@ -57,8 +57,8 @@ export function createDaggerApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
-        repoUrl: "https://registry.dagger.io/dagger",
-        chart: "dagger",
+        repoUrl: "registry.dagger.io",
+        chart: "dagger-helm",
         targetRevision: versions["dagger-helm"],
         helm: {
           valuesObject: {
