@@ -23,10 +23,13 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Get kubectl version
+      - name: Extract kubectl version
         id: kubectl-version
         run: |
-          KUBECTL_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+          KUBECTL_VERSION=$(bun -e "
+            const versions = await import('./src/cdk8s/src/versions.ts');
+            console.log(versions.default['kubernetes/kubernetes']);
+          ")
           echo "version=$KUBECTL_VERSION" >> $GITHUB_OUTPUT
 
       - name: Cache kubectl

@@ -94,6 +94,8 @@ const versions = {
   "dagger-helm": "0.18.12",
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
   velero: "10.0.5",
+  // renovate: datasource=github-releases versioning=semver
+  "kubernetes/kubernetes": "v1.32.0",
 };
 
 export default versions;
