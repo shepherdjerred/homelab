@@ -2,7 +2,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
   connect: "1.17.0",
   // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
-  "argo-cd": "8.0.17",
+  "argo-cd": "8.1.2",
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
   "cert-manager": "v1.18.1",
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
@@ -10,9 +10,9 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
   "node-feature-discovery": "0.17.3",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
-  "kube-prometheus-stack": "74.2.1",
+  "kube-prometheus-stack": "74.2.2",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
-  "tailscale-operator": "1.84.2",
+  "tailscale-operator": "1.84.3",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/redis":
     "7.2@sha256:fc406aff11b00ada4365adfb9f373212a5433499c951878b78862bd9456bfd84",
@@ -21,7 +21,7 @@ const versions = {
     "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "itzg/minecraft-server":
-    "2025.6.0-java21@sha256:107a643a0939eef1a790a9260694d13c04866a3c3bda954fa279806c4fd2601a",
+    "2025.6.2-java21@sha256:262e2309f7cc6b2ff0ac1458ac52c91e9bc778989543feec6588501f6dad31ef",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=loose
   "plexinc/pms-docker":
     "1.41.8.9834-071366d65@sha256:3ec0e4ea00cb2d964da92a5b3dd06e882e0a91d38f9a326fb54b8f229a3a6e89",
