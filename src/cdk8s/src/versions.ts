@@ -79,7 +79,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
   openebs: "4.2.0",
   "shepherdjerred/scout-for-lol/beta": "1.0.167",
-  "shepherdjerred/scout-for-lol/prod": "1.0.2",
+  "shepherdjerred/scout-for-lol/prod": "1.0.167",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "stashapp/stash":
     "v0.28.1@sha256:645f6c15b079410d50d488dbeb247c92f25534094dad4e15d886e47648b897f7",
@@ -94,8 +94,14 @@ const versions = {
   "dagger-helm": "0.18.12",
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
   velero: "10.0.5",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
+  "velero/velero-plugin-for-aws": "v1.10.0",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
+  "openebs/velero-plugin": "3.6.0",
   // renovate: datasource=github-releases versioning=semver
   "kubernetes/kubernetes": "v1.33.1",
+  // renovate: datasource=papermc
+  paper: "1.21.4",
 };
 
 export default versions;

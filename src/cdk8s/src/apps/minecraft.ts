@@ -12,7 +12,7 @@ export function createMinecraftApp(chart: Chart) {
     "minecraft-minecraft-bluemap",
     8100,
     ["minecraft-bluemap"],
-    true,
+    true
   );
 
   return new Application(chart, "minecraft-app", {
@@ -33,7 +33,7 @@ export function createMinecraftApp(chart: Chart) {
             minecraftServer: {
               eula: true,
               difficulty: "hard",
-              version: "1.21.4",
+              version: versions["paper"],
               type: "PAPER",
               motd: "Jerred's Really Cool Minecraft Server",
               // ops: "RiotShielder",
