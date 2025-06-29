@@ -29,9 +29,18 @@ jobs:
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
 
+      - name: Extract Dagger version
+        id: dagger-version
+        run: |
+          DAGGER_VERSION=$(bun -e "
+            const versions = await import('./src/cdk8s/src/versions.ts');
+            console.log(versions.default['dagger-helm']);
+          ")
+          echo "version=$DAGGER_VERSION" >> $GITHUB_OUTPUT
+
       - name: Install Dagger CLI
         run: |
-          curl -L https://dl.dagger.io/dagger/install.sh | BIN_DIR=$HOME/.local/bin sh
+          curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=${{ steps.dagger-version.outputs.version }} BIN_DIR=$HOME/.local/bin sh
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Run Dagger CI pipeline (prod)
