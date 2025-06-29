@@ -183,7 +183,7 @@ export class Homelab {
     const helmBuildPromise = this.helmBuild(
       updatedSource.directory("src/cdk8s/helm"),
       updatedSource.directory("src/cdk8s"),
-      chartVersion || "dev-snapshot"
+      `1.0.0-${chartVersion}` || "dev-snapshot"
     )
       .then((dist) => ({
         status: "passed" as StepStatus,
@@ -234,7 +234,7 @@ export class Homelab {
       // Publish using the dist directory as the source
       helmPublishResult = await this.helmPublishBuilt(
         helmBuildResult.dist,
-        chartVersion,
+        `1.0.0-${chartVersion}`,
         chartRepo,
         chartMuseumUsername,
         chartMuseumPassword,
@@ -619,7 +619,7 @@ export class Homelab {
     @argument({ defaultPath: "src/cdk8s" }) cdkSource: Directory,
     @argument() version: string
   ) {
-    return helmBuildFn(source, cdkSource, version);
+    return helmBuildFn(source, cdkSource, `1.0.0-${version}`);
   }
 
   /**
@@ -650,7 +650,7 @@ export class Homelab {
       const result = await helmPublishFn(
         source,
         cdkSource,
-        version,
+        `1.0.0-${version}`,
         repo,
         chartMuseumUsername,
         chartMuseumPassword
@@ -685,7 +685,7 @@ export class Homelab {
       return { status: "skipped", message: "[SKIPPED] Not prod" };
     }
     try {
-      const chartFile = `torvalds-${version}.tgz`;
+      const chartFile = `torvalds-1.0.0-${version}.tgz`;
       const result = await dag
         .container()
         .from(`alpine/helm:${versions["alpine/helm"]}`)
