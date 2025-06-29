@@ -95,7 +95,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
   velero: "10.0.5",
   // renovate: datasource=github-releases versioning=semver
-  "kubernetes/kubernetes": "v1.32.0",
+  "kubernetes/kubernetes": "v1.33.1",
 };
 
 export default versions;
