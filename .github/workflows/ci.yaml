@@ -23,11 +23,29 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install kubectl
+      - name: Get kubectl version
+        id: kubectl-version
         run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          KUBECTL_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+          echo "version=$KUBECTL_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Cache kubectl
+        uses: actions/cache@v4
+        id: kubectl-cache
+        with:
+          path: ~/.local/bin/kubectl
+          key: kubectl-${{ steps.kubectl-version.outputs.version }}-linux-amd64
+
+      - name: Install kubectl
+        if: steps.kubectl-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.local/bin
+          curl -LO "https://dl.k8s.io/release/${{ steps.kubectl-version.outputs.version }}/bin/linux/amd64/kubectl"
           chmod +x kubectl
-          sudo mv kubectl /usr/local/bin/
+          mv kubectl ~/.local/bin/
+
+      - name: Add kubectl to PATH
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Extract Dagger version
         id: dagger-version
