@@ -685,7 +685,7 @@ export class Homelab {
       return { status: "skipped", message: "[SKIPPED] Not prod" };
     }
     try {
-      const chartFile = `torvalds-1.0.0-${version}.tgz`;
+      const chartFile = `torvalds-${version}.tgz`;
       const result = await dag
         .container()
         .from(`alpine/helm:${versions["alpine/helm"]}`)
