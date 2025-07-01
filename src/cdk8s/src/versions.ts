@@ -105,7 +105,7 @@ const versions = {
     "v1.12.1@sha256:fa588ffa960d7e42361884d9c0377f20703b224e07d02b5514b33bf4cec04381",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "openebs/velero-plugin":
-    "3.6.0@sha256:92c079a3b0d09b51047a1040d4dfc175e1e8a49d3f78038933c0e1e892e4d275",
+    "3.6.0@sha256:9ea3331d891e436a7239e37e68ca4c8888500cb122be7cdc9d8400f345555c76",
   // renovate: datasource=github-releases versioning=semver
   "kubernetes/kubernetes": "v1.33.2",
   // renovate: datasource=custom.papermc versioning=semver
