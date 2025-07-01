@@ -1,5 +1,5 @@
 import { Chart, Size } from "cdk8s";
-import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
+import { Deployment, DeploymentStrategy, Service, Volume, EnvValue } from "cdk8s-plus-31";
 import { withCommonProps } from "../utils/common.ts";
 import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
 import { getPersistentVolume } from "../utils/persistentVolumeMapping.ts";
@@ -29,6 +29,10 @@ export function createFreshRssDeployment(chart: Chart) {
       securityContext: {
         ensureNonRoot: false,
         readOnlyRootFilesystem: false,
+      },
+      envVariables: {
+        // Enable cron for automatic feed updates every hour
+        CRON_MIN: EnvValue.fromValue("13"),  // Run at minute 13 of every hour
       },
       volumeMounts: [
         {
