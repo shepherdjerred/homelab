@@ -67,7 +67,7 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v2.7.4",
   // renovate: datasource=helm registryUrl=https://chartmuseum.github.io/charts versioning=semver
-  "chartmuseum": "3.10.3",
+  "chartmuseum": "3.10.4",
   // renovate: datasource=helm registryUrl=https://itzg.github.io/minecraft-server-charts versioning=semver
   "minecraft": "4.20.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
