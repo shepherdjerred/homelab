@@ -1,6 +1,7 @@
 const versions = {
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
-  connect: "1.17.0",
+  // NOTE: Property names must be quoted for Renovate custom manager regex to work
+  "connect": "1.17.0",
   // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
   "argo-cd": "8.1.2",
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
@@ -66,18 +67,18 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v2.7.4",
   // renovate: datasource=helm registry=https://chartmuseum.github.io/charts versioning=semver
-  chartmuseum: "3.10.3",
+  "chartmuseum": "3.10.3",
   // renovate: datasource=helm registry=https://itzg.github.io/minecraft-server-charts versioning=semver
-  minecraft: "4.20.0",
+  "minecraft": "4.20.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr":
     "2.18.1@sha256:da4b3b5b5e0a4aae6b4e294abdad2510a3be9bd138af8f4ca5a6e7cd6d94b1a2",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
-  loki: "6.30.1",
+  "loki": "6.30.1",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
-  promtail: "6.17.0",
+  "promtail": "6.17.0",
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
-  openebs: "4.2.0",
+  "openebs": "4.2.0",
   "shepherdjerred/scout-for-lol/beta": "1.0.167",
   "shepherdjerred/scout-for-lol/prod": "1.0.167",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
@@ -96,7 +97,7 @@ const versions = {
   "dagger-helm":
     "0.18.12@sha256:a0a1149be6b793856e5d3cf5dca5153b124350262af6f17fa64bd36fad5620e7",
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
-  velero: "10.0.5",
+  "velero": "10.0.5",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "velero/velero-plugin-for-aws":
     "v1.12.1@sha256:fa588ffa960d7e42361884d9c0377f20703b224e07d02b5514b33bf4cec04381",
@@ -106,11 +107,12 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver
   "kubernetes/kubernetes": "v1.33.2",
   // renovate: datasource=custom.papermc versioning=semver
-  paper: "1.21.4",
+  // NOTE: Property names must be quoted for Renovate custom manager regex to work
+  "paper": "1.21.4",
   // this is empty because we have to perform some string manipulation below
-  dagger: "",
+  "dagger": "",
 };
 
-versions.dagger = versions["dagger-helm"].split("@")[0] as string;
+versions["dagger"] = versions["dagger-helm"].split("@")[0] as string;
 
 export default versions;
