@@ -14,6 +14,7 @@ import {
   lintHa,
   buildAndExportHaImage,
 } from "./ha";
+import { getSystemContainer, withMiseTools } from "./base";
 import { typeCheckCdk8s, buildK8sManifests } from "./cdk8s";
 import { preCommit } from "./precommit";
 import { sync as argocdSync } from "./argocd";
@@ -165,6 +166,16 @@ export class Homelab {
       .then((msg) => ({ status: "passed", message: msg }))
       .catch((e) => ({ status: "failed", message: String(e) }));
 
+    // Renovate regex test (run async)
+    const renovateTestPromise = this.testRenovateRegex(updatedSource)
+      .then((msg) => ({ status: "passed", message: `Renovate Test: PASSED\n${msg}` }))
+      .catch((e) => ({ status: "failed", message: `Renovate Test: FAILED\n${e}` }));
+
+    // Helm test (run async)
+    const helmTestPromise = this.testHelm(updatedSource)
+      .then((msg) => ({ status: "passed", message: `Helm Test: PASSED\n${msg}` }))
+      .catch((e) => ({ status: "failed", message: `Helm Test: FAILED\n${e}` }));
+
     // Start builds in parallel
     const cdk8sBuildPromise = buildK8sManifests(
       updatedSource.directory("src/cdk8s")
@@ -196,9 +207,9 @@ export class Homelab {
         dist: undefined,
       }));
 
-    // Await builds
-    const [cdk8sBuildResult, haBuildResult, helmBuildResult] =
-      await Promise.all([cdk8sBuildPromise, haBuildPromise, helmBuildPromise]);
+    // Await builds and tests
+    const [cdk8sBuildResult, haBuildResult, helmBuildResult, renovateTestResult, helmTestResult] =
+      await Promise.all([cdk8sBuildPromise, haBuildPromise, helmBuildPromise, renovateTestPromise, helmTestPromise]);
 
     // Publish HA image if prod
     let haPublishResult: StepResult = {
@@ -255,6 +266,8 @@ export class Homelab {
     // Build summary
     const summary = [
       `Pre-commit result:\n${preCommitResult.message}`,
+      renovateTestResult.message,
+      helmTestResult.message,
       `Sync result:\n${syncResult.message}`,
       cdk8sBuildResult.message,
       haBuildResult.message,
@@ -265,6 +278,8 @@ export class Homelab {
     // Fail if any critical step failed
     if (
       preCommitResult.status === "failed" ||
+      renovateTestResult.status === "failed" ||
+      helmTestResult.status === "failed" ||
       syncResult.status === "failed" ||
       cdk8sBuildResult.status === "failed" ||
       haBuildResult.status === "failed" ||
@@ -326,6 +341,149 @@ export class Homelab {
     source: Directory
   ) {
     return testHa(source);
+  }
+
+  /**
+   * Tests Renovate regex patterns in versions.ts files.
+   * @param source The source directory containing versions.ts files and renovate.json.
+   * @returns The test results output.
+   */
+  @func()
+  async testRenovateRegex(
+    @argument({
+      ignore: [
+        "node_modules",
+        "dist",
+        "build",
+        ".cache",
+        "*.log",
+        ".env*",
+        "!.env.example",
+      ],
+      defaultPath: ".",
+    })
+    source: Directory
+  ): Promise<string> {
+    const container = withMiseTools(getSystemContainer())
+      .withWorkdir("/workspace")
+      // Only copy the files needed for the test
+      .withFile("renovate.json", source.file("renovate.json"))
+      .withFile("src/cdk8s/src/versions.ts", source.file("src/cdk8s/src/versions.ts"))
+      .withFile(".dagger/src/versions.ts", source.file(".dagger/src/versions.ts"))
+      .withFile(".dagger/test/test-renovate-regex.ts", source.file(".dagger/test/test-renovate-regex.ts"))
+      .withExec(["bun", "run", ".dagger/test/test-renovate-regex.ts"]);
+
+    return container.stdout();
+  }
+
+  /**
+   * Tests Helm chart structure, linting, and template rendering.
+   * @param source The source directory containing the Helm chart and CDK8s code.
+   * @returns The test results output.
+   */
+  @func()
+  async testHelm(
+    @argument({
+      ignore: [
+        "node_modules",
+        "dist",
+        "build",
+        ".cache",
+        "*.log",
+        ".env*",
+        "!.env.example",
+        ".dagger",
+      ],
+      defaultPath: ".",
+    })
+    source: Directory
+  ): Promise<string> {
+    const testVersion = "test-0.1.0";
+
+    // Build the chart with test version
+    const helmDist = await this.helmBuild(
+      source.directory("src/cdk8s/helm"),
+      source.directory("src/cdk8s"),
+      testVersion
+    );
+
+        // Test the built chart
+    const container = dag
+      .container()
+      .from(`alpine/helm:${versions["alpine/helm"]}`)
+      .withMountedDirectory("/workspace", helmDist)
+      .withWorkdir("/workspace")
+      .withExec(["sh", "-c", `
+        echo "🔍 Testing Helm chart..."
+        echo ""
+
+        # Check if packaged chart exists
+        echo "📦 Checking packaged chart..."
+        if ls *.tgz >/dev/null 2>&1; then
+          chart_file=$(ls *.tgz | head -1)
+          echo "✅ Packaged chart found: $chart_file"
+        else
+          echo "❌ No packaged chart found"
+          exit 1
+        fi
+
+        # Extract the chart for testing
+        echo ""
+        echo "📦 Extracting chart for testing..."
+        tar -xzf $chart_file
+
+        # Find the extracted directory (it should be the only directory)
+        chart_dir=$(find . -maxdepth 1 -type d ! -name . | head -1)
+        if [ -z "$chart_dir" ]; then
+          echo "❌ No extracted directory found!"
+          exit 1
+        fi
+        echo "Found extracted directory: $chart_dir"
+        cd $chart_dir
+
+        # Check if Chart.yaml exists and is valid
+        echo "📋 Validating Chart.yaml..."
+        if [ ! -f Chart.yaml ]; then
+          echo "❌ Chart.yaml not found!"
+          exit 1
+        fi
+        echo "✅ Chart.yaml found"
+
+        # Check if chart has templates (CDK8s manifests)
+        echo "📂 Checking templates directory..."
+        if [ ! -d templates ]; then
+          echo "❌ Templates directory not found!"
+          exit 1
+        fi
+
+        template_count=$(find templates -name "*.yaml" -o -name "*.yml" | wc -l)
+        echo "✅ Found $template_count template files"
+
+        # Run helm lint
+        echo ""
+        echo "🔍 Running helm lint..."
+        if helm lint .; then
+          echo "✅ Helm lint passed"
+        else
+          echo "❌ Helm lint failed"
+          exit 1
+        fi
+
+        # Run helm template to test rendering
+        echo ""
+        echo "🎨 Testing template rendering..."
+        if helm template test-release . > /dev/null; then
+          echo "✅ Template rendering successful"
+        else
+          echo "❌ Template rendering failed"
+          exit 1
+        fi
+
+        echo ""
+        echo "🎉 All Helm tests passed!"
+      `]);
+
+    return container.stdout();
   }
 
   /**
