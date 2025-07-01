@@ -1,6 +1,5 @@
 const versions = {
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
-  // NOTE: Property names must be quoted for Renovate custom manager regex to work
   "connect": "1.17.0",
   // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
   "argo-cd": "8.1.2",
@@ -60,15 +59,16 @@ const versions = {
   "home-assistant/home-assistant":
     "2025.6.3@sha256:e207929bdf5dc95db43c618b877364e99f7ad506ec5440aeef80d5c9c1cae668",
   // Custom homelab HA image - updated by CI pipeline
+  // not managed by renovate
   "shepherdjerred/homelab": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing":
     "1.29.7@sha256:2600853512ea2744d88b05fba7524d4bc6d99e14975d408a7f53beee0a2b83e1",
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v2.7.4",
-  // renovate: datasource=helm registry=https://chartmuseum.github.io/charts versioning=semver
+  // renovate: datasource=helm registryUrl=https://chartmuseum.github.io/charts versioning=semver
   "chartmuseum": "3.10.3",
-  // renovate: datasource=helm registry=https://itzg.github.io/minecraft-server-charts versioning=semver
+  // renovate: datasource=helm registryUrl=https://itzg.github.io/minecraft-server-charts versioning=semver
   "minecraft": "4.20.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr":
@@ -79,7 +79,9 @@ const versions = {
   "promtail": "6.17.0",
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
   "openebs": "4.2.0",
+  // not managed by renovate
   "shepherdjerred/scout-for-lol/beta": "1.0.167",
+  // not managed by renovate
   "shepherdjerred/scout-for-lol/prod": "1.0.167",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "stashapp/stash":
@@ -106,10 +108,10 @@ const versions = {
     "3.6.0@sha256:92c079a3b0d09b51047a1040d4dfc175e1e8a49d3f78038933c0e1e892e4d275",
   // renovate: datasource=github-releases versioning=semver
   "kubernetes/kubernetes": "v1.33.2",
-  // NOTE: Property names must be quoted for Renovate custom manager regex to work
   // renovate: datasource=custom.papermc versioning=semver
   "paper": "1.21.4",
   // this is empty because we have to perform some string manipulation below
+  // not managed by renovate
   "dagger": "",
 };
 

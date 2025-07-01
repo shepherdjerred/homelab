@@ -1,7 +1,7 @@
 const versions = {
   // Dagger CI/CD Docker Images
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  alpine:
+  "alpine":
     "3.22.0@sha256:8a1f59ffb675680d47db6337b49d22281a139e9d709335b492be023728e11715",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "alpine/helm":
@@ -24,6 +24,7 @@ const versions = {
   // renovate: datasource=node-version versioning=semver
   "node": "22.17.0",
   // this is empty because we have to perform some string manipulation below
+  // not managed by renovate
   "bun": "",
 };
 
