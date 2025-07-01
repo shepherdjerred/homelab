@@ -16,7 +16,7 @@
       "defaultRegistryUrlTemplate": "https://fill.papermc.io/v3/projects/paper",
       "format": "json",
       "transformTemplates": [
-        "{\"releases\": $map($spread(versions).*, function($arr) { $map($arr, function($v) { {\"version\": $v} }) })[], \"sourceUrl\": \"https://github.com/PaperMC/Paper\", \"homepage\": \"https://papermc.io\"}"
+        "{\"releases\": $map($reduce($each(versions, function($v) { $v }), $append, []), function($v) { {\"version\": $v} }), \"sourceUrl\": \"https://github.com/PaperMC/Paper\", \"homepage\": \"https://papermc.io\"}"
       ]
     }
   },
