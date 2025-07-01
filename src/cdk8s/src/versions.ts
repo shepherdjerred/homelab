@@ -69,7 +69,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://chartmuseum.github.io/charts versioning=semver
   "chartmuseum": "3.10.4",
   // renovate: datasource=helm registryUrl=https://itzg.github.io/minecraft-server-charts versioning=semver
-  "minecraft": "4.20.0",
+  "minecraft": "4.26.3",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr":
     "2.18.1@sha256:da4b3b5b5e0a4aae6b4e294abdad2510a3be9bd138af8f4ca5a6e7cd6d94b1a2",
