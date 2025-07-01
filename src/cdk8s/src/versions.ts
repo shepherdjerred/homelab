@@ -107,6 +107,10 @@ const versions = {
   "kubernetes/kubernetes": "v1.33.2",
   // renovate: datasource=custom.papermc versioning=semver
   paper: "1.21.4",
+  // this is empty because we have to perform some string manipulation below
+  dagger: "",
 };
+
+versions.dagger = versions["dagger-helm"].split("@")[0] as string;
 
 export default versions;

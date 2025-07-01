@@ -55,7 +55,7 @@ jobs:
         run: |
           DAGGER_VERSION=$(bun -e "
             const versions = await import('./src/cdk8s/src/versions.ts');
-            console.log(versions.default['dagger-helm']);
+            console.log(versions.default['dagger']);
           ")
           echo "version=$DAGGER_VERSION" >> $GITHUB_OUTPUT
 
