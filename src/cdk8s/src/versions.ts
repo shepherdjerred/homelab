@@ -106,8 +106,8 @@ const versions = {
     "3.6.0@sha256:92c079a3b0d09b51047a1040d4dfc175e1e8a49d3f78038933c0e1e892e4d275",
   // renovate: datasource=github-releases versioning=semver
   "kubernetes/kubernetes": "v1.33.2",
-  // renovate: datasource=custom.papermc versioning=semver
   // NOTE: Property names must be quoted for Renovate custom manager regex to work
+  // renovate: datasource=custom.papermc versioning=semver
   "paper": "1.21.4",
   // this is empty because we have to perform some string manipulation below
   "dagger": "",
