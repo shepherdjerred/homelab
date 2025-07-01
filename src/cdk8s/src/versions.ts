@@ -87,17 +87,22 @@ const versions = {
   "freshrss/freshrss":
     "1.26.3@sha256:f9733e2cdf754d82e25826324fb4cbf3d736d82e2d36bf8e379dd4f0eeee0932",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
-  "gha-runner-scale-set-controller": "0.12.1",
+  "gha-runner-scale-set-controller":
+    "0.12.1@sha256:1f1e6c95aa74c0f475f10780125fa0340010801617d794a70c25eea653209458",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
-  "gha-runner-scale-set": "0.12.1",
+  "gha-runner-scale-set":
+    "0.12.1@sha256:97125addd369e3fd2838ff279fc685a83d7cfe7e29d56af435c7733633026d53",
   // renovate: datasource=docker registryUrl=https://registry.dagger.io versioning=loose
-  "dagger-helm": "0.18.12",
+  "dagger-helm":
+    "0.18.12@sha256:a0a1149be6b793856e5d3cf5dca5153b124350262af6f17fa64bd36fad5620e7",
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
   velero: "10.0.5",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
-  "velero/velero-plugin-for-aws": "v1.12.1",
+  "velero/velero-plugin-for-aws":
+    "v1.12.1@sha256:fa588ffa960d7e42361884d9c0377f20703b224e07d02b5514b33bf4cec04381",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
-  "openebs/velero-plugin": "3.6.0",
+  "openebs/velero-plugin":
+    "3.6.0@sha256:92c079a3b0d09b51047a1040d4dfc175e1e8a49d3f78038933c0e1e892e4d275",
   // renovate: datasource=github-releases versioning=semver
   "kubernetes/kubernetes": "v1.33.2",
   // renovate: datasource=custom.papermc versioning=semver
