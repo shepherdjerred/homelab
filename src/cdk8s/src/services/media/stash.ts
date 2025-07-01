@@ -3,7 +3,6 @@ import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
-import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
 import versions from "../../versions.ts";
 
 export function createStashDeployment(chart: Chart) {
