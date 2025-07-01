@@ -183,7 +183,7 @@ export class Homelab {
     const helmBuildPromise = this.helmBuild(
       updatedSource.directory("src/cdk8s/helm"),
       updatedSource.directory("src/cdk8s"),
-      `1.0.0-${chartVersion}` || "dev-snapshot"
+      chartVersion || "dev-snapshot"
     )
       .then((dist) => ({
         status: "passed" as StepStatus,
@@ -610,7 +610,7 @@ export class Homelab {
    * Builds the Helm chart, updates version/appVersion, and exports artifacts.
    * @param source The Helm chart source directory (should be src/cdk8s/helm).
    * @param cdkSource The CDK8s source directory (should be src/cdk8s).
-   * @param version The version to set in Chart.yaml and appVersion.
+   * @param version The raw build number (e.g. "123") - will be formatted as "1.0.0-123".
    * @returns The dist directory with packaged chart and YAMLs.
    */
   @func()
@@ -626,7 +626,7 @@ export class Homelab {
    * Publishes the packaged Helm chart to a ChartMuseum repo and returns a StepResult.
    * @param source The Helm chart source directory (should be src/cdk8s/helm).
    * @param cdkSource The CDK8s source directory (should be src/cdk8s).
-   * @param version The version to publish.
+   * @param version The raw build number (e.g. "123") - will be formatted as "1.0.0-123".
    * @param repo The ChartMuseum repo URL.
    * @param chartMuseumUsername The ChartMuseum username.
    * @param chartMuseumPassword The ChartMuseum password (secret).
@@ -665,7 +665,7 @@ export class Homelab {
    * Publishes a pre-built Helm chart to a ChartMuseum repo and returns a StepResult.
    * This function works with the output of helmBuild (a dist directory).
    * @param builtDist The built Helm chart dist directory (from helmBuild).
-   * @param version The version being published.
+   * @param version The full semver version (e.g. "1.0.0-123") - used as-is, no formatting applied.
    * @param repo The ChartMuseum repo URL.
    * @param chartMuseumUsername The ChartMuseum username.
    * @param chartMuseumPassword The ChartMuseum password (secret).

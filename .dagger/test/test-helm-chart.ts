@@ -13,7 +13,8 @@ import { join } from "path";
  * 5. Checking that templates contain valid Kubernetes resources
  */
 
-const TEST_VERSION = "1.0.0";
+const TEST_BUILD_NUMBER = "123";
+const TEST_VERSION = `1.0.0-${TEST_BUILD_NUMBER}`;
 const EXPORT_DIR = "./test-helm-chart-export";
 const CHART_NAME = "torvalds";
 const CHART_FILE = `${CHART_NAME}-${TEST_VERSION}.tgz`;
@@ -28,7 +29,7 @@ async function main() {
 
     // Step 2: Build the Helm chart using Dagger
     console.log("📦 Building Helm chart with CDK8s templates using Dagger...");
-    await $`dagger call helm-build --version ${TEST_VERSION} --cdk-source src/cdk8s export --path ${EXPORT_DIR}`;
+    await $`dagger call helm-build --version ${TEST_BUILD_NUMBER} --cdk-source src/cdk8s export --path ${EXPORT_DIR}`;
 
     // Step 3: Verify the export directory exists and contains expected files
     console.log("🔍 Verifying exported files...");

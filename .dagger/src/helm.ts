@@ -44,7 +44,7 @@ async function getHelmContainer(
  * Uses caching for improved build performance.
  * @param source The Helm chart source directory (should be src/cdk8s/helm).
  * @param cdkSource The CDK8s source directory (should be src/cdk8s).
- * @param version The version to set in Chart.yaml and appVersion.
+ * @param version The full semver version (e.g. "1.0.0-123") - used as-is in Chart.yaml.
  * @returns The dist directory with packaged chart and YAMLs.
  */
 export async function build(
@@ -67,7 +67,7 @@ export async function build(
  * Uses caching for improved performance.
  * @param source The Helm chart source directory (should be src/cdk8s/helm).
  * @param cdkSource The CDK8s source directory (should be src/cdk8s).
- * @param version The version to publish.
+ * @param version The full semver version (e.g. "1.0.0-123") - used as-is in Chart.yaml.
  * @param repo The ChartMuseum repo URL.
  * @param chartMuseumUsername The ChartMuseum username.
  * @param chartMuseumPassword The ChartMuseum password (secret).
