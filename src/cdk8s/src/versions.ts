@@ -109,7 +109,7 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver
   "kubernetes/kubernetes": "v1.33.2",
   // renovate: datasource=custom.papermc versioning=semver
-  "paper": "1.21.4",
+  "paper": "1.21.7",
   // this is empty because we have to perform some string manipulation below
   // not managed by renovate
   "dagger": "",
