@@ -91,7 +91,7 @@ const versions = {
     "1.26.3@sha256:f9733e2cdf754d82e25826324fb4cbf3d736d82e2d36bf8e379dd4f0eeee0932",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set-controller":
-    "0.12.1@sha256:1f1e6c95aa74c0f475f10780125fa0340010801617d794a70c25eea653209458",
+    "0.12.1@sha256:621fb48c3fbf79cb817f03da35d19a26c35ad34de13e8cfa9816f9e462d2ce80",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set":
     "0.12.1@sha256:97125addd369e3fd2838ff279fc685a83d7cfe7e29d56af435c7733633026d53",
