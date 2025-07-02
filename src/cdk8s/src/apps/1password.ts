@@ -21,6 +21,21 @@ export function createOnePasswordApp(chart: Chart) {
             { name: "operator.autoRestart", value: "true" },
             { name: "operator.create", value: "true" },
             { name: "operator.pollingInterval", value: "60" },
+            // Connect server credentials configuration
+            {
+              name: "connect.credentialsName",
+              value: "op-credentials",
+            },
+            {
+              name: "connect.credentialsKey",
+              value: "1password-credentials.json",
+            },
+            // Operator token configuration
+            {
+              name: "operator.token.name",
+              value: "onepassword-token",
+            },
+            { name: "operator.token.key", value: "token" },
           ],
         },
       },
