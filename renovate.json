@@ -7,7 +7,8 @@
       "description": "Update versions.ts",
       "managerFilePatterns": ["**/versions.ts"],
       "matchStrings": [
-        "\\/\\/ renovate: datasource=(?<datasource>[0-9a-z-\\.]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?))?\\s*\"(?<packageName>.+?)\":\\s*\"(?<currentValue>.+?)?(?:@(?<currentDigest>.+?))?\""
+        "\\/\\/ renovate: datasource=(?<datasource>[0-9a-z-\\.]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?))?\\s*\"(?<packageName>.+?)\":\\s*\"(?<currentValue>.+?)?(?:@(?<currentDigest>.+?))?\"",
+        "\\/\\/ renovate: datasource=(?<datasource>[0-9a-z-\\.]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?))?\\s*(?<packageName>[a-zA-Z0-9_-]+):\\s*\"(?<currentValue>.+?)?(?:@(?<currentDigest>.+?))?\""
       ]
     }
   ],
@@ -25,6 +26,14 @@
     {
       "matchDatasources": ["docker"],
       "pinDigests": true
+    },
+    {
+      "matchPackageNames": [
+        "dagger-helm",
+        "gha-runner-scale-set-controller",
+        "gha-runner-scale-set"
+      ],
+      "pinDigests": false
     },
     {
       "groupName": "cdk8s",

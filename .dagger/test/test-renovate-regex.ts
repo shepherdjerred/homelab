@@ -10,18 +10,21 @@ import { join } from "path";
  * This ensures all managed dependencies will be detected by Renovate.
  */
 
-async function getRenovateRegex(): Promise<RegExp> {
+async function getRenovateRegexes(): Promise<RegExp[]> {
   const renovateConfig = JSON.parse(await readFile("renovate.json", "utf-8"));
   const customManagers = renovateConfig.customManagers || [];
 
   for (const manager of customManagers) {
     if (manager.description === "Update versions.ts" && manager.matchStrings) {
-      const regexString = manager.matchStrings[0];
-      return new RegExp(regexString, "g");
+      return manager.matchStrings.map(
+        (regexString: string) => new RegExp(regexString, "g")
+      );
     }
   }
 
-  throw new Error("Could not find versions.ts custom manager regex in renovate.json");
+  throw new Error(
+    "Could not find versions.ts custom manager regex in renovate.json"
+  );
 }
 
 // Pattern that indicates a dependency is intentionally not managed by Renovate
@@ -39,7 +42,10 @@ interface VersionEntry {
   exclusionReason?: string;
 }
 
-async function parseVersionsFile(filePath: string, renovateRegex: RegExp): Promise<VersionEntry[]> {
+async function parseVersionsFile(
+  filePath: string,
+  renovateRegexes: RegExp[]
+): Promise<VersionEntry[]> {
   const content = await readFile(filePath, "utf-8");
   const lines = content.split("\n");
   const entries: VersionEntry[] = [];
@@ -47,8 +53,11 @@ async function parseVersionsFile(filePath: string, renovateRegex: RegExp): Promi
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
-    // Match property definitions: "property": "value"
-    const propertyMatch = line.match(/^"(.+?)":\s*"(.+?)",?$/);
+    // Match property definitions: "property": "value" or property: "value"
+    const quotedMatch = line.match(/^"(.+?)":\s*"(.+?)",?$/);
+    const unquotedMatch = line.match(/^([a-zA-Z0-9_-]+):\s*"(.+?)",?$/);
+
+    const propertyMatch = quotedMatch || unquotedMatch;
     if (!propertyMatch) continue;
 
     const [, property, value] = propertyMatch;
@@ -75,12 +84,19 @@ async function parseVersionsFile(filePath: string, renovateRegex: RegExp): Promi
       if (isExcluded) break;
     }
 
-    // Test if the combination matches the regex
+    // Test if the combination matches any of the regexes
     let matchesRegex = false;
     if (hasRenovateComment) {
       const testString = `${renovateComment}\n"${property}": "${value}"`;
-      renovateRegex.lastIndex = 0; // Reset regex state
-      matchesRegex = renovateRegex.test(testString);
+      const testStringUnquoted = `${renovateComment}\n${property}: "${value}"`;
+
+      for (const regex of renovateRegexes) {
+        regex.lastIndex = 0; // Reset regex state
+        if (regex.test(testString) || regex.test(testStringUnquoted)) {
+          matchesRegex = true;
+          break;
+        }
+      }
     }
 
     entries.push({
@@ -102,14 +118,14 @@ async function parseVersionsFile(filePath: string, renovateRegex: RegExp): Promi
 async function main() {
   console.log("🔍 Testing Renovate regex patterns in versions.ts files...");
 
-  // Get the regex pattern from renovate.json
-  const renovateRegex = await getRenovateRegex();
-  console.log(`📋 Using regex pattern: ${renovateRegex.source}`);
+  // Get the regex patterns from renovate.json
+  const renovateRegexes = await getRenovateRegexes();
+  console.log(`📋 Using ${renovateRegexes.length} regex pattern(s):`);
+  renovateRegexes.forEach((regex, i) => {
+    console.log(`   ${i + 1}: ${regex.source}`);
+  });
 
-  const versionFiles = [
-    "src/cdk8s/src/versions.ts",
-    ".dagger/src/versions.ts",
-  ];
+  const versionFiles = ["src/cdk8s/src/versions.ts", ".dagger/src/versions.ts"];
 
   let totalErrors = 0;
   let totalWarnings = 0;
@@ -118,39 +134,50 @@ async function main() {
     console.log(`\n📄 Analyzing ${filePath}...`);
 
     try {
-      const entries = await parseVersionsFile(filePath, renovateRegex);
+      const entries = await parseVersionsFile(filePath, renovateRegexes);
       let fileErrors = 0;
       let fileWarnings = 0;
 
       for (const entry of entries) {
         if (!entry.hasRenovateComment && !entry.isExcluded) {
-          console.log(`❌ ${entry.property} (line ${entry.line}): Missing Renovate comment`);
+          console.log(
+            `❌ ${entry.property} (line ${entry.line}): Missing Renovate comment`
+          );
           fileErrors++;
         } else if (entry.hasRenovateComment && !entry.matchesRegex) {
-          console.log(`❌ ${entry.property} (line ${entry.line}): Renovate comment doesn't match regex pattern`);
+          console.log(
+            `❌ ${entry.property} (line ${entry.line}): Renovate comment doesn't match regex pattern`
+          );
           console.log(`   Comment: ${entry.renovateComment}`);
           console.log(`   Property: "${entry.property}": "${entry.value}"`);
           fileErrors++;
         } else if (entry.hasRenovateComment && entry.matchesRegex) {
           console.log(`✅ ${entry.property}: Properly formatted for Renovate`);
         } else if (entry.isExcluded && !entry.hasRenovateComment) {
-          console.log(`ℹ️  ${entry.property}: Excluded from Renovate management (${entry.exclusionReason})`);
+          console.log(
+            `ℹ️  ${entry.property}: Excluded from Renovate management (${entry.exclusionReason})`
+          );
         } else if (entry.isExcluded && entry.hasRenovateComment) {
-          console.log(`⚠️  ${entry.property}: Has Renovate comment but is marked as excluded (${entry.exclusionReason})`);
+          console.log(
+            `⚠️  ${entry.property}: Has Renovate comment but is marked as excluded (${entry.exclusionReason})`
+          );
           fileWarnings++;
         }
       }
 
       console.log(`\n📊 ${filePath} Summary:`);
       console.log(`   Total dependencies: ${entries.length}`);
-      console.log(`   Managed by Renovate: ${entries.filter(e => e.hasRenovateComment && e.matchesRegex).length}`);
-      console.log(`   Excluded from Renovate: ${entries.filter(e => e.isExcluded).length}`);
+      console.log(
+        `   Managed by Renovate: ${entries.filter((e) => e.hasRenovateComment && e.matchesRegex).length}`
+      );
+      console.log(
+        `   Excluded from Renovate: ${entries.filter((e) => e.isExcluded).length}`
+      );
       console.log(`   Errors: ${fileErrors}`);
       console.log(`   Warnings: ${fileWarnings}`);
 
       totalErrors += fileErrors;
       totalWarnings += fileWarnings;
-
     } catch (error) {
       console.error(`❌ Failed to analyze ${filePath}:`, error);
       totalErrors++;
@@ -165,9 +192,15 @@ async function main() {
     console.log(`\n❌ Test failed with ${totalErrors} errors`);
     console.log(`\n💡 To fix errors:`);
     console.log(`   1. Add Renovate comments for dependencies missing them`);
-    console.log(`   2. Ensure property names are quoted (e.g., "property": "value")`);
-    console.log(`   3. Follow the pattern: // renovate: datasource=X versioning=Y`);
-    console.log(`   4. Check the regex pattern in renovate.json customManagers`);
+    console.log(
+      `   2. Ensure property names are quoted (e.g., "property": "value")`
+    );
+    console.log(
+      `   3. Follow the pattern: // renovate: datasource=X versioning=Y`
+    );
+    console.log(
+      `   4. Check the regex pattern in renovate.json customManagers`
+    );
     process.exit(1);
   }
 

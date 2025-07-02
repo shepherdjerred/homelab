@@ -1,6 +1,6 @@
 const versions = {
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
-  "connect": "2.0.0",
+  connect: "2.0.0",
   // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
   "argo-cd": "8.1.2",
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
@@ -67,18 +67,18 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v2.8.1",
   // renovate: datasource=helm registryUrl=https://chartmuseum.github.io/charts versioning=semver
-  "chartmuseum": "3.10.4",
+  chartmuseum: "3.10.4",
   // renovate: datasource=helm registryUrl=https://itzg.github.io/minecraft-server-charts versioning=semver
-  "minecraft": "4.26.3",
+  minecraft: "4.26.3",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr":
     "2.18.1@sha256:da4b3b5b5e0a4aae6b4e294abdad2510a3be9bd138af8f4ca5a6e7cd6d94b1a2",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
-  "loki": "6.30.1",
+  loki: "6.30.1",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
-  "promtail": "6.17.0",
+  promtail: "6.17.0",
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
-  "openebs": "4.3.2",
+  openebs: "4.3.2",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/beta": "1.0.167",
   // not managed by renovate
@@ -90,16 +90,13 @@ const versions = {
   "freshrss/freshrss":
     "1.26.3@sha256:f9733e2cdf754d82e25826324fb4cbf3d736d82e2d36bf8e379dd4f0eeee0932",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
-  "gha-runner-scale-set-controller":
-    "0.12.1@sha256:621fb48c3fbf79cb817f03da35d19a26c35ad34de13e8cfa9816f9e462d2ce80",
+  "gha-runner-scale-set-controller": "0.12.1",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
-  "gha-runner-scale-set":
-    "0.12.1@sha256:97125addd369e3fd2838ff279fc685a83d7cfe7e29d56af435c7733633026d53",
+  "gha-runner-scale-set": "0.12.1",
   // renovate: datasource=docker registryUrl=https://registry.dagger.io versioning=loose
-  "dagger-helm":
-    "0.18.12@sha256:a0a1149be6b793856e5d3cf5dca5153b124350262af6f17fa64bd36fad5620e7",
+  "dagger-helm": "0.18.12",
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
-  "velero": "10.0.8",
+  velero: "10.0.8",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "velero/velero-plugin-for-aws":
     "v1.12.1@sha256:b9735c9d08c3244c462bb81263ff5f4ad4e24b96865338c14733a59e3624dfaf",
@@ -109,10 +106,10 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver
   "kubernetes/kubernetes": "v1.33.2",
   // renovate: datasource=custom.papermc versioning=semver
-  "paper": "1.21.7",
+  paper: "1.21.7",
   // this is empty because we have to perform some string manipulation below
   // not managed by renovate
-  "dagger": "",
+  dagger: "",
 };
 
 versions["dagger"] = versions["dagger-helm"].split("@")[0] as string;
