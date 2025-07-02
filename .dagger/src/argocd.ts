@@ -34,9 +34,21 @@ export async function sync(
   const statusCode = output.slice(lastNewline + 1).trim();
   let message: string;
   try {
-    // Try to parse as JSON for better readability
+    // Try to parse as JSON and extract key information
     const parsed = JSON.parse(bodyRaw);
-    message = JSON.stringify(parsed, null, 2);
+
+    // Extract concise sync information instead of dumping entire JSON
+    const syncInfo = {
+      phase: parsed.status?.sync?.status || "Unknown",
+      health: parsed.status?.health?.status || "Unknown",
+      revision: parsed.status?.sync?.revision?.slice(0, 8) || "Unknown",
+      resourcesCount: parsed.status?.resources?.length || 0,
+      message:
+        parsed.status?.conditions?.[0]?.message ||
+        parsed.message ||
+        "Sync operation completed",
+    };
+    message = `Phase: ${syncInfo.phase}, Health: ${syncInfo.health}, Revision: ${syncInfo.revision}, Resources: ${syncInfo.resourcesCount}\n${syncInfo.message}`;
   } catch {
     // Fallback to raw body if not JSON
     message = bodyRaw;
