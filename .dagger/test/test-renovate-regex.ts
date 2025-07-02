@@ -1,7 +1,8 @@
 #!/usr/bin/env -S bun
 
 import { readFile } from "fs/promises";
-import { join } from "path";
+import cdk8sVersions from "../../src/cdk8s/src/versions";
+import daggerVersions from "../src/versions";
 
 /**
  * Test script to validate that versions.ts files have properly formatted
@@ -53,14 +54,41 @@ async function parseVersionsFile(
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
-    // Match property definitions: "property": "value" or property: "value"
-    const quotedMatch = line.match(/^"(.+?)":\s*"(.+?)",?$/);
-    const unquotedMatch = line.match(/^([a-zA-Z0-9_-]+):\s*"(.+?)",?$/);
+    // Match single-line property definitions: "property": "value" or property: "value" (including empty strings)
+    const quotedMatch = line.match(/^"(.+?)":\s*"(.*?)",?$/);
+    const unquotedMatch = line.match(/^([a-zA-Z0-9_/-]+):\s*"(.*?)",?$/);
 
-    const propertyMatch = quotedMatch || unquotedMatch;
-    if (!propertyMatch) continue;
+    // Match multi-line property definitions: property: (without value on same line)
+    const multiLineMatch = line.match(/^([a-zA-Z0-9_/".-]+):\s*$/);
 
-    const [, property, value] = propertyMatch;
+    let property = "";
+    let value = "";
+    let propertyLine = i;
+
+    if (quotedMatch || unquotedMatch) {
+      // Single-line format
+      const propertyMatch = quotedMatch || unquotedMatch;
+      if (propertyMatch) {
+        [, property, value] = propertyMatch;
+      }
+    } else if (multiLineMatch) {
+      // Multi-line format - property name on this line, value on next line(s)
+      property = multiLineMatch[1];
+
+      // Look for the value on the next few lines
+      for (let j = i + 1; j < Math.min(i + 4, lines.length); j++) {
+        const valueLine = lines[j].trim();
+        const valueMatch = valueLine.match(/^"(.*?)",?$/);
+        if (valueMatch) {
+          value = valueMatch[1];
+          break;
+        }
+      }
+
+      if (!value) continue; // Skip if we couldn't find the value
+    } else {
+      continue; // Skip lines that don't match any property format
+    }
 
     // Look for renovate comment or exclusion comment in previous lines (up to 3 lines back)
     let renovateComment = "";
@@ -68,7 +96,7 @@ async function parseVersionsFile(
     let isExcluded = false;
     let exclusionReason = "";
 
-    for (let j = Math.max(0, i - 3); j < i; j++) {
+    for (let j = Math.max(0, propertyLine - 3); j < propertyLine; j++) {
       const prevLine = lines[j].trim();
       if (prevLine.includes("// renovate:")) {
         renovateComment = prevLine;
@@ -101,7 +129,7 @@ async function parseVersionsFile(
 
     entries.push({
       file: filePath,
-      line: i + 1,
+      line: propertyLine + 1,
       property,
       value,
       hasRenovateComment,
@@ -113,6 +141,25 @@ async function parseVersionsFile(
   }
 
   return entries;
+}
+
+function getVersionsObject(filePath: string): Record<string, string> {
+  // Use static imports to get the versions object
+  if (filePath === "src/cdk8s/src/versions.ts") {
+    return cdk8sVersions;
+  } else if (filePath === ".dagger/src/versions.ts") {
+    return daggerVersions;
+  } else {
+    throw new Error(`Unknown versions file: ${filePath}`);
+  }
+}
+
+function countActualDependencies(filePath: string): number {
+  return Object.keys(getVersionsObject(filePath)).length;
+}
+
+function getActualProperties(filePath: string): string[] {
+  return Object.keys(getVersionsObject(filePath));
 }
 
 async function main() {
@@ -165,14 +212,59 @@ async function main() {
         }
       }
 
+      // Validate that detected count matches actual dependency count
+      const actualCount = countActualDependencies(filePath);
+      const detectedCount = entries.length;
+
+      // Get actual property names from the TypeScript object
+      const actualProperties = getActualProperties(filePath);
+      const detectedProperties = entries.map((e) =>
+        e.property.replace(/^"(.*)"$/, "$1")
+      ); // Remove quotes from property names
+
       console.log(`\n📊 ${filePath} Summary:`);
-      console.log(`   Total dependencies: ${entries.length}`);
+      console.log(`   Total dependencies: ${detectedCount}`);
+      console.log(`   Actual dependencies in TS: ${actualCount}`);
       console.log(
         `   Managed by Renovate: ${entries.filter((e) => e.hasRenovateComment && e.matchesRegex).length}`
       );
       console.log(
         `   Excluded from Renovate: ${entries.filter((e) => e.isExcluded).length}`
       );
+
+      // Check if detected count matches actual count
+      if (detectedCount !== actualCount) {
+        console.log(
+          `❌ Dependency count mismatch: detected ${detectedCount} but actual TS object has ${actualCount} properties`
+        );
+        console.log(
+          `   This suggests the regex parsing is missing some dependencies or the TS file has malformed entries`
+        );
+
+        // Show missing dependencies
+        const missingDeps = actualProperties.filter(
+          (prop: string) => !detectedProperties.includes(prop)
+        );
+        const extraDeps = detectedProperties.filter(
+          (prop: string) => !actualProperties.includes(prop)
+        );
+
+        if (missingDeps.length > 0) {
+          console.log(`   Missing from detection: [${missingDeps.join(", ")}]`);
+        }
+        if (extraDeps.length > 0) {
+          console.log(
+            `   Detected but not in TS object: [${extraDeps.join(", ")}]`
+          );
+        }
+
+        fileErrors++;
+      } else {
+        console.log(
+          `✅ Dependency count validation: ${detectedCount}/${actualCount} properties detected correctly`
+        );
+      }
+
       console.log(`   Errors: ${fileErrors}`);
       console.log(`   Warnings: ${fileWarnings}`);
 
@@ -192,9 +284,6 @@ async function main() {
     console.log(`\n❌ Test failed with ${totalErrors} errors`);
     console.log(`\n💡 To fix errors:`);
     console.log(`   1. Add Renovate comments for dependencies missing them`);
-    console.log(
-      `   2. Ensure property names are quoted (e.g., "property": "value")`
-    );
     console.log(
       `   3. Follow the pattern: // renovate: datasource=X versioning=Y`
     );

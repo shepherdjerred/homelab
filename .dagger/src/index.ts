@@ -133,6 +133,10 @@ export class Homelab {
   @func()
   async ci(
     @argument({
+      // Note: .dagger is NOT ignored here because testRenovateRegex() needs access to
+      // .dagger/src/versions.ts and .dagger/test/test-renovate-regex.ts files.
+      // This may have a slight performance/cache impact as .dagger directory changes
+      // will invalidate the CI cache, but it's necessary for the Renovate regex test.
       ignore: [
         "node_modules",
         "dist",
@@ -141,7 +145,6 @@ export class Homelab {
         "*.log",
         ".env*",
         "!.env.example",
-        ".dagger",
       ],
       defaultPath: ".",
     })
@@ -168,12 +171,21 @@ export class Homelab {
 
     // Renovate regex test (run async)
     const renovateTestPromise = this.testRenovateRegex(updatedSource)
-      .then((msg) => ({ status: "passed", message: `Renovate Test: PASSED\n${msg}` }))
-      .catch((e) => ({ status: "failed", message: `Renovate Test: FAILED\n${e}` }));
+      .then((msg) => ({
+        status: "passed",
+        message: `Renovate Test: PASSED\n${msg}`,
+      }))
+      .catch((e) => ({
+        status: "failed",
+        message: `Renovate Test: FAILED\n${e}`,
+      }));
 
     // Helm test (run async)
     const helmTestPromise = this.testHelm(updatedSource)
-      .then((msg) => ({ status: "passed", message: `Helm Test: PASSED\n${msg}` }))
+      .then((msg) => ({
+        status: "passed",
+        message: `Helm Test: PASSED\n${msg}`,
+      }))
       .catch((e) => ({ status: "failed", message: `Helm Test: FAILED\n${e}` }));
 
     // Start builds in parallel
@@ -208,8 +220,19 @@ export class Homelab {
       }));
 
     // Await builds and tests
-    const [cdk8sBuildResult, haBuildResult, helmBuildResult, renovateTestResult, helmTestResult] =
-      await Promise.all([cdk8sBuildPromise, haBuildPromise, helmBuildPromise, renovateTestPromise, helmTestPromise]);
+    const [
+      cdk8sBuildResult,
+      haBuildResult,
+      helmBuildResult,
+      renovateTestResult,
+      helmTestResult,
+    ] = await Promise.all([
+      cdk8sBuildPromise,
+      haBuildPromise,
+      helmBuildPromise,
+      renovateTestPromise,
+      helmTestPromise,
+    ]);
 
     // Publish HA image if prod
     let haPublishResult: StepResult = {
@@ -368,9 +391,18 @@ export class Homelab {
       .withWorkdir("/workspace")
       // Only copy the files needed for the test
       .withFile("renovate.json", source.file("renovate.json"))
-      .withFile("src/cdk8s/src/versions.ts", source.file("src/cdk8s/src/versions.ts"))
-      .withFile(".dagger/src/versions.ts", source.file(".dagger/src/versions.ts"))
-      .withFile(".dagger/test/test-renovate-regex.ts", source.file(".dagger/test/test-renovate-regex.ts"))
+      .withFile(
+        "src/cdk8s/src/versions.ts",
+        source.file("src/cdk8s/src/versions.ts")
+      )
+      .withFile(
+        ".dagger/src/versions.ts",
+        source.file(".dagger/src/versions.ts")
+      )
+      .withFile(
+        ".dagger/test/test-renovate-regex.ts",
+        source.file(".dagger/test/test-renovate-regex.ts")
+      )
       .withExec(["bun", "run", ".dagger/test/test-renovate-regex.ts"]);
 
     return container.stdout();
@@ -407,13 +439,16 @@ export class Homelab {
       testVersion
     );
 
-        // Test the built chart
+    // Test the built chart
     const container = dag
       .container()
       .from(`alpine/helm:${versions["alpine/helm"]}`)
       .withMountedDirectory("/workspace", helmDist)
       .withWorkdir("/workspace")
-      .withExec(["sh", "-c", `
+      .withExec([
+        "sh",
+        "-c",
+        `
         echo "🔍 Testing Helm chart..."
         echo ""
 
@@ -481,7 +516,8 @@ export class Homelab {
 
         echo ""
         echo "🎉 All Helm tests passed!"
-      `]);
+      `,
+      ]);
 
     return container.stdout();
   }
@@ -615,11 +651,12 @@ export class Homelab {
   /**
    * Triggers a sync operation on the ArgoCD application using the provided token.
    * @param argocdToken The ArgoCD API token for authentication (as a Dagger Secret).
-   * @returns The stdout from the ArgoCD sync API call.
+   * @returns A concise message about the sync result.
    */
   @func()
   async sync(argocdToken: Secret) {
-    return JSON.stringify(await argocdSync(argocdToken), null, 2);
+    const result = await argocdSync(argocdToken);
+    return `ArgoCD Sync: ${result.status.toUpperCase()}\n${result.message}`;
   }
 
   /**
