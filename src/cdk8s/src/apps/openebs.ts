@@ -28,6 +28,8 @@ export function createOpenEBSApp(chart: Chart) {
             { name: "engines.replicated.mayastor.enabled", value: "false" },
             { name: "engines.local.lvm.enabled", value: "false" },
             { name: "zfs-localpv.zfsNode.encrKeysDir", value: "/var" },
+            { name: "loki.enabled", value: "false" },
+            { name: "alloy.enabled", value: "false" },
           ],
         },
       },
