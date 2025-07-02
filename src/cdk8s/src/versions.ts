@@ -15,7 +15,7 @@ const versions = {
   "tailscale-operator": "1.84.3",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/redis":
-    "7.2@sha256:6559e04fe4d5f60232de25098cd49631a515e372a843252d3de735f35d6fc43b",
+    "7.2@sha256:7e24aeb465fd3a58b467bf288ab248234c8162ba72879749aced709f1ae31d78",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "teddit/teddit":
     "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
