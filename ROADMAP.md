@@ -6,6 +6,7 @@
 - Fix volume in morning
 - Automatically fix types for HA project, e.g. roomba
 - eslint
+- ZFS grafana dashboard
 
 ## Done
 

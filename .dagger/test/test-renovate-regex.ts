@@ -91,25 +91,26 @@ async function parseVersionsFile(
     }
 
     // Look for renovate comment or exclusion comment in previous lines (up to 3 lines back)
+    // Iterate backwards to prioritize the closest comment to the property
     let renovateComment = "";
     let hasRenovateComment = false;
     let isExcluded = false;
     let exclusionReason = "";
 
-    for (let j = Math.max(0, propertyLine - 3); j < propertyLine; j++) {
+    for (let j = propertyLine - 1; j >= Math.max(0, propertyLine - 3); j--) {
       const prevLine = lines[j].trim();
       if (prevLine.includes("// renovate:")) {
         renovateComment = prevLine;
         hasRenovateComment = true;
-        break;
+        break; // Found closest renovate comment
       }
 
       // Check for exclusion pattern
       if (prevLine.includes(EXCLUSION_COMMENT_PATTERN)) {
         isExcluded = true;
         exclusionReason = EXCLUSION_COMMENT_PATTERN;
+        break; // Found closest exclusion comment
       }
-      if (isExcluded) break;
     }
 
     // Test if the combination matches any of the regexes
