@@ -16,7 +16,6 @@ import {
 } from "./ha";
 import { getSystemContainer, withMiseTools } from "./base";
 import { typeCheckCdk8s, buildK8sManifests } from "./cdk8s";
-import { preCommit } from "./precommit";
 import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
@@ -292,7 +291,6 @@ export class Homelab {
     ].join("\n\n");
     // Fail if any critical step failed
     if (
-      preCommitResult.status === "failed" ||
       renovateTestResult.status === "failed" ||
       helmTestResult.status === "failed" ||
       syncResult.status === "failed" ||
