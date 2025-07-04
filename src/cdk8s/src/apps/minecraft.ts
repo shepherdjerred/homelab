@@ -12,7 +12,7 @@ export function createMinecraftApp(chart: Chart) {
     "minecraft-minecraft-bluemap",
     8100,
     ["minecraft-bluemap"],
-    true
+    true,
   );
 
   return new Application(chart, "minecraft-app", {
@@ -23,7 +23,7 @@ export function createMinecraftApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://itzg.github.io/minecraft-server-charts/",
-        targetRevision: versions["minecraft"],
+        targetRevision: versions.minecraft,
         chart: "minecraft",
         helm: {
           valuesObject: {
@@ -33,7 +33,7 @@ export function createMinecraftApp(chart: Chart) {
             minecraftServer: {
               eula: true,
               difficulty: "hard",
-              version: versions["paper"],
+              version: versions.paper,
               type: "PAPER",
               motd: "Jerred's Really Cool Minecraft Server",
               // ops: "RiotShielder",

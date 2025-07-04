@@ -1,4 +1,9 @@
-import { Deployment, DeploymentStrategy, EnvValue, Secret } from "cdk8s-plus-31";
+import {
+  Deployment,
+  DeploymentStrategy,
+  EnvValue,
+  Secret,
+} from "cdk8s-plus-31";
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
@@ -17,11 +22,7 @@ export function createHaDeployment(chart: Chart) {
     },
   });
 
-  const secret = Secret.fromSecretName(
-    chart,
-    "ha-token-secret",
-    item.name,
-  );
+  const secret = Secret.fromSecretName(chart, "ha-token-secret", item.name);
 
   deployment.addContainer(
     withCommonProps({

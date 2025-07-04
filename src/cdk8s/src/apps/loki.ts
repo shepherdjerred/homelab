@@ -5,15 +5,7 @@ import { createIngress } from "../utils/tailscale.ts";
 import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
 
 export function createLokiApp(chart: Chart) {
-  createIngress(
-    chart,
-    "loki-ingress",
-    "loki",
-    "loki",
-    3100,
-    ["loki"],
-    false,
-  );
+  createIngress(chart, "loki-ingress", "loki", "loki", 3100, ["loki"], false);
 
   new Application(chart, "loki-app", {
     metadata: {
@@ -24,7 +16,7 @@ export function createLokiApp(chart: Chart) {
       source: {
         // https://github.com/grafana/loki/tree/main/production/helm/loki
         repoUrl: "https://grafana.github.io/helm-charts",
-        targetRevision: versions["loki"],
+        targetRevision: versions.loki,
         chart: "loki",
         helm: {
           valuesObject: {
@@ -41,16 +33,18 @@ export function createLokiApp(chart: Chart) {
               },
               auth_enabled: false,
               schemaConfig: {
-                configs: [{
-                  from: "2025-01-01",
-                  object_store: "s3",
-                  store: "tsdb",
-                  schema: "v13",
-                  index: {
-                    prefix: "index_",
-                    period: "24h",
+                configs: [
+                  {
+                    from: "2025-01-01",
+                    object_store: "s3",
+                    store: "tsdb",
+                    schema: "v13",
+                    index: {
+                      prefix: "index_",
+                      period: "24h",
+                    },
                   },
-                }],
+                ],
               },
             },
             minio: {

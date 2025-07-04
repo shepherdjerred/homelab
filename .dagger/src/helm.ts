@@ -13,7 +13,7 @@ import versions from "./versions";
 async function getHelmContainer(
   source: Directory,
   cdkSource: Directory,
-  version: string
+  version: string,
 ): Promise<Container> {
   const cdk8sManifests = await buildK8sManifests(cdkSource);
 
@@ -50,7 +50,7 @@ async function getHelmContainer(
 export async function build(
   source: Directory,
   cdkSource: Directory,
-  version: string
+  version: string,
 ): Promise<Directory> {
   const container = await getHelmContainer(source, cdkSource, version);
 
@@ -79,7 +79,7 @@ export async function publish(
   version: string,
   repo: string = "https://chartmuseum.tailnet-1a49.ts.net",
   chartMuseumUsername: string,
-  chartMuseumPassword: Secret
+  chartMuseumPassword: Secret,
 ): Promise<string> {
   const chartFile = `torvalds-${version}.tgz`;
   const container = await getHelmContainer(source, cdkSource, version).then(
@@ -91,7 +91,7 @@ export async function publish(
           "sh",
           "-c",
           `curl -f -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts`,
-        ])
+        ]),
   );
 
   try {

@@ -30,7 +30,6 @@ The pipeline follows a strict layered caching approach defined in [.dagger/src/b
 - `pip-cache` - Python package cache (runtime layer)
 - `bun-cache-{platform}` - Bun dependency cache (dependency layer)
 - `typescript-cache` - TypeScript compilation cache (application layer)
-- `pre-commit-cache` - Pre-commit environment cache (application layer)
 - `binary-downloads` - Downloaded binaries (kube-linter, etc.)
 
 ### Cache Naming Convention
@@ -154,7 +153,6 @@ dagger call build-ha | grep CACHED
 - [.dagger/src/base.ts](mdc:.dagger/src/base.ts) - Core container functions
 - [.dagger/src/ha.ts](mdc:.dagger/src/ha.ts) - Home Assistant pipeline
 - [.dagger/src/cdk8s.ts](mdc:.dagger/src/cdk8s.ts) - CDK8s pipeline
-- [.dagger/src/precommit.ts](mdc:.dagger/src/precommit.ts) - Pre-commit pipeline
 - [.dagger/src/versions.ts](mdc:.dagger/src/versions.ts) - Version management
 - [.dagger/OPTIMIZATION_GUIDE.md](mdc:.dagger/OPTIMIZATION_GUIDE.md) - Detailed optimization guide
 

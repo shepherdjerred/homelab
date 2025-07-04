@@ -53,16 +53,16 @@ async function main() {
     console.log("🏷️  Verifying Chart.yaml version...");
     const chartYaml = await readFile(
       join(EXPORT_DIR, CHART_NAME, "Chart.yaml"),
-      "utf-8"
+      "utf-8",
     );
     if (!chartYaml.includes(`version: ${TEST_VERSION}`)) {
       throw new Error(
-        `Chart.yaml does not contain expected version: ${TEST_VERSION}`
+        `Chart.yaml does not contain expected version: ${TEST_VERSION}`,
       );
     }
     if (!chartYaml.includes(`appVersion: ${TEST_VERSION}`)) {
       throw new Error(
-        `Chart.yaml does not contain expected appVersion: ${TEST_VERSION}`
+        `Chart.yaml does not contain expected appVersion: ${TEST_VERSION}`,
       );
     }
     console.log("✅ Chart.yaml version is correct");
@@ -102,7 +102,7 @@ async function main() {
     // Check torvalds.k8s.yaml for expected resources
     const torvaldsTemplate = await readFile(
       join(templatesDir, "torvalds.k8s.yaml"),
-      "utf-8"
+      "utf-8",
     );
 
     // Verify it contains Kubernetes resources
@@ -132,14 +132,14 @@ async function main() {
       }
     }
     console.log(
-      "✅ Template contents are valid and contain expected resources"
+      "✅ Template contents are valid and contain expected resources",
     );
 
     // Step 9: Check apps.k8s.yaml for ArgoCD applications
     console.log("🎯 Validating ArgoCD applications...");
     const appsTemplate = await readFile(
       join(templatesDir, "apps.k8s.yaml"),
-      "utf-8"
+      "utf-8",
     );
 
     if (
@@ -147,7 +147,7 @@ async function main() {
       !appsTemplate.includes("argoproj.io")
     ) {
       throw new Error(
-        "apps.k8s.yaml does not contain expected ArgoCD applications"
+        "apps.k8s.yaml does not contain expected ArgoCD applications",
       );
     }
     console.log("✅ ArgoCD applications are present in apps template");
@@ -160,11 +160,11 @@ async function main() {
       console.log("✅ Helm chart passes lint validation");
     } else {
       console.log(
-        "⚠️  Helm not available or lint failed - skipping validation"
+        "⚠️  Helm not available or lint failed - skipping validation",
       );
       console.log(
         "Lint output:",
-        helmLintResult.stderr?.toString() || "No error output"
+        helmLintResult.stderr?.toString() || "No error output",
       );
     }
 
@@ -181,7 +181,7 @@ async function main() {
     console.log(`   ls -la ${EXPORT_DIR}`);
     console.log(`   cd ${EXPORT_DIR} && tar -tzf ${CHART_FILE}`);
     console.log(
-      `   cd ${EXPORT_DIR} && tar -xzf ${CHART_FILE} && ls -la ${CHART_NAME}/`
+      `   cd ${EXPORT_DIR} && tar -xzf ${CHART_FILE} && ls -la ${CHART_NAME}/`,
     );
     console.log(`   rm -rf ${EXPORT_DIR}  # when done`);
     process.exit(1);

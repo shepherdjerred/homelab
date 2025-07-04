@@ -15,9 +15,7 @@ export function createCertManagerApp(chart: Chart) {
         chart: "cert-manager",
         targetRevision: versions["cert-manager"],
         helm: {
-          parameters: [
-            { name: "installCRDs", value: "true" },
-          ],
+          parameters: [{ name: "installCRDs", value: "true" }],
         },
       },
       destination: {

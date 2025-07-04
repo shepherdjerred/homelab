@@ -70,7 +70,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
         name: "github-pat-homelab",
         namespace: "arc-runners",
       },
-    }
+    },
   );
 
   // Runner set install (gha-runner-scale-set)

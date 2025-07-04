@@ -8,7 +8,12 @@ export default tseslint.config(
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
   {
-    ignores: ["src/hass/**", "eslint.config.mjs"],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
   },
   {
     rules: {
@@ -16,11 +21,6 @@ export default tseslint.config(
     },
   },
   {
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
+    ignores: ["dist/", "node_modules/", "imports/"],
   },
 );

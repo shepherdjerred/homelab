@@ -18,7 +18,7 @@ export class ZfsSsdVolume extends Construct {
     props: Omit<
       SetRequired<PersistentVolumeClaimProps, "storage">,
       "storageClassName" | "accessModes" | "volumeMode" | "metadata"
-    >
+    >,
   ) {
     super(scope, id);
 
@@ -33,7 +33,7 @@ export class ZfsSsdVolume extends Construct {
       accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
       metadata: {
-        name: `${id}`,
+        name: id,
         labels: shouldBackup
           ? {
               "velero.io/backup": "enabled",
@@ -45,7 +45,7 @@ export class ZfsSsdVolume extends Construct {
     this.claim = new PersistentVolumeClaim(
       scope,
       `${id}-pvc`,
-      merge({}, baseProps, props)
+      merge({}, baseProps, props),
     );
   }
 }

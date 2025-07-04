@@ -11,7 +11,6 @@ import {
 import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
-import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
 
@@ -20,7 +19,7 @@ export function createPlexDeployment(
   claims: {
     tv: PersistentVolumeClaim;
     movies: PersistentVolumeClaim;
-  }
+  },
 ) {
   const GID = 1000;
 
@@ -122,14 +121,14 @@ export function createPlexDeployment(
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "plex-volume",
-            localPathVolume.claim
+            localPathVolume.claim,
           ),
         },
         {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "plex-tv-hdd-volume",
-            claims.tv
+            claims.tv,
           ),
           path: "/data/tv",
         },
@@ -137,7 +136,7 @@ export function createPlexDeployment(
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "plex-movies-hdd-volume",
-            claims.movies
+            claims.movies,
           ),
           path: "/data/movies",
         },
@@ -149,12 +148,12 @@ export function createPlexDeployment(
             {
               medium: EmptyDirMedium.MEMORY,
               sizeLimit: Size.gibibytes(8),
-            }
+            },
           ),
           path: "/transcode",
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "plex-service", {
@@ -173,6 +172,6 @@ export function createPlexDeployment(
       limits: {
         "gpu.intel.com/i915": 1,
       },
-    })
+    }),
   );
 }

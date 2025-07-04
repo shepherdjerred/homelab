@@ -56,7 +56,7 @@ export class Homelab {
       ],
       defaultPath: ".",
     })
-    source: Directory
+    source: Directory,
   ): Promise<string> {
     const haTypeCheck = typeCheckHa(source);
     const haTest = testHa(source);
@@ -101,7 +101,7 @@ export class Homelab {
       defaultPath: ".",
     })
     source: Directory,
-    @argument() version: string
+    @argument() version: string,
   ): Promise<Directory> {
     return dag
       .container()
@@ -118,8 +118,8 @@ export class Homelab {
   }
 
   /**
-   * Runs pre-commit, kube-linter, ArgoCD sync, builds for CDK8s and HA, publishes the HA image (if prod), and publishes the Helm chart (if prod) as part of the CI pipeline.
-   * @param source The source directory for pre-commit, kube-linter, and builds.
+   * Runs kube-linter, ArgoCD sync, builds for CDK8s and HA, publishes the HA image (if prod), and publishes the Helm chart (if prod) as part of the CI pipeline.
+   * @param source The source directory for kube-linter, and builds.
    * @param argocdToken The ArgoCD API token for authentication (as a Dagger Secret).
    * @param ghcrUsername The GHCR username (required for prod).
    * @param ghcrPassword The GHCR password (as a Dagger Secret, required for prod).
@@ -156,18 +156,13 @@ export class Homelab {
     chartRepo: string = "https://chartmuseum.tailnet-1a49.ts.net",
     @argument() chartMuseumUsername: string,
     chartMuseumPassword: Secret,
-    @argument() env: Stage = Stage.Dev
+    @argument() env: Stage = Stage.Dev,
   ): Promise<string> {
     // Update HA version in versions.ts if prod
     let updatedSource = source;
     if (env === Stage.Prod) {
       updatedSource = await this.updateHaVersion(source, chartVersion);
     }
-
-    // Pre-commit (run async)
-    const preCommitPromise = preCommit(updatedSource)
-      .then((msg) => ({ status: "passed", message: msg }))
-      .catch((e) => ({ status: "failed", message: String(e) }));
 
     // Renovate regex test (run async)
     const renovateTestPromise = this.testRenovateRegex(updatedSource)
@@ -190,7 +185,7 @@ export class Homelab {
 
     // Start builds in parallel
     const cdk8sBuildPromise = buildK8sManifests(
-      updatedSource.directory("src/cdk8s")
+      updatedSource.directory("src/cdk8s"),
     )
       .then(() => ({ status: "passed", message: "CDK8s Build: PASSED" }))
       .catch((e) => ({
@@ -206,7 +201,7 @@ export class Homelab {
     const helmBuildPromise = this.helmBuild(
       updatedSource.directory("src/cdk8s/helm"),
       updatedSource.directory("src/cdk8s"),
-      chartVersion || "dev-snapshot"
+      chartVersion || "dev-snapshot",
     )
       .then((dist) => ({
         status: "passed" as StepStatus,
@@ -246,7 +241,7 @@ export class Homelab {
         `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
         ghcrUsername,
         ghcrPassword,
-        env
+        env,
       );
       // Push latest tag
       const haPublishLatestResult = await this.internalPublishHaImage(
@@ -254,7 +249,7 @@ export class Homelab {
         `ghcr.io/shepherdjerred/homelab:latest`,
         ghcrUsername,
         ghcrPassword,
-        env
+        env,
       );
       // Combine results
       haPublishResult.message += `\nAlso pushed as latest:\n${haPublishLatestResult.message}`;
@@ -272,7 +267,7 @@ export class Homelab {
         chartRepo,
         chartMuseumUsername,
         chartMuseumPassword,
-        env
+        env,
       );
     }
     // Sync (run only after successful Helm chart publish)
@@ -284,11 +279,8 @@ export class Homelab {
       const sync = await argocdSync(argocdToken);
       syncResult = sync;
     }
-    // Await pre-commit result before summary
-    const preCommitResult = await preCommitPromise;
     // Build summary
     const summary = [
-      `Pre-commit result:\n${preCommitResult.message}`,
       renovateTestResult.message,
       helmTestResult.message,
       `Sync result:\n${syncResult.message}`,
@@ -336,7 +328,7 @@ export class Homelab {
       ],
       defaultPath: ".",
     })
-    source: Directory
+    source: Directory,
   ) {
     return buildHa(source);
   }
@@ -361,7 +353,7 @@ export class Homelab {
       ],
       defaultPath: ".",
     })
-    source: Directory
+    source: Directory,
   ) {
     return testHa(source);
   }
@@ -385,7 +377,7 @@ export class Homelab {
       ],
       defaultPath: ".",
     })
-    source: Directory
+    source: Directory,
   ): Promise<string> {
     const container = withMiseTools(getSystemContainer())
       .withWorkdir("/workspace")
@@ -393,15 +385,15 @@ export class Homelab {
       .withFile("renovate.json", source.file("renovate.json"))
       .withFile(
         "src/cdk8s/src/versions.ts",
-        source.file("src/cdk8s/src/versions.ts")
+        source.file("src/cdk8s/src/versions.ts"),
       )
       .withFile(
         ".dagger/src/versions.ts",
-        source.file(".dagger/src/versions.ts")
+        source.file(".dagger/src/versions.ts"),
       )
       .withFile(
         ".dagger/test/test-renovate-regex.ts",
-        source.file(".dagger/test/test-renovate-regex.ts")
+        source.file(".dagger/test/test-renovate-regex.ts"),
       )
       .withExec(["bun", "run", ".dagger/test/test-renovate-regex.ts"]);
 
@@ -428,7 +420,7 @@ export class Homelab {
       ],
       defaultPath: ".",
     })
-    source: Directory
+    source: Directory,
   ): Promise<string> {
     const testVersion = "test-0.1.0";
 
@@ -436,7 +428,7 @@ export class Homelab {
     const helmDist = await this.helmBuild(
       source.directory("src/cdk8s/helm"),
       source.directory("src/cdk8s"),
-      testVersion
+      testVersion,
     );
 
     // Test the built chart
@@ -542,7 +534,7 @@ export class Homelab {
       ],
       defaultPath: ".",
     })
-    source: Directory
+    source: Directory,
   ) {
     return typeCheckHa(source);
   }
@@ -567,7 +559,7 @@ export class Homelab {
       ],
       defaultPath: ".",
     })
-    source: Directory
+    source: Directory,
   ) {
     return lintHa(source);
   }
@@ -592,7 +584,7 @@ export class Homelab {
       ],
       defaultPath: "src/cdk8s",
     })
-    source: Directory
+    source: Directory,
   ) {
     return typeCheckCdk8s(source);
   }
@@ -618,34 +610,9 @@ export class Homelab {
       ],
       defaultPath: "src/cdk8s",
     })
-    source: Directory
+    source: Directory,
   ) {
     return buildK8sManifests(source);
-  }
-
-  /**
-   * Runs pre-commit hooks and kube-linter.
-   * @param source The source directory to run pre-commit and kube-linter on.
-   * @returns The stdout from the pre-commit and kube-linter run.
-   */
-  @func()
-  async preCommit(
-    @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
-      defaultPath: ".",
-    })
-    source: Directory
-  ) {
-    return preCommit(source);
   }
 
   /**
@@ -681,7 +648,7 @@ export class Homelab {
       defaultPath: "manifests",
     })
     source: Directory,
-    manifestsPath: string = "manifests"
+    manifestsPath: string = "manifests",
   ) {
     return applyK8sConfig(source, manifestsPath);
   }
@@ -706,7 +673,7 @@ export class Homelab {
       ],
       defaultPath: ".",
     })
-    source: Directory
+    source: Directory,
   ) {
     return buildAndApplyCdk8s(source);
   }
@@ -731,7 +698,7 @@ export class Homelab {
       ],
       defaultPath: ".",
     })
-    source: Directory
+    source: Directory,
   ): Promise<File> {
     return buildAndExportHaImage(source);
   }
@@ -768,7 +735,7 @@ export class Homelab {
     imageName: string,
     ghcrUsername: string,
     ghcrPassword: Secret,
-    @argument() env: Stage = Stage.Dev
+    @argument() env: Stage = Stage.Dev,
   ): Promise<string> {
     return JSON.stringify(
       await this.internalPublishHaImage(
@@ -776,10 +743,10 @@ export class Homelab {
         imageName,
         ghcrUsername,
         ghcrPassword,
-        env
+        env,
       ),
       null,
-      2
+      2,
     );
   }
 
@@ -788,7 +755,7 @@ export class Homelab {
     imageName: string,
     ghcrUsername: string,
     ghcrPassword: Secret,
-    @argument() env: Stage = Stage.Dev
+    @argument() env: Stage = Stage.Dev,
   ): Promise<StepResult> {
     const isDryRun = env !== Stage.Prod;
 
@@ -797,7 +764,7 @@ export class Homelab {
       imageName,
       ghcrUsername,
       ghcrPassword,
-      isDryRun
+      isDryRun,
     );
   }
 
@@ -812,7 +779,7 @@ export class Homelab {
   async helmBuild(
     @argument({ defaultPath: "src/cdk8s/helm" }) source: Directory,
     @argument({ defaultPath: "src/cdk8s" }) cdkSource: Directory,
-    @argument() version: string
+    @argument() version: string,
   ) {
     return helmBuildFn(source, cdkSource, `1.0.0-${version}`);
   }
@@ -836,7 +803,7 @@ export class Homelab {
     @argument() repo: string = "https://chartmuseum.tailnet-1a49.ts.net",
     chartMuseumUsername: string,
     chartMuseumPassword: Secret,
-    @argument() env: Stage = Stage.Dev
+    @argument() env: Stage = Stage.Dev,
   ): Promise<StepResult> {
     if (env !== Stage.Prod) {
       return { status: "skipped", message: "[SKIPPED] Not prod" };
@@ -848,7 +815,7 @@ export class Homelab {
         `1.0.0-${version}`,
         repo,
         chartMuseumUsername,
-        chartMuseumPassword
+        chartMuseumPassword,
       );
       return { status: "passed", message: result };
     } catch (e) {
@@ -874,7 +841,7 @@ export class Homelab {
     @argument() repo: string = "https://chartmuseum.tailnet-1a49.ts.net",
     chartMuseumUsername: string,
     chartMuseumPassword: Secret,
-    @argument() env: Stage = Stage.Dev
+    @argument() env: Stage = Stage.Dev,
   ): Promise<StepResult> {
     if (env !== Stage.Prod) {
       return { status: "skipped", message: "[SKIPPED] Not prod" };

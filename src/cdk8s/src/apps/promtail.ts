@@ -22,7 +22,7 @@ export function createPromtailApp(chart: Chart) {
       source: {
         // https://github.com/grafana/helm-charts/tree/main/charts/promtail
         repoUrl: "https://grafana.github.io/helm-charts",
-        targetRevision: versions["promtail"],
+        targetRevision: versions.promtail,
         chart: "promtail",
         helm: {
           valuesObject: {

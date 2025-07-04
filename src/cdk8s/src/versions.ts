@@ -112,6 +112,11 @@ const versions = {
   dagger: "",
 };
 
-versions["dagger"] = versions["dagger-helm"].split("@")[0] as string;
+const daggerVersion = versions["dagger-helm"].split("@")[0];
+if (!daggerVersion) {
+  throw new Error("Failed to parse dagger version");
+}
+
+versions.dagger = daggerVersion;
 
 export default versions;

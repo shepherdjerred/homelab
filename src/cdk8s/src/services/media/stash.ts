@@ -28,7 +28,7 @@ export function createStashDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "stash-data-volume",
-            longhornVolumeData.claim
+            longhornVolumeData.claim,
           ),
         },
         {
@@ -36,11 +36,11 @@ export function createStashDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "stash-config-volume",
-            longhornVolumeConfig.claim
+            longhornVolumeConfig.claim,
           ),
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "stash-service", {

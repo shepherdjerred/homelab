@@ -40,54 +40,54 @@ some things I'm proud of:
 1. Create `secrets.yaml`
 1. Create the configuration file:
 
-    ```bash
-    talosctl gen config \
-      --with-secrets secrets.yaml \
-      --config-patch-control-plane @patches/scheduling.yaml \
-      --config-patch @patches/image.yaml \
-      --config-patch @patches/tailscale.yaml \
-      torvalds https://192.168.1.81:6443 --force
-    ```
+   ```bash
+   talosctl gen config \
+     --with-secrets secrets.yaml \
+     --config-patch-control-plane @patches/scheduling.yaml \
+     --config-patch @patches/image.yaml \
+     --config-patch @patches/tailscale.yaml \
+     torvalds https://192.168.1.81:6443 --force
+   ```
 
 1. Configure `endpoints` in `talosconfig`
-    - This allows commands to be run without the `--endpoints` argument
+   - This allows commands to be run without the `--endpoints` argument
 
 1. Move the talosconfig:
-    - This allows commands to be run without the `--talosconfig` argument
+   - This allows commands to be run without the `--talosconfig` argument
 
-    ```bash
-    mv talosconfig ~/.talos/config
-    ```
+   ```bash
+   mv talosconfig ~/.talos/config
+   ```
 
 1. Apply the configuration:
 
-    ```bash
-    talosctl apply-config --insecure --nodes 192.168.1.81 --file controlplane.yaml
-    ```
+   ```bash
+   talosctl apply-config --insecure --nodes 192.168.1.81 --file controlplane.yaml
+   ```
 
 1. If needed, update:
 
-    ```bash
-    talosctl apply-config --nodes 192.168.1.81 --file controlplane.yaml
-    ```
+   ```bash
+   talosctl apply-config --nodes 192.168.1.81 --file controlplane.yaml
+   ```
 
-    Upgrade:
+   Upgrade:
 
-    ```bash
-    talosctl upgrade --nodes 192.168.1.81 --image <image>
-    ```
+   ```bash
+   talosctl upgrade --nodes 192.168.1.81 --image <image>
+   ```
 
 1. Bootstrap the Kubernetes cluster:
 
-    ```bash
-    talosctl bootstrap --nodes 192.168.1.8    talosctl bootstrap --nodes 192.168.1.811
-    ```
+   ```bash
+   talosctl bootstrap --nodes 192.168.1.8    talosctl bootstrap --nodes 192.168.1.811
+   ```
 
 1. Create a Kubernetes configuration:
 
-    ```bash
-    talosctl kubeconfig --nodes 192.168.1.81
-    ```
+   ```bash
+   talosctl kubeconfig --nodes 192.168.1.81
+   ```
 
 ### Kubernetes
 
@@ -109,7 +109,6 @@ some things I'm proud of:
    ```
 
 1. Set the credentials in the `secrets` directory:
-
    - Be sure not to commit any changes to these files so that secrets don't
      leak.
    - These should be the only credentials that are manually set. Everything else
@@ -147,27 +146,27 @@ Adapted from <https://www.roosmaa.net/blog/2024/setting-up-zfs-on-talos/>
 
 1. Create a shell with `pods/shell.yaml`:
 
-    ```bash
-    kubectl apply -f pods/shell.yaml
-    ```
+   ```bash
+   kubectl apply -f pods/shell.yaml
+   ```
 
 1. Create a ZFS pool:
 
-    ```bash
-    # for nvme storage
-    kubectl exec pod/shell -n maintenance -- \
-      nsenter --mount=/proc/1/ns/mnt -- \
-      zpool create -m legacy -f zfspv-pool-nvme \
-      /dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X511734N
+   ```bash
+   # for nvme storage
+   kubectl exec pod/shell -n maintenance -- \
+     nsenter --mount=/proc/1/ns/mnt -- \
+     zpool create -m legacy -f zfspv-pool-nvme \
+     /dev/disk/by-id/nvme-Samsung_SSD_990_PRO_4TB_S7KGNU0X511734N
 
-    # for hdd storage
-    kubectl exec pod/shell -n maintenance -- \
-      nsenter --mount=/proc/1/ns/mnt -- \
-      zpool create -m legacy -f zfspv-pool-hdd raidz2 \
-      /dev/sdb \
-      /dev/sdc \
-      /dev/sdd \
-      /dev/sde \
-      /dev/sdf \
-      /dev/sdg
-    ```
+   # for hdd storage
+   kubectl exec pod/shell -n maintenance -- \
+     nsenter --mount=/proc/1/ns/mnt -- \
+     zpool create -m legacy -f zfspv-pool-hdd raidz2 \
+     /dev/sdb \
+     /dev/sdc \
+     /dev/sdd \
+     /dev/sde \
+     /dev/sdf \
+     /dev/sdg
+   ```

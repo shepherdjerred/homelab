@@ -79,7 +79,6 @@ This project uses a workspace-based architecture with two main workspaces:
 - Both workspaces use Bun as runtime and package manager
 - Maintain consistent TypeScript configurations
 - Follow the same code style and quality standards
-- Use shared pre-commit hooks from root directory
 
 ## Workspace Isolation
 - Each workspace has its own dependencies and build process

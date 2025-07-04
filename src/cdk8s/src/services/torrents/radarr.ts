@@ -11,7 +11,6 @@ import {
   withCommonLinuxServerProps,
 } from "../../utils/linuxserver.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
-import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
 
@@ -20,7 +19,7 @@ export function createRadarrDeployment(
   claims: {
     movies: PersistentVolumeClaim;
     downloads: PersistentVolumeClaim;
-  }
+  },
 ) {
   const deployment = new Deployment(chart, "radarr", {
     replicas: 1,
@@ -44,14 +43,14 @@ export function createRadarrDeployment(
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "radarr-volume",
-            localPathVolume.claim
+            localPathVolume.claim,
           ),
         },
         {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "radarr-torrents-hdd-volume",
-            claims.downloads
+            claims.downloads,
           ),
           path: "/downloads",
         },
@@ -59,12 +58,12 @@ export function createRadarrDeployment(
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "radarr-movies-hdd-volume",
-            claims.movies
+            claims.movies,
           ),
           path: "/movies",
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "radarr-service", {

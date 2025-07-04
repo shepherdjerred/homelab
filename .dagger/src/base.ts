@@ -6,30 +6,32 @@ import versions from "./versions";
  * This layer is cached independently and only rebuilds when system dependencies change.
  */
 export function getSystemContainer(platform?: Platform): Container {
-  return dag
-    .container({ platform })
-    .from(`ubuntu:${versions.ubuntu}`)
-    // Cache APT packages
-    .withMountedCache(
-      "/var/cache/apt",
-      dag.cacheVolume(`apt-cache-${platform || "default"}`)
-    )
-    .withMountedCache(
-      "/var/lib/apt",
-      dag.cacheVolume(`apt-lib-${platform || "default"}`)
-    )
-    .withExec(["apt-get", "update"])
-    .withExec([
-      "apt-get",
-      "install",
-      "-y",
-      "gpg",
-      "wget",
-      "curl",
-      "git",
-      "build-essential",
-      "python3",
-    ]);
+  return (
+    dag
+      .container({ platform })
+      .from(`ubuntu:${versions.ubuntu}`)
+      // Cache APT packages
+      .withMountedCache(
+        "/var/cache/apt",
+        dag.cacheVolume(`apt-cache-${platform || "default"}`),
+      )
+      .withMountedCache(
+        "/var/lib/apt",
+        dag.cacheVolume(`apt-lib-${platform || "default"}`),
+      )
+      .withExec(["apt-get", "update"])
+      .withExec([
+        "apt-get",
+        "install",
+        "-y",
+        "gpg",
+        "wget",
+        "curl",
+        "git",
+        "build-essential",
+        "python3",
+      ])
+  );
 }
 
 /**
@@ -51,7 +53,7 @@ export function getMiseRuntimeContainer(platform?: Platform): Container {
 export function getWorkspaceContainer(
   source: Directory,
   workspacePath: string,
-  platform?: Platform
+  platform?: Platform,
 ): Container {
   const workspaceSource = source.directory(workspacePath);
 
@@ -62,18 +64,23 @@ export function getWorkspaceContainer(
 
   // Only copy bun.lock for HA workspace (CDK8s doesn't have one)
   if (workspacePath === "src/ha") {
-    container = container.withFile("bun.lock", workspaceSource.file("bun.lock"));
+    container = container.withFile(
+      "bun.lock",
+      workspaceSource.file("bun.lock"),
+    );
   }
 
-  return container
-    // Install dependencies (cached unless dependency files change)
-    .withMountedCache(
-      "/root/.bun/install/cache",
-      dag.cacheVolume(`bun-cache-${platform || "default"}`)
-    )
-    .withExec(["bun", "install"])
-    // Now copy the full source (source changes won't invalidate dependency layer)
-    .withDirectory(".", workspaceSource);
+  return (
+    container
+      // Install dependencies (cached unless dependency files change)
+      .withMountedCache(
+        "/root/.bun/install/cache",
+        dag.cacheVolume(`bun-cache-${platform || "default"}`),
+      )
+      .withExec(["bun", "install"])
+      // Now copy the full source (source changes won't invalidate dependency layer)
+      .withDirectory(".", workspaceSource)
+  );
 }
 
 /**
@@ -84,7 +91,7 @@ export function getWorkspaceContainer(
  */
 export function getUbuntuBaseContainer(
   source: Directory,
-  platform?: Platform
+  platform?: Platform,
 ): Container {
   return getSystemContainer(platform)
     .withWorkdir("/workspace")
@@ -113,10 +120,7 @@ export function getKubectlContainer(): Container {
  * @param baseContainer The base container to build upon.
  * @returns A configured Container with mise and tools ready.
  */
-export function withMiseTools(
-  baseContainer: Container
-): Container {
-
+export function withMiseTools(baseContainer: Container): Container {
   return (
     baseContainer
       .withExec(["install", "-dm", "755", "/etc/apt/keyrings"])
@@ -135,7 +139,7 @@ export function withMiseTools(
       // Cache mise tools
       .withMountedCache(
         "/root/.local/share/mise",
-        dag.cacheVolume(`mise-tools`)
+        dag.cacheVolume(`mise-tools`),
       )
       .withExec(["mise", "trust"])
       .withExec([
@@ -150,11 +154,7 @@ export function withMiseTools(
         expand: true,
       })
       // Cache pip packages
-      .withMountedCache(
-        "/root/.cache/pip",
-        dag.cacheVolume(`pip-cache`)
-      )
-      .withExec(["pip", "install", "pre-commit"])
+      .withMountedCache("/root/.cache/pip", dag.cacheVolume(`pip-cache`))
       .withExec(["mise", "reshim"])
   );
 }

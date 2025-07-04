@@ -85,6 +85,7 @@ bun run .dagger/test/test-ha-image.ts
 ### Cleanup
 
 The script automatically cleans up all test artifacts:
+
 - Stops and removes test containers
 - Removes test images from Docker
 - Deletes temporary tar files

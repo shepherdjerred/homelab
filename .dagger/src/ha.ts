@@ -52,27 +52,29 @@ async function buildHaContainer(source: Directory): Promise<Container> {
   // Build the container with optimized layer caching
   // Use getMiseRuntimeContainer() instead of withMiseTools(getUbuntuBaseContainer(source))
   // to avoid invalidating mise layer when source files change
-  return getMiseRuntimeContainer()
-    .withWorkdir("/app")
-    // Copy dependency files first for caching
-    .withFile("package.json", haSource.file("package.json"))
-    .withFile("bun.lock", haSource.file("bun.lock"))
-    // Install dependencies (cached unless dependency files change)
-    .withMountedCache(
-      "/root/.bun/install/cache",
-      dag.cacheVolume("bun-cache-default")
-    )
-    .withExec(["bun", "install", "--frozen-lockfile"])
-    // Copy the full source after dependencies are installed
-    .withDirectory("/app", haSource)
-    .withDefaultArgs([
-      "mise",
-      "exec",
-      `bun@${versions["bun"]}`,
-      "--",
-      "bun",
-      "src/main.ts",
-    ]);
+  return (
+    getMiseRuntimeContainer()
+      .withWorkdir("/app")
+      // Copy dependency files first for caching
+      .withFile("package.json", haSource.file("package.json"))
+      .withFile("bun.lock", haSource.file("bun.lock"))
+      // Install dependencies (cached unless dependency files change)
+      .withMountedCache(
+        "/root/.bun/install/cache",
+        dag.cacheVolume("bun-cache-default"),
+      )
+      .withExec(["bun", "install", "--frozen-lockfile"])
+      // Copy the full source after dependencies are installed
+      .withDirectory("/app", haSource)
+      .withDefaultArgs([
+        "mise",
+        "exec",
+        `bun@${versions["bun"]}`,
+        "--",
+        "bun",
+        "src/main.ts",
+      ])
+  );
 }
 
 /**
@@ -82,9 +84,7 @@ async function buildHaContainer(source: Directory): Promise<Container> {
  * @param source The source directory.
  * @returns The exported tar file
  */
-export async function buildAndExportHaImage(
-  source: Directory,
-): Promise<File> {
+export async function buildAndExportHaImage(source: Directory): Promise<File> {
   const container = await buildHaContainer(source);
   return container.asTarball();
 }
@@ -105,7 +105,7 @@ export async function buildAndPushHaImage(
   imageName: string = "ghcr.io/shepherdjerred/homelab:latest",
   ghcrUsername: string,
   ghcrPassword: Secret,
-  dryRun: boolean = false
+  dryRun: boolean = false,
 ): Promise<StepResult> {
   const container = await buildHaContainer(source);
 

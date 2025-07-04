@@ -13,14 +13,13 @@ import { withCommonProps } from "../../utils/common.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
-import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
 
 export function createQBitTorrentDeployment(
   chart: Chart,
   claims: {
     downloads: PersistentVolumeClaim;
-  }
+  },
 ) {
   const item = new OnePasswordItem(chart, "mullvad", {
     spec: {
@@ -63,16 +62,16 @@ export function createQBitTorrentDeployment(
           secret: Secret.fromSecretName(
             chart,
             "airvpn-preshared-key",
-            item.name
+            item.name,
           ),
           key: "preshared-key",
         }),
         WIREGUARD_ADDRESSES: EnvValue.fromValue(
-          "10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128"
+          "10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128",
         ),
         FIREWALL_VPN_INPUT_PORTS: EnvValue.fromValue("17826"),
       },
-    })
+    }),
   );
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -87,19 +86,19 @@ export function createQBitTorrentDeployment(
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "qbittorrent-volume",
-            localPathVolume.claim
+            localPathVolume.claim,
           ),
         },
         {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "qbittorrent-hdd-volume",
-            claims.downloads
+            claims.downloads,
           ),
           path: "/downloads",
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "qbittorrent-service", {

@@ -19,7 +19,7 @@ export class TailscaleIngress extends Construct {
       host: string;
       funnel?: boolean;
       service: Service | ServiceObject;
-    }
+    },
   ) {
     super(scope, id);
 
@@ -47,7 +47,7 @@ export class TailscaleIngress extends Construct {
     const ingress = new Ingress(scope, `${id}-ingress`, merge({}, base, props));
 
     ApiObject.of(ingress).addJsonPatch(
-      JsonPatch.add("/spec/ingressClassName", "tailscale")
+      JsonPatch.add("/spec/ingressClassName", "tailscale"),
     );
   }
 }
@@ -59,7 +59,7 @@ export function createIngress(
   service: string,
   port: number,
   hosts: string[],
-  funnel: boolean
+  funnel: boolean,
 ) {
   const ingress = new KubeIngress(chart, name, {
     metadata: {

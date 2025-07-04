@@ -6,7 +6,7 @@ import { Construct } from "constructs";
  * This makes it easier to reference existing PVs in the codebase
  */
 export const PV_MAPPINGS = {
-  // note: there are currently no mappings
+  empty: "empty", // empty PV so that it keyof doesn't evaluate to `never`
 } as const;
 
 export type PVMappingKey = keyof typeof PV_MAPPINGS;
@@ -19,12 +19,12 @@ export type PVMappingKey = keyof typeof PV_MAPPINGS;
  */
 export function getPersistentVolume(
   scope: Construct,
-  logicalName: PVMappingKey
+  logicalName: PVMappingKey,
 ): IPersistentVolume {
   const pvName = PV_MAPPINGS[logicalName];
   return PersistentVolume.fromPersistentVolumeName(
     scope,
     `pv-${logicalName}`,
-    pvName
+    pvName,
   );
 }

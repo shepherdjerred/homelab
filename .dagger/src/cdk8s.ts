@@ -9,7 +9,7 @@ export async function typeCheckCdk8s(source: Directory): Promise<string> {
       // Cache TypeScript compilation artifacts
       .withMountedCache(
         "/workspace/node_modules/.cache",
-        dag.cacheVolume("typescript-cache")
+        dag.cacheVolume("typescript-cache"),
       )
       .withExec(["bunx", "tsc", "--noEmit"])
       .stdout()

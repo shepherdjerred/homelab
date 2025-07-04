@@ -11,7 +11,6 @@ import { readdirSync, statSync } from "fs";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
-import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
 import versions from "../../versions.ts";
 
 export function createHomeAssistantDeployment(chart: Chart) {
@@ -27,7 +26,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
   const volume = Volume.fromPersistentVolumeClaim(
     chart,
     "homeassistant-volume",
-    claim.claim
+    claim.claim,
   );
 
   const files = readdirSync("config/homeassistant")
@@ -72,13 +71,13 @@ export function createHomeAssistantDeployment(chart: Chart) {
           };
         }),
       ],
-    })
+    }),
   );
 
   // this simplifies mDNS
   // TODO: remove host networking
   ApiObject.of(deployment).addJsonPatch(
-    JsonPatch.add("/spec/template/spec/hostNetwork", true)
+    JsonPatch.add("/spec/template/spec/hostNetwork", true),
   );
 
   const service = new Service(chart, "homeassistant-service", {

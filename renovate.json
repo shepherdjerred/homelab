@@ -44,9 +44,6 @@
       "automerge": false
     }
   ],
-  "pre-commit": {
-    "enabled": true
-  },
   "schedule": ["after 3am on Sunday"],
   "minimumReleaseAge": "30 days",
   "prHourlyLimit": 5,

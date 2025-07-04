@@ -1,7 +1,6 @@
 import { Chart, Size } from "cdk8s";
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
-import { getPersistentVolume } from "../utils/persistentVolumeMapping.ts";
 import {
   LINUXSERVER_GID,
   withCommonLinuxServerProps,
@@ -38,7 +37,7 @@ export function createSyncthingDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "syncthing-volume",
-            configLocalPathVolume.claim
+            configLocalPathVolume.claim,
           ),
         },
         {
@@ -46,11 +45,11 @@ export function createSyncthingDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "syncthing-data-volume",
-            dataLocalPathVolume.claim
+            dataLocalPathVolume.claim,
           ),
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "syncthing-service", {

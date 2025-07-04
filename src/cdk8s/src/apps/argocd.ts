@@ -11,7 +11,7 @@ export function createArgoCdApp(chart: Chart) {
     "argocd-server",
     443,
     ["argocd"],
-    true
+    true,
   );
 
   new Application(chart, "argocd-app", {

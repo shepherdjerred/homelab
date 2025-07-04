@@ -28,7 +28,7 @@ export function createVeleroApp(chart: Chart) {
         name: "cloud-credentials",
         namespace: "velero",
       },
-    }
+    },
   );
 
   // Every 6 hours backups - keep for 3 days (12 backups total) - FULL BACKUPS

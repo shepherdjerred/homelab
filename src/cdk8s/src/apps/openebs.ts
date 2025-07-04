@@ -21,7 +21,7 @@ export function createOpenEBSApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://openebs.github.io/openebs",
-        targetRevision: versions["openebs"],
+        targetRevision: versions.openebs,
         chart: "openebs",
         helm: {
           parameters: [

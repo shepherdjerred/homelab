@@ -41,4 +41,3 @@ alwaysApply: true
 ## Linting & Formatting
 - Follow ESLint configuration in [eslint.config.mjs](mdc:src/ha/eslint.config.mjs)
 - Use Prettier configuration from [.prettierrc](mdc:src/ha/.prettierrc)
-- Run pre-commit hooks defined in [.pre-commit-config.yaml](mdc:.pre-commit-config.yaml)

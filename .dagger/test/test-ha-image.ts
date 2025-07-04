@@ -110,7 +110,7 @@ async function main() {
 
     if (!connected) {
       throw new Error(
-        `Application failed to respond on port 3000 after ${maxRetries} attempts`
+        `Application failed to respond on port 3000 after ${maxRetries} attempts`,
       );
     }
 
@@ -129,7 +129,7 @@ async function main() {
     console.log(`   docker logs ha-test-container`);
     console.log(`   docker exec -it ha-test-container /bin/bash`);
     console.log(
-      `   docker stop ha-test-container && docker rm ha-test-container  # when done`
+      `   docker stop ha-test-container && docker rm ha-test-container  # when done`,
     );
     process.exit(1);
   }

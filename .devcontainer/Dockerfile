@@ -22,7 +22,6 @@ RUN mise global node@lts
 RUN mise install
 RUN mise reshim
 
-RUN /root/.local/share/mise/shims/pip install pre-commit
 RUN /root/.local/share/mise/shims/go install golang.stackrox.io/kube-linter/cmd/kube-linter@v0.7.2
 
 # Create dev user with sudo privileges
@@ -43,7 +42,6 @@ RUN mise global node@lts
 RUN mise install
 RUN mise reshim
 
-RUN /home/dev/.local/share/mise/shims/pip install pre-commit
 RUN /home/dev/.local/share/mise/shims/go install golang.stackrox.io/kube-linter/cmd/kube-linter@v0.7.2
 
 # Switch back to root for system-level installations

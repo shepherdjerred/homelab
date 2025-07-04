@@ -23,7 +23,7 @@ const commonLinuxServerProps: Partial<ContainerProps> = {
 };
 
 export function withCommonLinuxServerProps(
-  props: ContainerProps
+  props: ContainerProps,
 ): ContainerProps {
   return merge({}, commonLinuxServerProps, props);
 }

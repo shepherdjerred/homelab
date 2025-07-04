@@ -18,7 +18,6 @@ import { createFreshRssDeployment } from "../services/freshrss.ts";
 import { createPokemonDeployment } from "../services/pokemon.ts";
 import { createHaDeployment } from "../services/home/ha.ts";
 import { ZfsHddVolume } from "../utils/zfsHddVolume.ts";
-import { getPersistentVolume } from "../utils/persistentVolumeMapping.ts";
 import { KubeNamespace } from "../../imports/k8s.ts";
 
 export function createTorvaldsChart(app: App) {

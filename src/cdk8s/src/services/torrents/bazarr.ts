@@ -9,7 +9,6 @@ import {
 import { Chart, Size } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
-import { getPersistentVolume } from "../../utils/persistentVolumeMapping.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
 
@@ -18,7 +17,7 @@ export function createBazarrDeployment(
   claims: {
     tv: PersistentVolumeClaim;
     movies: PersistentVolumeClaim;
-  }
+  },
 ) {
   const deployment = new Deployment(chart, "bazarr", {
     replicas: 1,
@@ -42,14 +41,14 @@ export function createBazarrDeployment(
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "bazarr-volume",
-            localPathVolume.claim
+            localPathVolume.claim,
           ),
         },
         {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "bazarr-movies-hdd-volume",
-            claims.movies
+            claims.movies,
           ),
           path: "/movies",
         },
@@ -57,12 +56,12 @@ export function createBazarrDeployment(
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "bazarr-tv-hdd-volume",
-            claims.tv
+            claims.tv,
           ),
           path: "/tv",
         },
       ],
-    })
+    }),
   );
 
   const service = new Service(chart, "bazarr-service", {

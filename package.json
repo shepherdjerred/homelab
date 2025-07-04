@@ -7,17 +7,21 @@
     "src/cdk8s",
     "src/ha"
   ],
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/bun": "latest",
-    "typescript": "^5"
+    "@eslint/js": "^9.30.1",
+    "@total-typescript/ts-reset": "^0.6.1",
+    "@types/bun": "^1.2.18",
+    "eslint": "^9.30.1",
+    "prettier": "3.6.2",
+    "typescript": "^5",
+    "typescript-eslint": "^8.35.1"
   },
   "scripts": {
     "build": "bun run --filter=* build",
     "test": "bun run --filter=* test",
     "lint": "bun run --filter=* lint",
-    "type-check": "bun run --filter=* type-check"
+    "type-check": "bun run --filter=* type-check",
+    "prettier": "bunx prettier --write ."
   }
 }

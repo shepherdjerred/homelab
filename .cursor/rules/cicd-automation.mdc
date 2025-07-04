@@ -24,7 +24,7 @@ alwaysApply: true
 
 ### Deployment
 - **`apply-k-8-s-config`** - Applies Kubernetes manifests from specified directory using kubectl
-- **`ci`** - Complete CI pipeline: pre-commit, kube-linter, ArgoCD sync, builds, and publishing
+- **`ci`** - Complete CI pipeline: kube-linter, ArgoCD sync, builds, and publishing
 
 ### Helm Management
 - **`helm-build`** - Builds Helm chart, updates version/appVersion, exports artifacts
@@ -66,11 +66,6 @@ dagger call <function-name> <args> export --path=<local-directory>
 - **Dev Environment CI**: When running the `ci` target for dev environment, use dummy values for secrets
 - Prevent accidental exposure of real credentials in development
 - Enable safe testing with mock values
-
-### Pre-commit Hooks
-- Use pre-commit hooks defined in [.pre-commit-config.yaml](mdc:.pre-commit-config.yaml)
-- Ensure code quality before commits
-- Run linting and formatting checks
 
 ### Secret Management
 - Use 1Password for secret management

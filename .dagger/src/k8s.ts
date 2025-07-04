@@ -11,7 +11,7 @@ import { getKubectlContainer } from "./base";
  */
 export async function applyK8sConfig(
   source: Directory,
-  manifestsPath: string = "manifests"
+  manifestsPath: string = "manifests",
 ): Promise<string> {
   const container = getKubectlContainer()
     .withMountedDirectory("/workspace", source)

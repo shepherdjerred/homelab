@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "build": "bun run src/app.ts",
-    "lint": "bunx tsc --noEmit",
-    "type-check": "bunx tsc --noEmit",
+    "lint": "bun run lint:eslint && bun run lint:tsc",
+    "lint:eslint": "bunx eslint .",
+    "lint:tsc": "bunx tsc --noEmit",
     "test": "echo 'No tests configured for CDK8s'",
     "clear": "rm -rf dist/",
     "build-app": "bun run src/app.ts",
@@ -15,18 +16,15 @@
     "diff": "KUBECTL_EXTERNAL_DIFF=delta DELTA_PAGER=bat BAT_PAGER=/opt/homebrew/bin/less kubectl diff -f dist/torvalds.k8s.yaml"
   },
   "dependencies": {
-    "@total-typescript/ts-reset": "^0.6.1",
-    "@types/lodash": "^4.17.17",
     "cdk8s": "^2.69.60",
     "cdk8s-plus-31": "^2.2.4",
     "constructs": "^10.4.2",
     "lodash": "^4.17.21",
     "remeda": "^2.21.2",
-    "ts-pattern": "^5.7.0",
-    "type-fest": "^4.41.0"
+    "ts-pattern": "^5.7.0"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/bun": "latest"
+    "@types/lodash": "^4.17.17",
+    "type-fest": "^4.41.0"
   }
 }

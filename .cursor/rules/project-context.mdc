@@ -38,14 +38,12 @@ The project uses a workspace-based architecture:
 
 ## Development Environment
 - Use [mise.toml](mdc:mise.toml) for tool version management
-- Follow [.pre-commit-config.yaml](mdc:.pre-commit-config.yaml) for code quality
 - Use [renovate.json](mdc:renovate.json) for automated dependency updates
 - Reference [.commitlintrc.json](mdc:.commitlintrc.json) for commit message format
 
 ## Quality Assurance
 - Kubernetes manifest linting with [.kube-linter.yaml](mdc:.kube-linter.yaml)
 - TypeScript strict mode enforcement
-- Pre-commit hooks for code formatting and linting
 - Automated testing in CI/CD pipelines
 
 ## File Organization

@@ -8,7 +8,6 @@ import {
 import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
-import { getPersistentVolume } from "../utils/persistentVolumeMapping.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import versions from "../versions.ts";
 
@@ -57,10 +56,10 @@ export function createGolinkDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(
             chart,
             "golink-volume",
-            localPathVolume.claim
+            localPathVolume.claim,
           ),
         },
       ],
-    })
+    }),
   );
 }

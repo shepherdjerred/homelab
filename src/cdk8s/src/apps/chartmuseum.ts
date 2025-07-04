@@ -13,7 +13,7 @@ export function createChartMuseumApp(chart: Chart) {
     "chartmuseum",
     8080,
     ["chartmuseum"],
-    true
+    true,
   );
 
   const basicAuth = new OnePasswordItem(chart, "chartmuseum-admin-password", {
@@ -35,7 +35,7 @@ export function createChartMuseumApp(chart: Chart) {
       project: "default",
       source: {
         repoUrl: "https://chartmuseum.github.io/charts",
-        targetRevision: versions["chartmuseum"],
+        targetRevision: versions.chartmuseum,
         chart: "chartmuseum",
         helm: {
           parameters: [

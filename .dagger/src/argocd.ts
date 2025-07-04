@@ -13,7 +13,7 @@ import { getCurlContainer } from "./base";
 export async function sync(
   argocdToken: Secret,
   argocdServer: string = "https://argocd.tailnet-1a49.ts.net",
-  appName: string = "torvalds"
+  appName: string = "torvalds",
 ): Promise<StepResult> {
   // Use curl to get both the response body and HTTP status code
   const container = getCurlContainer()
