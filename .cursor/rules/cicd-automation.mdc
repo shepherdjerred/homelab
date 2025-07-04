@@ -1,7 +1,5 @@
 ---
-description:
-globs:
-alwaysApply: true
+description: CI/CD pipeline automation using Dagger, including build targets, quality assurance, deployment strategies, and optimization guidelines for containerized workflows.
 ---
 # CI/CD & Automation with Dagger
 

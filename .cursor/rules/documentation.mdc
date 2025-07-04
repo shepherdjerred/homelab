@@ -1,7 +1,5 @@
 ---
-description:
-globs:
-alwaysApply: false
+description: Documentation standards, reference guidelines, and best practices for maintaining comprehensive project documentation and technical references.
 ---
 # Documentation & Reference Guidelines
 

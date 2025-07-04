@@ -1,7 +1,5 @@
 ---
-description:
-globs:
-alwaysApply: true
+description: Project overview, technology stack, core principles, and development environment setup for this homelab infrastructure project using TypeScript and Kubernetes.
 ---
 # Project Context & Tech Stack
 

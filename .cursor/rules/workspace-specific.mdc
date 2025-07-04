@@ -1,7 +1,5 @@
 ---
-description:
-globs:
-alwaysApply: true
+description: Guidelines for working with CDK8s and Home Assistant workspaces, including structure, development workflow, and cross-workspace dependency management.
 ---
 # Workspace-Specific Guidelines
 

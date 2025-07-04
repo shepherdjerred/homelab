@@ -1,7 +1,5 @@
 ---
-description:
-globs:
-alwaysApply: true
+description: Security best practices covering secret management, container security, RBAC, network policies, and compliance standards for Kubernetes infrastructure.
 ---
 # Security Best Practices
 

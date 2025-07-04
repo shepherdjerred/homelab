@@ -1,7 +1,5 @@
 ---
-description:
-globs:
-alwaysApply: true
+description: Infrastructure as code guidelines using CDK8s, Kubernetes resource management, version control, and configuration best practices for homelab deployment.
 ---
 # Infrastructure & Kubernetes Guidelines
 

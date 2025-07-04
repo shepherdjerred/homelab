@@ -1,7 +1,5 @@
 ---
-description:
-globs:
-alwaysApply: true
+description: TypeScript coding standards, naming conventions, git practices, and linting/formatting rules for maintaining code quality and consistency.
 ---
 # Code Standards & TypeScript Guidelines
 

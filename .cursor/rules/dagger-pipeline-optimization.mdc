@@ -1,7 +1,5 @@
 ---
-description:
-globs:
-alwaysApply: true
+description: Comprehensive guide for optimizing Dagger pipeline performance through layered container architecture, cache strategies, and Docker layer caching best practices.
 ---
 # Dagger Pipeline Optimization Guide
 
