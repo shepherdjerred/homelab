@@ -19,7 +19,7 @@ export async function typeCheckCdk8s(source: Directory): Promise<string> {
 export async function buildK8sManifests(source: Directory): Promise<Directory> {
   const builtContainer = getWorkspaceContainer(source, ".")
     .withWorkdir("/workspace")
-    .withExec(["bun", "run", "src/app.ts"]);
+    .withExec(["bun", "run", "build"]);
   const manifestsDir = builtContainer.directory("/workspace/dist");
   return manifestsDir;
 }
@@ -28,8 +28,8 @@ export async function testCdk8s(source: Directory): Promise<string> {
   return (
     getWorkspaceContainer(source, ".")
       .withWorkdir("/workspace")
-      // First build the manifests
-      .withExec(["bun", "run", "src/app.ts"])
+      // First build the manifests (includes patch)
+      .withExec(["bun", "run", "build"])
       // Then run the GPU resources test
       .withExec(["bun", "run", "test:gpu-resources"])
       .stdout()
