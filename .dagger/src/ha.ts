@@ -57,7 +57,7 @@ async function buildHaContainer(source: Directory): Promise<Container> {
       .withWorkdir("/app")
       // Copy dependency files first for caching
       .withFile("package.json", haSource.file("package.json"))
-      .withFile("bun.lock", haSource.file("bun.lock"))
+      .withFile("bun.lock", source.file("bun.lock"))
       // Install dependencies (cached unless dependency files change)
       .withMountedCache(
         "/root/.bun/install/cache",
