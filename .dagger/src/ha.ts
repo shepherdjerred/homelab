@@ -55,17 +55,22 @@ async function buildHaContainer(source: Directory): Promise<Container> {
   return (
     getMiseRuntimeContainer()
       .withWorkdir("/app")
-      // Copy dependency files first for caching
-      .withFile("package.json", haSource.file("package.json"))
+      // Copy workspace root files for proper dependency resolution
+      .withFile("package.json", source.file("package.json"))
       .withFile("bun.lock", source.file("bun.lock"))
+      // Copy minimal workspace files needed for dependency resolution
+      .withFile("src/ha/package.json", haSource.file("package.json"))
+      .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
       // Install dependencies (cached unless dependency files change)
       .withMountedCache(
         "/root/.bun/install/cache",
         dag.cacheVolume("bun-cache-default"),
       )
       .withExec(["bun", "install", "--frozen-lockfile"])
-      // Copy the full source after dependencies are installed
-      .withDirectory("/app", haSource)
+      // Copy the full ha source after dependencies are resolved
+      .withDirectory("src/ha", haSource, { exclude: ["package.json"] })
+      // Set working directory to the ha workspace
+      .withWorkdir("/app/src/ha")
       .withDefaultArgs([
         "mise",
         "exec",
