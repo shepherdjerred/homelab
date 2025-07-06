@@ -15,7 +15,7 @@ import {
   buildAndExportHaImage,
 } from "./ha";
 import { getSystemContainer, withMiseTools } from "./base";
-import { typeCheckCdk8s, buildK8sManifests } from "./cdk8s";
+import { typeCheckCdk8s, buildK8sManifests, testCdk8s } from "./cdk8s";
 import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
@@ -61,15 +61,17 @@ export class Homelab {
     const haTest = testHa(source);
     const haLint = lintHa(source);
     const cdk8sTypeCheck = typeCheckCdk8s(source.directory("src/cdk8s"));
+    const cdk8sTest = testCdk8s(source.directory("src/cdk8s"));
     const results = await Promise.allSettled([
       haTypeCheck,
       haTest,
       haLint,
       cdk8sTypeCheck,
+      cdk8sTest,
     ]);
     const summary = results
       .map((result, index) => {
-        const names = ["HA TypeCheck", "HA Test", "HA Lint", "CDK8s TypeCheck"];
+        const names = ["HA TypeCheck", "HA Test", "HA Lint", "CDK8s TypeCheck", "CDK8s Test"];
         return `${names[index]}: ${
           result.status === "fulfilled" ? "PASSED" : "FAILED"
         }`;
@@ -182,6 +184,14 @@ export class Homelab {
       }))
       .catch((e) => ({ status: "failed", message: `Helm Test: FAILED\n${e}` }));
 
+    // CDK8s test (run async)
+    const cdk8sTestPromise = testCdk8s(updatedSource.directory("src/cdk8s"))
+      .then((msg) => ({
+        status: "passed",
+        message: `CDK8s Test: PASSED\n${msg}`,
+      }))
+      .catch((e) => ({ status: "failed", message: `CDK8s Test: FAILED\n${e}` }));
+
     // Start builds in parallel
     const cdk8sBuildPromise = buildK8sManifests(
       updatedSource.directory("src/cdk8s"),
@@ -220,12 +230,14 @@ export class Homelab {
       helmBuildResult,
       renovateTestResult,
       helmTestResult,
+      cdk8sTestResult,
     ] = await Promise.all([
       cdk8sBuildPromise,
       haBuildPromise,
       helmBuildPromise,
       renovateTestPromise,
       helmTestPromise,
+      cdk8sTestPromise,
     ]);
 
     // Publish HA image if prod
@@ -282,6 +294,7 @@ export class Homelab {
     const summary = [
       renovateTestResult.message,
       helmTestResult.message,
+      cdk8sTestResult.message,
       `Sync result:\n${syncResult.message}`,
       cdk8sBuildResult.message,
       haBuildResult.message,
@@ -293,6 +306,7 @@ export class Homelab {
     if (
       renovateTestResult.status === "failed" ||
       helmTestResult.status === "failed" ||
+      cdk8sTestResult.status === "failed" ||
       syncResult.status === "failed" ||
       cdk8sBuildResult.status === "failed" ||
       haBuildResult.status === "failed" ||
@@ -611,6 +625,31 @@ export class Homelab {
     source: Directory,
   ) {
     return buildK8sManifests(source);
+  }
+
+  /**
+   * Tests the CDK8s source code (including GPU resource validation).
+   * @param source The CDK8s source directory.
+   * @returns The output of the test.
+   */
+  @func()
+  async testCdk8s(
+    @argument({
+      ignore: [
+        "node_modules",
+        "dist",
+        "build",
+        ".cache",
+        "*.log",
+        ".env*",
+        "!.env.example",
+        ".dagger",
+      ],
+      defaultPath: "src/cdk8s",
+    })
+    source: Directory,
+  ) {
+    return testCdk8s(source);
   }
 
   /**

@@ -23,3 +23,15 @@ export async function buildK8sManifests(source: Directory): Promise<Directory> {
   const manifestsDir = builtContainer.directory("/workspace/dist");
   return manifestsDir;
 }
+
+export async function testCdk8s(source: Directory): Promise<string> {
+  return (
+    getWorkspaceContainer(source, ".")
+      .withWorkdir("/workspace")
+      // First build the manifests
+      .withExec(["bun", "run", "src/app.ts"])
+      // Then run the GPU resources test
+      .withExec(["bun", "run", "test:gpu-resources"])
+      .stdout()
+  );
+}

@@ -4,13 +4,13 @@ import { Namespace } from "cdk8s-plus-31";
 import versions from "../versions.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
-type RepositoryConfig = {
+export type RepositoryConfig = {
   name: string;
   githubUrl: string;
   minRunners?: number;
 };
 
-const repositories: RepositoryConfig[] = [
+export const repositories: RepositoryConfig[] = [
   {
     name: "homelab",
     githubUrl: "https://github.com/shepherdjerred/homelab",
@@ -176,42 +176,4 @@ export function createActionsRunnerControllerApp(chart: Chart) {
       },
     });
   });
-
-  // Alternative: Single runner set for all repositories (less secure, but fewer resources)
-  // Uncomment below and comment out the forEach above if you want to use this approach:
-  //
-  // new Application(chart, "arc-runner-set-all-repos", {
-  //   metadata: {
-  //     name: "all-repos-runner-set",
-  //   },
-  //   spec: {
-  //     project: "default",
-  //     source: {
-  //       repoUrl: "ghcr.io/actions/actions-runner-controller-charts",
-  //       chart: "gha-runner-scale-set",
-  //       targetRevision: versions["gha-runner-scale-set"],
-  //       helm: {
-  //         valuesObject: {
-  //           // Configure for user-level access (requires broader PAT permissions)
-  //           githubConfigUrl: `https://github.com/shepherdjerred`,
-  //           githubConfigSecret: githubPat.name,
-  //           minRunners: 1,
-  //           maxRunners: 10,
-  //           controllerServiceAccount: {
-  //             namespace: "arc-system",
-  //             name: "actions-runner-controller-gha-rs-controller",
-  //           },
-  //         },
-  //       },
-  //     },
-  //     destination: {
-  //       server: "https://kubernetes.default.svc",
-  //       namespace: "arc-runners",
-  //     },
-  //     syncPolicy: {
-  //       automated: {},
-  //       syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
-  //     },
-  //   },
-  // });
 }

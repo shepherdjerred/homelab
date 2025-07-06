@@ -12,12 +12,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: shepherdjerred
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -53,10 +47,11 @@ jobs:
       - name: Extract Dagger version
         id: dagger-version
         run: |
-          DAGGER_VERSION=$(bun -e "
-            const versions = await import('./src/cdk8s/src/versions.ts');
-            console.log(versions.default['dagger']);
-          ")
+          # Get the Dagger version from the running dagger-dagger-helm-engine pod
+          DAGGER_IMAGE=$(kubectl get pod --selector=name=dagger-dagger-helm-engine --namespace=dagger -o jsonpath='{.items[0].spec.containers[0].image}')
+          # Extract version from image tag (e.g., "registry.dagger.io/engine:v0.18.12" -> "0.18.12")
+          DAGGER_VERSION=$(echo "$DAGGER_IMAGE" | sed 's/.*:v//')
+          echo "Detected Dagger version: $DAGGER_VERSION"
           echo "version=$DAGGER_VERSION" >> $GITHUB_OUTPUT
 
       - name: Install Dagger CLI
