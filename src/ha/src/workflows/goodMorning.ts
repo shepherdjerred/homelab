@@ -1,5 +1,13 @@
 import type { TServiceParams } from "@digital-alchemy/core";
-import { openCoversWithDelay, runParallel, runSequential, runSequentialWithDelay, repeat, runIf } from "../util.ts";
+import {
+  openCoversWithDelay,
+  runParallel,
+  runSequential,
+  runSequentialWithDelay,
+  repeat,
+  runIf,
+  wait,
+} from "../util.ts";
 
 export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   const bedroomScene = hass.refBy.id("scene.bedroom_dimmed");
@@ -15,9 +23,8 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   const weekendWakeUpHour = 9;
 
   const startVolume = 0;
-  const earlyVolumeSteps = 3;
-  const lateVolumeSteps = 5;
-  const maxVolume = 0.4;
+  const initialVolumeSteps = 3; // Steps for bedroom player at wake up
+  const additionalVolumeSteps = 2; // Additional gentle steps for all players
 
   // one hour before
   scheduler.cron({
@@ -59,12 +66,34 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
           }),
           runSequential([
             bedroomMediaPlayer.unjoin(),
+            // Debug: Log volume before setting it
+            (async () => {
+              logger.info(`Volume before setting to zero: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+              return Promise.resolve();
+            })(),
             bedroomMediaPlayer.volume_set({ volume_level: startVolume }),
+            // Debug: Log volume after setting it
+            (async () => {
+              logger.info(`Volume after setting to zero: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+              return Promise.resolve();
+            })(),
+            // Add delay to ensure volume change takes effect before playing media
+            wait({ amount: 1, unit: "s" }),
+            // Debug: Log volume just before playing media
+            (async () => {
+              logger.info(`Volume just before playing media: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+              return Promise.resolve();
+            })(),
             bedroomMediaPlayer.play_media({
               media_content_id: "FV:2/5",
               media_content_type: "favorite_item_id",
             }),
-            runSequentialWithDelay(repeat(bedroomMediaPlayer.volume_up, 3), {
+            // Debug: Log volume right after starting media
+            (async () => {
+              logger.info(`Volume right after starting media: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+              return Promise.resolve();
+            })(),
+            runSequentialWithDelay(repeat(bedroomMediaPlayer.volume_up, initialVolumeSteps), {
               amount: 5,
               unit: "s",
             }),
@@ -83,44 +112,29 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
         openCoversWithDelay(hass, ["cover.bedroom_left", "cover.bedroom_right"]),
         bedroomBrightScene.turn_on({ transition: 60 }),
         runSequential([
+          // Set extra players to start volume
           (async () => {
             for (const player of extraMediaPlayers) {
               await player.volume_set({ volume_level: startVolume });
             }
           })(),
+          // Join all players together
           bedroomMediaPlayer.join({
             group_members: extraMediaPlayers.map((p) => p.entity_id),
           }),
+          // Gentle volume increase for all players (bedroom + extra)
           runSequentialWithDelay(
             repeat(async () => {
-              if (bedroomMediaPlayer.attributes.volume_level < maxVolume) {
-                await bedroomMediaPlayer.volume_up();
-              }
+              // Increase bedroom player volume
+              await bedroomMediaPlayer.volume_up();
+              // Increase extra players volume
               await Promise.all(
                 extraMediaPlayers.map(async (player) => {
-                  if (player.attributes.volume_level < maxVolume) {
-                    logger.debug(`Increasing volume for ${player.entity_id}`);
-                    await player.volume_up();
-                  }
+                  logger.debug(`Increasing volume for ${player.entity_id}`);
+                  await player.volume_up();
                 }),
               );
-            }, lateVolumeSteps),
-            {
-              amount: 5,
-              unit: "s",
-            },
-          ),
-          runSequentialWithDelay(
-            repeat(async () => {
-              await Promise.all(
-                extraMediaPlayers.map(async (player) => {
-                  if (player.attributes.volume_level < maxVolume) {
-                    logger.debug(`Increasing volume for ${player.entity_id}`);
-                    await player.volume_up();
-                  }
-                }),
-              );
-            }, earlyVolumeSteps),
+            }, additionalVolumeSteps), // Only 2 additional steps instead of 5+3
             {
               amount: 5,
               unit: "s",
