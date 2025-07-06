@@ -4,6 +4,70 @@ import { Namespace } from "cdk8s-plus-31";
 import versions from "../versions.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
+type RepositoryConfig = {
+  name: string;
+  githubUrl: string;
+  minRunners?: number;
+};
+
+const repositories: RepositoryConfig[] = [
+  {
+    name: "homelab",
+    githubUrl: "https://github.com/shepherdjerred/homelab",
+    minRunners: 1,
+  },
+  {
+    name: "scout-for-lol",
+    githubUrl: "https://github.com/shepherdjerred/scout-for-lol",
+    minRunners: 1,
+  },
+  {
+    name: "webring",
+    githubUrl: "https://github.com/shepherdjerred/webring",
+    minRunners: 0,
+  },
+  {
+    name: "astro-opengraph-images",
+    githubUrl: "https://github.com/shepherdjerred/astro-opengraph-images",
+    minRunners: 0,
+  },
+  {
+    name: "castle-casters",
+    githubUrl: "https://github.com/shepherdjerred/castle-casters",
+    minRunners: 0,
+  },
+  {
+    name: "sjer.red",
+    githubUrl: "https://github.com/shepherdjerred/sjer.red",
+    minRunners: 0,
+  },
+  {
+    name: "monorepo",
+    githubUrl: "https://github.com/shepherdjerred/monorepo",
+    minRunners: 0,
+  },
+  {
+    name: "discord-plays-pokemon",
+    githubUrl: "https://github.com/shepherdjerred/discord-plays-pokemon",
+    minRunners: 0,
+  },
+  {
+    name: "better-skill-capped",
+    githubUrl: "https://github.com/shepherdjerred/better-skill-capped",
+    minRunners: 0,
+  },
+  {
+    name: "macos-cross-compiler",
+    githubUrl: "https://github.com/shepherdjerred/macos-cross-compiler",
+    minRunners: 0,
+  },
+  {
+    name: "resume",
+    githubUrl: "https://github.com/shepherdjerred/resume",
+    minRunners: 0,
+  },
+];
+
 export function createActionsRunnerControllerApp(chart: Chart) {
   // Ensure the arc-system namespace exists before creating controller resources
   new Namespace(chart, "arc-system-namespace", {
@@ -57,7 +121,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
     },
   });
 
-  // 1Password secret for GitHub PAT (runner set)
+  // 1Password secret for GitHub PAT (shared across all runner sets)
   const githubPat = new OnePasswordItem(
     chart,
     "arc-github-pat-onepassword-homelab",
@@ -73,41 +137,81 @@ export function createActionsRunnerControllerApp(chart: Chart) {
     },
   );
 
-  // Runner set install (gha-runner-scale-set)
-  new Application(chart, "arc-runner-set-app", {
-    metadata: {
-      name: "homelab-runner-set",
-    },
-    spec: {
-      project: "default",
-      source: {
-        repoUrl: "ghcr.io/actions/actions-runner-controller-charts",
-        chart: "gha-runner-scale-set",
-        targetRevision: versions["gha-runner-scale-set"],
-        helm: {
-          valuesObject: {
-            githubConfigUrl: "https://github.com/shepherdjerred/homelab",
-            githubConfigSecret: githubPat.name,
-            minRunners: 1,
-            controllerServiceAccount: {
-              namespace: "arc-system",
-              name: "actions-runner-controller-gha-rs-controller",
-            },
-            containerMode: {
-              // TODO: we might not need this with a remote Dagger engine
-              type: "dind",
+  // Create runner sets for each repository (recommended approach for personal accounts)
+  repositories.forEach((repo) => {
+    new Application(chart, `arc-runner-set-${repo.name}`, {
+      metadata: {
+        name: `${repo.name}-runner-set`,
+      },
+      spec: {
+        project: "default",
+        source: {
+          repoUrl: "ghcr.io/actions/actions-runner-controller-charts",
+          chart: "gha-runner-scale-set",
+          targetRevision: versions["gha-runner-scale-set"],
+          helm: {
+            valuesObject: {
+              githubConfigUrl: repo.githubUrl,
+              githubConfigSecret: githubPat.name,
+              minRunners: repo.minRunners ?? 1,
+              controllerServiceAccount: {
+                namespace: "arc-system",
+                name: "actions-runner-controller-gha-rs-controller",
+              },
+              // containerMode: {
+              //   // TODO: we might not need this with a remote Dagger engine
+              //   type: "dind",
+              // },
             },
           },
         },
+        destination: {
+          server: "https://kubernetes.default.svc",
+          namespace: "arc-runners",
+        },
+        syncPolicy: {
+          automated: {},
+          syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
+        },
       },
-      destination: {
-        server: "https://kubernetes.default.svc",
-        namespace: "arc-runners",
-      },
-      syncPolicy: {
-        automated: {},
-        syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
-      },
-    },
+    });
   });
+
+  // Alternative: Single runner set for all repositories (less secure, but fewer resources)
+  // Uncomment below and comment out the forEach above if you want to use this approach:
+  //
+  // new Application(chart, "arc-runner-set-all-repos", {
+  //   metadata: {
+  //     name: "all-repos-runner-set",
+  //   },
+  //   spec: {
+  //     project: "default",
+  //     source: {
+  //       repoUrl: "ghcr.io/actions/actions-runner-controller-charts",
+  //       chart: "gha-runner-scale-set",
+  //       targetRevision: versions["gha-runner-scale-set"],
+  //       helm: {
+  //         valuesObject: {
+  //           // Configure for user-level access (requires broader PAT permissions)
+  //           githubConfigUrl: `https://github.com/shepherdjerred`,
+  //           githubConfigSecret: githubPat.name,
+  //           minRunners: 1,
+  //           maxRunners: 10,
+  //           controllerServiceAccount: {
+  //             namespace: "arc-system",
+  //             name: "actions-runner-controller-gha-rs-controller",
+  //           },
+  //         },
+  //       },
+  //     },
+  //     destination: {
+  //       server: "https://kubernetes.default.svc",
+  //       namespace: "arc-runners",
+  //     },
+  //     syncPolicy: {
+  //       automated: {},
+  //       syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
+  //     },
+  //   },
+  // });
 }
