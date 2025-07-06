@@ -25,28 +25,36 @@ const runCommand = async (command: string, args: string[]) => {
 // on macOS use gsed, on Linux use sed
 const sedCommand = platform() === "darwin" ? "gsed" : "sed";
 
-// Define the patterns to replace Intel GPU resources with correct value
-const patterns = [
-  "gpu.intel.com/i915: null",
-  "gpu.intel.com/i915: 0",
-  "gpu.intel.com/i915: '0'",
-  'gpu.intel.com/i915: "0"',
-];
-
 const targetFile = "dist/torvalds.k8s.yaml";
 
 console.log("🔧 Applying Intel GPU resource patches...");
 
-for (const pattern of patterns) {
+// Define patterns to replace with their sed expressions
+const replacements = [
+  {
+    pattern: "gpu.intel.com/i915: null",
+    sedPattern: "s/gpu\\.intel\\.com\\/i915: null/gpu.intel.com\\/i915: 1/g",
+  },
+  {
+    pattern: "gpu.intel.com/i915: 0",
+    sedPattern: "s/gpu\\.intel\\.com\\/i915: 0$/gpu.intel.com\\/i915: 1/g",
+  },
+  {
+    pattern: "gpu.intel.com/i915: '0'",
+    sedPattern: "s/gpu\\.intel\\.com\\/i915: '0'/gpu.intel.com\\/i915: 1/g",
+  },
+  {
+    pattern: 'gpu.intel.com/i915: "0"',
+    sedPattern: 's/gpu\\.intel\\.com\\/i915: "0"/gpu.intel.com\\/i915: 1/g',
+  },
+];
+
+for (const replacement of replacements) {
   try {
-    await runCommand(sedCommand, [
-      "-i",
-      `s/${pattern.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/gpu.intel.com\\/i915: 1/g`,
-      targetFile,
-    ]);
-    console.log(`✓ Processed pattern: ${pattern}`);
+    await runCommand(sedCommand, ["-i", replacement.sedPattern, targetFile]);
+    console.log(`✓ Processed pattern: ${replacement.pattern}`);
   } catch (error) {
-    console.error(`✗ Failed to process pattern ${pattern}:`, error);
+    console.error(`✗ Failed to process pattern ${replacement.pattern}:`, error);
   }
 }
 

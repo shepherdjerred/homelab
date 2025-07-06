@@ -10,7 +10,6 @@ const commonEnv = {
 
 export const commonProps: Partial<ContainerProps> = {
   envVariables: commonEnv,
-  resources: {},
 };
 
 export function withCommonProps(props: ContainerProps): ContainerProps {
