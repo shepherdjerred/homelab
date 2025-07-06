@@ -7,8 +7,8 @@
     "build": "echo 'HA project ready'",
     "test": "echo 'No tests configured'",
     "type-check": "bunx tsc --noEmit",
-    "lint": "npx eslint . && npx prettier --check .",
-    "lint:fix": "npx eslint . --fix && npx prettier --write .",
+    "lint": "bunx eslint . && bunx prettier --check .",
+    "lint:fix": "bunx eslint . --fix && bunx prettier --write .",
     "generate-types": "bun run generate-types.ts"
   },
   "type": "module",

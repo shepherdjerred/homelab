@@ -4,12 +4,13 @@
 
 - Workflow for turning on A/C while coming home
 - Fix volume in morning
-- Automatically fix types for HA project, e.g. roomba
-- eslint
 - ZFS grafana dashboard
+- Music isn't working
 
 ## Done
 
+- Automatically fix types for HA project, e.g. roomba
+- eslint
 - HA image should be pinned to GHA run number
 - Backups of all ZFS volumes
 - Add last HDD to zpool
