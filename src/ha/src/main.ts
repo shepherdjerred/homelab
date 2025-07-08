@@ -4,6 +4,7 @@ import { welcomeHome } from "./workflows/welcomeHome.ts";
 import { runVacuumIfNotHome } from "./workflows/runVacuumIfNotHome.ts";
 import { leavingHome } from "./workflows/leavingHome.ts";
 import { indoorLightsSunset } from "./workflows/indoorLightsSunset.ts";
+import { climateControl } from "./workflows/climateControl.ts";
 
 import { LIB_HASS } from "@digital-alchemy/hass";
 import { LIB_SYNAPSE } from "@digital-alchemy/synapse";
@@ -20,7 +21,8 @@ const app = CreateApplication({
     welcomeHome,
     runVacuumIfNotHome,
     leavingHome,
-    indoorLightsSunset,
+    // indoorLightsSunset,
+    climateControl,
     roombaError,
     // mastraWorkflow
   },

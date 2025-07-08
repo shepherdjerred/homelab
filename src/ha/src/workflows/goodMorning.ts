@@ -65,34 +65,38 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
             message: "Good Morning! Time to wake up.",
           }),
           runSequential([
+            // Debug: Log the full state before doing anything
+            (async () => {
+              logger.info(`Before any changes - Full state: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+              logger.info(`Before any changes - Entity state: ${bedroomMediaPlayer.state}`);
+              return Promise.resolve();
+            })(),
             bedroomMediaPlayer.unjoin(),
-            // Debug: Log volume before setting it
+            // Debug: Log state after unjoin
             (async () => {
-              logger.info(`Volume before setting to zero: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+              logger.info(`After unjoin - Full state: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
               return Promise.resolve();
             })(),
-            bedroomMediaPlayer.volume_set({ volume_level: startVolume }),
-            // Debug: Log volume after setting it
+            // Wait to see current state
+            wait({ amount: 2, unit: "s" }),
+            // Try volume_set with explicit value
             (async () => {
-              logger.info(`Volume after setting to zero: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+              logger.info("Calling volume_set with volume_level: 0");
+              await bedroomMediaPlayer.volume_set({ volume_level: 0 });
+              logger.info("volume_set call completed");
               return Promise.resolve();
             })(),
-            // Add delay to ensure volume change takes effect before playing media
-            wait({ amount: 1, unit: "s" }),
-            // Debug: Log volume just before playing media
+            // Wait and check if it took effect
+            wait({ amount: 2, unit: "s" }),
+            // Debug: Log state after volume_set
             (async () => {
-              logger.info(`Volume just before playing media: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+              logger.info(`After volume_set - Full state: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
               return Promise.resolve();
             })(),
             bedroomMediaPlayer.play_media({
               media_content_id: "FV:2/5",
               media_content_type: "favorite_item_id",
             }),
-            // Debug: Log volume right after starting media
-            (async () => {
-              logger.info(`Volume right after starting media: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
-              return Promise.resolve();
-            })(),
             runSequentialWithDelay(repeat(bedroomMediaPlayer.volume_up, initialVolumeSteps), {
               amount: 5,
               unit: "s",
