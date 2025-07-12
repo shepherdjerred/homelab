@@ -60,7 +60,6 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Get Dagger Engine Pod Name
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           DAGGER_ENGINE_POD_NAME="$(kubectl get pod --selector=name=dagger-dagger-helm-engine --namespace=dagger --output=jsonpath='{.items[0].metadata.name}')"
           echo "DAGGER_ENGINE_POD_NAME=$DAGGER_ENGINE_POD_NAME" >> $GITHUB_ENV
