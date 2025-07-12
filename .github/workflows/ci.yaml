@@ -60,7 +60,6 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Get Dagger Engine Pod Name
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           DAGGER_ENGINE_POD_NAME="$(kubectl get pod --selector=name=dagger-dagger-helm-engine --namespace=dagger --output=jsonpath='{.items[0].metadata.name}')"
           echo "DAGGER_ENGINE_POD_NAME=$DAGGER_ENGINE_POD_NAME" >> $GITHUB_ENV
@@ -91,6 +90,7 @@ jobs:
         if: github.event_name == 'pull_request' || github.ref != 'refs/heads/main'
         env:
           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+          _EXPERIMENTAL_DAGGER_RUNNER_HOST: kube-pod://${{ env.DAGGER_ENGINE_POD_NAME }}?namespace=dagger
         run: |
           dagger call ci \
             --source=. \
