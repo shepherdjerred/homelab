@@ -91,6 +91,7 @@ jobs:
         if: github.event_name == 'pull_request' || github.ref != 'refs/heads/main'
         env:
           DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
+          _EXPERIMENTAL_DAGGER_RUNNER_HOST: kube-pod://${{ env.DAGGER_ENGINE_POD_NAME }}?namespace=dagger
         run: |
           dagger call ci \
             --source=. \
