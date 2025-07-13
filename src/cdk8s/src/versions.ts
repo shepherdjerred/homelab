@@ -72,7 +72,7 @@ const versions = {
   minecraft: "4.26.3",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr":
-    "2.18.1@sha256:da4b3b5b5e0a4aae6b4e294abdad2510a3be9bd138af8f4ca5a6e7cd6d94b1a2",
+    "2.18.2@sha256:f0ad693314830eade8df47df348bae50e1639002cf9158f54f6d149772fb0f53",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   loki: "6.30.1",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
