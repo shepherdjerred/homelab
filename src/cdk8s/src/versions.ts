@@ -81,7 +81,6 @@ const versions = {
   openebs: "4.3.2",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/beta": "1.0.83",
-  "shepherdjerred/scout-for-lol/beta": "1.0.83",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/prod": "1.0.167",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
