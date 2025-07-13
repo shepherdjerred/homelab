@@ -6,6 +6,7 @@
 - Workflow for turning on A/C while coming home
 - Fix volume in morning
 - ZFS grafana dashboard
+- Track Talos version in repository
 
 ## Done
 

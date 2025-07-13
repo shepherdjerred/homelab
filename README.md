@@ -47,6 +47,7 @@ some things I'm proud of:
      --config-patch @patches/image.yaml \
      --config-patch @patches/tailscale.yaml \
      --config-patch @patches/kubelet.yaml \
+     --config-patch @patches/interface.yaml \
      torvalds https://192.168.1.81:6443 --force
    ```
 
