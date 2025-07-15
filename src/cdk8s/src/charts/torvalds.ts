@@ -34,7 +34,7 @@ export function createTorvaldsChart(app: App) {
   });
 
   const tvVolume = new ZfsHddVolume(chart, "plex-tv-hdd-pvc", {
-    storage: Size.tebibytes(2),
+    storage: Size.tebibytes(4),
   });
   const downloadsVolume = new ZfsHddVolume(chart, "qbittorrent-hdd-pvc", {
     storage: Size.tebibytes(1),
