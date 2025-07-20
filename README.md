@@ -77,6 +77,7 @@ some things I'm proud of:
 
    ```bash
    talosctl upgrade --nodes 192.168.1.81 --image <image>
+   talosctl upgrade-k8s
    ```
 
 1. Bootstrap the Kubernetes cluster:

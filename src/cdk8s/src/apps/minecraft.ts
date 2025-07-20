@@ -65,7 +65,7 @@ export function createMinecraftApp(chart: Chart) {
             persistence: {
               storageClass: SSD_STORAGE_CLASS,
               dataDir: {
-                size: Size.gibibytes(64).asString(),
+                Size: Size.gibibytes(32).asString(),
                 enabled: true,
               },
             },
