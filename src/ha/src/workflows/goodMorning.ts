@@ -73,13 +73,14 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
               return Promise.resolve();
             })(),
             bedroomMediaPlayer.unjoin(),
+            // Wait longer for unjoin to complete fully
+            wait({ amount: 5, unit: "s" }),
             // Debug: Log state after unjoin
             (async () => {
               logger.info(`After unjoin - Full state: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+              logger.info(`After unjoin - Entity state: ${bedroomMediaPlayer.state}`);
               return Promise.resolve();
             })(),
-            // Wait to see current state
-            wait({ amount: 2, unit: "s" }),
             // Try volume_set with explicit value
             (async () => {
               logger.info("Calling volume_set with volume_level: 0");
@@ -94,10 +95,33 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
               logger.info(`After volume_set - Full state: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
               return Promise.resolve();
             })(),
-            bedroomMediaPlayer.play_media({
-              media_content_id: "FV:2/5",
-              media_content_type: "favorite_item_id",
-            }),
+            // Play media with error handling and retry
+            (async () => {
+              try {
+                logger.info("Attempting to play media on bedroom player");
+                await bedroomMediaPlayer.play_media({
+                  media_content_id: "FV:2/5",
+                  media_content_type: "favorite_item_id",
+                });
+                logger.info("Successfully started media playback");
+              } catch (error) {
+                const errorMsg = error instanceof Error ? error.message : String(error);
+                logger.error(`First play_media attempt failed: ${errorMsg}`);
+                logger.info("Waiting additional time and retrying...");
+                await wait({ amount: 3, unit: "s" });
+                try {
+                  await bedroomMediaPlayer.play_media({
+                    media_content_id: "FV:2/5",
+                    media_content_type: "favorite_item_id",
+                  });
+                  logger.info("Retry successful");
+                } catch (retryError) {
+                  const retryErrorMsg = retryError instanceof Error ? retryError.message : String(retryError);
+                  logger.error(`Retry also failed: ${retryErrorMsg}`);
+                  // Continue with the rest of the routine even if media fails
+                }
+              }
+            })(),
             runSequentialWithDelay(repeat(bedroomMediaPlayer.volume_up, initialVolumeSteps), {
               amount: 5,
               unit: "s",
@@ -114,7 +138,10 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
     await runIf(
       personJerred.state === "home",
       runParallel([
-        runIf(personShuxin.state !== "home", openCoversWithDelay(hass, ["cover.bedroom_left", "cover.bedroom_right"])),
+        runIf(
+          personShuxin.state === "not_home",
+          openCoversWithDelay(hass, ["cover.bedroom_left", "cover.bedroom_right"]),
+        ),
         bedroomBrightScene.turn_on({ transition: 60 }),
         runSequential([
           // Set extra players to start volume
