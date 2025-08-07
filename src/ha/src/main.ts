@@ -3,7 +3,6 @@ import { goodNight } from "./workflows/goodNight.ts";
 import { welcomeHome } from "./workflows/welcomeHome.ts";
 import { runVacuumIfNotHome } from "./workflows/runVacuumIfNotHome.ts";
 import { leavingHome } from "./workflows/leavingHome.ts";
-import { indoorLightsSunset } from "./workflows/indoorLightsSunset.ts";
 import { climateControl } from "./workflows/climateControl.ts";
 
 import { LIB_HASS } from "@digital-alchemy/hass";
@@ -21,10 +20,8 @@ const app = CreateApplication({
     welcomeHome,
     runVacuumIfNotHome,
     leavingHome,
-    // indoorLightsSunset,
     climateControl,
     roombaError,
-    // mastraWorkflow
   },
 });
 

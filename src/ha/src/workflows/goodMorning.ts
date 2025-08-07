@@ -18,6 +18,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   const entrywayLight = hass.refBy.id("switch.entryway_overhead_lights");
   const mainBathroomLight = hass.refBy.id("switch.main_bathroom_lights");
   const personJerred = hass.refBy.id("person.jerred");
+  const personShuxin = hass.refBy.id("person.shuxin");
 
   const weekdayWakeUpHour = 8;
   const weekendWakeUpHour = 9;
@@ -113,7 +114,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
     await runIf(
       personJerred.state === "home",
       runParallel([
-        openCoversWithDelay(hass, ["cover.bedroom_left", "cover.bedroom_right"]),
+        runIf(personShuxin.state !== "home", openCoversWithDelay(hass, ["cover.bedroom_left", "cover.bedroom_right"])),
         bedroomBrightScene.turn_on({ transition: 60 }),
         runSequential([
           // Set extra players to start volume
