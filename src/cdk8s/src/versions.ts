@@ -74,7 +74,7 @@ const versions = {
   "jorenn92/maintainerr":
     "2.18.2@sha256:f0ad693314830eade8df47df348bae50e1639002cf9158f54f6d149772fb0f53",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
-  loki: "6.30.1",
+  loki: "6.31.0",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   promtail: "6.17.0",
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
