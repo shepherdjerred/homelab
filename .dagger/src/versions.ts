@@ -17,7 +17,7 @@ const versions = {
     "8.14.1@sha256:9a1ed35addb45476afa911696297f8e115993df459278ed036182dd2cd22b67b",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "bitnami/kubectl":
-    "1.33.1@sha256:9081a6f83f4febf47369fc46b6f0f7683c7db243df5b43fc9defe51b0471a950",
+    "1.33.2@sha256:e706851b19c0c4e668614b7c5a6b0c5bbcfbe7fb73f5d999250e0da8bfff42c6",
   // renovate: datasource=github-releases versioning=semver
   "stackrox/kube-linter": "v0.7.4",
   // renovate: datasource=python-version versioning=semver
