@@ -69,37 +69,37 @@ export function shouldStopCleaning(state: ByIdProxy<"vacuum.roomba">["state"]) {
     .exhaustive();
 }
 
-export function runIf(condition: boolean, promise: Promise<unknown>): Promise<unknown> {
+export function runIf(condition: boolean, promiseFactory: () => Promise<unknown>): Promise<unknown> {
   if (condition) {
-    return promise;
+    return promiseFactory();
   }
   return Promise.resolve();
 }
 
-export function runParallel(promises: Promise<unknown>[]): Promise<unknown> {
-  return Promise.all(promises);
+export function runParallel(promiseFactories: (() => Promise<unknown>)[]): Promise<unknown> {
+  return Promise.all(promiseFactories.map((factory) => factory()));
 }
 
-export function runSequential(promises: Promise<unknown>[]): Promise<unknown> {
+export function runSequential(promiseFactories: (() => Promise<unknown>)[]): Promise<unknown> {
   let chain: Promise<unknown> = Promise.resolve();
-  for (const promise of promises) {
-    chain = chain.then(() => promise);
+  for (const factory of promiseFactories) {
+    chain = chain.then(() => factory());
   }
   return chain;
 }
 
-export function runSequentialWithDelay(promises: Promise<unknown>[], delay: Time): Promise<unknown> {
+export function runSequentialWithDelay(promiseFactories: (() => Promise<unknown>)[], delay: Time): Promise<unknown> {
   let chain: Promise<unknown> = Promise.resolve();
-  for (const promise of promises) {
-    chain = chain.then(() => promise).then(() => wait(delay));
+  for (const factory of promiseFactories) {
+    chain = chain.then(() => factory()).then(() => wait(delay));
   }
   return chain;
 }
 
-export function repeat(promise: () => Promise<unknown>, times: number): Promise<unknown>[] {
-  const promises: Promise<unknown>[] = [];
+export function repeat(promiseFactory: () => Promise<unknown>, times: number): (() => Promise<unknown>)[] {
+  const factories: (() => Promise<unknown>)[] = [];
   for (let i = 0; i < times; i++) {
-    promises.push(promise());
+    factories.push(promiseFactory);
   }
-  return promises;
+  return factories;
 }
