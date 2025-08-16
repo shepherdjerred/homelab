@@ -1,6 +1,6 @@
 [tools]
 bun = "latest"
-node = "latest"
+node = "lts"
 python = "latest"
 
 [tasks.check]

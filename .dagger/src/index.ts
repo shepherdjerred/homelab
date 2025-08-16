@@ -14,7 +14,11 @@ import {
   lintHa,
   buildAndExportHaImage,
 } from "./ha";
-import { getSystemContainer, withMiseTools } from "./base";
+import {
+  getMiseRuntimeContainer,
+  getSystemContainer,
+  withMiseTools,
+} from "./base";
 import { typeCheckCdk8s, buildK8sManifests, testCdk8s } from "./cdk8s";
 import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
@@ -71,7 +75,13 @@ export class Homelab {
     ]);
     const summary = results
       .map((result, index) => {
-        const names = ["HA TypeCheck", "HA Test", "HA Lint", "CDK8s TypeCheck", "CDK8s Test"];
+        const names = [
+          "HA TypeCheck",
+          "HA Test",
+          "HA Lint",
+          "CDK8s TypeCheck",
+          "CDK8s Test",
+        ];
         return `${names[index]}: ${
           result.status === "fulfilled" ? "PASSED" : "FAILED"
         }`;
@@ -190,7 +200,10 @@ export class Homelab {
         status: "passed",
         message: `CDK8s Test: PASSED\n${msg}`,
       }))
-      .catch((e) => ({ status: "failed", message: `CDK8s Test: FAILED\n${e}` }));
+      .catch((e) => ({
+        status: "failed",
+        message: `CDK8s Test: FAILED\n${e}`,
+      }));
 
     // Start builds in parallel
     const cdk8sBuildPromise = buildK8sManifests(

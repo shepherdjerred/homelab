@@ -98,7 +98,7 @@ dag.cacheVolume(`bun-cache-${workspace}-${version}-${hash}`)
 .withExec(["sh", "-c", "if [ -f package.json ]; then bun install; fi"])
 
 // Using mise exec when tools are already in PATH
-.withExec(["mise", "exec", "bun@1.2.16", "--", "bun", "install"])
+.withExec(["bun", "install"])
 ```
 
 ### ✅ Do This Instead

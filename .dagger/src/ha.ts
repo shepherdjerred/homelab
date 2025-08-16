@@ -66,24 +66,12 @@ async function buildHaContainer(source: Directory): Promise<Container> {
         "/root/.bun/install/cache",
         dag.cacheVolume("bun-cache-default"),
       )
-      .withExec([
-        "mise",
-        "exec",
-        `bun@${versions["bun"]}`,
-        "--",
-        "bun",
-        "install",
-        "--frozen-lockfile",
-      ])
+      .withExec(["bun", "install", "--frozen-lockfile"])
       // Copy the full ha source after dependencies are resolved
       .withDirectory("src/ha", haSource, { exclude: ["package.json"] })
       // Set working directory to the ha workspace
       .withWorkdir("/app/src/ha")
       .withDefaultArgs([
-        "mise",
-        "exec",
-        `bun@${versions["bun"]}`,
-        "--",
         "bun",
         "src/main.ts",
       ])
