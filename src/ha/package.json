@@ -16,7 +16,6 @@
   "license": "GPL-3.0-only",
   "description": "",
   "dependencies": {
-    "@ai-sdk/anthropic": "^1.2.12",
     "@digital-alchemy/automation": "^25.3.1",
     "@digital-alchemy/core": "^25.4.2",
     "@digital-alchemy/hass": "^25.3.2",

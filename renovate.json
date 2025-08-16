@@ -40,7 +40,11 @@
       "matchPackageNames": ["/^cdk8s/"]
     },
     {
-      "matchPackageNames": ["paper"],
+      "matchPackageNames": [
+        "paper",
+        "siderolabs/talos",
+        "kubernetes/kubernetes"
+      ],
       "automerge": false
     }
   ],
