@@ -55,6 +55,7 @@ async function buildHaContainer(source: Directory): Promise<Container> {
   return (
     getMiseRuntimeContainer()
       .withWorkdir("/app")
+      .withExec(["bun", "install", "node-gyp"])
       // Copy workspace root files for proper dependency resolution
       .withFile("package.json", source.file("package.json"))
       .withFile("bun.lock", source.file("bun.lock"))
