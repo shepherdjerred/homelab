@@ -62,19 +62,16 @@ async function buildHaContainer(source: Directory): Promise<Container> {
       .withFile("src/ha/package.json", haSource.file("package.json"))
       .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
       // Install dependencies (cached unless dependency files change)
-      .withMountedCache(
-        "/root/.bun/install/cache",
-        dag.cacheVolume("bun-cache-default"),
-      )
+      // .withMountedCache(
+      //   "/root/.bun/install/cache",
+      //   dag.cacheVolume("bun-cache-default"),
+      // )
       .withExec(["bun", "install", "--frozen-lockfile"])
       // Copy the full ha source after dependencies are resolved
       .withDirectory("src/ha", haSource, { exclude: ["package.json"] })
       // Set working directory to the ha workspace
       .withWorkdir("/app/src/ha")
-      .withDefaultArgs([
-        "bun",
-        "src/main.ts",
-      ])
+      .withDefaultArgs(["bun", "src/main.ts"])
   );
 }
 
