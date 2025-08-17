@@ -38,6 +38,15 @@ export function createAppsChart(app: App) {
     },
   });
 
+  new Namespace(chart, `devpod-namespace`, {
+    metadata: {
+      name: `devpod`,
+      labels: {
+        "pod-security.kubernetes.io/audit": "restricted",
+      },
+    },
+  });
+
   createOpenEBSApp(chart);
   createOnePasswordApp(chart);
   createArgoCdApp(chart);
