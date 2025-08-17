@@ -42,7 +42,7 @@ export function createAppsChart(app: App) {
     metadata: {
       name: `devpod`,
       labels: {
-        "pod-security.kubernetes.io/audit": "restricted",
+        "pod-security.kubernetes.io/audit": "privileged",
       },
     },
   });
