@@ -114,7 +114,7 @@ const versions = {
   recyclarr:
     "7.4.1@sha256:759540877f95453eca8a26c1a93593e783a7a824c324fbd57523deffb67f48e1",
   // renovate: datasource=github-releases versioning=semver
-  "siderolabs/talos": "1.10.5",
+  "siderolabs/talos": "1.10.6",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];
