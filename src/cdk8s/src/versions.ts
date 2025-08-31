@@ -99,7 +99,7 @@ const versions = {
   velero: "10.0.10",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "velero/velero-plugin-for-aws":
-    "v1.12.1@sha256:b9735c9d08c3244c462bb81263ff5f4ad4e24b96865338c14733a59e3624dfaf",
+    "v1.12.2@sha256:bef271808e0547bb70f69f0430cc73f7a2fa938949c50f7b31171018be967335",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "openebs/velero-plugin":
     "3.6.0@sha256:9ea3331d891e436a7239e37e68ca4c8888500cb122be7cdc9d8400f345555c76",
