@@ -65,7 +65,7 @@ const versions = {
   "linuxserver/syncthing":
     "2.0.7@sha256:1646e5a211841b9a93552b5d3aeb642f4a5dcb07e1d4b19f609bf497d0b83f52",
   // renovate: datasource=github-releases versioning=semver-coerced
-  "dotdc/grafana-dashboards-kubernetes": "v2.8.1",
+  "dotdc/grafana-dashboards-kubernetes": "v2.8.2",
   // renovate: datasource=helm registryUrl=https://chartmuseum.github.io/charts versioning=semver
   chartmuseum: "3.10.4",
   // renovate: datasource=helm registryUrl=https://itzg.github.io/minecraft-server-charts versioning=semver
