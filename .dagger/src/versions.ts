@@ -21,7 +21,7 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver
   "stackrox/kube-linter": "v0.7.4",
   // renovate: datasource=python-version versioning=semver
-  python: "3.13.5",
+  python: "3.13.6",
   // renovate: datasource=node-version versioning=semver
   node: "22.18.0",
   // this is empty because we have to perform some string manipulation below
