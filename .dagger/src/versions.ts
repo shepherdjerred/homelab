@@ -19,7 +19,7 @@ const versions = {
   "bitnami/kubectl":
     "1.33.2@sha256:e706851b19c0c4e668614b7c5a6b0c5bbcfbe7fb73f5d999250e0da8bfff42c6",
   // renovate: datasource=github-releases versioning=semver
-  "stackrox/kube-linter": "v0.7.4",
+  "stackrox/kube-linter": "v0.7.5",
   // renovate: datasource=python-version versioning=semver
   python: "3.13.5",
   // renovate: datasource=node-version versioning=semver
