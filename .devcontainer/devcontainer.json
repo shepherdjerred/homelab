@@ -4,6 +4,5 @@
   },
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2@sha256:c36ff66a35d1c40409a0fc1a7995616eaaa76574953b6ed675d8622e2d0bbcc5": {}
-  },
-  "postStartCommand": "/workspaces/homelab/.devcontainer/setup.sh"
+  }
 }
