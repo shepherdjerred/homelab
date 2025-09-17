@@ -59,6 +59,8 @@ automation: !include automation.yaml
 scene: !include scenes.yaml
 script: !include scripts.yaml
 
+prometheus:
+
 light:
   - platform: group
     name: "Bronze Lamp"
