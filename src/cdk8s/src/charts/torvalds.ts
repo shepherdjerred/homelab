@@ -13,7 +13,6 @@ import { createRadarrDeployment } from "../services/torrents/radarr.ts";
 import { createSonarrDeployment } from "../services/torrents/sonarr.ts";
 import { createDdnsDeployment } from "../services/ddns.ts";
 import { createMaintainerrDeployment } from "../services/torrents/maintainerr.ts";
-import { createStashDeployment } from "../services/media/stash.ts";
 import { createFreshRssDeployment } from "../services/freshrss.ts";
 import { createPokemonDeployment } from "../services/pokemon.ts";
 import { createHaDeployment } from "../services/home/ha.ts";
@@ -72,7 +71,6 @@ export function createTorvaldsChart(app: App) {
   createProwlarrDeployment(chart);
   createDdnsDeployment(chart);
   createMaintainerrDeployment(chart);
-  createStashDeployment(chart);
   createFreshRssDeployment(chart);
   createPokemonDeployment(chart);
   createHaDeployment(chart);
