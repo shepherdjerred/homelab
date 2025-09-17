@@ -4,6 +4,7 @@ import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
 import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
+import { createPrometheusMonitoring } from "../monitoring/prometheus.ts";
 
 export function createPrometheusApp(chart: Chart) {
   createIngress(
@@ -55,6 +56,8 @@ export function createPrometheusApp(chart: Chart) {
       },
     },
   );
+
+  createPrometheusMonitoring(chart);
 
   return new Application(chart, "prometheus-app", {
     metadata: {
