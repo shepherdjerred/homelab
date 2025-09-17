@@ -112,7 +112,7 @@ export function createPrometheusApp(chart: Chart) {
                   name: "homeassistant",
                   editable: false,
                   type: "prometheus",
-                  url: "http://torvalds-homeassistant-service/api/prometheus",
+                  url: "http://torvalds-homeassistant-service.torvalds.svc.cluster.local:8123/api/prometheus",
                   version: 1,
                   jsonData: {
                     httpHeaderName1: "Authorization",
