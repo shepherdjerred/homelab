@@ -112,6 +112,7 @@ export function createPrometheusApp(chart: Chart) {
                   },
                 },
                 secrets: [pagerdutyWebhook.name],
+                logLevel: "debug",
               },
               config: {
                 global: {
@@ -151,7 +152,7 @@ export function createPrometheusApp(chart: Chart) {
                   },
                 ],
                 route: {
-                  group_by: ["namespace"],
+                  group_by: ["namespace", "alertname"],
                   group_wait: "30s",
                   group_interval: "5m",
                   repeat_interval: "12h",
