@@ -60,6 +60,7 @@ scene: !include scenes.yaml
 script: !include scripts.yaml
 
 prometheus:
+  namespace: homeassistant
 
 light:
   - platform: group
