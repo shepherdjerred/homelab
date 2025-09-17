@@ -26,22 +26,22 @@ export function createPrometheusApp(chart: Chart) {
     false,
   );
 
-  const pagerdutyWebhook = new OnePasswordItem(
+  const alertmanagerSecrets = new OnePasswordItem(
     chart,
-    "pagerduty-webhook-onepassword",
+    "alertmanager-secrets-onepassword",
     {
       spec: {
         itemPath:
           "vaults/v64ocnykdqju4ui6j6pua56xw4/items/cki3qk5okk5b7xn3jmlpg74yka",
       },
       metadata: {
-        name: "pagerduty-alertmanager",
+        name: "alertmanager-secrets",
         namespace: "prometheus",
       },
     },
   );
 
-  const homeassistantToken = new OnePasswordItem(
+  const prometheusSecrets = new OnePasswordItem(
     chart,
     "grafana-secret-onepassword",
     {
@@ -50,7 +50,7 @@ export function createPrometheusApp(chart: Chart) {
           "vaults/v64ocnykdqju4ui6j6pua56xw4/items/42fn7x3zaemfenz35en27thw5u",
       },
       metadata: {
-        name: "grafana-secret",
+        name: "prometheus-secrets",
         namespace: "prometheus",
       },
     },
@@ -85,7 +85,6 @@ export function createPrometheusApp(chart: Chart) {
               enabled: false,
             },
             grafana: {
-              envFromSecret: homeassistantToken.name,
               persistence: {
                 enabled: true,
                 type: "pvc",
@@ -108,19 +107,6 @@ export function createPrometheusApp(chart: Chart) {
                   url: "http://loki-gateway.loki",
                   version: 1,
                 },
-                {
-                  name: "homeassistant-new",
-                  editable: true,
-                  type: "prometheus",
-                  url: "http://torvalds-homeassistant-service.torvalds.svc.cluster.local:8123/api/prometheus",
-                  version: 1,
-                  jsonData: {
-                    httpHeaderName1: "Authorization",
-                  },
-                  secureJsonData: {
-                    httpHeaderValue1: "Bearer $HOMEASSISTANT_TOKEN",
-                  },
-                },
               ],
             },
             alertmanager: {
@@ -140,7 +126,7 @@ export function createPrometheusApp(chart: Chart) {
                     },
                   },
                 },
-                secrets: [pagerdutyWebhook.name],
+                secrets: [alertmanagerSecrets.name],
                 logLevel: "debug",
               },
               config: {
@@ -174,8 +160,7 @@ export function createPrometheusApp(chart: Chart) {
                     // https://prometheus.io/docs/alerting/latest/configuration/#pagerduty_config
                     pagerduty_configs: [
                       {
-                        routing_key_file:
-                          "/etc/alertmanager/secrets/pagerduty-alertmanager/password",
+                        routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty-token`,
                       },
                     ],
                   },
@@ -212,6 +197,25 @@ export function createPrometheusApp(chart: Chart) {
                     },
                   },
                 },
+                secrets: [prometheusSecrets.name],
+                additionalScrapeConfigs: [
+                  {
+                    job_name: "hass",
+                    scrape_interval: "60s",
+                    metrics_path: "/api/prometheus",
+                    authorization: {
+                      credentials_file: `/etc/prometheus/secrets/${prometheusSecrets.name}/HOMEASSISTANT_TOKEN`,
+                    },
+                    scheme: "http",
+                    static_configs: [
+                      {
+                        targets: [
+                          "torvalds-homeassistant-service.torvalds:8123",
+                        ],
+                      },
+                    ],
+                  },
+                ],
               },
             },
           },
