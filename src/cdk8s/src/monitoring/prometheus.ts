@@ -17,7 +17,7 @@ export function createPrometheusMonitoring(chart: Chart) {
               alert: "LitterRobotLitterLow",
               annotations: {
                 description:
-                  "Litter Robot litter is low: {{ $value }}% ({{ $labels.entity }}).",
+                  'Litter Robot litter is low: {{ "{{" }} $value {{ "}}" }}% ({{ "{{" }} $labels.entity {{ "}}" }}).',
                 summary: "Litter Robot litter low",
               },
               expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
@@ -32,7 +32,7 @@ export function createPrometheusMonitoring(chart: Chart) {
               alert: "LitterRobotWasteHigh",
               annotations: {
                 description:
-                  "Litter Robot waste drawer is high: {{ $value }}% ({{ $labels.entity }}).",
+                  'Litter Robot waste drawer is high: {{ "{{" }} $value {{ "}}" }}% ({{ "{{" }} $labels.entity {{ "}}" }}).',
                 summary: "Litter Robot waste high",
               },
               expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
@@ -52,7 +52,7 @@ export function createPrometheusMonitoring(chart: Chart) {
               alert: "EversweetWaterLevelBad",
               annotations: {
                 description:
-                  "Binary sensor {{ $labels.entity }} reports bad state ({{ $value }}).",
+                  'Binary sensor {{ "{{" }} $labels.entity {{ "}}" }} reports bad state ({{ "{{" }} $value {{ "}}" }}).',
                 summary: "Home Assistant binary sensor bad state",
               },
               expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
@@ -67,7 +67,7 @@ export function createPrometheusMonitoring(chart: Chart) {
               alert: "GranaryFeederBatteryStatusBad",
               annotations: {
                 description:
-                  "Binary sensor {{ $labels.entity }} reports bad state ({{ $value }}).",
+                  'Binary sensor {{ "{{" }} $labels.entity {{ "}}" }} reports bad state ({{ "{{" }} $value {{ "}}" }}).',
                 summary: "Home Assistant binary sensor bad state",
               },
               expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
@@ -82,7 +82,7 @@ export function createPrometheusMonitoring(chart: Chart) {
               alert: "GranaryFeederFoodDispenserBad",
               annotations: {
                 description:
-                  "Binary sensor {{ $labels.entity }} reports bad state ({{ $value }}).",
+                  'Binary sensor {{ "{{" }} $labels.entity {{ "}}" }} reports bad state ({{ "{{" }} $value {{ "}}" }}).',
                 summary: "Home Assistant binary sensor bad state",
               },
               expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
@@ -97,7 +97,7 @@ export function createPrometheusMonitoring(chart: Chart) {
               alert: "GranaryFeederFoodStatusBad",
               annotations: {
                 description:
-                  "Binary sensor {{ $labels.entity }} reports bad state ({{ $value }}).",
+                  'Binary sensor {{ "{{" }} $labels.entity {{ "}}" }} reports bad state ({{ "{{" }} $value {{ "}}" }}).',
                 summary: "Home Assistant binary sensor bad state",
               },
               expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
@@ -112,7 +112,7 @@ export function createPrometheusMonitoring(chart: Chart) {
               alert: "RoombaBinFull",
               annotations: {
                 description:
-                  "Binary sensor {{ $labels.entity }} reports bad state ({{ $value }}).",
+                  'Binary sensor {{ "{{" }} $labels.entity {{ "}}" }} reports bad state ({{ "{{" }} $value {{ "}}" }}).',
                 summary: "Home Assistant binary sensor bad state",
               },
               expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
@@ -132,7 +132,7 @@ export function createPrometheusMonitoring(chart: Chart) {
               alert: "HomeAssistantBatteryLow",
               annotations: {
                 description:
-                  "Battery low: {{ $value }}% ({{ $labels.entity }}).",
+                  'Battery low: {{ "{{" }} $value {{ "}}" }}% ({{ "{{" }} $labels.entity {{ "}}" }}).',
                 summary: "Home Assistant battery low",
               },
               expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
