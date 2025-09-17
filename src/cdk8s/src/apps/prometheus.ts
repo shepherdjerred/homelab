@@ -3,6 +3,7 @@ import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
 import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
+import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 
 export function createPrometheusApp(chart: Chart) {
   createIngress(
@@ -23,6 +24,21 @@ export function createPrometheusApp(chart: Chart) {
     9090,
     ["prometheus"],
     false,
+  );
+
+  const pagerdutyWebhook = new OnePasswordItem(
+    chart,
+    "pagerduty-webhook-onepassword",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/cki3qk5okk5b7xn3jmlpg74yka",
+      },
+      metadata: {
+        name: "pagerduty-alertmanager",
+        namespace: "prometheus",
+      },
+    },
   );
 
   return new Application(chart, "prometheus-app", {
@@ -94,6 +110,58 @@ export function createPrometheusApp(chart: Chart) {
                       selector: null,
                     },
                   },
+                },
+                secrets: [pagerdutyWebhook.name],
+              },
+              config: {
+                global: {
+                  resolve_timeout: "5m",
+                },
+                inhibit_rules: [
+                  {
+                    source_matchers: ["severity = critical"],
+                    target_matchers: ["severity =~ warning|info"],
+                    equal: ["namespace", "alertname"],
+                  },
+                  {
+                    source_matchers: ["severity = warning"],
+                    target_matchers: ["severity = info"],
+                    equal: ["namespace", "alertname"],
+                  },
+                  {
+                    source_matchers: ["alertname = InfoInhibitor"],
+                    target_matchers: ["severity = info"],
+                    equal: ["namespace"],
+                  },
+                  {
+                    target_matchers: ["alertname = InfoInhibitor"],
+                  },
+                ],
+                templates: ["/etc/alertmanager/config/*.tmpl"],
+                receivers: [
+                  {
+                    name: "pagerduty",
+                    // https://prometheus.io/docs/alerting/latest/configuration/#pagerduty_config
+                    pagerduty_configs: [
+                      {
+                        routing_key_file:
+                          "/etc/alertmanager/secrets/pagerduty-alertmanager/password",
+                      },
+                    ],
+                  },
+                ],
+                route: {
+                  group_by: ["namespace"],
+                  group_wait: "30s",
+                  group_interval: "5m",
+                  repeat_interval: "12h",
+                  receiver: "pagerduty",
+                  routes: [
+                    {
+                      receiver: "pagerduty",
+                      matchers: ['alertname = "Watchdog"'],
+                    },
+                  ],
                 },
               },
             },
