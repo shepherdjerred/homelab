@@ -57,17 +57,17 @@ export function createPrometheusApp(chart: Chart) {
             kubeProxy: {
               // disable components that fail
               // https://github.com/prometheus-operator/kube-prometheus/issues/718
-              // enabled: false,
+              enabled: false,
             },
             kubeScheduler: {
               // disable components that fail
               // https://github.com/prometheus-operator/kube-prometheus/issues/718
-              // enabled: false,
+              enabled: false,
             },
             kubeControllerManager: {
               // disable components that fail
               // https://github.com/prometheus-operator/kube-prometheus/issues/718
-              // enabled: false,
+              enabled: false,
             },
             grafana: {
               persistence: {
