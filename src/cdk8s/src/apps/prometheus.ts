@@ -41,6 +41,21 @@ export function createPrometheusApp(chart: Chart) {
     },
   );
 
+  const homeassistantToken = new OnePasswordItem(
+    chart,
+    "grafana-secret-onepassword",
+    {
+      spec: {
+        itemPath:
+          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/42fn7x3zaemfenz35en27thw5u",
+      },
+      metadata: {
+        name: "grafana-secret",
+        namespace: "prometheus",
+      },
+    },
+  );
+
   return new Application(chart, "prometheus-app", {
     metadata: {
       name: "prometheus",
@@ -70,6 +85,7 @@ export function createPrometheusApp(chart: Chart) {
               enabled: false,
             },
             grafana: {
+              envFromSecret: homeassistantToken.name,
               persistence: {
                 enabled: true,
                 type: "pvc",
@@ -83,16 +99,29 @@ export function createPrometheusApp(chart: Chart) {
                     handleGrafanaManagedAlerts: true,
                   },
                 },
-                additionalDataSources: [
-                  {
-                    name: "loki",
-                    editable: false,
-                    type: "loki",
-                    url: "http://loki-gateway.loki",
-                    version: 1,
-                  },
-                ],
               },
+              additionalDataSources: [
+                {
+                  name: "loki",
+                  editable: false,
+                  type: "loki",
+                  url: "http://loki-gateway.loki",
+                  version: 1,
+                },
+                {
+                  name: "homeassistant",
+                  editable: false,
+                  type: "prometheus",
+                  url: "http://homeassistant.homeassistant/api/prometheus",
+                  version: 1,
+                  jsonData: {
+                    httpHeaderName1: "Authorization",
+                  },
+                  secureJsonData: {
+                    httpHeaderValue1: "Bearer $HOMEASSISTANT_TOKEN",
+                  },
+                },
+              ],
             },
             alertmanager: {
               alertmanagerSpec: {
