@@ -99,6 +99,7 @@ export function createPrometheusApp(chart: Chart) {
                   },
                 },
               },
+              prune: true,
               additionalDataSources: [
                 {
                   name: "loki",
