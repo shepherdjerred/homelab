@@ -164,7 +164,7 @@ export function createPrometheusApp(chart: Chart) {
                     // https://prometheus.io/docs/alerting/latest/configuration/#pagerduty_config
                     pagerduty_configs: [
                       {
-                        routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty-token`,
+                        routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
                       },
                     ],
                   },
