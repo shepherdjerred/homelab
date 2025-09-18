@@ -31,7 +31,9 @@ export function createPostgresOperatorApp(chart: Chart) {
             },
             configKubernetes: {
               // Since we have a single-node cluster, reduce resource requirements
-              cluster_labels: "application:spilo",
+              cluster_labels: {
+                application: "spilo",
+              },
               cluster_name_label: "cluster-name",
               enable_cross_namespace_secret: true,
             },
