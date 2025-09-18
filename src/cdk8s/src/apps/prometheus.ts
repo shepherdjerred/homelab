@@ -140,7 +140,7 @@ export function createPrometheusApp(chart: Chart) {
                 storage: {
                   volumeClaimTemplate: {
                     spec: {
-                      storageClassName: HDD_STORAGE_CLASS,
+                      storageClassName: SSD_STORAGE_CLASS,
                       accessModes: ["ReadWriteOnce"],
                       resources: {
                         requests: {
