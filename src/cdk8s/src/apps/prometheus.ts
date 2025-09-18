@@ -97,7 +97,7 @@ export function createPrometheusApp(chart: Chart) {
                   user: "grafana",
                   ssl_mode: "disable",
                   // Password will be injected from secret via envFromSecret
-                  password: "$GF_DATABASE_PASSWORD",
+                  password: "${GF_DATABASE_PASSWORD}",
                 },
               },
               // Inject password from auto-generated secret

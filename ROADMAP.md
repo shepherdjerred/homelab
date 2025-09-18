@@ -4,6 +4,8 @@
 
 - Configure Recyclarr with env vars and config files committed to repo
 - ZFS grafana dashboard
+- Type validation for Helm
+  - Can we statically type what's expected?
 
 ## Done
 
