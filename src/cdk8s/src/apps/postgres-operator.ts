@@ -18,7 +18,8 @@ export function createPostgresOperatorApp(chart: Chart) {
       project: "default",
       source: {
         // https://github.com/zalando/postgres-operator
-        repoUrl: "https://opensource.zalando.com/postgres-operator/charts/postgres-operator",
+        repoUrl:
+          "https://opensource.zalando.com/postgres-operator/charts/postgres-operator",
         chart: "postgres-operator",
         targetRevision: versions["postgres-operator"],
         helm: {
@@ -26,17 +27,17 @@ export function createPostgresOperatorApp(chart: Chart) {
             // Configuration for single-node cluster
             configGeneral: {
               // Enable only minimal required functionality
-              enable_cross_namespace_secret: "true",
+              enable_cross_namespace_secret: true,
             },
             configKubernetes: {
               // Since we have a single-node cluster, reduce resource requirements
               cluster_labels: "application:spilo",
               cluster_name_label: "cluster-name",
-              enable_cross_namespace_secret: "true",
+              enable_cross_namespace_secret: true,
             },
             configPatroni: {
               // Configure Patroni for single-node setup
-              enable_patroni_failsafe_mode: "true",
+              enable_patroni_failsafe_mode: true,
             },
             // Resource configuration for single-node deployment
             resources: {
