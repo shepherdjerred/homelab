@@ -7,6 +7,7 @@ export function createPrometheusMonitoring(chart: Chart) {
     metadata: {
       name: "prometheus-homeassistant-rules",
       namespace: "prometheus",
+      labels: { release: "prometheus" },
     },
     spec: {
       groups: [
