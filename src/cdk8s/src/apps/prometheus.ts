@@ -2,7 +2,7 @@ import { Chart, Size } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
-import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
+import { HDD_STORAGE_CLASS, SSD_STORAGE_CLASS } from "../storageclasses.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { createPrometheusMonitoring } from "../monitoring/prometheus.ts";
 
@@ -208,14 +208,16 @@ export function createPrometheusApp(chart: Chart) {
             prometheus: {
               prometheusSpec: {
                 externalUrl: "https://prometheus.tailnet-1a49.ts.net",
+                retention: "365d", // Keep data for 1 year
+                retentionSize: "120GB", // Safety limit - delete old data if storage exceeds this
                 storageSpec: {
                   volumeClaimTemplate: {
                     spec: {
-                      storageClassName: HDD_STORAGE_CLASS,
+                      storageClassName: SSD_STORAGE_CLASS,
                       accessModes: ["ReadWriteOnce"],
                       resources: {
                         requests: {
-                          storage: Size.gibibytes(32).asString(),
+                          storage: Size.gibibytes(128).asString(),
                         },
                       },
                       selector: null,

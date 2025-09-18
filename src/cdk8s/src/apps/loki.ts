@@ -2,7 +2,7 @@ import { Chart, Size } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
-import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
+import { HDD_STORAGE_CLASS, SSD_STORAGE_CLASS } from "../storageclasses.ts";
 
 export function createLokiApp(chart: Chart) {
   createIngress(chart, "loki-ingress", "loki", "loki", 3100, ["loki"], false);
@@ -32,6 +32,9 @@ export function createLokiApp(chart: Chart) {
                 replication_factor: 1,
               },
               auth_enabled: false,
+              limits_config: {
+                retention_period: "90d",
+              },
               schemaConfig: {
                 configs: [
                   {
@@ -47,11 +50,18 @@ export function createLokiApp(chart: Chart) {
                 ],
               },
             },
+            compactor: {
+              enabled: true,
+              retention_enabled: true,
+              working_directory: "/var/loki/compactor",
+              compaction_interval: "10m",
+              retention_delete_delay: "2h",
+            },
             minio: {
               enabled: true,
               persistence: {
-                storageClass: HDD_STORAGE_CLASS,
-                size: Size.gibibytes(32).asString(),
+                storageClass: SSD_STORAGE_CLASS,
+                size: Size.gibibytes(64).asString(),
               },
             },
           },
