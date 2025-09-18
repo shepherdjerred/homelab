@@ -19,6 +19,7 @@ import { createHaDeployment } from "../services/home/ha.ts";
 import { ZfsHddVolume } from "../utils/zfsHddVolume.ts";
 import { KubeNamespace } from "../../imports/k8s.ts";
 import { createRecyclarrDeployment } from "../services/torrents/recyclarr.ts";
+import { createGrafanaPostgreSQLDatabase } from "../services/postgres/grafana-db.ts";
 
 export function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
@@ -75,4 +76,5 @@ export function createTorvaldsChart(app: App) {
   createPokemonDeployment(chart);
   createHaDeployment(chart);
   createRecyclarrDeployment(chart);
+  createGrafanaPostgreSQLDatabase(chart);
 }

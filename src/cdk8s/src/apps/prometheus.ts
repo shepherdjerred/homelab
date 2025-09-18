@@ -88,12 +88,31 @@ export function createPrometheusApp(chart: Chart) {
               enabled: false,
             },
             grafana: {
+              // Database configuration via grafana.ini
+              "grafana.ini": {
+                database: {
+                  type: "postgres",
+                  host: "grafana-postgresql:5432",
+                  name: "grafana",
+                  user: "grafana",
+                  ssl_mode: "disable",
+                  // Password will be injected from secret via envFromSecret
+                  password: "$GF_DATABASE_PASSWORD",
+                },
+              },
+              // Inject password from auto-generated secret
+              env: {
+                GF_DATABASE_PASSWORD: {
+                  valueFrom: {
+                    secretKeyRef: {
+                      name: "postgres.grafana-postgresql.credentials.postgresql.acid.zalan.do",
+                      key: "password",
+                    },
+                  },
+                },
+              },
               persistence: {
-                enabled: true,
-                type: "pvc",
-                storageClassName: HDD_STORAGE_CLASS,
-                accessModes: ["ReadWriteOnce"],
-                size: Size.gibibytes(32).asString(),
+                enabled: false, // Disable file-based persistence since we're using PostgreSQL
               },
               sidecar: {
                 datasources: {

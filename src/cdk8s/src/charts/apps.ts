@@ -20,6 +20,7 @@ import { createOpenEBSApp } from "../apps/openebs.ts";
 import { createActionsRunnerControllerApp } from "../apps/actions-runner-controller.ts";
 import { createDaggerApp } from "../apps/dagger.ts";
 import { createVeleroApp } from "../apps/velero.ts";
+import { createPostgresOperatorApp } from "../apps/postgres-operator.ts";
 
 export function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -67,4 +68,5 @@ export function createAppsChart(app: App) {
   createActionsRunnerControllerApp(chart);
   createDaggerApp(chart);
   createVeleroApp(chart);
+  createPostgresOperatorApp(chart);
 }
