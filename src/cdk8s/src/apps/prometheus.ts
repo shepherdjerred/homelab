@@ -105,7 +105,7 @@ export function createPrometheusApp(chart: Chart) {
                 GF_DATABASE_PASSWORD: {
                   valueFrom: {
                     secretKeyRef: {
-                      name: "postgres.grafana-postgresql.credentials.postgresql.acid.zalan.do",
+                      name: "grafana.grafana-postgresql.credentials.postgresql.acid.zalan.do",
                       key: "password",
                     },
                   },
