@@ -7245,6 +7245,11 @@ export function toJson_ApplicationSetSpecGeneratorsGitDirectories(
  */
 export interface ApplicationSetSpecGeneratorsGitFiles {
   /**
+   * @schema ApplicationSetSpecGeneratorsGitFiles#exclude
+   */
+  readonly exclude?: boolean;
+
+  /**
    * @schema ApplicationSetSpecGeneratorsGitFiles#path
    */
   readonly path: string;
@@ -7261,6 +7266,7 @@ export function toJson_ApplicationSetSpecGeneratorsGitFiles(
     return undefined;
   }
   const result = {
+    exclude: obj.exclude,
     path: obj.path,
   };
   // filter undefined values
@@ -7980,6 +7986,11 @@ export interface ApplicationSetSpecGeneratorsPullRequestGitea {
   readonly insecure?: boolean;
 
   /**
+   * @schema ApplicationSetSpecGeneratorsPullRequestGitea#labels
+   */
+  readonly labels?: string[];
+
+  /**
    * @schema ApplicationSetSpecGeneratorsPullRequestGitea#owner
    */
   readonly owner: string;
@@ -8008,6 +8019,7 @@ export function toJson_ApplicationSetSpecGeneratorsPullRequestGitea(
   const result = {
     api: obj.api,
     insecure: obj.insecure,
+    labels: obj.labels?.map((y) => y),
     owner: obj.owner,
     repo: obj.repo,
     tokenRef: toJson_ApplicationSetSpecGeneratorsPullRequestGiteaTokenRef(
@@ -15862,6 +15874,11 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsGitDirectorie
  */
 export interface ApplicationSetSpecGeneratorsMatrixGeneratorsGitFiles {
   /**
+   * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsGitFiles#exclude
+   */
+  readonly exclude?: boolean;
+
+  /**
    * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsGitFiles#path
    */
   readonly path: string;
@@ -15878,6 +15895,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsGitFiles(
     return undefined;
   }
   const result = {
+    exclude: obj.exclude,
     path: obj.path,
   };
   // filter undefined values
@@ -16345,6 +16363,11 @@ export interface ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestGitea {
   readonly insecure?: boolean;
 
   /**
+   * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestGitea#labels
+   */
+  readonly labels?: string[];
+
+  /**
    * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestGitea#owner
    */
   readonly owner: string;
@@ -16373,6 +16396,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestGi
   const result = {
     api: obj.api,
     insecure: obj.insecure,
+    labels: obj.labels?.map((y) => y),
     owner: obj.owner,
     repo: obj.repo,
     tokenRef:
@@ -17843,6 +17867,11 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsGitDirectories
  */
 export interface ApplicationSetSpecGeneratorsMergeGeneratorsGitFiles {
   /**
+   * @schema ApplicationSetSpecGeneratorsMergeGeneratorsGitFiles#exclude
+   */
+  readonly exclude?: boolean;
+
+  /**
    * @schema ApplicationSetSpecGeneratorsMergeGeneratorsGitFiles#path
    */
   readonly path: string;
@@ -17859,6 +17888,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsGitFiles(
     return undefined;
   }
   const result = {
+    exclude: obj.exclude,
     path: obj.path,
   };
   // filter undefined values
@@ -18326,6 +18356,11 @@ export interface ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestGitea {
   readonly insecure?: boolean;
 
   /**
+   * @schema ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestGitea#labels
+   */
+  readonly labels?: string[];
+
+  /**
    * @schema ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestGitea#owner
    */
   readonly owner: string;
@@ -18354,6 +18389,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestGit
   const result = {
     api: obj.api,
     insecure: obj.insecure,
+    labels: obj.labels?.map((y) => y),
     owner: obj.owner,
     repo: obj.repo,
     tokenRef:
@@ -82305,6 +82341,13 @@ export interface AppProjectSpecSyncWindows {
   readonly clusters?: string[];
 
   /**
+   * Description of the sync that will be applied to the schedule, can be used to add any information such as a ticket number for example
+   *
+   * @schema AppProjectSpecSyncWindows#description
+   */
+  readonly description?: string;
+
+  /**
    * Duration is the amount of time the sync window will be open
    *
    * @schema AppProjectSpecSyncWindows#duration
@@ -82361,6 +82404,7 @@ export function toJson_AppProjectSpecSyncWindows(
     andOperator: obj.andOperator,
     applications: obj.applications?.map((y) => y),
     clusters: obj.clusters?.map((y) => y),
+    description: obj.description,
     duration: obj.duration,
     kind: obj.kind,
     manualSync: obj.manualSync,

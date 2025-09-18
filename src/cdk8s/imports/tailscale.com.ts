@@ -521,6 +521,13 @@ export interface DnsConfigSpecNameserver {
    * @schema DnsConfigSpecNameserver#image
    */
   readonly image?: DnsConfigSpecNameserverImage;
+
+  /**
+   * Service configuration.
+   *
+   * @schema DnsConfigSpecNameserver#service
+   */
+  readonly service?: DnsConfigSpecNameserverService;
 }
 
 /**
@@ -535,6 +542,7 @@ export function toJson_DnsConfigSpecNameserver(
   }
   const result = {
     image: toJson_DnsConfigSpecNameserverImage(obj.image),
+    service: toJson_DnsConfigSpecNameserverService(obj.service),
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -579,6 +587,41 @@ export function toJson_DnsConfigSpecNameserverImage(
   const result = {
     repo: obj.repo,
     tag: obj.tag,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * Service configuration.
+ *
+ * @schema DnsConfigSpecNameserverService
+ */
+export interface DnsConfigSpecNameserverService {
+  /**
+   * ClusterIP sets the static IP of the service used by the nameserver.
+   *
+   * @schema DnsConfigSpecNameserverService#clusterIP
+   */
+  readonly clusterIp?: string;
+}
+
+/**
+ * Converts an object of type 'DnsConfigSpecNameserverService' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_DnsConfigSpecNameserverService(
+  obj: DnsConfigSpecNameserverService | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    clusterIP: obj.clusterIp,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -729,6 +772,15 @@ export interface ProxyClassSpec {
   readonly statefulSet?: ProxyClassSpecStatefulSet;
 
   /**
+   * Configuration for 'static endpoints' on proxies in order to facilitate
+   * direct connections from other devices on the tailnet.
+   * See https://tailscale.com/kb/1445/kubernetes-operator-customization#static-endpoints.
+   *
+   * @schema ProxyClassSpec#staticEndpoints
+   */
+  readonly staticEndpoints?: ProxyClassSpecStaticEndpoints;
+
+  /**
    * TailscaleConfig contains options to configure the tailscale-specific
    * parameters of proxies.
    *
@@ -769,6 +821,7 @@ export function toJson_ProxyClassSpec(
   const result = {
     metrics: toJson_ProxyClassSpecMetrics(obj.metrics),
     statefulSet: toJson_ProxyClassSpecStatefulSet(obj.statefulSet),
+    staticEndpoints: toJson_ProxyClassSpecStaticEndpoints(obj.staticEndpoints),
     tailscale: toJson_ProxyClassSpecTailscale(obj.tailscale),
     useLetsEncryptStagingEnvironment: obj.useLetsEncryptStagingEnvironment,
   };
@@ -914,6 +967,43 @@ export function toJson_ProxyClassSpecStatefulSet(
             {},
           ),
     pod: toJson_ProxyClassSpecStatefulSetPod(obj.pod),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * Configuration for 'static endpoints' on proxies in order to facilitate
+ * direct connections from other devices on the tailnet.
+ * See https://tailscale.com/kb/1445/kubernetes-operator-customization#static-endpoints.
+ *
+ * @schema ProxyClassSpecStaticEndpoints
+ */
+export interface ProxyClassSpecStaticEndpoints {
+  /**
+   * The configuration for static endpoints using NodePort Services.
+   *
+   * @schema ProxyClassSpecStaticEndpoints#nodePort
+   */
+  readonly nodePort: ProxyClassSpecStaticEndpointsNodePort;
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStaticEndpoints' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyClassSpecStaticEndpoints(
+  obj: ProxyClassSpecStaticEndpoints | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    nodePort: toJson_ProxyClassSpecStaticEndpointsNodePort(obj.nodePort),
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -1104,6 +1194,7 @@ export interface ProxyClassSpecStatefulSetPod {
 
   /**
    * Configuration for the proxy init container that enables forwarding.
+   * Not valid to apply to ProxyGroups of type "kube-apiserver".
    *
    * @schema ProxyClassSpecStatefulSetPod#tailscaleInitContainer
    */
@@ -1182,6 +1273,62 @@ export function toJson_ProxyClassSpecStatefulSetPod(
     topologySpreadConstraints: obj.topologySpreadConstraints?.map((y) =>
       toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraints(y),
     ),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * The configuration for static endpoints using NodePort Services.
+ *
+ * @schema ProxyClassSpecStaticEndpointsNodePort
+ */
+export interface ProxyClassSpecStaticEndpointsNodePort {
+  /**
+   * The port ranges from which the operator will select NodePorts for the Services.
+   * You must ensure that firewall rules allow UDP ingress traffic for these ports
+   * to the node's external IPs.
+   * The ports must be in the range of service node ports for the cluster (default `30000-32767`).
+   * See https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport.
+   *
+   * @schema ProxyClassSpecStaticEndpointsNodePort#ports
+   */
+  readonly ports: ProxyClassSpecStaticEndpointsNodePortPorts[];
+
+  /**
+   * A selector which will be used to select the node's that will have their `ExternalIP`'s advertised
+   * by the ProxyGroup as Static Endpoints.
+   *
+   * @schema ProxyClassSpecStaticEndpointsNodePort#selector
+   */
+  readonly selector?: { [key: string]: string };
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStaticEndpointsNodePort' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyClassSpecStaticEndpointsNodePort(
+  obj: ProxyClassSpecStaticEndpointsNodePort | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    ports: obj.ports?.map((y) =>
+      toJson_ProxyClassSpecStaticEndpointsNodePortPorts(y),
+    ),
+    selector:
+      obj.selector === undefined
+        ? undefined
+        : Object.entries(obj.selector).reduce(
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
+            {},
+          ),
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -1543,12 +1690,21 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainer {
   readonly env?: ProxyClassSpecStatefulSetPodTailscaleContainerEnv[];
 
   /**
-   * Container image name. By default images are pulled from
-   * docker.io/tailscale/tailscale, but the official images are also
-   * available at ghcr.io/tailscale/tailscale. Specifying image name here
-   * will override any proxy image values specified via the Kubernetes
-   * operator's Helm chart values or PROXY_IMAGE env var in the operator
-   * Deployment.
+   * Container image name. By default images are pulled from docker.io/tailscale,
+   * but the official images are also available at ghcr.io/tailscale.
+   *
+   * For all uses except on ProxyGroups of type "kube-apiserver", this image must
+   * be either tailscale/tailscale, or an equivalent mirror of that image.
+   * To apply to ProxyGroups of type "kube-apiserver", this image must be
+   * tailscale/k8s-proxy or a mirror of that image.
+   *
+   * For "tailscale/tailscale"-based proxies, specifying image name here will
+   * override any proxy image values specified via the Kubernetes operator's
+   * Helm chart values or PROXY_IMAGE env var in the operator Deployment.
+   * For "tailscale/k8s-proxy"-based proxies, there is currently no way to
+   * configure your own default, and this field is the only way to use a
+   * custom image.
+   *
    * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainer#image
@@ -1628,6 +1784,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainer(
 
 /**
  * Configuration for the proxy init container that enables forwarding.
+ * Not valid to apply to ProxyGroups of type "kube-apiserver".
  *
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer
  */
@@ -1654,12 +1811,21 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainer {
   readonly env?: ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv[];
 
   /**
-   * Container image name. By default images are pulled from
-   * docker.io/tailscale/tailscale, but the official images are also
-   * available at ghcr.io/tailscale/tailscale. Specifying image name here
-   * will override any proxy image values specified via the Kubernetes
-   * operator's Helm chart values or PROXY_IMAGE env var in the operator
-   * Deployment.
+   * Container image name. By default images are pulled from docker.io/tailscale,
+   * but the official images are also available at ghcr.io/tailscale.
+   *
+   * For all uses except on ProxyGroups of type "kube-apiserver", this image must
+   * be either tailscale/tailscale, or an equivalent mirror of that image.
+   * To apply to ProxyGroups of type "kube-apiserver", this image must be
+   * tailscale/k8s-proxy or a mirror of that image.
+   *
+   * For "tailscale/tailscale"-based proxies, specifying image name here will
+   * override any proxy image values specified via the Kubernetes operator's
+   * Helm chart values or PROXY_IMAGE env var in the operator Deployment.
+   * For "tailscale/k8s-proxy"-based proxies, there is currently no way to
+   * configure your own default, and this field is the only way to use a
+   * custom image.
+   *
    * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#image
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainer#image
@@ -1985,6 +2151,49 @@ export function toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraints(
     nodeTaintsPolicy: obj.nodeTaintsPolicy,
     topologyKey: obj.topologyKey,
     whenUnsatisfiable: obj.whenUnsatisfiable,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * @schema ProxyClassSpecStaticEndpointsNodePortPorts
+ */
+export interface ProxyClassSpecStaticEndpointsNodePortPorts {
+  /**
+   * endPort indicates that the range of ports from port to endPort if set, inclusive,
+   * should be used. This field cannot be defined if the port field is not defined.
+   * The endPort must be either unset, or equal or greater than port.
+   *
+   * @schema ProxyClassSpecStaticEndpointsNodePortPorts#endPort
+   */
+  readonly endPort?: number;
+
+  /**
+   * port represents a port selected to be used. This is a required field.
+   *
+   * @schema ProxyClassSpecStaticEndpointsNodePortPorts#port
+   */
+  readonly port: number;
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStaticEndpointsNodePortPorts' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyClassSpecStaticEndpointsNodePortPorts(
+  obj: ProxyClassSpecStaticEndpointsNodePortPorts | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    endPort: obj.endPort,
+    port: obj.port,
   };
   // filter undefined values
   return Object.entries(result).reduce(
@@ -6079,15 +6288,22 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
 
 /**
  * ProxyGroup defines a set of Tailscale devices that will act as proxies.
-Currently only egress ProxyGroups are supported.
+Depending on spec.Type, it can be a group of egress, ingress, or kube-apiserver
+proxies. In addition to running a highly available set of proxies, ingress
+and egress ProxyGroups also allow for serving many annotated Services from a
+single set of proxies to minimise resource consumption.
 
-Use the tailscale.com/proxy-group annotation on a Service to specify that
-the egress proxy should be implemented by a ProxyGroup instead of a single
-dedicated proxy. In addition to running a highly available set of proxies,
-ProxyGroup also allows for serving many annotated Services from a single
-set of proxies to minimise resource consumption.
+For ingress and egress, use the tailscale.com/proxy-group annotation on a
+Service to specify that the proxy should be implemented by a ProxyGroup
+instead of a single dedicated proxy.
 
-More info: https://tailscale.com/kb/1438/kubernetes-operator-cluster-egress
+More info:
+* https://tailscale.com/kb/1438/kubernetes-operator-cluster-egress
+* https://tailscale.com/kb/1439/kubernetes-operator-cluster-ingress
+
+For kube-apiserver, the ProxyGroup is a standalone resource. Use the
+spec.kubeAPIServer field to configure options specific to the kube-apiserver
+ProxyGroup type.
  *
  * @schema ProxyGroup
  */
@@ -6142,15 +6358,22 @@ export class ProxyGroup extends ApiObject {
 
 /**
  * ProxyGroup defines a set of Tailscale devices that will act as proxies.
- * Currently only egress ProxyGroups are supported.
+ * Depending on spec.Type, it can be a group of egress, ingress, or kube-apiserver
+ * proxies. In addition to running a highly available set of proxies, ingress
+ * and egress ProxyGroups also allow for serving many annotated Services from a
+ * single set of proxies to minimise resource consumption.
  *
- * Use the tailscale.com/proxy-group annotation on a Service to specify that
- * the egress proxy should be implemented by a ProxyGroup instead of a single
- * dedicated proxy. In addition to running a highly available set of proxies,
- * ProxyGroup also allows for serving many annotated Services from a single
- * set of proxies to minimise resource consumption.
+ * For ingress and egress, use the tailscale.com/proxy-group annotation on a
+ * Service to specify that the proxy should be implemented by a ProxyGroup
+ * instead of a single dedicated proxy.
  *
- * More info: https://tailscale.com/kb/1438/kubernetes-operator-cluster-egress
+ * More info:
+ * * https://tailscale.com/kb/1438/kubernetes-operator-cluster-egress
+ * * https://tailscale.com/kb/1439/kubernetes-operator-cluster-ingress
+ *
+ * For kube-apiserver, the ProxyGroup is a standalone resource. Use the
+ * spec.kubeAPIServer field to configure options specific to the kube-apiserver
+ * ProxyGroup type.
  *
  * @schema ProxyGroup
  */
@@ -6208,6 +6431,14 @@ export interface ProxyGroupSpec {
   readonly hostnamePrefix?: string;
 
   /**
+   * KubeAPIServer contains configuration specific to the kube-apiserver
+   * ProxyGroup type. This field is only used when Type is set to "kube-apiserver".
+   *
+   * @schema ProxyGroupSpec#kubeAPIServer
+   */
+  readonly kubeApiServer?: ProxyGroupSpecKubeApiServer;
+
+  /**
    * ProxyClass is the name of the ProxyClass custom resource that contains
    * configuration options that should be applied to the resources created
    * for this ProxyGroup. If unset, and there is no default ProxyClass
@@ -6241,7 +6472,7 @@ export interface ProxyGroupSpec {
   readonly tags?: string[];
 
   /**
-   * Type of the ProxyGroup proxies. Supported types are egress and ingress.
+   * Type of the ProxyGroup proxies. Supported types are egress, ingress, and kube-apiserver.
    * Type is immutable once a ProxyGroup is created.
    *
    * @schema ProxyGroupSpec#type
@@ -6261,6 +6492,7 @@ export function toJson_ProxyGroupSpec(
   }
   const result = {
     hostnamePrefix: obj.hostnamePrefix,
+    kubeAPIServer: toJson_ProxyGroupSpecKubeApiServer(obj.kubeApiServer),
     proxyClass: obj.proxyClass,
     replicas: obj.replicas,
     tags: obj.tags?.map((y) => y),
@@ -6275,7 +6507,57 @@ export function toJson_ProxyGroupSpec(
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * Type of the ProxyGroup proxies. Supported types are egress and ingress.
+ * KubeAPIServer contains configuration specific to the kube-apiserver
+ * ProxyGroup type. This field is only used when Type is set to "kube-apiserver".
+ *
+ * @schema ProxyGroupSpecKubeApiServer
+ */
+export interface ProxyGroupSpecKubeApiServer {
+  /**
+   * Hostname is the hostname with which to expose the Kubernetes API server
+   * proxies. Must be a valid DNS label no longer than 63 characters. If not
+   * specified, the name of the ProxyGroup is used as the hostname. Must be
+   * unique across the whole tailnet.
+   *
+   * @schema ProxyGroupSpecKubeApiServer#hostname
+   */
+  readonly hostname?: string;
+
+  /**
+   * Mode to run the API server proxy in. Supported modes are auth and noauth.
+   * In auth mode, requests from the tailnet proxied over to the Kubernetes
+   * API server are additionally impersonated using the sender's tailnet identity.
+   * If not specified, defaults to auth mode.
+   *
+   * @schema ProxyGroupSpecKubeApiServer#mode
+   */
+  readonly mode?: ProxyGroupSpecKubeApiServerMode;
+}
+
+/**
+ * Converts an object of type 'ProxyGroupSpecKubeApiServer' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyGroupSpecKubeApiServer(
+  obj: ProxyGroupSpecKubeApiServer | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    hostname: obj.hostname,
+    mode: obj.mode,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce(
+    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
+    {},
+  );
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * Type of the ProxyGroup proxies. Supported types are egress, ingress, and kube-apiserver.
  * Type is immutable once a ProxyGroup is created.
  *
  * @schema ProxyGroupSpecType
@@ -6285,6 +6567,23 @@ export enum ProxyGroupSpecType {
   EGRESS = "egress",
   /** ingress */
   INGRESS = "ingress",
+  /** kube-apiserver */
+  KUBE_HYPHEN_APISERVER = "kube-apiserver",
+}
+
+/**
+ * Mode to run the API server proxy in. Supported modes are auth and noauth.
+ * In auth mode, requests from the tailnet proxied over to the Kubernetes
+ * API server are additionally impersonated using the sender's tailnet identity.
+ * If not specified, defaults to auth mode.
+ *
+ * @schema ProxyGroupSpecKubeApiServerMode
+ */
+export enum ProxyGroupSpecKubeApiServerMode {
+  /** auth */
+  AUTH = "auth",
+  /** noauth */
+  NOAUTH = "noauth",
 }
 
 /**
