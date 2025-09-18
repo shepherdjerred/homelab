@@ -100,11 +100,14 @@ export function createPrometheusApp(chart: Chart) {
                   password: "$__file{/etc/secrets/postgres/password}",
                 },
               },
+              imageRenderer: {
+                enabled: true,
+              },
               // Mount the auto-generated postgres-operator secret
               extraSecretMounts: [
                 {
                   name: "postgres-secret-mount",
-                  secretName: "postgres.grafana-postgresql.credentials.postgresql.acid.zalan.do",
+                  secretName: "grafana.grafana-postgresql.credentials.postgresql.acid.zalan.do",
                   defaultMode: 0o440,
                   mountPath: "/etc/secrets/postgres",
                   readOnly: true,
