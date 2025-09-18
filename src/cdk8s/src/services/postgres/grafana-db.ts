@@ -1,13 +1,16 @@
-import { Chart, ApiObject } from "cdk8s";
+import { Chart } from "cdk8s";
+import {
+  Postgresql,
+  PostgresqlSpecPostgresqlVersion,
+  PostgresqlSpecUsers,
+} from "../../../imports/acid.zalan.do";
 
 export function createGrafanaPostgreSQLDatabase(chart: Chart) {
   // The postgres-operator will automatically generate passwords and store them
   // in Kubernetes secrets. No need for 1Password in this case!
 
   // Create a PostgreSQL cluster specifically for Grafana using the Zalando postgres-operator CRD
-  return new ApiObject(chart, "grafana-postgresql", {
-    apiVersion: "postgresql.acid.zalan.do/v1",
-    kind: "postgresql",
+  return new Postgresql(chart, "grafana-postgresql", {
     metadata: {
       name: "grafana-postgresql",
       namespace: "prometheus", // Same namespace as Grafana
@@ -16,7 +19,7 @@ export function createGrafanaPostgreSQLDatabase(chart: Chart) {
       numberOfInstances: 1, // Single node setup for homelab
       teamId: "homelab",
       postgresql: {
-        version: "16", // Latest stable PostgreSQL version supported
+        version: PostgresqlSpecPostgresqlVersion.VALUE_16, // Latest stable PostgreSQL version supported
         parameters: {
           // PostgreSQL configuration optimized for Grafana
           max_connections: "200",
@@ -41,7 +44,7 @@ export function createGrafanaPostgreSQLDatabase(chart: Chart) {
       },
       users: {
         grafana: [
-          "createdb", // Allow Grafana user to create databases
+          PostgresqlSpecUsers.CREATEDB, // Allow Grafana user to create databases
         ],
       },
       databases: {
@@ -63,7 +66,7 @@ export function createGrafanaPostgreSQLDatabase(chart: Chart) {
           locale: "en_US.utf8",
           "data-checksums": "true",
         },
-        pg_hba: [
+        pgHba: [
           // Allow connections from within the cluster
           "host grafana grafana all md5",
           "host replication standby all md5",
