@@ -23,7 +23,7 @@ export function createLokiApp(chart: Chart) {
             deploymentMode: "SingleBinary",
             singleBinary: {
               persistence: {
-                storageClass: HDD_STORAGE_CLASS,
+                storageClass: SSD_STORAGE_CLASS,
                 size: Size.gibibytes(32).asString(),
               },
             },
