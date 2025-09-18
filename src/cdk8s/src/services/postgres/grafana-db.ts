@@ -39,8 +39,8 @@ export function createGrafanaPostgreSQLDatabase(chart: Chart) {
         },
       },
       volume: {
-        size: "100Gi", // Adequate size for Grafana database
-        storageClass: "zfs-hdd", // Using local storage available in the cluster
+        size: "32Gi", // Adequate size for Grafana database
+        storageClass: "zfs-ssd", // Using local storage available in the cluster
       },
       users: {
         grafana: [
