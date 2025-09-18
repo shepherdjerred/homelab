@@ -88,7 +88,7 @@ export function createPrometheusApp(chart: Chart) {
               enabled: false,
             },
             grafana: {
-              // Database configuration via grafana.ini
+              // Database configuration via grafana.ini using file providers
               "grafana.ini": {
                 database: {
                   type: "postgres",
@@ -96,21 +96,20 @@ export function createPrometheusApp(chart: Chart) {
                   name: "grafana",
                   user: "grafana",
                   ssl_mode: "disable",
-                  // Password will be injected from secret via envFromSecret
-                  password: "${GF_DATABASE_PASSWORD}",
+                  // Password from mounted secret file
+                  password: "$__file{/etc/secrets/postgres/password}",
                 },
               },
-              // Inject password from auto-generated secret
-              env: {
-                GF_DATABASE_PASSWORD: {
-                  valueFrom: {
-                    secretKeyRef: {
-                      name: "grafana.grafana-postgresql.credentials.postgresql.acid.zalan.do",
-                      key: "password",
-                    },
-                  },
+              // Mount the auto-generated postgres-operator secret
+              extraSecretMounts: [
+                {
+                  name: "postgres-secret-mount",
+                  secretName: "postgres.grafana-postgresql.credentials.postgresql.acid.zalan.do",
+                  defaultMode: 0o440,
+                  mountPath: "/etc/secrets/postgres",
+                  readOnly: true,
                 },
-              },
+              ],
               persistence: {
                 enabled: false, // Disable file-based persistence since we're using PostgreSQL
               },
