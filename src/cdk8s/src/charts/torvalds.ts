@@ -76,5 +76,5 @@ export function createTorvaldsChart(app: App) {
   createPokemonDeployment(chart);
   createHaDeployment(chart);
   createRecyclarrDeployment(chart);
-  // createGrafanaPostgreSQLDatabase(chart);
+  createGrafanaPostgreSQLDatabase(chart);
 }
