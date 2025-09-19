@@ -99,6 +99,11 @@ export function createPrometheusApp(chart: Chart) {
                   // Password from mounted secret file
                   password: "$__file{/etc/secrets/postgres/password}",
                 },
+                feature_toggles: {
+                  provisioning: true,
+                  kubernetesDashboards: true,
+                  grafanaAdvisor: true,
+                },
               },
               imageRenderer: {
                 enabled: true,
@@ -107,7 +112,8 @@ export function createPrometheusApp(chart: Chart) {
               extraSecretMounts: [
                 {
                   name: "postgres-secret-mount",
-                  secretName: "grafana.grafana-postgresql.credentials.postgresql.acid.zalan.do",
+                  secretName:
+                    "grafana.grafana-postgresql.credentials.postgresql.acid.zalan.do",
                   defaultMode: 0o440,
                   mountPath: "/etc/secrets/postgres",
                   readOnly: true,

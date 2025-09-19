@@ -6,6 +6,9 @@
 - ZFS grafana dashboard
 - Type validation for Helm
   - Can we statically type what's expected?
+- https://github.com/openebs/monitoring
+- https://github.com/prometheus/blackbox_exporter
+- https://github.com/esanchezm/prometheus-qbittorrent-exporter
 
 ## Done
 
