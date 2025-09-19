@@ -37,7 +37,7 @@ export function createArgoCdApp(chart: Chart) {
                   enabled: true
                 },
                 rules: {
-                  enabled: true
+                  enabled: false // seems to be a bug in the chart
                 }
               }
             },

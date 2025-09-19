@@ -31,11 +31,6 @@ export function createOpenEBSApp(chart: Chart) {
             { name: "loki.enabled", value: "false" },
             { name: "alloy.enabled", value: "false" },
           ],
-          valuesObject: {
-            ndmExporter: {
-              enabled: true
-            }
-          }
         },
       },
       destination: {
