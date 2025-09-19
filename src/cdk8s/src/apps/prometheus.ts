@@ -120,7 +120,7 @@ export function createPrometheusApp(chart: Chart) {
                 },
               ],
               persistence: {
-                enabled: false, // Disable file-based persistence since we're using PostgreSQL
+                enabled: true,
               },
               sidecar: {
                 datasources: {

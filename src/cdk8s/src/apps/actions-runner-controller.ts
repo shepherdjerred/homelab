@@ -93,9 +93,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
         chart: "gha-runner-scale-set-controller",
         targetRevision: versions["gha-runner-scale-set-controller"],
         helm: {
-          valuesObject: {
-            // TODO: Add controller-specific values if needed
-          },
+          valuesObject: {},
         },
       },
       destination: {
@@ -158,10 +156,6 @@ export function createActionsRunnerControllerApp(chart: Chart) {
                 namespace: "arc-system",
                 name: "actions-runner-controller-gha-rs-controller",
               },
-              // containerMode: {
-              //   // TODO: we might not need this with a remote Dagger engine
-              //   type: "dind",
-              // },
             },
           },
         },
