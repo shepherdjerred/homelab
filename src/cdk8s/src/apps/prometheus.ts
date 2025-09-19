@@ -121,6 +121,7 @@ export function createPrometheusApp(chart: Chart) {
               ],
               persistence: {
                 enabled: true,
+                storageClassName: SSD_STORAGE_CLASS,
               },
               sidecar: {
                 datasources: {
