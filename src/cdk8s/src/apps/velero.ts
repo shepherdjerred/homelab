@@ -176,11 +176,13 @@ export function createVeleroApp(chart: Chart) {
           releaseName: "velero",
           valuesObject: {
             // Velero configuration
-            serviceMonitor:{
-              enabled: true
-            },
-            prometheusRule: {
-              enabled: true
+            metrics: {
+              serviceMonitor:{
+                enabled: true
+              },
+              prometheusRule: {
+                enabled: true
+              },
             },
             configuration: {
               backupStorageLocation: [
