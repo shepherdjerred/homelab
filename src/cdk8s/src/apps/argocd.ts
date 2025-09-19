@@ -91,7 +91,7 @@ export function createArgoCdApp(chart: Chart) {
                   enabled: true
                 },
               }
-            }
+            },
             configs: {
               cm: {
                 "exec.enabled": true,
