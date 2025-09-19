@@ -30,6 +30,68 @@ export function createArgoCdApp(chart: Chart) {
             global: {
               domain: "argocd.tailnet-1a49.ts.net",
             },
+            controller: {
+              metrics: {
+                enabled: true,
+                serviceMonitor: {
+                  enabled: true
+                },
+                rules: {
+                  enabled: true
+                }
+              }
+            },
+            dex: {
+              metrics: {
+                enabled: true,
+                serviceMonitor: {
+                  enabled: true
+                },
+              }
+            },
+            redis: {
+              exporter: {
+                enabled: true
+              },
+              metrics: {
+                enabled: true,
+                serviceMonitor: {
+                  enabled: true
+                },
+              }
+            },
+            server: {
+              metrics: {
+                enabled: true,
+                serviceMonitor: {
+                  enabled: true
+                },
+              }
+            },
+            applicationSet: {
+              metrics: {
+                enabled: true,
+                serviceMonitor: {
+                  enabled: true
+                },
+              }
+            },
+            notifications: {
+              metrics: {
+                enabled: true,
+                serviceMonitor: {
+                  enabled: true
+                },
+              }
+            },
+            repoServer:{
+              metrics: {
+                enabled: true,
+                serviceMonitor: {
+                  enabled: true
+                },
+              }
+            }
             configs: {
               cm: {
                 "exec.enabled": true,
