@@ -57,7 +57,7 @@ const versions = {
     "main@sha256:22c63ff0fe9e1540ecfb96d40efbae4955fd86496042b90f8a6cca4a92c6ff19",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "home-assistant/home-assistant":
-    "2025.9.3@sha256:2da8dea31821db443a69d822bd0c47972572fc8379a920a8fac730d2072c8ed2",
+    "2025.9.4@sha256:89ec0583c7f47c8a150204f6b5ed48b5432026012bebe1226cf72775a795a5e1",
   // Custom homelab HA image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/homelab": "latest",
