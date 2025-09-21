@@ -11,7 +11,7 @@ const versions = {
     "1.2.20@sha256:78f46b81b82d767ee8d729411f6f95089a403c21f17c20a5789df00263d7c5b5",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   ubuntu:
-    "noble@sha256:9cbed754112939e914291337b5e554b07ad7c392491dba6daf25eef1332a22e8",
+    "noble@sha256:353675e2a41babd526e2b837d7ec780c2a05bca0164f7ea5dbbd433d21d166fc",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "curlimages/curl":
     "8.15.0@sha256:4026b29997dc7c823b51c164b71e2b51e0fd95cce4601f78202c513d97da2922",
