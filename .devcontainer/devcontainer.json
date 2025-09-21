@@ -3,6 +3,6 @@
     "dockerfile": "Dockerfile"
   },
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2@sha256:c36ff66a35d1c40409a0fc1a7995616eaaa76574953b6ed675d8622e2d0bbcc5": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2@sha256:7f32d985aac6929b4f37cf8a0bdb9196473e9e192281a3d708207a70633f83df": {}
   }
 }
