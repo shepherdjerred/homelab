@@ -63,7 +63,7 @@ const versions = {
   "shepherdjerred/homelab": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing":
-    "2.0.9@sha256:cec9b511a473cf622ce30c50646365df3277798b12f59829e1713ba6c263074d",
+    "2.0.9@sha256:922728667eab7f89977ae7a87d051c43085d57574c0eacaa2850d6f537f2e3a9",
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v2.8.2",
   // renovate: datasource=helm registryUrl=https://chartmuseum.github.io/charts versioning=semver
