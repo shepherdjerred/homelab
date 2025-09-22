@@ -22,7 +22,7 @@ export function createPrometheusMonitoring(chart: Chart) {
                 summary: "Litter Robot litter low",
               },
               expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-                `homeassistant_sensor_unit_percent{entity="sensor.litter_robot_4_litter_level"} < 20`,
+                `homeassistant_sensor_unit_percent{entity="sensor.litter_robot_4_litter_level"} < 90`,
               ),
               for: "10m",
               labels: {
@@ -37,7 +37,7 @@ export function createPrometheusMonitoring(chart: Chart) {
                 summary: "Litter Robot waste high",
               },
               expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-                `homeassistant_sensor_unit_percent{entity="sensor.litter_robot_4_waste_drawer"} > 80`,
+                `homeassistant_sensor_unit_percent{entity="sensor.litter_robot_4_waste_drawer"} > 70`,
               ),
               for: "10m",
               labels: {
@@ -137,7 +137,7 @@ export function createPrometheusMonitoring(chart: Chart) {
                 summary: "Home Assistant battery low",
               },
               expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-                `min by (entity) (homeassistant_sensor_battery_percent) < 33`,
+                `min by (entity) (homeassistant_sensor_battery_percent) < 50`,
               ),
               for: "10m",
               labels: {
