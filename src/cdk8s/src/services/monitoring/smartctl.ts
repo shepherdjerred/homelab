@@ -47,8 +47,8 @@ parse_smartctl_attributes() {
     local smart_healthy=$(smartctl -H "$device" | awk '/^SMART overall-health/ { print ($NF == "PASSED") ? 1 : 0 }')
 
     # Output device info metrics
-    echo "smartmon_device_info{device=\"$device\",type=\"$device_type\",model_family=\"\${model_family:-}\",model_name=\"\${device_model:-}\",serial_number=\"\${serial_number:-}\",firmware_version=\"\${firmware_version:-}\"} 1"
-    echo "smartmon_device_smart_healthy{device=\"$device\",type=\"$device_type\",model_family=\"\${model_family:-}\",model_name=\"\${device_model:-}\",serial_number=\"\${serial_number:-}\"} \${smart_healthy:-0}"
+    echo "smartmon_device_info{device=\\"$device\\",type=\\"$device_type\\",model_family=\\"$model_family\\",model_name=\\"$device_model\\",serial_number=\\"$serial_number\\",firmware_version=\\"$firmware_version\\"} 1"
+    echo "smartmon_device_smart_healthy{device=\\"$device\\",type=\\"$device_type\\",model_family=\\"$model_family\\",model_name=\\"$device_model\\",serial_number=\\"$serial_number\\"} $smart_healthy"
 
     # Get SMART attributes
     smartctl -A "$device" | awk '
@@ -63,13 +63,13 @@ parse_smartctl_attributes() {
     # Get temperature if available
     local temp=$(smartctl -A "$device" | awk '/^194/ { print $10 }' | head -1)
     if [[ -n "$temp" && "$temp" =~ ^[0-9]+$ ]]; then
-        echo "smartmon_temperature_celsius{device=\"$device\",type=\"$device_type\",model_family=\"\${model_family:-}\",model_name=\"\${device_model:-}\",serial_number=\"\${serial_number:-}\"} $temp"
+        echo "smartmon_temperature_celsius{device=\\"$device\\",type=\\"$device_type\\",model_family=\\"$model_family\\",model_name=\\"$device_model\\",serial_number=\\"$serial_number\\"} $temp"
     fi
 
     # Get power on hours if available
     local power_on_hours=$(smartctl -A "$device" | awk '/^9/ { print $10 }' | head -1)
     if [[ -n "$power_on_hours" && "$power_on_hours" =~ ^[0-9]+$ ]]; then
-        echo "smartmon_power_on_hours{device=\"$device\",type=\"$device_type\",model_family=\"\${model_family:-}\",model_name=\"\${device_model:-}\",serial_number=\"\${serial_number:-}\"} $power_on_hours"
+        echo "smartmon_power_on_hours{device=\\"$device\\",type=\\"$device_type\\",model_family=\\"$model_family\\",model_name=\\"$device_model\\",serial_number=\\"$serial_number\\"} $power_on_hours"
     fi
 }
 

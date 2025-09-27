@@ -207,6 +207,7 @@ export function createPrometheusApp(chart: Chart) {
       },
     },
     // Configure node_exporter to enable textfile collector for SMART monitoring
+    // NOTE: this is _not_ a real property?
     "prometheus-node-exporter": {
       extraArgs: [
         "--collector.textfile.directory=/host/var/lib/node_exporter/textfile_collector",
