@@ -218,7 +218,7 @@ export function createVeleroApp(chart: Chart) {
     initContainers: [
       {
         name: "velero-plugin-for-aws",
-        image: "velero/velero-plugin-for-aws:v1.10.1",
+        image: `velero/velero-plugin-for-aws:${versions["velero/velero-plugin-for-aws"]}`,
         volumeMounts: [
           {
             mountPath: "/target",
@@ -228,7 +228,7 @@ export function createVeleroApp(chart: Chart) {
       },
       {
         name: "velero-plugin-openebs",
-        image: "openebs/velero-plugin:4.2.0",
+        image: `openebs/velero-plugin:${versions.openebs}`,
         volumeMounts: [
           {
             mountPath: "/target",
