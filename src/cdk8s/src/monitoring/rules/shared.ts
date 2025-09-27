@@ -3,6 +3,7 @@ import { PrometheusRuleSpecGroupsRulesExpr } from "../../../imports/monitoring.c
 // Prometheus template helpers for better readability
 export const PrometheusTemplates = {
   value: "{{ $value }}",
+  valueAsPercentage: "{{ $value | humanizePercentage }}",
   entity: "{{ $labels.entity }}",
 
   // Common template patterns

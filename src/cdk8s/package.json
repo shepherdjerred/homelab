@@ -20,11 +20,13 @@
     "cdk8s": "^2.69.60",
     "cdk8s-plus-31": "^2.2.4",
     "constructs": "^10.4.2",
+    "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "remeda": "^2.21.2",
     "ts-pattern": "^5.7.0"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/lodash": "^4.17.17",
     "type-fest": "^4.41.0"
   }
