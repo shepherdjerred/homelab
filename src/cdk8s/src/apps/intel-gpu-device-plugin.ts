@@ -1,7 +1,7 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
-import { HelmValuesForChart } from "../types/helm/index.js";
+import { HelmValuesForChart } from "../../helm-types/helm/index.js";
 
 export function createIntelGpuDevicePluginApp(chart: Chart) {
   // ✅ Type-safe Intel GPU Device Plugin configuration with full IntelliSense

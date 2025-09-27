@@ -2,7 +2,7 @@ import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
-import { HelmValuesForChart } from "../types/helm/index.js";
+import { HelmValuesForChart } from "../../helm-types/helm/index.js";
 
 export function createArgoCdApp(chart: Chart) {
   createIngress(

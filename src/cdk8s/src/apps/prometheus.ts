@@ -5,6 +5,7 @@ import { createIngress } from "../utils/tailscale.ts";
 import { SSD_STORAGE_CLASS } from "../storageclasses.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { createPrometheusMonitoring } from "../monitoring/prometheus.ts";
+import type { HelmValuesForChart } from "../../helm-types/helm-parameters.ts";
 // import { HelmValuesForChart } from "../types/helm/index.js"; // Using 'any' for complex config
 
 export function createPrometheusApp(chart: Chart) {
@@ -62,7 +63,7 @@ export function createPrometheusApp(chart: Chart) {
 
   // ✅ Type-safe Prometheus configuration with full IntelliSense
   // Note: Some configurations bypass type checking due to incomplete generated types
-  const prometheusValues: any = {
+  const prometheusValues: HelmValuesForChart<"kube-prometheus-stack"> = {
     kubeProxy: {
       // disable components that fail
       // https://github.com/prometheus-operator/kube-prometheus/issues/718

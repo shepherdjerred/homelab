@@ -61,6 +61,11 @@ export default tseslint.config(
           message:
             "Prefer Zod schema validation over Number.isFinite(). Use z.number().finite() instead.",
         },
+        {
+          selector: "TSTypePredicate",
+          message:
+            "Prefer Zod schema validation over type guard functions. Use z.schema.safeParse() instead of custom type guards.",
+        },
       ],
     },
   },

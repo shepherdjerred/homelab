@@ -3,7 +3,7 @@ import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
 import { SSD_STORAGE_CLASS } from "../storageclasses.ts";
-import { HelmValuesForChart } from "../types/helm/index.js";
+import { HelmValuesForChart } from "../../helm-types/helm/index.js";
 
 export function createLokiApp(chart: Chart) {
   createIngress(chart, "loki-ingress", "loki", "loki", 3100, ["loki"], false);
@@ -24,7 +24,7 @@ export function createLokiApp(chart: Chart) {
       auth_enabled: false,
       limits_config: {
         retention_period: "90d",
-      } as any, // Type assertion for dynamic config
+      },
       schemaConfig: {
         configs: [
           {
@@ -46,13 +46,13 @@ export function createLokiApp(chart: Chart) {
       working_directory: "/var/loki/compactor",
       compaction_interval: "10m",
       retention_delete_delay: "2h",
-    } as any, // Type assertion for compactor config
+    },
     minio: {
       enabled: true,
       persistence: {
         storageClass: SSD_STORAGE_CLASS,
         size: Size.gibibytes(64).asString(),
-      } as any, // Type assertion for minio persistence
+      },
     },
   };
 

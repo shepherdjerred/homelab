@@ -2,7 +2,7 @@ import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { Namespace } from "cdk8s-plus-31";
 import versions from "../versions.ts";
-import { HelmValuesForChart } from "../types/helm/index.js";
+import { HelmValuesForChart } from "../../helm-types/helm/index.js";
 
 export function createPostgresOperatorApp(chart: Chart) {
   new Namespace(chart, "postgres-operator-namespace", {

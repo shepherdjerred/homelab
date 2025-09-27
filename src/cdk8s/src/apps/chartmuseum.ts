@@ -4,7 +4,7 @@ import versions from "../versions.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { createIngress } from "../utils/tailscale.ts";
 import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
-import { HelmValuesForChart } from "../types/helm/index.js";
+import { HelmValuesForChart } from "../../helm-types/helm/index.js";
 
 export function createChartMuseumApp(chart: Chart) {
   createIngress(
