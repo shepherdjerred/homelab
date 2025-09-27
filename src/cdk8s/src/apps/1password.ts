@@ -1,11 +1,29 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
+import { HelmValuesForChart } from "../types/helm/index.js";
 
 export function createOnePasswordApp(chart: Chart) {
   // TODO: create the 1password secrets here
 
-  new Application(chart, "1password-app", {
+  // ✅ Type-safe 1Password Connect configuration with full IntelliSense
+  const onePasswordValues: HelmValuesForChart<"connect"> = {
+    operator: {
+      autoRestart: true,
+      create: true,
+      pollingInterval: 60,
+      token: {
+        name: "onepassword-token",
+        key: "token",
+      },
+    },
+    connect: {
+      credentialsName: "op-credentials",
+      credentialsKey: "1password-credentials.json",
+    },
+  };
+
+  return new Application(chart, "1password-app", {
     metadata: {
       name: "1password",
     },
@@ -17,26 +35,7 @@ export function createOnePasswordApp(chart: Chart) {
         targetRevision: versions.connect,
         chart: "connect",
         helm: {
-          parameters: [
-            { name: "operator.autoRestart", value: "true" },
-            { name: "operator.create", value: "true" },
-            { name: "operator.pollingInterval", value: "60" },
-            // Connect server credentials configuration
-            {
-              name: "connect.credentialsName",
-              value: "op-credentials",
-            },
-            {
-              name: "connect.credentialsKey",
-              value: "1password-credentials.json",
-            },
-            // Operator token configuration
-            {
-              name: "operator.token.name",
-              value: "onepassword-token",
-            },
-            { name: "operator.token.key", value: "token" },
-          ],
+          valuesObject: onePasswordValues, // ✅ Now type-checked against ConnectHelmValues
         },
       },
       destination: {

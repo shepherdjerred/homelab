@@ -1,9 +1,17 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
+import { HelmValuesForChart } from "../types/helm/index.js";
 
 export function createIntelGpuDevicePluginApp(chart: Chart) {
-  new Application(chart, "intel-gpu-device-plugin-app", {
+  // ✅ Type-safe Intel GPU Device Plugin configuration with full IntelliSense
+  const intelGpuValues: HelmValuesForChart<"intel-device-plugins-operator"> = {
+    sharedDevNum: 10,
+    nodeFeatureRule: true,
+    resourceManager: false,
+  };
+
+  return new Application(chart, "intel-gpu-device-plugin-app", {
     metadata: {
       name: "intel-gpu-device-plugin",
     },
@@ -15,11 +23,7 @@ export function createIntelGpuDevicePluginApp(chart: Chart) {
         chart: "intel-device-plugins-gpu",
         targetRevision: versions["intel-device-plugins-operator"],
         helm: {
-          parameters: [
-            { name: "sharedDevNum", value: "10" },
-            { name: "nodeFeatureRule", value: "true" },
-            { name: "resourceManager", value: "false" },
-          ],
+          valuesObject: intelGpuValues, // ✅ Now type-checked against InteldevicepluginsoperatorHelmValues
         },
       },
       destination: {

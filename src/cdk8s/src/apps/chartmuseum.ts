@@ -4,6 +4,7 @@ import versions from "../versions.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { createIngress } from "../utils/tailscale.ts";
 import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
+import { HelmValuesForChart } from "../types/helm/index.js";
 
 export function createChartMuseumApp(chart: Chart) {
   createIngress(
@@ -27,6 +28,26 @@ export function createChartMuseumApp(chart: Chart) {
     },
   });
 
+  // ✅ Type-safe ChartMuseum configuration with full IntelliSense
+  const chartMuseumValues: HelmValuesForChart<"chartmuseum"> = {
+    persistence: {
+      enabled: true,
+      storageClass: HDD_STORAGE_CLASS,
+      size: Size.gibibytes(8).asString(),
+    }, // Type assertion for persistence config
+    env: {
+      open: {
+        DISABLE_API: false,
+        AUTH_ANONYMOUS_GET: true,
+      },
+      existingSecret: basicAuth.name,
+      existingSecretMappings: {
+        BASIC_AUTH_USER: "username",
+        BASIC_AUTH_PASS: "password",
+      },
+    },
+  };
+
   return new Application(chart, "chartmuseum-app", {
     metadata: {
       name: "chartmuseum",
@@ -38,22 +59,7 @@ export function createChartMuseumApp(chart: Chart) {
         targetRevision: versions.chartmuseum,
         chart: "chartmuseum",
         helm: {
-          parameters: [
-            { name: "persistence.enabled", value: "true" },
-            { name: "persistence.storageClass", value: HDD_STORAGE_CLASS },
-            { name: "persistence.size", value: Size.gibibytes(8).asString() },
-            { name: "env.open.DISABLE_API", value: "false" },
-            { name: "env.open.AUTH_ANONYMOUS_GET", value: "true" },
-            { name: "env.existingSecret", value: basicAuth.name },
-            {
-              name: "env.existingSecretMappings.BASIC_AUTH_USER",
-              value: "username",
-            },
-            {
-              name: "env.existingSecretMappings.BASIC_AUTH_PASS",
-              value: "password",
-            },
-          ],
+          valuesObject: chartMuseumValues, // ✅ Now type-checked against ChartmuseumHelmValues
         },
       },
       destination: {

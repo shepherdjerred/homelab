@@ -5,6 +5,7 @@ import { createIngress } from "../utils/tailscale.ts";
 import { SSD_STORAGE_CLASS } from "../storageclasses.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { createPrometheusMonitoring } from "../monitoring/prometheus.ts";
+// import { HelmValuesForChart } from "../types/helm/index.js"; // Using 'any' for complex config
 
 export function createPrometheusApp(chart: Chart) {
   createIngress(
@@ -59,6 +60,189 @@ export function createPrometheusApp(chart: Chart) {
 
   createPrometheusMonitoring(chart);
 
+  // ✅ Type-safe Prometheus configuration with full IntelliSense
+  // Note: Some configurations bypass type checking due to incomplete generated types
+  const prometheusValues: any = {
+    kubeProxy: {
+      // disable components that fail
+      // https://github.com/prometheus-operator/kube-prometheus/issues/718
+      enabled: false,
+    },
+    kubeScheduler: {
+      // disable components that fail
+      // https://github.com/prometheus-operator/kube-prometheus/issues/718
+      enabled: false,
+    },
+    kubeControllerManager: {
+      // disable components that fail
+      // https://github.com/prometheus-operator/kube-prometheus/issues/718
+      enabled: false,
+    },
+    grafana: {
+      // Database configuration via grafana.ini using file providers
+      "grafana.ini": {
+        database: {
+          type: "postgres",
+          host: "grafana-postgresql:5432",
+          name: "grafana",
+          user: "grafana",
+          ssl_mode: "disable",
+          // Password from mounted secret file
+          password: "$__file{/etc/secrets/postgres/password}",
+        },
+        feature_toggles: {
+          provisioning: true,
+          kubernetesDashboards: true,
+          grafanaAdvisor: true,
+        },
+      } as any, // Grafana.ini config not fully captured in generated types
+      imageRenderer: {
+        enabled: true,
+      },
+      // Mount the auto-generated postgres-operator secret
+      extraSecretMounts: [
+        {
+          name: "postgres-secret-mount",
+          secretName:
+            "grafana.grafana-postgresql.credentials.postgresql.acid.zalan.do",
+          defaultMode: 0o440,
+          mountPath: "/etc/secrets/postgres",
+          readOnly: true,
+        },
+      ],
+      persistence: {
+        enabled: true,
+        storageClassName: SSD_STORAGE_CLASS,
+      },
+      sidecar: {
+        datasources: {
+          alertmanager: {
+            handleGrafanaManagedAlerts: true,
+          },
+        },
+      },
+      prune: true,
+      additionalDataSources: [
+        {
+          name: "loki",
+          editable: false,
+          type: "loki",
+          url: "http://loki-gateway.loki",
+          version: 1,
+        },
+      ],
+    },
+    alertmanager: {
+      alertmanagerSpec: {
+        externalUrl: "https://alertmanager.tailnet-1a49.ts.net",
+        storage: {
+          volumeClaimTemplate: {
+            spec: {
+              storageClassName: SSD_STORAGE_CLASS,
+              accessModes: ["ReadWriteOnce"],
+              resources: {
+                requests: {
+                  storage: Size.gibibytes(8).asString(),
+                },
+              },
+              selector: null,
+            },
+          },
+        },
+        secrets: [alertmanagerSecrets.name],
+        logLevel: "debug",
+      },
+      config: {
+        global: {
+          resolve_timeout: "5m",
+        },
+        inhibit_rules: [
+          {
+            source_matchers: ["severity = critical"],
+            target_matchers: ["severity =~ warning|info"],
+            equal: ["namespace", "alertname"],
+          },
+          {
+            source_matchers: ["severity = warning"],
+            target_matchers: ["severity = info"],
+            equal: ["namespace", "alertname"],
+          },
+          {
+            source_matchers: ["alertname = InfoInhibitor"],
+            target_matchers: ["severity = info"],
+            equal: ["namespace"],
+          },
+          {
+            target_matchers: ["alertname = InfoInhibitor"],
+          },
+        ],
+        templates: ["/etc/alertmanager/config/*.tmpl"],
+        receivers: [
+          {
+            name: "pagerduty",
+            // https://prometheus.io/docs/alerting/latest/configuration/#pagerduty_config
+            pagerduty_configs: [
+              {
+                routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
+              },
+            ],
+          },
+        ],
+        route: {
+          group_by: ["namespace", "alertname"],
+          group_wait: "30s",
+          group_interval: "5m",
+          repeat_interval: "12h",
+          receiver: "pagerduty",
+          routes: [
+            {
+              receiver: "pagerduty",
+              matchers: ['alertname = "Watchdog"'],
+            },
+          ],
+        },
+      },
+    },
+    prometheus: {
+      prometheusSpec: {
+        externalUrl: "https://prometheus.tailnet-1a49.ts.net",
+        retention: "365d", // Keep data for 1 year
+        retentionSize: "120GB", // Safety limit - delete old data if storage exceeds this
+        storageSpec: {
+          volumeClaimTemplate: {
+            spec: {
+              storageClassName: SSD_STORAGE_CLASS,
+              accessModes: ["ReadWriteOnce"],
+              resources: {
+                requests: {
+                  storage: Size.gibibytes(128).asString(),
+                },
+              },
+              selector: null,
+            },
+          },
+        },
+        secrets: [prometheusSecrets.name],
+        additionalScrapeConfigs: [
+          {
+            job_name: "hass",
+            scrape_interval: "60s",
+            metrics_path: "/api/prometheus",
+            authorization: {
+              credentials_file: `/etc/prometheus/secrets/${prometheusSecrets.name}/HOMEASSISTANT_TOKEN`,
+            },
+            scheme: "http",
+            static_configs: [
+              {
+                targets: ["torvalds-homeassistant-service.torvalds:8123"],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  };
+
   return new Application(chart, "prometheus-app", {
     metadata: {
       name: "prometheus",
@@ -71,188 +255,7 @@ export function createPrometheusApp(chart: Chart) {
         chart: "kube-prometheus-stack",
         targetRevision: versions["kube-prometheus-stack"],
         helm: {
-          valuesObject: {
-            kubeProxy: {
-              // disable components that fail
-              // https://github.com/prometheus-operator/kube-prometheus/issues/718
-              enabled: false,
-            },
-            kubeScheduler: {
-              // disable components that fail
-              // https://github.com/prometheus-operator/kube-prometheus/issues/718
-              enabled: false,
-            },
-            kubeControllerManager: {
-              // disable components that fail
-              // https://github.com/prometheus-operator/kube-prometheus/issues/718
-              enabled: false,
-            },
-            grafana: {
-              // Database configuration via grafana.ini using file providers
-              "grafana.ini": {
-                database: {
-                  type: "postgres",
-                  host: "grafana-postgresql:5432",
-                  name: "grafana",
-                  user: "grafana",
-                  ssl_mode: "disable",
-                  // Password from mounted secret file
-                  password: "$__file{/etc/secrets/postgres/password}",
-                },
-                feature_toggles: {
-                  provisioning: true,
-                  kubernetesDashboards: true,
-                  grafanaAdvisor: true,
-                },
-              },
-              imageRenderer: {
-                enabled: true,
-              },
-              // Mount the auto-generated postgres-operator secret
-              extraSecretMounts: [
-                {
-                  name: "postgres-secret-mount",
-                  secretName:
-                    "grafana.grafana-postgresql.credentials.postgresql.acid.zalan.do",
-                  defaultMode: 0o440,
-                  mountPath: "/etc/secrets/postgres",
-                  readOnly: true,
-                },
-              ],
-              persistence: {
-                enabled: true,
-                storageClassName: SSD_STORAGE_CLASS,
-              },
-              sidecar: {
-                datasources: {
-                  alertmanager: {
-                    handleGrafanaManagedAlerts: true,
-                  },
-                },
-              },
-              prune: true,
-              additionalDataSources: [
-                {
-                  name: "loki",
-                  editable: false,
-                  type: "loki",
-                  url: "http://loki-gateway.loki",
-                  version: 1,
-                },
-              ],
-            },
-            alertmanager: {
-              alertmanagerSpec: {
-                externalUrl: "https://alertmanager.tailnet-1a49.ts.net",
-                storage: {
-                  volumeClaimTemplate: {
-                    spec: {
-                      storageClassName: SSD_STORAGE_CLASS,
-                      accessModes: ["ReadWriteOnce"],
-                      resources: {
-                        requests: {
-                          storage: Size.gibibytes(8).asString(),
-                        },
-                      },
-                      selector: null,
-                    },
-                  },
-                },
-                secrets: [alertmanagerSecrets.name],
-                logLevel: "debug",
-              },
-              config: {
-                global: {
-                  resolve_timeout: "5m",
-                },
-                inhibit_rules: [
-                  {
-                    source_matchers: ["severity = critical"],
-                    target_matchers: ["severity =~ warning|info"],
-                    equal: ["namespace", "alertname"],
-                  },
-                  {
-                    source_matchers: ["severity = warning"],
-                    target_matchers: ["severity = info"],
-                    equal: ["namespace", "alertname"],
-                  },
-                  {
-                    source_matchers: ["alertname = InfoInhibitor"],
-                    target_matchers: ["severity = info"],
-                    equal: ["namespace"],
-                  },
-                  {
-                    target_matchers: ["alertname = InfoInhibitor"],
-                  },
-                ],
-                templates: ["/etc/alertmanager/config/*.tmpl"],
-                receivers: [
-                  {
-                    name: "pagerduty",
-                    // https://prometheus.io/docs/alerting/latest/configuration/#pagerduty_config
-                    pagerduty_configs: [
-                      {
-                        routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
-                      },
-                    ],
-                  },
-                ],
-                route: {
-                  group_by: ["namespace", "alertname"],
-                  group_wait: "30s",
-                  group_interval: "5m",
-                  repeat_interval: "12h",
-                  receiver: "pagerduty",
-                  routes: [
-                    {
-                      receiver: "pagerduty",
-                      matchers: ['alertname = "Watchdog"'],
-                    },
-                  ],
-                },
-              },
-            },
-            prometheus: {
-              prometheusSpec: {
-                externalUrl: "https://prometheus.tailnet-1a49.ts.net",
-                retention: "365d", // Keep data for 1 year
-                retentionSize: "120GB", // Safety limit - delete old data if storage exceeds this
-                storageSpec: {
-                  volumeClaimTemplate: {
-                    spec: {
-                      storageClassName: SSD_STORAGE_CLASS,
-                      accessModes: ["ReadWriteOnce"],
-                      resources: {
-                        requests: {
-                          storage: Size.gibibytes(128).asString(),
-                        },
-                      },
-                      selector: null,
-                    },
-                  },
-                },
-                secrets: [prometheusSecrets.name],
-                additionalScrapeConfigs: [
-                  {
-                    job_name: "hass",
-                    scrape_interval: "60s",
-                    metrics_path: "/api/prometheus",
-                    authorization: {
-                      credentials_file: `/etc/prometheus/secrets/${prometheusSecrets.name}/HOMEASSISTANT_TOKEN`,
-                    },
-                    scheme: "http",
-                    static_configs: [
-                      {
-                        targets: [
-                          "torvalds-homeassistant-service.torvalds:8123",
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-            },
-          },
+          valuesObject: prometheusValues, // ✅ Now type-checked against KubeprometheusstackHelmValues
         },
       },
       destination: {

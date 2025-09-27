@@ -2,6 +2,7 @@ import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
+import { HelmValuesForChart } from "../types/helm/index.js";
 
 export function createArgoCdApp(chart: Chart) {
   createIngress(
@@ -14,7 +15,105 @@ export function createArgoCdApp(chart: Chart) {
     true,
   );
 
-  new Application(chart, "argocd-app", {
+  // ✅ Type-safe ArgoCD configuration with full IntelliSense
+  const argoCdValues: HelmValuesForChart<"argo-cd"> = {
+    global: {
+      domain: "argocd.tailnet-1a49.ts.net",
+    },
+    controller: {
+      metrics: {
+        enabled: true,
+        serviceMonitor: {
+          enabled: true,
+          additionalLabels: {
+            release: "prometheus",
+          },
+        },
+      },
+    },
+    dex: {
+      metrics: {
+        enabled: true,
+        serviceMonitor: {
+          enabled: true,
+          additionalLabels: {
+            release: "prometheus",
+          },
+        },
+      },
+    },
+    redis: {
+      exporter: {
+        enabled: true,
+      },
+      metrics: {
+        enabled: true,
+        serviceMonitor: {
+          enabled: true,
+          additionalLabels: {
+            release: "prometheus",
+          },
+        },
+      },
+    },
+    server: {
+      metrics: {
+        enabled: true,
+        serviceMonitor: {
+          enabled: true,
+        },
+      },
+    },
+    applicationSet: {
+      metrics: {
+        enabled: true,
+        serviceMonitor: {
+          enabled: true,
+          additionalLabels: {
+            release: "prometheus",
+          },
+        },
+      },
+    },
+    notifications: {
+      metrics: {
+        enabled: true,
+        serviceMonitor: {
+          enabled: true,
+          additionalLabels: {
+            release: "prometheus",
+          },
+        },
+      },
+    },
+    repoServer: {
+      metrics: {
+        enabled: true,
+        serviceMonitor: {
+          enabled: true,
+          additionalLabels: {
+            release: "prometheus",
+          },
+        },
+      },
+    },
+    configs: {
+      cm: {
+        "exec.enabled": true,
+        "timeout.reconciliation": "60s",
+        "statusbadge.enabled": true,
+        // TODO: rename
+        "accounts.jenkins": "apiKey",
+        "accounts.jenkins.enabled": true,
+      },
+      rbac: {
+        // TODO: scope this to only syncing
+        "policy.csv": "g, jenkins, role:admin",
+      },
+    },
+  };
+
+  return new Application(chart, "argocd-app", {
     metadata: {
       name: "argocd",
     },
@@ -26,102 +125,7 @@ export function createArgoCdApp(chart: Chart) {
         targetRevision: versions["argo-cd"],
         chart: "argo-cd",
         helm: {
-          valuesObject: {
-            global: {
-              domain: "argocd.tailnet-1a49.ts.net",
-            },
-            controller: {
-              metrics: {
-                enabled: true,
-                serviceMonitor: {
-                  enabled: true,
-                  additionalLabels: {
-                    release: "prometheus",
-                  },
-                },
-              },
-            },
-            dex: {
-              metrics: {
-                enabled: true,
-                serviceMonitor: {
-                  enabled: true,
-                  additionalLabels: {
-                    release: "prometheus",
-                  },
-                },
-              },
-            },
-            redis: {
-              exporter: {
-                enabled: true,
-              },
-              metrics: {
-                enabled: true,
-                serviceMonitor: {
-                  enabled: true,
-                  additionalLabels: {
-                    release: "prometheus",
-                  },
-                },
-              },
-            },
-            server: {
-              metrics: {
-                enabled: true,
-                serviceMonitor: {
-                  enabled: true,
-                },
-              },
-            },
-            applicationSet: {
-              metrics: {
-                enabled: true,
-                serviceMonitor: {
-                  enabled: true,
-                  additionalLabels: {
-                    release: "prometheus",
-                  },
-                },
-              },
-            },
-            notifications: {
-              metrics: {
-                enabled: true,
-                serviceMonitor: {
-                  enabled: true,
-                  additionalLabels: {
-                    release: "prometheus",
-                  },
-                },
-              },
-            },
-            repoServer: {
-              metrics: {
-                enabled: true,
-                serviceMonitor: {
-                  enabled: true,
-                  additionalLabels: {
-                    release: "prometheus",
-                  },
-                },
-              },
-            },
-            configs: {
-              cm: {
-                "exec.enabled": true,
-                "timeout.reconciliation": "60s",
-                "statusbadge.enabled": true,
-                // TODO: rename
-                "accounts.jenkins": "apiKey",
-                "accounts.jenkins.enabled": true,
-              },
-              rbac: {
-                // TODO: scope this to only syncing
-                "policy.csv": "g, jenkins, role:admin",
-              },
-            },
-          },
+          valuesObject: argoCdValues, // ✅ Now type-checked against ArgocdHelmValues
         },
       },
       destination: {

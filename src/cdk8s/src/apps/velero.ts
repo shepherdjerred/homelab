@@ -4,6 +4,7 @@ import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { Schedule } from "../../imports/velero.io.ts";
 import versions from "../versions.ts";
 import { Namespace } from "cdk8s-plus-31";
+import { HelmValuesForChart } from "../types/helm/index.js";
 
 export function createVeleroApp(chart: Chart) {
   new Namespace(chart, `velero-namespace`, {
@@ -161,7 +162,85 @@ export function createVeleroApp(chart: Chart) {
     },
   });
 
-  new Application(chart, "velero-app", {
+  // ✅ Type-safe Velero configuration with full IntelliSense
+  const veleroValues: HelmValuesForChart<"velero"> = {
+    // Velero configuration
+    metrics: {
+      serviceMonitor: {
+        enabled: true,
+        additionalLabels: {
+          release: "prometheus",
+        },
+      },
+    },
+    configuration: {
+      backupStorageLocation: [
+        {
+          name: "default",
+          bucket: "homelab",
+          default: true,
+          provider: "aws",
+          config: {
+            region: "auto", // Cloudflare R2 uses "auto" region
+            s3Url:
+              "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
+            s3ForcePathStyle: "true",
+          },
+        },
+      ],
+      volumeSnapshotLocation: [
+        {
+          name: "zfspv-incr",
+          provider: "openebs.io/zfspv-blockstore",
+          config: {
+            bucket: "homelab",
+            prefix: "zfs",
+            incrBackupCount: "15", // number of incremental backups we want to have
+            fullBackupPrefix: "zfspv-full",
+            backupPathPrefix: "zfspv-incr",
+            namespace: "openebs",
+            provider: "aws",
+            region: "auto",
+            s3Url:
+              "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
+            s3ForcePathStyle: "true",
+          },
+        },
+      ],
+    },
+    credentials: {
+      existingSecret: cloudCredentials.name,
+    },
+    kubectl: {
+      image: {
+        repository: "bitnami/kubectl",
+      },
+    },
+    initContainers: [
+      {
+        name: "velero-plugin-for-aws",
+        image: "velero/velero-plugin-for-aws:v1.10.1",
+        volumeMounts: [
+          {
+            mountPath: "/target",
+            name: "plugins",
+          },
+        ],
+      },
+      {
+        name: "velero-plugin-openebs",
+        image: "openebs/velero-plugin:4.2.0",
+        volumeMounts: [
+          {
+            mountPath: "/target",
+            name: "plugins",
+          },
+        ],
+      },
+    ],
+  };
+
+  return new Application(chart, "velero-app", {
     metadata: {
       name: "velero",
     },
@@ -174,80 +253,7 @@ export function createVeleroApp(chart: Chart) {
         targetRevision: versions.velero,
         helm: {
           releaseName: "velero",
-          valuesObject: {
-            // Velero configuration
-            metrics: {
-              serviceMonitor: {
-                enabled: true,
-                additionalLabels: {
-                  release: "prometheus",
-                },
-              },
-            },
-            configuration: {
-              backupStorageLocation: [
-                {
-                  name: "default",
-                  bucket: "homelab",
-                  default: true,
-                  provider: "aws",
-                  config: {
-                    region: "auto", // Cloudflare R2 uses "auto" region
-                    s3Url:
-                      "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
-                    s3ForcePathStyle: "true",
-                  },
-                },
-              ],
-              volumeSnapshotLocation: [
-                {
-                  name: "zfspv-incr",
-                  provider: "openebs.io/zfspv-blockstore",
-                  config: {
-                    bucket: "homelab",
-                    prefix: "zfs",
-                    incrBackupCount: "15", // number of incremental backups we want to have
-                    namespace: "openebs", // this is the namespace where ZFS-LocalPV creates all the CRs
-                    provider: "aws",
-                    region: "auto", // Cloudflare R2 uses "auto" region
-                    s3ForcePathStyle: "true",
-                    s3Url:
-                      "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
-                  },
-                },
-              ],
-            },
-            // Credentials management
-            credentials: {
-              useSecret: true,
-              existingSecret: cloudCredentials.name,
-            },
-            // Init containers for plugins
-            initContainers: [
-              {
-                name: "velero-plugin-for-aws",
-                image: `velero/velero-plugin-for-aws:${versions["velero/velero-plugin-for-aws"]}`,
-                imagePullPolicy: "IfNotPresent",
-                volumeMounts: [
-                  {
-                    mountPath: "/target",
-                    name: "plugins",
-                  },
-                ],
-              },
-              {
-                name: "velero-plugin-for-openebs",
-                image: `openebs/velero-plugin:${versions["openebs/velero-plugin"]}`,
-                imagePullPolicy: "IfNotPresent",
-                volumeMounts: [
-                  {
-                    mountPath: "/target",
-                    name: "plugins",
-                  },
-                ],
-              },
-            ],
-          },
+          valuesObject: veleroValues, // ✅ Now type-checked against VeleroHelmValues
         },
       },
       destination: {

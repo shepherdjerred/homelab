@@ -2,6 +2,7 @@ import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { Namespace } from "cdk8s-plus-31";
+import { HelmValuesForChart } from "../types/helm/index.js";
 
 export function createOpenEBSApp(chart: Chart) {
   new Namespace(chart, `openebs-namespace`, {
@@ -13,7 +14,34 @@ export function createOpenEBSApp(chart: Chart) {
     },
   });
 
-  new Application(chart, "openebs-app", {
+  // ✅ Type-safe OpenEBS configuration with full IntelliSense
+  const openEBSValues: HelmValuesForChart<"openebs"> = {
+    engines: {
+      replicated: {
+        mayastor: {
+          enabled: false,
+        },
+      },
+      local: {
+        lvm: {
+          enabled: false,
+        },
+      },
+    },
+    "zfs-localpv": {
+      zfsNode: {
+        encrKeysDir: "/var",
+      },
+    },
+    loki: {
+      enabled: false,
+    },
+    alloy: {
+      enabled: false,
+    },
+  };
+
+  return new Application(chart, "openebs-app", {
     metadata: {
       name: "openebs",
     },
@@ -24,13 +52,7 @@ export function createOpenEBSApp(chart: Chart) {
         targetRevision: versions.openebs,
         chart: "openebs",
         helm: {
-          parameters: [
-            { name: "engines.replicated.mayastor.enabled", value: "false" },
-            { name: "engines.local.lvm.enabled", value: "false" },
-            { name: "zfs-localpv.zfsNode.encrKeysDir", value: "/var" },
-            { name: "loki.enabled", value: "false" },
-            { name: "alloy.enabled", value: "false" },
-          ],
+          valuesObject: openEBSValues, // ✅ Now type-checked against OpenebsHelmValues
         },
       },
       destination: {

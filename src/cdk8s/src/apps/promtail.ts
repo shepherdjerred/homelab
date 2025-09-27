@@ -2,6 +2,7 @@ import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { Namespace } from "cdk8s-plus-31";
+import { HelmValuesForChart } from "../types/helm/index.js";
 
 export function createPromtailApp(chart: Chart) {
   new Namespace(chart, "promtail-namespcae", {
@@ -13,7 +14,18 @@ export function createPromtailApp(chart: Chart) {
     },
   });
 
-  new Application(chart, "promtail-app", {
+  // ✅ Type-safe Promtail configuration with full IntelliSense
+  const promtailValues: HelmValuesForChart<"promtail"> = {
+    config: {
+      clients: [
+        {
+          url: "http://loki-gateway.loki/loki/api/v1/push",
+        },
+      ],
+    },
+  };
+
+  return new Application(chart, "promtail-app", {
     metadata: {
       name: "promtail",
     },
@@ -25,15 +37,7 @@ export function createPromtailApp(chart: Chart) {
         targetRevision: versions.promtail,
         chart: "promtail",
         helm: {
-          valuesObject: {
-            config: {
-              clients: [
-                {
-                  url: "http://loki-gateway.loki/loki/api/v1/push",
-                },
-              ],
-            },
-          },
+          valuesObject: promtailValues, // ✅ Now type-checked against PromtailHelmValues
         },
       },
       destination: {
