@@ -4,7 +4,6 @@ import versions from "../versions.ts";
 import { HelmValuesForChart } from "../../helm-types/helm/index.js";
 
 export function createIntelGpuDevicePluginApp(chart: Chart) {
-  // ✅ Type-safe Intel GPU Device Plugin configuration with full IntelliSense
   const intelGpuValues: HelmValuesForChart<"intel-device-plugins-operator"> = {
     sharedDevNum: 10,
     nodeFeatureRule: true,

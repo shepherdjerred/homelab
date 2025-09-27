@@ -11,7 +11,6 @@ export function createPostgresOperatorApp(chart: Chart) {
     },
   });
 
-  // ✅ Type-safe Postgres Operator configuration with full IntelliSense
   const postgresOperatorValues: HelmValuesForChart<"postgres-operator"> = {
     // Configuration for single-node cluster
     configGeneral: {

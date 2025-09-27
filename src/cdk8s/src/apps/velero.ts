@@ -162,7 +162,6 @@ export function createVeleroApp(chart: Chart) {
     },
   });
 
-  // ✅ Type-safe Velero configuration with full IntelliSense
   const veleroValues: HelmValuesForChart<"velero"> = {
     // Velero configuration
     metrics: {

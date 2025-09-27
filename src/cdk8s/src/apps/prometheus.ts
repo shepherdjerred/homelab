@@ -61,7 +61,6 @@ export function createPrometheusApp(chart: Chart) {
 
   createPrometheusMonitoring(chart);
 
-  // ✅ Type-safe Prometheus configuration with full IntelliSense
   // Note: Some configurations bypass type checking due to incomplete generated types
   const prometheusValues: HelmValuesForChart<"kube-prometheus-stack"> = {
     kubeProxy: {
@@ -96,7 +95,7 @@ export function createPrometheusApp(chart: Chart) {
           kubernetesDashboards: true,
           grafanaAdvisor: true,
         },
-      } as any, // Grafana.ini config not fully captured in generated types
+      },
       imageRenderer: {
         enabled: true,
       },

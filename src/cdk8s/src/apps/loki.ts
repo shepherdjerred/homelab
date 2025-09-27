@@ -8,7 +8,6 @@ import { HelmValuesForChart } from "../../helm-types/helm/index.js";
 export function createLokiApp(chart: Chart) {
   createIngress(chart, "loki-ingress", "loki", "loki", 3100, ["loki"], false);
 
-  // ✅ Type-safe Loki configuration with full IntelliSense
   const lokiValues: HelmValuesForChart<"loki"> = {
     deploymentMode: "SingleBinary",
     singleBinary: {

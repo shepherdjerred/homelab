@@ -15,7 +15,6 @@ export function createArgoCdApp(chart: Chart) {
     true,
   );
 
-  // ✅ Type-safe ArgoCD configuration with full IntelliSense
   const argoCdValues: HelmValuesForChart<"argo-cd"> = {
     global: {
       domain: "argocd.tailnet-1a49.ts.net",

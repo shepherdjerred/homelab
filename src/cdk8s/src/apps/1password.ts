@@ -6,7 +6,6 @@ import { HelmValuesForChart } from "../../helm-types/helm/index.js";
 export function createOnePasswordApp(chart: Chart) {
   // TODO: create the 1password secrets here
 
-  // ✅ Type-safe 1Password Connect configuration with full IntelliSense
   const onePasswordValues: HelmValuesForChart<"connect"> = {
     operator: {
       autoRestart: true,

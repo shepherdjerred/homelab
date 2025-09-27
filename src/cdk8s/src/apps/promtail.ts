@@ -14,7 +14,6 @@ export function createPromtailApp(chart: Chart) {
     },
   });
 
-  // ✅ Type-safe Promtail configuration with full IntelliSense
   const promtailValues: HelmValuesForChart<"promtail"> = {
     config: {
       clients: [

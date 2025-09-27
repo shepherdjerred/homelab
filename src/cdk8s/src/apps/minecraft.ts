@@ -16,24 +16,23 @@ export function createMinecraftApp(chart: Chart) {
     true,
   );
 
-  // ✅ Type-safe Minecraft configuration with full IntelliSense
   const minecraftValues: HelmValuesForChart<"minecraft"> = {
     image: {
       tag: versions["itzg/minecraft-server"],
     },
     minecraftServer: {
-      eula: true,
+      eula: "true",
       difficulty: "hard",
       version: versions.paper,
       type: "PAPER",
       motd: "Jerred's Really Cool Minecraft Server",
       // ops: "RiotShielder",
       whitelist: "RiotShielder,lolopToaster,gexboy8,Virmel",
-      spawnProtection: 0,
-      viewDistance: 15,
+      spawnProtection: "0",
+      viewDistance: "15",
       memory: "4G",
-      overrideServerProperties: true,
-      forcegameMode: true,
+      overrideServerProperties: "true",
+      forcegameMode: "true",
       serviceType: "NodePort",
       port: 25565,
       nodePort: 30001,

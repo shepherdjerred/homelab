@@ -14,7 +14,6 @@ export function createOpenEBSApp(chart: Chart) {
     },
   });
 
-  // ✅ Type-safe OpenEBS configuration with full IntelliSense
   const openEBSValues: HelmValuesForChart<"openebs"> = {
     engines: {
       replicated: {

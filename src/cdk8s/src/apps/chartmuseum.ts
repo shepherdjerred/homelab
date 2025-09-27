@@ -28,7 +28,6 @@ export function createChartMuseumApp(chart: Chart) {
     },
   });
 
-  // ✅ Type-safe ChartMuseum configuration with full IntelliSense
   const chartMuseumValues: HelmValuesForChart<"chartmuseum"> = {
     persistence: {
       enabled: true,

@@ -38,13 +38,6 @@ const HelmValueSchema: z.ZodType<Record<string, unknown>> = z.lazy(() =>
 
 export type HelmValue = z.infer<typeof HelmValueSchema>;
 
-/**
- * Type guard to check if a value is a valid record object using Zod
- */
-function isValidRecord(value: unknown): value is Record<string, unknown> {
-  return RecordSchema.safeParse(value).success;
-}
-
 export type TypeScriptInterface = {
   name: string;
   properties: Record<string, TypeProperty>;
@@ -156,16 +149,19 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
       // Parse YAML using js-yaml
       const parsedValues = yamlLoad(valuesContent);
       console.log(`  ✅ Successfully parsed values.yaml`);
-      if (isValidRecord(parsedValues)) {
+      const recordParseResult = RecordSchema.safeParse(parsedValues);
+      if (recordParseResult.success) {
         console.log(
-          `  🔍 Parsed values keys: ${Object.keys(parsedValues)
+          `  🔍 Parsed values keys: ${Object.keys(recordParseResult.data)
             .slice(0, 10)
-            .join(", ")}${Object.keys(parsedValues).length > 10 ? "..." : ""}`,
+            .join(
+              ", ",
+            )}${Object.keys(recordParseResult.data).length > 10 ? "..." : ""}`,
         );
       }
 
       // Check if parsedValues is a valid object using Zod before validation
-      if (!isValidRecord(parsedValues)) {
+      if (!recordParseResult.success) {
         console.warn(
           `  ⚠️  Parsed values is not a valid record object: ${String(parsedValues)}`,
         );
@@ -173,7 +169,7 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
       }
 
       // Validate and parse with Zod for runtime type safety
-      const parseResult = HelmValueSchema.safeParse(parsedValues);
+      const parseResult = HelmValueSchema.safeParse(recordParseResult.data);
       if (parseResult.success) {
         console.log(`  ✅ Zod validation successful`);
         return parseResult.data;
@@ -186,8 +182,8 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
         console.warn(
           `  ⚠️  Falling back to unvalidated object for type generation`,
         );
-        // Return the unvalidated parsed values (already type-narrowed by isValidRecord)
-        return parsedValues;
+        // Return the validated record data from the successful parse result
+        return recordParseResult.data;
       }
     } catch (error) {
       console.warn(`  ⚠️  Failed to read/parse values.yaml: ${String(error)}`);
