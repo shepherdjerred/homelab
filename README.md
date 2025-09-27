@@ -33,9 +33,9 @@ some things I'm proud of:
    - [My approach](https://github.com/shepherdjerred/homelab/blob/main/src/cdk8s/src/versions.ts)
       allows all of my dependencies to be pinned and updated regularly
 - Static typing for:
-  - Kubernetes resources
-  - Helm chart parameters
-  - Home Assistant entities
+  - [Kubernetes resources](src/cdk8s/update-imports.ts)
+  - [Helm chart parameters](src/cdk8s/generate-helm-types.ts)
+  - [Home Assistant entities](src/ha/generate-types.ts)
 
 ## Installation
 
