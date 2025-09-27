@@ -4,6 +4,7 @@ import { getHomeAssistantRuleGroups } from "./rules/homeassistant";
 import { getVeleroRuleGroups } from "./rules/velero";
 import { getArgoCDRuleGroups } from "./rules/argocd";
 import { getResourceMonitoringRuleGroups } from "./rules/resource-monitoring";
+import { getZfsMonitoringRuleGroups } from "./rules/zfs";
 
 export function createPrometheusMonitoring(chart: Chart) {
   // Create Home Assistant rules
@@ -51,6 +52,18 @@ export function createPrometheusMonitoring(chart: Chart) {
     },
     spec: {
       groups: getResourceMonitoringRuleGroups(),
+    },
+  });
+
+  // Create ZFS Monitoring rules
+  new PrometheusRule(chart, "prometheus-zfs-monitoring-rules", {
+    metadata: {
+      name: "prometheus-zfs-monitoring-rules",
+      namespace: "torvalds",
+      labels: { release: "prometheus" },
+    },
+    spec: {
+      groups: getZfsMonitoringRuleGroups(),
     },
   });
 }
