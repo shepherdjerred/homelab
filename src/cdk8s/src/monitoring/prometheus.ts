@@ -5,6 +5,7 @@ import { getVeleroRuleGroups } from "./rules/velero";
 import { getArgoCDRuleGroups } from "./rules/argocd";
 import { getResourceMonitoringRuleGroups } from "./rules/resource-monitoring";
 import { getZfsMonitoringRuleGroups } from "./rules/zfs";
+import { getSmartctlRuleGroups } from "./rules/smartctl";
 
 export function createPrometheusMonitoring(chart: Chart) {
   // Create Home Assistant rules
@@ -64,6 +65,18 @@ export function createPrometheusMonitoring(chart: Chart) {
     },
     spec: {
       groups: getZfsMonitoringRuleGroups(),
+    },
+  });
+
+  // Create SMART Monitoring rules
+  new PrometheusRule(chart, "prometheus-smartctl-rules", {
+    metadata: {
+      name: "prometheus-smartctl-rules",
+      namespace: "prometheus",
+      labels: { release: "prometheus" },
+    },
+    spec: {
+      groups: getSmartctlRuleGroups(),
     },
   });
 }

@@ -5,6 +5,7 @@ import { createIngress } from "../utils/tailscale.ts";
 import { SSD_STORAGE_CLASS } from "../storageclasses.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { createPrometheusMonitoring } from "../monitoring/prometheus.ts";
+import { createSmartctlMonitoring } from "../services/monitoring/smartctl.ts";
 import type { HelmValuesForChart } from "../../helm-types/helm-parameters.ts";
 // import { HelmValuesForChart } from "../types/helm/index.js"; // Using 'any' for complex config
 
@@ -60,6 +61,7 @@ export function createPrometheusApp(chart: Chart) {
   );
 
   createPrometheusMonitoring(chart);
+  createSmartctlMonitoring(chart);
 
   // Note: Some configurations bypass type checking due to incomplete generated types
   const prometheusValues: HelmValuesForChart<"kube-prometheus-stack"> = {
@@ -203,6 +205,22 @@ export function createPrometheusApp(chart: Chart) {
         },
       },
     },
+    // Configure node_exporter to enable textfile collector for SMART monitoring
+    "prometheus-node-exporter": {
+      extraArgs: [
+        "--collector.textfile.directory=/host/var/lib/node_exporter/textfile_collector",
+      ],
+      // Type assertion needed due to incomplete Helm chart types
+      extraHostVolumeMounts: [
+        {
+          name: "textfile-collector",
+          hostPath: "/var/lib/node_exporter/textfile_collector",
+          mountPath: "/host/var/lib/node_exporter/textfile_collector",
+          readOnly: true,
+          mountPropagation: "HostToContainer",
+        },
+      ],
+    } as any,
     prometheus: {
       prometheusSpec: {
         externalUrl: "https://prometheus.tailnet-1a49.ts.net",

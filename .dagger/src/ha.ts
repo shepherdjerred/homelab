@@ -21,21 +21,54 @@ export async function buildHa(source: Directory): Promise<Directory> {
 }
 
 export async function testHa(source: Directory): Promise<string> {
-  return getWorkspaceContainer(source, "src/ha")
-    .withExec(["bun", "test"])
-    .stdout();
+  try {
+    return await getWorkspaceContainer(source, "src/ha")
+      .withExec(["bun", "test"])
+      .stdout();
+  } catch (error) {
+    // Extract meaningful error info from the Dagger error
+    const errorStr = String(error);
+    if (errorStr.includes("did not complete successfully")) {
+      throw new Error(
+        `HA testing failed. Check the Dagger trace logs above for detailed error output.`,
+      );
+    }
+    throw error;
+  }
 }
 
 export async function typeCheckHa(source: Directory): Promise<string> {
-  return getWorkspaceContainer(source, "src/ha")
-    .withExec(["bunx", "tsc", "--noEmit"])
-    .stdout();
+  try {
+    return await getWorkspaceContainer(source, "src/ha")
+      .withExec(["bunx", "tsc", "--noEmit"])
+      .stdout();
+  } catch (error) {
+    // Extract meaningful error info from the Dagger error
+    const errorStr = String(error);
+    if (errorStr.includes("did not complete successfully")) {
+      throw new Error(
+        `HA type checking failed. Check the Dagger trace logs above for detailed error output.`,
+      );
+    }
+    throw error;
+  }
 }
 
 export async function lintHa(source: Directory): Promise<string> {
-  return getWorkspaceContainer(source, "src/ha")
-    .withExec(["bun", "run", "lint"])
-    .stdout();
+  try {
+    return await getWorkspaceContainer(source, "src/ha")
+      .withExec(["bun", "run", "lint"])
+      .stdout();
+  } catch (error) {
+    // Extract meaningful error info from the Dagger error
+    const errorStr = String(error);
+    if (errorStr.includes("did not complete successfully")) {
+      throw new Error(
+        `HA linting failed. Check the Dagger trace logs above for detailed error output.`,
+      );
+    }
+    throw error;
+  }
 }
 
 /**

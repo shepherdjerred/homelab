@@ -213,6 +213,60 @@ export class Homelab {
         message: `CDK8s Test: FAILED\n${e}`,
       }));
 
+    // Linting checks (run async)
+    const cdk8sLintPromise = lintCdk8s(updatedSource.directory("src/cdk8s"))
+      .then((msg) => ({
+        status: "passed",
+        message: `CDK8s Lint: PASSED\n${msg}`,
+      }))
+      .catch((e) => ({
+        status: "failed",
+        message: `CDK8s Lint: FAILED\n${e}`,
+      }));
+
+    const haLintPromise = lintHa(updatedSource)
+      .then((msg) => ({
+        status: "passed",
+        message: `HA Lint: PASSED\n${msg}`,
+      }))
+      .catch((e) => ({
+        status: "failed",
+        message: `HA Lint: FAILED\n${e}`,
+      }));
+
+    // Type checking (run async)
+    const cdk8sTypeCheckPromise = typeCheckCdk8s(
+      updatedSource.directory("src/cdk8s"),
+    )
+      .then((msg) => ({
+        status: "passed",
+        message: `CDK8s TypeCheck: PASSED\n${msg}`,
+      }))
+      .catch((e) => ({
+        status: "failed",
+        message: `CDK8s TypeCheck: FAILED\n${e}`,
+      }));
+
+    const haTypeCheckPromise = typeCheckHa(updatedSource)
+      .then((msg) => ({
+        status: "passed",
+        message: `HA TypeCheck: PASSED\n${msg}`,
+      }))
+      .catch((e) => ({
+        status: "failed",
+        message: `HA TypeCheck: FAILED\n${e}`,
+      }));
+
+    const haTestPromise = testHa(updatedSource)
+      .then((msg) => ({
+        status: "passed",
+        message: `HA Test: PASSED\n${msg}`,
+      }))
+      .catch((e) => ({
+        status: "failed",
+        message: `HA Test: FAILED\n${e}`,
+      }));
+
     // Start builds in parallel
     const cdk8sBuildPromise = buildK8sManifests(
       updatedSource.directory("src/cdk8s"),
@@ -244,7 +298,7 @@ export class Homelab {
         dist: undefined,
       }));
 
-    // Await builds and tests
+    // Await builds, tests, linting, and type checking
     const [
       cdk8sBuildResult,
       haBuildResult,
@@ -252,6 +306,11 @@ export class Homelab {
       renovateTestResult,
       helmTestResult,
       cdk8sTestResult,
+      cdk8sLintResult,
+      haLintResult,
+      cdk8sTypeCheckResult,
+      haTypeCheckResult,
+      haTestResult,
     ] = await Promise.all([
       cdk8sBuildPromise,
       haBuildPromise,
@@ -259,6 +318,11 @@ export class Homelab {
       renovateTestPromise,
       helmTestPromise,
       cdk8sTestPromise,
+      cdk8sLintPromise,
+      haLintPromise,
+      cdk8sTypeCheckPromise,
+      haTypeCheckPromise,
+      haTestPromise,
     ]);
 
     // Publish HA image if prod
@@ -316,6 +380,11 @@ export class Homelab {
       renovateTestResult.message,
       helmTestResult.message,
       cdk8sTestResult.message,
+      cdk8sLintResult.message,
+      haLintResult.message,
+      cdk8sTypeCheckResult.message,
+      haTypeCheckResult.message,
+      haTestResult.message,
       `Sync result:\n${syncResult.message}`,
       cdk8sBuildResult.message,
       haBuildResult.message,
@@ -328,6 +397,11 @@ export class Homelab {
       renovateTestResult.status === "failed" ||
       helmTestResult.status === "failed" ||
       cdk8sTestResult.status === "failed" ||
+      cdk8sLintResult.status === "failed" ||
+      haLintResult.status === "failed" ||
+      cdk8sTypeCheckResult.status === "failed" ||
+      haTypeCheckResult.status === "failed" ||
+      haTestResult.status === "failed" ||
       syncResult.status === "failed" ||
       cdk8sBuildResult.status === "failed" ||
       haBuildResult.status === "failed" ||
