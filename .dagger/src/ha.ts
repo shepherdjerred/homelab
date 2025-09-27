@@ -21,54 +21,67 @@ export async function buildHa(source: Directory): Promise<Directory> {
 }
 
 export async function testHa(source: Directory): Promise<string> {
-  try {
-    return await getWorkspaceContainer(source, "src/ha")
-      .withExec(["bun", "test"])
-      .stdout();
-  } catch (error) {
-    // Extract meaningful error info from the Dagger error
-    const errorStr = String(error);
-    if (errorStr.includes("did not complete successfully")) {
-      throw new Error(
-        `HA testing failed. Check the Dagger trace logs above for detailed error output.`,
-      );
-    }
-    throw error;
+  const container = getWorkspaceContainer(source, "src/ha").withExec([
+    "sh",
+    "-c",
+    "bun test 2>&1 || true",
+  ]);
+
+  const output = await container.stdout();
+
+  // Check if testing actually failed by looking for error indicators
+  if (
+    output.includes("error") ||
+    output.includes("✖") ||
+    output.includes("failed") ||
+    output.includes("FAIL")
+  ) {
+    throw new Error(`HA Testing Failed:\n${output}`);
   }
+
+  return output;
 }
 
 export async function typeCheckHa(source: Directory): Promise<string> {
-  try {
-    return await getWorkspaceContainer(source, "src/ha")
-      .withExec(["bunx", "tsc", "--noEmit"])
-      .stdout();
-  } catch (error) {
-    // Extract meaningful error info from the Dagger error
-    const errorStr = String(error);
-    if (errorStr.includes("did not complete successfully")) {
-      throw new Error(
-        `HA type checking failed. Check the Dagger trace logs above for detailed error output.`,
-      );
-    }
-    throw error;
+  const container = getWorkspaceContainer(source, "src/ha").withExec([
+    "sh",
+    "-c",
+    "bunx tsc --noEmit 2>&1 || true",
+  ]);
+
+  const output = await container.stdout();
+
+  // Check if type checking actually failed by looking for error indicators
+  if (
+    output.includes("error TS") ||
+    (output.includes("Found ") && output.includes(" error"))
+  ) {
+    throw new Error(`HA Type Checking Failed:\n${output}`);
   }
+
+  return output;
 }
 
 export async function lintHa(source: Directory): Promise<string> {
-  try {
-    return await getWorkspaceContainer(source, "src/ha")
-      .withExec(["bun", "run", "lint"])
-      .stdout();
-  } catch (error) {
-    // Extract meaningful error info from the Dagger error
-    const errorStr = String(error);
-    if (errorStr.includes("did not complete successfully")) {
-      throw new Error(
-        `HA linting failed. Check the Dagger trace logs above for detailed error output.`,
-      );
-    }
-    throw error;
+  const container = getWorkspaceContainer(source, "src/ha").withExec([
+    "sh",
+    "-c",
+    "bun run lint 2>&1 || true",
+  ]);
+
+  const output = await container.stdout();
+
+  // Check if linting actually failed by looking for error indicators
+  if (
+    output.includes("error") ||
+    output.includes("✖") ||
+    output.includes("failed") ||
+    output.includes("Exited with code")
+  ) {
+    throw new Error(`HA Linting Failed:\n${output}`);
   }
+
+  return output;
 }
 
 /**

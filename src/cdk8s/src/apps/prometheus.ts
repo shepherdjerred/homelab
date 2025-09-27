@@ -183,12 +183,13 @@ export function createPrometheusApp(chart: Chart) {
           {
             name: "pagerduty",
             // https://prometheus.io/docs/alerting/latest/configuration/#pagerduty_config
+            // Type assertion needed due to incomplete Helm chart types
             pagerduty_configs: [
               {
                 routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
               },
             ],
-          },
+          } as any,
         ],
         route: {
           group_by: ["namespace", "alertname"],

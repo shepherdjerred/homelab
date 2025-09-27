@@ -1,10 +1,5 @@
 import { Chart } from "cdk8s";
-import {
-  ConfigMap,
-  DaemonSet,
-  Volume,
-  ServiceAccount,
-} from "cdk8s-plus-31";
+import { ConfigMap, DaemonSet, Volume, ServiceAccount } from "cdk8s-plus-31";
 
 export function createSmartctlMonitoring(chart: Chart) {
   // Create ServiceAccount for the DaemonSet
@@ -150,16 +145,16 @@ echo "smartmon_scrape_timestamp_seconds $(date +%s)"
       privileged: true, // Required to access raw disk devices
       allowPrivilegeEscalation: true, // Required when privileged is true
     },
-      resources: {
-        cpu: {
-          request: "50m",
-          limit: "100m",
-        },
-        memory: {
-          request: "64Mi",
-          limit: "128Mi",
-        },
+    resources: {
+      requests: {
+        memory: "64Mi",
+        cpu: "50m",
       },
+      limits: {
+        memory: "128Mi",
+        cpu: "100m",
+      },
+    },
   });
 
   // Mount the script from ConfigMap

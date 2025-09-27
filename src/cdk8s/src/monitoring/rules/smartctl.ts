@@ -1,4 +1,4 @@
-import type { PrometheusRuleSpecGroups } from "../../imports/monitoring.coreos.com.ts";
+import type { PrometheusRuleSpecGroups } from "../../imports/monitoring.coreos.com";
 
 export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
   return [

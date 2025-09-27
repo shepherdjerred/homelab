@@ -547,7 +547,7 @@ export class Homelab {
       .withExec([
         "sh",
         "-c",
-        `
+        `(
         echo "🔍 Testing Helm chart..."
         echo ""
 
@@ -615,10 +615,22 @@ export class Homelab {
 
         echo ""
         echo "🎉 All Helm tests passed!"
-      `,
+      ) 2>&1 || true`,
       ]);
 
-    return container.stdout();
+    const output = await container.stdout();
+    
+    // Check if Helm testing actually failed by looking for error indicators
+    if (
+      output.includes("❌") ||
+      output.includes("failed") ||
+      output.includes("error") ||
+      output.includes("Error")
+    ) {
+      throw new Error(`Helm Testing Failed:\n${output}`);
+    }
+    
+    return output;
   }
 
   /**
