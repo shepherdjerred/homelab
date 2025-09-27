@@ -228,7 +228,7 @@ export function createVeleroApp(chart: Chart) {
       },
       {
         name: "velero-plugin-openebs",
-        image: `openebs/velero-plugin:${versions.openebs}`,
+        image: `openebs/velero-plugin:${versions["openebs/velero-plugin"]}`,
         volumeMounts: [
           {
             mountPath: "/target",

@@ -1,4 +1,7 @@
-import { PrometheusRuleSpecGroups } from "../../../imports/monitoring.coreos.com";
+import {
+  PrometheusRuleSpecGroups,
+  PrometheusRuleSpecGroupsRulesExpr,
+} from "../../../imports/monitoring.coreos.com";
 import { createSensorAlert, createBinarySensorAlert } from "./shared";
 
 export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
@@ -67,14 +70,29 @@ export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
     {
       name: "homeassistant-batteries",
       rules: [
+        // General battery alert for non-Roomba devices
         createSensorAlert(
           "HomeAssistantBatteryLow",
-          "min by (entity) (homeassistant_sensor_battery_percent)",
+          'min by (entity) (homeassistant_sensor_battery_percent{entity!="sensor.roomba_battery"})',
           "<",
           50,
           "Battery low: {{ $value }}% ({{ $labels.entity }}).",
           "Home Assistant battery low",
         ),
+        // Specific Roomba battery alert that only fires when battery is low AND decreasing (not charging)
+        {
+          alert: "RoombaBatteryLowNotCharging",
+          annotations: {
+            description:
+              'Roomba battery is low and not charging: {{ "{{" }} $value {{ "}}" }}% ({{ "{{" }} $labels.entity {{ "}}" }}).',
+            summary: "Roomba battery low and not charging",
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'homeassistant_sensor_battery_percent{entity="sensor.roomba_battery"} < 20 and increase(homeassistant_sensor_battery_percent{entity="sensor.roomba_battery"}[30m]) <= 0',
+          ),
+          for: "10m",
+          labels: { severity: "warning" },
+        },
       ],
     },
   ];
