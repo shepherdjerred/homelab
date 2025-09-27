@@ -18,7 +18,6 @@ some things I'm proud of:
 
 - Close to zero host setup
    - It's just a few commands to deploy my entire cluster
-
 - Entirely written in TypeScript built with [cdk8s](https://cdk8s.io/) and
    [Bun](https://bun.sh/)
 - Automated backups
@@ -27,13 +26,16 @@ some things I'm proud of:
 - GHA Runners w/ Dagger used by my open-source projects
 - Entirely automated deployment for updates, upgrades, etc.
    - Commit-to-deployment takes ~1min
-
 - Automated dependency updates
    - For Docker images (w/ pinned SHAs)
    - For Helm charts
    - For Bun dependencies
    - [My approach](https://github.com/shepherdjerred/homelab/blob/main/src/cdk8s/src/versions.ts)
       allows all of my dependencies to be pinned and updated regularly
+- Static typing for:
+  - Kubernetes resources
+  - Helm chart parameters
+  - Home Assistant entities
 
 ## Installation
 
