@@ -11,7 +11,9 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
         {
           alert: "VeleroBackupFailed",
           annotations: {
-            message: "Velero backup {{ $labels.schedule }} has failed",
+            message: escapePrometheusTemplate(
+              "Velero backup {{ $labels.schedule }} has failed",
+            ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             'velero_backup_last_status{schedule!=""} != 1',
@@ -24,8 +26,9 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
         {
           alert: "VeleroBackupFailing",
           annotations: {
-            message:
+            message: escapePrometheusTemplate(
               "Velero backup {{ $labels.schedule }} has been failing for the last 12h",
+            ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             'velero_backup_last_status{schedule!=""} != 1',
@@ -38,8 +41,9 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
         {
           alert: "VeleroNoNewBackup",
           annotations: {
-            message:
+            message: escapePrometheusTemplate(
               "Velero backup {{ $labels.schedule }} has not run successfully in the last 30h",
+            ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             `(

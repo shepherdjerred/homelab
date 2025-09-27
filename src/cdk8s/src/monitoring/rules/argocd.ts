@@ -1,5 +1,6 @@
 import { PrometheusRuleSpecGroups } from "../../../imports/monitoring.coreos.com";
 import { PrometheusRuleSpecGroupsRulesExpr } from "../../../imports/monitoring.coreos.com";
+import { escapePrometheusTemplate } from "./shared";
 
 export function getArgoCDRuleGroups(): PrometheusRuleSpecGroups[] {
   return [
@@ -25,9 +26,12 @@ export function getArgoCDRuleGroups(): PrometheusRuleSpecGroups[] {
         {
           alert: "ArgoAppNotSynced",
           annotations: {
-            summary: "[{{ $labels.name }}] Application not synchronized",
-            description:
+            summary: escapePrometheusTemplate(
+              "[{{ $labels.name }}] Application not synchronized",
+            ),
+            description: escapePrometheusTemplate(
               "The application [{{ $labels.name }}] has not been synchronized for over 12 hours which means that the state of this cloud has drifted away from the state inside Git.",
+            ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             'argocd_app_info{sync_status!="Synced"} == 1',
