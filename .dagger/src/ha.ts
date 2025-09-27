@@ -46,16 +46,21 @@ export async function typeCheckHa(source: Directory): Promise<string> {
   const container = getWorkspaceContainer(source, "src/ha").withExec([
     "sh",
     "-c",
-    "bunx tsc --noEmit 2>&1 || true",
+    `
+    set +e
+    bunx tsc --noEmit 2>&1
+    exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+      echo "TYPECHECK_FAILED_WITH_CODE_$exit_code"
+    fi
+    exit 0
+    `,
   ]);
 
   const output = await container.stdout();
 
-  // Check if type checking actually failed by looking for error indicators
-  if (
-    output.includes("error TS") ||
-    (output.includes("Found ") && output.includes(" error"))
-  ) {
+  // Check if type checking actually failed by looking for our exit code marker
+  if (output.includes("TYPECHECK_FAILED_WITH_CODE_")) {
     throw new Error(`HA Type Checking Failed:\n${output}`);
   }
 
@@ -66,18 +71,21 @@ export async function lintHa(source: Directory): Promise<string> {
   const container = getWorkspaceContainer(source, "src/ha").withExec([
     "sh",
     "-c",
-    "bun run lint 2>&1 || true",
+    `
+    set +e
+    bun run lint 2>&1
+    exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+      echo "LINT_FAILED_WITH_CODE_$exit_code"
+    fi
+    exit 0
+    `,
   ]);
 
   const output = await container.stdout();
 
-  // Check if linting actually failed by looking for error indicators
-  if (
-    output.includes("error") ||
-    output.includes("✖") ||
-    output.includes("failed") ||
-    output.includes("Exited with code")
-  ) {
+  // Check if linting actually failed by looking for our exit code marker
+  if (output.includes("LINT_FAILED_WITH_CODE_")) {
     throw new Error(`HA Linting Failed:\n${output}`);
   }
 

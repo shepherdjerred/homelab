@@ -10,15 +10,24 @@ export async function typeCheckCdk8s(source: Directory): Promise<string> {
       "/workspace/node_modules/.cache",
       dag.cacheVolume("typescript-cache"),
     )
-    .withExec(["sh", "-c", "bunx tsc --noEmit 2>&1 || true"]);
+    .withExec([
+      "sh",
+      "-c",
+      `
+      set +e
+      bunx tsc --noEmit 2>&1
+      exit_code=$?
+      if [ $exit_code -ne 0 ]; then
+        echo "TYPECHECK_FAILED_WITH_CODE_$exit_code"
+      fi
+      exit 0
+      `,
+    ]);
 
   const output = await container.stdout();
 
-  // Check if type checking actually failed by looking for error indicators
-  if (
-    output.includes("error TS") ||
-    (output.includes("Found ") && output.includes(" error"))
-  ) {
+  // Check if type checking actually failed by looking for our exit code marker
+  if (output.includes("TYPECHECK_FAILED_WITH_CODE_")) {
     throw new Error(`CDK8s Type Checking Failed:\n${output}`);
   }
 
@@ -36,18 +45,24 @@ export async function buildK8sManifests(source: Directory): Promise<Directory> {
 export async function lintCdk8s(source: Directory): Promise<string> {
   const container = getWorkspaceContainer(source, ".")
     .withWorkdir("/workspace")
-    .withExec(["sh", "-c", "bun run lint 2>&1 || true"]);
+    .withExec([
+      "sh",
+      "-c",
+      `
+      set +e
+      bun run lint 2>&1
+      exit_code=$?
+      if [ $exit_code -ne 0 ]; then
+        echo "LINT_FAILED_WITH_CODE_$exit_code"
+      fi
+      exit 0
+      `,
+    ]);
 
   const output = await container.stdout();
 
-  // Check if linting actually failed by looking for error indicators
-  if (
-    output.includes("Error [ERR_") ||
-    output.includes("✖") ||
-    output.includes("Something went wrong") ||
-    output.includes("error TS") ||
-    output.includes("Exited with code 1")
-  ) {
+  // Check if linting actually failed by looking for our exit code marker
+  if (output.includes("LINT_FAILED_WITH_CODE_")) {
     throw new Error(`CDK8s Linting Failed:\n${output}`);
   }
 
@@ -60,19 +75,21 @@ export async function testCdk8s(source: Directory): Promise<string> {
     .withExec([
       "sh",
       "-c",
-      "bun run build && bun run test:gpu-resources 2>&1 || true",
+      `
+      set +e
+      bun run build && bun run test:gpu-resources 2>&1
+      exit_code=$?
+      if [ $exit_code -ne 0 ]; then
+        echo "TEST_FAILED_WITH_CODE_$exit_code"
+      fi
+      exit 0
+      `,
     ]);
 
   const output = await container.stdout();
 
-  // Check if testing actually failed by looking for error indicators
-  if (
-    output.includes("error:") ||
-    output.includes("✖") ||
-    output.includes("failed") ||
-    output.includes("FAIL") ||
-    output.includes("exited with code")
-  ) {
+  // Check if testing actually failed by looking for our exit code marker
+  if (output.includes("TEST_FAILED_WITH_CODE_")) {
     throw new Error(`CDK8s Testing Failed:\n${output}`);
   }
 

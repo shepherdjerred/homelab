@@ -114,7 +114,8 @@ echo "smartmon_scrape_timestamp_seconds $(date +%s)"
     serviceAccount,
     securityContext: {
       // Allow running as root for disk access
-      runAsNonRoot: false,
+      ensureNonRoot: false,
+      fsGroup: 0,
     },
   });
 
@@ -148,19 +149,9 @@ echo "smartmon_scrape_timestamp_seconds $(date +%s)"
     securityContext: {
       privileged: true, // Required to access raw disk devices
       allowPrivilegeEscalation: true, // Required when privileged is true
-      ""
-      runAsUser: 0, // Required to run as root for disk access
-      runAsGroup: 0,
-    },
-    resources: {
-      requests: {
-        memory: "64Mi",
-        cpu: "50m",
-      },
-      limits: {
-        memory: "128Mi",
-        cpu: "100m",
-      },
+      ensureNonRoot: false, // Required to run as root for disk access
+      user: 0,
+      group: 0,
     },
   });
 

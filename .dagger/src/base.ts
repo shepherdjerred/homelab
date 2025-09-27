@@ -62,11 +62,11 @@ export function getWorkspaceContainer(
     // Copy package.json first (required)
     .withFile("package.json", workspaceSource.file("package.json"));
 
-  // Only copy bun.lock for HA workspace (CDK8s doesn't have one)
+  // Copy root bun.lock for HA workspace (CDK8s doesn't need one)
   if (workspacePath === "src/ha") {
     container = container.withFile(
       "bun.lock",
-      workspaceSource.file("bun.lock"),
+      source.file("bun.lock"),
     );
   }
 
