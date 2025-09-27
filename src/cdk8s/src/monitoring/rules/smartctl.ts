@@ -31,7 +31,7 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         {
           alert: "SmartDeviceTemperatureHigh",
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "smartmon_temperature_celsius > 60",
+            "smartmon_temperature_celsius_value > 60",
           ),
           for: "5m",
           labels: {
@@ -50,7 +50,7 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         {
           alert: "SmartDeviceTemperatureCritical",
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "smartmon_temperature_celsius > 70",
+            "smartmon_temperature_celsius_value > 70",
           ),
           for: "1m",
           labels: {
@@ -230,6 +230,7 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
           },
         },
+        // TODO: this doesn't seem to exist
         {
           alert: "SmartSsdWearLevelingCritical",
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
@@ -286,13 +287,13 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         {
           record: "smartmon:temperature_celsius",
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "smartmon_temperature_celsius",
+            "smartmon_temperature_celsius_value",
           ),
         },
         {
           record: "smartmon:power_on_hours",
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "smartmon_power_on_hours",
+            "smartmon_power_on_hours_values",
           ),
         },
         {

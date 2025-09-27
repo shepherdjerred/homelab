@@ -216,7 +216,8 @@ export async function createPrometheusApp(chart: Chart) {
         },
       },
     },
-    // Configure node_exporter to enable textfile collector for SMART monitoring
+    // Configure node_exporter to enable textfile collector for all monitoring services
+    // Collects metrics from: SMART, OS info, NTPD, NVMe, ZFS snapshots, ZFS zpools
     // NOTE: this is _not_ a real property?
     "prometheus-node-exporter": {
       extraArgs: [
