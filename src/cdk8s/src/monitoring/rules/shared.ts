@@ -1,13 +1,18 @@
 import { PrometheusRuleSpecGroupsRulesExpr } from "../../../imports/monitoring.coreos.com";
 
 // Helper to create readable template strings with Helm escaping
+// Converts normal Prometheus templates like "{{ $value }}" to Helm-escaped "{{ "{{" }} $value {{ "}}" }}"
 export function escapePrometheusTemplate(template: string): string {
   return template
-    .replace(/\{\{\s*\$value\s*\}\}/g, '{{ "{{" }} $value {{ "}}" }}')
+    .replace(
+      /\{\{\s*\$value\s*\|\s*(\w+)\s*\}\}/g,
+      '{{ "{{" }} $value | $1 {{ "}}" }}',
+    ) // Handle {{ $value | filter }}
+    .replace(/\{\{\s*\$value\s*\}\}/g, '{{ "{{" }} $value {{ "}}" }}') // Handle {{ $value }}
     .replace(
       /\{\{\s*\$labels\.(\w+)\s*\}\}/g,
       '{{ "{{" }} $labels.$1 {{ "}}" }}',
-    );
+    ); // Handle {{ $labels.entity }}
 }
 
 // Rule factory functions for common alert patterns
@@ -24,9 +29,7 @@ export function createSensorAlert(
   return {
     alert: name,
     annotations: {
-      description: description
-        .replace("${value}", PrometheusTemplates.value)
-        .replace("${entity}", PrometheusTemplates.entity),
+      description: escapePrometheusTemplate(description),
       summary,
     },
     expr: PrometheusRuleSpecGroupsRulesExpr.fromString(

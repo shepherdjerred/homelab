@@ -1,5 +1,6 @@
 import { PrometheusRuleSpecGroups } from "../../../imports/monitoring.coreos.com";
 import { PrometheusRuleSpecGroupsRulesExpr } from "../../../imports/monitoring.coreos.com";
+import { escapePrometheusTemplate } from "./shared";
 
 export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
   return [
@@ -55,8 +56,9 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
         {
           alert: "VeleroBackupPartialFailures",
           annotations: {
-            message:
-              'Velero backup {{ "{{" }} $labels.schedule {{ "}}" }} has {{ "{{" }} $value | humanizePercentage {{ "}}" }} partially failed backups',
+            message: escapePrometheusTemplate(
+              "Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} partially failed backups",
+            ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             `rate(velero_backup_partial_failure_total{schedule!=""}[25m])
