@@ -1,38 +1,69 @@
-import { readFile, writeFile, rm, mkdir } from "node:fs/promises";
-import { spawn } from "node:child_process";
 import { join } from "node:path";
 import { load as yamlLoad } from "js-yaml";
+import { z } from "zod";
 
-export interface ChartInfo {
+export type ChartInfo = {
   name: string;
   repoUrl: string;
   version: string;
   chartName: string; // The actual chart name (may differ from versions.ts key)
+};
+
+// Individual Zod schemas for type detection
+const StringSchema = z.string();
+const NumberSchema = z.number();
+const BooleanSchema = z.boolean();
+const NullSchema = z.null();
+const UndefinedSchema = z.undefined();
+const ArraySchema = z.array(z.unknown());
+const RecordSchema = z.record(z.string(), z.unknown());
+const ErrorSchema = z.instanceof(Error);
+
+// Zod schema for validating YAML values - recursive definition with more flexibility
+const HelmValueSchema: z.ZodType<Record<string, unknown>> = z.lazy(() =>
+  z.record(
+    z.string(),
+    z.union([
+      z.string(),
+      z.number(),
+      z.boolean(),
+      z.null(),
+      z.undefined(),
+      z.array(z.unknown()), // Allow arrays of any type
+      HelmValueSchema,
+      z.unknown(), // Allow any other values as fallback
+    ]),
+  ),
+);
+
+export type HelmValue = z.infer<typeof HelmValueSchema>;
+
+/**
+ * Type guard to check if a value is a valid record object using Zod
+ */
+function isValidRecord(value: unknown): value is Record<string, unknown> {
+  return RecordSchema.safeParse(value).success;
 }
 
-export interface HelmValue {
-  [key: string]: any;
-}
-
-export interface TypeScriptInterface {
+export type TypeScriptInterface = {
   name: string;
   properties: Record<string, TypeProperty>;
-}
+};
 
-export interface TypeProperty {
+export type TypeProperty = {
   type: string;
   optional: boolean;
   description?: string;
   nested?: TypeScriptInterface;
-}
+};
 
 /**
  * Parse chart information from versions.ts comments and values
  */
 export async function parseChartInfoFromVersions(
-  versionsPath: string = "src/versions.ts",
+  versionsPath = "src/versions.ts",
 ): Promise<ChartInfo[]> {
-  const content = await readFile(versionsPath, "utf-8");
+  const content = await Bun.file(versionsPath).text();
   const lines = content.split("\n");
   const charts: ChartInfo[] = [];
 
@@ -42,8 +73,8 @@ export async function parseChartInfoFromVersions(
 
     // Look for renovate comments that indicate Helm charts
     if (line?.includes("renovate: datasource=helm") && nextLine) {
-      const repoUrlMatch = line.match(/registryUrl=([^\s]+)/);
-      const versionKeyMatch = nextLine.match(/^\s*"?([^":]+)"?:/);
+      const repoUrlMatch = /registryUrl=([^\s]+)/.exec(line);
+      const versionKeyMatch = /^\s*"?([^":]+)"?:/.exec(nextLine);
 
       if (repoUrlMatch && versionKeyMatch) {
         const repoUrl = repoUrlMatch[1];
@@ -52,7 +83,7 @@ export async function parseChartInfoFromVersions(
         if (!repoUrl || !versionKey) continue;
 
         // Extract version value
-        const versionMatch = nextLine.match(/:\s*"([^"]+)"/);
+        const versionMatch = /:\s*"([^"]+)"/.exec(nextLine);
         if (versionMatch) {
           const version = versionMatch[1];
           if (!version) continue;
@@ -88,19 +119,24 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
 
   try {
     // Ensure temp directory exists
-    await mkdir(tempDir, { recursive: true });
+    await Bun.$`mkdir -p ${tempDir}`.quiet();
 
     console.log(`  📦 Adding Helm repo: ${chart.repoUrl}`);
     // Add the helm repo
-    await runCommand("helm", ["repo", "add", repoName, chart.repoUrl]);
+    await runCommand("/home/linuxbrew/.linuxbrew/bin/helm", [
+      "repo",
+      "add",
+      repoName,
+      chart.repoUrl,
+    ]);
 
     console.log(`  🔄 Updating Helm repos...`);
     // Update repo
-    await runCommand("helm", ["repo", "update"]);
+    await runCommand("/home/linuxbrew/.linuxbrew/bin/helm", ["repo", "update"]);
 
     console.log(`  ⬇️  Pulling chart ${chart.chartName}:${chart.version}...`);
     // Pull the chart
-    await runCommand("helm", [
+    await runCommand("/home/linuxbrew/.linuxbrew/bin/helm", [
       "pull",
       `${repoName}/${chart.chartName}`,
       "--version",
@@ -115,13 +151,44 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
     console.log(`  📖 Reading values.yaml from ${valuesPath}`);
 
     try {
-      const valuesContent = await readFile(valuesPath, "utf-8");
+      const valuesContent = await Bun.file(valuesPath).text();
 
       // Parse YAML using js-yaml
-      const values = yamlLoad(valuesContent) as HelmValue;
+      const parsedValues = yamlLoad(valuesContent);
       console.log(`  ✅ Successfully parsed values.yaml`);
+      if (isValidRecord(parsedValues)) {
+        console.log(
+          `  🔍 Parsed values keys: ${Object.keys(parsedValues)
+            .slice(0, 10)
+            .join(", ")}${Object.keys(parsedValues).length > 10 ? "..." : ""}`,
+        );
+      }
 
-      return values || {};
+      // Check if parsedValues is a valid object using Zod before validation
+      if (!isValidRecord(parsedValues)) {
+        console.warn(
+          `  ⚠️  Parsed values is not a valid record object: ${String(parsedValues)}`,
+        );
+        return {};
+      }
+
+      // Validate and parse with Zod for runtime type safety
+      const parseResult = HelmValueSchema.safeParse(parsedValues);
+      if (parseResult.success) {
+        console.log(`  ✅ Zod validation successful`);
+        return parseResult.data;
+      } else {
+        console.warn(`  ⚠️  Zod validation failed for ${chart.name}:`);
+        console.warn(
+          `    First few errors:`,
+          parseResult.error.issues.slice(0, 3),
+        );
+        console.warn(
+          `  ⚠️  Falling back to unvalidated object for type generation`,
+        );
+        // Return the unvalidated parsed values (already type-narrowed by isValidRecord)
+        return parsedValues;
+      }
     } catch (error) {
       console.warn(`  ⚠️  Failed to read/parse values.yaml: ${String(error)}`);
       return {};
@@ -130,8 +197,12 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
     // Cleanup
     try {
       console.log(`  🧹 Cleaning up...`);
-      await runCommand("helm", ["repo", "remove", repoName]);
-      await rm(tempDir, { recursive: true, force: true });
+      await runCommand("/home/linuxbrew/.linuxbrew/bin/helm", [
+        "repo",
+        "remove",
+        repoName,
+      ]);
+      await Bun.$`rm -rf ${tempDir}`.quiet();
     } catch (cleanupError) {
       console.warn(`Cleanup failed for ${chart.name}:`, String(cleanupError));
     }
@@ -148,9 +219,11 @@ export function convertToTypeScriptInterface(
   const properties: Record<string, TypeProperty> = {};
 
   for (const [key, value] of Object.entries(values)) {
-    properties[key] = convertValueToProperty(
+    const sanitizedKey = sanitizePropertyName(key);
+    const typeNameSuffix = sanitizeTypeName(key);
+    properties[sanitizedKey] = convertValueToProperty(
       value,
-      `${interfaceName}${capitalizeFirst(key)}`,
+      `${interfaceName}${capitalizeFirst(typeNameSuffix)}`,
     );
   }
 
@@ -161,39 +234,85 @@ export function convertToTypeScriptInterface(
 }
 
 function convertValueToProperty(
-  value: any,
+  value: unknown,
   nestedTypeName: string,
 ): TypeProperty {
-  if (value === null || value === undefined) {
-    return { type: "any", optional: true };
+  // Use Zod schemas for robust type detection
+
+  // Check for null/undefined first
+  if (
+    NullSchema.safeParse(value).success ||
+    UndefinedSchema.safeParse(value).success
+  ) {
+    return { type: "unknown", optional: true };
   }
 
-  if (typeof value === "boolean") {
+  // Check for boolean
+  if (BooleanSchema.safeParse(value).success) {
     return { type: "boolean", optional: true };
   }
 
-  if (typeof value === "number") {
+  // Check for number
+  if (NumberSchema.safeParse(value).success) {
     return { type: "number", optional: true };
   }
 
-  if (typeof value === "string") {
+  // Check for string
+  if (StringSchema.safeParse(value).success) {
     return { type: "string", optional: true };
   }
 
-  if (Array.isArray(value)) {
-    if (value.length === 0) {
-      return { type: "any[]", optional: true };
+  // Check for array
+  const arrayResult = ArraySchema.safeParse(value);
+  if (arrayResult.success) {
+    const arrayValue = arrayResult.data;
+    if (arrayValue.length === 0) {
+      return { type: "unknown[]", optional: true };
     }
 
-    const firstElementType = convertValueToProperty(value[0], nestedTypeName);
-    return {
-      type: `${firstElementType.type}[]`,
-      optional: true,
-    };
+    // Sample multiple elements for better type inference
+    const elementTypes = new Set<string>();
+    const sampleSize = Math.min(arrayValue.length, 3); // Check up to 3 elements
+
+    for (let i = 0; i < sampleSize; i++) {
+      const elementType = convertValueToProperty(arrayValue[i], nestedTypeName);
+      elementTypes.add(elementType.type);
+    }
+
+    // If all elements have the same type, use that
+    if (elementTypes.size === 1) {
+      const elementType = Array.from(elementTypes)[0];
+      if (elementType) {
+        return {
+          type: `${elementType}[]`,
+          optional: true,
+        };
+      }
+    }
+
+    // If mixed types, use union type for common cases
+    const types = Array.from(elementTypes).sort();
+    if (
+      types.length <= 3 &&
+      types.every((t) => ["string", "number", "boolean"].includes(t))
+    ) {
+      return {
+        type: `(${types.join(" | ")})[]`,
+        optional: true,
+      };
+    }
+
+    // Otherwise fall back to unknown[]
+    return { type: "unknown[]", optional: true };
   }
 
-  if (typeof value === "object") {
-    const nestedInterface = convertToTypeScriptInterface(value, nestedTypeName);
+  // Check for object (must be last since arrays are also objects)
+  const objectResult = HelmValueSchema.safeParse(value);
+  if (objectResult.success) {
+    const nestedInterface = convertToTypeScriptInterface(
+      objectResult.data,
+      nestedTypeName,
+    );
     return {
       type: nestedTypeName,
       optional: true,
@@ -201,7 +320,11 @@ function convertValueToProperty(
     };
   }
 
-  return { type: "any", optional: true };
+  // Fallback for any unrecognized type
+  console.warn(
+    `Unrecognized value type for: ${String(value)}, using 'unknown'`,
+  );
+  return { type: "unknown", optional: true };
 }
 
 /**
@@ -227,6 +350,14 @@ export function generateTypeScriptCode(
   // Generate parameter type (flattened dot notation)
   code += generateParameterType(mainInterface, chartName);
 
+  // Check if any 'any' types were generated and add ESLint disable if needed
+  if (code.includes(": any")) {
+    code = `// Generated TypeScript types for ${chartName} Helm chart
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+${code.substring(code.indexOf("\n\n") + 2)}`;
+  }
+
   return code;
 }
 
@@ -248,7 +379,14 @@ function collectNestedInterfaces(
 }
 
 function generateInterfaceCode(iface: TypeScriptInterface): string {
-  let code = `export interface ${iface.name} {\n`;
+  const hasProperties = Object.keys(iface.properties).length > 0;
+
+  if (!hasProperties) {
+    // Use 'object' for empty interfaces instead of '{}'
+    return `export type ${iface.name} = object;\n`;
+  }
+
+  let code = `export type ${iface.name} = {\n`;
 
   for (const [key, prop] of Object.entries(iface.properties)) {
     const optional = prop.optional ? "?" : "";
@@ -258,7 +396,7 @@ function generateInterfaceCode(iface: TypeScriptInterface): string {
     code += `${description}  ${key}${optional}: ${prop.type};\n`;
   }
 
-  code += "}\n";
+  code += "};\n";
   return code;
 }
 
@@ -269,13 +407,13 @@ function generateParameterType(
   const parameterKeys = flattenInterfaceKeys(iface);
 
   const normalizedChartName = capitalizeFirst(chartName).replace(/-/g, "");
-  let code = `export interface ${normalizedChartName}HelmParameters {\n`;
+  let code = `export type ${normalizedChartName}HelmParameters = {\n`;
 
   for (const key of parameterKeys) {
     code += `  "${key}"?: string;\n`;
   }
 
-  code += "}\n";
+  code += "};\n";
 
   return code;
 }
@@ -287,7 +425,9 @@ function flattenInterfaceKeys(
   const keys: string[] = [];
 
   for (const [key, prop] of Object.entries(iface.properties)) {
-    const fullKey = prefix ? `${prefix}.${key}` : key;
+    // Remove quotes from key for parameter names
+    const cleanKey = key.replace(/"/g, "");
+    const fullKey = prefix ? `${prefix}.${cleanKey}` : cleanKey;
 
     if (prop.nested) {
       keys.push(...flattenInterfaceKeys(prop.nested, fullKey));
@@ -304,35 +444,98 @@ function capitalizeFirst(str: string): string {
 }
 
 /**
- * Run a command and return its output
+ * Sanitize property names for TypeScript interfaces
+ * Handles special characters, reserved keywords, and invalid syntax
+ */
+function sanitizePropertyName(key: string): string {
+  // TypeScript reserved keywords that need quoting
+  const reservedKeywords = new Set([
+    "break",
+    "case",
+    "catch",
+    "class",
+    "const",
+    "continue",
+    "debugger",
+    "default",
+    "delete",
+    "do",
+    "else",
+    "enum",
+    "export",
+    "extends",
+    "false",
+    "finally",
+    "for",
+    "function",
+    "if",
+    "import",
+    "in",
+    "instanceof",
+    "new",
+    "null",
+    "return",
+    "super",
+    "switch",
+    "this",
+    "throw",
+    "true",
+    "try",
+    "typeof",
+    "var",
+    "void",
+    "while",
+    "with",
+  ]);
+
+  // Check if key needs quoting
+  const needsQuoting =
+    reservedKeywords.has(key) ||
+    /[^a-zA-Z0-9_$]/.test(key) || // Contains special characters
+    /^\d/.test(key); // Starts with digit
+
+  return needsQuoting ? `"${key}"` : key;
+}
+
+/**
+ * Sanitize type names by removing invalid characters and normalizing
+ */
+function sanitizeTypeName(key: string): string {
+  return (
+    key
+      .replace(/[^a-zA-Z0-9]/g, "") // Remove all special characters
+      .replace(/^\d+/, "") || // Remove leading digits
+    "Property"
+  ); // Fallback if empty
+}
+
+/**
+ * Run a command and return its output using Bun
  */
 async function runCommand(command: string, args: string[]): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const proc = spawn(command, args, {
-      stdio: ["inherit", "pipe", "inherit"],
+  try {
+    const proc = Bun.spawn([command, ...args], {
+      stdout: "pipe",
+      stderr: "inherit",
     });
 
-    let output = "";
-    proc.stdout?.on("data", (data: Buffer) => (output += data.toString()));
+    const output = await new Response(proc.stdout).text();
+    const exitCode = await proc.exited;
 
-    proc.on("close", (code) => {
-      if (code === 0) {
-        resolve(output);
-      } else {
-        reject(
-          new Error(
-            `Command "${command} ${args.join(" ")}" failed with code ${code?.toString() ?? "unknown"}`,
-          ),
-        );
-      }
-    });
-
-    proc.on("error", (error) => {
-      reject(
-        new Error(
-          `Failed to spawn command "${command} ${args.join(" ")}": ${error.message}`,
-        ),
+    if (exitCode === 0) {
+      return output;
+    } else {
+      throw new Error(
+        `Command "${command} ${args.join(" ")}" failed with code ${exitCode.toString()}`,
       );
-    });
-  });
+    }
+  } catch (error) {
+    const parseResult = ErrorSchema.safeParse(error);
+    const errorMessage = parseResult.success
+      ? parseResult.data.message
+      : String(error);
+    throw new Error(
+      `Failed to spawn command "${command} ${args.join(" ")}": ${errorMessage}`,
+    );
+  }
 }
