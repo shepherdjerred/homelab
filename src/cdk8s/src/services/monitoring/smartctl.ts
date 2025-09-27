@@ -150,6 +150,7 @@ echo "smartmon_scrape_timestamp_seconds $(date +%s)"
       privileged: true, // Required to access raw disk devices
       allowPrivilegeEscalation: true, // Required when privileged is true
       ensureNonRoot: false, // Required to run as root for disk access
+      readOnlyRootFilesystem: false, // Allow writing to install packages
       user: 0,
       group: 0,
     },

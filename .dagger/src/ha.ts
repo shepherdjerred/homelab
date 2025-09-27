@@ -10,6 +10,7 @@ import {
   getUbuntuBaseContainer,
   withMiseTools,
   getMiseRuntimeContainer,
+  execWithErrorCapture,
 } from "./base";
 import type { StepResult } from ".";
 import versions from "./versions";
@@ -21,78 +22,25 @@ export async function buildHa(source: Directory): Promise<Directory> {
 }
 
 export async function testHa(source: Directory): Promise<string> {
-  const container = getWorkspaceContainer(source, "src/ha").withExec([
-    "sh",
-    "-c",
-    `
-    set +e
-    bun test 2>&1
-    exit_code=$?
-    if [ $exit_code -ne 0 ]; then
-      echo "TEST_FAILED_WITH_CODE_$exit_code"
-    fi
-    exit 0
-    `,
-  ]);
+  const container = getWorkspaceContainer(source, "src/ha");
 
-  const output = await container.stdout();
-
-  // Check if testing actually failed by looking for our exit code marker
-  if (output.includes("TEST_FAILED_WITH_CODE_")) {
-    throw new Error(`HA Testing Failed:\n${output}`);
-  }
-
-  return output;
+  return execWithErrorCapture(container, "bun test", "HA Testing Failed");
 }
 
 export async function typeCheckHa(source: Directory): Promise<string> {
-  const container = getWorkspaceContainer(source, "src/ha").withExec([
-    "sh",
-    "-c",
-    `
-    set +e
-    bunx tsc --noEmit 2>&1
-    exit_code=$?
-    if [ $exit_code -ne 0 ]; then
-      echo "TYPECHECK_FAILED_WITH_CODE_$exit_code"
-    fi
-    exit 0
-    `,
-  ]);
+  const container = getWorkspaceContainer(source, "src/ha");
 
-  const output = await container.stdout();
-
-  // Check if type checking actually failed by looking for our exit code marker
-  if (output.includes("TYPECHECK_FAILED_WITH_CODE_")) {
-    throw new Error(`HA Type Checking Failed:\n${output}`);
-  }
-
-  return output;
+  return execWithErrorCapture(
+    container,
+    "bunx tsc --noEmit",
+    "HA Type Checking Failed",
+  );
 }
 
 export async function lintHa(source: Directory): Promise<string> {
-  const container = getWorkspaceContainer(source, "src/ha").withExec([
-    "sh",
-    "-c",
-    `
-    set +e
-    bun run lint 2>&1
-    exit_code=$?
-    if [ $exit_code -ne 0 ]; then
-      echo "LINT_FAILED_WITH_CODE_$exit_code"
-    fi
-    exit 0
-    `,
-  ]);
+  const container = getWorkspaceContainer(source, "src/ha");
 
-  const output = await container.stdout();
-
-  // Check if linting actually failed by looking for our exit code marker
-  if (output.includes("LINT_FAILED_WITH_CODE_")) {
-    throw new Error(`HA Linting Failed:\n${output}`);
-  }
-
-  return output;
+  return execWithErrorCapture(container, "bun run lint", "HA Linting Failed");
 }
 
 /**

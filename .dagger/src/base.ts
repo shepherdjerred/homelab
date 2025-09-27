@@ -64,10 +64,7 @@ export function getWorkspaceContainer(
 
   // Copy root bun.lock for HA workspace (CDK8s doesn't need one)
   if (workspacePath === "src/ha") {
-    container = container.withFile(
-      "bun.lock",
-      source.file("bun.lock"),
-    );
+    container = container.withFile("bun.lock", source.file("bun.lock"));
   }
 
   return (
