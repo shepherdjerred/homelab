@@ -2,7 +2,7 @@ import {
   PrometheusRuleSpecGroups,
   PrometheusRuleSpecGroupsRulesExpr,
 } from "../../../imports/monitoring.coreos.com";
-import { createSensorAlert, escapePrometheusTemplate } from "./shared";
+import { escapePrometheusTemplate } from "./shared";
 
 export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
   return [
@@ -131,7 +131,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "Unusual network activity detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_network_transmit_bytes_total[5m]) > 10 * rate(node_network_transmit_bytes_total[1h])",
+            'rate(node_network_transmit_bytes_total{device!~"lo|veth.*|docker.*|br-.*"}[5m]) > 10 * rate(node_network_transmit_bytes_total{device!~"lo|veth.*|docker.*|br-.*"}[1h])',
           ),
           for: "10m",
           labels: { severity: "warning" },
@@ -293,7 +293,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "Unusual process count detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_procs_running > 2 * avg_over_time(node_procs_running[7d])",
+            "node_procs_running > 2 * (avg_over_time(node_procs_running[7d]) by (instance))",
           ),
           for: "10m",
           labels: { severity: "warning" },
@@ -349,7 +349,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "Unusual system load detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'node_load15 > 2 * count(node_cpu_seconds_total{mode="idle"})',
+            'node_load15 > 2 * count by (instance) (node_cpu_seconds_total{mode="idle"})',
           ),
           for: "15m",
           labels: { severity: "warning" },
@@ -412,7 +412,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "Clock skew detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'abs(node_time_seconds - on() timestamp(up{job="node-exporter"})) > 30',
+            'abs(node_time_seconds - timestamp(up{job="node-exporter"})) > 30',
           ),
           for: "5m",
           labels: { severity: "warning" },
