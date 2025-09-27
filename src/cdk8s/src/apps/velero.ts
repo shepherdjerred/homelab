@@ -177,11 +177,11 @@ export function createVeleroApp(chart: Chart) {
           valuesObject: {
             // Velero configuration
             metrics: {
-              serviceMonitor:{
-                enabled: true
-              },
-              prometheusRule: {
-                enabled: true
+              serviceMonitor: {
+                enabled: true,
+                additionalLabels: {
+                  release: "prometheus",
+                },
               },
             },
             configuration: {

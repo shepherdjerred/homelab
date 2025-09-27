@@ -10,6 +10,10 @@
 - https://github.com/prometheus/blackbox_exporter
 - https://github.com/esanchezm/prometheus-qbittorrent-exporter
 - https://github.com/jsclayton/prometheus-plex-exporter
+- Metrics not working
+  - Velero
+  - ArgoCD
+  - Need to add label to service monitors
 
 ## Done
 

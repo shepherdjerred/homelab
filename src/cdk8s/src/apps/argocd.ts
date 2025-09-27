@@ -34,63 +34,78 @@ export function createArgoCdApp(chart: Chart) {
               metrics: {
                 enabled: true,
                 serviceMonitor: {
-                  enabled: true
+                  enabled: true,
+                  additionalLabels: {
+                    release: "prometheus",
+                  },
                 },
-                rules: {
-                  enabled: false // seems to be a bug in the chart
-                }
-              }
+              },
             },
             dex: {
               metrics: {
                 enabled: true,
                 serviceMonitor: {
-                  enabled: true
+                  enabled: true,
+                  additionalLabels: {
+                    release: "prometheus",
+                  },
                 },
-              }
+              },
             },
             redis: {
               exporter: {
-                enabled: true
+                enabled: true,
               },
               metrics: {
                 enabled: true,
                 serviceMonitor: {
-                  enabled: true
+                  enabled: true,
+                  additionalLabels: {
+                    release: "prometheus",
+                  },
                 },
-              }
+              },
             },
             server: {
               metrics: {
                 enabled: true,
                 serviceMonitor: {
-                  enabled: true
+                  enabled: true,
                 },
-              }
+              },
             },
             applicationSet: {
               metrics: {
                 enabled: true,
                 serviceMonitor: {
-                  enabled: true
+                  enabled: true,
+                  additionalLabels: {
+                    release: "prometheus",
+                  },
                 },
-              }
+              },
             },
             notifications: {
               metrics: {
                 enabled: true,
                 serviceMonitor: {
-                  enabled: true
+                  enabled: true,
+                  additionalLabels: {
+                    release: "prometheus",
+                  },
                 },
-              }
+              },
             },
-            repoServer:{
+            repoServer: {
               metrics: {
                 enabled: true,
                 serviceMonitor: {
-                  enabled: true
+                  enabled: true,
+                  additionalLabels: {
+                    release: "prometheus",
+                  },
                 },
-              }
+              },
             },
             configs: {
               cm: {
