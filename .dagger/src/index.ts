@@ -19,7 +19,12 @@ import {
   getSystemContainer,
   withMiseTools,
 } from "./base";
-import { typeCheckCdk8s, buildK8sManifests, testCdk8s } from "./cdk8s";
+import {
+  typeCheckCdk8s,
+  buildK8sManifests,
+  testCdk8s,
+  lintCdk8s,
+} from "./cdk8s";
 import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
@@ -65,12 +70,14 @@ export class Homelab {
     const haTest = testHa(source);
     const haLint = lintHa(source);
     const cdk8sTypeCheck = typeCheckCdk8s(source.directory("src/cdk8s"));
+    const cdk8sLint = lintCdk8s(source.directory("src/cdk8s"));
     const cdk8sTest = testCdk8s(source.directory("src/cdk8s"));
     const results = await Promise.allSettled([
       haTypeCheck,
       haTest,
       haLint,
       cdk8sTypeCheck,
+      cdk8sLint,
       cdk8sTest,
     ]);
     const summary = results
@@ -80,6 +87,7 @@ export class Homelab {
           "HA Test",
           "HA Lint",
           "CDK8s TypeCheck",
+          "CDK8s Lint",
           "CDK8s Test",
         ];
         return `${names[index]}: ${
@@ -587,6 +595,31 @@ export class Homelab {
     source: Directory,
   ) {
     return lintHa(source);
+  }
+
+  /**
+   * Runs linter for the CDK8s project.
+   * @param source The CDK8s source directory.
+   * @returns The stdout from the lint run.
+   */
+  @func()
+  async lintCdk8s(
+    @argument({
+      ignore: [
+        "node_modules",
+        "dist",
+        "build",
+        ".cache",
+        "*.log",
+        ".env*",
+        "!.env.example",
+        ".dagger",
+      ],
+      defaultPath: "src/cdk8s",
+    })
+    source: Directory,
+  ) {
+    return lintCdk8s(source);
   }
 
   /**

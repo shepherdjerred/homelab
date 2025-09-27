@@ -24,6 +24,13 @@ export async function buildK8sManifests(source: Directory): Promise<Directory> {
   return manifestsDir;
 }
 
+export async function lintCdk8s(source: Directory): Promise<string> {
+  return getWorkspaceContainer(source, ".")
+    .withWorkdir("/workspace")
+    .withExec(["bun", "run", "lint"])
+    .stdout();
+}
+
 export async function testCdk8s(source: Directory): Promise<string> {
   return (
     getWorkspaceContainer(source, ".")
