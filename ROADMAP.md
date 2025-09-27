@@ -4,13 +4,13 @@
 
 - Configure Recyclarr with env vars and config files committed to repo
 - ZFS grafana dashboard
-- https://github.com/openebs/monitoring
 - https://github.com/prometheus/blackbox_exporter
 - https://github.com/esanchezm/prometheus-qbittorrent-exporter
 - https://github.com/jsclayton/prometheus-plex-exporter
 
 ## Done
 
+- https://github.com/openebs/monitoring
 - Metrics not working
   - Velero
   - ArgoCD

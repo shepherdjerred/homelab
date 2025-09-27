@@ -1,4 +1,5 @@
-import type { PrometheusRuleSpecGroups } from "../../imports/monitoring.coreos.com";
+import type { PrometheusRuleSpecGroups } from "../../../imports/monitoring.coreos.com";
+import { PrometheusRuleSpecGroupsRulesExpr } from "../../../imports/monitoring.coreos.com";
 
 export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
   return [
@@ -9,7 +10,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         // SMART Health Status Rules
         {
           alert: "SmartDeviceHealthFailure",
-          expr: "smartmon_device_smart_healthy == 0",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_device_smart_healthy == 0",
+          ),
           for: "0m",
           labels: {
             severity: "critical",
@@ -24,7 +27,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         },
         {
           alert: "SmartDeviceTemperatureHigh",
-          expr: "smartmon_temperature_celsius > 60",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_temperature_celsius > 60",
+          ),
           for: "5m",
           labels: {
             severity: "warning",
@@ -38,7 +43,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         },
         {
           alert: "SmartDeviceTemperatureCritical",
-          expr: "smartmon_temperature_celsius > 70",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_temperature_celsius > 70",
+          ),
           for: "1m",
           labels: {
             severity: "critical",
@@ -55,7 +62,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         // Reallocated Sectors
         {
           alert: "SmartReallocatedSectorsHigh",
-          expr: "smartmon_reallocated_sector_ct_raw_value > 0",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_reallocated_sector_ct_raw_value > 0",
+          ),
           for: "0m",
           labels: {
             severity: "warning",
@@ -70,7 +79,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         },
         {
           alert: "SmartReallocatedSectorsCritical",
-          expr: "smartmon_reallocated_sector_ct_raw_value > 10",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_reallocated_sector_ct_raw_value > 10",
+          ),
           for: "0m",
           labels: {
             severity: "critical",
@@ -87,7 +98,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         // Pending Sectors
         {
           alert: "SmartPendingSectorsHigh",
-          expr: "smartmon_current_pending_sector_raw_value > 0",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_current_pending_sector_raw_value > 0",
+          ),
           for: "5m",
           labels: {
             severity: "warning",
@@ -101,7 +114,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         },
         {
           alert: "SmartPendingSectorsCritical",
-          expr: "smartmon_current_pending_sector_raw_value > 5",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_current_pending_sector_raw_value > 5",
+          ),
           for: "1m",
           labels: {
             severity: "critical",
@@ -118,7 +133,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         // Uncorrectable Errors
         {
           alert: "SmartUncorrectableErrors",
-          expr: "smartmon_offline_uncorrectable_raw_value > 0",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_offline_uncorrectable_raw_value > 0",
+          ),
           for: "0m",
           labels: {
             severity: "critical",
@@ -135,7 +152,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         // UDMA CRC Error Count (for SATA drives)
         {
           alert: "SmartUdmaCrcErrorsHigh",
-          expr: "smartmon_udma_crc_error_count_raw_value > 0",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_udma_crc_error_count_raw_value > 0",
+          ),
           for: "5m",
           labels: {
             severity: "warning",
@@ -151,7 +170,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         // Power Cycle Count (for wear monitoring)
         {
           alert: "SmartHighPowerCycles",
-          expr: "smartmon_power_cycle_count_raw_value > 10000",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_power_cycle_count_raw_value > 10000",
+          ),
           for: "0m",
           labels: {
             severity: "info",
@@ -167,7 +188,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         // SSD-specific rules
         {
           alert: "SmartSsdWearLevelingHigh",
-          expr: "smartmon_wear_leveling_count_value < 10",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_wear_leveling_count_value < 10",
+          ),
           for: "5m",
           labels: {
             severity: "warning",
@@ -182,7 +205,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         },
         {
           alert: "SmartSsdWearLevelingCritical",
-          expr: "smartmon_wear_leveling_count_value < 5",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_wear_leveling_count_value < 5",
+          ),
           for: "1m",
           labels: {
             severity: "critical",
@@ -199,7 +224,9 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         // Data collection health
         {
           alert: "SmartMonitoringDown",
-          expr: 'up{job="node-exporter"} == 1 unless on(instance) (smartmon_scrape_timestamp_seconds > (time() - 600))',
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'up{job="node-exporter"} == 1 unless on(instance) (smartmon_scrape_timestamp_seconds > (time() - 600))',
+          ),
           for: "10m",
           labels: {
             severity: "warning",
@@ -221,40 +248,58 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         // Recording rules for better performance and easier querying
         {
           record: "smartmon:device_healthy",
-          expr: "smartmon_device_smart_healthy",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_device_smart_healthy",
+          ),
         },
         {
           record: "smartmon:temperature_celsius",
-          expr: "smartmon_temperature_celsius",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_temperature_celsius",
+          ),
         },
         {
           record: "smartmon:power_on_hours",
-          expr: "smartmon_power_on_hours",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_power_on_hours",
+          ),
         },
         {
           record: "smartmon:reallocated_sectors_total",
-          expr: "smartmon_reallocated_sector_ct_raw_value",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_reallocated_sector_ct_raw_value",
+          ),
         },
         {
           record: "smartmon:pending_sectors_total",
-          expr: "smartmon_current_pending_sector_raw_value",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_current_pending_sector_raw_value",
+          ),
         },
         {
           record: "smartmon:uncorrectable_errors_total",
-          expr: "smartmon_offline_uncorrectable_raw_value",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon_offline_uncorrectable_raw_value",
+          ),
         },
         // Aggregate health metrics per node
         {
           record: "smartmon:node_unhealthy_devices",
-          expr: 'count by (instance) (smartmon_device_smart_healthy{smartmon_device_smart_healthy="0"})',
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'count by (instance) (smartmon_device_smart_healthy{smartmon_device_smart_healthy="0"})',
+          ),
         },
         {
           record: "smartmon:node_total_devices",
-          expr: "count by (instance) (smartmon_device_smart_healthy)",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "count by (instance) (smartmon_device_smart_healthy)",
+          ),
         },
         {
           record: "smartmon:node_health_ratio",
-          expr: "smartmon:node_unhealthy_devices / smartmon:node_total_devices",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "smartmon:node_unhealthy_devices / smartmon:node_total_devices",
+          ),
         },
       ],
     },

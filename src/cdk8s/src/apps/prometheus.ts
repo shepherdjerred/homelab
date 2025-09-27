@@ -189,7 +189,7 @@ export function createPrometheusApp(chart: Chart) {
                 routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
               },
             ],
-          } as any,
+          },
         ],
         route: {
           group_by: ["namespace", "alertname"],
@@ -221,7 +221,7 @@ export function createPrometheusApp(chart: Chart) {
           mountPropagation: "HostToContainer",
         },
       ],
-    } as any,
+    },
     prometheus: {
       prometheusSpec: {
         externalUrl: "https://prometheus.tailnet-1a49.ts.net",
