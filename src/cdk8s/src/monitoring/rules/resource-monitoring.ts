@@ -82,7 +82,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "Potential memory leak detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "increase(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes[6h]) > 2147483648", // 2GB increase
+            "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) - (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes offset 6h) > 2147483648", // 2GB increase
           ),
           for: "30m",
           labels: { severity: "warning" },
@@ -293,7 +293,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "Unusual process count detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_procs_running > 2 * (avg_over_time(node_procs_running[7d]) by (instance))",
+            "node_procs_running > 2 * avg_over_time(node_procs_running[7d])",
           ),
           for: "10m",
           labels: { severity: "warning" },
