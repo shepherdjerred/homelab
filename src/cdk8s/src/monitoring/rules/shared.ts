@@ -1,19 +1,14 @@
 import { PrometheusRuleSpecGroupsRulesExpr } from "../../../imports/monitoring.coreos.com";
 
-// Prometheus template helpers for better readability
-export const PrometheusTemplates = {
-  value: "{{ $value }}",
-  valueAsPercentage: "{{ $value | humanizePercentage }}",
-  entity: "{{ $labels.entity }}",
-
-  // Common template patterns
-  valueWithEntity: (unit = "") => `{{ $value }}${unit} ({{ $labels.entity }})`,
-  entityWithValue: (unit = "") =>
-    `{{ $labels.entity }} reports {{ $value }}${unit}`,
-
-  // Helper to create readable template strings
-  template: (str: string) => str.replace(/\$\{(\w+)\}/g, "{{ $$1 }}"),
-};
+// Helper to create readable template strings with Helm escaping
+export function escapePrometheusTemplate(template: string): string {
+  return template
+    .replace(/\{\{\s*\$value\s*\}\}/g, '{{ "{{" }} $value {{ "}}" }}')
+    .replace(
+      /\{\{\s*\$labels\.(\w+)\s*\}\}/g,
+      '{{ "{{" }} $labels.$1 {{ "}}" }}',
+    );
+}
 
 // Rule factory functions for common alert patterns
 export function createSensorAlert(
