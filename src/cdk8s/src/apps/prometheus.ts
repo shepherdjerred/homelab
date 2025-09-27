@@ -2,7 +2,7 @@ import { Chart, Size } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
-import { HDD_STORAGE_CLASS, SSD_STORAGE_CLASS } from "../storageclasses.ts";
+import { SSD_STORAGE_CLASS } from "../storageclasses.ts";
 import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { createPrometheusMonitoring } from "../monitoring/prometheus.ts";
 

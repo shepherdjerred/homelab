@@ -272,21 +272,40 @@ function convertValueToProperty(
 
     // Sample multiple elements for better type inference
     const elementTypes = new Set<string>();
+    const elementTypeProps: TypeProperty[] = [];
     const sampleSize = Math.min(arrayValue.length, 3); // Check up to 3 elements
 
     for (let i = 0; i < sampleSize; i++) {
       const elementType = convertValueToProperty(arrayValue[i], nestedTypeName);
       elementTypes.add(elementType.type);
+      elementTypeProps.push(elementType);
     }
 
     // If all elements have the same type, use that
     if (elementTypes.size === 1) {
       const elementType = Array.from(elementTypes)[0];
-      if (elementType) {
-        return {
-          type: `${elementType}[]`,
-          optional: true,
-        };
+      const elementProp = elementTypeProps[0];
+      if (elementType && elementProp) {
+        // For object array elements, we need to create a proper interface for the array element
+        if (elementProp.nested) {
+          // Create a new interface name for array elements
+          const arrayElementTypeName = `${nestedTypeName}Element`;
+          const arrayElementInterface: TypeScriptInterface = {
+            name: arrayElementTypeName,
+            properties: elementProp.nested.properties,
+          };
+
+          return {
+            type: `${arrayElementTypeName}[]`,
+            optional: true,
+            nested: arrayElementInterface,
+          };
+        } else {
+          return {
+            type: `${elementType}[]`,
+            optional: true,
+          };
+        }
       }
     }
 

@@ -178,7 +178,7 @@ async function generateChartTypes(chart: ChartInfo) {
 
   // Debug logging for main script
   console.log(
-    `  🔍 Found ${Object.keys(helmValues).length} top-level properties`,
+    `  🔍 Found ${Object.keys(helmValues).length.toString()} top-level properties`,
   );
   if (Object.keys(helmValues).length <= 5) {
     console.log(`  🔍 Keys: ${Object.keys(helmValues).join(", ")}`);

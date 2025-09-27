@@ -130,6 +130,26 @@ export type PromtailHelmValuesNodeSelector = object;
 
 export type PromtailHelmValuesAffinity = object;
 
+export type PromtailHelmValuesTolerationsElement = {
+  key?: string;
+  operator?: string;
+  effect?: string;
+};
+
+export type PromtailHelmValuesDefaultVolumesElement = {
+  name?: string;
+  hostPath?: PromtailHelmValuesDefaultVolumesHostPath;
+};
+
+export type PromtailHelmValuesDefaultVolumesHostPath = {
+  path?: string;
+};
+
+export type PromtailHelmValuesDefaultVolumeMountsElement = {
+  name?: string;
+  mountPath?: string;
+};
+
 export type PromtailHelmValuesServiceMonitor = {
   enabled?: boolean;
   namespace?: unknown;
@@ -201,11 +221,15 @@ export type PromtailHelmValuesConfig = {
   logLevel?: string;
   logFormat?: string;
   serverPort?: number;
-  clients?: PromtailHelmValuesConfigClients[];
+  clients?: PromtailHelmValuesConfigClientsElement[];
   positions?: PromtailHelmValuesConfigPositions;
   enableTracing?: boolean;
   snippets?: PromtailHelmValuesConfigSnippets;
   file?: string;
+};
+
+export type PromtailHelmValuesConfigClientsElement = {
+  url?: string;
 };
 
 export type PromtailHelmValuesConfigPositions = {
@@ -213,14 +237,26 @@ export type PromtailHelmValuesConfigPositions = {
 };
 
 export type PromtailHelmValuesConfigSnippets = {
-  pipelineStages?: PromtailHelmValuesConfigSnippetsPipelineStages[];
-  common?: PromtailHelmValuesConfigSnippetsCommon[];
+  pipelineStages?: PromtailHelmValuesConfigSnippetsPipelineStagesElement[];
+  common?: PromtailHelmValuesConfigSnippetsCommonElement[];
   addScrapeJobLabel?: boolean;
   extraLimitsConfig?: string;
   extraServerConfigs?: string;
   extraScrapeConfigs?: string;
   extraRelabelConfigs?: unknown[];
   scrapeConfigs?: string;
+};
+
+export type PromtailHelmValuesConfigSnippetsPipelineStagesElement = {
+  cri?: PromtailHelmValuesConfigSnippetsPipelineStagesCri;
+};
+
+export type PromtailHelmValuesConfigSnippetsPipelineStagesCri = object;
+
+export type PromtailHelmValuesConfigSnippetsCommonElement = {
+  action?: string;
+  source_labels?: string[];
+  target_label?: string;
 };
 
 export type PromtailHelmValuesNetworkPolicy = {
@@ -324,9 +360,9 @@ export type PromtailHelmValues = {
   automountServiceAccountToken?: boolean;
   nodeSelector?: PromtailHelmValuesNodeSelector;
   affinity?: PromtailHelmValuesAffinity;
-  tolerations?: PromtailHelmValuesTolerations[];
-  defaultVolumes?: PromtailHelmValuesDefaultVolumes[];
-  defaultVolumeMounts?: PromtailHelmValuesDefaultVolumeMounts[];
+  tolerations?: PromtailHelmValuesTolerationsElement[];
+  defaultVolumes?: PromtailHelmValuesDefaultVolumesElement[];
+  defaultVolumeMounts?: PromtailHelmValuesDefaultVolumeMountsElement[];
   extraVolumes?: unknown[];
   extraVolumeMounts?: unknown[];
   extraArgs?: unknown[];
@@ -391,9 +427,13 @@ export type PromtailHelmParameters = {
   "serviceAccount.imagePullSecrets"?: string;
   "serviceAccount.automountServiceAccountToken"?: string;
   automountServiceAccountToken?: string;
-  tolerations?: string;
-  defaultVolumes?: string;
-  defaultVolumeMounts?: string;
+  "tolerations.key"?: string;
+  "tolerations.operator"?: string;
+  "tolerations.effect"?: string;
+  "defaultVolumes.name"?: string;
+  "defaultVolumes.hostPath.path"?: string;
+  "defaultVolumeMounts.name"?: string;
+  "defaultVolumeMounts.mountPath"?: string;
   extraVolumes?: string;
   extraVolumeMounts?: string;
   extraArgs?: string;
@@ -427,11 +467,12 @@ export type PromtailHelmParameters = {
   "config.logLevel"?: string;
   "config.logFormat"?: string;
   "config.serverPort"?: string;
-  "config.clients"?: string;
+  "config.clients.url"?: string;
   "config.positions.filename"?: string;
   "config.enableTracing"?: string;
-  "config.snippets.pipelineStages"?: string;
-  "config.snippets.common"?: string;
+  "config.snippets.common.action"?: string;
+  "config.snippets.common.source_labels"?: string;
+  "config.snippets.common.target_label"?: string;
   "config.snippets.addScrapeJobLabel"?: string;
   "config.snippets.extraLimitsConfig"?: string;
   "config.snippets.extraServerConfigs"?: string;

@@ -203,7 +203,14 @@ export type CertmanagerHelmValuesWebhookValidatingWebhookConfiguration = {
 
 export type CertmanagerHelmValuesWebhookValidatingWebhookConfigurationNamespaceSelector =
   {
-    matchExpressions?: CertmanagerHelmValuesWebhookValidatingWebhookConfigurationNamespaceSelectorMatchExpressions[];
+    matchExpressions?: CertmanagerHelmValuesWebhookValidatingWebhookConfigurationNamespaceSelectorMatchExpressionsElement[];
+  };
+
+export type CertmanagerHelmValuesWebhookValidatingWebhookConfigurationNamespaceSelectorMatchExpressionsElement =
+  {
+    key?: string;
+    operator?: string;
+    values?: string[];
   };
 
 export type CertmanagerHelmValuesWebhookMutatingWebhookConfiguration = {
@@ -255,8 +262,38 @@ export type CertmanagerHelmValuesWebhookUrl = object;
 
 export type CertmanagerHelmValuesWebhookNetworkPolicy = {
   enabled?: boolean;
-  ingress?: CertmanagerHelmValuesWebhookNetworkPolicyIngress[];
-  egress?: CertmanagerHelmValuesWebhookNetworkPolicyEgress[];
+  ingress?: CertmanagerHelmValuesWebhookNetworkPolicyIngressElement[];
+  egress?: CertmanagerHelmValuesWebhookNetworkPolicyEgressElement[];
+};
+
+export type CertmanagerHelmValuesWebhookNetworkPolicyIngressElement = {
+  from?: CertmanagerHelmValuesWebhookNetworkPolicyIngressFromElement[];
+};
+
+export type CertmanagerHelmValuesWebhookNetworkPolicyIngressFromElement = {
+  ipBlock?: CertmanagerHelmValuesWebhookNetworkPolicyIngressFromIpBlock;
+};
+
+export type CertmanagerHelmValuesWebhookNetworkPolicyIngressFromIpBlock = {
+  cidr?: string;
+};
+
+export type CertmanagerHelmValuesWebhookNetworkPolicyEgressElement = {
+  ports?: CertmanagerHelmValuesWebhookNetworkPolicyEgressPortsElement[];
+  to?: CertmanagerHelmValuesWebhookNetworkPolicyEgressToElement[];
+};
+
+export type CertmanagerHelmValuesWebhookNetworkPolicyEgressPortsElement = {
+  port?: number;
+  protocol?: string;
+};
+
+export type CertmanagerHelmValuesWebhookNetworkPolicyEgressToElement = {
+  ipBlock?: CertmanagerHelmValuesWebhookNetworkPolicyEgressToIpBlock;
+};
+
+export type CertmanagerHelmValuesWebhookNetworkPolicyEgressToIpBlock = {
+  cidr?: string;
 };
 
 export type CertmanagerHelmValuesCainjector = {
@@ -543,7 +580,9 @@ export type CertmanagerHelmParameters = {
   "webhook.containerSecurityContext.capabilities.drop"?: string;
   "webhook.containerSecurityContext.readOnlyRootFilesystem"?: string;
   "webhook.podDisruptionBudget.enabled"?: string;
-  "webhook.validatingWebhookConfiguration.namespaceSelector.matchExpressions"?: string;
+  "webhook.validatingWebhookConfiguration.namespaceSelector.matchExpressions.key"?: string;
+  "webhook.validatingWebhookConfiguration.namespaceSelector.matchExpressions.operator"?: string;
+  "webhook.validatingWebhookConfiguration.namespaceSelector.matchExpressions.values"?: string;
   "webhook.extraArgs"?: string;
   "webhook.extraEnv"?: string;
   "webhook.featureGates"?: string;
@@ -570,8 +609,10 @@ export type CertmanagerHelmParameters = {
   "webhook.hostNetwork"?: string;
   "webhook.serviceType"?: string;
   "webhook.networkPolicy.enabled"?: string;
-  "webhook.networkPolicy.ingress"?: string;
-  "webhook.networkPolicy.egress"?: string;
+  "webhook.networkPolicy.ingress.from.ipBlock.cidr"?: string;
+  "webhook.networkPolicy.egress.ports.port"?: string;
+  "webhook.networkPolicy.egress.ports.protocol"?: string;
+  "webhook.networkPolicy.egress.to.ipBlock.cidr"?: string;
   "webhook.volumes"?: string;
   "webhook.volumeMounts"?: string;
   "webhook.enableServiceLinks"?: string;

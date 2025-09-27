@@ -142,7 +142,7 @@ export type ConnectHelmValuesConnectIngress = {
   annotations?: ConnectHelmValuesConnectIngressAnnotations;
   ingressClassName?: string;
   pathType?: string;
-  hosts?: ConnectHelmValuesConnectIngressHosts[];
+  hosts?: ConnectHelmValuesConnectIngressHostsElement[];
   extraPaths?: unknown[];
   tls?: unknown[];
 };
@@ -150,6 +150,11 @@ export type ConnectHelmValuesConnectIngress = {
 export type ConnectHelmValuesConnectIngressLabels = object;
 
 export type ConnectHelmValuesConnectIngressAnnotations = object;
+
+export type ConnectHelmValuesConnectIngressHostsElement = {
+  host?: string;
+  paths?: unknown[];
+};
 
 export type ConnectHelmValuesConnectProfiler = {
   enabled?: boolean;
@@ -333,7 +338,8 @@ export type ConnectHelmParameters = {
   "connect.ingress.enabled"?: string;
   "connect.ingress.ingressClassName"?: string;
   "connect.ingress.pathType"?: string;
-  "connect.ingress.hosts"?: string;
+  "connect.ingress.hosts.host"?: string;
+  "connect.ingress.hosts.paths"?: string;
   "connect.ingress.extraPaths"?: string;
   "connect.ingress.tls"?: string;
   "connect.profiler.enabled"?: string;

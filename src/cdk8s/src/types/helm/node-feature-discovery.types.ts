@@ -34,7 +34,7 @@ export type NodefeaturediscoveryHelmValuesMaster = {
   rbac?: NodefeaturediscoveryHelmValuesMasterRbac;
   resources?: NodefeaturediscoveryHelmValuesMasterResources;
   nodeSelector?: NodefeaturediscoveryHelmValuesMasterNodeSelector;
-  tolerations?: NodefeaturediscoveryHelmValuesMasterTolerations[];
+  tolerations?: NodefeaturediscoveryHelmValuesMasterTolerationsElement[];
   annotations?: NodefeaturediscoveryHelmValuesMasterAnnotations;
   affinity?: NodefeaturediscoveryHelmValuesMasterAffinity;
   startupProbe?: NodefeaturediscoveryHelmValuesMasterStartupProbe;
@@ -86,6 +86,13 @@ export type NodefeaturediscoveryHelmValuesMasterResourcesRequests = {
 
 export type NodefeaturediscoveryHelmValuesMasterNodeSelector = object;
 
+export type NodefeaturediscoveryHelmValuesMasterTolerationsElement = {
+  key?: string;
+  operator?: string;
+  value?: string;
+  effect?: string;
+};
+
 export type NodefeaturediscoveryHelmValuesMasterAnnotations = object;
 
 export type NodefeaturediscoveryHelmValuesMasterAffinity = {
@@ -93,8 +100,26 @@ export type NodefeaturediscoveryHelmValuesMasterAffinity = {
 };
 
 export type NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinity = {
-  preferredDuringSchedulingIgnoredDuringExecution?: NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution[];
+  preferredDuringSchedulingIgnoredDuringExecution?: NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    weight?: number;
+    preference?: NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference;
+  };
+
+export type NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference =
+  {
+    matchExpressions?: NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressionsElement[];
+  };
+
+export type NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressionsElement =
+  {
+    key?: string;
+    operator?: string;
+    values?: string[];
+  };
 
 export type NodefeaturediscoveryHelmValuesMasterStartupProbe = {
   grpc?: NodefeaturediscoveryHelmValuesMasterStartupProbeGrpc;
@@ -429,8 +454,14 @@ export type NodefeaturediscoveryHelmParameters = {
   "master.resources.limits.memory"?: string;
   "master.resources.requests.cpu"?: string;
   "master.resources.requests.memory"?: string;
-  "master.tolerations"?: string;
-  "master.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution"?: string;
+  "master.tolerations.key"?: string;
+  "master.tolerations.operator"?: string;
+  "master.tolerations.value"?: string;
+  "master.tolerations.effect"?: string;
+  "master.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.weight"?: string;
+  "master.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.preference.matchExpressions.key"?: string;
+  "master.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.preference.matchExpressions.operator"?: string;
+  "master.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.preference.matchExpressions.values"?: string;
   "master.startupProbe.grpc.port"?: string;
   "master.startupProbe.failureThreshold"?: string;
   "master.livenessProbe.grpc.port"?: string;

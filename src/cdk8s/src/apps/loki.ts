@@ -2,7 +2,7 @@ import { Chart, Size } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
-import { HDD_STORAGE_CLASS, SSD_STORAGE_CLASS } from "../storageclasses.ts";
+import { SSD_STORAGE_CLASS } from "../storageclasses.ts";
 
 export function createLokiApp(chart: Chart) {
   createIngress(chart, "loki-ingress", "loki", "loki", 3100, ["loki"], false);

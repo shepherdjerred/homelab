@@ -212,7 +212,20 @@ export type OpenebsHelmValuesLokiLokiPodLabels = {
 };
 
 export type OpenebsHelmValuesLokiLokiSchemaConfig = {
-  configs?: OpenebsHelmValuesLokiLokiSchemaConfigConfigs[];
+  configs?: OpenebsHelmValuesLokiLokiSchemaConfigConfigsElement[];
+};
+
+export type OpenebsHelmValuesLokiLokiSchemaConfigConfigsElement = {
+  from?: unknown;
+  store?: string;
+  object_store?: string;
+  schema?: string;
+  index?: OpenebsHelmValuesLokiLokiSchemaConfigConfigsIndex;
+};
+
+export type OpenebsHelmValuesLokiLokiSchemaConfigConfigsIndex = {
+  prefix?: string;
+  period?: string;
 };
 
 export type OpenebsHelmValuesLokiLokiCommonConfig = {
@@ -409,7 +422,12 @@ export type OpenebsHelmParameters = {
   "loki.localpvScConfig.minio.volumeBindingMode"?: string;
   "loki.loki.serviceLabels.app"?: string;
   "loki.loki.podLabels.app"?: string;
-  "loki.loki.schemaConfig.configs"?: string;
+  "loki.loki.schemaConfig.configs.from"?: string;
+  "loki.loki.schemaConfig.configs.store"?: string;
+  "loki.loki.schemaConfig.configs.object_store"?: string;
+  "loki.loki.schemaConfig.configs.schema"?: string;
+  "loki.loki.schemaConfig.configs.index.prefix"?: string;
+  "loki.loki.schemaConfig.configs.index.period"?: string;
   "loki.loki.commonConfig.replication_factor"?: string;
   "loki.loki.ingester.chunk_encoding"?: string;
   "loki.loki.tracing.enabled"?: string;

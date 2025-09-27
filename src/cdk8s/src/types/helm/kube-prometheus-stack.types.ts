@@ -556,9 +556,9 @@ export type KubeprometheusstackHelmValuesAlertmanagerPodDisruptionBudget = {
 
 export type KubeprometheusstackHelmValuesAlertmanagerConfig = {
   global?: KubeprometheusstackHelmValuesAlertmanagerConfigGlobal;
-  inhibit_rules?: KubeprometheusstackHelmValuesAlertmanagerConfigInhibitrules[];
+  inhibit_rules?: KubeprometheusstackHelmValuesAlertmanagerConfigInhibitrulesElement[];
   route?: KubeprometheusstackHelmValuesAlertmanagerConfigRoute;
-  receivers?: KubeprometheusstackHelmValuesAlertmanagerConfigReceivers[];
+  receivers?: KubeprometheusstackHelmValuesAlertmanagerConfigReceiversElement[];
   templates?: string[];
 };
 
@@ -566,13 +566,30 @@ export type KubeprometheusstackHelmValuesAlertmanagerConfigGlobal = {
   resolve_timeout?: string;
 };
 
+export type KubeprometheusstackHelmValuesAlertmanagerConfigInhibitrulesElement =
+  {
+    source_matchers?: string[];
+    target_matchers?: string[];
+    equal?: string[];
+  };
+
 export type KubeprometheusstackHelmValuesAlertmanagerConfigRoute = {
   group_by?: string[];
   group_wait?: string;
   group_interval?: string;
   repeat_interval?: string;
   receiver?: string;
-  routes?: KubeprometheusstackHelmValuesAlertmanagerConfigRouteRoutes[];
+  routes?: KubeprometheusstackHelmValuesAlertmanagerConfigRouteRoutesElement[];
+};
+
+export type KubeprometheusstackHelmValuesAlertmanagerConfigRouteRoutesElement =
+  {
+    receiver?: string;
+    matchers?: string[];
+  };
+
+export type KubeprometheusstackHelmValuesAlertmanagerConfigReceiversElement = {
+  name?: string;
 };
 
 export type KubeprometheusstackHelmValuesAlertmanagerTemplateFiles = object;
@@ -605,7 +622,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerRouteMain = {
   hostnames?: unknown[];
   parentRefs?: unknown[];
   httpsRedirect?: boolean;
-  matches?: KubeprometheusstackHelmValuesAlertmanagerRouteMainMatches[];
+  matches?: KubeprometheusstackHelmValuesAlertmanagerRouteMainMatchesElement[];
   filters?: unknown[];
   additionalRules?: unknown[];
 };
@@ -614,6 +631,15 @@ export type KubeprometheusstackHelmValuesAlertmanagerRouteMainAnnotations =
   object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerRouteMainLabels = object;
+
+export type KubeprometheusstackHelmValuesAlertmanagerRouteMainMatchesElement = {
+  path?: KubeprometheusstackHelmValuesAlertmanagerRouteMainMatchesPath;
+};
+
+export type KubeprometheusstackHelmValuesAlertmanagerRouteMainMatchesPath = {
+  type?: string;
+  value?: string;
+};
 
 export type KubeprometheusstackHelmValuesAlertmanagerSecret = {
   annotations?: KubeprometheusstackHelmValuesAlertmanagerSecretAnnotations;
@@ -1028,7 +1054,7 @@ export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitor = {
   proxyUrl?: string;
   jobLabel?: string;
   selector?: KubeprometheusstackHelmValuesKubeApiServerServiceMonitorSelector;
-  metricRelabelings?: KubeprometheusstackHelmValuesKubeApiServerServiceMonitorMetricRelabelings[];
+  metricRelabelings?: KubeprometheusstackHelmValuesKubeApiServerServiceMonitorMetricRelabelingsElement[];
   relabelings?: unknown[];
   additionalLabels?: KubeprometheusstackHelmValuesKubeApiServerServiceMonitorAdditionalLabels;
   targetLabels?: unknown[];
@@ -1042,6 +1068,13 @@ export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitorSelectorMatc
   {
     component?: string;
     provider?: string;
+  };
+
+export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitorMetricRelabelingsElement =
+  {
+    action?: string;
+    regex?: string;
+    sourceLabels?: string[];
   };
 
 export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitorAdditionalLabels =
@@ -1075,13 +1108,13 @@ export type KubeprometheusstackHelmValuesKubeletServiceMonitor = {
   resourceInterval?: string;
   cAdvisor?: boolean;
   cAdvisorInterval?: string;
-  cAdvisorMetricRelabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorCAdvisorMetricRelabelings[];
+  cAdvisorMetricRelabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorCAdvisorMetricRelabelingsElement[];
   probesMetricRelabelings?: unknown[];
-  cAdvisorRelabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorCAdvisorRelabelings[];
-  probesRelabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorProbesRelabelings[];
-  resourceRelabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorResourceRelabelings[];
-  metricRelabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorMetricRelabelings[];
-  relabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorRelabelings[];
+  cAdvisorRelabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorCAdvisorRelabelingsElement[];
+  probesRelabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorProbesRelabelingsElement[];
+  resourceRelabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorResourceRelabelingsElement[];
+  metricRelabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorMetricRelabelingsElement[];
+  relabelings?: KubeprometheusstackHelmValuesKubeletServiceMonitorRelabelingsElement[];
   additionalLabels?: KubeprometheusstackHelmValuesKubeletServiceMonitorAdditionalLabels;
   targetLabels?: unknown[];
 };
@@ -1089,6 +1122,48 @@ export type KubeprometheusstackHelmValuesKubeletServiceMonitor = {
 export type KubeprometheusstackHelmValuesKubeletServiceMonitorAttachMetadata = {
   node?: boolean;
 };
+
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorCAdvisorMetricRelabelingsElement =
+  {
+    sourceLabels?: string[];
+    action?: string;
+    regex?: string;
+  };
+
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorCAdvisorRelabelingsElement =
+  {
+    action?: string;
+    sourceLabels?: string[];
+    targetLabel?: string;
+  };
+
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorProbesRelabelingsElement =
+  {
+    action?: string;
+    sourceLabels?: string[];
+    targetLabel?: string;
+  };
+
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorResourceRelabelingsElement =
+  {
+    action?: string;
+    sourceLabels?: string[];
+    targetLabel?: string;
+  };
+
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorMetricRelabelingsElement =
+  {
+    action?: string;
+    sourceLabels?: string[];
+    regex?: string;
+  };
+
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorRelabelingsElement =
+  {
+    action?: string;
+    sourceLabels?: string[];
+    targetLabel?: string;
+  };
 
 export type KubeprometheusstackHelmValuesKubeletServiceMonitorAdditionalLabels =
   object;
@@ -2314,7 +2389,7 @@ export type KubeprometheusstackHelmValuesPrometheusRouteMain = {
   hostnames?: unknown[];
   parentRefs?: unknown[];
   httpsRedirect?: boolean;
-  matches?: KubeprometheusstackHelmValuesPrometheusRouteMainMatches[];
+  matches?: KubeprometheusstackHelmValuesPrometheusRouteMainMatchesElement[];
   filters?: unknown[];
   additionalRules?: unknown[];
 };
@@ -2323,6 +2398,15 @@ export type KubeprometheusstackHelmValuesPrometheusRouteMainAnnotations =
   object;
 
 export type KubeprometheusstackHelmValuesPrometheusRouteMainLabels = object;
+
+export type KubeprometheusstackHelmValuesPrometheusRouteMainMatchesElement = {
+  path?: KubeprometheusstackHelmValuesPrometheusRouteMainMatchesPath;
+};
+
+export type KubeprometheusstackHelmValuesPrometheusRouteMainMatchesPath = {
+  type?: string;
+  value?: string;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusIngressPerReplica = {
   enabled?: boolean;
@@ -2658,7 +2742,7 @@ export type KubeprometheusstackHelmValuesThanosRulerRouteMain = {
   hostnames?: unknown[];
   parentRefs?: unknown[];
   httpsRedirect?: boolean;
-  matches?: KubeprometheusstackHelmValuesThanosRulerRouteMainMatches[];
+  matches?: KubeprometheusstackHelmValuesThanosRulerRouteMainMatchesElement[];
   filters?: unknown[];
   additionalRules?: unknown[];
 };
@@ -2667,6 +2751,15 @@ export type KubeprometheusstackHelmValuesThanosRulerRouteMainAnnotations =
   object;
 
 export type KubeprometheusstackHelmValuesThanosRulerRouteMainLabels = object;
+
+export type KubeprometheusstackHelmValuesThanosRulerRouteMainMatchesElement = {
+  path?: KubeprometheusstackHelmValuesThanosRulerRouteMainMatchesPath;
+};
+
+export type KubeprometheusstackHelmValuesThanosRulerRouteMainMatchesPath = {
+  type?: string;
+  value?: string;
+};
 
 export type KubeprometheusstackHelmValuesThanosRulerService = {
   enabled?: boolean;
@@ -3001,14 +3094,17 @@ export type KubeprometheusstackHelmParameters = {
   "alertmanager.podDisruptionBudget.minAvailable"?: string;
   "alertmanager.podDisruptionBudget.unhealthyPodEvictionPolicy"?: string;
   "alertmanager.config.global.resolve_timeout"?: string;
-  "alertmanager.config.inhibit_rules"?: string;
+  "alertmanager.config.inhibit_rules.source_matchers"?: string;
+  "alertmanager.config.inhibit_rules.target_matchers"?: string;
+  "alertmanager.config.inhibit_rules.equal"?: string;
   "alertmanager.config.route.group_by"?: string;
   "alertmanager.config.route.group_wait"?: string;
   "alertmanager.config.route.group_interval"?: string;
   "alertmanager.config.route.repeat_interval"?: string;
   "alertmanager.config.route.receiver"?: string;
-  "alertmanager.config.route.routes"?: string;
-  "alertmanager.config.receivers"?: string;
+  "alertmanager.config.route.routes.receiver"?: string;
+  "alertmanager.config.route.routes.matchers"?: string;
+  "alertmanager.config.receivers.name"?: string;
   "alertmanager.config.templates"?: string;
   "alertmanager.stringConfig"?: string;
   "alertmanager.tplConfig"?: string;
@@ -3023,7 +3119,8 @@ export type KubeprometheusstackHelmParameters = {
   "alertmanager.route.main.hostnames"?: string;
   "alertmanager.route.main.parentRefs"?: string;
   "alertmanager.route.main.httpsRedirect"?: string;
-  "alertmanager.route.main.matches"?: string;
+  "alertmanager.route.main.matches.path.type"?: string;
+  "alertmanager.route.main.matches.path.value"?: string;
   "alertmanager.route.main.filters"?: string;
   "alertmanager.route.main.additionalRules"?: string;
   "alertmanager.ingressPerReplica.enabled"?: string;
@@ -3187,7 +3284,9 @@ export type KubeprometheusstackHelmParameters = {
   "kubeApiServer.serviceMonitor.jobLabel"?: string;
   "kubeApiServer.serviceMonitor.selector.matchLabels.component"?: string;
   "kubeApiServer.serviceMonitor.selector.matchLabels.provider"?: string;
-  "kubeApiServer.serviceMonitor.metricRelabelings"?: string;
+  "kubeApiServer.serviceMonitor.metricRelabelings.action"?: string;
+  "kubeApiServer.serviceMonitor.metricRelabelings.regex"?: string;
+  "kubeApiServer.serviceMonitor.metricRelabelings.sourceLabels"?: string;
   "kubeApiServer.serviceMonitor.relabelings"?: string;
   "kubeApiServer.serviceMonitor.targetLabels"?: string;
   "kubelet.enabled"?: string;
@@ -3213,13 +3312,25 @@ export type KubeprometheusstackHelmParameters = {
   "kubelet.serviceMonitor.resourceInterval"?: string;
   "kubelet.serviceMonitor.cAdvisor"?: string;
   "kubelet.serviceMonitor.cAdvisorInterval"?: string;
-  "kubelet.serviceMonitor.cAdvisorMetricRelabelings"?: string;
+  "kubelet.serviceMonitor.cAdvisorMetricRelabelings.sourceLabels"?: string;
+  "kubelet.serviceMonitor.cAdvisorMetricRelabelings.action"?: string;
+  "kubelet.serviceMonitor.cAdvisorMetricRelabelings.regex"?: string;
   "kubelet.serviceMonitor.probesMetricRelabelings"?: string;
-  "kubelet.serviceMonitor.cAdvisorRelabelings"?: string;
-  "kubelet.serviceMonitor.probesRelabelings"?: string;
-  "kubelet.serviceMonitor.resourceRelabelings"?: string;
-  "kubelet.serviceMonitor.metricRelabelings"?: string;
-  "kubelet.serviceMonitor.relabelings"?: string;
+  "kubelet.serviceMonitor.cAdvisorRelabelings.action"?: string;
+  "kubelet.serviceMonitor.cAdvisorRelabelings.sourceLabels"?: string;
+  "kubelet.serviceMonitor.cAdvisorRelabelings.targetLabel"?: string;
+  "kubelet.serviceMonitor.probesRelabelings.action"?: string;
+  "kubelet.serviceMonitor.probesRelabelings.sourceLabels"?: string;
+  "kubelet.serviceMonitor.probesRelabelings.targetLabel"?: string;
+  "kubelet.serviceMonitor.resourceRelabelings.action"?: string;
+  "kubelet.serviceMonitor.resourceRelabelings.sourceLabels"?: string;
+  "kubelet.serviceMonitor.resourceRelabelings.targetLabel"?: string;
+  "kubelet.serviceMonitor.metricRelabelings.action"?: string;
+  "kubelet.serviceMonitor.metricRelabelings.sourceLabels"?: string;
+  "kubelet.serviceMonitor.metricRelabelings.regex"?: string;
+  "kubelet.serviceMonitor.relabelings.action"?: string;
+  "kubelet.serviceMonitor.relabelings.sourceLabels"?: string;
+  "kubelet.serviceMonitor.relabelings.targetLabel"?: string;
   "kubelet.serviceMonitor.targetLabels"?: string;
   "kubeControllerManager.enabled"?: string;
   "kubeControllerManager.endpoints"?: string;
@@ -3672,7 +3783,8 @@ export type KubeprometheusstackHelmParameters = {
   "prometheus.route.main.hostnames"?: string;
   "prometheus.route.main.parentRefs"?: string;
   "prometheus.route.main.httpsRedirect"?: string;
-  "prometheus.route.main.matches"?: string;
+  "prometheus.route.main.matches.path.type"?: string;
+  "prometheus.route.main.matches.path.value"?: string;
   "prometheus.route.main.filters"?: string;
   "prometheus.route.main.additionalRules"?: string;
   "prometheus.ingressPerReplica.enabled"?: string;
@@ -3807,7 +3919,8 @@ export type KubeprometheusstackHelmParameters = {
   "thanosRuler.route.main.hostnames"?: string;
   "thanosRuler.route.main.parentRefs"?: string;
   "thanosRuler.route.main.httpsRedirect"?: string;
-  "thanosRuler.route.main.matches"?: string;
+  "thanosRuler.route.main.matches.path.type"?: string;
+  "thanosRuler.route.main.matches.path.value"?: string;
   "thanosRuler.route.main.filters"?: string;
   "thanosRuler.route.main.additionalRules"?: string;
   "thanosRuler.service.enabled"?: string;

@@ -25,6 +25,7 @@ export class TailscaleIngress extends Construct {
 
     let base: IngressProps = {
       // unsafe cast, but we know that Ingress only needs the name and port
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       defaultBackend: IngressBackend.fromService(props.service as Service),
       tls: [
         {

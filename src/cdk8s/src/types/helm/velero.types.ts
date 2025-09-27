@@ -162,8 +162,8 @@ export type VeleroHelmValuesKubectlAnnotations = object;
 export type VeleroHelmValuesKubectlLabels = object;
 
 export type VeleroHelmValuesConfiguration = {
-  backupStorageLocation?: VeleroHelmValuesConfigurationBackupStorageLocation[];
-  volumeSnapshotLocation?: VeleroHelmValuesConfigurationVolumeSnapshotLocation[];
+  backupStorageLocation?: VeleroHelmValuesConfigurationBackupStorageLocationElement[];
+  volumeSnapshotLocation?: VeleroHelmValuesConfigurationVolumeSnapshotLocationElement[];
   uploaderType?: unknown;
   backupSyncPeriod?: unknown;
   fsBackupTimeout?: unknown;
@@ -197,6 +197,48 @@ export type VeleroHelmValuesConfiguration = {
   defaultVolumesToFsBackup?: unknown;
   defaultRepoMaintainFrequency?: unknown;
 };
+
+export type VeleroHelmValuesConfigurationBackupStorageLocationElement = {
+  name?: unknown;
+  provider?: string;
+  bucket?: string;
+  caCert?: unknown;
+  prefix?: unknown;
+  default?: boolean;
+  validationFrequency?: unknown;
+  accessMode?: string;
+  credential?: VeleroHelmValuesConfigurationBackupStorageLocationCredential;
+  config?: VeleroHelmValuesConfigurationBackupStorageLocationConfig;
+  annotations?: VeleroHelmValuesConfigurationBackupStorageLocationAnnotations;
+};
+
+export type VeleroHelmValuesConfigurationBackupStorageLocationCredential = {
+  name?: unknown;
+  key?: unknown;
+};
+
+export type VeleroHelmValuesConfigurationBackupStorageLocationConfig = object;
+
+export type VeleroHelmValuesConfigurationBackupStorageLocationAnnotations =
+  object;
+
+export type VeleroHelmValuesConfigurationVolumeSnapshotLocationElement = {
+  name?: unknown;
+  provider?: string;
+  credential?: VeleroHelmValuesConfigurationVolumeSnapshotLocationCredential;
+  config?: VeleroHelmValuesConfigurationVolumeSnapshotLocationConfig;
+  annotations?: VeleroHelmValuesConfigurationVolumeSnapshotLocationAnnotations;
+};
+
+export type VeleroHelmValuesConfigurationVolumeSnapshotLocationCredential = {
+  name?: unknown;
+  key?: unknown;
+};
+
+export type VeleroHelmValuesConfigurationVolumeSnapshotLocationConfig = object;
+
+export type VeleroHelmValuesConfigurationVolumeSnapshotLocationAnnotations =
+  object;
 
 export type VeleroHelmValuesConfigurationRepositoryMaintenanceJob = {
   requests?: unknown;
@@ -412,8 +454,20 @@ export type VeleroHelmParameters = {
   "kubectl.extraVolumeMounts"?: string;
   upgradeCRDs?: string;
   cleanUpCRDs?: string;
-  "configuration.backupStorageLocation"?: string;
-  "configuration.volumeSnapshotLocation"?: string;
+  "configuration.backupStorageLocation.name"?: string;
+  "configuration.backupStorageLocation.provider"?: string;
+  "configuration.backupStorageLocation.bucket"?: string;
+  "configuration.backupStorageLocation.caCert"?: string;
+  "configuration.backupStorageLocation.prefix"?: string;
+  "configuration.backupStorageLocation.default"?: string;
+  "configuration.backupStorageLocation.validationFrequency"?: string;
+  "configuration.backupStorageLocation.accessMode"?: string;
+  "configuration.backupStorageLocation.credential.name"?: string;
+  "configuration.backupStorageLocation.credential.key"?: string;
+  "configuration.volumeSnapshotLocation.name"?: string;
+  "configuration.volumeSnapshotLocation.provider"?: string;
+  "configuration.volumeSnapshotLocation.credential.name"?: string;
+  "configuration.volumeSnapshotLocation.credential.key"?: string;
   "configuration.uploaderType"?: string;
   "configuration.backupSyncPeriod"?: string;
   "configuration.fsBackupTimeout"?: string;

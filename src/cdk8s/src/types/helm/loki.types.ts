@@ -258,7 +258,20 @@ export type LokiHelmValuesLokiStorageObjectstoreAzure = {
 export type LokiHelmValuesLokiSchemaConfig = object;
 
 export type LokiHelmValuesLokiTestSchemaConfig = {
-  configs?: LokiHelmValuesLokiTestSchemaConfigConfigs[];
+  configs?: LokiHelmValuesLokiTestSchemaConfigConfigsElement[];
+};
+
+export type LokiHelmValuesLokiTestSchemaConfigConfigsElement = {
+  from?: unknown;
+  store?: string;
+  object_store?: string;
+  schema?: string;
+  index?: LokiHelmValuesLokiTestSchemaConfigConfigsIndex;
+};
+
+export type LokiHelmValuesLokiTestSchemaConfigConfigsIndex = {
+  prefix?: string;
+  period?: string;
 };
 
 export type LokiHelmValuesLokiRulerConfig = {
@@ -808,8 +821,24 @@ export type LokiHelmValuesGatewayAffinity = {
 };
 
 export type LokiHelmValuesGatewayAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesGatewayDnsConfig = object;
 
@@ -834,13 +863,27 @@ export type LokiHelmValuesGatewayIngress = {
   ingressClassName?: string;
   annotations?: LokiHelmValuesGatewayIngressAnnotations;
   labels?: LokiHelmValuesGatewayIngressLabels;
-  hosts?: LokiHelmValuesGatewayIngressHosts[];
-  tls?: LokiHelmValuesGatewayIngressTls[];
+  hosts?: LokiHelmValuesGatewayIngressHostsElement[];
+  tls?: LokiHelmValuesGatewayIngressTlsElement[];
 };
 
 export type LokiHelmValuesGatewayIngressAnnotations = object;
 
 export type LokiHelmValuesGatewayIngressLabels = object;
+
+export type LokiHelmValuesGatewayIngressHostsElement = {
+  host?: string;
+  paths?: LokiHelmValuesGatewayIngressHostsPathsElement[];
+};
+
+export type LokiHelmValuesGatewayIngressHostsPathsElement = {
+  path?: string;
+};
+
+export type LokiHelmValuesGatewayIngressTlsElement = {
+  secretName?: string;
+  hosts?: string[];
+};
 
 export type LokiHelmValuesGatewayBasicAuth = {
   enabled?: boolean;
@@ -1052,8 +1095,24 @@ export type LokiHelmValuesSingleBinaryAffinity = {
 };
 
 export type LokiHelmValuesSingleBinaryAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesSingleBinaryDnsConfig = object;
 
@@ -1119,12 +1178,24 @@ export type LokiHelmValuesWriteAutoscalingBehavior = {
 };
 
 export type LokiHelmValuesWriteAutoscalingBehaviorScaleUp = {
-  policies?: LokiHelmValuesWriteAutoscalingBehaviorScaleUpPolicies[];
+  policies?: LokiHelmValuesWriteAutoscalingBehaviorScaleUpPoliciesElement[];
+};
+
+export type LokiHelmValuesWriteAutoscalingBehaviorScaleUpPoliciesElement = {
+  type?: string;
+  value?: number;
+  periodSeconds?: number;
 };
 
 export type LokiHelmValuesWriteAutoscalingBehaviorScaleDown = {
-  policies?: LokiHelmValuesWriteAutoscalingBehaviorScaleDownPolicies[];
+  policies?: LokiHelmValuesWriteAutoscalingBehaviorScaleDownPoliciesElement[];
   stabilizationWindowSeconds?: number;
+};
+
+export type LokiHelmValuesWriteAutoscalingBehaviorScaleDownPoliciesElement = {
+  type?: string;
+  value?: number;
+  periodSeconds?: number;
 };
 
 export type LokiHelmValuesWriteImage = {
@@ -1159,8 +1230,24 @@ export type LokiHelmValuesWriteAffinity = {
 };
 
 export type LokiHelmValuesWriteAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesWriteDnsConfig = object;
 
@@ -1263,8 +1350,24 @@ export type LokiHelmValuesReadAffinity = {
 };
 
 export type LokiHelmValuesReadAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesReadDnsConfig = object;
 
@@ -1353,8 +1456,24 @@ export type LokiHelmValuesBackendAffinity = {
 };
 
 export type LokiHelmValuesBackendAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesBackendDnsConfig = object;
 
@@ -1404,7 +1523,7 @@ export type LokiHelmValuesIngester = {
   initContainers?: unknown[];
   terminationGracePeriodSeconds?: number;
   lifecycle?: LokiHelmValuesIngesterLifecycle;
-  topologySpreadConstraints?: LokiHelmValuesIngesterTopologySpreadConstraints[];
+  topologySpreadConstraints?: LokiHelmValuesIngesterTopologySpreadConstraintsElement[];
   affinity?: LokiHelmValuesIngesterAffinity;
   maxUnavailable?: number;
   nodeSelector?: LokiHelmValuesIngesterNodeSelector;
@@ -1459,13 +1578,45 @@ export type LokiHelmValuesIngesterResources = object;
 
 export type LokiHelmValuesIngesterLifecycle = object;
 
+export type LokiHelmValuesIngesterTopologySpreadConstraintsElement = {
+  maxSkew?: number;
+  topologyKey?: string;
+  whenUnsatisfiable?: string;
+  labelSelector?: LokiHelmValuesIngesterTopologySpreadConstraintsLabelSelector;
+};
+
+export type LokiHelmValuesIngesterTopologySpreadConstraintsLabelSelector = {
+  matchLabels?: LokiHelmValuesIngesterTopologySpreadConstraintsLabelSelectorMatchLabels;
+};
+
+export type LokiHelmValuesIngesterTopologySpreadConstraintsLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
+
 export type LokiHelmValuesIngesterAffinity = {
   podAntiAffinity?: LokiHelmValuesIngesterAffinityPodAntiAffinity;
 };
 
 export type LokiHelmValuesIngesterAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesIngesterNodeSelector = object;
 
@@ -1480,10 +1631,16 @@ export type LokiHelmValuesIngesterUpdateStrategy = {
 export type LokiHelmValuesIngesterPersistence = {
   enabled?: boolean;
   inMemory?: boolean;
-  claims?: LokiHelmValuesIngesterPersistenceClaims[];
+  claims?: LokiHelmValuesIngesterPersistenceClaimsElement[];
   enableStatefulSetAutoDeletePVC?: boolean;
   whenDeleted?: string;
   whenScaled?: string;
+};
+
+export type LokiHelmValuesIngesterPersistenceClaimsElement = {
+  name?: string;
+  size?: string;
+  storageClass?: unknown;
 };
 
 export type LokiHelmValuesIngesterAppProtocol = {
@@ -1621,8 +1778,24 @@ export type LokiHelmValuesDistributorAffinity = {
 };
 
 export type LokiHelmValuesDistributorAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesDistributorNodeSelector = object;
 
@@ -1650,7 +1823,7 @@ export type LokiHelmValuesQuerier = {
   extraContainers?: unknown[];
   initContainers?: unknown[];
   terminationGracePeriodSeconds?: number;
-  topologySpreadConstraints?: LokiHelmValuesQuerierTopologySpreadConstraints[];
+  topologySpreadConstraints?: LokiHelmValuesQuerierTopologySpreadConstraintsElement[];
   affinity?: LokiHelmValuesQuerierAffinity;
   maxUnavailable?: unknown;
   maxSurge?: number;
@@ -1696,13 +1869,45 @@ export type LokiHelmValuesQuerierServiceAnnotations = object;
 
 export type LokiHelmValuesQuerierResources = object;
 
+export type LokiHelmValuesQuerierTopologySpreadConstraintsElement = {
+  maxSkew?: number;
+  topologyKey?: string;
+  whenUnsatisfiable?: string;
+  labelSelector?: LokiHelmValuesQuerierTopologySpreadConstraintsLabelSelector;
+};
+
+export type LokiHelmValuesQuerierTopologySpreadConstraintsLabelSelector = {
+  matchLabels?: LokiHelmValuesQuerierTopologySpreadConstraintsLabelSelectorMatchLabels;
+};
+
+export type LokiHelmValuesQuerierTopologySpreadConstraintsLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
+
 export type LokiHelmValuesQuerierAffinity = {
   podAntiAffinity?: LokiHelmValuesQuerierAffinityPodAntiAffinity;
 };
 
 export type LokiHelmValuesQuerierAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesQuerierNodeSelector = object;
 
@@ -1780,8 +1985,24 @@ export type LokiHelmValuesQueryFrontendAffinity = {
 };
 
 export type LokiHelmValuesQueryFrontendAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesQueryFrontendNodeSelector = object;
 
@@ -1835,8 +2056,24 @@ export type LokiHelmValuesQuerySchedulerAffinity = {
 };
 
 export type LokiHelmValuesQuerySchedulerAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesQuerySchedulerNodeSelector = object;
 
@@ -1894,8 +2131,24 @@ export type LokiHelmValuesIndexGatewayAffinity = {
 };
 
 export type LokiHelmValuesIndexGatewayAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesIndexGatewayNodeSelector = object;
 
@@ -1967,8 +2220,24 @@ export type LokiHelmValuesCompactorAffinity = {
 };
 
 export type LokiHelmValuesCompactorAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesCompactorServiceLabels = object;
 
@@ -1990,11 +2259,23 @@ export type LokiHelmValuesCompactorPersistence = {
   enabled?: boolean;
   size?: string;
   storageClass?: unknown;
-  claims?: LokiHelmValuesCompactorPersistenceClaims[];
+  claims?: LokiHelmValuesCompactorPersistenceClaimsElement[];
   enableStatefulSetAutoDeletePVC?: boolean;
   whenDeleted?: string;
   whenScaled?: string;
 };
+
+export type LokiHelmValuesCompactorPersistenceClaimsElement = {
+  name?: string;
+  size?: string;
+  storageClass?: unknown;
+  annotations?: LokiHelmValuesCompactorPersistenceClaimsAnnotations;
+  labels?: LokiHelmValuesCompactorPersistenceClaimsLabels;
+};
+
+export type LokiHelmValuesCompactorPersistenceClaimsAnnotations = object;
+
+export type LokiHelmValuesCompactorPersistenceClaimsLabels = object;
 
 export type LokiHelmValuesCompactorServiceAccount = {
   create?: boolean;
@@ -2051,8 +2332,24 @@ export type LokiHelmValuesBloomGatewayAffinity = {
 };
 
 export type LokiHelmValuesBloomGatewayAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesBloomGatewayServiceLabels = object;
 
@@ -2076,7 +2373,7 @@ export type LokiHelmValuesBloomGatewayPersistence = {
   enabled?: boolean;
   annotations?: LokiHelmValuesBloomGatewayPersistenceAnnotations;
   labels?: LokiHelmValuesBloomGatewayPersistenceLabels;
-  claims?: LokiHelmValuesBloomGatewayPersistenceClaims[];
+  claims?: LokiHelmValuesBloomGatewayPersistenceClaimsElement[];
   enableStatefulSetAutoDeletePVC?: boolean;
   whenDeleted?: string;
   whenScaled?: string;
@@ -2085,6 +2382,12 @@ export type LokiHelmValuesBloomGatewayPersistence = {
 export type LokiHelmValuesBloomGatewayPersistenceAnnotations = object;
 
 export type LokiHelmValuesBloomGatewayPersistenceLabels = object;
+
+export type LokiHelmValuesBloomGatewayPersistenceClaimsElement = {
+  name?: string;
+  size?: string;
+  storageClass?: unknown;
+};
 
 export type LokiHelmValuesBloomGatewayServiceAccount = {
   create?: boolean;
@@ -2141,8 +2444,24 @@ export type LokiHelmValuesBloomPlannerAffinity = {
 };
 
 export type LokiHelmValuesBloomPlannerAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesBloomPlannerServiceLabels = object;
 
@@ -2164,11 +2483,23 @@ export type LokiHelmValuesBloomPlannerAppProtocol = {
 
 export type LokiHelmValuesBloomPlannerPersistence = {
   enabled?: boolean;
-  claims?: LokiHelmValuesBloomPlannerPersistenceClaims[];
+  claims?: LokiHelmValuesBloomPlannerPersistenceClaimsElement[];
   enableStatefulSetAutoDeletePVC?: boolean;
   whenDeleted?: string;
   whenScaled?: string;
 };
+
+export type LokiHelmValuesBloomPlannerPersistenceClaimsElement = {
+  name?: string;
+  size?: string;
+  storageClass?: unknown;
+  annotations?: LokiHelmValuesBloomPlannerPersistenceClaimsAnnotations;
+  labels?: LokiHelmValuesBloomPlannerPersistenceClaimsLabels;
+};
+
+export type LokiHelmValuesBloomPlannerPersistenceClaimsAnnotations = object;
+
+export type LokiHelmValuesBloomPlannerPersistenceClaimsLabels = object;
 
 export type LokiHelmValuesBloomPlannerServiceAccount = {
   create?: boolean;
@@ -2247,8 +2578,24 @@ export type LokiHelmValuesBloomBuilderAffinity = {
 };
 
 export type LokiHelmValuesBloomBuilderAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesBloomBuilderNodeSelector = object;
 
@@ -2302,8 +2649,24 @@ export type LokiHelmValuesPatternIngesterAffinity = {
 };
 
 export type LokiHelmValuesPatternIngesterAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesPatternIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesPatternIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesPatternIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesPatternIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesPatternIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesPatternIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesPatternIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesPatternIngesterServiceLabels = object;
 
@@ -2325,11 +2688,23 @@ export type LokiHelmValuesPatternIngesterPersistence = {
   enabled?: boolean;
   size?: string;
   storageClass?: unknown;
-  claims?: LokiHelmValuesPatternIngesterPersistenceClaims[];
+  claims?: LokiHelmValuesPatternIngesterPersistenceClaimsElement[];
   enableStatefulSetAutoDeletePVC?: boolean;
   whenDeleted?: string;
   whenScaled?: string;
 };
+
+export type LokiHelmValuesPatternIngesterPersistenceClaimsElement = {
+  name?: string;
+  size?: string;
+  storageClass?: unknown;
+  annotations?: LokiHelmValuesPatternIngesterPersistenceClaimsAnnotations;
+  labels?: LokiHelmValuesPatternIngesterPersistenceClaimsLabels;
+};
+
+export type LokiHelmValuesPatternIngesterPersistenceClaimsAnnotations = object;
+
+export type LokiHelmValuesPatternIngesterPersistenceClaimsLabels = object;
 
 export type LokiHelmValuesPatternIngesterServiceAccount = {
   create?: boolean;
@@ -2394,8 +2769,24 @@ export type LokiHelmValuesRulerAffinity = {
 };
 
 export type LokiHelmValuesRulerAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesRulerNodeSelector = object;
 
@@ -2468,8 +2859,24 @@ export type LokiHelmValuesOverridesExporterAffinity = {
 };
 
 export type LokiHelmValuesOverridesExporterAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesOverridesExporterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesOverridesExporterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesOverridesExporterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesOverridesExporterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesOverridesExporterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesOverridesExporterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesOverridesExporterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesOverridesExporterNodeSelector = object;
 
@@ -2853,11 +3260,23 @@ export type LokiHelmValuesMinio = {
   drivesPerNode?: number;
   rootUser?: string;
   rootPassword?: string;
-  users?: LokiHelmValuesMinioUsers[];
-  buckets?: LokiHelmValuesMinioBuckets[];
+  users?: LokiHelmValuesMinioUsersElement[];
+  buckets?: LokiHelmValuesMinioBucketsElement[];
   persistence?: LokiHelmValuesMinioPersistence;
   resources?: LokiHelmValuesMinioResources;
   address?: unknown;
+};
+
+export type LokiHelmValuesMinioUsersElement = {
+  accessKey?: string;
+  secretKey?: string;
+  policy?: string;
+};
+
+export type LokiHelmValuesMinioBucketsElement = {
+  name?: string;
+  policy?: string;
+  purge?: boolean;
 };
 
 export type LokiHelmValuesMinioPersistence = {
@@ -3108,8 +3527,24 @@ export type LokiHelmValuesTableManagerAffinity = {
 };
 
 export type LokiHelmValuesTableManagerAffinityPodAntiAffinity = {
-  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution[];
+  requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
+
+export type LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
+  {
+    labelSelector?: LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+    topologyKey?: string;
+  };
+
+export type LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
+  {
+    matchLabels?: LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+  };
+
+export type LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
+  {
+    "app.kubernetes.io/component"?: string;
+  };
 
 export type LokiHelmValuesTableManagerDnsConfig = object;
 
@@ -3275,7 +3710,12 @@ export type LokiHelmParameters = {
   "loki.storage.object_store.azure.account_name"?: string;
   "loki.storage.object_store.azure.account_key"?: string;
   "loki.useTestSchema"?: string;
-  "loki.testSchemaConfig.configs"?: string;
+  "loki.testSchemaConfig.configs.from"?: string;
+  "loki.testSchemaConfig.configs.store"?: string;
+  "loki.testSchemaConfig.configs.object_store"?: string;
+  "loki.testSchemaConfig.configs.schema"?: string;
+  "loki.testSchemaConfig.configs.index.prefix"?: string;
+  "loki.testSchemaConfig.configs.index.period"?: string;
   "loki.rulerConfig.wal.dir"?: string;
   "loki.storage_config.boltdb_shipper.index_gateway_client.server_address"?: string;
   "loki.storage_config.tsdb_shipper.index_gateway_client.server_address"?: string;
@@ -3429,7 +3869,8 @@ export type LokiHelmParameters = {
   "gateway.containerSecurityContext.allowPrivilegeEscalation"?: string;
   "gateway.extraContainers"?: string;
   "gateway.terminationGracePeriodSeconds"?: string;
-  "gateway.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "gateway.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "gateway.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "gateway.topologySpreadConstraints"?: string;
   "gateway.tolerations"?: string;
   "gateway.service.port"?: string;
@@ -3439,8 +3880,10 @@ export type LokiHelmParameters = {
   "gateway.service.loadBalancerIP"?: string;
   "gateway.ingress.enabled"?: string;
   "gateway.ingress.ingressClassName"?: string;
-  "gateway.ingress.hosts"?: string;
-  "gateway.ingress.tls"?: string;
+  "gateway.ingress.hosts.host"?: string;
+  "gateway.ingress.hosts.paths.path"?: string;
+  "gateway.ingress.tls.secretName"?: string;
+  "gateway.ingress.tls.hosts"?: string;
   "gateway.basicAuth.enabled"?: string;
   "gateway.basicAuth.username"?: string;
   "gateway.basicAuth.password"?: string;
@@ -3516,7 +3959,8 @@ export type LokiHelmParameters = {
   "singleBinary.extraVolumeMounts"?: string;
   "singleBinary.extraVolumes"?: string;
   "singleBinary.terminationGracePeriodSeconds"?: string;
-  "singleBinary.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "singleBinary.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "singleBinary.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "singleBinary.tolerations"?: string;
   "singleBinary.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "singleBinary.persistence.enabled"?: string;
@@ -3529,8 +3973,12 @@ export type LokiHelmParameters = {
   "write.autoscaling.maxReplicas"?: string;
   "write.autoscaling.targetCPUUtilizationPercentage"?: string;
   "write.autoscaling.targetMemoryUtilizationPercentage"?: string;
-  "write.autoscaling.behavior.scaleUp.policies"?: string;
-  "write.autoscaling.behavior.scaleDown.policies"?: string;
+  "write.autoscaling.behavior.scaleUp.policies.type"?: string;
+  "write.autoscaling.behavior.scaleUp.policies.value"?: string;
+  "write.autoscaling.behavior.scaleUp.policies.periodSeconds"?: string;
+  "write.autoscaling.behavior.scaleDown.policies.type"?: string;
+  "write.autoscaling.behavior.scaleDown.policies.value"?: string;
+  "write.autoscaling.behavior.scaleDown.policies.periodSeconds"?: string;
   "write.autoscaling.behavior.scaleDown.stabilizationWindowSeconds"?: string;
   "write.image.registry"?: string;
   "write.image.repository"?: string;
@@ -3546,7 +3994,8 @@ export type LokiHelmParameters = {
   "write.extraVolumes"?: string;
   "write.extraVolumeClaimTemplates"?: string;
   "write.terminationGracePeriodSeconds"?: string;
-  "write.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "write.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "write.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "write.topologySpreadConstraints"?: string;
   "write.tolerations"?: string;
   "write.podManagementPolicy"?: string;
@@ -3574,7 +4023,8 @@ export type LokiHelmParameters = {
   "read.extraVolumeMounts"?: string;
   "read.extraVolumes"?: string;
   "read.terminationGracePeriodSeconds"?: string;
-  "read.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "read.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "read.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "read.topologySpreadConstraints"?: string;
   "read.tolerations"?: string;
   "read.podManagementPolicy"?: string;
@@ -3601,7 +4051,8 @@ export type LokiHelmParameters = {
   "backend.extraVolumeMounts"?: string;
   "backend.extraVolumes"?: string;
   "backend.terminationGracePeriodSeconds"?: string;
-  "backend.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "backend.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "backend.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "backend.topologySpreadConstraints"?: string;
   "backend.tolerations"?: string;
   "backend.podManagementPolicy"?: string;
@@ -3632,14 +4083,20 @@ export type LokiHelmParameters = {
   "ingester.extraContainers"?: string;
   "ingester.initContainers"?: string;
   "ingester.terminationGracePeriodSeconds"?: string;
-  "ingester.topologySpreadConstraints"?: string;
-  "ingester.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "ingester.topologySpreadConstraints.maxSkew"?: string;
+  "ingester.topologySpreadConstraints.topologyKey"?: string;
+  "ingester.topologySpreadConstraints.whenUnsatisfiable"?: string;
+  "ingester.topologySpreadConstraints.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "ingester.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "ingester.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "ingester.maxUnavailable"?: string;
   "ingester.tolerations"?: string;
   "ingester.updateStrategy.type"?: string;
   "ingester.persistence.enabled"?: string;
   "ingester.persistence.inMemory"?: string;
-  "ingester.persistence.claims"?: string;
+  "ingester.persistence.claims.name"?: string;
+  "ingester.persistence.claims.size"?: string;
+  "ingester.persistence.claims.storageClass"?: string;
   "ingester.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "ingester.persistence.whenDeleted"?: string;
   "ingester.persistence.whenScaled"?: string;
@@ -3676,7 +4133,8 @@ export type LokiHelmParameters = {
   "distributor.extraVolumes"?: string;
   "distributor.extraContainers"?: string;
   "distributor.terminationGracePeriodSeconds"?: string;
-  "distributor.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "distributor.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "distributor.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "distributor.maxUnavailable"?: string;
   "distributor.maxSurge"?: string;
   "distributor.topologySpreadConstraints"?: string;
@@ -3705,8 +4163,12 @@ export type LokiHelmParameters = {
   "querier.extraContainers"?: string;
   "querier.initContainers"?: string;
   "querier.terminationGracePeriodSeconds"?: string;
-  "querier.topologySpreadConstraints"?: string;
-  "querier.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "querier.topologySpreadConstraints.maxSkew"?: string;
+  "querier.topologySpreadConstraints.topologyKey"?: string;
+  "querier.topologySpreadConstraints.whenUnsatisfiable"?: string;
+  "querier.topologySpreadConstraints.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "querier.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "querier.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "querier.maxUnavailable"?: string;
   "querier.maxSurge"?: string;
   "querier.tolerations"?: string;
@@ -3732,7 +4194,8 @@ export type LokiHelmParameters = {
   "queryFrontend.extraVolumes"?: string;
   "queryFrontend.extraContainers"?: string;
   "queryFrontend.terminationGracePeriodSeconds"?: string;
-  "queryFrontend.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "queryFrontend.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "queryFrontend.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "queryFrontend.maxUnavailable"?: string;
   "queryFrontend.topologySpreadConstraints"?: string;
   "queryFrontend.tolerations"?: string;
@@ -3750,7 +4213,8 @@ export type LokiHelmParameters = {
   "queryScheduler.extraVolumes"?: string;
   "queryScheduler.extraContainers"?: string;
   "queryScheduler.terminationGracePeriodSeconds"?: string;
-  "queryScheduler.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "queryScheduler.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "queryScheduler.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "queryScheduler.maxUnavailable"?: string;
   "queryScheduler.topologySpreadConstraints"?: string;
   "queryScheduler.tolerations"?: string;
@@ -3770,7 +4234,8 @@ export type LokiHelmParameters = {
   "indexGateway.extraContainers"?: string;
   "indexGateway.initContainers"?: string;
   "indexGateway.terminationGracePeriodSeconds"?: string;
-  "indexGateway.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "indexGateway.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "indexGateway.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "indexGateway.maxUnavailable"?: string;
   "indexGateway.topologySpreadConstraints"?: string;
   "indexGateway.tolerations"?: string;
@@ -3790,7 +4255,8 @@ export type LokiHelmParameters = {
   "compactor.image.tag"?: string;
   "compactor.command"?: string;
   "compactor.priorityClassName"?: string;
-  "compactor.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "compactor.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "compactor.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "compactor.extraArgs"?: string;
   "compactor.extraEnv"?: string;
   "compactor.extraEnvFrom"?: string;
@@ -3804,7 +4270,9 @@ export type LokiHelmParameters = {
   "compactor.persistence.enabled"?: string;
   "compactor.persistence.size"?: string;
   "compactor.persistence.storageClass"?: string;
-  "compactor.persistence.claims"?: string;
+  "compactor.persistence.claims.name"?: string;
+  "compactor.persistence.claims.size"?: string;
+  "compactor.persistence.claims.storageClass"?: string;
   "compactor.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "compactor.persistence.whenDeleted"?: string;
   "compactor.persistence.whenScaled"?: string;
@@ -3819,7 +4287,8 @@ export type LokiHelmParameters = {
   "bloomGateway.image.tag"?: string;
   "bloomGateway.command"?: string;
   "bloomGateway.priorityClassName"?: string;
-  "bloomGateway.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "bloomGateway.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "bloomGateway.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "bloomGateway.extraArgs"?: string;
   "bloomGateway.extraEnv"?: string;
   "bloomGateway.extraEnvFrom"?: string;
@@ -3831,7 +4300,9 @@ export type LokiHelmParameters = {
   "bloomGateway.tolerations"?: string;
   "bloomGateway.appProtocol.grpc"?: string;
   "bloomGateway.persistence.enabled"?: string;
-  "bloomGateway.persistence.claims"?: string;
+  "bloomGateway.persistence.claims.name"?: string;
+  "bloomGateway.persistence.claims.size"?: string;
+  "bloomGateway.persistence.claims.storageClass"?: string;
   "bloomGateway.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "bloomGateway.persistence.whenDeleted"?: string;
   "bloomGateway.persistence.whenScaled"?: string;
@@ -3846,7 +4317,8 @@ export type LokiHelmParameters = {
   "bloomPlanner.image.tag"?: string;
   "bloomPlanner.command"?: string;
   "bloomPlanner.priorityClassName"?: string;
-  "bloomPlanner.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "bloomPlanner.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "bloomPlanner.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "bloomPlanner.extraArgs"?: string;
   "bloomPlanner.extraEnv"?: string;
   "bloomPlanner.extraEnvFrom"?: string;
@@ -3858,7 +4330,9 @@ export type LokiHelmParameters = {
   "bloomPlanner.tolerations"?: string;
   "bloomPlanner.appProtocol.grpc"?: string;
   "bloomPlanner.persistence.enabled"?: string;
-  "bloomPlanner.persistence.claims"?: string;
+  "bloomPlanner.persistence.claims.name"?: string;
+  "bloomPlanner.persistence.claims.size"?: string;
+  "bloomPlanner.persistence.claims.storageClass"?: string;
   "bloomPlanner.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "bloomPlanner.persistence.whenDeleted"?: string;
   "bloomPlanner.persistence.whenScaled"?: string;
@@ -3887,7 +4361,8 @@ export type LokiHelmParameters = {
   "bloomBuilder.extraVolumes"?: string;
   "bloomBuilder.extraContainers"?: string;
   "bloomBuilder.terminationGracePeriodSeconds"?: string;
-  "bloomBuilder.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "bloomBuilder.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "bloomBuilder.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "bloomBuilder.maxUnavailable"?: string;
   "bloomBuilder.tolerations"?: string;
   "bloomBuilder.appProtocol.grpc"?: string;
@@ -3898,7 +4373,8 @@ export type LokiHelmParameters = {
   "patternIngester.image.tag"?: string;
   "patternIngester.command"?: string;
   "patternIngester.priorityClassName"?: string;
-  "patternIngester.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "patternIngester.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "patternIngester.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "patternIngester.maxUnavailable"?: string;
   "patternIngester.extraArgs"?: string;
   "patternIngester.extraEnv"?: string;
@@ -3914,7 +4390,9 @@ export type LokiHelmParameters = {
   "patternIngester.persistence.enabled"?: string;
   "patternIngester.persistence.size"?: string;
   "patternIngester.persistence.storageClass"?: string;
-  "patternIngester.persistence.claims"?: string;
+  "patternIngester.persistence.claims.name"?: string;
+  "patternIngester.persistence.claims.size"?: string;
+  "patternIngester.persistence.claims.storageClass"?: string;
   "patternIngester.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "patternIngester.persistence.whenDeleted"?: string;
   "patternIngester.persistence.whenScaled"?: string;
@@ -3939,7 +4417,8 @@ export type LokiHelmParameters = {
   "ruler.extraContainers"?: string;
   "ruler.initContainers"?: string;
   "ruler.terminationGracePeriodSeconds"?: string;
-  "ruler.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "ruler.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "ruler.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "ruler.maxUnavailable"?: string;
   "ruler.topologySpreadConstraints"?: string;
   "ruler.tolerations"?: string;
@@ -3963,7 +4442,8 @@ export type LokiHelmParameters = {
   "overridesExporter.extraContainers"?: string;
   "overridesExporter.initContainers"?: string;
   "overridesExporter.terminationGracePeriodSeconds"?: string;
-  "overridesExporter.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "overridesExporter.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "overridesExporter.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "overridesExporter.maxUnavailable"?: string;
   "overridesExporter.topologySpreadConstraints"?: string;
   "overridesExporter.tolerations"?: string;
@@ -4117,8 +4597,12 @@ export type LokiHelmParameters = {
   "minio.drivesPerNode"?: string;
   "minio.rootUser"?: string;
   "minio.rootPassword"?: string;
-  "minio.users"?: string;
-  "minio.buckets"?: string;
+  "minio.users.accessKey"?: string;
+  "minio.users.secretKey"?: string;
+  "minio.users.policy"?: string;
+  "minio.buckets.name"?: string;
+  "minio.buckets.policy"?: string;
+  "minio.buckets.purge"?: string;
   "minio.persistence.size"?: string;
   "minio.resources.requests.cpu"?: string;
   "minio.resources.requests.memory"?: string;
@@ -4186,7 +4670,8 @@ export type LokiHelmParameters = {
   "tableManager.extraVolumes"?: string;
   "tableManager.extraContainers"?: string;
   "tableManager.terminationGracePeriodSeconds"?: string;
-  "tableManager.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution"?: string;
+  "tableManager.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/component"?: string;
+  "tableManager.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
   "tableManager.tolerations"?: string;
   "tableManager.retention_deletes_enabled"?: string;
   "tableManager.retention_period"?: string;
