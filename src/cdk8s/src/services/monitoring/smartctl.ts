@@ -133,13 +133,14 @@ echo "smartmon_scrape_timestamp_seconds $(date +%s)"
       # Create textfile collector directory
       mkdir -p /host/var/lib/node_exporter/textfile_collector
 
-      # Make script executable
-      chmod +x /scripts/smartmon.sh
+      # Copy script to writable location and make executable
+      cp /scripts/smartmon.sh /tmp/smartmon.sh
+      chmod +x /tmp/smartmon.sh
 
       # Run the script every 5 minutes
       while true; do
         echo "Collecting SMART metrics..."
-        /scripts/smartmon.sh > /host/var/lib/node_exporter/textfile_collector/smartmon.prom.tmp
+        /tmp/smartmon.sh > /host/var/lib/node_exporter/textfile_collector/smartmon.prom.tmp 2>/dev/null || echo "# SMART collection failed" > /host/var/lib/node_exporter/textfile_collector/smartmon.prom.tmp
         mv /host/var/lib/node_exporter/textfile_collector/smartmon.prom.tmp /host/var/lib/node_exporter/textfile_collector/smartmon.prom
         echo "SMART metrics collected at $(date)"
         sleep 300
