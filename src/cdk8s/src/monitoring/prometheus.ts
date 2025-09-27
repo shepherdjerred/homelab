@@ -69,14 +69,14 @@ export function createPrometheusMonitoring(chart: Chart) {
   });
 
   // Create SMART Monitoring rules
-  new PrometheusRule(chart, "prometheus-smartctl-rules", {
-    metadata: {
-      name: "prometheus-smartctl-rules",
-      namespace: "prometheus",
-      labels: { release: "prometheus" },
-    },
-    spec: {
-      groups: getSmartctlRuleGroups(),
-    },
-  });
+  // new PrometheusRule(chart, "prometheus-smartctl-rules", {
+  //   metadata: {
+  //     name: "prometheus-smartctl-rules",
+  //     namespace: "prometheus",
+  //     labels: { release: "prometheus" },
+  //   },
+  //   spec: {
+  //     groups: getSmartctlRuleGroups(),
+  //   },
+  // });
 }
