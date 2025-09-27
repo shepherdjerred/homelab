@@ -1,5 +1,6 @@
 import type { PrometheusRuleSpecGroups } from "../../../imports/monitoring.coreos.com";
 import { PrometheusRuleSpecGroupsRulesExpr } from "../../../imports/monitoring.coreos.com";
+import { escapePrometheusTemplate } from "./shared";
 
 export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
   return [
@@ -19,10 +20,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary:
+            summary: escapePrometheusTemplate(
               "SMART health check failed for device {{ $labels.device }}",
-            description:
+            ),
+            description: escapePrometheusTemplate(
               "Device {{ $labels.device }} ({{ $labels.model_name }}) has failed SMART health check. Serial: {{ $labels.serial_number }}",
+            ),
           },
         },
         {
@@ -36,9 +39,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary: "High temperature detected on device {{ $labels.device }}",
-            description:
+            summary: escapePrometheusTemplate(
+              "High temperature detected on device {{ $labels.device }}",
+            ),
+            description: escapePrometheusTemplate(
               "Device {{ $labels.device }} ({{ $labels.model_name }}) temperature is {{ $value }}°C, which is above the warning threshold of 60°C",
+            ),
           },
         },
         {
@@ -52,10 +58,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary:
+            summary: escapePrometheusTemplate(
               "Critical temperature detected on device {{ $labels.device }}",
-            description:
+            ),
+            description: escapePrometheusTemplate(
               "Device {{ $labels.device }} ({{ $labels.model_name }}) temperature is {{ $value }}°C, which is above the critical threshold of 70°C",
+            ),
           },
         },
 
@@ -71,10 +79,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary:
+            summary: escapePrometheusTemplate(
               "Reallocated sectors detected on device {{ $labels.device }}",
-            description:
+            ),
+            description: escapePrometheusTemplate(
               "Device {{ $labels.device }} ({{ $labels.model_name }}) has {{ $value }} reallocated sectors. This may indicate disk degradation.",
+            ),
           },
         },
         {
@@ -88,10 +98,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary:
+            summary: escapePrometheusTemplate(
               "High number of reallocated sectors on device {{ $labels.device }}",
-            description:
+            ),
+            description: escapePrometheusTemplate(
               "Device {{ $labels.device }} ({{ $labels.model_name }}) has {{ $value }} reallocated sectors, indicating significant disk degradation.",
+            ),
           },
         },
 
@@ -107,9 +119,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary: "Pending sectors detected on device {{ $labels.device }}",
-            description:
+            summary: escapePrometheusTemplate(
+              "Pending sectors detected on device {{ $labels.device }}",
+            ),
+            description: escapePrometheusTemplate(
               "Device {{ $labels.device }} ({{ $labels.model_name }}) has {{ $value }} pending sectors waiting for reallocation.",
+            ),
           },
         },
         {
@@ -123,10 +138,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary:
+            summary: escapePrometheusTemplate(
               "High number of pending sectors on device {{ $labels.device }}",
-            description:
+            ),
+            description: escapePrometheusTemplate(
               "Device {{ $labels.device }} ({{ $labels.model_name }}) has {{ $value }} pending sectors, indicating potential hardware failure.",
+            ),
           },
         },
 
@@ -142,10 +159,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary:
+            summary: escapePrometheusTemplate(
               "Uncorrectable errors detected on device {{ $labels.device }}",
-            description:
+            ),
+            description: escapePrometheusTemplate(
               "Device {{ $labels.device }} ({{ $labels.model_name }}) has {{ $value }} uncorrectable errors. This indicates serious disk problems.",
+            ),
           },
         },
 
@@ -161,9 +180,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary: "UDMA CRC errors detected on device {{ $labels.device }}",
-            description:
+            summary: escapePrometheusTemplate(
+              "UDMA CRC errors detected on device {{ $labels.device }}",
+            ),
+            description: escapePrometheusTemplate(
               "Device {{ $labels.device }} ({{ $labels.model_name }}) has {{ $value }} UDMA CRC errors. This may indicate cable or interface problems.",
+            ),
           },
         },
 
@@ -179,9 +201,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary: "High power cycle count on device {{ $labels.device }}",
-            description:
+            summary: escapePrometheusTemplate(
+              "High power cycle count on device {{ $labels.device }}",
+            ),
+            description: escapePrometheusTemplate(
               "Device {{ $labels.device }} ({{ $labels.model_name }}) has {{ $value }} power cycles, which is quite high for typical usage.",
+            ),
           },
         },
 
@@ -197,10 +222,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary:
+            summary: escapePrometheusTemplate(
               "SSD wear leveling count low on device {{ $labels.device }}",
-            description:
+            ),
+            description: escapePrometheusTemplate(
               "SSD {{ $labels.device }} ({{ $labels.model_name }}) wear leveling count is {{ $value }}, indicating high wear level.",
+            ),
           },
         },
         {
@@ -214,10 +241,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "hardware",
           },
           annotations: {
-            summary:
+            summary: escapePrometheusTemplate(
               "SSD wear leveling critically low on device {{ $labels.device }}",
-            description:
+            ),
+            description: escapePrometheusTemplate(
               "SSD {{ $labels.device }} ({{ $labels.model_name }}) wear leveling count is {{ $value }}, indicating critical wear level.",
+            ),
           },
         },
 
@@ -233,10 +262,12 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             category: "monitoring",
           },
           annotations: {
-            summary:
+            summary: escapePrometheusTemplate(
               "SMART monitoring not collecting data on {{ $labels.instance }}",
-            description:
+            ),
+            description: escapePrometheusTemplate(
               "SMART monitoring has not collected data from {{ $labels.instance }} for more than 10 minutes.",
+            ),
           },
         },
       ],
