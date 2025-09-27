@@ -7,7 +7,7 @@ import { createScoutChart } from "./charts/scout.ts";
 const app = new App();
 
 createProjectChart(app);
-createAppsChart(app);
+await createAppsChart(app);
 createTorvaldsChart(app);
 createScoutChart(app, "beta");
 

@@ -89,29 +89,44 @@ export async function createSmartctlMonitoring(chart: Chart) {
   container.mount("/scripts", scriptVolume);
 
   // Mount host directories
-  const hostDevVolume = Volume.fromHostPath(chart, "host-dev", "host-dev", {
-    path: "/dev",
-  });
+  const hostDevVolume = Volume.fromHostPath(
+    chart,
+    "smartctl-host-dev",
+    "smartctl-host-dev",
+    {
+      path: "/dev",
+    },
+  );
   smartctlDaemonSet.addVolume(hostDevVolume);
   container.mount("/dev", hostDevVolume);
 
-  const hostProcVolume = Volume.fromHostPath(chart, "host-proc", "host-proc", {
-    path: "/proc",
-  });
+  const hostProcVolume = Volume.fromHostPath(
+    chart,
+    "smartctl-host-proc",
+    "smartctl-host-proc",
+    {
+      path: "/proc",
+    },
+  );
   smartctlDaemonSet.addVolume(hostProcVolume);
   container.mount("/host/proc", hostProcVolume, { readOnly: true });
 
-  const hostSysVolume = Volume.fromHostPath(chart, "host-sys", "host-sys", {
-    path: "/sys",
-  });
+  const hostSysVolume = Volume.fromHostPath(
+    chart,
+    "smartctl-host-sys",
+    "smartctl-host-sys",
+    {
+      path: "/sys",
+    },
+  );
   smartctlDaemonSet.addVolume(hostSysVolume);
   container.mount("/host/sys", hostSysVolume, { readOnly: true });
 
   // Mount the textfile collector directory
   const textfileCollectorVolume = Volume.fromHostPath(
     chart,
-    "textfile-collector",
-    "textfile-collector",
+    "smartctl-textfile-collector",
+    "smartctl-textfile-collector",
     {
       path: "/var/lib/node_exporter/textfile_collector",
     },

@@ -22,7 +22,7 @@ import { createDaggerApp } from "../apps/dagger.ts";
 import { createVeleroApp } from "../apps/velero.ts";
 import { createPostgresOperatorApp } from "../apps/postgres-operator.ts";
 
-export function createAppsChart(app: App) {
+export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
     namespace: "argocd",
     disableResourceNameHashes: true,
@@ -55,7 +55,7 @@ export function createAppsChart(app: App) {
   createArgoCdApp(chart);
   createTailscaleApp(chart);
   createTorvaldsApp(chart);
-  createPrometheusApp(chart);
+  await createPrometheusApp(chart);
   createIntelDevicePluginOperatorApp(chart);
   createIntelGpuDevicePluginApp(chart);
   createCertManagerApp(chart);

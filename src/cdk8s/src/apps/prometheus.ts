@@ -7,9 +7,14 @@ import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { createPrometheusMonitoring } from "../monitoring/prometheus.ts";
 import { createSmartctlMonitoring } from "../services/monitoring/smartctl.ts";
 import type { HelmValuesForChart } from "../../helm-types/helm-parameters.ts";
+import { createNodeOsInfoMonitoring } from "../services/monitoring/node-os-info.ts";
+import { createNtpdMetricsMonitoring } from "../services/monitoring/ntpd-metrics.ts";
+import { createNvmeMetricsMonitoring } from "../services/monitoring/nvme-metrics.ts";
+import { createZfsSnapshotsMonitoring } from "../services/monitoring/zfs-snapshots.ts";
+import { createZfsZpoolMonitoring } from "../services/monitoring/zfs-zpool.ts";
 // import { HelmValuesForChart } from "../types/helm/index.js"; // Using 'any' for complex config
 
-export function createPrometheusApp(chart: Chart) {
+export async function createPrometheusApp(chart: Chart) {
   createIngress(
     chart,
     "alertmanager-ingress",
@@ -61,7 +66,12 @@ export function createPrometheusApp(chart: Chart) {
   );
 
   createPrometheusMonitoring(chart);
-  createSmartctlMonitoring(chart);
+  await createSmartctlMonitoring(chart);
+  await createNodeOsInfoMonitoring(chart);
+  await createNtpdMetricsMonitoring(chart);
+  await createNvmeMetricsMonitoring(chart);
+  await createZfsSnapshotsMonitoring(chart);
+  await createZfsZpoolMonitoring(chart);
 
   // Note: Some configurations bypass type checking due to incomplete generated types
   const prometheusValues: HelmValuesForChart<"kube-prometheus-stack"> = {
