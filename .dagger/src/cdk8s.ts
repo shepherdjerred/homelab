@@ -1,6 +1,6 @@
 #!/usr/bin/env -S bun
 import { Directory, dag } from "@dagger.io/dagger";
-import { getWorkspaceContainer } from "./base";
+import { getWorkspaceContainer, execWithErrorCapture } from "./base";
 import versions from "./versions";
 
 export async function typeCheckCdk8s(source: Directory): Promise<string> {
@@ -9,29 +9,13 @@ export async function typeCheckCdk8s(source: Directory): Promise<string> {
     .withMountedCache(
       "/workspace/node_modules/.cache",
       dag.cacheVolume("typescript-cache"),
-    )
-    .withExec([
-      "sh",
-      "-c",
-      `
-      set +e
-      bunx tsc --noEmit 2>&1
-      exit_code=$?
-      if [ $exit_code -ne 0 ]; then
-        echo "TYPECHECK_FAILED_WITH_CODE_$exit_code"
-      fi
-      exit 0
-      `,
-    ]);
+    );
 
-  const output = await container.stdout();
-
-  // Check if type checking actually failed by looking for our exit code marker
-  if (output.includes("TYPECHECK_FAILED_WITH_CODE_")) {
-    throw new Error(`CDK8s Type Checking Failed:\n${output}`);
-  }
-
-  return output;
+  return execWithErrorCapture(
+    container,
+    "bunx tsc --noEmit",
+    "CDK8s Type Checking Failed"
+  );
 }
 
 export async function buildK8sManifests(source: Directory): Promise<Directory> {

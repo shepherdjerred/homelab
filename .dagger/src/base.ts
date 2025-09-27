@@ -99,6 +99,43 @@ export function getUbuntuBaseContainer(
 }
 
 /**
+ * Executes a command in a container and captures both stdout and exit code.
+ * If the command fails, throws an error with the actual command output.
+ * @param container The container to execute the command in
+ * @param command The command to execute
+ * @param errorPrefix The prefix for the error message if the command fails
+ * @returns The command output if successful
+ */
+export async function execWithErrorCapture(
+  container: Container,
+  command: string,
+  errorPrefix: string,
+): Promise<string> {
+  const execContainer = container.withExec([
+    "sh",
+    "-c",
+    `
+    set +e
+    ${command} 2>&1
+    exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+      echo "COMMAND_FAILED_WITH_CODE_$exit_code"
+    fi
+    exit 0
+    `,
+  ]);
+
+  const output = await execContainer.stdout();
+
+  // Check if command actually failed by looking for our exit code marker
+  if (output.includes("COMMAND_FAILED_WITH_CODE_")) {
+    throw new Error(`${errorPrefix}:\n${output}`);
+  }
+
+  return output;
+}
+
+/**
  * Returns a cached curl container optimized for HTTP operations.
  * @returns A configured Container with curl and caching ready.
  */

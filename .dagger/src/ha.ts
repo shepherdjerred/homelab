@@ -24,18 +24,21 @@ export async function testHa(source: Directory): Promise<string> {
   const container = getWorkspaceContainer(source, "src/ha").withExec([
     "sh",
     "-c",
-    "bun test 2>&1 || true",
+    `
+    set +e
+    bun test 2>&1
+    exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+      echo "TEST_FAILED_WITH_CODE_$exit_code"
+    fi
+    exit 0
+    `,
   ]);
 
   const output = await container.stdout();
 
-  // Check if testing actually failed by looking for error indicators
-  if (
-    output.includes("error") ||
-    output.includes("✖") ||
-    output.includes("failed") ||
-    output.includes("FAIL")
-  ) {
+  // Check if testing actually failed by looking for our exit code marker
+  if (output.includes("TEST_FAILED_WITH_CODE_")) {
     throw new Error(`HA Testing Failed:\n${output}`);
   }
 
