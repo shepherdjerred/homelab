@@ -3,6 +3,7 @@ import { Chart } from "cdk8s";
 import { getHomeAssistantRuleGroups } from "./rules/homeassistant";
 import { getVeleroRuleGroups } from "./rules/velero";
 import { getArgoCDRuleGroups } from "./rules/argocd";
+import { getResourceMonitoringRuleGroups } from "./rules/resource-monitoring";
 
 export function createPrometheusMonitoring(chart: Chart) {
   // Create Home Assistant rules
@@ -38,6 +39,18 @@ export function createPrometheusMonitoring(chart: Chart) {
     },
     spec: {
       groups: getArgoCDRuleGroups(),
+    },
+  });
+
+  // Create Resource Monitoring rules
+  new PrometheusRule(chart, "prometheus-resource-monitoring-rules", {
+    metadata: {
+      name: "prometheus-resource-monitoring-rules",
+      namespace: "torvalds",
+      labels: { release: "prometheus" },
+    },
+    spec: {
+      groups: getResourceMonitoringRuleGroups(),
     },
   });
 }
