@@ -4,9 +4,8 @@
   "private": true,
   "scripts": {
     "build": "bun run src/app.ts && bun run patch.ts",
-    "lint": "bun run lint:eslint && bun run lint:tsc",
-    "lint:eslint": "bunx eslint .",
-    "lint:tsc": "bunx tsc --noEmit",
+    "lint": "bunx eslint .",
+    "typecheck": "bunx tsc --noEmit",
     "test": "bun run test:gpu-resources",
     "test:gpu-resources": "bun run test-gpu-resources.ts",
     "clear": "rm -rf dist/",

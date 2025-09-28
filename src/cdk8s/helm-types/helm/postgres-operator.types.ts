@@ -26,6 +26,9 @@ export type PostgresoperatorHelmValuesConfigGeneral = {
   repair_period?: string;
   resync_period?: string;
   workers?: number;
+  // manually added
+  // this might not actually exist
+  enable_cross_namespace_secret?: boolean;
 };
 
 export type PostgresoperatorHelmValuesConfigUsers = {

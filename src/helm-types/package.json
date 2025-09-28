@@ -11,9 +11,8 @@
   "scripts": {
     "build": "bun run src/cli.ts",
     "generate": "bun run src/cli.ts",
-    "lint": "bun run lint:eslint && bun run lint:tsc",
-    "lint:eslint": "bunx eslint .",
-    "lint:tsc": "bunx tsc --noEmit"
+    "lint": "bunx eslint .",
+    "typecheck": "bunx tsc --noEmit"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",

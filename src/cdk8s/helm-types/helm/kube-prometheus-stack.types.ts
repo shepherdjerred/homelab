@@ -591,7 +591,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerConfigRouteRoutesElement =
 export type KubeprometheusstackHelmValuesAlertmanagerConfigReceiversElement = {
   name?: string;
   // manually added
-  pagerduty_configs?: unknown[];
+  pagerduty_configs?: object[];
 };
 
 export type KubeprometheusstackHelmValuesAlertmanagerTemplateFiles = object;
@@ -903,10 +903,10 @@ export type KubeprometheusstackHelmValuesGrafana = {
   service?: KubeprometheusstackHelmValuesGrafanaService;
   serviceMonitor?: KubeprometheusstackHelmValuesGrafanaServiceMonitor;
   // manually added
-  "grafana.ini"?: unknown;
-  imageRenderer?: unknown;
-  extraSecretMounts?: unknown[];
-  persistence?: unknown;
+  "grafana.ini"?: object;
+  imageRenderer?: object;
+  extraSecretMounts?: object[];
+  persistence?: object;
 };
 
 export type KubeprometheusstackHelmValuesGrafanaOperator = {
@@ -1531,7 +1531,7 @@ export type KubeprometheusstackHelmValuesPrometheusnodeexporter = {
   prometheus?: KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheus;
   rbac?: KubeprometheusstackHelmValuesPrometheusnodeexporterRbac;
   // manually added
-  extraHostVolumeMounts?: unknown[];
+  extraHostVolumeMounts?: object[];
 };
 
 export type KubeprometheusstackHelmValuesPrometheusnodeexporterPodLabels = {

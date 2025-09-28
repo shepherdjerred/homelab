@@ -42,6 +42,10 @@ export type InteldevicepluginsoperatorHelmValues = {
   privateRegistry?: InteldevicepluginsoperatorHelmValuesPrivateRegistry;
   resources?: InteldevicepluginsoperatorHelmValuesResources;
   tolerations?: unknown[];
+  // manually added
+  sharedDevNum?: number;
+  nodeFeatureRule?: boolean;
+  resourceManager?: boolean;
 };
 
 export type InteldevicepluginsoperatorHelmParameters = {

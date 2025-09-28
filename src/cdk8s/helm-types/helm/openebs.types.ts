@@ -23,6 +23,8 @@ export type OpenebsHelmValuesLocalpvprovisionerRbac = {
 
 export type OpenebsHelmValuesZfslocalpv = {
   crds?: OpenebsHelmValuesZfslocalpvCrds;
+  // manually added
+  zfsNode?: object;
 };
 
 export type OpenebsHelmValuesZfslocalpvCrds = {

@@ -1,19 +1,17 @@
-import type {
-  ArgocdHelmValues,
-  CertmanagerHelmValues,
-  ChartmuseumHelmValues,
-  ConnectHelmValues,
-  InteldevicepluginsoperatorHelmValues,
-  KubeprometheusstackHelmValues,
-  LokiHelmValues,
-  MinecraftHelmValues,
-  NodefeaturediscoveryHelmValues,
-  OpenebsHelmValues,
-  PostgresoperatorHelmValues,
-  PromtailHelmValues,
-  TailscaleoperatorHelmValues,
-  VeleroHelmValues,
-} from "./helm/index.js";
+import type { ArgocdHelmValues } from "./helm/argo-cd.types";
+import type { CertmanagerHelmValues } from "./helm/cert-manager.types";
+import type { ChartmuseumHelmValues } from "./helm/chartmuseum.types";
+import type { ConnectHelmValues } from "./helm/connect.types";
+import type { InteldevicepluginsoperatorHelmValues } from "./helm/intel-device-plugins-operator.types";
+import type { KubeprometheusstackHelmValues } from "./helm/kube-prometheus-stack.types";
+import type { LokiHelmValues } from "./helm/loki.types";
+import type { MinecraftHelmValues } from "./helm/minecraft.types";
+import type { NodefeaturediscoveryHelmValues } from "./helm/node-feature-discovery.types";
+import type { OpenebsHelmValues } from "./helm/openebs.types";
+import type { PostgresoperatorHelmValues } from "./helm/postgres-operator.types";
+import type { PromtailHelmValues } from "./helm/promtail.types";
+import type { TailscaleoperatorHelmValues } from "./helm/tailscale-operator.types";
+import type { VeleroHelmValues } from "./helm/velero.types";
 
 type HelmChartValuesMap = {
   "argo-cd": ArgocdHelmValues;

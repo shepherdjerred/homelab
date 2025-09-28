@@ -75,7 +75,7 @@ export type MinecraftHelmValuesStartupProbe = {
 export type MinecraftHelmValuesExtraPodSpec = object;
 
 export type MinecraftHelmValuesMinecraftServer = {
-  eula?: string;
+  eula?: boolean; // manually changed from string to boolean
   version?: string;
   type?: string;
   forgeVersion?: unknown;
@@ -99,7 +99,7 @@ export type MinecraftHelmValuesMinecraftServer = {
   allowNether?: string;
   announcePlayerAchievements?: string;
   enableCommandBlock?: string;
-  forcegameMode?: string;
+  forcegameMode?: boolean; // manually changed from string to boolean
   generateStructures?: string;
   hardcore?: string;
   maxBuildHeight?: string;
@@ -107,8 +107,8 @@ export type MinecraftHelmValuesMinecraftServer = {
   spawnAnimals?: string;
   spawnMonsters?: string;
   spawnNPCs?: string;
-  spawnProtection?: string;
-  viewDistance?: string;
+  spawnProtection?: number; // manually changed from string to number
+  viewDistance?: number; // manually changed from string to number
   levelSeed?: unknown;
   gameMode?: string;
   motd?: string;
@@ -129,7 +129,7 @@ export type MinecraftHelmValuesMinecraftServer = {
   memory?: string;
   jvmOpts?: string;
   jvmXXOpts?: string;
-  overrideServerProperties?: string;
+  overrideServerProperties?: boolean; // manually changed from string to boolean
   serviceAnnotations?: MinecraftHelmValuesMinecraftServerServiceAnnotations;
   serviceType?: string;
   nodePort?: unknown;
@@ -148,6 +148,8 @@ export type MinecraftHelmValuesMinecraftServer = {
   tty?: boolean;
   extraPorts?: unknown[];
   query?: MinecraftHelmValuesMinecraftServerQuery;
+  // manually added
+  port?: number;
 };
 
 export type MinecraftHelmValuesMinecraftServerServiceAnnotations = object;
@@ -206,6 +208,8 @@ export type MinecraftHelmValuesPersistence = {
   labels?: MinecraftHelmValuesPersistenceLabels;
   annotations?: MinecraftHelmValuesPersistenceAnnotations;
   dataDir?: MinecraftHelmValuesPersistenceDataDir;
+  // manually added
+  storageClass?: string;
 };
 
 export type MinecraftHelmValuesPersistenceLabels = object;

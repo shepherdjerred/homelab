@@ -139,6 +139,8 @@ export type LokiHelmValuesLokiLimitsconfig = {
   split_queries_by_interval?: string;
   query_timeout?: string;
   volume_enabled?: boolean;
+  // manually added
+  retention_period?: string;
 };
 
 export type LokiHelmValuesLokiRuntimeConfig = object;
@@ -2203,6 +2205,12 @@ export type LokiHelmValuesCompactor = {
   appProtocol?: LokiHelmValuesCompactorAppProtocol;
   persistence?: LokiHelmValuesCompactorPersistence;
   serviceAccount?: LokiHelmValuesCompactorServiceAccount;
+  // manually added
+  enabled?: boolean;
+  retention_enabled?: boolean;
+  working_directory?: string;
+  compaction_interval?: string;
+  retention_delete_delay?: string;
 };
 
 export type LokiHelmValuesCompactorImage = {
@@ -3282,6 +3290,8 @@ export type LokiHelmValuesMinioBucketsElement = {
 export type LokiHelmValuesMinioPersistence = {
   size?: string;
   annotations?: LokiHelmValuesMinioPersistenceAnnotations;
+  // manually added
+  storageClass?: string;
 };
 
 export type LokiHelmValuesMinioPersistenceAnnotations = object;

@@ -188,6 +188,8 @@ export type ChartmuseumHelmValuesPersistence = {
   labels?: ChartmuseumHelmValuesPersistenceLabels;
   path?: string;
   pv?: ChartmuseumHelmValuesPersistencePv;
+  // manually added
+  storageClass?: string;
 };
 
 export type ChartmuseumHelmValuesPersistenceLabels = object;

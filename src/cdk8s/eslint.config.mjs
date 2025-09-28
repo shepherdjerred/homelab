@@ -75,9 +75,9 @@ export default tseslint.config(
         },
         {
           selector:
-            "TSAsExpression:not([typeAnnotation.type='TSUnknownKeyword'])",
+            "TSAsExpression:not([typeAnnotation.type='TSUnknownKeyword']):not([typeAnnotation.type='TSTypeReference'][typeAnnotation.typeName.name='const'])",
           message:
-            "Type assertions are not allowed except for casting to 'unknown'. Use 'value as unknown' if you need to cast to unknown, otherwise use Zod schema validation.",
+            "Type assertions are not allowed except for casting to 'unknown' or 'as const'. Use 'value as unknown' if you need to cast to unknown, 'value as const' for const assertions, otherwise use Zod schema validation.",
         },
       ],
     },
