@@ -1,8 +1,7 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
-import { HelmValuesForChart } from "../../helm-types/helm/index.js";
-
+import type { HelmValuesForChart } from "../../helm-types/helm-parameters.ts";
 export function createCertManagerApp(chart: Chart) {
   const certManagerValues: HelmValuesForChart<"cert-manager"> = {
     installCRDs: true,
@@ -12,6 +11,7 @@ export function createCertManagerApp(chart: Chart) {
         enabled: true,
       },
     },
+    // TODO: these were causing issues
     // webhook: {
     //   prometheus: {
     //     enabled: true,

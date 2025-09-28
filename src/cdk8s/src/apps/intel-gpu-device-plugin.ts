@@ -1,8 +1,7 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
-import { HelmValuesForChart } from "../../helm-types/helm/index.js";
-
+import type { HelmValuesForChart } from "../../helm-types/helm-parameters.ts";
 export function createIntelGpuDevicePluginApp(chart: Chart) {
   const intelGpuValues: HelmValuesForChart<"intel-device-plugins-operator"> = {
     sharedDevNum: 10,
@@ -22,7 +21,7 @@ export function createIntelGpuDevicePluginApp(chart: Chart) {
         chart: "intel-device-plugins-gpu",
         targetRevision: versions["intel-device-plugins-operator"],
         helm: {
-          valuesObject: intelGpuValues, // ✅ Now type-checked against InteldevicepluginsoperatorHelmValues
+          valuesObject: intelGpuValues,
         },
       },
       destination: {

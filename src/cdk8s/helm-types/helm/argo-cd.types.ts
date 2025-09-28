@@ -135,6 +135,9 @@ export type ArgocdHelmValuesConfigsCm = {
   "resource.customizations.ignoreResourceUpdates.discovery.k8s.io_EndpointSlice"?: string;
   "resource.customizations.ignoreResourceUpdates.Endpoints"?: string;
   "resource.exclusions"?: string;
+  // manually added
+  "accounts.jenkins"?: string;
+  "accounts.jenkins.enabled"?: boolean;
 };
 
 export type ArgocdHelmValuesConfigsCmAnnotations = object;

@@ -3,8 +3,7 @@ import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
 import { SSD_STORAGE_CLASS } from "../storageclasses.ts";
-import { HelmValuesForChart } from "../../helm-types/helm/index.js";
-
+import type { HelmValuesForChart } from "../../helm-types/helm-parameters.ts";
 export function createLokiApp(chart: Chart) {
   createIngress(chart, "loki-ingress", "loki", "loki", 3100, ["loki"], false);
 

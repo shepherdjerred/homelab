@@ -2,8 +2,7 @@ import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import versions from "../versions.ts";
 import { Namespace } from "cdk8s-plus-31";
-import { HelmValuesForChart } from "../../helm-types/helm/index.js";
-
+import type { HelmValuesForChart } from "../../helm-types/helm-parameters.ts";
 export function createPromtailApp(chart: Chart) {
   new Namespace(chart, "promtail-namespcae", {
     metadata: {

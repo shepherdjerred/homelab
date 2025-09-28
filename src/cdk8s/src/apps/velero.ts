@@ -4,8 +4,7 @@ import { OnePasswordItem } from "../../imports/onepassword.com.ts";
 import { Schedule } from "../../imports/velero.io.ts";
 import versions from "../versions.ts";
 import { Namespace } from "cdk8s-plus-31";
-import { HelmValuesForChart } from "../../helm-types/helm/index.js";
-
+import type { HelmValuesForChart } from "../../helm-types/helm-parameters.ts";
 export function createVeleroApp(chart: Chart) {
   new Namespace(chart, `velero-namespace`, {
     metadata: {

@@ -207,14 +207,14 @@ export async function createPrometheusApp(chart: Chart) {
   num_resolved: '{{ .Alerts.Resolved | len }}'
 }
                 `,
+                // Grafana has an image rendering feature
+                // let's see if we can use it here
+                images: [],
+                links: [],
+                component: "",
+                group: "",
+                class: "",
               },
-             // Grafana has an image rendering feature
-             // let's see if we can use it here
-              images: []
-              links: []
-              component: ""
-              group: ""
-              class: ""
             ],
           },
         ],
