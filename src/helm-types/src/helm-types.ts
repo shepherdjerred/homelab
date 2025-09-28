@@ -116,20 +116,15 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
 
     console.log(`  📦 Adding Helm repo: ${chart.repoUrl}`);
     // Add the helm repo
-    await runCommand("/home/linuxbrew/.linuxbrew/bin/helm", [
-      "repo",
-      "add",
-      repoName,
-      chart.repoUrl,
-    ]);
+    await runCommand("helm", ["repo", "add", repoName, chart.repoUrl]);
 
     console.log(`  🔄 Updating Helm repos...`);
     // Update repo
-    await runCommand("/home/linuxbrew/.linuxbrew/bin/helm", ["repo", "update"]);
+    await runCommand("helm", ["repo", "update"]);
 
     console.log(`  ⬇️  Pulling chart ${chart.chartName}:${chart.version}...`);
     // Pull the chart
-    await runCommand("/home/linuxbrew/.linuxbrew/bin/helm", [
+    await runCommand("helm", [
       "pull",
       `${repoName}/${chart.chartName}`,
       "--version",
@@ -147,7 +142,7 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
       const valuesContent = await Bun.file(valuesPath).text();
 
       // Parse YAML using js-yaml
-      const parsedValues = yamlLoad(valuesContent);
+      const parsedValues = yamlLoad(valuesContent) as unknown;
       console.log(`  ✅ Successfully parsed values.yaml`);
       const recordParseResult = RecordSchema.safeParse(parsedValues);
       if (recordParseResult.success) {
@@ -193,11 +188,7 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
     // Cleanup
     try {
       console.log(`  🧹 Cleaning up...`);
-      await runCommand("/home/linuxbrew/.linuxbrew/bin/helm", [
-        "repo",
-        "remove",
-        repoName,
-      ]);
+      await runCommand("helm", ["repo", "remove", repoName]);
       await Bun.$`rm -rf ${tempDir}`.quiet();
     } catch (cleanupError) {
       console.warn(`Cleanup failed for ${chart.name}:`, String(cleanupError));

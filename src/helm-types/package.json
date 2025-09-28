@@ -1,0 +1,25 @@
+{
+  "name": "@homelab/helm-types",
+  "version": "1.0.0",
+  "description": "Generic TypeScript type generator for Helm charts",
+  "type": "module",
+  "private": true,
+  "main": "dist/index.js",
+  "bin": {
+    "helm-types": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "bun run src/cli.ts",
+    "generate": "bun run src/cli.ts",
+    "lint": "bun run lint:eslint && bun run lint:tsc",
+    "lint:eslint": "bunx eslint .",
+    "lint:tsc": "bunx tsc --noEmit"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9"
+  }
+}

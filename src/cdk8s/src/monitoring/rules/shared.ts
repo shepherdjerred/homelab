@@ -4,12 +4,12 @@ import { PrometheusRuleSpecGroupsRulesExpr } from "../../../imports/monitoring.c
 // Converts normal Prometheus templates like "{{ $value }}" to Helm-escaped "{{ "{{" }} $value {{ "}}" }}"
 export function escapePrometheusTemplate(template: string): string {
   return template
-    .replace(
+    .replaceAll(
       /\{\{\s*\$value\s*\|\s*(\w+)\s*\}\}/g,
       '{{ "{{" }} $value | $1 {{ "}}" }}',
     ) // Handle {{ $value | filter }}
-    .replace(/\{\{\s*\$value\s*\}\}/g, '{{ "{{" }} $value {{ "}}" }}') // Handle {{ $value }}
-    .replace(
+    .replaceAll(/\{\{\s*\$value\s*\}\}/g, '{{ "{{" }} $value {{ "}}" }}') // Handle {{ $value }}
+    .replaceAll(
       /\{\{\s*\$labels\.(\w+)\s*\}\}/g,
       '{{ "{{" }} $labels.$1 {{ "}}" }}',
     ); // Handle {{ $labels.entity }}

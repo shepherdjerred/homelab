@@ -22,7 +22,8 @@ export default tseslint.config(
       "@typescript-eslint/consistent-type-assertions": [
         "error",
         {
-          assertionStyle: "never",
+          assertionStyle: "as",
+          objectLiteralTypeAssertions: "never",
         },
       ],
       "no-restricted-syntax": [
@@ -65,6 +66,18 @@ export default tseslint.config(
           selector: "TSTypePredicate",
           message:
             "Prefer Zod schema validation over type guard functions. Use z.schema.safeParse() instead of custom type guards.",
+        },
+        {
+          selector:
+            "TSTypeAssertion:not([typeAnnotation.type='TSUnknownKeyword'])",
+          message:
+            "Type assertions are not allowed except for casting to 'unknown'. Use 'value as unknown' if you need to cast to unknown, otherwise use Zod schema validation.",
+        },
+        {
+          selector:
+            "TSAsExpression:not([typeAnnotation.type='TSUnknownKeyword'])",
+          message:
+            "Type assertions are not allowed except for casting to 'unknown'. Use 'value as unknown' if you need to cast to unknown, otherwise use Zod schema validation.",
         },
       ],
     },

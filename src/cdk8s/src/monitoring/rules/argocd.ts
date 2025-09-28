@@ -30,13 +30,13 @@ export function getArgoCDRuleGroups(): PrometheusRuleSpecGroups[] {
               "[{{ $labels.name }}] Application not synchronized",
             ),
             description: escapePrometheusTemplate(
-              "The application [{{ $labels.name }}] has not been synchronized for over 12 hours which means that the state of this cloud has drifted away from the state inside Git.",
+              "The application [{{ $labels.name }}] has not been synchronized for over 14 days which means that the state of this cloud has drifted away from the state inside Git.",
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             'argocd_app_info{sync_status!="Synced"} == 1',
           ),
-          for: "12h",
+          for: "14d",
           labels: {
             severity: "warning",
           },

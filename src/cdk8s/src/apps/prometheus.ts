@@ -197,7 +197,24 @@ export async function createPrometheusApp(chart: Chart) {
             pagerduty_configs: [
               {
                 routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
+                description: `{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}`,
+                severity: "error",
+                details: `
+{
+  firing:       '{{ template "pagerduty.default.instances" .Alerts.Firing }}'
+  resolved:     '{{ template "pagerduty.default.instances" .Alerts.Resolved }}'
+  num_firing:   '{{ .Alerts.Firing | len }}'
+  num_resolved: '{{ .Alerts.Resolved | len }}'
+}
+                `,
               },
+             // Grafana has an image rendering feature
+             // let's see if we can use it here
+              images: []
+              links: []
+              component: ""
+              group: ""
+              class: ""
             ],
           },
         ],
