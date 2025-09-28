@@ -1,6 +1,6 @@
 {
   "name": "homelab-infrastructure",
-  "user": "dev",
+  "user": "ubuntu",
   "install": "bun install",
   "start": "bun run dev",
   "terminals": [
