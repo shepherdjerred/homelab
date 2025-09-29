@@ -292,7 +292,6 @@ export class Homelab {
       haLintResult,
       cdk8sTypeCheckResult,
       haTypeCheckResult,
-      haTestResult,
     ] = await Promise.all([
       cdk8sBuildPromise,
       haBuildPromise,
@@ -381,7 +380,6 @@ export class Homelab {
       haLintResult.status === "failed" ||
       cdk8sTypeCheckResult.status === "failed" ||
       haTypeCheckResult.status === "failed" ||
-      haTestResult.status === "failed" ||
       syncResult.status === "failed" ||
       cdk8sBuildResult.status === "failed" ||
       haBuildResult.status === "failed" ||

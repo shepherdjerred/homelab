@@ -11,7 +11,7 @@ export async function typeCheckCdk8s(source: Directory): Promise<string> {
       dag.cacheVolume("typescript-cache"),
     );
 
-  return container.withExec(["bunx", "tsc", "--noEmit"]).stdout();
+  return container.withExec(["bun", "run", "typecheck"]).stdout();
 }
 
 export async function buildK8sManifests(source: Directory): Promise<Directory> {

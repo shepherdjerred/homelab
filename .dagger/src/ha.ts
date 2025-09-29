@@ -18,7 +18,7 @@ export async function buildHa(source: Directory): Promise<Directory> {
 export async function typeCheckHa(source: Directory): Promise<string> {
   const container = getWorkspaceContainer(source, "src/ha");
 
-  return container.withExec(["bunx", "tsc", "--noEmit"]).stdout();
+  return container.withExec(["bun", "run", "typecheck"]).stdout();
 }
 
 export async function lintHa(source: Directory): Promise<string> {
