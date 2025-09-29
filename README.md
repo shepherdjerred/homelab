@@ -17,21 +17,21 @@ I've spent a _lot_ of time making this project pleasant to work with. Here are
 some things I'm proud of:
 
 - Close to zero host setup
-   - It's just a few commands to deploy my entire cluster
+  - It's just a few commands to deploy my entire cluster
 - Entirely written in TypeScript built with [cdk8s](https://cdk8s.io/) and
-   [Bun](https://bun.sh/)
+  [Bun](https://bun.sh/)
 - Automated backups
 - HTTPS ingress with [Tailscale](https://tailscale.com/)
 - All secrets managed with [1Password](https://1password.com/)
 - GHA Runners w/ Dagger used by my open-source projects
 - Entirely automated deployment for updates, upgrades, etc.
-   - Commit-to-deployment takes ~1min
+  - Commit-to-deployment takes ~1min
 - Automated dependency updates
-   - For Docker images (w/ pinned SHAs)
-   - For Helm charts
-   - For Bun dependencies
-   - [My approach](https://github.com/shepherdjerred/homelab/blob/main/src/cdk8s/src/versions.ts)
-      allows all of my dependencies to be pinned and updated regularly
+  - For Docker images (w/ pinned SHAs)
+  - For Helm charts
+  - For Bun dependencies
+  - [My approach](https://github.com/shepherdjerred/homelab/blob/main/src/cdk8s/src/versions.ts)
+    allows all of my dependencies to be pinned and updated regularly
 - Static typing for:
   - [Kubernetes resources](src/cdk8s/update-imports.ts)
   - [Helm chart parameters](src/cdk8s/generate-helm-types.ts)
@@ -58,7 +58,6 @@ talosctl gen config \
 ```
 
 3. Configure `endpoints` in `talosconfig`
-
    - This allows commands to be run without the `--endpoints` argument
 
 4. Move the talosconfig:
@@ -130,13 +129,13 @@ helm install argocd argo/argo-cd --namespace argocd
 3. Set the credentials in the `secrets` directory:
 
 - Be sure not to commit any changes to these files so that secrets don't
-   leak.
+  leak.
 
 - These should be the only credentials that are manually set. Everything else
-   can be retrieved from 1Password.
+  can be retrieved from 1Password.
 
 - Annoyingly, the credential in `1password-secret.yaml` _must_ be base64
-encoded.
+  encoded.
 
 ```bash
 cat 1password-credentials.json | base64 -w 0

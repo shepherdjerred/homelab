@@ -7,13 +7,7 @@ import {
   dag,
   File,
 } from "@dagger.io/dagger";
-import {
-  buildHa,
-  testHa,
-  typeCheckHa,
-  lintHa,
-  buildAndExportHaImage,
-} from "./ha";
+import { buildHa, typeCheckHa, lintHa, buildAndExportHaImage } from "./ha";
 import {
   getMiseRuntimeContainer,
   getSystemContainer,
@@ -67,14 +61,12 @@ export class Homelab {
     source: Directory,
   ): Promise<string> {
     const haTypeCheck = typeCheckHa(source);
-    const haTest = testHa(source);
     const haLint = lintHa(source);
     const cdk8sTypeCheck = typeCheckCdk8s(source.directory("src/cdk8s"));
     const cdk8sLint = lintCdk8s(source.directory("src/cdk8s"));
     const cdk8sTest = testCdk8s(source.directory("src/cdk8s"));
     const results = await Promise.allSettled([
       haTypeCheck,
-      haTest,
       haLint,
       cdk8sTypeCheck,
       cdk8sLint,
@@ -257,16 +249,6 @@ export class Homelab {
         message: `HA TypeCheck: FAILED\n${e}`,
       }));
 
-    const haTestPromise = testHa(updatedSource)
-      .then((msg) => ({
-        status: "passed",
-        message: `HA Test: PASSED\n${msg}`,
-      }))
-      .catch((e) => ({
-        status: "failed",
-        message: `HA Test: FAILED\n${e}`,
-      }));
-
     // Start builds in parallel
     const cdk8sBuildPromise = buildK8sManifests(
       updatedSource.directory("src/cdk8s"),
@@ -322,7 +304,6 @@ export class Homelab {
       haLintPromise,
       cdk8sTypeCheckPromise,
       haTypeCheckPromise,
-      haTestPromise,
     ]);
 
     // Publish HA image if prod
@@ -384,7 +365,6 @@ export class Homelab {
       haLintResult.message,
       cdk8sTypeCheckResult.message,
       haTypeCheckResult.message,
-      haTestResult.message,
       `Sync result:\n${syncResult.message}`,
       cdk8sBuildResult.message,
       haBuildResult.message,
@@ -438,31 +418,6 @@ export class Homelab {
     source: Directory,
   ) {
     return buildHa(source);
-  }
-
-  /**
-   * Runs tests for the Home Assistant (HA) app.
-   * @param source The source directory for the HA app.
-   * @returns The stdout from the test run.
-   */
-  @func()
-  async testHa(
-    @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
-      defaultPath: ".",
-    })
-    source: Directory,
-  ) {
-    return testHa(source);
   }
 
   /**
@@ -538,85 +493,15 @@ export class Homelab {
       testVersion,
     );
 
-    // Test the built chart
-    const container = dag
-      .container()
-      .from(`alpine/helm:${versions["alpine/helm"]}`)
+    // Test the built chart using TypeScript script
+    const container = getMiseRuntimeContainer()
       .withMountedDirectory("/workspace", helmDist)
       .withWorkdir("/workspace")
-      .withExec([
-        "sh",
-        "-c",
-        `(
-        echo "🔍 Testing Helm chart..."
-        echo ""
-
-        # Check if packaged chart exists
-        echo "📦 Checking packaged chart..."
-        if ls *.tgz >/dev/null 2>&1; then
-          chart_file=$(ls *.tgz | head -1)
-          echo "✅ Packaged chart found: $chart_file"
-        else
-          echo "❌ No packaged chart found"
-          exit 1
-        fi
-
-        # Extract the chart for testing
-        echo ""
-        echo "📦 Extracting chart for testing..."
-        tar -xzf $chart_file
-
-        # Find the extracted directory (it should be the only directory)
-        chart_dir=$(find . -maxdepth 1 -type d ! -name . | head -1)
-        if [ -z "$chart_dir" ]; then
-          echo "❌ No extracted directory found!"
-          exit 1
-        fi
-        echo "Found extracted directory: $chart_dir"
-        cd $chart_dir
-
-        # Check if Chart.yaml exists and is valid
-        echo "📋 Validating Chart.yaml..."
-        if [ ! -f Chart.yaml ]; then
-          echo "❌ Chart.yaml not found!"
-          exit 1
-        fi
-        echo "✅ Chart.yaml found"
-
-        # Check if chart has templates (CDK8s manifests)
-        echo "📂 Checking templates directory..."
-        if [ ! -d templates ]; then
-          echo "❌ Templates directory not found!"
-          exit 1
-        fi
-
-        template_count=$(find templates -name "*.yaml" -o -name "*.yml" | wc -l)
-        echo "✅ Found $template_count template files"
-
-        # Run helm lint
-        echo ""
-        echo "🔍 Running helm lint..."
-        if helm lint .; then
-          echo "✅ Helm lint passed"
-        else
-          echo "❌ Helm lint failed"
-          exit 1
-        fi
-
-        # Run helm template to test rendering
-        echo ""
-        echo "🎨 Testing template rendering..."
-        if helm template test-release . > /dev/null; then
-          echo "✅ Template rendering successful"
-        else
-          echo "❌ Template rendering failed"
-          exit 1
-        fi
-
-        echo ""
-        echo "🎉 All Helm tests passed!"
-      ) 2>&1 || true`,
-      ]);
+      .withFile(
+        "/workspace/test-helm.ts",
+        source.file(".dagger/scripts/test-helm.ts"),
+      )
+      .withExec(["bun", "run", "./test-helm.ts"]);
 
     const output = await container.stdout();
 

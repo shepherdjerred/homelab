@@ -34,5 +34,6 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "noErrorTruncation": true
-  }
+  },
+  "include": ["src/**/*", "scripts/**/*"]
 }

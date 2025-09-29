@@ -28,6 +28,52 @@ async function generateTypes() {
 }
 
 /**
+ * Add TypeScript disable comments to generated files
+ */
+function addTsDisableComments() {
+  console.log("🔄 Adding TypeScript disable comments to generated files...");
+
+  const generatedFiles = ["src/hass/registry.mts", "src/hass/services.mts", "src/hass/mappings.mts"];
+
+  for (const filePath of generatedFiles) {
+    const fullPath = join(process.cwd(), filePath);
+
+    try {
+      let content = readFileSync(fullPath, "utf-8");
+
+      // Check if TypeScript disable comments are already present
+      if (!content.includes("@ts-nocheck")) {
+        // Add TypeScript disable comments at the top after the existing header
+        const lines = content.split("\n");
+        let insertIndex = 0;
+
+        // Find where to insert (after existing header comments)
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i]?.startsWith("//") || lines[i]?.trim() === "") {
+            insertIndex = i + 1;
+          } else {
+            break;
+          }
+        }
+
+        // Insert TypeScript disable comments
+        const tsDisableComments = ["// @ts-nocheck", "/* eslint-disable */", ""];
+
+        lines.splice(insertIndex, 0, ...tsDisableComments);
+        content = lines.join("\n");
+
+        writeFileSync(fullPath, content, "utf-8");
+        console.log(`✅ Added TypeScript disable comments to ${filePath}`);
+      } else {
+        console.log(`✅ TypeScript disable comments already present in ${filePath}`);
+      }
+    } catch (error) {
+      console.error(`❌ Failed to process ${filePath}:`, error);
+    }
+  }
+}
+
+/**
  * Post-process registry.mts to convert state strings to unions
  */
 function postProcessRegistry() {
@@ -113,10 +159,13 @@ async function main() {
   // Step 1: Generate types
   await generateTypes();
 
-  // Step 2: Post-process registry
+  // Step 2: Add TypeScript disable comments to generated files
+  addTsDisableComments();
+
+  // Step 3: Post-process registry
   postProcessRegistry();
 
-  // Step 3: Validate processing
+  // Step 4: Validate processing
   validateProcessing();
 
   console.log("🎉 Type generation and post-processing completed successfully!");

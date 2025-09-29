@@ -23,9 +23,9 @@ This project uses a workspace-based architecture with two main workspaces:
 - **[package.json](mdc:src/cdk8s/package.json)** - Workspace dependencies
 - **[cdk8s.yaml](mdc:src/cdk8s/cdk8s.yaml)** - CDK8s configuration
 - **[tsconfig.json](mdc:src/cdk8s/tsconfig.json)** - TypeScript configuration
-- **[update-imports.ts](mdc:src/cdk8s/update-imports.ts)** - Import update script
-- **[generate-helm-types.ts](mdc:src/cdk8s/generate-helm-types.ts)** - Helm types generation script
-- **[patch.ts](mdc:src/cdk8s/patch.ts)** - Patching utilities
+- **[update-imports.ts](mdc:src/cdk8s/scripts/update-imports.ts)** - Import update script
+- **[generate-helm-types.ts](mdc:src/cdk8s/scripts/generate-helm-types.ts)** - Helm types generation script
+- **[patch.ts](mdc:src/cdk8s/scripts/patch.ts)** - Patching utilities
 
 ### Working with CDK8s
 - Run commands from the `src/cdk8s/` directory

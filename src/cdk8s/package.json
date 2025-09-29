@@ -3,14 +3,15 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "bun run src/app.ts && bun run patch.ts",
+    "build": "bun run src/app.ts && bun run scripts/patch.ts",
     "lint": "bunx eslint .",
     "typecheck": "bunx tsc --noEmit",
-    "test": "bun run test:gpu-resources",
-    "test:gpu-resources": "bun run test-gpu-resources.ts",
+    "test": "bun test && bun run test:gpu-resources",
+    "test:gpu-resources": "bun run scripts/test-gpu-resources.ts",
+    "test:shared": "bun test src/monitoring/rules/shared.test.ts",
     "clear": "rm -rf dist/",
     "build-app": "bun run src/app.ts",
-    "patch": "bun run patch.ts",
+    "patch": "bun run scripts/patch.ts",
     "update-imports": "bun run update-imports.ts",
     "generate-helm-types": "cd ../helm-types && bun run generate",
     "up": "bun run build && kubectl apply -f dist",
@@ -27,8 +28,10 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
+    "@types/bun": "^1.2.23",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash": "^4.17.17",
+    "jiti": "^2.6.0",
     "type-fest": "^4.41.0"
   }
 }

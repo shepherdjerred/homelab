@@ -8,6 +8,7 @@ import {
   runIf,
   wait,
 } from "../util.ts";
+import z from "zod";
 
 export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   const bedroomScene = hass.refBy.id("scene.bedroom_dimmed");
@@ -106,23 +107,35 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
                     try {
                       logger.info("Attempting to play media on bedroom player");
                       await bedroomMediaPlayer.play_media({
-                        media_content_id: "FV:2/5",
-                        media_content_type: "favorite_item_id",
+                        media: {
+                          media_content_id: "FV:2/5",
+                          media_content_type: "favorite_item_id",
+                        },
                       });
                       logger.info("Successfully started media playback");
                     } catch (error) {
-                      const errorMsg = error instanceof Error ? error.message : String(error);
+                      const errorMsg = z
+                        .instanceof(Error)
+                        .transform((error) => error.message)
+                        .catch((ctx) => String(ctx.value))
+                        .parse(error);
                       logger.error(`First play_media attempt failed: ${errorMsg}`);
                       logger.info("Waiting additional time and retrying...");
                       await wait({ amount: 3, unit: "s" });
                       try {
                         await bedroomMediaPlayer.play_media({
-                          media_content_id: "FV:2/5",
-                          media_content_type: "favorite_item_id",
+                          media: {
+                            media_content_id: "FV:2/5",
+                            media_content_type: "favorite_item_id",
+                          },
                         });
                         logger.info("Retry successful");
                       } catch (retryError) {
-                        const retryErrorMsg = retryError instanceof Error ? retryError.message : String(retryError);
+                        const retryErrorMsg = z
+                          .instanceof(Error)
+                          .transform((error) => error.message)
+                          .catch((ctx) => String(ctx.value))
+                          .parse(retryError);
                         logger.error(`Retry also failed: ${retryErrorMsg}`);
                         // Continue with the rest of the routine even if media fails
                       }

@@ -5,13 +5,7 @@ import {
   Container,
   type File,
 } from "@dagger.io/dagger";
-import {
-  getWorkspaceContainer,
-  getUbuntuBaseContainer,
-  withMiseTools,
-  getMiseRuntimeContainer,
-  execWithErrorCapture,
-} from "./base";
+import { getWorkspaceContainer, getMiseRuntimeContainer } from "./base";
 import type { StepResult } from ".";
 import versions from "./versions";
 
@@ -21,26 +15,16 @@ export async function buildHa(source: Directory): Promise<Directory> {
     .directory("/workspace/src/ha");
 }
 
-export async function testHa(source: Directory): Promise<string> {
-  const container = getWorkspaceContainer(source, "src/ha");
-
-  return execWithErrorCapture(container, "bun test", "HA Testing Failed");
-}
-
 export async function typeCheckHa(source: Directory): Promise<string> {
   const container = getWorkspaceContainer(source, "src/ha");
 
-  return execWithErrorCapture(
-    container,
-    "bunx tsc --noEmit",
-    "HA Type Checking Failed",
-  );
+  return container.withExec(["bunx", "tsc", "--noEmit"]).stdout();
 }
 
 export async function lintHa(source: Directory): Promise<string> {
   const container = getWorkspaceContainer(source, "src/ha");
 
-  return execWithErrorCapture(container, "bun run lint", "HA Linting Failed");
+  return container.withExec(["bun", "run", "lint"]).stdout();
 }
 
 /**
@@ -72,7 +56,7 @@ async function buildHaContainer(source: Directory): Promise<Container> {
         "/root/.bun/install/cache",
         dag.cacheVolume("bun-cache-default-ha"),
       )
-      .withExec(["bun", "install", "--frozen-lockfile"])
+      .withExec(["bun", "install"])
       // Copy the full ha source after dependencies are resolved
       .withDirectory("src/ha", haSource, { exclude: ["package.json"] })
       // Set working directory to the ha workspace

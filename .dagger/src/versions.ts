@@ -27,8 +27,12 @@ const versions = {
   // this is empty because we have to perform some string manipulation below
   // not managed by renovate
   bun: "",
+  // this is empty because we have to perform some string manipulation below
+  // not managed by renovate
+  helm: "",
 };
 
 versions["bun"] = versions["oven/bun"].split("@")[0];
+versions["helm"] = versions["alpine/helm"].split("@")[0];
 
 export default versions;

@@ -43,8 +43,10 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
 
       logger.debug("Playing media on bedroom media player");
       await bedroomMediaPlayer.play_media({
-        media_content_id: "FV:2/7",
-        media_content_type: "favorite_item_id",
+        media: {
+          media_content_id: "FV:2/7",
+          media_content_type: "favorite_item_id",
+        },
       });
 
       for (let i = 0; i < 9; i++) {

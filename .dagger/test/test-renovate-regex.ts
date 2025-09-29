@@ -168,10 +168,7 @@ async function main() {
 
   // Get the regex patterns from renovate.json
   const renovateRegexes = await getRenovateRegexes();
-  console.log(`📋 Using ${renovateRegexes.length} regex pattern(s):`);
-  renovateRegexes.forEach((regex, i) => {
-    console.log(`   ${i + 1}: ${regex.source}`);
-  });
+  console.log(`📋 Using ${renovateRegexes.length} regex pattern(s)`);
 
   const versionFiles = ["src/cdk8s/src/versions.ts", ".dagger/src/versions.ts"];
 

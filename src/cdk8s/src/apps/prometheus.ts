@@ -12,6 +12,7 @@ import { createNtpdMetricsMonitoring } from "../services/monitoring/ntpd-metrics
 import { createNvmeMetricsMonitoring } from "../services/monitoring/nvme-metrics.ts";
 import { createZfsSnapshotsMonitoring } from "../services/monitoring/zfs-snapshots.ts";
 import { createZfsZpoolMonitoring } from "../services/monitoring/zfs-zpool.ts";
+import { escapeAlertmanagerTemplate } from "../monitoring/rules/shared.ts";
 // import { HelmValuesForChart } from "../types/helm/index.js"; // Using 'any' for complex config
 
 export async function createPrometheusApp(chart: Chart) {
@@ -197,16 +198,24 @@ export async function createPrometheusApp(chart: Chart) {
             pagerduty_configs: [
               {
                 routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
-                description: `{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}`,
+                // Use utility function to escape templates for Alertmanager processing
+                description: escapeAlertmanagerTemplate(
+                  "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}",
+                ),
                 severity: "error",
-                details: `
-{
-  firing:       '{{ template "pagerduty.default.instances" .Alerts.Firing }}'
-  resolved:     '{{ template "pagerduty.default.instances" .Alerts.Resolved }}'
-  num_firing:   '{{ .Alerts.Firing | len }}'
-  num_resolved: '{{ .Alerts.Resolved | len }}'
-}
-                `,
+                details: escapeAlertmanagerTemplate(
+                  JSON.stringify(
+                    {
+                      firing: "{{ range .Alerts.Firing }}{{ . }}\n{{ end }}",
+                      resolved:
+                        "{{ range .Alerts.Resolved }}{{ . }}\n{{ end }}",
+                      num_firing: "{{ .Alerts.Firing | len }}",
+                      num_resolved: "{{ .Alerts.Resolved | len }}",
+                    },
+                    null,
+                    2,
+                  ),
+                ),
                 // Grafana has an image rendering feature
                 // let's see if we can use it here
                 images: [],

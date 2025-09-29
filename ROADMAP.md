@@ -7,6 +7,9 @@
 - https://github.com/prometheus/blackbox_exporter
 - https://github.com/esanchezm/prometheus-qbittorrent-exporter
 - https://github.com/jsclayton/prometheus-plex-exporter
+- CI
+  - Output is still difficult to understand
+- Verify Gomplate syntax
 
 ## Done
 

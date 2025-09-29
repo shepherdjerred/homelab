@@ -1,7 +1,14 @@
 import { PrometheusRuleSpecGroupsRulesExpr } from "../../../imports/monitoring.coreos.com";
 
-// Helper to create readable template strings with Helm escaping
-// Converts normal Prometheus templates like "{{ $value }}" to Helm-escaped "{{ "{{" }} $value {{ "}}" }}"
+// Generic helper to escape Go template syntax so Helm doesn't process it
+// Converts "{{ anything }}" to "{{ "{{" }} anything {{ "}}" }}"
+export function escapeGoTemplate(template: string): string {
+  // Use a more specific replacement to avoid double-escaping
+  return template.replace(/\{\{([^}]*)\}\}/g, '{{ "{{" }}$1{{ "}}" }}');
+}
+
+// Helper to create readable Prometheus template strings with Helm escaping
+// Uses smart replacements for common Prometheus patterns, falls back to generic escaping
 export function escapePrometheusTemplate(template: string): string {
   return template
     .replaceAll(
@@ -14,6 +21,9 @@ export function escapePrometheusTemplate(template: string): string {
       '{{ "{{" }} $labels.$1 {{ "}}" }}',
     ); // Handle {{ $labels.entity }}
 }
+
+// Alias for clarity when used in Alertmanager contexts
+export const escapeAlertmanagerTemplate = escapeGoTemplate;
 
 // Rule factory functions for common alert patterns
 export function createSensorAlert(

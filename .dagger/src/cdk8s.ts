@@ -1,6 +1,6 @@
 #!/usr/bin/env -S bun
 import { Directory, dag } from "@dagger.io/dagger";
-import { getWorkspaceContainer, execWithErrorCapture } from "./base";
+import { getWorkspaceContainer } from "./base";
 import versions from "./versions";
 
 export async function typeCheckCdk8s(source: Directory): Promise<string> {
@@ -11,11 +11,7 @@ export async function typeCheckCdk8s(source: Directory): Promise<string> {
       dag.cacheVolume("typescript-cache"),
     );
 
-  return execWithErrorCapture(
-    container,
-    "bunx tsc --noEmit",
-    "CDK8s Type Checking Failed",
-  );
+  return container.withExec(["bunx", "tsc", "--noEmit"]).stdout();
 }
 
 export async function buildK8sManifests(source: Directory): Promise<Directory> {
@@ -31,11 +27,7 @@ export async function lintCdk8s(source: Directory): Promise<string> {
     "/workspace",
   );
 
-  return execWithErrorCapture(
-    container,
-    "bun run lint",
-    "CDK8s Linting Failed",
-  );
+  return container.withExec(["bun", "run", "lint"]).stdout();
 }
 
 export async function testCdk8s(source: Directory): Promise<string> {
@@ -43,9 +35,7 @@ export async function testCdk8s(source: Directory): Promise<string> {
     "/workspace",
   );
 
-  return execWithErrorCapture(
-    container,
-    "bun run build && bun run test:gpu-resources",
-    "CDK8s Testing Failed",
-  );
+  return container
+    .withExec(["bun", "run", "build", "&&", "bun", "run", "test:gpu-resources"])
+    .stdout();
 }

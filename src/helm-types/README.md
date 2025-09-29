@@ -1,5 +1,7 @@
 # Helm Types Generator
 
+**Note** this module/README was authored by AI
+
 A generic TypeScript type generator for Helm charts. This tool fetches Helm chart values and generates corresponding TypeScript interfaces and parameter types.
 
 ## Features
@@ -40,7 +42,11 @@ bun run src/cli.ts --help
 ### Programmatic API
 
 ```typescript
-import { generateHelmTypes, parseChartInfoFromVersions, fetchHelmChart } from "@homelab/helm-types";
+import {
+  generateHelmTypes,
+  parseChartInfoFromVersions,
+  fetchHelmChart,
+} from "@homelab/helm-types";
 
 // Generate all types from a versions file
 await generateHelmTypes({
@@ -117,11 +123,11 @@ export type KubePrometheusStackHelmParameters = {
 
 ```typescript
 interface HelmTypesOptions {
-  versionsFile?: string;    // Path to versions file
-  outputDir?: string;       // Output directory
-  runPrettier?: boolean;    // Run prettier (default: true)
-  runTypeCheck?: boolean;   // Run tsc --noEmit (default: true)
-  runLinter?: boolean;      // Run eslint (default: true)
+  versionsFile?: string; // Path to versions file
+  outputDir?: string; // Output directory
+  runPrettier?: boolean; // Run prettier (default: true)
+  runTypeCheck?: boolean; // Run tsc --noEmit (default: true)
+  runLinter?: boolean; // Run eslint (default: true)
 }
 ```
 
