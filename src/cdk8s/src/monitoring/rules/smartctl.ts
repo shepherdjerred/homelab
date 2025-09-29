@@ -250,27 +250,6 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
           },
         },
-
-        // Data collection health
-        {
-          alert: "SmartMonitoringDown",
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'up{job="node-exporter"} == 1 unless on(instance) (smartmon_scrape_timestamp_seconds > (time() - 600))',
-          ),
-          for: "10m",
-          labels: {
-            severity: "warning",
-            category: "monitoring",
-          },
-          annotations: {
-            summary: escapePrometheusTemplate(
-              "SMART monitoring not collecting data on {{ $labels.instance }}",
-            ),
-            description: escapePrometheusTemplate(
-              "SMART monitoring has not collected data from {{ $labels.instance }} for more than 10 minutes.",
-            ),
-          },
-        },
       ],
     },
     {

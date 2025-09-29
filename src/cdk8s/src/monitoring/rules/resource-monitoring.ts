@@ -272,7 +272,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "High system temperature detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_hwmon_temp_celsius > 70",
+            "node_hwmon_temp_celsius > 75",
           ),
           for: "15m",
           labels: { severity: "warning" },

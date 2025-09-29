@@ -30,17 +30,6 @@ export function createArgoCdApp(chart: Chart) {
         },
       },
     },
-    dex: {
-      metrics: {
-        enabled: true,
-        serviceMonitor: {
-          enabled: true,
-          additionalLabels: {
-            release: "prometheus",
-          },
-        },
-      },
-    },
     redis: {
       exporter: {
         enabled: true,

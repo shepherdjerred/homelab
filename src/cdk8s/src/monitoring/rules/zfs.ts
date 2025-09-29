@@ -230,34 +230,6 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
       name: "zfs-performance-monitoring",
       rules: [
         {
-          alert: "ZfsCompressionRatioLow",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS compression ratio on {{ $labels.instance }} is low: {{ $value }}x - consider reviewing compression settings",
-            ),
-            summary: "ZFS compression ratio is lower than expected",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "(node_zfs_arc_data_size / node_zfs_arc_compressed_size) < 1.2",
-          ),
-          for: "30m",
-          labels: { severity: "info" },
-        },
-        {
-          alert: "ZfsPrefetchMissRate",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS prefetch efficiency on {{ $labels.instance }} is low: high miss rate affecting performance",
-            ),
-            summary: "ZFS prefetch efficiency is low",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "(rate(node_zfs_arc_demand_hit_predictive_prefetch[5m]) + rate(node_zfs_arc_demand_hit_prescient_prefetch[5m])) / (rate(node_zfs_arc_demand_data_hits[5m]) + rate(node_zfs_arc_demand_metadata_hits[5m])) < 0.1",
-          ),
-          for: "20m",
-          labels: { severity: "info" },
-        },
-        {
           alert: "ZfsHashCollisionsHigh",
           annotations: {
             description: escapePrometheusTemplate(
@@ -397,20 +369,6 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           for: "5m",
           labels: { severity: "critical" },
         },
-        {
-          alert: "ZfsMemoryDirectIndirectImbalance",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS memory allocation on {{ $labels.instance }} shows imbalance between direct and indirect allocations",
-            ),
-            summary: "ZFS memory allocation imbalance detected",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_memory_indirect_count / node_zfs_arc_memory_direct_count > 10 or node_zfs_arc_memory_direct_count / node_zfs_arc_memory_indirect_count > 10",
-          ),
-          for: "20m",
-          labels: { severity: "info" },
-        },
       ],
     },
 
@@ -418,20 +376,6 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
     {
       name: "zfs-cache-efficiency",
       rules: [
-        {
-          alert: "ZfsMfuGhostHitsLow",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS MFU ghost hits on {{ $labels.instance }} are low: {{ $value }}/s - cache may not be warming properly",
-            ),
-            summary: "ZFS MFU ghost cache hits are low",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_arc_mfu_ghost_hits[5m]) < 10",
-          ),
-          for: "20m",
-          labels: { severity: "info" },
-        },
         {
           alert: "ZfsAnonDataHigh",
           annotations: {
@@ -467,20 +411,6 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
     {
       name: "zfs-l2arc-advanced",
       rules: [
-        {
-          alert: "ZfsL2ArcDataMetaRatioImbalanced",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS L2ARC data-to-metadata ratio on {{ $labels.instance }} is imbalanced: {{ $value }}",
-            ),
-            summary: "ZFS L2ARC data/metadata ratio is imbalanced",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_l2_data_to_meta_ratio > 20 or node_zfs_arc_l2_data_to_meta_ratio < 2",
-          ),
-          for: "20m",
-          labels: { severity: "info" },
-        },
         {
           alert: "ZfsL2ArcReadWriteClash",
           annotations: {
@@ -528,20 +458,6 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             "(node_zfs_abd_linear_cnt / (node_zfs_abd_linear_cnt + node_zfs_abd_scatter_cnt)) > 0.9 or (node_zfs_abd_linear_cnt / (node_zfs_abd_linear_cnt + node_zfs_abd_scatter_cnt)) < 0.1",
           ),
           for: "20m",
-          labels: { severity: "info" },
-        },
-        {
-          alert: "ZfsAbdScatterOrderFragmentation",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS ABD scatter on {{ $labels.instance }} shows high fragmentation - mostly small order allocations",
-            ),
-            summary: "ZFS ABD scatter fragmentation detected",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "(node_zfs_abd_scatter_order_0 + node_zfs_abd_scatter_order_1) / (node_zfs_abd_scatter_order_0 + node_zfs_abd_scatter_order_1 + node_zfs_abd_scatter_order_2 + node_zfs_abd_scatter_order_3 + node_zfs_abd_scatter_order_4) > 0.8",
-          ),
-          for: "30m",
           labels: { severity: "info" },
         },
         {
