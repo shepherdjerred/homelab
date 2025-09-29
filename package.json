@@ -22,6 +22,9 @@
     "test": "bun run --filter=* test",
     "lint": "bun run --filter=* lint",
     "type-check": "bun run --filter=* type-check",
-    "prettier": "bunx prettier --write ."
+    "prettier": "bunx prettier --write .",
+    "watch:cdk8s": "bun run scripts/watch-cdk8s.ts",
+    "watch:all": "bun run scripts/watch-all.ts",
+    "watch:helm": "bun run scripts/watch-helm.ts"
   }
 }

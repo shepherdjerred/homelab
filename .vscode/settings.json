@@ -1,7 +1,25 @@
 {
-  "search.exclude": {
-    "**/imports/*.ts": true,
-    "**/dist/*.yaml": true
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.git/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/.cache/**": true,
+    "**/*.log": true
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "task.autoDetect": "on",
+  "task.quickOpen.history": 10,
+  "task.quickOpen.detail": true,
+  "task.quickOpen.skip": false,
+  "task.saveBeforeRun": "always",
+  "files.associations": {
+    "*.ts": "typescript",
+    "*.js": "javascript"
+  },
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "eslint.workingDirectories": [
+    "src/cdk8s",
+    "src/ha",
+    "src/helm-types"
+  ]
 }
