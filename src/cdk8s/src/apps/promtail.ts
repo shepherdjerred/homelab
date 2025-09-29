@@ -35,7 +35,7 @@ export function createPromtailApp(chart: Chart) {
         targetRevision: versions.promtail,
         chart: "promtail",
         helm: {
-          valuesObject: promtailValues, // ✅ Now type-checked against PromtailHelmValues
+          valuesObject: promtailValues,
         },
       },
       destination: {

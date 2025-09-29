@@ -71,7 +71,7 @@ export function createMinecraftApp(chart: Chart) {
         targetRevision: versions.minecraft,
         chart: "minecraft",
         helm: {
-          valuesObject: minecraftValues, // ✅ Now type-checked against MinecraftHelmValues
+          valuesObject: minecraftValues,
         },
       },
       destination: {

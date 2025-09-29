@@ -66,7 +66,7 @@ export function createLokiApp(chart: Chart) {
         targetRevision: versions.loki,
         chart: "loki",
         helm: {
-          valuesObject: lokiValues, // ✅ Now type-checked against LokiHelmValues
+          valuesObject: lokiValues,
         },
       },
       destination: {

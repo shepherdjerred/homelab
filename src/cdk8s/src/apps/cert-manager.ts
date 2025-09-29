@@ -42,7 +42,7 @@ export function createCertManagerApp(chart: Chart) {
         chart: "cert-manager",
         targetRevision: versions["cert-manager"],
         helm: {
-          valuesObject: certManagerValues, // ✅ Now type-checked against CertmanagerHelmValues
+          valuesObject: certManagerValues,
         },
       },
       destination: {

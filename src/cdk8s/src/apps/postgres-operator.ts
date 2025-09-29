@@ -54,7 +54,7 @@ export function createPostgresOperatorApp(chart: Chart) {
         chart: "postgres-operator",
         targetRevision: versions["postgres-operator"],
         helm: {
-          valuesObject: postgresOperatorValues, // ✅ Now type-checked against PostgresoperatorHelmValues
+          valuesObject: postgresOperatorValues,
         },
       },
       destination: {

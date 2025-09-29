@@ -50,7 +50,7 @@ export function createOpenEBSApp(chart: Chart) {
         targetRevision: versions.openebs,
         chart: "openebs",
         helm: {
-          valuesObject: openEBSValues, // ✅ Now type-checked against OpenebsHelmValues
+          valuesObject: openEBSValues,
         },
       },
       destination: {

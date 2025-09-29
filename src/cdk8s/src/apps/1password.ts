@@ -33,7 +33,7 @@ export function createOnePasswordApp(chart: Chart) {
         targetRevision: versions.connect,
         chart: "connect",
         helm: {
-          valuesObject: onePasswordValues, // ✅ Now type-checked against ConnectHelmValues
+          valuesObject: onePasswordValues,
         },
       },
       destination: {

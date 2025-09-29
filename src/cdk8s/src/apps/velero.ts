@@ -251,7 +251,7 @@ export function createVeleroApp(chart: Chart) {
         targetRevision: versions.velero,
         helm: {
           releaseName: "velero",
-          valuesObject: veleroValues, // ✅ Now type-checked against VeleroHelmValues
+          valuesObject: veleroValues,
         },
       },
       destination: {

@@ -124,7 +124,7 @@ export function createArgoCdApp(chart: Chart) {
         targetRevision: versions["argo-cd"],
         chart: "argo-cd",
         helm: {
-          valuesObject: argoCdValues, // ✅ Now type-checked against ArgocdHelmValues
+          valuesObject: argoCdValues,
         },
       },
       destination: {

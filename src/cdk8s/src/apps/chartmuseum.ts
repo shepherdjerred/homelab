@@ -57,7 +57,7 @@ export function createChartMuseumApp(chart: Chart) {
         targetRevision: versions.chartmuseum,
         chart: "chartmuseum",
         helm: {
-          valuesObject: chartMuseumValues, // ✅ Now type-checked against ChartmuseumHelmValues
+          valuesObject: chartMuseumValues,
         },
       },
       destination: {

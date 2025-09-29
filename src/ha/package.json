@@ -6,7 +6,7 @@
   "scripts": {
     "build": "echo 'HA project ready'",
     "test": "echo 'No tests configured'",
-    "type-check": "bunx tsc --noEmit",
+    "typecheck": "bunx tsc --noEmit",
     "lint": "bunx eslint . && bunx prettier --check .",
     "lint:fix": "bunx eslint . --fix && bunx prettier --write .",
     "generate-types": "bun run generate-types.ts"

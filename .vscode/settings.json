@@ -4,5 +4,8 @@
     "**/dist/*.yaml": true
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "typescript.tsserver.experimental.enableProjectDiagnostics": true
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  }
 }

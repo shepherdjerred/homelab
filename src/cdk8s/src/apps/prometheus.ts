@@ -312,7 +312,7 @@ export async function createPrometheusApp(chart: Chart) {
         chart: "kube-prometheus-stack",
         targetRevision: versions["kube-prometheus-stack"],
         helm: {
-          valuesObject: prometheusValues, // ✅ Now type-checked against KubeprometheusstackHelmValues
+          valuesObject: prometheusValues,
         },
       },
       destination: {
