@@ -9,6 +9,7 @@
 - https://github.com/jsclayton/prometheus-plex-exporter
 - CI
   - Output is still difficult to understand
+  - it's really a mess altogether tbh. Maybe I should get rid of Dagger?
 - Verify Gomplate syntax
 
 ## Done
