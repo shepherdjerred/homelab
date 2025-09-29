@@ -11,7 +11,7 @@ run = "dagger call check-all --source=."
 run = 'dagger call ci --argocd-token=env:DUMMY_ARGOCD_TOKEN --chart-museum-password=env:DUMMY_CHART_MUSEUM_PASSWORD --chart-museum-username=dummy-user --chart-version=0.1.0-dev --ghcr-password=env:DUMMY_GHCR_PASSWORD --ghcr-username=dummy-user --env=dev'
 
 [tasks.dev]
-run = 'dagger develop && (cd .dagger/ && bun install) && (cd src/ha/ && bun install && ./generate-types.ts) && (cd src/cdk8s/ && bun install)'
+run = 'bun install && dagger develop && (cd .dagger/ && bun install) && (cd src/ha/ && ./generate-types.ts)'
 
 [tasks.build-cdk8s]
 dir = 'src/cdk8s/'
@@ -19,7 +19,7 @@ run = ['bun run typecheck', 'bun run lint', 'bun run build']
 
 [tasks.build-ha]
 dir = 'src/ha/'
-run = ['bun run typecheck', 'bun run lint', 'bun run build']
+run = ['bun run typecheck', 'bun run lint']
 
 [tasks.build]
 depends = ['build-cdk8s', 'build-ha']

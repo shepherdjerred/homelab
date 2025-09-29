@@ -63,7 +63,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "LowMemoryAvailable",
           annotations: {
             description: escapePrometheusTemplate(
-              "Node {{ $labels.instance }} has very low available memory: {{ $value | humanizeBytes }} remaining",
+              "Node {{ $labels.instance }} has very low available memory: {{ $value | humanize }} bytes remaining",
             ),
             summary: "Very low memory available",
           },
@@ -98,7 +98,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "HighNetworkTransmit",
           annotations: {
             description: escapePrometheusTemplate(
-              "Node {{ $labels.instance }} interface {{ $labels.device }} has high sustained transmit rate: {{ $value | humanizeBytes }}/s for over 1 hour",
+              "Node {{ $labels.instance }} interface {{ $labels.device }} has high sustained transmit rate: {{ $value | humanize }} bytes/s for over 1 hour",
             ),
             summary: "High network transmit rate sustained",
           },
@@ -112,7 +112,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "HighNetworkReceive",
           annotations: {
             description: escapePrometheusTemplate(
-              "Node {{ $labels.instance }} interface {{ $labels.device }} has high sustained receive rate: {{ $value | humanizeBytes }}/s for over 1 hour",
+              "Node {{ $labels.instance }} interface {{ $labels.device }} has high sustained receive rate: {{ $value | humanize }} bytes/s for over 1 hour",
             ),
             summary: "High network receive rate sustained",
           },
@@ -161,7 +161,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "HighDiskWriteActivity",
           annotations: {
             description: escapePrometheusTemplate(
-              "Device {{ $labels.device }} on {{ $labels.instance }} has high write activity: {{ $value | humanizeBytes }}/s (potential SSD wear concern)",
+              "Device {{ $labels.device }} on {{ $labels.instance }} has high write activity: {{ $value | humanize }} bytes/s (potential SSD wear concern)",
             ),
             summary: "High disk write activity detected",
           },
@@ -175,7 +175,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "SustainedDiskWriteActivity",
           annotations: {
             description: escapePrometheusTemplate(
-              "Device {{ $labels.device }} on {{ $labels.instance }} has sustained write activity: {{ $value | humanizeBytes }}/s for over 1 day (SSD wear concern)",
+              "Device {{ $labels.device }} on {{ $labels.instance }} has sustained write activity: {{ $value | humanize }} bytes/s for over 1 day (SSD wear concern)",
             ),
             summary:
               "Sustained disk write activity detected - SSD wear concern",

@@ -4,7 +4,6 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "build": "echo 'HA project ready'",
     "test": "echo 'No tests configured'",
     "typecheck": "bunx tsc --noEmit",
     "lint": "bunx eslint . && bunx prettier --check .",

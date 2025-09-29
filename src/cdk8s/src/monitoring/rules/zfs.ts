@@ -57,7 +57,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsArcMetadataHigh",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS ARC metadata usage on {{ $labels.instance }} is high: {{ $value | humanizeBytes }} (>75% of ARC)",
+              "ZFS ARC metadata usage on {{ $labels.instance }} is high: {{ $value | humanize }} bytes (>75% of ARC)",
             ),
             summary: "ZFS ARC metadata usage is high",
           },
@@ -149,7 +149,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsL2ArcSizeUnusual",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS L2ARC size on {{ $labels.instance }} is unusually low: {{ $value | humanizeBytes }} - may indicate L2ARC device issues",
+              "ZFS L2ARC size on {{ $labels.instance }} is unusually low: {{ $value | humanize }} bytes - may indicate L2ARC device issues",
             ),
             summary: "ZFS L2ARC size is unusually low",
           },
@@ -184,7 +184,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsMemoryReclaim",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS on {{ $labels.instance }} is under memory pressure: need_free={{ $value | humanizeBytes }}",
+              "ZFS on {{ $labels.instance }} is under memory pressure: need_free={{ $value | humanize }} bytes",
             ),
             summary: "ZFS memory reclaim active - system under memory pressure",
           },
@@ -198,7 +198,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsAbdScatterWasteHigh",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS ABD scatter waste on {{ $labels.instance }} is high: {{ $value | humanizeBytes }} - memory fragmentation concern",
+              "ZFS ABD scatter waste on {{ $labels.instance }} is high: {{ $value | humanize }} bytes - memory fragmentation concern",
             ),
             summary: "High ZFS ABD scatter waste - memory fragmentation",
           },
@@ -373,7 +373,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsArcSizeBelowMinimum",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS ARC size on {{ $labels.instance }} is below minimum: {{ $value | humanizeBytes }} is less than configured minimum",
+              "ZFS ARC size on {{ $labels.instance }} is below minimum: {{ $value | humanize }} bytes is less than configured minimum",
             ),
             summary: "ZFS ARC size is below configured minimum",
           },
@@ -387,7 +387,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsSystemMemoryLow",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS reports system free memory on {{ $labels.instance }} is critically low: {{ $value | humanizeBytes }}",
+              "ZFS reports system free memory on {{ $labels.instance }} is critically low: {{ $value | humanize }} bytes",
             ),
             summary: "ZFS system free memory is critically low",
           },
@@ -436,7 +436,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsAnonDataHigh",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS anonymous data on {{ $labels.instance }} is high: {{ $value | humanizeBytes }} - may indicate poor cache efficiency",
+              "ZFS anonymous data on {{ $labels.instance }} is high: {{ $value | humanize }} bytes - may indicate poor cache efficiency",
             ),
             summary: "High ZFS anonymous data usage",
           },
@@ -569,7 +569,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsDnodeSizeHigh",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS dnode size on {{ $labels.instance }} is high: {{ $value | humanizeBytes }} - may indicate metadata bloat",
+              "ZFS dnode size on {{ $labels.instance }} is high: {{ $value | humanize }} bytes - may indicate metadata bloat",
             ),
             summary: "High ZFS dnode usage",
           },
@@ -583,7 +583,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsBonusSizeHigh",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS bonus buffer size on {{ $labels.instance }} is high: {{ $value | humanizeBytes }}",
+              "ZFS bonus buffer size on {{ $labels.instance }} is high: {{ $value | humanize }} bytes",
             ),
             summary: "High ZFS bonus buffer usage",
           },
@@ -597,7 +597,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsDbufSizeHigh",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS data buffer size on {{ $labels.instance }} is high: {{ $value | humanizeBytes }}",
+              "ZFS data buffer size on {{ $labels.instance }} is high: {{ $value | humanize }} bytes",
             ),
             summary: "High ZFS data buffer usage",
           },
@@ -646,7 +646,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsLoanedBytesHigh",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS loaned bytes on {{ $labels.instance }} are high: {{ $value | humanizeBytes }} - potential memory leak",
+              "ZFS loaned bytes on {{ $labels.instance }} are high: {{ $value | humanize }} bytes - potential memory leak",
             ),
             summary: "High ZFS loaned bytes detected",
           },

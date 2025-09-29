@@ -59,9 +59,9 @@ describe("Template escaping utilities", () => {
     });
 
     test("should escape $value with filter", () => {
-      const input = "Memory usage: {{ $value | humanizeBytes }}";
+      const input = "Memory usage: {{ $value | humanize }} bytes";
       const expected =
-        'Memory usage: {{ "{{" }} $value | humanizeBytes {{ "}}" }}';
+        'Memory usage: {{ "{{" }} $value | humanize {{ "}}" }} bytes';
       expect(escapePrometheusTemplate(input)).toBe(expected);
     });
 

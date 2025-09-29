@@ -5,7 +5,8 @@
   "private": true,
   "workspaces": [
     "src/cdk8s",
-    "src/ha"
+    "src/ha",
+    "src/helm-types"
   ],
   "dependencies": {},
   "devDependencies": {
