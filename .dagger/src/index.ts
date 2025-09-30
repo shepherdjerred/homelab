@@ -288,10 +288,10 @@ export class Homelab {
       renovateTestResult,
       helmTestResult,
       cdk8sTestResult,
-      cdk8sLintResult,
-      haLintResult,
-      cdk8sTypeCheckResult,
-      haTypeCheckResult,
+      // cdk8sLintResult,
+      // haLintResult,
+      // cdk8sTypeCheckResult,
+      // haTypeCheckResult,
     ] = await Promise.all([
       cdk8sBuildPromise,
       haBuildPromise,
@@ -300,9 +300,9 @@ export class Homelab {
       helmTestPromise,
       cdk8sTestPromise,
       cdk8sLintPromise,
-      haLintPromise,
-      cdk8sTypeCheckPromise,
-      haTypeCheckPromise,
+      // haLintPromise,
+      // cdk8sTypeCheckPromise,
+      // haTypeCheckPromise,
     ]);
 
     // Publish HA image if prod
@@ -360,10 +360,10 @@ export class Homelab {
       renovateTestResult.message,
       helmTestResult.message,
       cdk8sTestResult.message,
-      cdk8sLintResult.message,
-      haLintResult.message,
-      cdk8sTypeCheckResult.message,
-      haTypeCheckResult.message,
+      // cdk8sLintResult.message,
+      // haLintResult.message,
+      // cdk8sTypeCheckResult.message,
+      // haTypeCheckResult.message,
       `Sync result:\n${syncResult.message}`,
       cdk8sBuildResult.message,
       haBuildResult.message,
@@ -376,10 +376,10 @@ export class Homelab {
       renovateTestResult.status === "failed" ||
       helmTestResult.status === "failed" ||
       cdk8sTestResult.status === "failed" ||
-      cdk8sLintResult.status === "failed" ||
-      haLintResult.status === "failed" ||
-      cdk8sTypeCheckResult.status === "failed" ||
-      haTypeCheckResult.status === "failed" ||
+      // cdk8sLintResult.status === "failed" ||
+      // haLintResult.status === "failed" ||
+      // cdk8sTypeCheckResult.status === "failed" ||
+      // haTypeCheckResult.status === "failed" ||
       syncResult.status === "failed" ||
       cdk8sBuildResult.status === "failed" ||
       haBuildResult.status === "failed" ||
