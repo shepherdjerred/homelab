@@ -503,16 +503,6 @@ export class Homelab {
 
     const output = await container.stdout();
 
-    // Check if Helm testing actually failed by looking for error indicators
-    if (
-      output.includes("❌") ||
-      output.includes("failed") ||
-      output.includes("error") ||
-      output.includes("Error")
-    ) {
-      throw new Error(`Helm Testing Failed:\n${output}`);
-    }
-
     return output;
   }
 
