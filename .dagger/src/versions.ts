@@ -8,7 +8,7 @@ const versions = {
     "3.18.5@sha256:ba9835b141a6f35b8b316bc6072e9f42b3addd8cbebab1dfc516ef0ed737b04c",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "oven/bun":
-    "1.2.20@sha256:78f46b81b82d767ee8d729411f6f95089a403c21f17c20a5789df00263d7c5b5",
+    "1.2.21@sha256:5a2011bf09364b9af658ac1e66f60d08092f4291aeefbff448d58b027734fdd0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   ubuntu:
     "noble@sha256:353675e2a41babd526e2b837d7ec780c2a05bca0164f7ea5dbbd433d21d166fc",
