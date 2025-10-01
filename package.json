@@ -32,11 +32,10 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx,json,css,md}": [
-      "bunx prettier --write"
-    ],
+    "*": "bunx prettier --ignore-unknown --write",
     "**/*.{ts,tsx}": [
-      "bunx eslint --fix"
+      "bunx eslint --fix",
+      "bunx tsc --noEmit"
     ]
   }
 }
