@@ -30,5 +30,13 @@
     "typecheck": "bun run --filter=* typecheck",
     "prettier": "bunx prettier --write .",
     "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,json,css,md}": [
+      "bunx prettier --write"
+    ],
+    "**/*.{ts,tsx}": [
+      "bunx eslint --fix"
+    ]
   }
 }
