@@ -195,20 +195,6 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           labels: { severity: "warning" },
         },
         {
-          alert: "ZfsAbdScatterWasteHigh",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS ABD scatter waste on {{ $labels.instance }} is high: {{ $value | humanize }} bytes - memory fragmentation concern",
-            ),
-            summary: "High ZFS ABD scatter waste - memory fragmentation",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_abd_scatter_chunk_waste > 104857600", // 100MB
-          ),
-          for: "20m",
-          labels: { severity: "warning" },
-        },
-        {
           alert: "ZfsAbdPageAllocRetries",
           annotations: {
             description: escapePrometheusTemplate(
