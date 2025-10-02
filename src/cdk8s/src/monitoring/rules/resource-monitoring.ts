@@ -77,14 +77,14 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "MemoryLeakSuspected",
           annotations: {
             description: escapePrometheusTemplate(
-              "Node {{ $labels.instance }} shows potential memory leak: consistent memory growth over 6 hours",
+              "Node {{ $labels.instance }} shows potential memory leak: consistent memory growth over 12 hours",
             ),
             summary: "Potential memory leak detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) - (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes offset 6h) > 2147483648", // 2GB increase
+            "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) - (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes offset 12h) > 4294967296", // 4GB increase
           ),
-          for: "30m",
+          for: "1h",
           labels: { severity: "warning" },
         },
       ],
