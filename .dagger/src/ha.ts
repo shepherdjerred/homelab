@@ -16,23 +16,40 @@ export async function buildHa(source: Directory): Promise<Directory> {
 }
 
 /**
- * Prepares the HA container by generating hass.d.ts with CI environment set.
- * This ensures dev-types are imported during CI builds.
+ * Prepares the HA container by generating hass.d.ts.
+ * Accepts optional HA credentials to generate real types, otherwise uses CI stub.
  */
-function prepareHaContainer(source: Directory): Container {
-  return getWorkspaceContainer(source, "src/ha")
-    .withEnvVariable("CI", "true")
-    .withExec(["bun", "generate-types.ts", "--ci"]);
+function prepareHaContainer(
+  source: Directory,
+  hassBaseUrl: Secret,
+  hassToken: Secret,
+): Container {
+  let container = getWorkspaceContainer(source, "src/ha");
+
+  container = container
+    .withSecretVariable("HASS_BASE_URL", hassBaseUrl)
+    .withSecretVariable("HASS_TOKEN", hassToken)
+    .withExec(["bun", "generate-types.ts"]);
+
+  return container;
 }
 
-export async function typeCheckHa(source: Directory): Promise<string> {
-  const container = prepareHaContainer(source);
+export async function typeCheckHa(
+  source: Directory,
+  hassBaseUrl: Secret,
+  hassToken: Secret,
+): Promise<string> {
+  const container = prepareHaContainer(source, hassBaseUrl, hassToken);
 
   return container.withExec(["bun", "run", "typecheck"]).stdout();
 }
 
-export async function lintHa(source: Directory): Promise<string> {
-  const container = prepareHaContainer(source);
+export async function lintHa(
+  source: Directory,
+  hassBaseUrl: Secret,
+  hassToken: Secret,
+): Promise<string> {
+  const container = prepareHaContainer(source, hassBaseUrl, hassToken);
 
   return container.withExec(["bun", "run", "lint"]).stdout();
 }
