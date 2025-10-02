@@ -24,6 +24,7 @@
     ".dagger": {
       "name": "@homelab/dagger",
       "dependencies": {
+        "typescript": "^5.5.4",
         "zod": "^4.1.11",
       },
     },

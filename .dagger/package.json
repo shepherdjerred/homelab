@@ -10,6 +10,7 @@
     "lint:fix": "bunx eslint . --fix"
   },
   "dependencies": {
+    "typescript": "^5.5.4",
     "zod": "^4.1.11"
   },
   "dagger": {
