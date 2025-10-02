@@ -84,6 +84,8 @@ jobs:
             --chart-version "$CHART_VERSION" \
             --chart-museum-username "$CHARTMUSEUM_USERNAME" \
             --chart-museum-password env://CHARTMUSEUM_PASSWORD \
+            --hass-base-url env://HASS_BASE_URL \
+            --hass-token env://HASS_TOKEN \
             --env prod
 
       - name: Run Dagger CI pipeline (dev)
@@ -100,6 +102,8 @@ jobs:
             --chart-version dummy \
             --chart-museum-username dummy \
             --chart-museum-password dummy \
+            --hass-base-url env://HASS_BASE_URL \
+            --hass-token env://HASS_TOKEN \
             --env dev
 
 permissions:
