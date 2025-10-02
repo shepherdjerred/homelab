@@ -34,8 +34,10 @@
   "lint-staged": {
     "*": "bunx prettier --ignore-unknown --write",
     "**/*.{ts,tsx}": [
-      "bunx eslint --fix",
-      "bunx tsc --noEmit"
+      "bash -c 'cd src/ha && bunx eslint --fix'",
+      "bash -c 'cd src/ha && bunx tsc --noEmit'",
+      "bash -c 'cd src/cdk8s && bunx eslint --fix'",
+      "bash -c 'cd src/cdk8s && bunx tsc --noEmit'"
     ]
   }
 }

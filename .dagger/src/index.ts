@@ -41,6 +41,8 @@ export class Homelab {
   /**
    * Runs type check, test, and lint for HA, and type check for CDK8s in parallel.
    * @param source The source directory to use for all checks.
+   * @param hassBaseUrl The Home Assistant base URL (as a Dagger Secret).
+   * @param hassToken The Home Assistant long-lived access token (as a Dagger Secret).
    * @returns A summary string of the results for each check.
    */
   @func()
@@ -59,9 +61,11 @@ export class Homelab {
       defaultPath: ".",
     })
     source: Directory,
+    hassBaseUrl: Secret,
+    hassToken: Secret,
   ): Promise<string> {
-    const haTypeCheck = typeCheckHa(source);
-    const haLint = lintHa(source);
+    const haTypeCheck = typeCheckHa(source, hassBaseUrl, hassToken);
+    const haLint = lintHa(source, hassBaseUrl, hassToken);
     const cdk8sTypeCheck = typeCheckCdk8s(source.directory("src/cdk8s"));
     const cdk8sLint = lintCdk8s(source.directory("src/cdk8s"));
     const cdk8sTest = testCdk8s(source.directory("src/cdk8s"));
@@ -138,6 +142,8 @@ export class Homelab {
    * @param chartRepo The ChartMuseum repo URL (required for prod).
    * @param chartMuseumUsername The ChartMuseum username (required for prod).
    * @param chartMuseumPassword The ChartMuseum password (as a Dagger Secret, required for prod).
+   * @param hassBaseUrl The Home Assistant base URL (as a Dagger Secret).
+   * @param hassToken The Home Assistant long-lived access token (as a Dagger Secret).
    * @param env The environment (e.g., 'prod' or 'dev').
    * @returns A summary string of the results for each CI step.
    */
@@ -167,6 +173,8 @@ export class Homelab {
     chartRepo: string = "https://chartmuseum.tailnet-1a49.ts.net",
     @argument() chartMuseumUsername: string,
     chartMuseumPassword: Secret,
+    hassBaseUrl: Secret,
+    hassToken: Secret,
     @argument() env: Stage = Stage.Dev,
   ): Promise<string> {
     // Update HA version in versions.ts if prod
@@ -216,7 +224,7 @@ export class Homelab {
         message: `CDK8s Lint: FAILED\n${e}`,
       }));
 
-    const haLintPromise = lintHa(updatedSource)
+    const haLintPromise = lintHa(updatedSource, hassBaseUrl, hassToken)
       .then((msg) => ({
         status: "passed",
         message: `HA Lint: PASSED\n${msg}`,
@@ -239,7 +247,11 @@ export class Homelab {
         message: `CDK8s TypeCheck: FAILED\n${e}`,
       }));
 
-    const haTypeCheckPromise = typeCheckHa(updatedSource)
+    const haTypeCheckPromise = typeCheckHa(
+      updatedSource,
+      hassBaseUrl,
+      hassToken,
+    )
       .then((msg) => ({
         status: "passed",
         message: `HA TypeCheck: PASSED\n${msg}`,
@@ -515,6 +527,8 @@ export class Homelab {
   /**
    * Runs TypeScript type checking for the Home Assistant (HA) app.
    * @param source The source directory for the HA app.
+   * @param hassBaseUrl The Home Assistant base URL (as a Dagger Secret).
+   * @param hassToken The Home Assistant long-lived access token (as a Dagger Secret).
    * @returns The stdout from the type check run.
    */
   @func()
@@ -533,13 +547,17 @@ export class Homelab {
       defaultPath: ".",
     })
     source: Directory,
+    hassBaseUrl: Secret,
+    hassToken: Secret,
   ) {
-    return typeCheckHa(source);
+    return typeCheckHa(source, hassBaseUrl, hassToken);
   }
 
   /**
    * Runs linter for the Home Assistant (HA) app.
    * @param source The source directory for the HA app.
+   * @param hassBaseUrl The Home Assistant base URL (as a Dagger Secret).
+   * @param hassToken The Home Assistant long-lived access token (as a Dagger Secret).
    * @returns The stdout from the lint run.
    */
   @func()
@@ -558,8 +576,10 @@ export class Homelab {
       defaultPath: ".",
     })
     source: Directory,
+    hassBaseUrl: Secret,
+    hassToken: Secret,
   ) {
-    return lintHa(source);
+    return lintHa(source, hassBaseUrl, hassToken);
   }
 
   /**
