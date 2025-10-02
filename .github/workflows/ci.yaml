@@ -70,6 +70,8 @@ jobs:
           ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
           GHCR_USERNAME: ${{ github.actor }}
           GHCR_PASSWORD: ${{ github.token }}
+          HASS_BASE_URL: ${{ secrets.HASS_BASE_URL }}
+          HASS_TOKEN: ${{ secrets.HASS_TOKEN }}
           CHART_VERSION: ${{ github.run_number }}
           CHARTMUSEUM_USERNAME: sjerred
           CHARTMUSEUM_PASSWORD: ${{ secrets.CHARTMUSEUM_PASSWORD }}

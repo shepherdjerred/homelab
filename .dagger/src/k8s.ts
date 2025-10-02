@@ -1,4 +1,4 @@
-import { Directory, dag } from "@dagger.io/dagger";
+import { Directory } from "@dagger.io/dagger";
 import { buildK8sManifests } from "./cdk8s";
 import { getKubectlContainer } from "./base";
 
@@ -11,7 +11,7 @@ import { getKubectlContainer } from "./base";
  */
 export async function applyK8sConfig(
   source: Directory,
-  manifestsPath: string = "manifests",
+  manifestsPath = "manifests",
 ): Promise<string> {
   const container = getKubectlContainer()
     .withMountedDirectory("/workspace", source)
@@ -26,6 +26,6 @@ export async function applyK8sConfig(
  * @returns The stdout from the kubectl apply command.
  */
 export async function buildAndApplyCdk8s(source: Directory): Promise<string> {
-  const manifestsDir = await buildK8sManifests(source.directory("src/cdk8s"));
+  const manifestsDir = buildK8sManifests(source.directory("src/cdk8s"));
   return applyK8sConfig(manifestsDir, ".");
 }

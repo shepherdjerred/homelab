@@ -1,7 +1,6 @@
 #!/usr/bin/env -S bun
 import { Directory, dag } from "@dagger.io/dagger";
 import { getWorkspaceContainer } from "./base";
-import versions from "./versions";
 
 export async function typeCheckCdk8s(source: Directory): Promise<string> {
   const container = getWorkspaceContainer(source, ".")
@@ -14,7 +13,7 @@ export async function typeCheckCdk8s(source: Directory): Promise<string> {
   return container.withExec(["bun", "run", "typecheck"]).stdout();
 }
 
-export async function buildK8sManifests(source: Directory): Promise<Directory> {
+export function buildK8sManifests(source: Directory): Directory {
   const builtContainer = getWorkspaceContainer(source, ".")
     .withWorkdir("/workspace")
     .withExec(["bun", "run", "build"]);

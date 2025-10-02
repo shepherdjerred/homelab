@@ -7,6 +7,7 @@ import {
   dag,
   File,
 } from "@dagger.io/dagger";
+import { z } from "zod";
 import { buildHa, typeCheckHa, lintHa, buildAndExportHaImage } from "./ha";
 import {
   getMiseRuntimeContainer,
@@ -27,14 +28,14 @@ import { Stage } from "./stage";
 import versions from "./versions";
 
 export type StepStatus = "passed" | "failed" | "skipped";
-export interface StepResult {
+export type StepResult = {
   status: StepStatus;
   message: string;
-}
+};
 
-export interface HelmBuildResult extends StepResult {
+export type HelmBuildResult = StepResult & {
   dist?: Directory;
-}
+};
 
 @object()
 export class Homelab {
@@ -80,13 +81,14 @@ export class Homelab {
       .map((result, index) => {
         const names = [
           "HA TypeCheck",
-          "HA Test",
           "HA Lint",
           "CDK8s TypeCheck",
           "CDK8s Lint",
           "CDK8s Test",
         ];
-        return `${names[index]}: ${
+        const name = names[index];
+        if (name === undefined) return "Unknown";
+        return `${name}: ${
           result.status === "fulfilled" ? "PASSED" : "FAILED"
         }`;
       })
@@ -101,7 +103,7 @@ export class Homelab {
    * @returns The updated source directory
    */
   @func()
-  async updateHaVersion(
+  updateHaVersion(
     @argument({
       ignore: [
         "node_modules",
@@ -117,7 +119,7 @@ export class Homelab {
     })
     source: Directory,
     @argument() version: string,
-  ): Promise<Directory> {
+  ): Directory {
     return dag
       .container()
       .from(`alpine:${versions.alpine}`)
@@ -170,7 +172,7 @@ export class Homelab {
     @argument() ghcrUsername: string,
     ghcrPassword: Secret,
     @argument() chartVersion: string,
-    chartRepo: string = "https://chartmuseum.tailnet-1a49.ts.net",
+    chartRepo = "https://chartmuseum.tailnet-1a49.ts.net",
     @argument() chartMuseumUsername: string,
     chartMuseumPassword: Secret,
     hassBaseUrl: Secret,
@@ -180,58 +182,61 @@ export class Homelab {
     // Update HA version in versions.ts if prod
     let updatedSource = source;
     if (env === Stage.Prod) {
-      updatedSource = await this.updateHaVersion(source, chartVersion);
+      updatedSource = this.updateHaVersion(source, chartVersion);
     }
 
     // Renovate regex test (run async)
     const renovateTestPromise = this.testRenovateRegex(updatedSource)
       .then((msg) => ({
-        status: "passed",
+        status: "passed" as const,
         message: `Renovate Test: PASSED\n${msg}`,
       }))
-      .catch((e) => ({
-        status: "failed",
-        message: `Renovate Test: FAILED\n${e}`,
+      .catch((e: unknown) => ({
+        status: "failed" as const,
+        message: `Renovate Test: FAILED\n${String(e)}`,
       }));
 
     // Helm test (run async)
     const helmTestPromise = this.testHelm(updatedSource)
       .then((msg) => ({
-        status: "passed",
+        status: "passed" as const,
         message: `Helm Test: PASSED\n${msg}`,
       }))
-      .catch((e) => ({ status: "failed", message: `Helm Test: FAILED\n${e}` }));
+      .catch((e: unknown) => ({
+        status: "failed" as const,
+        message: `Helm Test: FAILED\n${String(e)}`,
+      }));
 
     // CDK8s test (run async)
     const cdk8sTestPromise = testCdk8s(updatedSource.directory("src/cdk8s"))
       .then((msg) => ({
-        status: "passed",
+        status: "passed" as const,
         message: `CDK8s Test: PASSED\n${msg}`,
       }))
-      .catch((e) => ({
-        status: "failed",
-        message: `CDK8s Test: FAILED\n${e}`,
+      .catch((e: unknown) => ({
+        status: "failed" as const,
+        message: `CDK8s Test: FAILED\n${String(e)}`,
       }));
 
     // Linting checks (run async)
     const cdk8sLintPromise = lintCdk8s(updatedSource.directory("src/cdk8s"))
       .then((msg) => ({
-        status: "passed",
+        status: "passed" as const,
         message: `CDK8s Lint: PASSED\n${msg}`,
       }))
-      .catch((e) => ({
-        status: "failed",
-        message: `CDK8s Lint: FAILED\n${e}`,
+      .catch((e: unknown) => ({
+        status: "failed" as const,
+        message: `CDK8s Lint: FAILED\n${String(e)}`,
       }));
 
     const haLintPromise = lintHa(updatedSource, hassBaseUrl, hassToken)
       .then((msg) => ({
-        status: "passed",
+        status: "passed" as const,
         message: `HA Lint: PASSED\n${msg}`,
       }))
-      .catch((e) => ({
-        status: "failed",
-        message: `HA Lint: FAILED\n${e}`,
+      .catch((e: unknown) => ({
+        status: "failed" as const,
+        message: `HA Lint: FAILED\n${String(e)}`,
       }));
 
     // Type checking (run async)
@@ -239,12 +244,12 @@ export class Homelab {
       updatedSource.directory("src/cdk8s"),
     )
       .then((msg) => ({
-        status: "passed",
+        status: "passed" as const,
         message: `CDK8s TypeCheck: PASSED\n${msg}`,
       }))
-      .catch((e) => ({
-        status: "failed",
-        message: `CDK8s TypeCheck: FAILED\n${e}`,
+      .catch((e: unknown) => ({
+        status: "failed" as const,
+        message: `CDK8s TypeCheck: FAILED\n${String(e)}`,
       }));
 
     const haTypeCheckPromise = typeCheckHa(
@@ -253,44 +258,55 @@ export class Homelab {
       hassToken,
     )
       .then((msg) => ({
-        status: "passed",
+        status: "passed" as const,
         message: `HA TypeCheck: PASSED\n${msg}`,
       }))
-      .catch((e) => ({
-        status: "failed",
-        message: `HA TypeCheck: FAILED\n${e}`,
+      .catch((e: unknown) => ({
+        status: "failed" as const,
+        message: `HA TypeCheck: FAILED\n${String(e)}`,
       }));
 
     // Start builds in parallel
-    const cdk8sBuildPromise = buildK8sManifests(
-      updatedSource.directory("src/cdk8s"),
+    const cdk8sBuildPromise = Promise.resolve(
+      buildK8sManifests(updatedSource.directory("src/cdk8s")),
     )
-      .then(() => ({ status: "passed", message: "CDK8s Build: PASSED" }))
-      .catch((e) => ({
-        status: "failed",
-        message: `CDK8s Build: FAILED\n${e}`,
+      .then(() => ({
+        status: "passed" as const,
+        message: "CDK8s Build: PASSED",
+      }))
+      .catch((e: unknown) => ({
+        status: "failed" as const,
+        message: `CDK8s Build: FAILED\n${String(e)}`,
       }));
 
-    const haBuildPromise = buildHa(updatedSource)
-      .then(() => ({ status: "passed", message: "HA Build: PASSED" }))
-      .catch((e) => ({ status: "failed", message: `HA Build: FAILED\n${e}` }));
+    const haBuildPromise = Promise.resolve(buildHa(updatedSource))
+      .then(() => ({ status: "passed" as const, message: "HA Build: PASSED" }))
+      .catch((e: unknown) => ({
+        status: "failed" as const,
+        message: `HA Build: FAILED\n${String(e)}`,
+      }));
 
     // Always build Helm chart (for both dev and prod)
-    const helmBuildPromise = this.helmBuild(
-      updatedSource.directory("src/cdk8s/helm"),
-      updatedSource.directory("src/cdk8s"),
-      chartVersion || "dev-snapshot",
-    )
-      .then((dist) => ({
-        status: "passed" as StepStatus,
-        message: "Helm Build: PASSED",
-        dist,
-      }))
-      .catch((e) => ({
-        status: "failed" as StepStatus,
-        message: `Helm Build: FAILED\n${e}`,
-        dist: undefined,
-      }));
+    const helmBuildPromise = Promise.resolve().then(() => {
+      try {
+        const dist = this.helmBuild(
+          updatedSource.directory("src/cdk8s/helm"),
+          updatedSource.directory("src/cdk8s"),
+          chartVersion || "dev-snapshot",
+        );
+        return {
+          status: "passed" as const,
+          message: "Helm Build: PASSED",
+          dist,
+        };
+      } catch (e: unknown) {
+        return {
+          status: "failed" as const,
+          message: `Helm Build: FAILED\n${String(e)}`,
+          dist: undefined,
+        };
+      }
+    });
 
     // Await builds, tests, linting, and type checking
     const [
@@ -411,7 +427,7 @@ export class Homelab {
    * @returns The built HA app directory.
    */
   @func()
-  async buildHa(
+  buildHa(
     @argument({
       ignore: [
         "node_modules",
@@ -426,7 +442,7 @@ export class Homelab {
       defaultPath: ".",
     })
     source: Directory,
-  ) {
+  ): Directory {
     return buildHa(source);
   }
 
@@ -497,7 +513,7 @@ export class Homelab {
     const testVersion = "test-0.1.0";
 
     // Build the chart with test version
-    const helmDist = await this.helmBuild(
+    const helmDist = this.helmBuild(
       source.directory("src/cdk8s/helm"),
       source.directory("src/cdk8s"),
       testVersion,
@@ -639,7 +655,7 @@ export class Homelab {
    * @returns The output directory containing the generated manifests.
    */
   @func()
-  async buildK8sManifests(
+  buildK8sManifests(
     @argument({
       ignore: [
         "node_modules",
@@ -654,7 +670,7 @@ export class Homelab {
       defaultPath: "src/cdk8s",
     })
     source: Directory,
-  ) {
+  ): Directory {
     return buildK8sManifests(source);
   }
 
@@ -716,7 +732,7 @@ export class Homelab {
       defaultPath: "manifests",
     })
     source: Directory,
-    manifestsPath: string = "manifests",
+    manifestsPath = "manifests",
   ) {
     return applyK8sConfig(source, manifestsPath);
   }
@@ -752,7 +768,7 @@ export class Homelab {
    * @returns The exported tar file
    */
   @func()
-  async buildAndExportHaImage(
+  buildAndExportHaImage(
     @argument({
       ignore: [
         "node_modules",
@@ -767,7 +783,7 @@ export class Homelab {
       defaultPath: ".",
     })
     source: Directory,
-  ): Promise<File> {
+  ): File {
     return buildAndExportHaImage(source);
   }
 
@@ -844,11 +860,11 @@ export class Homelab {
    * @returns The dist directory with packaged chart and YAMLs.
    */
   @func()
-  async helmBuild(
+  helmBuild(
     @argument({ defaultPath: "src/cdk8s/helm" }) source: Directory,
     @argument({ defaultPath: "src/cdk8s" }) cdkSource: Directory,
     @argument() version: string,
-  ) {
+  ): Directory {
     return helmBuildFn(source, cdkSource, `1.0.0-${version}`);
   }
 
@@ -868,7 +884,7 @@ export class Homelab {
     @argument({ defaultPath: "src/cdk8s/helm" }) source: Directory,
     @argument({ defaultPath: "src/cdk8s" }) cdkSource: Directory,
     @argument() version: string,
-    @argument() repo: string = "https://chartmuseum.tailnet-1a49.ts.net",
+    @argument() repo = "https://chartmuseum.tailnet-1a49.ts.net",
     chartMuseumUsername: string,
     chartMuseumPassword: Secret,
     @argument() env: Stage = Stage.Dev,
@@ -886,8 +902,11 @@ export class Homelab {
         chartMuseumPassword,
       );
       return { status: "passed", message: result };
-    } catch (e) {
-      return { status: "failed", message: `Helm Chart Publish: FAILED\n${e}` };
+    } catch (e: unknown) {
+      return {
+        status: "failed",
+        message: `Helm Chart Publish: FAILED\n${String(e)}`,
+      };
     }
   }
 
@@ -906,7 +925,7 @@ export class Homelab {
   async helmPublishBuilt(
     builtDist: Directory,
     @argument() version: string,
-    @argument() repo: string = "https://chartmuseum.tailnet-1a49.ts.net",
+    @argument() repo = "https://chartmuseum.tailnet-1a49.ts.net",
     chartMuseumUsername: string,
     chartMuseumPassword: Secret,
     @argument() env: Stage = Stage.Dev,
@@ -931,16 +950,26 @@ export class Homelab {
         .stdout();
 
       return { status: "passed", message: result };
-    } catch (err: any) {
-      if (err?.stderr?.includes("409") || err?.message?.includes("409")) {
-        return {
-          status: "passed",
-          message: "409 Conflict: Chart already exists, treating as success.",
-        };
+    } catch (err: unknown) {
+      // Define Zod schema for error objects with stderr/message
+      const errorSchema = z.object({
+        stderr: z.string().optional(),
+        message: z.string().optional(),
+      });
+
+      const result = errorSchema.safeParse(err);
+      if (result.success) {
+        const { stderr = "", message = "" } = result.data;
+        if (stderr.includes("409") || message.includes("409")) {
+          return {
+            status: "passed",
+            message: "409 Conflict: Chart already exists, treating as success.",
+          };
+        }
       }
       return {
         status: "failed",
-        message: `Helm Chart Publish: FAILED\n${err}`,
+        message: `Helm Chart Publish: FAILED\n${String(err)}`,
       };
     }
   }

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 // Generated TypeScript types for argo-cd Helm chart
 
 export type ArgocdHelmValuesApiVersionOverrides = object;

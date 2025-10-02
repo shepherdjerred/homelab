@@ -26,8 +26,10 @@ async function main() {
     // Step 2: Load the image into Docker
     console.log("📥 Loading image into Docker...");
     const loadResult = await $`docker load -i ${TAR_FILE}`.text();
-    const imageId = loadResult.match(/sha256:[a-f0-9]+/)?.[0];
-    console.log("Loaded image ID:", imageId || "Unknown");
+    const imageIdRegex = /sha256:[a-f0-9]+/;
+    const imageIdMatch = imageIdRegex.exec(loadResult);
+    const imageId = imageIdMatch?.[0];
+    console.log("Loaded image ID:", imageId ?? "Unknown");
 
     // Step 3: Tag the loaded image with our expected name
     if (imageId) {
@@ -91,7 +93,9 @@ async function main() {
     const retryDelay = 2000; // 2 seconds
 
     for (let i = 0; i < maxRetries; i++) {
-      console.log(`🔄 Connection attempt ${i + 1}/${maxRetries}...`);
+      console.log(
+        `🔄 Connection attempt ${String(i + 1)}/${String(maxRetries)}...`,
+      );
 
       const connectionResult =
         await $`timeout 5 bash -c "echo > /dev/tcp/${containerIP.trim()}/3000"`.nothrow();
@@ -103,14 +107,14 @@ async function main() {
       }
 
       if (i < maxRetries - 1) {
-        console.log(`⏳ Waiting ${retryDelay / 1000}s before retry...`);
+        console.log(`⏳ Waiting ${String(retryDelay / 1000)}s before retry...`);
         await new Promise((resolve) => setTimeout(resolve, retryDelay));
       }
     }
 
     if (!connected) {
       throw new Error(
-        `Application failed to respond on port 3000 after ${maxRetries} attempts`,
+        `Application failed to respond on port 3000 after ${String(maxRetries)} attempts`,
       );
     }
 
@@ -136,7 +140,7 @@ async function main() {
 }
 
 // Run the test
-main().catch((error) => {
+main().catch((error: unknown) => {
   console.error("❌ Fatal error:", error);
   process.exit(1);
 });

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 // Generated TypeScript types for loki Helm chart
 
 export type LokiHelmValuesGlobal = {

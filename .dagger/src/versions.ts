@@ -32,7 +32,12 @@ const versions = {
   helm: "",
 };
 
-versions["bun"] = versions["oven/bun"].split("@")[0];
-versions["helm"] = versions["alpine/helm"].split("@")[0];
+const bunVersion = versions["oven/bun"].split("@")[0];
+if (bunVersion === undefined) throw new Error("Failed to parse bun version");
+versions.bun = bunVersion;
+
+const helmVersion = versions["alpine/helm"].split("@")[0];
+if (helmVersion === undefined) throw new Error("Failed to parse helm version");
+versions.helm = helmVersion;
 
 export default versions;

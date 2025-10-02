@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 // Generated TypeScript types for kube-prometheus-stack Helm chart
 
 export type KubeprometheusstackHelmValuesCommonLabels = object;

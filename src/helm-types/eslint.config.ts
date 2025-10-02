@@ -5,6 +5,14 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  {
     rules: {
       "@typescript-eslint/no-unused-vars": [
         "error",
@@ -20,6 +28,12 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ["node_modules/**", "dist/**", "*.js", "*.mjs"],
+    ignores: [
+      "node_modules/**",
+      "dist/**",
+      "*.js",
+      "*.mjs",
+      "eslint.config.ts",
+    ],
   },
 );

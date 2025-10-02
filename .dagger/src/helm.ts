@@ -1,4 +1,5 @@
 import { dag, Directory, Secret, Container } from "@dagger.io/dagger";
+import { z } from "zod";
 import { buildK8sManifests } from "./cdk8s";
 import versions from "./versions";
 
@@ -10,12 +11,12 @@ import versions from "./versions";
  * @param version The version to set in Chart.yaml and appVersion.
  * @returns Container with the chart built and packaged.
  */
-async function getHelmContainer(
+function getHelmContainer(
   source: Directory,
   cdkSource: Directory,
   version: string,
-): Promise<Container> {
-  const cdk8sManifests = await buildK8sManifests(cdkSource);
+): Container {
+  const cdk8sManifests = buildK8sManifests(cdkSource);
 
   return (
     dag
@@ -47,12 +48,12 @@ async function getHelmContainer(
  * @param version The full semver version (e.g. "1.0.0-123") - used as-is in Chart.yaml.
  * @returns The dist directory with packaged chart and YAMLs.
  */
-export async function build(
+export function build(
   source: Directory,
   cdkSource: Directory,
   version: string,
-): Promise<Directory> {
-  const container = await getHelmContainer(source, cdkSource, version);
+): Directory {
+  const container = getHelmContainer(source, cdkSource, version);
 
   // Export all YAMLs and the packaged chart to dist/
   return container
@@ -77,28 +78,35 @@ export async function publish(
   source: Directory,
   cdkSource: Directory,
   version: string,
-  repo: string = "https://chartmuseum.tailnet-1a49.ts.net",
+  repo = "https://chartmuseum.tailnet-1a49.ts.net",
   chartMuseumUsername: string,
   chartMuseumPassword: Secret,
 ): Promise<string> {
   const chartFile = `torvalds-${version}.tgz`;
-  const container = await getHelmContainer(source, cdkSource, version).then(
-    (c) =>
-      c
-        .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
-        .withSecretVariable("CHARTMUSEUM_PASSWORD", chartMuseumPassword)
-        .withExec([
-          "sh",
-          "-c",
-          `curl -f -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts`,
-        ]),
-  );
+  const container = getHelmContainer(source, cdkSource, version)
+    .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
+    .withSecretVariable("CHARTMUSEUM_PASSWORD", chartMuseumPassword)
+    .withExec([
+      "sh",
+      "-c",
+      `curl -f -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts`,
+    ]);
 
   try {
     return await container.stdout();
-  } catch (err: any) {
-    if (err?.stderr?.includes("409") || err?.message?.includes("409")) {
-      return "409 Conflict: Chart already exists, treating as success.";
+  } catch (err: unknown) {
+    // Define Zod schema for error objects with stderr/message
+    const errorSchema = z.object({
+      stderr: z.string().optional(),
+      message: z.string().optional(),
+    });
+
+    const result = errorSchema.safeParse(err);
+    if (result.success) {
+      const { stderr = "", message = "" } = result.data;
+      if (stderr.includes("409") || message.includes("409")) {
+        return "409 Conflict: Chart already exists, treating as success.";
+      }
     }
     throw err;
   }

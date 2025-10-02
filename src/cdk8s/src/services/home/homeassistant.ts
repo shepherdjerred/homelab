@@ -75,7 +75,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
   );
 
   // this simplifies mDNS
-  // TODO: remove host networking
+  // TODO: remove host networking -- might not be possible with Talos
   ApiObject.of(deployment).addJsonPatch(
     JsonPatch.add("/spec/template/spec/hostNetwork", true),
   );

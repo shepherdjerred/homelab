@@ -13,11 +13,11 @@ export function getSystemContainer(platform?: Platform): Container {
       // Cache APT packages
       .withMountedCache(
         "/var/cache/apt",
-        dag.cacheVolume(`apt-cache-${platform || "default"}`),
+        dag.cacheVolume(`apt-cache-${platform ?? "default"}`),
       )
       .withMountedCache(
         "/var/lib/apt",
-        dag.cacheVolume(`apt-lib-${platform || "default"}`),
+        dag.cacheVolume(`apt-lib-${platform ?? "default"}`),
       )
       .withExec(["apt-get", "update"])
       .withExec([
@@ -57,21 +57,36 @@ export function getWorkspaceContainer(
 ): Container {
   const workspaceSource = source.directory(workspacePath);
 
-  let container = getMiseRuntimeContainer(platform)
-    .withWorkdir(`/workspace/${workspacePath}`)
-    // Copy package.json first (required)
-    .withFile("package.json", workspaceSource.file("package.json"));
+  const container = getMiseRuntimeContainer(platform)
+    .withWorkdir("/workspace")
+    // Copy root package.json and bun.lock for proper dependency resolution
+    .withFile("package.json", source.file("package.json"))
+    .withFile("bun.lock", source.file("bun.lock"))
+    // Copy root eslint config (workspace configs import from it)
+    .withFile("eslint.config.ts", source.file("eslint.config.ts"))
+    // Copy all workspace package.json files for proper monorepo dependency resolution
+    .withFile("src/ha/package.json", source.file("src/ha/package.json"))
+    .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
+    .withFile(
+      "src/helm-types/package.json",
+      source.file("src/helm-types/package.json"),
+    )
+    .withFile(".dagger/package.json", source.file(".dagger/package.json"));
 
   return (
     container
       // Install dependencies (cached unless dependency files change)
       .withMountedCache(
         "/root/.bun/install/cache",
-        dag.cacheVolume(`bun-cache-${platform || "default"}`),
+        dag.cacheVolume(`bun-cache-${platform ?? "default"}`),
       )
-      .withExec(["bun", "install"])
-      // Now copy the full source (source changes won't invalidate dependency layer)
-      .withDirectory(".", workspaceSource)
+      .withExec(["bun", "install", "--frozen-lockfile"])
+      // Now copy the full workspace source (source changes won't invalidate dependency layer)
+      .withDirectory(workspacePath, workspaceSource, {
+        exclude: ["package.json"],
+      })
+      // Set working directory to the workspace
+      .withWorkdir(`/workspace/${workspacePath}`)
   );
 }
 
@@ -138,9 +153,10 @@ export function withMiseTools(baseContainer: Container): Container {
         "mise",
         "use",
         "-g",
-        `bun@${versions["bun"]}`,
-        `python@${versions["python"]}`,
-        `node@${versions["node"]}`,
+        `bun@${versions.bun}`,
+        `python@${versions.python}`,
+        `node@${versions.node}`,
+        // `helm@${versions.helm}`,
       ])
       .withEnvVariable("PATH", "/root/.local/share/mise/shims:${PATH}", {
         expand: true,
