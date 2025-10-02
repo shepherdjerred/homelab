@@ -11,26 +11,10 @@ export function getSystemContainer(platform?: Platform): Container {
       .container({ platform })
       .from(`ubuntu:${versions.ubuntu}`)
       // Cache APT packages
-      .withMountedCache(
-        "/var/cache/apt",
-        dag.cacheVolume(`apt-cache-${platform ?? "default"}`),
-      )
-      .withMountedCache(
-        "/var/lib/apt",
-        dag.cacheVolume(`apt-lib-${platform ?? "default"}`),
-      )
+      .withMountedCache("/var/cache/apt", dag.cacheVolume(`apt-cache-${platform ?? "default"}`))
+      .withMountedCache("/var/lib/apt", dag.cacheVolume(`apt-lib-${platform ?? "default"}`))
       .withExec(["apt-get", "update"])
-      .withExec([
-        "apt-get",
-        "install",
-        "-y",
-        "gpg",
-        "wget",
-        "curl",
-        "git",
-        "build-essential",
-        "python3",
-      ])
+      .withExec(["apt-get", "install", "-y", "gpg", "wget", "curl", "git", "build-essential", "python3"])
   );
 }
 
@@ -50,11 +34,7 @@ export function getMiseRuntimeContainer(platform?: Platform): Container {
  * @param platform Optional platform specification
  * @returns A configured container with workspace dependencies installed
  */
-export function getWorkspaceContainer(
-  source: Directory,
-  workspacePath: string,
-  platform?: Platform,
-): Container {
+export function getWorkspaceContainer(source: Directory, workspacePath: string, platform?: Platform): Container {
   const workspaceSource = source.directory(workspacePath);
 
   const container = getMiseRuntimeContainer(platform)
@@ -67,19 +47,13 @@ export function getWorkspaceContainer(
     // Copy all workspace package.json files for proper monorepo dependency resolution
     .withFile("src/ha/package.json", source.file("src/ha/package.json"))
     .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
-    .withFile(
-      "src/helm-types/package.json",
-      source.file("src/helm-types/package.json"),
-    )
+    .withFile("src/helm-types/package.json", source.file("src/helm-types/package.json"))
     .withFile(".dagger/package.json", source.file(".dagger/package.json"));
 
   return (
     container
       // Install dependencies (cached unless dependency files change)
-      .withMountedCache(
-        "/root/.bun/install/cache",
-        dag.cacheVolume(`bun-cache-${platform ?? "default"}`),
-      )
+      .withMountedCache("/root/.bun/install/cache", dag.cacheVolume(`bun-cache-${platform ?? "default"}`))
       .withExec(["bun", "install", "--frozen-lockfile"])
       // Now copy the full workspace source (source changes won't invalidate dependency layer)
       .withDirectory(workspacePath, workspaceSource, {
@@ -96,13 +70,8 @@ export function getWorkspaceContainer(
  * @param platform The platform to build for (optional).
  * @returns A configured Dagger Container ready for further commands.
  */
-export function getUbuntuBaseContainer(
-  source: Directory,
-  platform?: Platform,
-): Container {
-  return getSystemContainer(platform)
-    .withWorkdir("/workspace")
-    .withMountedDirectory("/workspace", source);
+export function getUbuntuBaseContainer(source: Directory, platform?: Platform): Container {
+  return getSystemContainer(platform).withWorkdir("/workspace").withMountedDirectory("/workspace", source);
 }
 
 /**
@@ -144,10 +113,7 @@ export function withMiseTools(baseContainer: Container): Container {
       .withExec(["apt-get", "update"])
       .withExec(["apt-get", "install", "-y", "mise"])
       // Cache mise tools
-      .withMountedCache(
-        "/root/.local/share/mise",
-        dag.cacheVolume(`mise-tools`),
-      )
+      .withMountedCache("/root/.local/share/mise", dag.cacheVolume(`mise-tools`))
       .withExec(["mise", "trust"])
       .withExec([
         "mise",

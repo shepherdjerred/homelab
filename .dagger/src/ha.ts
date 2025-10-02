@@ -1,29 +1,17 @@
-import {
-  Directory,
-  dag,
-  type Secret,
-  Container,
-  type File,
-} from "@dagger.io/dagger";
+import { Directory, dag, type Secret, Container, type File } from "@dagger.io/dagger";
 import { getWorkspaceContainer, getMiseRuntimeContainer } from "./base";
 import type { StepResult } from ".";
 import versions from "./versions";
 
 export function buildHa(source: Directory): Directory {
-  return getWorkspaceContainer(source, "src/ha")
-    .withExec(["bun", "run", "build"])
-    .directory("/workspace/src/ha");
+  return getWorkspaceContainer(source, "src/ha").withExec(["bun", "run", "build"]).directory("/workspace/src/ha");
 }
 
 /**
  * Prepares the HA container by generating hass.d.ts.
  * Accepts optional HA credentials to generate real types, otherwise uses CI stub.
  */
-function prepareHaContainer(
-  source: Directory,
-  hassBaseUrl: Secret,
-  hassToken: Secret,
-): Container {
+function prepareHaContainer(source: Directory, hassBaseUrl: Secret, hassToken: Secret): Container {
   let container = getWorkspaceContainer(source, "src/ha");
 
   container = container
@@ -34,21 +22,13 @@ function prepareHaContainer(
   return container;
 }
 
-export async function typeCheckHa(
-  source: Directory,
-  hassBaseUrl: Secret,
-  hassToken: Secret,
-): Promise<string> {
+export async function typeCheckHa(source: Directory, hassBaseUrl: Secret, hassToken: Secret): Promise<string> {
   const container = prepareHaContainer(source, hassBaseUrl, hassToken);
 
   return container.withExec(["bun", "run", "typecheck"]).stdout();
 }
 
-export async function lintHa(
-  source: Directory,
-  hassBaseUrl: Secret,
-  hassToken: Secret,
-): Promise<string> {
+export async function lintHa(source: Directory, hassBaseUrl: Secret, hassToken: Secret): Promise<string> {
   const container = prepareHaContainer(source, hassBaseUrl, hassToken);
 
   return container.withExec(["bun", "run", "lint"]).stdout();
@@ -74,28 +54,17 @@ function buildHaContainer(source: Directory): Container {
       .withExec(["bun", "install", "node-gyp"])
       // Copy workspace root files for proper dependency resolution
       .withFile("package.json", source.file("package.json"))
-      .withFile("bun.lock", source.file("bun.lock"))
       // Copy minimal workspace files needed for dependency resolution
       .withFile("src/ha/package.json", haSource.file("package.json"))
       .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
       // Install dependencies (cached unless dependency files change)
-      .withMountedCache(
-        "/root/.bun/install/cache",
-        dag.cacheVolume("bun-cache-default-ha"),
-      )
+      .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache-default-ha"))
       .withExec(["bun", "install", "--frozen-lockfile"])
       // Copy the full ha source after dependencies are resolved
       .withDirectory("src/ha", haSource, { exclude: ["package.json"] })
       // Set working directory to the ha workspace
       .withWorkdir("/app/src/ha")
-      .withDefaultArgs([
-        "mise",
-        "exec",
-        `bun@${versions.bun}`,
-        "--",
-        "bun",
-        "src/main.ts",
-      ])
+      .withDefaultArgs(["mise", "exec", `bun@${versions.bun}`, "--", "bun", "src/main.ts"])
   );
 }
 
@@ -141,9 +110,7 @@ export async function buildAndPushHaImage(
     };
   }
   // Publish the image
-  const result = await container
-    .withRegistryAuth("ghcr.io", ghcrUsername, ghcrPassword)
-    .publish(imageName);
+  const result = await container.withRegistryAuth("ghcr.io", ghcrUsername, ghcrPassword).publish(imageName);
 
   return {
     status: "passed",

@@ -1,25 +1,8 @@
-import {
-  func,
-  argument,
-  Directory,
-  object,
-  Secret,
-  dag,
-  File,
-} from "@dagger.io/dagger";
+import { func, argument, Directory, object, Secret, dag, File } from "@dagger.io/dagger";
 import { z } from "zod";
 import { buildHa, typeCheckHa, lintHa, buildAndExportHaImage } from "./ha";
-import {
-  getMiseRuntimeContainer,
-  getSystemContainer,
-  withMiseTools,
-} from "./base";
-import {
-  typeCheckCdk8s,
-  buildK8sManifests,
-  testCdk8s,
-  lintCdk8s,
-} from "./cdk8s";
+import { getMiseRuntimeContainer, getSystemContainer, withMiseTools } from "./base";
+import { typeCheckCdk8s, buildK8sManifests, testCdk8s, lintCdk8s } from "./cdk8s";
 import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
@@ -28,10 +11,12 @@ import { Stage } from "./stage";
 import versions from "./versions";
 
 export type StepStatus = "passed" | "failed" | "skipped";
-export type StepResult = {
+// note: this must be an interface for Dagger
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export interface StepResult {
   status: StepStatus;
   message: string;
-};
+}
 
 export type HelmBuildResult = StepResult & {
   dist?: Directory;
@@ -49,16 +34,7 @@ export class Homelab {
   @func()
   async checkAll(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: ".",
     })
     source: Directory,
@@ -70,27 +46,13 @@ export class Homelab {
     const cdk8sTypeCheck = typeCheckCdk8s(source.directory("src/cdk8s"));
     const cdk8sLint = lintCdk8s(source.directory("src/cdk8s"));
     const cdk8sTest = testCdk8s(source.directory("src/cdk8s"));
-    const results = await Promise.allSettled([
-      haTypeCheck,
-      haLint,
-      cdk8sTypeCheck,
-      cdk8sLint,
-      cdk8sTest,
-    ]);
+    const results = await Promise.allSettled([haTypeCheck, haLint, cdk8sTypeCheck, cdk8sLint, cdk8sTest]);
     const summary = results
       .map((result, index) => {
-        const names = [
-          "HA TypeCheck",
-          "HA Lint",
-          "CDK8s TypeCheck",
-          "CDK8s Lint",
-          "CDK8s Test",
-        ];
+        const names = ["HA TypeCheck", "HA Lint", "CDK8s TypeCheck", "CDK8s Lint", "CDK8s Test"];
         const name = names[index];
         if (name === undefined) return "Unknown";
-        return `${name}: ${
-          result.status === "fulfilled" ? "PASSED" : "FAILED"
-        }`;
+        return `${name}: ${result.status === "fulfilled" ? "PASSED" : "FAILED"}`;
       })
       .join("\n");
     return `Pipeline Results:\n${summary}`;
@@ -105,16 +67,7 @@ export class Homelab {
   @func()
   updateHaVersion(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: ".",
     })
     source: Directory,
@@ -156,15 +109,7 @@ export class Homelab {
       // .dagger/src/versions.ts and .dagger/test/test-renovate-regex.ts files.
       // This may have a slight performance/cache impact as .dagger directory changes
       // will invalidate the CI cache, but it's necessary for the Renovate regex test.
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example"],
       defaultPath: ".",
     })
     source: Directory,
@@ -240,9 +185,7 @@ export class Homelab {
       }));
 
     // Type checking (run async)
-    const cdk8sTypeCheckPromise = typeCheckCdk8s(
-      updatedSource.directory("src/cdk8s"),
-    )
+    const cdk8sTypeCheckPromise = typeCheckCdk8s(updatedSource.directory("src/cdk8s"))
       .then((msg) => ({
         status: "passed" as const,
         message: `CDK8s TypeCheck: PASSED\n${msg}`,
@@ -252,11 +195,7 @@ export class Homelab {
         message: `CDK8s TypeCheck: FAILED\n${String(e)}`,
       }));
 
-    const haTypeCheckPromise = typeCheckHa(
-      updatedSource,
-      hassBaseUrl,
-      hassToken,
-    )
+    const haTypeCheckPromise = typeCheckHa(updatedSource, hassBaseUrl, hassToken)
       .then((msg) => ({
         status: "passed" as const,
         message: `HA TypeCheck: PASSED\n${msg}`,
@@ -267,9 +206,7 @@ export class Homelab {
       }));
 
     // Start builds in parallel
-    const cdk8sBuildPromise = Promise.resolve(
-      buildK8sManifests(updatedSource.directory("src/cdk8s")),
-    )
+    const cdk8sBuildPromise = Promise.resolve(buildK8sManifests(updatedSource.directory("src/cdk8s")))
       .then(() => ({
         status: "passed" as const,
         message: "CDK8s Build: PASSED",
@@ -412,9 +349,7 @@ export class Homelab {
       cdk8sBuildResult.status === "failed" ||
       haBuildResult.status === "failed" ||
       helmBuildResult.status === "failed" ||
-      (env === Stage.Prod &&
-        (haPublishResult.status === "failed" ||
-          helmPublishResult.status === "failed"))
+      (env === Stage.Prod && (haPublishResult.status === "failed" || helmPublishResult.status === "failed"))
     ) {
       throw new Error(summary);
     }
@@ -429,16 +364,7 @@ export class Homelab {
   @func()
   buildHa(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: ".",
     })
     source: Directory,
@@ -454,15 +380,7 @@ export class Homelab {
   @func()
   async testRenovateRegex(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example"],
       defaultPath: ".",
     })
     source: Directory,
@@ -471,18 +389,9 @@ export class Homelab {
       .withWorkdir("/workspace")
       // Only copy the files needed for the test
       .withFile("renovate.json", source.file("renovate.json"))
-      .withFile(
-        "src/cdk8s/src/versions.ts",
-        source.file("src/cdk8s/src/versions.ts"),
-      )
-      .withFile(
-        ".dagger/src/versions.ts",
-        source.file(".dagger/src/versions.ts"),
-      )
-      .withFile(
-        ".dagger/test/test-renovate-regex.ts",
-        source.file(".dagger/test/test-renovate-regex.ts"),
-      )
+      .withFile("src/cdk8s/src/versions.ts", source.file("src/cdk8s/src/versions.ts"))
+      .withFile(".dagger/src/versions.ts", source.file(".dagger/src/versions.ts"))
+      .withFile(".dagger/test/test-renovate-regex.ts", source.file(".dagger/test/test-renovate-regex.ts"))
       .withExec(["bun", "run", ".dagger/test/test-renovate-regex.ts"]);
 
     return container.stdout();
@@ -496,16 +405,7 @@ export class Homelab {
   @func()
   async testHelm(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: ".",
     })
     source: Directory,
@@ -513,18 +413,11 @@ export class Homelab {
     const testVersion = "test-0.1.0";
 
     // Build the chart with test version
-    const helmDist = this.helmBuild(
-      source.directory("src/cdk8s/helm"),
-      source.directory("src/cdk8s"),
-      testVersion,
-    );
+    const helmDist = this.helmBuild(source.directory("src/cdk8s/helm"), source.directory("src/cdk8s"), testVersion);
 
     // Test the built chart using TypeScript script
     // Copy Helm binary from official alpine/helm image (avoids network download issues)
-    const helmBinary = dag
-      .container()
-      .from(`alpine/helm:${versions["alpine/helm"]}`)
-      .file("/usr/bin/helm");
+    const helmBinary = dag.container().from(`alpine/helm:${versions["alpine/helm"]}`).file("/usr/bin/helm");
 
     const container = getMiseRuntimeContainer()
       .withMountedDirectory("/workspace", helmDist)
@@ -550,16 +443,7 @@ export class Homelab {
   @func()
   async typeCheckHa(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: ".",
     })
     source: Directory,
@@ -579,16 +463,7 @@ export class Homelab {
   @func()
   async lintHa(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: ".",
     })
     source: Directory,
@@ -606,16 +481,7 @@ export class Homelab {
   @func()
   async lintCdk8s(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: "src/cdk8s",
     })
     source: Directory,
@@ -631,16 +497,7 @@ export class Homelab {
   @func()
   async typeCheckCdk8s(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: "src/cdk8s",
     })
     source: Directory,
@@ -657,16 +514,7 @@ export class Homelab {
   @func()
   buildK8sManifests(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: "src/cdk8s",
     })
     source: Directory,
@@ -682,16 +530,7 @@ export class Homelab {
   @func()
   async testCdk8s(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: "src/cdk8s",
     })
     source: Directory,
@@ -719,16 +558,7 @@ export class Homelab {
   @func()
   async applyK8sConfig(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: "manifests",
     })
     source: Directory,
@@ -745,16 +575,7 @@ export class Homelab {
   @func()
   async buildAndApplyCdk8s(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: ".",
     })
     source: Directory,
@@ -770,16 +591,7 @@ export class Homelab {
   @func()
   buildAndExportHaImage(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: ".",
     })
     source: Directory,
@@ -803,16 +615,7 @@ export class Homelab {
   @func()
   async publishHaImage(
     @argument({
-      ignore: [
-        "node_modules",
-        "dist",
-        "build",
-        ".cache",
-        "*.log",
-        ".env*",
-        "!.env.example",
-        ".dagger",
-      ],
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
       defaultPath: ".",
     })
     source: Directory,
@@ -822,13 +625,7 @@ export class Homelab {
     @argument() env: Stage = Stage.Dev,
   ): Promise<string> {
     return JSON.stringify(
-      await this.internalPublishHaImage(
-        source,
-        imageName,
-        ghcrUsername,
-        ghcrPassword,
-        env,
-      ),
+      await this.internalPublishHaImage(source, imageName, ghcrUsername, ghcrPassword, env),
       null,
       2,
     );
@@ -843,13 +640,7 @@ export class Homelab {
   ): Promise<StepResult> {
     const isDryRun = env !== Stage.Prod;
 
-    return buildAndPushHaImage(
-      source,
-      imageName,
-      ghcrUsername,
-      ghcrPassword,
-      isDryRun,
-    );
+    return buildAndPushHaImage(source, imageName, ghcrUsername, ghcrPassword, isDryRun);
   }
 
   /**
