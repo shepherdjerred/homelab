@@ -141,7 +141,6 @@ export function withMiseTools(baseContainer: Container): Container {
         `bun@${versions["bun"]}`,
         `python@${versions["python"]}`,
         `node@${versions["node"]}`,
-        `helm@${versions["helm"]}`,
       ])
       .withEnvVariable("PATH", "/root/.local/share/mise/shims:${PATH}", {
         expand: true,
