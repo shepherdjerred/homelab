@@ -4,6 +4,7 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig(
   eslint.configs.recommended,
+  // @ts-expect-error -- https://github.com/typescript-eslint/typescript-eslint/issues/10899
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
   {

@@ -15,14 +15,24 @@ export async function buildHa(source: Directory): Promise<Directory> {
     .directory("/workspace/src/ha");
 }
 
+/**
+ * Prepares the HA container by generating hass.d.ts with CI environment set.
+ * This ensures dev-types are imported during CI builds.
+ */
+function prepareHaContainer(source: Directory): Container {
+  return getWorkspaceContainer(source, "src/ha")
+    .withEnvVariable("CI", "true")
+    .withExec(["bun", "generate-types.ts", "--ci"]);
+}
+
 export async function typeCheckHa(source: Directory): Promise<string> {
-  const container = getWorkspaceContainer(source, "src/ha");
+  const container = prepareHaContainer(source);
 
   return container.withExec(["bun", "run", "typecheck"]).stdout();
 }
 
 export async function lintHa(source: Directory): Promise<string> {
-  const container = getWorkspaceContainer(source, "src/ha");
+  const container = prepareHaContainer(source);
 
   return container.withExec(["bun", "run", "lint"]).stdout();
 }
