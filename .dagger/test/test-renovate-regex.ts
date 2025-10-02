@@ -1,6 +1,7 @@
 #!/usr/bin/env -S bun
 
 import { readFile } from "fs/promises";
+import { z } from "zod";
 import cdk8sVersions from "../../src/cdk8s/src/versions";
 import daggerVersions from "../src/versions";
 
@@ -11,15 +12,21 @@ import daggerVersions from "../src/versions";
  * This ensures all managed dependencies will be detected by Renovate.
  */
 
+const renovateConfigSchema = z.object({
+  customManagers: z
+    .array(
+      z.object({
+        description: z.string().optional(),
+        matchStrings: z.array(z.string()).optional(),
+      }),
+    )
+    .optional(),
+});
+
 async function getRenovateRegexes(): Promise<RegExp[]> {
-  const renovateConfig = JSON.parse(
-    await readFile("renovate.json", "utf-8"),
-  ) as {
-    customManagers?: Array<{
-      description?: string;
-      matchStrings?: string[];
-    }>;
-  };
+  const renovateConfig = renovateConfigSchema.parse(
+    JSON.parse(await readFile("renovate.json", "utf-8")),
+  );
   const customManagers = renovateConfig.customManagers ?? [];
 
   for (const manager of customManagers) {

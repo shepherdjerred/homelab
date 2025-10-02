@@ -12,6 +12,7 @@
     "build": "bun run src/cli.ts",
     "generate": "bun run src/cli.ts",
     "lint": "bunx eslint .",
+    "lint:fix": "bunx eslint . --fix",
     "typecheck": "bunx tsc --noEmit"
   },
   "dependencies": {

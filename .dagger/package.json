@@ -5,7 +5,9 @@
   "scripts": {
     "build": "echo 'Dagger module ready'",
     "test": "echo 'No tests configured for Dagger module'",
-    "typecheck": "bunx tsc --noEmit"
+    "typecheck": "bunx tsc --noEmit",
+    "lint": "bunx eslint .",
+    "lint:fix": "bunx eslint . --fix"
   },
   "dependencies": {
     "zod": "^4.1.11"

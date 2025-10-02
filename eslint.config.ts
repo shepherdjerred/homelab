@@ -88,6 +88,6 @@ export default defineConfig(
     },
   },
   {
-    ignores: ["dist/", "node_modules/", "imports/"],
+    ignores: ["dist/", "node_modules/", "imports/", ".dagger/sdk/"],
   },
 );

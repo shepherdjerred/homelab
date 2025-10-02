@@ -289,7 +289,6 @@ function parseCliArgs(): HelmTypesOptions {
       case "-h":
         printHelp();
         process.exit(0);
-        break;
     }
   }
 

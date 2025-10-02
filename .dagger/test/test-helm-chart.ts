@@ -164,7 +164,7 @@ async function main() {
       );
       console.log(
         "Lint output:",
-        helmLintResult.stderr?.toString() || "No error output",
+        helmLintResult.stderr.toString() || "No error output",
       );
     }
 
@@ -189,7 +189,7 @@ async function main() {
 }
 
 // Run the test
-main().catch((error) => {
+main().catch((error: unknown) => {
   console.error("❌ Fatal error:", error);
   process.exit(1);
 });

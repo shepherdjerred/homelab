@@ -21,5 +21,13 @@ run = ['bun run typecheck', 'bun run lint', 'bun run build']
 dir = 'src/ha/'
 run = ['bun run typecheck', 'bun run lint']
 
+[tasks.build-helm-types]
+dir = 'src/helm-types/'
+run = ['bun run typecheck', 'bun run lint']
+
+[tasks.build-dagger]
+dir = '.dagger/'
+run = ['bun run typecheck', 'bun run lint']
+
 [tasks.build]
-depends = ['build-cdk8s', 'build-ha']
+depends = ['build-cdk8s', 'build-ha', 'build-helm-types', 'build-dagger']
