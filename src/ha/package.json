@@ -8,7 +8,8 @@
     "typecheck": "bunx tsc --noEmit",
     "lint": "bunx eslint . && bunx prettier --check .",
     "lint:fix": "bunx eslint . --fix && bunx prettier --write .",
-    "generate-types": "bun run generate-types.ts"
+    "generate-types": "bun run generate-types.ts",
+    "precheck": "bun run generate-hass-types"
   },
   "type": "module",
   "author": "",
@@ -22,15 +23,7 @@
     "remeda": "^2.22.5",
     "ts-pattern": "^5.7.1",
     "@total-typescript/ts-reset": "^0.6.1",
-    "zod": "^4.0.0"
+    "zod": "^4.1.11"
   },
-  "devDependencies": {
-    "@eslint/js": "^9.28.0",
-    "@types/bun": "^1.2.23",
-    "eslint": "^9.28.0",
-    "jiti": "^2.6.0",
-    "prettier": "3.6.2",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.33.0"
-  }
+  "devDependencies": {}
 }

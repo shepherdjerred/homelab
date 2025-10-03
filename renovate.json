@@ -28,11 +28,7 @@
       "pinDigests": true
     },
     {
-      "matchPackageNames": [
-        "dagger-helm",
-        "gha-runner-scale-set-controller",
-        "gha-runner-scale-set"
-      ],
+      "matchPackageNames": ["dagger-helm", "gha-runner-scale-set-controller", "gha-runner-scale-set"],
       "pinDigests": false
     },
     {
@@ -40,11 +36,7 @@
       "matchPackageNames": ["/^cdk8s/"]
     },
     {
-      "matchPackageNames": [
-        "paper",
-        "siderolabs/talos",
-        "kubernetes/kubernetes"
-      ],
+      "matchPackageNames": ["paper", "siderolabs/talos", "kubernetes/kubernetes"],
       "automerge": false
     }
   ],

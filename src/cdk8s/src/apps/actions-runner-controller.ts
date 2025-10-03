@@ -120,20 +120,15 @@ export function createActionsRunnerControllerApp(chart: Chart) {
   });
 
   // 1Password secret for GitHub PAT (shared across all runner sets)
-  const githubPat = new OnePasswordItem(
-    chart,
-    "arc-github-pat-onepassword-homelab",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/mivtx3znthlpdp35xvqhz44uta",
-      },
-      metadata: {
-        name: "github-pat-homelab",
-        namespace: "arc-runners",
-      },
+  const githubPat = new OnePasswordItem(chart, "arc-github-pat-onepassword-homelab", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/mivtx3znthlpdp35xvqhz44uta",
     },
-  );
+    metadata: {
+      name: "github-pat-homelab",
+      namespace: "arc-runners",
+    },
+  });
 
   // Create runner sets for each repository (recommended approach for personal accounts)
   repositories.forEach((repo) => {

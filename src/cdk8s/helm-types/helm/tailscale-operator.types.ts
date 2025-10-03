@@ -38,13 +38,11 @@ export type TailscaleoperatorHelmValuesOperatorConfigPodAnnotations = object;
 
 export type TailscaleoperatorHelmValuesOperatorConfigPodLabels = object;
 
-export type TailscaleoperatorHelmValuesOperatorConfigServiceAccountAnnotations =
-  object;
+export type TailscaleoperatorHelmValuesOperatorConfigServiceAccountAnnotations = object;
 
 export type TailscaleoperatorHelmValuesOperatorConfigAffinity = object;
 
-export type TailscaleoperatorHelmValuesOperatorConfigPodSecurityContext =
-  object;
+export type TailscaleoperatorHelmValuesOperatorConfigPodSecurityContext = object;
 
 export type TailscaleoperatorHelmValuesOperatorConfigSecurityContext = object;
 

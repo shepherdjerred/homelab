@@ -1,11 +1,4 @@
-import {
-  ConfigMap,
-  Deployment,
-  DeploymentStrategy,
-  Protocol,
-  Service,
-  Volume,
-} from "cdk8s-plus-31";
+import { ConfigMap, Deployment, DeploymentStrategy, Protocol, Service, Volume } from "cdk8s-plus-31";
 import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { readdirSync, statSync } from "fs";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../utils/common.ts";
@@ -23,11 +16,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
     storage: Size.gibibytes(64),
   });
 
-  const volume = Volume.fromPersistentVolumeClaim(
-    chart,
-    "homeassistant-volume",
-    claim.claim,
-  );
+  const volume = Volume.fromPersistentVolumeClaim(chart, "homeassistant-volume", claim.claim);
 
   const files = readdirSync("config/homeassistant")
     .filter((entry) => statSync(`config/homeassistant/${entry}`).isFile())
@@ -48,9 +37,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
         privileged: true,
         allowPrivilegeEscalation: true,
       },
-      image: `ghcr.io/home-assistant/home-assistant:${
-        versions["home-assistant/home-assistant"]
-      }`,
+      image: `ghcr.io/home-assistant/home-assistant:${versions["home-assistant/home-assistant"]}`,
       ports: [
         {
           name: "port-8123-web",
@@ -75,10 +62,8 @@ export function createHomeAssistantDeployment(chart: Chart) {
   );
 
   // this simplifies mDNS
-  // TODO: remove host networking
-  ApiObject.of(deployment).addJsonPatch(
-    JsonPatch.add("/spec/template/spec/hostNetwork", true),
-  );
+  // TODO: remove host networking -- might not be possible with Talos
+  ApiObject.of(deployment).addJsonPatch(JsonPatch.add("/spec/template/spec/hostNetwork", true));
 
   const service = new Service(chart, "homeassistant-service", {
     selector: deployment,

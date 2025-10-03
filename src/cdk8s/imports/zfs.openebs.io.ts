@@ -80,9 +80,7 @@ export interface ZfsBackupProps {
  * Converts an object of type 'ZfsBackupProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsBackupProps(
-  obj: ZfsBackupProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsBackupProps(obj: ZfsBackupProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -91,10 +89,7 @@ export function toJson_ZfsBackupProps(
     spec: toJson_ZfsBackupSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -144,9 +139,7 @@ export interface ZfsBackupSpec {
  * Converts an object of type 'ZfsBackupSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsBackupSpec(
-  obj: ZfsBackupSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsBackupSpec(obj: ZfsBackupSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -158,10 +151,7 @@ export function toJson_ZfsBackupSpec(
     volumeName: obj.volumeName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -240,9 +230,7 @@ export interface ZfsNodeProps {
  * Converts an object of type 'ZfsNodeProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsNodeProps(
-  obj: ZfsNodeProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsNodeProps(obj: ZfsNodeProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -251,10 +239,7 @@ export function toJson_ZfsNodeProps(
     pools: obj.pools?.map((y) => toJson_ZfsNodePools(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -297,9 +282,7 @@ export interface ZfsNodePools {
  * Converts an object of type 'ZfsNodePools' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsNodePools(
-  obj: ZfsNodePools | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsNodePools(obj: ZfsNodePools | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -310,10 +293,7 @@ export function toJson_ZfsNodePools(
     uuid: obj.uuid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -431,9 +411,7 @@ export interface ZfsRestoreProps {
  * Converts an object of type 'ZfsRestoreProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsRestoreProps(
-  obj: ZfsRestoreProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsRestoreProps(obj: ZfsRestoreProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -443,10 +421,7 @@ export function toJson_ZfsRestoreProps(
     volSpec: toJson_ZfsRestoreVolSpec(obj.volSpec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -482,9 +457,7 @@ export interface ZfsRestoreSpec {
  * Converts an object of type 'ZfsRestoreSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsRestoreSpec(
-  obj: ZfsRestoreSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsRestoreSpec(obj: ZfsRestoreSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -494,10 +467,7 @@ export function toJson_ZfsRestoreSpec(
     volumeName: obj.volumeName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -624,9 +594,7 @@ export interface ZfsRestoreVolSpec {
  * Converts an object of type 'ZfsRestoreVolSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsRestoreVolSpec(
-  obj: ZfsRestoreVolSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsRestoreVolSpec(obj: ZfsRestoreVolSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -649,10 +617,7 @@ export function toJson_ZfsRestoreVolSpec(
     volumeType: obj.volumeType,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -807,9 +772,7 @@ export interface ZfsSnapshotProps {
  * Converts an object of type 'ZfsSnapshotProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsSnapshotProps(
-  obj: ZfsSnapshotProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsSnapshotProps(obj: ZfsSnapshotProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -818,10 +781,7 @@ export function toJson_ZfsSnapshotProps(
     spec: toJson_ZfsSnapshotSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -948,9 +908,7 @@ export interface ZfsSnapshotSpec {
  * Converts an object of type 'ZfsSnapshotSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsSnapshotSpec(
-  obj: ZfsSnapshotSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsSnapshotSpec(obj: ZfsSnapshotSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -973,10 +931,7 @@ export function toJson_ZfsSnapshotSpec(
     volumeType: obj.volumeType,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1088,11 +1043,7 @@ export class ZfsSnapshotV1Alpha1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: ZfsSnapshotV1Alpha1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: ZfsSnapshotV1Alpha1Props) {
     super(scope, id, {
       ...ZfsSnapshotV1Alpha1.GVK,
       ...props,
@@ -1146,10 +1097,7 @@ export function toJson_ZfsSnapshotV1Alpha1Props(
     spec: toJson_ZfsSnapshotV1Alpha1Spec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1285,10 +1233,7 @@ export function toJson_ZfsSnapshotV1Alpha1Spec(
     volumeType: obj.volumeType,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1419,9 +1364,7 @@ export interface ZfsVolumeProps {
  * Converts an object of type 'ZfsVolumeProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsVolumeProps(
-  obj: ZfsVolumeProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsVolumeProps(obj: ZfsVolumeProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1430,10 +1373,7 @@ export function toJson_ZfsVolumeProps(
     spec: toJson_ZfsVolumeSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1560,9 +1500,7 @@ export interface ZfsVolumeSpec {
  * Converts an object of type 'ZfsVolumeSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsVolumeSpec(
-  obj: ZfsVolumeSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsVolumeSpec(obj: ZfsVolumeSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1585,10 +1523,7 @@ export function toJson_ZfsVolumeSpec(
     volumeType: obj.volumeType,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1700,11 +1635,7 @@ export class ZfsVolumeV1Alpha1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: ZfsVolumeV1Alpha1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: ZfsVolumeV1Alpha1Props) {
     super(scope, id, {
       ...ZfsVolumeV1Alpha1.GVK,
       ...props,
@@ -1758,10 +1689,7 @@ export function toJson_ZfsVolumeV1Alpha1Props(
     spec: toJson_ZfsVolumeV1Alpha1Spec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1874,9 +1802,7 @@ export interface ZfsVolumeV1Alpha1Spec {
  * Converts an object of type 'ZfsVolumeV1Alpha1Spec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ZfsVolumeV1Alpha1Spec(
-  obj: ZfsVolumeV1Alpha1Spec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ZfsVolumeV1Alpha1Spec(obj: ZfsVolumeV1Alpha1Spec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1897,10 +1823,7 @@ export function toJson_ZfsVolumeV1Alpha1Spec(
     volumeType: obj.volumeType,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 

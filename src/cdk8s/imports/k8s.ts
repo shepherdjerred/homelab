@@ -24,9 +24,7 @@ export class KubeMutatingWebhookConfiguration extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(
-    props: KubeMutatingWebhookConfigurationProps = {},
-  ): any {
+  public static manifest(props: KubeMutatingWebhookConfigurationProps = {}): any {
     return {
       ...KubeMutatingWebhookConfiguration.GVK,
       ...toJson_KubeMutatingWebhookConfigurationProps(props),
@@ -39,11 +37,7 @@ export class KubeMutatingWebhookConfiguration extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeMutatingWebhookConfigurationProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeMutatingWebhookConfigurationProps = {}) {
     super(scope, id, {
       ...KubeMutatingWebhookConfiguration.GVK,
       ...props,
@@ -84,9 +78,7 @@ export class KubeMutatingWebhookConfigurationList extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(
-    props: KubeMutatingWebhookConfigurationListProps,
-  ): any {
+  public static manifest(props: KubeMutatingWebhookConfigurationListProps): any {
     return {
       ...KubeMutatingWebhookConfigurationList.GVK,
       ...toJson_KubeMutatingWebhookConfigurationListProps(props),
@@ -99,11 +91,7 @@ export class KubeMutatingWebhookConfigurationList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeMutatingWebhookConfigurationListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeMutatingWebhookConfigurationListProps) {
     super(scope, id, {
       ...KubeMutatingWebhookConfigurationList.GVK,
       ...props,
@@ -144,9 +132,7 @@ export class KubeValidatingWebhookConfiguration extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(
-    props: KubeValidatingWebhookConfigurationProps = {},
-  ): any {
+  public static manifest(props: KubeValidatingWebhookConfigurationProps = {}): any {
     return {
       ...KubeValidatingWebhookConfiguration.GVK,
       ...toJson_KubeValidatingWebhookConfigurationProps(props),
@@ -159,11 +145,7 @@ export class KubeValidatingWebhookConfiguration extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeValidatingWebhookConfigurationProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeValidatingWebhookConfigurationProps = {}) {
     super(scope, id, {
       ...KubeValidatingWebhookConfiguration.GVK,
       ...props,
@@ -204,9 +186,7 @@ export class KubeValidatingWebhookConfigurationList extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(
-    props: KubeValidatingWebhookConfigurationListProps,
-  ): any {
+  public static manifest(props: KubeValidatingWebhookConfigurationListProps): any {
     return {
       ...KubeValidatingWebhookConfigurationList.GVK,
       ...toJson_KubeValidatingWebhookConfigurationListProps(props),
@@ -219,11 +199,7 @@ export class KubeValidatingWebhookConfigurationList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeValidatingWebhookConfigurationListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeValidatingWebhookConfigurationListProps) {
     super(scope, id, {
       ...KubeValidatingWebhookConfigurationList.GVK,
       ...props,
@@ -277,11 +253,7 @@ export class KubeStorageVersionV1Alpha1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeStorageVersionV1Alpha1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeStorageVersionV1Alpha1Props) {
     super(scope, id, {
       ...KubeStorageVersionV1Alpha1.GVK,
       ...props,
@@ -335,11 +307,7 @@ export class KubeStorageVersionListV1Alpha1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeStorageVersionListV1Alpha1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeStorageVersionListV1Alpha1Props) {
     super(scope, id, {
       ...KubeStorageVersionListV1Alpha1.GVK,
       ...props,
@@ -393,11 +361,7 @@ export class KubeControllerRevision extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeControllerRevisionProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeControllerRevisionProps) {
     super(scope, id, {
       ...KubeControllerRevision.GVK,
       ...props,
@@ -451,11 +415,7 @@ export class KubeControllerRevisionList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeControllerRevisionListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeControllerRevisionListProps) {
     super(scope, id, {
       ...KubeControllerRevisionList.GVK,
       ...props,
@@ -509,11 +469,7 @@ export class KubeDaemonSet extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeDaemonSetProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeDaemonSetProps = {}) {
     super(scope, id, {
       ...KubeDaemonSet.GVK,
       ...props,
@@ -567,11 +523,7 @@ export class KubeDaemonSetList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeDaemonSetListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeDaemonSetListProps) {
     super(scope, id, {
       ...KubeDaemonSetList.GVK,
       ...props,
@@ -625,11 +577,7 @@ export class KubeDeployment extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeDeploymentProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeDeploymentProps = {}) {
     super(scope, id, {
       ...KubeDeployment.GVK,
       ...props,
@@ -683,11 +631,7 @@ export class KubeDeploymentList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeDeploymentListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeDeploymentListProps) {
     super(scope, id, {
       ...KubeDeploymentList.GVK,
       ...props,
@@ -741,11 +685,7 @@ export class KubeReplicaSet extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeReplicaSetProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeReplicaSetProps = {}) {
     super(scope, id, {
       ...KubeReplicaSet.GVK,
       ...props,
@@ -799,11 +739,7 @@ export class KubeReplicaSetList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeReplicaSetListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeReplicaSetListProps) {
     super(scope, id, {
       ...KubeReplicaSetList.GVK,
       ...props,
@@ -861,11 +797,7 @@ export class KubeStatefulSet extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeStatefulSetProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeStatefulSetProps = {}) {
     super(scope, id, {
       ...KubeStatefulSet.GVK,
       ...props,
@@ -919,11 +851,7 @@ export class KubeStatefulSetList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeStatefulSetListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeStatefulSetListProps) {
     super(scope, id, {
       ...KubeStatefulSetList.GVK,
       ...props,
@@ -977,11 +905,7 @@ export class KubeTokenRequest extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeTokenRequestProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeTokenRequestProps) {
     super(scope, id, {
       ...KubeTokenRequest.GVK,
       ...props,
@@ -1035,11 +959,7 @@ export class KubeTokenReview extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeTokenReviewProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeTokenReviewProps) {
     super(scope, id, {
       ...KubeTokenReview.GVK,
       ...props,
@@ -1093,11 +1013,7 @@ export class KubeLocalSubjectAccessReview extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeLocalSubjectAccessReviewProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeLocalSubjectAccessReviewProps) {
     super(scope, id, {
       ...KubeLocalSubjectAccessReview.GVK,
       ...props,
@@ -1151,11 +1067,7 @@ export class KubeSelfSubjectAccessReview extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeSelfSubjectAccessReviewProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeSelfSubjectAccessReviewProps) {
     super(scope, id, {
       ...KubeSelfSubjectAccessReview.GVK,
       ...props,
@@ -1209,11 +1121,7 @@ export class KubeSelfSubjectRulesReview extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeSelfSubjectRulesReviewProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeSelfSubjectRulesReviewProps) {
     super(scope, id, {
       ...KubeSelfSubjectRulesReview.GVK,
       ...props,
@@ -1267,11 +1175,7 @@ export class KubeSubjectAccessReview extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeSubjectAccessReviewProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeSubjectAccessReviewProps) {
     super(scope, id, {
       ...KubeSubjectAccessReview.GVK,
       ...props,
@@ -1325,11 +1229,7 @@ export class KubeHorizontalPodAutoscaler extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeHorizontalPodAutoscalerProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeHorizontalPodAutoscalerProps = {}) {
     super(scope, id, {
       ...KubeHorizontalPodAutoscaler.GVK,
       ...props,
@@ -1383,11 +1283,7 @@ export class KubeHorizontalPodAutoscalerList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeHorizontalPodAutoscalerListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeHorizontalPodAutoscalerListProps) {
     super(scope, id, {
       ...KubeHorizontalPodAutoscalerList.GVK,
       ...props,
@@ -1495,11 +1391,7 @@ export class KubeHorizontalPodAutoscalerV2 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeHorizontalPodAutoscalerV2Props = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeHorizontalPodAutoscalerV2Props = {}) {
     super(scope, id, {
       ...KubeHorizontalPodAutoscalerV2.GVK,
       ...props,
@@ -1553,11 +1445,7 @@ export class KubeHorizontalPodAutoscalerListV2 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeHorizontalPodAutoscalerListV2Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeHorizontalPodAutoscalerListV2Props) {
     super(scope, id, {
       ...KubeHorizontalPodAutoscalerListV2.GVK,
       ...props,
@@ -1598,9 +1486,7 @@ export class KubeHorizontalPodAutoscalerV2Beta2 extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(
-    props: KubeHorizontalPodAutoscalerV2Beta2Props = {},
-  ): any {
+  public static manifest(props: KubeHorizontalPodAutoscalerV2Beta2Props = {}): any {
     return {
       ...KubeHorizontalPodAutoscalerV2Beta2.GVK,
       ...toJson_KubeHorizontalPodAutoscalerV2Beta2Props(props),
@@ -1613,11 +1499,7 @@ export class KubeHorizontalPodAutoscalerV2Beta2 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeHorizontalPodAutoscalerV2Beta2Props = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeHorizontalPodAutoscalerV2Beta2Props = {}) {
     super(scope, id, {
       ...KubeHorizontalPodAutoscalerV2Beta2.GVK,
       ...props,
@@ -1658,9 +1540,7 @@ export class KubeHorizontalPodAutoscalerListV2Beta2 extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(
-    props: KubeHorizontalPodAutoscalerListV2Beta2Props,
-  ): any {
+  public static manifest(props: KubeHorizontalPodAutoscalerListV2Beta2Props): any {
     return {
       ...KubeHorizontalPodAutoscalerListV2Beta2.GVK,
       ...toJson_KubeHorizontalPodAutoscalerListV2Beta2Props(props),
@@ -1673,11 +1553,7 @@ export class KubeHorizontalPodAutoscalerListV2Beta2 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeHorizontalPodAutoscalerListV2Beta2Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeHorizontalPodAutoscalerListV2Beta2Props) {
     super(scope, id, {
       ...KubeHorizontalPodAutoscalerListV2Beta2.GVK,
       ...props,
@@ -1731,11 +1607,7 @@ export class KubeCronJob extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCronJobProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCronJobProps = {}) {
     super(scope, id, {
       ...KubeCronJob.GVK,
       ...props,
@@ -1789,11 +1661,7 @@ export class KubeCronJobList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCronJobListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCronJobListProps) {
     super(scope, id, {
       ...KubeCronJobList.GVK,
       ...props,
@@ -1961,11 +1829,7 @@ export class KubeCertificateSigningRequest extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCertificateSigningRequestProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCertificateSigningRequestProps) {
     super(scope, id, {
       ...KubeCertificateSigningRequest.GVK,
       ...props,
@@ -2019,11 +1883,7 @@ export class KubeCertificateSigningRequestList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCertificateSigningRequestListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCertificateSigningRequestListProps) {
     super(scope, id, {
       ...KubeCertificateSigningRequestList.GVK,
       ...props,
@@ -2239,11 +2099,7 @@ export class KubeComponentStatus extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeComponentStatusProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeComponentStatusProps = {}) {
     super(scope, id, {
       ...KubeComponentStatus.GVK,
       ...props,
@@ -2297,11 +2153,7 @@ export class KubeComponentStatusList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeComponentStatusListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeComponentStatusListProps) {
     super(scope, id, {
       ...KubeComponentStatusList.GVK,
       ...props,
@@ -2355,11 +2207,7 @@ export class KubeConfigMap extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeConfigMapProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeConfigMapProps = {}) {
     super(scope, id, {
       ...KubeConfigMap.GVK,
       ...props,
@@ -2413,11 +2261,7 @@ export class KubeConfigMapList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeConfigMapListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeConfigMapListProps) {
     super(scope, id, {
       ...KubeConfigMapList.GVK,
       ...props,
@@ -2483,11 +2327,7 @@ export class KubeEndpoints extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeEndpointsProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeEndpointsProps = {}) {
     super(scope, id, {
       ...KubeEndpoints.GVK,
       ...props,
@@ -2541,11 +2381,7 @@ export class KubeEndpointsList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeEndpointsListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeEndpointsListProps) {
     super(scope, id, {
       ...KubeEndpointsList.GVK,
       ...props,
@@ -2707,11 +2543,7 @@ export class KubeLimitRange extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeLimitRangeProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeLimitRangeProps = {}) {
     super(scope, id, {
       ...KubeLimitRange.GVK,
       ...props,
@@ -2765,11 +2597,7 @@ export class KubeLimitRangeList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeLimitRangeListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeLimitRangeListProps) {
     super(scope, id, {
       ...KubeLimitRangeList.GVK,
       ...props,
@@ -2823,11 +2651,7 @@ export class KubeNamespace extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeNamespaceProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeNamespaceProps = {}) {
     super(scope, id, {
       ...KubeNamespace.GVK,
       ...props,
@@ -2881,11 +2705,7 @@ export class KubeNamespaceList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeNamespaceListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeNamespaceListProps) {
     super(scope, id, {
       ...KubeNamespaceList.GVK,
       ...props,
@@ -3047,11 +2867,7 @@ export class KubePersistentVolume extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePersistentVolumeProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePersistentVolumeProps = {}) {
     super(scope, id, {
       ...KubePersistentVolume.GVK,
       ...props,
@@ -3105,11 +2921,7 @@ export class KubePersistentVolumeClaim extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePersistentVolumeClaimProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePersistentVolumeClaimProps = {}) {
     super(scope, id, {
       ...KubePersistentVolumeClaim.GVK,
       ...props,
@@ -3163,11 +2975,7 @@ export class KubePersistentVolumeClaimList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePersistentVolumeClaimListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePersistentVolumeClaimListProps) {
     super(scope, id, {
       ...KubePersistentVolumeClaimList.GVK,
       ...props,
@@ -3221,11 +3029,7 @@ export class KubePersistentVolumeList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePersistentVolumeListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePersistentVolumeListProps) {
     super(scope, id, {
       ...KubePersistentVolumeList.GVK,
       ...props,
@@ -3387,11 +3191,7 @@ export class KubePodTemplate extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePodTemplateProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePodTemplateProps = {}) {
     super(scope, id, {
       ...KubePodTemplate.GVK,
       ...props,
@@ -3445,11 +3245,7 @@ export class KubePodTemplateList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePodTemplateListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePodTemplateListProps) {
     super(scope, id, {
       ...KubePodTemplateList.GVK,
       ...props,
@@ -3503,11 +3299,7 @@ export class KubeReplicationController extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeReplicationControllerProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeReplicationControllerProps = {}) {
     super(scope, id, {
       ...KubeReplicationController.GVK,
       ...props,
@@ -3561,11 +3353,7 @@ export class KubeReplicationControllerList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeReplicationControllerListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeReplicationControllerListProps) {
     super(scope, id, {
       ...KubeReplicationControllerList.GVK,
       ...props,
@@ -3619,11 +3407,7 @@ export class KubeResourceQuota extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeResourceQuotaProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeResourceQuotaProps = {}) {
     super(scope, id, {
       ...KubeResourceQuota.GVK,
       ...props,
@@ -3677,11 +3461,7 @@ export class KubeResourceQuotaList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeResourceQuotaListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeResourceQuotaListProps) {
     super(scope, id, {
       ...KubeResourceQuotaList.GVK,
       ...props,
@@ -3735,11 +3515,7 @@ export class KubeSecret extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeSecretProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeSecretProps = {}) {
     super(scope, id, {
       ...KubeSecret.GVK,
       ...props,
@@ -3847,11 +3623,7 @@ export class KubeService extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeServiceProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeServiceProps = {}) {
     super(scope, id, {
       ...KubeService.GVK,
       ...props,
@@ -3905,11 +3677,7 @@ export class KubeServiceAccount extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeServiceAccountProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeServiceAccountProps = {}) {
     super(scope, id, {
       ...KubeServiceAccount.GVK,
       ...props,
@@ -3963,11 +3731,7 @@ export class KubeServiceAccountList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeServiceAccountListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeServiceAccountListProps) {
     super(scope, id, {
       ...KubeServiceAccountList.GVK,
       ...props,
@@ -4021,11 +3785,7 @@ export class KubeServiceList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeServiceListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeServiceListProps) {
     super(scope, id, {
       ...KubeServiceList.GVK,
       ...props,
@@ -4079,11 +3839,7 @@ export class KubeEndpointSlice extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeEndpointSliceProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeEndpointSliceProps) {
     super(scope, id, {
       ...KubeEndpointSlice.GVK,
       ...props,
@@ -4137,11 +3893,7 @@ export class KubeEndpointSliceList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeEndpointSliceListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeEndpointSliceListProps) {
     super(scope, id, {
       ...KubeEndpointSliceList.GVK,
       ...props,
@@ -4195,11 +3947,7 @@ export class KubeFlowSchemaV1Beta1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeFlowSchemaV1Beta1Props = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeFlowSchemaV1Beta1Props = {}) {
     super(scope, id, {
       ...KubeFlowSchemaV1Beta1.GVK,
       ...props,
@@ -4253,11 +4001,7 @@ export class KubeFlowSchemaListV1Beta1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeFlowSchemaListV1Beta1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeFlowSchemaListV1Beta1Props) {
     super(scope, id, {
       ...KubeFlowSchemaListV1Beta1.GVK,
       ...props,
@@ -4298,9 +4042,7 @@ export class KubePriorityLevelConfigurationV1Beta1 extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(
-    props: KubePriorityLevelConfigurationV1Beta1Props = {},
-  ): any {
+  public static manifest(props: KubePriorityLevelConfigurationV1Beta1Props = {}): any {
     return {
       ...KubePriorityLevelConfigurationV1Beta1.GVK,
       ...toJson_KubePriorityLevelConfigurationV1Beta1Props(props),
@@ -4313,11 +4055,7 @@ export class KubePriorityLevelConfigurationV1Beta1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePriorityLevelConfigurationV1Beta1Props = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePriorityLevelConfigurationV1Beta1Props = {}) {
     super(scope, id, {
       ...KubePriorityLevelConfigurationV1Beta1.GVK,
       ...props,
@@ -4358,9 +4096,7 @@ export class KubePriorityLevelConfigurationListV1Beta1 extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(
-    props: KubePriorityLevelConfigurationListV1Beta1Props,
-  ): any {
+  public static manifest(props: KubePriorityLevelConfigurationListV1Beta1Props): any {
     return {
       ...KubePriorityLevelConfigurationListV1Beta1.GVK,
       ...toJson_KubePriorityLevelConfigurationListV1Beta1Props(props),
@@ -4373,11 +4109,7 @@ export class KubePriorityLevelConfigurationListV1Beta1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePriorityLevelConfigurationListV1Beta1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePriorityLevelConfigurationListV1Beta1Props) {
     super(scope, id, {
       ...KubePriorityLevelConfigurationListV1Beta1.GVK,
       ...props,
@@ -4431,11 +4163,7 @@ export class KubeFlowSchemaV1Beta2 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeFlowSchemaV1Beta2Props = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeFlowSchemaV1Beta2Props = {}) {
     super(scope, id, {
       ...KubeFlowSchemaV1Beta2.GVK,
       ...props,
@@ -4489,11 +4217,7 @@ export class KubeFlowSchemaListV1Beta2 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeFlowSchemaListV1Beta2Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeFlowSchemaListV1Beta2Props) {
     super(scope, id, {
       ...KubeFlowSchemaListV1Beta2.GVK,
       ...props,
@@ -4534,9 +4258,7 @@ export class KubePriorityLevelConfigurationV1Beta2 extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(
-    props: KubePriorityLevelConfigurationV1Beta2Props = {},
-  ): any {
+  public static manifest(props: KubePriorityLevelConfigurationV1Beta2Props = {}): any {
     return {
       ...KubePriorityLevelConfigurationV1Beta2.GVK,
       ...toJson_KubePriorityLevelConfigurationV1Beta2Props(props),
@@ -4549,11 +4271,7 @@ export class KubePriorityLevelConfigurationV1Beta2 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePriorityLevelConfigurationV1Beta2Props = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePriorityLevelConfigurationV1Beta2Props = {}) {
     super(scope, id, {
       ...KubePriorityLevelConfigurationV1Beta2.GVK,
       ...props,
@@ -4594,9 +4312,7 @@ export class KubePriorityLevelConfigurationListV1Beta2 extends ApiObject {
    *
    * @param props initialization props
    */
-  public static manifest(
-    props: KubePriorityLevelConfigurationListV1Beta2Props,
-  ): any {
+  public static manifest(props: KubePriorityLevelConfigurationListV1Beta2Props): any {
     return {
       ...KubePriorityLevelConfigurationListV1Beta2.GVK,
       ...toJson_KubePriorityLevelConfigurationListV1Beta2Props(props),
@@ -4609,11 +4325,7 @@ export class KubePriorityLevelConfigurationListV1Beta2 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePriorityLevelConfigurationListV1Beta2Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePriorityLevelConfigurationListV1Beta2Props) {
     super(scope, id, {
       ...KubePriorityLevelConfigurationListV1Beta2.GVK,
       ...props,
@@ -4667,11 +4379,7 @@ export class KubeIngress extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeIngressProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeIngressProps = {}) {
     super(scope, id, {
       ...KubeIngress.GVK,
       ...props,
@@ -4725,11 +4433,7 @@ export class KubeIngressClass extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeIngressClassProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeIngressClassProps = {}) {
     super(scope, id, {
       ...KubeIngressClass.GVK,
       ...props,
@@ -4783,11 +4487,7 @@ export class KubeIngressClassList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeIngressClassListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeIngressClassListProps) {
     super(scope, id, {
       ...KubeIngressClassList.GVK,
       ...props,
@@ -4841,11 +4541,7 @@ export class KubeIngressList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeIngressListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeIngressListProps) {
     super(scope, id, {
       ...KubeIngressList.GVK,
       ...props,
@@ -4899,11 +4595,7 @@ export class KubeNetworkPolicy extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeNetworkPolicyProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeNetworkPolicyProps = {}) {
     super(scope, id, {
       ...KubeNetworkPolicy.GVK,
       ...props,
@@ -4957,11 +4649,7 @@ export class KubeNetworkPolicyList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeNetworkPolicyListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeNetworkPolicyListProps) {
     super(scope, id, {
       ...KubeNetworkPolicyList.GVK,
       ...props,
@@ -5015,11 +4703,7 @@ export class KubeClusterCidrv1Alpha1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeClusterCidrv1Alpha1Props = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeClusterCidrv1Alpha1Props = {}) {
     super(scope, id, {
       ...KubeClusterCidrv1Alpha1.GVK,
       ...props,
@@ -5073,11 +4757,7 @@ export class KubeClusterCidrListV1Alpha1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeClusterCidrListV1Alpha1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeClusterCidrListV1Alpha1Props) {
     super(scope, id, {
       ...KubeClusterCidrListV1Alpha1.GVK,
       ...props,
@@ -5131,11 +4811,7 @@ export class KubeRuntimeClass extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeRuntimeClassProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeRuntimeClassProps) {
     super(scope, id, {
       ...KubeRuntimeClass.GVK,
       ...props,
@@ -5189,11 +4865,7 @@ export class KubeRuntimeClassList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeRuntimeClassListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeRuntimeClassListProps) {
     super(scope, id, {
       ...KubeRuntimeClassList.GVK,
       ...props,
@@ -5247,11 +4919,7 @@ export class KubeEviction extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeEvictionProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeEvictionProps = {}) {
     super(scope, id, {
       ...KubeEviction.GVK,
       ...props,
@@ -5305,11 +4973,7 @@ export class KubePodDisruptionBudget extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePodDisruptionBudgetProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePodDisruptionBudgetProps = {}) {
     super(scope, id, {
       ...KubePodDisruptionBudget.GVK,
       ...props,
@@ -5363,11 +5027,7 @@ export class KubePodDisruptionBudgetList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePodDisruptionBudgetListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePodDisruptionBudgetListProps) {
     super(scope, id, {
       ...KubePodDisruptionBudgetList.GVK,
       ...props,
@@ -5421,11 +5081,7 @@ export class KubeClusterRole extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeClusterRoleProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeClusterRoleProps = {}) {
     super(scope, id, {
       ...KubeClusterRole.GVK,
       ...props,
@@ -5479,11 +5135,7 @@ export class KubeClusterRoleBinding extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeClusterRoleBindingProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeClusterRoleBindingProps) {
     super(scope, id, {
       ...KubeClusterRoleBinding.GVK,
       ...props,
@@ -5537,11 +5189,7 @@ export class KubeClusterRoleBindingList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeClusterRoleBindingListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeClusterRoleBindingListProps) {
     super(scope, id, {
       ...KubeClusterRoleBindingList.GVK,
       ...props,
@@ -5595,11 +5243,7 @@ export class KubeClusterRoleList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeClusterRoleListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeClusterRoleListProps) {
     super(scope, id, {
       ...KubeClusterRoleList.GVK,
       ...props,
@@ -5707,11 +5351,7 @@ export class KubeRoleBinding extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeRoleBindingProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeRoleBindingProps) {
     super(scope, id, {
       ...KubeRoleBinding.GVK,
       ...props,
@@ -5765,11 +5405,7 @@ export class KubeRoleBindingList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeRoleBindingListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeRoleBindingListProps) {
     super(scope, id, {
       ...KubeRoleBindingList.GVK,
       ...props,
@@ -5877,11 +5513,7 @@ export class KubePriorityClass extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePriorityClassProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePriorityClassProps) {
     super(scope, id, {
       ...KubePriorityClass.GVK,
       ...props,
@@ -5935,11 +5567,7 @@ export class KubePriorityClassList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubePriorityClassListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubePriorityClassListProps) {
     super(scope, id, {
       ...KubePriorityClassList.GVK,
       ...props,
@@ -6047,11 +5675,7 @@ export class KubeCsiDriverList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCsiDriverListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCsiDriverListProps) {
     super(scope, id, {
       ...KubeCsiDriverList.GVK,
       ...props,
@@ -6159,11 +5783,7 @@ export class KubeCsiNodeList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCsiNodeListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCsiNodeListProps) {
     super(scope, id, {
       ...KubeCsiNodeList.GVK,
       ...props,
@@ -6225,11 +5845,7 @@ export class KubeCsiStorageCapacity extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCsiStorageCapacityProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCsiStorageCapacityProps) {
     super(scope, id, {
       ...KubeCsiStorageCapacity.GVK,
       ...props,
@@ -6283,11 +5899,7 @@ export class KubeCsiStorageCapacityList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCsiStorageCapacityListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCsiStorageCapacityListProps) {
     super(scope, id, {
       ...KubeCsiStorageCapacityList.GVK,
       ...props,
@@ -6343,11 +5955,7 @@ export class KubeStorageClass extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeStorageClassProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeStorageClassProps) {
     super(scope, id, {
       ...KubeStorageClass.GVK,
       ...props,
@@ -6401,11 +6009,7 @@ export class KubeStorageClassList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeStorageClassListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeStorageClassListProps) {
     super(scope, id, {
       ...KubeStorageClassList.GVK,
       ...props,
@@ -6461,11 +6065,7 @@ export class KubeVolumeAttachment extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeVolumeAttachmentProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeVolumeAttachmentProps) {
     super(scope, id, {
       ...KubeVolumeAttachment.GVK,
       ...props,
@@ -6519,11 +6119,7 @@ export class KubeVolumeAttachmentList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeVolumeAttachmentListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeVolumeAttachmentListProps) {
     super(scope, id, {
       ...KubeVolumeAttachmentList.GVK,
       ...props,
@@ -6585,11 +6181,7 @@ export class KubeCsiStorageCapacityV1Beta1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCsiStorageCapacityV1Beta1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCsiStorageCapacityV1Beta1Props) {
     super(scope, id, {
       ...KubeCsiStorageCapacityV1Beta1.GVK,
       ...props,
@@ -6643,11 +6235,7 @@ export class KubeCsiStorageCapacityListV1Beta1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCsiStorageCapacityListV1Beta1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCsiStorageCapacityListV1Beta1Props) {
     super(scope, id, {
       ...KubeCsiStorageCapacityListV1Beta1.GVK,
       ...props,
@@ -6701,11 +6289,7 @@ export class KubeCustomResourceDefinition extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCustomResourceDefinitionProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCustomResourceDefinitionProps) {
     super(scope, id, {
       ...KubeCustomResourceDefinition.GVK,
       ...props,
@@ -6759,11 +6343,7 @@ export class KubeCustomResourceDefinitionList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeCustomResourceDefinitionListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeCustomResourceDefinitionListProps) {
     super(scope, id, {
       ...KubeCustomResourceDefinitionList.GVK,
       ...props,
@@ -6817,11 +6397,7 @@ export class KubeStatus extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeStatusProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeStatusProps = {}) {
     super(scope, id, {
       ...KubeStatus.GVK,
       ...props,
@@ -6875,11 +6451,7 @@ export class KubeApiService extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeApiServiceProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeApiServiceProps = {}) {
     super(scope, id, {
       ...KubeApiService.GVK,
       ...props,
@@ -6933,11 +6505,7 @@ export class KubeApiServiceList extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: KubeApiServiceListProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: KubeApiServiceListProps) {
     super(scope, id, {
       ...KubeApiServiceList.GVK,
       ...props,
@@ -6993,10 +6561,7 @@ export function toJson_KubeMutatingWebhookConfigurationProps(
     webhooks: obj.webhooks?.map((y) => toJson_MutatingWebhook(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7033,15 +6598,10 @@ export function toJson_KubeMutatingWebhookConfigurationListProps(
   }
   const result = {
     metadata: toJson_ListMeta(obj.metadata),
-    items: obj.items?.map((y) =>
-      toJson_KubeMutatingWebhookConfigurationProps(y),
-    ),
+    items: obj.items?.map((y) => toJson_KubeMutatingWebhookConfigurationProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7081,10 +6641,7 @@ export function toJson_KubeValidatingWebhookConfigurationProps(
     webhooks: obj.webhooks?.map((y) => toJson_ValidatingWebhook(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7121,15 +6678,10 @@ export function toJson_KubeValidatingWebhookConfigurationListProps(
   }
   const result = {
     metadata: toJson_ListMeta(obj.metadata),
-    items: obj.items?.map((y) =>
-      toJson_KubeValidatingWebhookConfigurationProps(y),
-    ),
+    items: obj.items?.map((y) => toJson_KubeValidatingWebhookConfigurationProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7169,10 +6721,7 @@ export function toJson_KubeStorageVersionV1Alpha1Props(
     spec: obj.spec,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7212,10 +6761,7 @@ export function toJson_KubeStorageVersionListV1Alpha1Props(
     items: obj.items?.map((y) => toJson_KubeStorageVersionV1Alpha1Props(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7263,10 +6809,7 @@ export function toJson_KubeControllerRevisionProps(
     revision: obj.revision,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7306,10 +6849,7 @@ export function toJson_KubeControllerRevisionListProps(
     items: obj.items?.map((y) => toJson_KubeControllerRevisionProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7338,9 +6878,7 @@ export interface KubeDaemonSetProps {
  * Converts an object of type 'KubeDaemonSetProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeDaemonSetProps(
-  obj: KubeDaemonSetProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeDaemonSetProps(obj: KubeDaemonSetProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -7349,10 +6887,7 @@ export function toJson_KubeDaemonSetProps(
     spec: toJson_DaemonSetSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7392,10 +6927,7 @@ export function toJson_KubeDaemonSetListProps(
     items: obj.items?.map((y) => toJson_KubeDaemonSetProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7424,9 +6956,7 @@ export interface KubeDeploymentProps {
  * Converts an object of type 'KubeDeploymentProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeDeploymentProps(
-  obj: KubeDeploymentProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeDeploymentProps(obj: KubeDeploymentProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -7435,10 +6965,7 @@ export function toJson_KubeDeploymentProps(
     spec: toJson_DeploymentSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7478,10 +7005,7 @@ export function toJson_KubeDeploymentListProps(
     items: obj.items?.map((y) => toJson_KubeDeploymentProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7510,9 +7034,7 @@ export interface KubeReplicaSetProps {
  * Converts an object of type 'KubeReplicaSetProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeReplicaSetProps(
-  obj: KubeReplicaSetProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeReplicaSetProps(obj: KubeReplicaSetProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -7521,10 +7043,7 @@ export function toJson_KubeReplicaSetProps(
     spec: toJson_ReplicaSetSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7564,10 +7083,7 @@ export function toJson_KubeReplicaSetListProps(
     items: obj.items?.map((y) => toJson_KubeReplicaSetProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7600,9 +7116,7 @@ export interface KubeStatefulSetProps {
  * Converts an object of type 'KubeStatefulSetProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeStatefulSetProps(
-  obj: KubeStatefulSetProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeStatefulSetProps(obj: KubeStatefulSetProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -7611,10 +7125,7 @@ export function toJson_KubeStatefulSetProps(
     spec: toJson_StatefulSetSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7654,10 +7165,7 @@ export function toJson_KubeStatefulSetListProps(
     items: obj.items?.map((y) => toJson_KubeStatefulSetProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7686,9 +7194,7 @@ export interface KubeTokenRequestProps {
  * Converts an object of type 'KubeTokenRequestProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeTokenRequestProps(
-  obj: KubeTokenRequestProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeTokenRequestProps(obj: KubeTokenRequestProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -7697,10 +7203,7 @@ export function toJson_KubeTokenRequestProps(
     spec: toJson_TokenRequestSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7729,9 +7232,7 @@ export interface KubeTokenReviewProps {
  * Converts an object of type 'KubeTokenReviewProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeTokenReviewProps(
-  obj: KubeTokenReviewProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeTokenReviewProps(obj: KubeTokenReviewProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -7740,10 +7241,7 @@ export function toJson_KubeTokenReviewProps(
     spec: toJson_TokenReviewSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7783,10 +7281,7 @@ export function toJson_KubeLocalSubjectAccessReviewProps(
     spec: toJson_SubjectAccessReviewSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7826,10 +7321,7 @@ export function toJson_KubeSelfSubjectAccessReviewProps(
     spec: toJson_SelfSubjectAccessReviewSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7869,10 +7361,7 @@ export function toJson_KubeSelfSubjectRulesReviewProps(
     spec: toJson_SelfSubjectRulesReviewSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7912,10 +7401,7 @@ export function toJson_KubeSubjectAccessReviewProps(
     spec: toJson_SubjectAccessReviewSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7955,10 +7441,7 @@ export function toJson_KubeHorizontalPodAutoscalerProps(
     spec: toJson_HorizontalPodAutoscalerSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7998,10 +7481,7 @@ export function toJson_KubeHorizontalPodAutoscalerListProps(
     items: obj.items?.map((y) => toJson_KubeHorizontalPodAutoscalerProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8030,9 +7510,7 @@ export interface KubeScaleProps {
  * Converts an object of type 'KubeScaleProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeScaleProps(
-  obj: KubeScaleProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeScaleProps(obj: KubeScaleProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8041,10 +7519,7 @@ export function toJson_KubeScaleProps(
     spec: toJson_ScaleSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8084,10 +7559,7 @@ export function toJson_KubeHorizontalPodAutoscalerV2Props(
     spec: toJson_HorizontalPodAutoscalerSpecV2(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8127,10 +7599,7 @@ export function toJson_KubeHorizontalPodAutoscalerListV2Props(
     items: obj.items?.map((y) => toJson_KubeHorizontalPodAutoscalerV2Props(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8170,10 +7639,7 @@ export function toJson_KubeHorizontalPodAutoscalerV2Beta2Props(
     spec: toJson_HorizontalPodAutoscalerSpecV2Beta2(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8210,15 +7676,10 @@ export function toJson_KubeHorizontalPodAutoscalerListV2Beta2Props(
   }
   const result = {
     metadata: toJson_ListMeta(obj.metadata),
-    items: obj.items?.map((y) =>
-      toJson_KubeHorizontalPodAutoscalerV2Beta2Props(y),
-    ),
+    items: obj.items?.map((y) => toJson_KubeHorizontalPodAutoscalerV2Beta2Props(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8247,9 +7708,7 @@ export interface KubeCronJobProps {
  * Converts an object of type 'KubeCronJobProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeCronJobProps(
-  obj: KubeCronJobProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeCronJobProps(obj: KubeCronJobProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8258,10 +7717,7 @@ export function toJson_KubeCronJobProps(
     spec: toJson_CronJobSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8290,9 +7746,7 @@ export interface KubeCronJobListProps {
  * Converts an object of type 'KubeCronJobListProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeCronJobListProps(
-  obj: KubeCronJobListProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeCronJobListProps(obj: KubeCronJobListProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8301,10 +7755,7 @@ export function toJson_KubeCronJobListProps(
     items: obj.items?.map((y) => toJson_KubeCronJobProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8333,9 +7784,7 @@ export interface KubeJobProps {
  * Converts an object of type 'KubeJobProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeJobProps(
-  obj: KubeJobProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeJobProps(obj: KubeJobProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8344,10 +7793,7 @@ export function toJson_KubeJobProps(
     spec: toJson_JobSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8376,9 +7822,7 @@ export interface KubeJobListProps {
  * Converts an object of type 'KubeJobListProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeJobListProps(
-  obj: KubeJobListProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeJobListProps(obj: KubeJobListProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8387,10 +7831,7 @@ export function toJson_KubeJobListProps(
     items: obj.items?.map((y) => toJson_KubeJobProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8434,10 +7875,7 @@ export function toJson_KubeCertificateSigningRequestProps(
     spec: toJson_CertificateSigningRequestSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8475,10 +7913,7 @@ export function toJson_KubeCertificateSigningRequestListProps(
     items: obj.items?.map((y) => toJson_KubeCertificateSigningRequestProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8507,9 +7942,7 @@ export interface KubeLeaseProps {
  * Converts an object of type 'KubeLeaseProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeLeaseProps(
-  obj: KubeLeaseProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeLeaseProps(obj: KubeLeaseProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8518,10 +7951,7 @@ export function toJson_KubeLeaseProps(
     spec: toJson_LeaseSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8550,9 +7980,7 @@ export interface KubeLeaseListProps {
  * Converts an object of type 'KubeLeaseListProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeLeaseListProps(
-  obj: KubeLeaseListProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeLeaseListProps(obj: KubeLeaseListProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8561,10 +7989,7 @@ export function toJson_KubeLeaseListProps(
     items: obj.items?.map((y) => toJson_KubeLeaseProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8593,9 +8018,7 @@ export interface KubeBindingProps {
  * Converts an object of type 'KubeBindingProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeBindingProps(
-  obj: KubeBindingProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeBindingProps(obj: KubeBindingProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8604,10 +8027,7 @@ export function toJson_KubeBindingProps(
     target: toJson_ObjectReference(obj.target),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8647,10 +8067,7 @@ export function toJson_KubeComponentStatusProps(
     conditions: obj.conditions?.map((y) => toJson_ComponentCondition(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8690,10 +8107,7 @@ export function toJson_KubeComponentStatusListProps(
     items: obj.items?.map((y) => toJson_KubeComponentStatusProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8736,9 +8150,7 @@ export interface KubeConfigMapProps {
  * Converts an object of type 'KubeConfigMapProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeConfigMapProps(
-  obj: KubeConfigMapProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeConfigMapProps(obj: KubeConfigMapProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8747,24 +8159,15 @@ export function toJson_KubeConfigMapProps(
     binaryData:
       obj.binaryData === undefined
         ? undefined
-        : Object.entries(obj.binaryData).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.binaryData).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     data:
       obj.data === undefined
         ? undefined
-        : Object.entries(obj.data).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.data).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     immutable: obj.immutable,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8804,10 +8207,7 @@ export function toJson_KubeConfigMapListProps(
     items: obj.items?.map((y) => toJson_KubeConfigMapProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8848,9 +8248,7 @@ export interface KubeEndpointsProps {
  * Converts an object of type 'KubeEndpointsProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeEndpointsProps(
-  obj: KubeEndpointsProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeEndpointsProps(obj: KubeEndpointsProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8859,10 +8257,7 @@ export function toJson_KubeEndpointsProps(
     subsets: obj.subsets?.map((y) => toJson_EndpointSubset(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8902,10 +8297,7 @@ export function toJson_KubeEndpointsListProps(
     items: obj.items?.map((y) => toJson_KubeEndpointsProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9025,9 +8417,7 @@ export interface KubeEventProps {
  * Converts an object of type 'KubeEventProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeEventProps(
-  obj: KubeEventProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeEventProps(obj: KubeEventProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -9049,10 +8439,7 @@ export function toJson_KubeEventProps(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9081,9 +8468,7 @@ export interface KubeEventListProps {
  * Converts an object of type 'KubeEventListProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeEventListProps(
-  obj: KubeEventListProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeEventListProps(obj: KubeEventListProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -9092,10 +8477,7 @@ export function toJson_KubeEventListProps(
     items: obj.items?.map((y) => toJson_KubeEventProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9124,9 +8506,7 @@ export interface KubeLimitRangeProps {
  * Converts an object of type 'KubeLimitRangeProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeLimitRangeProps(
-  obj: KubeLimitRangeProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeLimitRangeProps(obj: KubeLimitRangeProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -9135,10 +8515,7 @@ export function toJson_KubeLimitRangeProps(
     spec: toJson_LimitRangeSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9178,10 +8555,7 @@ export function toJson_KubeLimitRangeListProps(
     items: obj.items?.map((y) => toJson_KubeLimitRangeProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9210,9 +8584,7 @@ export interface KubeNamespaceProps {
  * Converts an object of type 'KubeNamespaceProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeNamespaceProps(
-  obj: KubeNamespaceProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeNamespaceProps(obj: KubeNamespaceProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -9221,10 +8593,7 @@ export function toJson_KubeNamespaceProps(
     spec: toJson_NamespaceSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9264,10 +8633,7 @@ export function toJson_KubeNamespaceListProps(
     items: obj.items?.map((y) => toJson_KubeNamespaceProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9296,9 +8662,7 @@ export interface KubeNodeProps {
  * Converts an object of type 'KubeNodeProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeNodeProps(
-  obj: KubeNodeProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeNodeProps(obj: KubeNodeProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -9307,10 +8671,7 @@ export function toJson_KubeNodeProps(
     spec: toJson_NodeSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9339,9 +8700,7 @@ export interface KubeNodeListProps {
  * Converts an object of type 'KubeNodeListProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeNodeListProps(
-  obj: KubeNodeListProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeNodeListProps(obj: KubeNodeListProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -9350,10 +8709,7 @@ export function toJson_KubeNodeListProps(
     items: obj.items?.map((y) => toJson_KubeNodeProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9393,10 +8749,7 @@ export function toJson_KubePersistentVolumeProps(
     spec: toJson_PersistentVolumeSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9436,10 +8789,7 @@ export function toJson_KubePersistentVolumeClaimProps(
     spec: toJson_PersistentVolumeClaimSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9479,10 +8829,7 @@ export function toJson_KubePersistentVolumeClaimListProps(
     items: obj.items?.map((y) => toJson_KubePersistentVolumeClaimProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9522,10 +8869,7 @@ export function toJson_KubePersistentVolumeListProps(
     items: obj.items?.map((y) => toJson_KubePersistentVolumeProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9554,9 +8898,7 @@ export interface KubePodProps {
  * Converts an object of type 'KubePodProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubePodProps(
-  obj: KubePodProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubePodProps(obj: KubePodProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -9565,10 +8907,7 @@ export function toJson_KubePodProps(
     spec: toJson_PodSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9597,9 +8936,7 @@ export interface KubePodListProps {
  * Converts an object of type 'KubePodListProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubePodListProps(
-  obj: KubePodListProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubePodListProps(obj: KubePodListProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -9608,10 +8945,7 @@ export function toJson_KubePodListProps(
     items: obj.items?.map((y) => toJson_KubePodProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9640,9 +8974,7 @@ export interface KubePodTemplateProps {
  * Converts an object of type 'KubePodTemplateProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubePodTemplateProps(
-  obj: KubePodTemplateProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubePodTemplateProps(obj: KubePodTemplateProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -9651,10 +8983,7 @@ export function toJson_KubePodTemplateProps(
     template: toJson_PodTemplateSpec(obj.template),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9694,10 +9023,7 @@ export function toJson_KubePodTemplateListProps(
     items: obj.items?.map((y) => toJson_KubePodTemplateProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9737,10 +9063,7 @@ export function toJson_KubeReplicationControllerProps(
     spec: toJson_ReplicationControllerSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9780,10 +9103,7 @@ export function toJson_KubeReplicationControllerListProps(
     items: obj.items?.map((y) => toJson_KubeReplicationControllerProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9823,10 +9143,7 @@ export function toJson_KubeResourceQuotaProps(
     spec: toJson_ResourceQuotaSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9866,10 +9183,7 @@ export function toJson_KubeResourceQuotaListProps(
     items: obj.items?.map((y) => toJson_KubeResourceQuotaProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9919,9 +9233,7 @@ export interface KubeSecretProps {
  * Converts an object of type 'KubeSecretProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeSecretProps(
-  obj: KubeSecretProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeSecretProps(obj: KubeSecretProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -9930,25 +9242,16 @@ export function toJson_KubeSecretProps(
     data:
       obj.data === undefined
         ? undefined
-        : Object.entries(obj.data).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.data).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     immutable: obj.immutable,
     stringData:
       obj.stringData === undefined
         ? undefined
-        : Object.entries(obj.stringData).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.stringData).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9977,9 +9280,7 @@ export interface KubeSecretListProps {
  * Converts an object of type 'KubeSecretListProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeSecretListProps(
-  obj: KubeSecretListProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeSecretListProps(obj: KubeSecretListProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -9988,10 +9289,7 @@ export function toJson_KubeSecretListProps(
     items: obj.items?.map((y) => toJson_KubeSecretProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10020,9 +9318,7 @@ export interface KubeServiceProps {
  * Converts an object of type 'KubeServiceProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeServiceProps(
-  obj: KubeServiceProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeServiceProps(obj: KubeServiceProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -10031,10 +9327,7 @@ export function toJson_KubeServiceProps(
     spec: toJson_ServiceSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10086,16 +9379,11 @@ export function toJson_KubeServiceAccountProps(
   const result = {
     metadata: toJson_ObjectMeta(obj.metadata),
     automountServiceAccountToken: obj.automountServiceAccountToken,
-    imagePullSecrets: obj.imagePullSecrets?.map((y) =>
-      toJson_LocalObjectReference(y),
-    ),
+    imagePullSecrets: obj.imagePullSecrets?.map((y) => toJson_LocalObjectReference(y)),
     secrets: obj.secrets?.map((y) => toJson_ObjectReference(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10135,10 +9423,7 @@ export function toJson_KubeServiceAccountListProps(
     items: obj.items?.map((y) => toJson_KubeServiceAccountProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10167,9 +9452,7 @@ export interface KubeServiceListProps {
  * Converts an object of type 'KubeServiceListProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeServiceListProps(
-  obj: KubeServiceListProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeServiceListProps(obj: KubeServiceListProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -10178,10 +9461,7 @@ export function toJson_KubeServiceListProps(
     items: obj.items?.map((y) => toJson_KubeServiceProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10239,10 +9519,7 @@ export function toJson_KubeEndpointSliceProps(
     ports: obj.ports?.map((y) => toJson_EndpointPort(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10282,10 +9559,7 @@ export function toJson_KubeEndpointSliceListProps(
     items: obj.items?.map((y) => toJson_KubeEndpointSliceProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10325,10 +9599,7 @@ export function toJson_KubeFlowSchemaV1Beta1Props(
     spec: toJson_FlowSchemaSpecV1Beta1(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10368,10 +9639,7 @@ export function toJson_KubeFlowSchemaListV1Beta1Props(
     items: obj.items?.map((y) => toJson_KubeFlowSchemaV1Beta1Props(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10411,10 +9679,7 @@ export function toJson_KubePriorityLevelConfigurationV1Beta1Props(
     spec: toJson_PriorityLevelConfigurationSpecV1Beta1(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10451,15 +9716,10 @@ export function toJson_KubePriorityLevelConfigurationListV1Beta1Props(
   }
   const result = {
     metadata: toJson_ListMeta(obj.metadata),
-    items: obj.items?.map((y) =>
-      toJson_KubePriorityLevelConfigurationV1Beta1Props(y),
-    ),
+    items: obj.items?.map((y) => toJson_KubePriorityLevelConfigurationV1Beta1Props(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10499,10 +9759,7 @@ export function toJson_KubeFlowSchemaV1Beta2Props(
     spec: toJson_FlowSchemaSpecV1Beta2(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10542,10 +9799,7 @@ export function toJson_KubeFlowSchemaListV1Beta2Props(
     items: obj.items?.map((y) => toJson_KubeFlowSchemaV1Beta2Props(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10585,10 +9839,7 @@ export function toJson_KubePriorityLevelConfigurationV1Beta2Props(
     spec: toJson_PriorityLevelConfigurationSpecV1Beta2(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10625,15 +9876,10 @@ export function toJson_KubePriorityLevelConfigurationListV1Beta2Props(
   }
   const result = {
     metadata: toJson_ListMeta(obj.metadata),
-    items: obj.items?.map((y) =>
-      toJson_KubePriorityLevelConfigurationV1Beta2Props(y),
-    ),
+    items: obj.items?.map((y) => toJson_KubePriorityLevelConfigurationV1Beta2Props(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10662,9 +9908,7 @@ export interface KubeIngressProps {
  * Converts an object of type 'KubeIngressProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeIngressProps(
-  obj: KubeIngressProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeIngressProps(obj: KubeIngressProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -10673,10 +9917,7 @@ export function toJson_KubeIngressProps(
     spec: toJson_IngressSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10705,9 +9946,7 @@ export interface KubeIngressClassProps {
  * Converts an object of type 'KubeIngressClassProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeIngressClassProps(
-  obj: KubeIngressClassProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeIngressClassProps(obj: KubeIngressClassProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -10716,10 +9955,7 @@ export function toJson_KubeIngressClassProps(
     spec: toJson_IngressClassSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10759,10 +9995,7 @@ export function toJson_KubeIngressClassListProps(
     items: obj.items?.map((y) => toJson_KubeIngressClassProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10791,9 +10024,7 @@ export interface KubeIngressListProps {
  * Converts an object of type 'KubeIngressListProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeIngressListProps(
-  obj: KubeIngressListProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeIngressListProps(obj: KubeIngressListProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -10802,10 +10033,7 @@ export function toJson_KubeIngressListProps(
     items: obj.items?.map((y) => toJson_KubeIngressProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10845,10 +10073,7 @@ export function toJson_KubeNetworkPolicyProps(
     spec: toJson_NetworkPolicySpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10888,10 +10113,7 @@ export function toJson_KubeNetworkPolicyListProps(
     items: obj.items?.map((y) => toJson_KubeNetworkPolicyProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10931,10 +10153,7 @@ export function toJson_KubeClusterCidrv1Alpha1Props(
     spec: toJson_ClusterCidrSpecV1Alpha1(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10974,10 +10193,7 @@ export function toJson_KubeClusterCidrListV1Alpha1Props(
     items: obj.items?.map((y) => toJson_KubeClusterCidrv1Alpha1Props(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11021,9 +10237,7 @@ export interface KubeRuntimeClassProps {
  * Converts an object of type 'KubeRuntimeClassProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeRuntimeClassProps(
-  obj: KubeRuntimeClassProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeRuntimeClassProps(obj: KubeRuntimeClassProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -11034,10 +10248,7 @@ export function toJson_KubeRuntimeClassProps(
     scheduling: toJson_Scheduling(obj.scheduling),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11077,10 +10288,7 @@ export function toJson_KubeRuntimeClassListProps(
     items: obj.items?.map((y) => toJson_KubeRuntimeClassProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11109,9 +10317,7 @@ export interface KubeEvictionProps {
  * Converts an object of type 'KubeEvictionProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeEvictionProps(
-  obj: KubeEvictionProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeEvictionProps(obj: KubeEvictionProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -11120,10 +10326,7 @@ export function toJson_KubeEvictionProps(
     deleteOptions: toJson_DeleteOptions(obj.deleteOptions),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11163,10 +10366,7 @@ export function toJson_KubePodDisruptionBudgetProps(
     spec: toJson_PodDisruptionBudgetSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11206,10 +10406,7 @@ export function toJson_KubePodDisruptionBudgetListProps(
     items: obj.items?.map((y) => toJson_KubePodDisruptionBudgetProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11245,9 +10442,7 @@ export interface KubeClusterRoleProps {
  * Converts an object of type 'KubeClusterRoleProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeClusterRoleProps(
-  obj: KubeClusterRoleProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeClusterRoleProps(obj: KubeClusterRoleProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -11257,10 +10452,7 @@ export function toJson_KubeClusterRoleProps(
     rules: obj.rules?.map((y) => toJson_PolicyRule(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11308,10 +10500,7 @@ export function toJson_KubeClusterRoleBindingProps(
     subjects: obj.subjects?.map((y) => toJson_Subject(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11351,10 +10540,7 @@ export function toJson_KubeClusterRoleBindingListProps(
     items: obj.items?.map((y) => toJson_KubeClusterRoleBindingProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11394,10 +10580,7 @@ export function toJson_KubeClusterRoleListProps(
     items: obj.items?.map((y) => toJson_KubeClusterRoleProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11426,9 +10609,7 @@ export interface KubeRoleProps {
  * Converts an object of type 'KubeRoleProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeRoleProps(
-  obj: KubeRoleProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeRoleProps(obj: KubeRoleProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -11437,10 +10618,7 @@ export function toJson_KubeRoleProps(
     rules: obj.rules?.map((y) => toJson_PolicyRule(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11476,9 +10654,7 @@ export interface KubeRoleBindingProps {
  * Converts an object of type 'KubeRoleBindingProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeRoleBindingProps(
-  obj: KubeRoleBindingProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeRoleBindingProps(obj: KubeRoleBindingProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -11488,10 +10664,7 @@ export function toJson_KubeRoleBindingProps(
     subjects: obj.subjects?.map((y) => toJson_Subject(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11531,10 +10704,7 @@ export function toJson_KubeRoleBindingListProps(
     items: obj.items?.map((y) => toJson_KubeRoleBindingProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11563,9 +10733,7 @@ export interface KubeRoleListProps {
  * Converts an object of type 'KubeRoleListProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeRoleListProps(
-  obj: KubeRoleListProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeRoleListProps(obj: KubeRoleListProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -11574,10 +10742,7 @@ export function toJson_KubeRoleListProps(
     items: obj.items?.map((y) => toJson_KubeRoleProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11642,10 +10807,7 @@ export function toJson_KubePriorityClassProps(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11685,10 +10847,7 @@ export function toJson_KubePriorityClassListProps(
     items: obj.items?.map((y) => toJson_KubePriorityClassProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11717,9 +10876,7 @@ export interface KubeCsiDriverProps {
  * Converts an object of type 'KubeCsiDriverProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeCsiDriverProps(
-  obj: KubeCsiDriverProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeCsiDriverProps(obj: KubeCsiDriverProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -11728,10 +10885,7 @@ export function toJson_KubeCsiDriverProps(
     spec: toJson_CsiDriverSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11771,10 +10925,7 @@ export function toJson_KubeCsiDriverListProps(
     items: obj.items?.map((y) => toJson_KubeCsiDriverProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11803,9 +10954,7 @@ export interface KubeCsiNodeProps {
  * Converts an object of type 'KubeCsiNodeProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeCsiNodeProps(
-  obj: KubeCsiNodeProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeCsiNodeProps(obj: KubeCsiNodeProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -11814,10 +10963,7 @@ export function toJson_KubeCsiNodeProps(
     spec: toJson_CsiNodeSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11846,9 +10992,7 @@ export interface KubeCsiNodeListProps {
  * Converts an object of type 'KubeCsiNodeListProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeCsiNodeListProps(
-  obj: KubeCsiNodeListProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeCsiNodeListProps(obj: KubeCsiNodeListProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -11857,10 +11001,7 @@ export function toJson_KubeCsiNodeListProps(
     items: obj.items?.map((y) => toJson_KubeCsiNodeProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11940,10 +11081,7 @@ export function toJson_KubeCsiStorageCapacityProps(
     storageClassName: obj.storageClassName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -11983,10 +11121,7 @@ export function toJson_KubeCsiStorageCapacityListProps(
     items: obj.items?.map((y) => toJson_KubeCsiStorageCapacityProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12060,35 +11195,25 @@ export interface KubeStorageClassProps {
  * Converts an object of type 'KubeStorageClassProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeStorageClassProps(
-  obj: KubeStorageClassProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeStorageClassProps(obj: KubeStorageClassProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
     metadata: toJson_ObjectMeta(obj.metadata),
     allowVolumeExpansion: obj.allowVolumeExpansion,
-    allowedTopologies: obj.allowedTopologies?.map((y) =>
-      toJson_TopologySelectorTerm(y),
-    ),
+    allowedTopologies: obj.allowedTopologies?.map((y) => toJson_TopologySelectorTerm(y)),
     mountOptions: obj.mountOptions?.map((y) => y),
     parameters:
       obj.parameters === undefined
         ? undefined
-        : Object.entries(obj.parameters).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.parameters).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     provisioner: obj.provisioner,
     reclaimPolicy: obj.reclaimPolicy,
     volumeBindingMode: obj.volumeBindingMode,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12128,10 +11253,7 @@ export function toJson_KubeStorageClassListProps(
     items: obj.items?.map((y) => toJson_KubeStorageClassProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12173,10 +11295,7 @@ export function toJson_KubeVolumeAttachmentProps(
     spec: toJson_VolumeAttachmentSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12216,10 +11335,7 @@ export function toJson_KubeVolumeAttachmentListProps(
     items: obj.items?.map((y) => toJson_KubeVolumeAttachmentProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12299,10 +11415,7 @@ export function toJson_KubeCsiStorageCapacityV1Beta1Props(
     storageClassName: obj.storageClassName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12342,10 +11455,7 @@ export function toJson_KubeCsiStorageCapacityListV1Beta1Props(
     items: obj.items?.map((y) => toJson_KubeCsiStorageCapacityV1Beta1Props(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12385,10 +11495,7 @@ export function toJson_KubeCustomResourceDefinitionProps(
     spec: toJson_CustomResourceDefinitionSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12428,10 +11535,7 @@ export function toJson_KubeCustomResourceDefinitionListProps(
     items: obj.items?.map((y) => toJson_KubeCustomResourceDefinitionProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12481,9 +11585,7 @@ export interface KubeStatusProps {
  * Converts an object of type 'KubeStatusProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeStatusProps(
-  obj: KubeStatusProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeStatusProps(obj: KubeStatusProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -12495,10 +11597,7 @@ export function toJson_KubeStatusProps(
     reason: obj.reason,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12527,9 +11626,7 @@ export interface KubeApiServiceProps {
  * Converts an object of type 'KubeApiServiceProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KubeApiServiceProps(
-  obj: KubeApiServiceProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_KubeApiServiceProps(obj: KubeApiServiceProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -12538,10 +11635,7 @@ export function toJson_KubeApiServiceProps(
     spec: toJson_ApiServiceSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12581,10 +11675,7 @@ export function toJson_KubeApiServiceListProps(
     items: obj.items?.map((y) => toJson_KubeApiServiceProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12718,9 +11809,7 @@ export interface ObjectMeta {
  * Converts an object of type 'ObjectMeta' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ObjectMeta(
-  obj: ObjectMeta | undefined,
-): Record<string, any> | undefined {
+export function toJson_ObjectMeta(obj: ObjectMeta | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -12728,10 +11817,7 @@ export function toJson_ObjectMeta(
     annotations:
       obj.annotations === undefined
         ? undefined
-        : Object.entries(obj.annotations).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.annotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     creationTimestamp: obj.creationTimestamp?.toISOString(),
     deletionGracePeriodSeconds: obj.deletionGracePeriodSeconds,
     deletionTimestamp: obj.deletionTimestamp?.toISOString(),
@@ -12741,10 +11827,7 @@ export function toJson_ObjectMeta(
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     managedFields: obj.managedFields?.map((y) => toJson_ManagedFieldsEntry(y)),
     name: obj.name,
     namespace: obj.namespace,
@@ -12754,10 +11837,7 @@ export function toJson_ObjectMeta(
     uid: obj.uid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12897,9 +11977,7 @@ export interface MutatingWebhook {
  * Converts an object of type 'MutatingWebhook' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_MutatingWebhook(
-  obj: MutatingWebhook | undefined,
-): Record<string, any> | undefined {
+export function toJson_MutatingWebhook(obj: MutatingWebhook | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -12917,10 +11995,7 @@ export function toJson_MutatingWebhook(
     timeoutSeconds: obj.timeoutSeconds,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -12963,9 +12038,7 @@ export interface ListMeta {
  * Converts an object of type 'ListMeta' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ListMeta(
-  obj: ListMeta | undefined,
-): Record<string, any> | undefined {
+export function toJson_ListMeta(obj: ListMeta | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -12976,10 +12049,7 @@ export function toJson_ListMeta(
     selfLink: obj.selfLink,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13105,9 +12175,7 @@ export interface ValidatingWebhook {
  * Converts an object of type 'ValidatingWebhook' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ValidatingWebhook(
-  obj: ValidatingWebhook | undefined,
-): Record<string, any> | undefined {
+export function toJson_ValidatingWebhook(obj: ValidatingWebhook | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -13124,10 +12192,7 @@ export function toJson_ValidatingWebhook(
     timeoutSeconds: obj.timeoutSeconds,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13179,9 +12244,7 @@ export interface DaemonSetSpec {
  * Converts an object of type 'DaemonSetSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DaemonSetSpec(
-  obj: DaemonSetSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_DaemonSetSpec(obj: DaemonSetSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -13193,10 +12256,7 @@ export function toJson_DaemonSetSpec(
     updateStrategy: toJson_DaemonSetUpdateStrategy(obj.updateStrategy),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13271,9 +12331,7 @@ export interface DeploymentSpec {
  * Converts an object of type 'DeploymentSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DeploymentSpec(
-  obj: DeploymentSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_DeploymentSpec(obj: DeploymentSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -13288,10 +12346,7 @@ export function toJson_DeploymentSpec(
     template: toJson_PodTemplateSpec(obj.template),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13336,9 +12391,7 @@ export interface ReplicaSetSpec {
  * Converts an object of type 'ReplicaSetSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ReplicaSetSpec(
-  obj: ReplicaSetSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ReplicaSetSpec(obj: ReplicaSetSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -13349,10 +12402,7 @@ export function toJson_ReplicaSetSpec(
     template: toJson_PodTemplateSpec(obj.template),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13440,18 +12490,15 @@ export interface StatefulSetSpec {
  * Converts an object of type 'StatefulSetSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_StatefulSetSpec(
-  obj: StatefulSetSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_StatefulSetSpec(obj: StatefulSetSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
     minReadySeconds: obj.minReadySeconds,
-    persistentVolumeClaimRetentionPolicy:
-      toJson_StatefulSetPersistentVolumeClaimRetentionPolicy(
-        obj.persistentVolumeClaimRetentionPolicy,
-      ),
+    persistentVolumeClaimRetentionPolicy: toJson_StatefulSetPersistentVolumeClaimRetentionPolicy(
+      obj.persistentVolumeClaimRetentionPolicy,
+    ),
     podManagementPolicy: obj.podManagementPolicy,
     replicas: obj.replicas,
     revisionHistoryLimit: obj.revisionHistoryLimit,
@@ -13459,15 +12506,10 @@ export function toJson_StatefulSetSpec(
     serviceName: obj.serviceName,
     template: toJson_PodTemplateSpec(obj.template),
     updateStrategy: toJson_StatefulSetUpdateStrategy(obj.updateStrategy),
-    volumeClaimTemplates: obj.volumeClaimTemplates?.map((y) =>
-      toJson_KubePersistentVolumeClaimProps(y),
-    ),
+    volumeClaimTemplates: obj.volumeClaimTemplates?.map((y) => toJson_KubePersistentVolumeClaimProps(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13503,9 +12545,7 @@ export interface TokenRequestSpec {
  * Converts an object of type 'TokenRequestSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_TokenRequestSpec(
-  obj: TokenRequestSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_TokenRequestSpec(obj: TokenRequestSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -13515,10 +12555,7 @@ export function toJson_TokenRequestSpec(
     expirationSeconds: obj.expirationSeconds,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13547,9 +12584,7 @@ export interface TokenReviewSpec {
  * Converts an object of type 'TokenReviewSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_TokenReviewSpec(
-  obj: TokenReviewSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_TokenReviewSpec(obj: TokenReviewSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -13558,10 +12593,7 @@ export function toJson_TokenReviewSpec(
     token: obj.token,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13629,23 +12661,17 @@ export function toJson_SubjectAccessReviewSpec(
       obj.extra === undefined
         ? undefined
         : Object.entries(obj.extra).reduce(
-            (r, i) =>
-              i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) }),
             {},
           ),
     groups: obj.groups?.map((y) => y),
-    nonResourceAttributes: toJson_NonResourceAttributes(
-      obj.nonResourceAttributes,
-    ),
+    nonResourceAttributes: toJson_NonResourceAttributes(obj.nonResourceAttributes),
     resourceAttributes: toJson_ResourceAttributes(obj.resourceAttributes),
     uid: obj.uid,
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13681,16 +12707,11 @@ export function toJson_SelfSubjectAccessReviewSpec(
     return undefined;
   }
   const result = {
-    nonResourceAttributes: toJson_NonResourceAttributes(
-      obj.nonResourceAttributes,
-    ),
+    nonResourceAttributes: toJson_NonResourceAttributes(obj.nonResourceAttributes),
     resourceAttributes: toJson_ResourceAttributes(obj.resourceAttributes),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13722,10 +12743,7 @@ export function toJson_SelfSubjectRulesReviewSpec(
     namespace: obj.namespace,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13781,10 +12799,7 @@ export function toJson_HorizontalPodAutoscalerSpec(
     targetCPUUtilizationPercentage: obj.targetCpuUtilizationPercentage,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13806,9 +12821,7 @@ export interface ScaleSpec {
  * Converts an object of type 'ScaleSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ScaleSpec(
-  obj: ScaleSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ScaleSpec(obj: ScaleSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -13816,10 +12829,7 @@ export function toJson_ScaleSpec(
     replicas: obj.replicas,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13883,10 +12893,7 @@ export function toJson_HorizontalPodAutoscalerSpecV2(
     scaleTargetRef: toJson_CrossVersionObjectReferenceV2(obj.scaleTargetRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -13947,15 +12954,10 @@ export function toJson_HorizontalPodAutoscalerSpecV2Beta2(
     maxReplicas: obj.maxReplicas,
     metrics: obj.metrics?.map((y) => toJson_MetricSpecV2Beta2(y)),
     minReplicas: obj.minReplicas,
-    scaleTargetRef: toJson_CrossVersionObjectReferenceV2Beta2(
-      obj.scaleTargetRef,
-    ),
+    scaleTargetRef: toJson_CrossVersionObjectReferenceV2Beta2(obj.scaleTargetRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14031,9 +13033,7 @@ export interface CronJobSpec {
  * Converts an object of type 'CronJobSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_CronJobSpec(
-  obj: CronJobSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_CronJobSpec(obj: CronJobSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -14048,10 +13048,7 @@ export function toJson_CronJobSpec(
     timeZone: obj.timeZone,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14153,9 +13150,7 @@ export interface JobSpec {
  * Converts an object of type 'JobSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_JobSpec(
-  obj: JobSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_JobSpec(obj: JobSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -14173,10 +13168,7 @@ export function toJson_JobSpec(
     ttlSecondsAfterFinished: obj.ttlSecondsAfterFinished,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14303,8 +13295,7 @@ export function toJson_CertificateSigningRequestSpec(
       obj.extra === undefined
         ? undefined
         : Object.entries(obj.extra).reduce(
-            (r, i) =>
-              i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) }),
             {},
           ),
     groups: obj.groups?.map((y) => y),
@@ -14315,10 +13306,7 @@ export function toJson_CertificateSigningRequestSpec(
     username: obj.username,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14368,9 +13356,7 @@ export interface LeaseSpec {
  * Converts an object of type 'LeaseSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_LeaseSpec(
-  obj: LeaseSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_LeaseSpec(obj: LeaseSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -14382,10 +13368,7 @@ export function toJson_LeaseSpec(
     renewTime: obj.renewTime?.toISOString(),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14449,9 +13432,7 @@ export interface ObjectReference {
  * Converts an object of type 'ObjectReference' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ObjectReference(
-  obj: ObjectReference | undefined,
-): Record<string, any> | undefined {
+export function toJson_ObjectReference(obj: ObjectReference | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -14465,10 +13446,7 @@ export function toJson_ObjectReference(
     uid: obj.uid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14511,9 +13489,7 @@ export interface ComponentCondition {
  * Converts an object of type 'ComponentCondition' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ComponentCondition(
-  obj: ComponentCondition | undefined,
-): Record<string, any> | undefined {
+export function toJson_ComponentCondition(obj: ComponentCondition | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -14524,10 +13500,7 @@ export function toJson_ComponentCondition(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14573,24 +13546,17 @@ export interface EndpointSubset {
  * Converts an object of type 'EndpointSubset' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EndpointSubset(
-  obj: EndpointSubset | undefined,
-): Record<string, any> | undefined {
+export function toJson_EndpointSubset(obj: EndpointSubset | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
     addresses: obj.addresses?.map((y) => toJson_EndpointAddress(y)),
-    notReadyAddresses: obj.notReadyAddresses?.map((y) =>
-      toJson_EndpointAddress(y),
-    ),
+    notReadyAddresses: obj.notReadyAddresses?.map((y) => toJson_EndpointAddress(y)),
     ports: obj.ports?.map((y) => toJson_EndpointPort(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14619,9 +13585,7 @@ export interface EventSource {
  * Converts an object of type 'EventSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EventSource(
-  obj: EventSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_EventSource(obj: EventSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -14630,10 +13594,7 @@ export function toJson_EventSource(
     host: obj.host,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14662,9 +13623,7 @@ export interface EventSeries {
  * Converts an object of type 'EventSeries' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EventSeries(
-  obj: EventSeries | undefined,
-): Record<string, any> | undefined {
+export function toJson_EventSeries(obj: EventSeries | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -14673,10 +13632,7 @@ export function toJson_EventSeries(
     lastObservedTime: obj.lastObservedTime?.toISOString(),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14698,9 +13654,7 @@ export interface LimitRangeSpec {
  * Converts an object of type 'LimitRangeSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_LimitRangeSpec(
-  obj: LimitRangeSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_LimitRangeSpec(obj: LimitRangeSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -14708,10 +13662,7 @@ export function toJson_LimitRangeSpec(
     limits: obj.limits?.map((y) => toJson_LimitRangeItem(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14733,9 +13684,7 @@ export interface NamespaceSpec {
  * Converts an object of type 'NamespaceSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NamespaceSpec(
-  obj: NamespaceSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_NamespaceSpec(obj: NamespaceSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -14743,10 +13692,7 @@ export function toJson_NamespaceSpec(
     finalizers: obj.finalizers?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -14810,9 +13756,7 @@ export interface NodeSpec {
  * Converts an object of type 'NodeSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NodeSpec(
-  obj: NodeSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_NodeSpec(obj: NodeSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -14826,10 +13770,7 @@ export function toJson_NodeSpec(
     unschedulable: obj.unschedulable,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -15056,26 +13997,19 @@ export interface PersistentVolumeSpec {
  * Converts an object of type 'PersistentVolumeSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PersistentVolumeSpec(
-  obj: PersistentVolumeSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_PersistentVolumeSpec(obj: PersistentVolumeSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
     accessModes: obj.accessModes?.map((y) => y),
-    awsElasticBlockStore: toJson_AwsElasticBlockStoreVolumeSource(
-      obj.awsElasticBlockStore,
-    ),
+    awsElasticBlockStore: toJson_AwsElasticBlockStoreVolumeSource(obj.awsElasticBlockStore),
     azureDisk: toJson_AzureDiskVolumeSource(obj.azureDisk),
     azureFile: toJson_AzureFilePersistentVolumeSource(obj.azureFile),
     capacity:
       obj.capacity === undefined
         ? undefined
-        : Object.entries(obj.capacity).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.capacity).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
     cephfs: toJson_CephFsPersistentVolumeSource(obj.cephfs),
     cinder: toJson_CinderPersistentVolumeSource(obj.cinder),
     claimRef: toJson_ObjectReference(obj.claimRef),
@@ -15083,9 +14017,7 @@ export function toJson_PersistentVolumeSpec(
     fc: toJson_FcVolumeSource(obj.fc),
     flexVolume: toJson_FlexPersistentVolumeSource(obj.flexVolume),
     flocker: toJson_FlockerVolumeSource(obj.flocker),
-    gcePersistentDisk: toJson_GcePersistentDiskVolumeSource(
-      obj.gcePersistentDisk,
-    ),
+    gcePersistentDisk: toJson_GcePersistentDiskVolumeSource(obj.gcePersistentDisk),
     glusterfs: toJson_GlusterfsPersistentVolumeSource(obj.glusterfs),
     hostPath: toJson_HostPathVolumeSource(obj.hostPath),
     iscsi: toJson_IscsiPersistentVolumeSource(obj.iscsi),
@@ -15094,9 +14026,7 @@ export function toJson_PersistentVolumeSpec(
     nfs: toJson_NfsVolumeSource(obj.nfs),
     nodeAffinity: toJson_VolumeNodeAffinity(obj.nodeAffinity),
     persistentVolumeReclaimPolicy: obj.persistentVolumeReclaimPolicy,
-    photonPersistentDisk: toJson_PhotonPersistentDiskVolumeSource(
-      obj.photonPersistentDisk,
-    ),
+    photonPersistentDisk: toJson_PhotonPersistentDiskVolumeSource(obj.photonPersistentDisk),
     portworxVolume: toJson_PortworxVolumeSource(obj.portworxVolume),
     quobyte: toJson_QuobyteVolumeSource(obj.quobyte),
     rbd: toJson_RbdPersistentVolumeSource(obj.rbd),
@@ -15107,10 +14037,7 @@ export function toJson_PersistentVolumeSpec(
     vsphereVolume: toJson_VsphereVirtualDiskVolumeSource(obj.vsphereVolume),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -15203,10 +14130,7 @@ export function toJson_PersistentVolumeClaimSpec(
     volumeName: obj.volumeName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -15500,9 +14424,7 @@ export interface PodSpec {
  * Converts an object of type 'PodSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodSpec(
-  obj: PodSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodSpec(obj: PodSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -15514,35 +14436,25 @@ export function toJson_PodSpec(
     dnsConfig: toJson_PodDnsConfig(obj.dnsConfig),
     dnsPolicy: obj.dnsPolicy,
     enableServiceLinks: obj.enableServiceLinks,
-    ephemeralContainers: obj.ephemeralContainers?.map((y) =>
-      toJson_EphemeralContainer(y),
-    ),
+    ephemeralContainers: obj.ephemeralContainers?.map((y) => toJson_EphemeralContainer(y)),
     hostAliases: obj.hostAliases?.map((y) => toJson_HostAlias(y)),
     hostIPC: obj.hostIpc,
     hostNetwork: obj.hostNetwork,
     hostPID: obj.hostPid,
     hostUsers: obj.hostUsers,
     hostname: obj.hostname,
-    imagePullSecrets: obj.imagePullSecrets?.map((y) =>
-      toJson_LocalObjectReference(y),
-    ),
+    imagePullSecrets: obj.imagePullSecrets?.map((y) => toJson_LocalObjectReference(y)),
     initContainers: obj.initContainers?.map((y) => toJson_Container(y)),
     nodeName: obj.nodeName,
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     os: toJson_PodOs(obj.os),
     overhead:
       obj.overhead === undefined
         ? undefined
-        : Object.entries(obj.overhead).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.overhead).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
     preemptionPolicy: obj.preemptionPolicy,
     priority: obj.priority,
     priorityClassName: obj.priorityClassName,
@@ -15558,16 +14470,11 @@ export function toJson_PodSpec(
     subdomain: obj.subdomain,
     terminationGracePeriodSeconds: obj.terminationGracePeriodSeconds,
     tolerations: obj.tolerations?.map((y) => toJson_Toleration(y)),
-    topologySpreadConstraints: obj.topologySpreadConstraints?.map((y) =>
-      toJson_TopologySpreadConstraint(y),
-    ),
+    topologySpreadConstraints: obj.topologySpreadConstraints?.map((y) => toJson_TopologySpreadConstraint(y)),
     volumes: obj.volumes?.map((y) => toJson_Volume(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -15596,9 +14503,7 @@ export interface PodTemplateSpec {
  * Converts an object of type 'PodTemplateSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodTemplateSpec(
-  obj: PodTemplateSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodTemplateSpec(obj: PodTemplateSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -15607,10 +14512,7 @@ export function toJson_PodTemplateSpec(
     spec: toJson_PodSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -15667,17 +14569,11 @@ export function toJson_ReplicationControllerSpec(
     selector:
       obj.selector === undefined
         ? undefined
-        : Object.entries(obj.selector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.selector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     template: toJson_PodTemplateSpec(obj.template),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -15713,9 +14609,7 @@ export interface ResourceQuotaSpec {
  * Converts an object of type 'ResourceQuotaSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ResourceQuotaSpec(
-  obj: ResourceQuotaSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ResourceQuotaSpec(obj: ResourceQuotaSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -15723,18 +14617,12 @@ export function toJson_ResourceQuotaSpec(
     hard:
       obj.hard === undefined
         ? undefined
-        : Object.entries(obj.hard).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.hard).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
     scopeSelector: toJson_ScopeSelector(obj.scopeSelector),
     scopes: obj.scopes?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -15895,9 +14783,7 @@ export interface ServiceSpec {
  * Converts an object of type 'ServiceSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ServiceSpec(
-  obj: ServiceSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ServiceSpec(obj: ServiceSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -15920,21 +14806,13 @@ export function toJson_ServiceSpec(
     selector:
       obj.selector === undefined
         ? undefined
-        : Object.entries(obj.selector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.selector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     sessionAffinity: obj.sessionAffinity,
-    sessionAffinityConfig: toJson_SessionAffinityConfig(
-      obj.sessionAffinityConfig,
-    ),
+    sessionAffinityConfig: toJson_SessionAffinityConfig(obj.sessionAffinityConfig),
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -15956,9 +14834,7 @@ export interface LocalObjectReference {
  * Converts an object of type 'LocalObjectReference' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_LocalObjectReference(
-  obj: LocalObjectReference | undefined,
-): Record<string, any> | undefined {
+export function toJson_LocalObjectReference(obj: LocalObjectReference | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -15966,10 +14842,7 @@ export function toJson_LocalObjectReference(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16040,9 +14913,7 @@ export interface Endpoint {
  * Converts an object of type 'Endpoint' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Endpoint(
-  obj: Endpoint | undefined,
-): Record<string, any> | undefined {
+export function toJson_Endpoint(obj: Endpoint | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -16063,10 +14934,7 @@ export function toJson_Endpoint(
     zone: obj.zone,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16112,9 +14980,7 @@ export interface EndpointPort {
  * Converts an object of type 'EndpointPort' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EndpointPort(
-  obj: EndpointPort | undefined,
-): Record<string, any> | undefined {
+export function toJson_EndpointPort(obj: EndpointPort | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -16125,10 +14991,7 @@ export function toJson_EndpointPort(
     protocol: obj.protocol,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16171,28 +15034,18 @@ export interface FlowSchemaSpecV1Beta1 {
  * Converts an object of type 'FlowSchemaSpecV1Beta1' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_FlowSchemaSpecV1Beta1(
-  obj: FlowSchemaSpecV1Beta1 | undefined,
-): Record<string, any> | undefined {
+export function toJson_FlowSchemaSpecV1Beta1(obj: FlowSchemaSpecV1Beta1 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    distinguisherMethod: toJson_FlowDistinguisherMethodV1Beta1(
-      obj.distinguisherMethod,
-    ),
+    distinguisherMethod: toJson_FlowDistinguisherMethodV1Beta1(obj.distinguisherMethod),
     matchingPrecedence: obj.matchingPrecedence,
-    priorityLevelConfiguration:
-      toJson_PriorityLevelConfigurationReferenceV1Beta1(
-        obj.priorityLevelConfiguration,
-      ),
+    priorityLevelConfiguration: toJson_PriorityLevelConfigurationReferenceV1Beta1(obj.priorityLevelConfiguration),
     rules: obj.rules?.map((y) => toJson_PolicyRulesWithSubjectsV1Beta1(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16232,10 +15085,7 @@ export function toJson_PriorityLevelConfigurationSpecV1Beta1(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16278,28 +15128,18 @@ export interface FlowSchemaSpecV1Beta2 {
  * Converts an object of type 'FlowSchemaSpecV1Beta2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_FlowSchemaSpecV1Beta2(
-  obj: FlowSchemaSpecV1Beta2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_FlowSchemaSpecV1Beta2(obj: FlowSchemaSpecV1Beta2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    distinguisherMethod: toJson_FlowDistinguisherMethodV1Beta2(
-      obj.distinguisherMethod,
-    ),
+    distinguisherMethod: toJson_FlowDistinguisherMethodV1Beta2(obj.distinguisherMethod),
     matchingPrecedence: obj.matchingPrecedence,
-    priorityLevelConfiguration:
-      toJson_PriorityLevelConfigurationReferenceV1Beta2(
-        obj.priorityLevelConfiguration,
-      ),
+    priorityLevelConfiguration: toJson_PriorityLevelConfigurationReferenceV1Beta2(obj.priorityLevelConfiguration),
     rules: obj.rules?.map((y) => toJson_PolicyRulesWithSubjectsV1Beta2(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16339,10 +15179,7 @@ export function toJson_PriorityLevelConfigurationSpecV1Beta2(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16385,9 +15222,7 @@ export interface IngressSpec {
  * Converts an object of type 'IngressSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_IngressSpec(
-  obj: IngressSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_IngressSpec(obj: IngressSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -16398,10 +15233,7 @@ export function toJson_IngressSpec(
     tls: obj.tls?.map((y) => toJson_IngressTls(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16430,9 +15262,7 @@ export interface IngressClassSpec {
  * Converts an object of type 'IngressClassSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_IngressClassSpec(
-  obj: IngressClassSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_IngressClassSpec(obj: IngressClassSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -16441,10 +15271,7 @@ export function toJson_IngressClassSpec(
     parameters: toJson_IngressClassParametersReference(obj.parameters),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16487,9 +15314,7 @@ export interface NetworkPolicySpec {
  * Converts an object of type 'NetworkPolicySpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NetworkPolicySpec(
-  obj: NetworkPolicySpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_NetworkPolicySpec(obj: NetworkPolicySpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -16500,10 +15325,7 @@ export function toJson_NetworkPolicySpec(
     policyTypes: obj.policyTypes?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16559,10 +15381,7 @@ export function toJson_ClusterCidrSpecV1Alpha1(
     perNodeHostBits: obj.perNodeHostBits,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16584,9 +15403,7 @@ export interface Overhead {
  * Converts an object of type 'Overhead' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Overhead(
-  obj: Overhead | undefined,
-): Record<string, any> | undefined {
+export function toJson_Overhead(obj: Overhead | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -16594,16 +15411,10 @@ export function toJson_Overhead(
     podFixed:
       obj.podFixed === undefined
         ? undefined
-        : Object.entries(obj.podFixed).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.podFixed).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16632,9 +15443,7 @@ export interface Scheduling {
  * Converts an object of type 'Scheduling' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Scheduling(
-  obj: Scheduling | undefined,
-): Record<string, any> | undefined {
+export function toJson_Scheduling(obj: Scheduling | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -16642,17 +15451,11 @@ export function toJson_Scheduling(
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     tolerations: obj.tolerations?.map((y) => toJson_Toleration(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16717,9 +15520,7 @@ export interface DeleteOptions {
  * Converts an object of type 'DeleteOptions' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DeleteOptions(
-  obj: DeleteOptions | undefined,
-): Record<string, any> | undefined {
+export function toJson_DeleteOptions(obj: DeleteOptions | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -16733,10 +15534,7 @@ export function toJson_DeleteOptions(
     propagationPolicy: obj.propagationPolicy,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16784,10 +15582,7 @@ export function toJson_PodDisruptionBudgetSpec(
     selector: toJson_LabelSelector(obj.selector),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16809,22 +15604,15 @@ export interface AggregationRule {
  * Converts an object of type 'AggregationRule' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_AggregationRule(
-  obj: AggregationRule | undefined,
-): Record<string, any> | undefined {
+export function toJson_AggregationRule(obj: AggregationRule | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    clusterRoleSelectors: obj.clusterRoleSelectors?.map((y) =>
-      toJson_LabelSelector(y),
-    ),
+    clusterRoleSelectors: obj.clusterRoleSelectors?.map((y) => toJson_LabelSelector(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16874,9 +15662,7 @@ export interface PolicyRule {
  * Converts an object of type 'PolicyRule' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PolicyRule(
-  obj: PolicyRule | undefined,
-): Record<string, any> | undefined {
+export function toJson_PolicyRule(obj: PolicyRule | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -16888,10 +15674,7 @@ export function toJson_PolicyRule(
     verbs: obj.verbs?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16927,9 +15710,7 @@ export interface RoleRef {
  * Converts an object of type 'RoleRef' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_RoleRef(
-  obj: RoleRef | undefined,
-): Record<string, any> | undefined {
+export function toJson_RoleRef(obj: RoleRef | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -16939,10 +15720,7 @@ export function toJson_RoleRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -16986,9 +15764,7 @@ export interface Subject {
  * Converts an object of type 'Subject' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Subject(
-  obj: Subject | undefined,
-): Record<string, any> | undefined {
+export function toJson_Subject(obj: Subject | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -16999,10 +15775,7 @@ export function toJson_Subject(
     namespace: obj.namespace,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17111,9 +15884,7 @@ export interface CsiDriverSpec {
  * Converts an object of type 'CsiDriverSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_CsiDriverSpec(
-  obj: CsiDriverSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_CsiDriverSpec(obj: CsiDriverSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -17128,10 +15899,7 @@ export function toJson_CsiDriverSpec(
     volumeLifecycleModes: obj.volumeLifecycleModes?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17153,9 +15921,7 @@ export interface CsiNodeSpec {
  * Converts an object of type 'CsiNodeSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_CsiNodeSpec(
-  obj: CsiNodeSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_CsiNodeSpec(obj: CsiNodeSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -17163,10 +15929,7 @@ export function toJson_CsiNodeSpec(
     drivers: obj.drivers?.map((y) => toJson_CsiNodeDriver(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17208,29 +15971,19 @@ export interface LabelSelector {
  * Converts an object of type 'LabelSelector' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_LabelSelector(
-  obj: LabelSelector | undefined,
-): Record<string, any> | undefined {
+export function toJson_LabelSelector(obj: LabelSelector | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    matchExpressions: obj.matchExpressions?.map((y) =>
-      toJson_LabelSelectorRequirement(y),
-    ),
+    matchExpressions: obj.matchExpressions?.map((y) => toJson_LabelSelectorRequirement(y)),
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17252,22 +16005,15 @@ export interface TopologySelectorTerm {
  * Converts an object of type 'TopologySelectorTerm' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_TopologySelectorTerm(
-  obj: TopologySelectorTerm | undefined,
-): Record<string, any> | undefined {
+export function toJson_TopologySelectorTerm(obj: TopologySelectorTerm | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    matchLabelExpressions: obj.matchLabelExpressions?.map((y) =>
-      toJson_TopologySelectorLabelRequirement(y),
-    ),
+    matchLabelExpressions: obj.matchLabelExpressions?.map((y) => toJson_TopologySelectorLabelRequirement(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17303,9 +16049,7 @@ export interface VolumeAttachmentSpec {
  * Converts an object of type 'VolumeAttachmentSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_VolumeAttachmentSpec(
-  obj: VolumeAttachmentSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_VolumeAttachmentSpec(obj: VolumeAttachmentSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -17315,10 +16059,7 @@ export function toJson_VolumeAttachmentSpec(
     source: toJson_VolumeAttachmentSource(obj.source),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17387,15 +16128,10 @@ export function toJson_CustomResourceDefinitionSpec(
     names: toJson_CustomResourceDefinitionNames(obj.names),
     preserveUnknownFields: obj.preserveUnknownFields,
     scope: obj.scope,
-    versions: obj.versions?.map((y) =>
-      toJson_CustomResourceDefinitionVersion(y),
-    ),
+    versions: obj.versions?.map((y) => toJson_CustomResourceDefinitionVersion(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17452,9 +16188,7 @@ export interface StatusDetails {
  * Converts an object of type 'StatusDetails' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_StatusDetails(
-  obj: StatusDetails | undefined,
-): Record<string, any> | undefined {
+export function toJson_StatusDetails(obj: StatusDetails | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -17467,10 +16201,7 @@ export function toJson_StatusDetails(
     uid: obj.uid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17534,9 +16265,7 @@ export interface ApiServiceSpec {
  * Converts an object of type 'ApiServiceSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ApiServiceSpec(
-  obj: ApiServiceSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ApiServiceSpec(obj: ApiServiceSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -17550,10 +16279,7 @@ export function toJson_ApiServiceSpec(
     versionPriority: obj.versionPriority,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17617,9 +16343,7 @@ export interface ManagedFieldsEntry {
  * Converts an object of type 'ManagedFieldsEntry' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ManagedFieldsEntry(
-  obj: ManagedFieldsEntry | undefined,
-): Record<string, any> | undefined {
+export function toJson_ManagedFieldsEntry(obj: ManagedFieldsEntry | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -17633,10 +16357,7 @@ export function toJson_ManagedFieldsEntry(
     time: obj.time?.toISOString(),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17694,9 +16415,7 @@ export interface OwnerReference {
  * Converts an object of type 'OwnerReference' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_OwnerReference(
-  obj: OwnerReference | undefined,
-): Record<string, any> | undefined {
+export function toJson_OwnerReference(obj: OwnerReference | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -17709,10 +16428,7 @@ export function toJson_OwnerReference(
     uid: obj.uid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17760,9 +16476,7 @@ export interface WebhookClientConfig {
  * Converts an object of type 'WebhookClientConfig' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_WebhookClientConfig(
-  obj: WebhookClientConfig | undefined,
-): Record<string, any> | undefined {
+export function toJson_WebhookClientConfig(obj: WebhookClientConfig | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -17772,10 +16486,7 @@ export function toJson_WebhookClientConfig(
     url: obj.url,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17832,9 +16543,7 @@ export interface RuleWithOperations {
  * Converts an object of type 'RuleWithOperations' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_RuleWithOperations(
-  obj: RuleWithOperations | undefined,
-): Record<string, any> | undefined {
+export function toJson_RuleWithOperations(obj: RuleWithOperations | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -17846,10 +16555,7 @@ export function toJson_RuleWithOperations(
     scope: obj.scope,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17892,10 +16598,7 @@ export function toJson_DaemonSetUpdateStrategy(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17927,9 +16630,7 @@ export interface DeploymentStrategy {
  * Converts an object of type 'DeploymentStrategy' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DeploymentStrategy(
-  obj: DeploymentStrategy | undefined,
-): Record<string, any> | undefined {
+export function toJson_DeploymentStrategy(obj: DeploymentStrategy | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -17938,10 +16639,7 @@ export function toJson_DeploymentStrategy(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -17981,10 +16679,7 @@ export function toJson_StatefulSetPersistentVolumeClaimRetentionPolicy(
     whenScaled: obj.whenScaled,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18027,10 +16722,7 @@ export function toJson_StatefulSetUpdateStrategy(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18073,9 +16765,7 @@ export interface BoundObjectReference {
  * Converts an object of type 'BoundObjectReference' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_BoundObjectReference(
-  obj: BoundObjectReference | undefined,
-): Record<string, any> | undefined {
+export function toJson_BoundObjectReference(obj: BoundObjectReference | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -18086,10 +16776,7 @@ export function toJson_BoundObjectReference(
     uid: obj.uid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18118,9 +16805,7 @@ export interface NonResourceAttributes {
  * Converts an object of type 'NonResourceAttributes' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NonResourceAttributes(
-  obj: NonResourceAttributes | undefined,
-): Record<string, any> | undefined {
+export function toJson_NonResourceAttributes(obj: NonResourceAttributes | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -18129,10 +16814,7 @@ export function toJson_NonResourceAttributes(
     verb: obj.verb,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18196,9 +16878,7 @@ export interface ResourceAttributes {
  * Converts an object of type 'ResourceAttributes' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ResourceAttributes(
-  obj: ResourceAttributes | undefined,
-): Record<string, any> | undefined {
+export function toJson_ResourceAttributes(obj: ResourceAttributes | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -18212,10 +16892,7 @@ export function toJson_ResourceAttributes(
     version: obj.version,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18263,10 +16940,7 @@ export function toJson_CrossVersionObjectReference(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18309,10 +16983,7 @@ export function toJson_HorizontalPodAutoscalerBehaviorV2(
     scaleUp: toJson_HpaScalingRulesV2(obj.scaleUp),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18369,16 +17040,12 @@ export interface MetricSpecV2 {
  * Converts an object of type 'MetricSpecV2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_MetricSpecV2(
-  obj: MetricSpecV2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_MetricSpecV2(obj: MetricSpecV2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    containerResource: toJson_ContainerResourceMetricSourceV2(
-      obj.containerResource,
-    ),
+    containerResource: toJson_ContainerResourceMetricSourceV2(obj.containerResource),
     external: toJson_ExternalMetricSourceV2(obj.external),
     object: toJson_ObjectMetricSourceV2(obj.object),
     pods: toJson_PodsMetricSourceV2(obj.pods),
@@ -18386,10 +17053,7 @@ export function toJson_MetricSpecV2(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18437,10 +17101,7 @@ export function toJson_CrossVersionObjectReferenceV2(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18483,10 +17144,7 @@ export function toJson_HorizontalPodAutoscalerBehaviorV2Beta2(
     scaleUp: toJson_HpaScalingRulesV2Beta2(obj.scaleUp),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18543,16 +17201,12 @@ export interface MetricSpecV2Beta2 {
  * Converts an object of type 'MetricSpecV2Beta2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_MetricSpecV2Beta2(
-  obj: MetricSpecV2Beta2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_MetricSpecV2Beta2(obj: MetricSpecV2Beta2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    containerResource: toJson_ContainerResourceMetricSourceV2Beta2(
-      obj.containerResource,
-    ),
+    containerResource: toJson_ContainerResourceMetricSourceV2Beta2(obj.containerResource),
     external: toJson_ExternalMetricSourceV2Beta2(obj.external),
     object: toJson_ObjectMetricSourceV2Beta2(obj.object),
     pods: toJson_PodsMetricSourceV2Beta2(obj.pods),
@@ -18560,10 +17214,7 @@ export function toJson_MetricSpecV2Beta2(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18611,10 +17262,7 @@ export function toJson_CrossVersionObjectReferenceV2Beta2(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18643,9 +17291,7 @@ export interface JobTemplateSpec {
  * Converts an object of type 'JobTemplateSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_JobTemplateSpec(
-  obj: JobTemplateSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_JobTemplateSpec(obj: JobTemplateSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -18654,10 +17300,7 @@ export function toJson_JobTemplateSpec(
     spec: toJson_JobSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18679,9 +17322,7 @@ export interface PodFailurePolicy {
  * Converts an object of type 'PodFailurePolicy' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodFailurePolicy(
-  obj: PodFailurePolicy | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodFailurePolicy(obj: PodFailurePolicy | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -18689,10 +17330,7 @@ export function toJson_PodFailurePolicy(
     rules: obj.rules?.map((y) => toJson_PodFailurePolicyRule(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18735,9 +17373,7 @@ export interface EndpointAddress {
  * Converts an object of type 'EndpointAddress' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EndpointAddress(
-  obj: EndpointAddress | undefined,
-): Record<string, any> | undefined {
+export function toJson_EndpointAddress(obj: EndpointAddress | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -18748,10 +17384,7 @@ export function toJson_EndpointAddress(
     targetRef: toJson_ObjectReference(obj.targetRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18808,9 +17441,7 @@ export interface LimitRangeItem {
  * Converts an object of type 'LimitRangeItem' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_LimitRangeItem(
-  obj: LimitRangeItem | undefined,
-): Record<string, any> | undefined {
+export function toJson_LimitRangeItem(obj: LimitRangeItem | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -18818,10 +17449,7 @@ export function toJson_LimitRangeItem(
     default:
       obj.default === undefined
         ? undefined
-        : Object.entries(obj.default).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.default).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
     defaultRequest:
       obj.defaultRequest === undefined
         ? undefined
@@ -18832,10 +17460,7 @@ export function toJson_LimitRangeItem(
     max:
       obj.max === undefined
         ? undefined
-        : Object.entries(obj.max).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.max).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
     maxLimitRequestRatio:
       obj.maxLimitRequestRatio === undefined
         ? undefined
@@ -18846,17 +17471,11 @@ export function toJson_LimitRangeItem(
     min:
       obj.min === undefined
         ? undefined
-        : Object.entries(obj.min).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.min).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18878,9 +17497,7 @@ export interface NodeConfigSource {
  * Converts an object of type 'NodeConfigSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NodeConfigSource(
-  obj: NodeConfigSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_NodeConfigSource(obj: NodeConfigSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -18888,10 +17505,7 @@ export function toJson_NodeConfigSource(
     configMap: toJson_ConfigMapNodeConfigSource(obj.configMap),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -18936,9 +17550,7 @@ export interface Taint {
  * Converts an object of type 'Taint' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Taint(
-  obj: Taint | undefined,
-): Record<string, any> | undefined {
+export function toJson_Taint(obj: Taint | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -18949,10 +17561,7 @@ export function toJson_Taint(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19010,10 +17619,7 @@ export function toJson_AwsElasticBlockStoreVolumeSource(
     volumeID: obj.volumeId,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19071,9 +17677,7 @@ export interface AzureDiskVolumeSource {
  * Converts an object of type 'AzureDiskVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_AzureDiskVolumeSource(
-  obj: AzureDiskVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_AzureDiskVolumeSource(obj: AzureDiskVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -19086,10 +17690,7 @@ export function toJson_AzureDiskVolumeSource(
     readOnly: obj.readOnly,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19145,10 +17746,7 @@ export function toJson_AzureFilePersistentVolumeSource(
     shareName: obj.shareName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19221,10 +17819,7 @@ export function toJson_CephFsPersistentVolumeSource(
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19281,10 +17876,7 @@ export function toJson_CinderPersistentVolumeSource(
     volumeID: obj.volumeId,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19377,12 +17969,8 @@ export function toJson_CsiPersistentVolumeSource(
     return undefined;
   }
   const result = {
-    controllerExpandSecretRef: toJson_SecretReference(
-      obj.controllerExpandSecretRef,
-    ),
-    controllerPublishSecretRef: toJson_SecretReference(
-      obj.controllerPublishSecretRef,
-    ),
+    controllerExpandSecretRef: toJson_SecretReference(obj.controllerExpandSecretRef),
+    controllerPublishSecretRef: toJson_SecretReference(obj.controllerPublishSecretRef),
     driver: obj.driver,
     fsType: obj.fsType,
     nodeExpandSecretRef: toJson_SecretReference(obj.nodeExpandSecretRef),
@@ -19392,17 +17980,11 @@ export function toJson_CsiPersistentVolumeSource(
     volumeAttributes:
       obj.volumeAttributes === undefined
         ? undefined
-        : Object.entries(obj.volumeAttributes).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.volumeAttributes).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     volumeHandle: obj.volumeHandle,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19453,9 +18035,7 @@ export interface FcVolumeSource {
  * Converts an object of type 'FcVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_FcVolumeSource(
-  obj: FcVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_FcVolumeSource(obj: FcVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -19467,10 +18047,7 @@ export function toJson_FcVolumeSource(
     wwids: obj.wwids?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19532,18 +18109,12 @@ export function toJson_FlexPersistentVolumeSource(
     options:
       obj.options === undefined
         ? undefined
-        : Object.entries(obj.options).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.options).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     readOnly: obj.readOnly,
     secretRef: toJson_SecretReference(obj.secretRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19572,9 +18143,7 @@ export interface FlockerVolumeSource {
  * Converts an object of type 'FlockerVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_FlockerVolumeSource(
-  obj: FlockerVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_FlockerVolumeSource(obj: FlockerVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -19583,10 +18152,7 @@ export function toJson_FlockerVolumeSource(
     datasetUUID: obj.datasetUuid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19645,10 +18211,7 @@ export function toJson_GcePersistentDiskVolumeSource(
     readOnly: obj.readOnly,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19705,10 +18268,7 @@ export function toJson_GlusterfsPersistentVolumeSource(
     readOnly: obj.readOnly,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19738,9 +18298,7 @@ export interface HostPathVolumeSource {
  * Converts an object of type 'HostPathVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_HostPathVolumeSource(
-  obj: HostPathVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_HostPathVolumeSource(obj: HostPathVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -19749,10 +18307,7 @@ export function toJson_HostPathVolumeSource(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19866,10 +18421,7 @@ export function toJson_IscsiPersistentVolumeSource(
     targetPortal: obj.targetPortal,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19898,9 +18450,7 @@ export interface LocalVolumeSource {
  * Converts an object of type 'LocalVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_LocalVolumeSource(
-  obj: LocalVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_LocalVolumeSource(obj: LocalVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -19909,10 +18459,7 @@ export function toJson_LocalVolumeSource(
     path: obj.path,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19949,9 +18496,7 @@ export interface NfsVolumeSource {
  * Converts an object of type 'NfsVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NfsVolumeSource(
-  obj: NfsVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_NfsVolumeSource(obj: NfsVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -19961,10 +18506,7 @@ export function toJson_NfsVolumeSource(
     server: obj.server,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -19986,9 +18528,7 @@ export interface VolumeNodeAffinity {
  * Converts an object of type 'VolumeNodeAffinity' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_VolumeNodeAffinity(
-  obj: VolumeNodeAffinity | undefined,
-): Record<string, any> | undefined {
+export function toJson_VolumeNodeAffinity(obj: VolumeNodeAffinity | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -19996,10 +18536,7 @@ export function toJson_VolumeNodeAffinity(
     required: toJson_NodeSelector(obj.required),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20039,10 +18576,7 @@ export function toJson_PhotonPersistentDiskVolumeSource(
     pdID: obj.pdId,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20078,9 +18612,7 @@ export interface PortworxVolumeSource {
  * Converts an object of type 'PortworxVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PortworxVolumeSource(
-  obj: PortworxVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_PortworxVolumeSource(obj: PortworxVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -20090,10 +18622,7 @@ export function toJson_PortworxVolumeSource(
     volumeID: obj.volumeId,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20153,9 +18682,7 @@ export interface QuobyteVolumeSource {
  * Converts an object of type 'QuobyteVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_QuobyteVolumeSource(
-  obj: QuobyteVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_QuobyteVolumeSource(obj: QuobyteVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -20168,10 +18695,7 @@ export function toJson_QuobyteVolumeSource(
     volume: obj.volume,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20264,10 +18788,7 @@ export function toJson_RbdPersistentVolumeSource(
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20373,10 +18894,7 @@ export function toJson_ScaleIoPersistentVolumeSource(
     volumeName: obj.volumeName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20440,10 +18958,7 @@ export function toJson_StorageOsPersistentVolumeSource(
     volumeNamespace: obj.volumeNamespace,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20499,10 +19014,7 @@ export function toJson_VsphereVirtualDiskVolumeSource(
     volumePath: obj.volumePath,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20550,10 +19062,7 @@ export function toJson_TypedLocalObjectReference(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20582,9 +19091,7 @@ export interface ResourceRequirements {
  * Converts an object of type 'ResourceRequirements' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ResourceRequirements(
-  obj: ResourceRequirements | undefined,
-): Record<string, any> | undefined {
+export function toJson_ResourceRequirements(obj: ResourceRequirements | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -20592,23 +19099,14 @@ export function toJson_ResourceRequirements(
     limits:
       obj.limits === undefined
         ? undefined
-        : Object.entries(obj.limits).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.limits).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
     requests:
       obj.requests === undefined
         ? undefined
-        : Object.entries(obj.requests).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.requests).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20644,9 +19142,7 @@ export interface Affinity {
  * Converts an object of type 'Affinity' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Affinity(
-  obj: Affinity | undefined,
-): Record<string, any> | undefined {
+export function toJson_Affinity(obj: Affinity | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -20656,10 +19152,7 @@ export function toJson_Affinity(
     podAntiAffinity: toJson_PodAntiAffinity(obj.podAntiAffinity),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20838,9 +19331,7 @@ export interface Container {
  * Converts an object of type 'Container' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Container(
-  obj: Container | undefined,
-): Record<string, any> | undefined {
+export function toJson_Container(obj: Container | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -20869,10 +19360,7 @@ export function toJson_Container(
     workingDir: obj.workingDir,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -20908,9 +19396,7 @@ export interface PodDnsConfig {
  * Converts an object of type 'PodDnsConfig' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodDnsConfig(
-  obj: PodDnsConfig | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodDnsConfig(obj: PodDnsConfig | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -20920,10 +19406,7 @@ export function toJson_PodDnsConfig(
     searches: obj.searches?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -21113,9 +19596,7 @@ export interface EphemeralContainer {
  * Converts an object of type 'EphemeralContainer' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EphemeralContainer(
-  obj: EphemeralContainer | undefined,
-): Record<string, any> | undefined {
+export function toJson_EphemeralContainer(obj: EphemeralContainer | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -21145,10 +19626,7 @@ export function toJson_EphemeralContainer(
     workingDir: obj.workingDir,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -21177,9 +19655,7 @@ export interface HostAlias {
  * Converts an object of type 'HostAlias' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_HostAlias(
-  obj: HostAlias | undefined,
-): Record<string, any> | undefined {
+export function toJson_HostAlias(obj: HostAlias | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -21188,10 +19664,7 @@ export function toJson_HostAlias(
     ip: obj.ip,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -21213,9 +19686,7 @@ export interface PodOs {
  * Converts an object of type 'PodOs' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodOs(
-  obj: PodOs | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodOs(obj: PodOs | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -21223,10 +19694,7 @@ export function toJson_PodOs(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -21248,9 +19716,7 @@ export interface PodReadinessGate {
  * Converts an object of type 'PodReadinessGate' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodReadinessGate(
-  obj: PodReadinessGate | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodReadinessGate(obj: PodReadinessGate | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -21258,10 +19724,7 @@ export function toJson_PodReadinessGate(
     conditionType: obj.conditionType,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -21351,9 +19814,7 @@ export interface PodSecurityContext {
  * Converts an object of type 'PodSecurityContext' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodSecurityContext(
-  obj: PodSecurityContext | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodSecurityContext(obj: PodSecurityContext | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -21370,10 +19831,7 @@ export function toJson_PodSecurityContext(
     windowsOptions: toJson_WindowsSecurityContextOptions(obj.windowsOptions),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -21428,9 +19886,7 @@ export interface Toleration {
  * Converts an object of type 'Toleration' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Toleration(
-  obj: Toleration | undefined,
-): Record<string, any> | undefined {
+export function toJson_Toleration(obj: Toleration | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -21442,10 +19898,7 @@ export function toJson_Toleration(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -21546,10 +19999,7 @@ export function toJson_TopologySpreadConstraint(
     whenUnsatisfiable: obj.whenUnsatisfiable,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -21787,16 +20237,12 @@ export interface Volume {
  * Converts an object of type 'Volume' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Volume(
-  obj: Volume | undefined,
-): Record<string, any> | undefined {
+export function toJson_Volume(obj: Volume | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    awsElasticBlockStore: toJson_AwsElasticBlockStoreVolumeSource(
-      obj.awsElasticBlockStore,
-    ),
+    awsElasticBlockStore: toJson_AwsElasticBlockStoreVolumeSource(obj.awsElasticBlockStore),
     azureDisk: toJson_AzureDiskVolumeSource(obj.azureDisk),
     azureFile: toJson_AzureFileVolumeSource(obj.azureFile),
     cephfs: toJson_CephFsVolumeSource(obj.cephfs),
@@ -21809,21 +20255,15 @@ export function toJson_Volume(
     fc: toJson_FcVolumeSource(obj.fc),
     flexVolume: toJson_FlexVolumeSource(obj.flexVolume),
     flocker: toJson_FlockerVolumeSource(obj.flocker),
-    gcePersistentDisk: toJson_GcePersistentDiskVolumeSource(
-      obj.gcePersistentDisk,
-    ),
+    gcePersistentDisk: toJson_GcePersistentDiskVolumeSource(obj.gcePersistentDisk),
     gitRepo: toJson_GitRepoVolumeSource(obj.gitRepo),
     glusterfs: toJson_GlusterfsVolumeSource(obj.glusterfs),
     hostPath: toJson_HostPathVolumeSource(obj.hostPath),
     iscsi: toJson_IscsiVolumeSource(obj.iscsi),
     name: obj.name,
     nfs: toJson_NfsVolumeSource(obj.nfs),
-    persistentVolumeClaim: toJson_PersistentVolumeClaimVolumeSource(
-      obj.persistentVolumeClaim,
-    ),
-    photonPersistentDisk: toJson_PhotonPersistentDiskVolumeSource(
-      obj.photonPersistentDisk,
-    ),
+    persistentVolumeClaim: toJson_PersistentVolumeClaimVolumeSource(obj.persistentVolumeClaim),
+    photonPersistentDisk: toJson_PhotonPersistentDiskVolumeSource(obj.photonPersistentDisk),
     portworxVolume: toJson_PortworxVolumeSource(obj.portworxVolume),
     projected: toJson_ProjectedVolumeSource(obj.projected),
     quobyte: toJson_QuobyteVolumeSource(obj.quobyte),
@@ -21834,10 +20274,7 @@ export function toJson_Volume(
     vsphereVolume: toJson_VsphereVirtualDiskVolumeSource(obj.vsphereVolume),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -21859,22 +20296,15 @@ export interface ScopeSelector {
  * Converts an object of type 'ScopeSelector' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ScopeSelector(
-  obj: ScopeSelector | undefined,
-): Record<string, any> | undefined {
+export function toJson_ScopeSelector(obj: ScopeSelector | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    matchExpressions: obj.matchExpressions?.map((y) =>
-      toJson_ScopedResourceSelectorRequirement(y),
-    ),
+    matchExpressions: obj.matchExpressions?.map((y) => toJson_ScopedResourceSelectorRequirement(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -21934,9 +20364,7 @@ export interface ServicePort {
  * Converts an object of type 'ServicePort' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ServicePort(
-  obj: ServicePort | undefined,
-): Record<string, any> | undefined {
+export function toJson_ServicePort(obj: ServicePort | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -21949,10 +20377,7 @@ export function toJson_ServicePort(
     targetPort: obj.targetPort?.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -21974,9 +20399,7 @@ export interface SessionAffinityConfig {
  * Converts an object of type 'SessionAffinityConfig' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SessionAffinityConfig(
-  obj: SessionAffinityConfig | undefined,
-): Record<string, any> | undefined {
+export function toJson_SessionAffinityConfig(obj: SessionAffinityConfig | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -21984,10 +20407,7 @@ export function toJson_SessionAffinityConfig(
     clientIP: toJson_ClientIpConfig(obj.clientIp),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22023,9 +20443,7 @@ export interface EndpointConditions {
  * Converts an object of type 'EndpointConditions' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EndpointConditions(
-  obj: EndpointConditions | undefined,
-): Record<string, any> | undefined {
+export function toJson_EndpointConditions(obj: EndpointConditions | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -22035,10 +20453,7 @@ export function toJson_EndpointConditions(
     terminating: obj.terminating,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22060,9 +20475,7 @@ export interface EndpointHints {
  * Converts an object of type 'EndpointHints' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EndpointHints(
-  obj: EndpointHints | undefined,
-): Record<string, any> | undefined {
+export function toJson_EndpointHints(obj: EndpointHints | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -22070,10 +20483,7 @@ export function toJson_EndpointHints(
     forZones: obj.forZones?.map((y) => toJson_ForZone(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22105,10 +20515,7 @@ export function toJson_FlowDistinguisherMethodV1Beta1(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22140,10 +20547,7 @@ export function toJson_PriorityLevelConfigurationReferenceV1Beta1(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22186,19 +20590,12 @@ export function toJson_PolicyRulesWithSubjectsV1Beta1(
     return undefined;
   }
   const result = {
-    nonResourceRules: obj.nonResourceRules?.map((y) =>
-      toJson_NonResourcePolicyRuleV1Beta1(y),
-    ),
-    resourceRules: obj.resourceRules?.map((y) =>
-      toJson_ResourcePolicyRuleV1Beta1(y),
-    ),
+    nonResourceRules: obj.nonResourceRules?.map((y) => toJson_NonResourcePolicyRuleV1Beta1(y)),
+    resourceRules: obj.resourceRules?.map((y) => toJson_ResourcePolicyRuleV1Beta1(y)),
     subjects: obj.subjects?.map((y) => toJson_SubjectV1Beta1(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22244,10 +20641,7 @@ export function toJson_LimitedPriorityLevelConfigurationV1Beta1(
     limitResponse: toJson_LimitResponseV1Beta1(obj.limitResponse),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22279,10 +20673,7 @@ export function toJson_FlowDistinguisherMethodV1Beta2(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22314,10 +20705,7 @@ export function toJson_PriorityLevelConfigurationReferenceV1Beta2(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22360,19 +20748,12 @@ export function toJson_PolicyRulesWithSubjectsV1Beta2(
     return undefined;
   }
   const result = {
-    nonResourceRules: obj.nonResourceRules?.map((y) =>
-      toJson_NonResourcePolicyRuleV1Beta2(y),
-    ),
-    resourceRules: obj.resourceRules?.map((y) =>
-      toJson_ResourcePolicyRuleV1Beta2(y),
-    ),
+    nonResourceRules: obj.nonResourceRules?.map((y) => toJson_NonResourcePolicyRuleV1Beta2(y)),
+    resourceRules: obj.resourceRules?.map((y) => toJson_ResourcePolicyRuleV1Beta2(y)),
     subjects: obj.subjects?.map((y) => toJson_SubjectV1Beta2(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22418,10 +20799,7 @@ export function toJson_LimitedPriorityLevelConfigurationV1Beta2(
     limitResponse: toJson_LimitResponseV1Beta2(obj.limitResponse),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22450,9 +20828,7 @@ export interface IngressBackend {
  * Converts an object of type 'IngressBackend' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_IngressBackend(
-  obj: IngressBackend | undefined,
-): Record<string, any> | undefined {
+export function toJson_IngressBackend(obj: IngressBackend | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -22461,10 +20837,7 @@ export function toJson_IngressBackend(
     service: toJson_IngressServiceBackend(obj.service),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22498,9 +20871,7 @@ export interface IngressRule {
  * Converts an object of type 'IngressRule' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_IngressRule(
-  obj: IngressRule | undefined,
-): Record<string, any> | undefined {
+export function toJson_IngressRule(obj: IngressRule | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -22509,10 +20880,7 @@ export function toJson_IngressRule(
     http: toJson_HttpIngressRuleValue(obj.http),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22542,9 +20910,7 @@ export interface IngressTls {
  * Converts an object of type 'IngressTls' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_IngressTls(
-  obj: IngressTls | undefined,
-): Record<string, any> | undefined {
+export function toJson_IngressTls(obj: IngressTls | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -22553,10 +20919,7 @@ export function toJson_IngressTls(
     secretName: obj.secretName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22620,10 +20983,7 @@ export function toJson_IngressClassParametersReference(
     scope: obj.scope,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22663,10 +21023,7 @@ export function toJson_NetworkPolicyEgressRule(
     to: obj.to?.map((y) => toJson_NetworkPolicyPeer(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22706,10 +21063,7 @@ export function toJson_NetworkPolicyIngressRule(
     ports: obj.ports?.map((y) => toJson_NetworkPolicyPort(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22731,22 +21085,15 @@ export interface NodeSelector {
  * Converts an object of type 'NodeSelector' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NodeSelector(
-  obj: NodeSelector | undefined,
-): Record<string, any> | undefined {
+export function toJson_NodeSelector(obj: NodeSelector | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    nodeSelectorTerms: obj.nodeSelectorTerms?.map((y) =>
-      toJson_NodeSelectorTerm(y),
-    ),
+    nodeSelectorTerms: obj.nodeSelectorTerms?.map((y) => toJson_NodeSelectorTerm(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22785,9 +21132,7 @@ export interface Preconditions {
  * Converts an object of type 'Preconditions' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Preconditions(
-  obj: Preconditions | undefined,
-): Record<string, any> | undefined {
+export function toJson_Preconditions(obj: Preconditions | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -22796,10 +21141,7 @@ export function toJson_Preconditions(
     uid: obj.uid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22841,9 +21183,7 @@ export interface TokenRequest {
  * Converts an object of type 'TokenRequest' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_TokenRequest(
-  obj: TokenRequest | undefined,
-): Record<string, any> | undefined {
+export function toJson_TokenRequest(obj: TokenRequest | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -22852,10 +21192,7 @@ export function toJson_TokenRequest(
     expirationSeconds: obj.expirationSeconds,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22898,9 +21235,7 @@ export interface CsiNodeDriver {
  * Converts an object of type 'CsiNodeDriver' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_CsiNodeDriver(
-  obj: CsiNodeDriver | undefined,
-): Record<string, any> | undefined {
+export function toJson_CsiNodeDriver(obj: CsiNodeDriver | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -22911,10 +21246,7 @@ export function toJson_CsiNodeDriver(
     topologyKeys: obj.topologyKeys?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -22962,10 +21294,7 @@ export function toJson_LabelSelectorRequirement(
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23005,10 +21334,7 @@ export function toJson_TopologySelectorLabelRequirement(
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23048,10 +21374,7 @@ export function toJson_VolumeAttachmentSource(
     persistentVolumeName: obj.persistentVolumeName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23092,10 +21415,7 @@ export function toJson_CustomResourceConversion(
     webhook: toJson_WebhookConversion(obj.webhook),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23169,10 +21489,7 @@ export function toJson_CustomResourceDefinitionNames(
     singular: obj.singular,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23251,9 +21568,7 @@ export function toJson_CustomResourceDefinitionVersion(
     return undefined;
   }
   const result = {
-    additionalPrinterColumns: obj.additionalPrinterColumns?.map((y) =>
-      toJson_CustomResourceColumnDefinition(y),
-    ),
+    additionalPrinterColumns: obj.additionalPrinterColumns?.map((y) => toJson_CustomResourceColumnDefinition(y)),
     deprecated: obj.deprecated,
     deprecationWarning: obj.deprecationWarning,
     name: obj.name,
@@ -23263,10 +21578,7 @@ export function toJson_CustomResourceDefinitionVersion(
     subresources: toJson_CustomResourceSubresources(obj.subresources),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23306,9 +21618,7 @@ export interface StatusCause {
  * Converts an object of type 'StatusCause' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_StatusCause(
-  obj: StatusCause | undefined,
-): Record<string, any> | undefined {
+export function toJson_StatusCause(obj: StatusCause | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -23318,10 +21628,7 @@ export function toJson_StatusCause(
     reason: obj.reason,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23365,9 +21672,7 @@ export interface ServiceReference {
  * Converts an object of type 'ServiceReference' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ServiceReference(
-  obj: ServiceReference | undefined,
-): Record<string, any> | undefined {
+export function toJson_ServiceReference(obj: ServiceReference | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -23378,10 +21683,7 @@ export function toJson_ServiceReference(
     port: obj.port,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23421,10 +21723,7 @@ export function toJson_RollingUpdateDaemonSet(
     maxUnavailable: obj.maxUnavailable?.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23466,10 +21765,7 @@ export function toJson_RollingUpdateDeployment(
     maxUnavailable: obj.maxUnavailable?.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23510,10 +21806,7 @@ export function toJson_RollingUpdateStatefulSetStrategy(
     partition: obj.partition,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23549,9 +21842,7 @@ export interface HpaScalingRulesV2 {
  * Converts an object of type 'HpaScalingRulesV2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_HpaScalingRulesV2(
-  obj: HpaScalingRulesV2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_HpaScalingRulesV2(obj: HpaScalingRulesV2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -23561,10 +21852,7 @@ export function toJson_HpaScalingRulesV2(
     stabilizationWindowSeconds: obj.stabilizationWindowSeconds,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23612,10 +21900,7 @@ export function toJson_ContainerResourceMetricSourceV2(
     target: toJson_MetricTargetV2(obj.target),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23655,10 +21940,7 @@ export function toJson_ExternalMetricSourceV2(
     target: toJson_MetricTargetV2(obj.target),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23694,9 +21976,7 @@ export interface ObjectMetricSourceV2 {
  * Converts an object of type 'ObjectMetricSourceV2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ObjectMetricSourceV2(
-  obj: ObjectMetricSourceV2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_ObjectMetricSourceV2(obj: ObjectMetricSourceV2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -23706,10 +21986,7 @@ export function toJson_ObjectMetricSourceV2(
     target: toJson_MetricTargetV2(obj.target),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23738,9 +22015,7 @@ export interface PodsMetricSourceV2 {
  * Converts an object of type 'PodsMetricSourceV2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodsMetricSourceV2(
-  obj: PodsMetricSourceV2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodsMetricSourceV2(obj: PodsMetricSourceV2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -23749,10 +22024,7 @@ export function toJson_PodsMetricSourceV2(
     target: toJson_MetricTargetV2(obj.target),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23792,10 +22064,7 @@ export function toJson_ResourceMetricSourceV2(
     target: toJson_MetricTargetV2(obj.target),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23843,10 +22112,7 @@ export function toJson_HpaScalingRulesV2Beta2(
     stabilizationWindowSeconds: obj.stabilizationWindowSeconds,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23894,10 +22160,7 @@ export function toJson_ContainerResourceMetricSourceV2Beta2(
     target: toJson_MetricTargetV2Beta2(obj.target),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23937,10 +22200,7 @@ export function toJson_ExternalMetricSourceV2Beta2(
     target: toJson_MetricTargetV2Beta2(obj.target),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -23981,17 +22241,12 @@ export function toJson_ObjectMetricSourceV2Beta2(
     return undefined;
   }
   const result = {
-    describedObject: toJson_CrossVersionObjectReferenceV2Beta2(
-      obj.describedObject,
-    ),
+    describedObject: toJson_CrossVersionObjectReferenceV2Beta2(obj.describedObject),
     metric: toJson_MetricIdentifierV2Beta2(obj.metric),
     target: toJson_MetricTargetV2Beta2(obj.target),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24031,10 +22286,7 @@ export function toJson_PodsMetricSourceV2Beta2(
     target: toJson_MetricTargetV2Beta2(obj.target),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24074,10 +22326,7 @@ export function toJson_ResourceMetricSourceV2Beta2(
     target: toJson_MetricTargetV2Beta2(obj.target),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24121,24 +22370,17 @@ export interface PodFailurePolicyRule {
  * Converts an object of type 'PodFailurePolicyRule' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodFailurePolicyRule(
-  obj: PodFailurePolicyRule | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodFailurePolicyRule(obj: PodFailurePolicyRule | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
     action: obj.action,
     onExitCodes: toJson_PodFailurePolicyOnExitCodesRequirement(obj.onExitCodes),
-    onPodConditions: obj.onPodConditions?.map((y) =>
-      toJson_PodFailurePolicyOnPodConditionsPattern(y),
-    ),
+    onPodConditions: obj.onPodConditions?.map((y) => toJson_PodFailurePolicyOnPodConditionsPattern(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24202,10 +22444,7 @@ export function toJson_ConfigMapNodeConfigSource(
     uid: obj.uid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24234,9 +22473,7 @@ export interface SecretReference {
  * Converts an object of type 'SecretReference' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SecretReference(
-  obj: SecretReference | undefined,
-): Record<string, any> | undefined {
+export function toJson_SecretReference(obj: SecretReference | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -24245,10 +22482,7 @@ export function toJson_SecretReference(
     namespace: obj.namespace,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24277,26 +22511,20 @@ export interface NodeAffinity {
  * Converts an object of type 'NodeAffinity' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NodeAffinity(
-  obj: NodeAffinity | undefined,
-): Record<string, any> | undefined {
+export function toJson_NodeAffinity(obj: NodeAffinity | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_PreferredSchedulingTerm(y),
-      ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_PreferredSchedulingTerm(y),
+    ),
     requiredDuringSchedulingIgnoredDuringExecution: toJson_NodeSelector(
       obj.requiredDuringSchedulingIgnoredDuringExecution,
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24325,27 +22553,20 @@ export interface PodAffinity {
  * Converts an object of type 'PodAffinity' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodAffinity(
-  obj: PodAffinity | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodAffinity(obj: PodAffinity | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_WeightedPodAffinityTerm(y),
-      ),
-    requiredDuringSchedulingIgnoredDuringExecution:
-      obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_PodAffinityTerm(y),
-      ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_WeightedPodAffinityTerm(y),
+    ),
+    requiredDuringSchedulingIgnoredDuringExecution: obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_PodAffinityTerm(y),
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24374,27 +22595,20 @@ export interface PodAntiAffinity {
  * Converts an object of type 'PodAntiAffinity' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodAntiAffinity(
-  obj: PodAntiAffinity | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodAntiAffinity(obj: PodAntiAffinity | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_WeightedPodAffinityTerm(y),
-      ),
-    requiredDuringSchedulingIgnoredDuringExecution:
-      obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_PodAffinityTerm(y),
-      ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_WeightedPodAffinityTerm(y),
+    ),
+    requiredDuringSchedulingIgnoredDuringExecution: obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_PodAffinityTerm(y),
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24431,9 +22645,7 @@ export interface EnvVar {
  * Converts an object of type 'EnvVar' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EnvVar(
-  obj: EnvVar | undefined,
-): Record<string, any> | undefined {
+export function toJson_EnvVar(obj: EnvVar | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -24443,10 +22655,7 @@ export function toJson_EnvVar(
     valueFrom: toJson_EnvVarSource(obj.valueFrom),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24482,9 +22691,7 @@ export interface EnvFromSource {
  * Converts an object of type 'EnvFromSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EnvFromSource(
-  obj: EnvFromSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_EnvFromSource(obj: EnvFromSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -24494,10 +22701,7 @@ export function toJson_EnvFromSource(
     secretRef: toJson_SecretEnvSource(obj.secretRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24526,9 +22730,7 @@ export interface Lifecycle {
  * Converts an object of type 'Lifecycle' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Lifecycle(
-  obj: Lifecycle | undefined,
-): Record<string, any> | undefined {
+export function toJson_Lifecycle(obj: Lifecycle | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -24537,10 +22739,7 @@ export function toJson_Lifecycle(
     preStop: toJson_LifecycleHandler(obj.preStop),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24629,9 +22828,7 @@ export interface Probe {
  * Converts an object of type 'Probe' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Probe(
-  obj: Probe | undefined,
-): Record<string, any> | undefined {
+export function toJson_Probe(obj: Probe | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -24648,10 +22845,7 @@ export function toJson_Probe(
     timeoutSeconds: obj.timeoutSeconds,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24704,9 +22898,7 @@ export interface ContainerPort {
  * Converts an object of type 'ContainerPort' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ContainerPort(
-  obj: ContainerPort | undefined,
-): Record<string, any> | undefined {
+export function toJson_ContainerPort(obj: ContainerPort | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -24718,10 +22910,7 @@ export function toJson_ContainerPort(
     protocol: obj.protocol,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24817,9 +23006,7 @@ export interface SecurityContext {
  * Converts an object of type 'SecurityContext' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SecurityContext(
-  obj: SecurityContext | undefined,
-): Record<string, any> | undefined {
+export function toJson_SecurityContext(obj: SecurityContext | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -24837,10 +23024,7 @@ export function toJson_SecurityContext(
     windowsOptions: toJson_WindowsSecurityContextOptions(obj.windowsOptions),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24869,9 +23053,7 @@ export interface VolumeDevice {
  * Converts an object of type 'VolumeDevice' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_VolumeDevice(
-  obj: VolumeDevice | undefined,
-): Record<string, any> | undefined {
+export function toJson_VolumeDevice(obj: VolumeDevice | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -24880,10 +23062,7 @@ export function toJson_VolumeDevice(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24943,9 +23122,7 @@ export interface VolumeMount {
  * Converts an object of type 'VolumeMount' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_VolumeMount(
-  obj: VolumeMount | undefined,
-): Record<string, any> | undefined {
+export function toJson_VolumeMount(obj: VolumeMount | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -24958,10 +23135,7 @@ export function toJson_VolumeMount(
     subPathExpr: obj.subPathExpr,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -24988,9 +23162,7 @@ export interface PodDnsConfigOption {
  * Converts an object of type 'PodDnsConfigOption' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodDnsConfigOption(
-  obj: PodDnsConfigOption | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodDnsConfigOption(obj: PodDnsConfigOption | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -24999,10 +23171,7 @@ export function toJson_PodDnsConfigOption(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25045,9 +23214,7 @@ export interface SeLinuxOptions {
  * Converts an object of type 'SeLinuxOptions' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SeLinuxOptions(
-  obj: SeLinuxOptions | undefined,
-): Record<string, any> | undefined {
+export function toJson_SeLinuxOptions(obj: SeLinuxOptions | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25058,10 +23225,7 @@ export function toJson_SeLinuxOptions(
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25094,9 +23258,7 @@ export interface SeccompProfile {
  * Converts an object of type 'SeccompProfile' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SeccompProfile(
-  obj: SeccompProfile | undefined,
-): Record<string, any> | undefined {
+export function toJson_SeccompProfile(obj: SeccompProfile | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25105,10 +23267,7 @@ export function toJson_SeccompProfile(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25137,9 +23296,7 @@ export interface Sysctl {
  * Converts an object of type 'Sysctl' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Sysctl(
-  obj: Sysctl | undefined,
-): Record<string, any> | undefined {
+export function toJson_Sysctl(obj: Sysctl | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25148,10 +23305,7 @@ export function toJson_Sysctl(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25208,10 +23362,7 @@ export function toJson_WindowsSecurityContextOptions(
     runAsUserName: obj.runAsUserName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25247,9 +23398,7 @@ export interface AzureFileVolumeSource {
  * Converts an object of type 'AzureFileVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_AzureFileVolumeSource(
-  obj: AzureFileVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_AzureFileVolumeSource(obj: AzureFileVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25259,10 +23408,7 @@ export function toJson_AzureFileVolumeSource(
     shareName: obj.shareName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25320,9 +23466,7 @@ export interface CephFsVolumeSource {
  * Converts an object of type 'CephFsVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_CephFsVolumeSource(
-  obj: CephFsVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_CephFsVolumeSource(obj: CephFsVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25335,10 +23479,7 @@ export function toJson_CephFsVolumeSource(
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25381,9 +23522,7 @@ export interface CinderVolumeSource {
  * Converts an object of type 'CinderVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_CinderVolumeSource(
-  obj: CinderVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_CinderVolumeSource(obj: CinderVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25394,10 +23533,7 @@ export function toJson_CinderVolumeSource(
     volumeID: obj.volumeId,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25443,9 +23579,7 @@ export interface ConfigMapVolumeSource {
  * Converts an object of type 'ConfigMapVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ConfigMapVolumeSource(
-  obj: ConfigMapVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_ConfigMapVolumeSource(obj: ConfigMapVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25456,10 +23590,7 @@ export function toJson_ConfigMapVolumeSource(
     optional: obj.optional,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25510,9 +23641,7 @@ export interface CsiVolumeSource {
  * Converts an object of type 'CsiVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_CsiVolumeSource(
-  obj: CsiVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_CsiVolumeSource(obj: CsiVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25524,16 +23653,10 @@ export function toJson_CsiVolumeSource(
     volumeAttributes:
       obj.volumeAttributes === undefined
         ? undefined
-        : Object.entries(obj.volumeAttributes).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.volumeAttributes).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25574,10 +23697,7 @@ export function toJson_DownwardApiVolumeSource(
     items: obj.items?.map((y) => toJson_DownwardApiVolumeFile(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25606,9 +23726,7 @@ export interface EmptyDirVolumeSource {
  * Converts an object of type 'EmptyDirVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EmptyDirVolumeSource(
-  obj: EmptyDirVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_EmptyDirVolumeSource(obj: EmptyDirVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25617,10 +23735,7 @@ export function toJson_EmptyDirVolumeSource(
     sizeLimit: obj.sizeLimit?.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25648,22 +23763,15 @@ export interface EphemeralVolumeSource {
  * Converts an object of type 'EphemeralVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EphemeralVolumeSource(
-  obj: EphemeralVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_EphemeralVolumeSource(obj: EphemeralVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    volumeClaimTemplate: toJson_PersistentVolumeClaimTemplate(
-      obj.volumeClaimTemplate,
-    ),
+    volumeClaimTemplate: toJson_PersistentVolumeClaimTemplate(obj.volumeClaimTemplate),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25713,9 +23821,7 @@ export interface FlexVolumeSource {
  * Converts an object of type 'FlexVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_FlexVolumeSource(
-  obj: FlexVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_FlexVolumeSource(obj: FlexVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25725,18 +23831,12 @@ export function toJson_FlexVolumeSource(
     options:
       obj.options === undefined
         ? undefined
-        : Object.entries(obj.options).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.options).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     readOnly: obj.readOnly,
     secretRef: toJson_LocalObjectReference(obj.secretRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25774,9 +23874,7 @@ export interface GitRepoVolumeSource {
  * Converts an object of type 'GitRepoVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_GitRepoVolumeSource(
-  obj: GitRepoVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_GitRepoVolumeSource(obj: GitRepoVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25786,10 +23884,7 @@ export function toJson_GitRepoVolumeSource(
     revision: obj.revision,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25826,9 +23921,7 @@ export interface GlusterfsVolumeSource {
  * Converts an object of type 'GlusterfsVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_GlusterfsVolumeSource(
-  obj: GlusterfsVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_GlusterfsVolumeSource(obj: GlusterfsVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25838,10 +23931,7 @@ export function toJson_GlusterfsVolumeSource(
     readOnly: obj.readOnly,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25935,9 +24025,7 @@ export interface IscsiVolumeSource {
  * Converts an object of type 'IscsiVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_IscsiVolumeSource(
-  obj: IscsiVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_IscsiVolumeSource(obj: IscsiVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -25955,10 +24043,7 @@ export function toJson_IscsiVolumeSource(
     targetPortal: obj.targetPortal,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -25998,10 +24083,7 @@ export function toJson_PersistentVolumeClaimVolumeSource(
     readOnly: obj.readOnly,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26030,9 +24112,7 @@ export interface ProjectedVolumeSource {
  * Converts an object of type 'ProjectedVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ProjectedVolumeSource(
-  obj: ProjectedVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_ProjectedVolumeSource(obj: ProjectedVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26041,10 +24121,7 @@ export function toJson_ProjectedVolumeSource(
     sources: obj.sources?.map((y) => toJson_VolumeProjection(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26120,9 +24197,7 @@ export interface RbdVolumeSource {
  * Converts an object of type 'RbdVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_RbdVolumeSource(
-  obj: RbdVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_RbdVolumeSource(obj: RbdVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26137,10 +24212,7 @@ export function toJson_RbdVolumeSource(
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26228,9 +24300,7 @@ export interface ScaleIoVolumeSource {
  * Converts an object of type 'ScaleIoVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ScaleIoVolumeSource(
-  obj: ScaleIoVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_ScaleIoVolumeSource(obj: ScaleIoVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26247,10 +24317,7 @@ export function toJson_ScaleIoVolumeSource(
     volumeName: obj.volumeName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26296,9 +24363,7 @@ export interface SecretVolumeSource {
  * Converts an object of type 'SecretVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SecretVolumeSource(
-  obj: SecretVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_SecretVolumeSource(obj: SecretVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26309,10 +24374,7 @@ export function toJson_SecretVolumeSource(
     secretName: obj.secretName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26362,9 +24424,7 @@ export interface StorageOsVolumeSource {
  * Converts an object of type 'StorageOsVolumeSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_StorageOsVolumeSource(
-  obj: StorageOsVolumeSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_StorageOsVolumeSource(obj: StorageOsVolumeSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26376,10 +24436,7 @@ export function toJson_StorageOsVolumeSource(
     volumeNamespace: obj.volumeNamespace,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26431,10 +24488,7 @@ export function toJson_ScopedResourceSelectorRequirement(
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26456,9 +24510,7 @@ export interface ClientIpConfig {
  * Converts an object of type 'ClientIpConfig' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ClientIpConfig(
-  obj: ClientIpConfig | undefined,
-): Record<string, any> | undefined {
+export function toJson_ClientIpConfig(obj: ClientIpConfig | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26466,10 +24518,7 @@ export function toJson_ClientIpConfig(
     timeoutSeconds: obj.timeoutSeconds,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26491,9 +24540,7 @@ export interface ForZone {
  * Converts an object of type 'ForZone' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ForZone(
-  obj: ForZone | undefined,
-): Record<string, any> | undefined {
+export function toJson_ForZone(obj: ForZone | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26501,10 +24548,7 @@ export function toJson_ForZone(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26550,10 +24594,7 @@ export function toJson_NonResourcePolicyRuleV1Beta1(
     verbs: obj.verbs?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26617,10 +24658,7 @@ export function toJson_ResourcePolicyRuleV1Beta1(
     verbs: obj.verbs?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26663,9 +24701,7 @@ export interface SubjectV1Beta1 {
  * Converts an object of type 'SubjectV1Beta1' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SubjectV1Beta1(
-  obj: SubjectV1Beta1 | undefined,
-): Record<string, any> | undefined {
+export function toJson_SubjectV1Beta1(obj: SubjectV1Beta1 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26676,10 +24712,7 @@ export function toJson_SubjectV1Beta1(
     user: toJson_UserSubjectV1Beta1(obj.user),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26708,9 +24741,7 @@ export interface LimitResponseV1Beta1 {
  * Converts an object of type 'LimitResponseV1Beta1' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_LimitResponseV1Beta1(
-  obj: LimitResponseV1Beta1 | undefined,
-): Record<string, any> | undefined {
+export function toJson_LimitResponseV1Beta1(obj: LimitResponseV1Beta1 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26719,10 +24750,7 @@ export function toJson_LimitResponseV1Beta1(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26768,10 +24796,7 @@ export function toJson_NonResourcePolicyRuleV1Beta2(
     verbs: obj.verbs?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26835,10 +24860,7 @@ export function toJson_ResourcePolicyRuleV1Beta2(
     verbs: obj.verbs?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26881,9 +24903,7 @@ export interface SubjectV1Beta2 {
  * Converts an object of type 'SubjectV1Beta2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SubjectV1Beta2(
-  obj: SubjectV1Beta2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_SubjectV1Beta2(obj: SubjectV1Beta2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26894,10 +24914,7 @@ export function toJson_SubjectV1Beta2(
     user: toJson_UserSubjectV1Beta2(obj.user),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26926,9 +24943,7 @@ export interface LimitResponseV1Beta2 {
  * Converts an object of type 'LimitResponseV1Beta2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_LimitResponseV1Beta2(
-  obj: LimitResponseV1Beta2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_LimitResponseV1Beta2(obj: LimitResponseV1Beta2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26937,10 +24952,7 @@ export function toJson_LimitResponseV1Beta2(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -26969,9 +24981,7 @@ export interface IngressServiceBackend {
  * Converts an object of type 'IngressServiceBackend' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_IngressServiceBackend(
-  obj: IngressServiceBackend | undefined,
-): Record<string, any> | undefined {
+export function toJson_IngressServiceBackend(obj: IngressServiceBackend | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -26980,10 +24990,7 @@ export function toJson_IngressServiceBackend(
     port: toJson_ServiceBackendPort(obj.port),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27005,9 +25012,7 @@ export interface HttpIngressRuleValue {
  * Converts an object of type 'HttpIngressRuleValue' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_HttpIngressRuleValue(
-  obj: HttpIngressRuleValue | undefined,
-): Record<string, any> | undefined {
+export function toJson_HttpIngressRuleValue(obj: HttpIngressRuleValue | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -27015,10 +25020,7 @@ export function toJson_HttpIngressRuleValue(
     paths: obj.paths?.map((y) => toJson_HttpIngressPath(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27054,9 +25056,7 @@ export interface NetworkPolicyPort {
  * Converts an object of type 'NetworkPolicyPort' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NetworkPolicyPort(
-  obj: NetworkPolicyPort | undefined,
-): Record<string, any> | undefined {
+export function toJson_NetworkPolicyPort(obj: NetworkPolicyPort | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -27066,10 +25066,7 @@ export function toJson_NetworkPolicyPort(
     protocol: obj.protocol,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27109,9 +25106,7 @@ export interface NetworkPolicyPeer {
  * Converts an object of type 'NetworkPolicyPeer' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NetworkPolicyPeer(
-  obj: NetworkPolicyPeer | undefined,
-): Record<string, any> | undefined {
+export function toJson_NetworkPolicyPeer(obj: NetworkPolicyPeer | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -27121,10 +25116,7 @@ export function toJson_NetworkPolicyPeer(
     podSelector: toJson_LabelSelector(obj.podSelector),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27153,23 +25145,16 @@ export interface NodeSelectorTerm {
  * Converts an object of type 'NodeSelectorTerm' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NodeSelectorTerm(
-  obj: NodeSelectorTerm | undefined,
-): Record<string, any> | undefined {
+export function toJson_NodeSelectorTerm(obj: NodeSelectorTerm | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    matchExpressions: obj.matchExpressions?.map((y) =>
-      toJson_NodeSelectorRequirement(y),
-    ),
+    matchExpressions: obj.matchExpressions?.map((y) => toJson_NodeSelectorRequirement(y)),
     matchFields: obj.matchFields?.map((y) => toJson_NodeSelectorRequirement(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27191,9 +25176,7 @@ export interface VolumeNodeResources {
  * Converts an object of type 'VolumeNodeResources' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_VolumeNodeResources(
-  obj: VolumeNodeResources | undefined,
-): Record<string, any> | undefined {
+export function toJson_VolumeNodeResources(obj: VolumeNodeResources | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -27201,10 +25184,7 @@ export function toJson_VolumeNodeResources(
     count: obj.count,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27233,9 +25213,7 @@ export interface WebhookConversion {
  * Converts an object of type 'WebhookConversion' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_WebhookConversion(
-  obj: WebhookConversion | undefined,
-): Record<string, any> | undefined {
+export function toJson_WebhookConversion(obj: WebhookConversion | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -27244,10 +25222,7 @@ export function toJson_WebhookConversion(
     conversionReviewVersions: obj.conversionReviewVersions?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27319,10 +25294,7 @@ export function toJson_CustomResourceColumnDefinition(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27354,10 +25326,7 @@ export function toJson_CustomResourceValidation(
     openAPIV3Schema: toJson_JsonSchemaProps(obj.openApiv3Schema),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27397,10 +25366,7 @@ export function toJson_CustomResourceSubresources(
     status: obj.status,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27436,9 +25402,7 @@ export interface HpaScalingPolicyV2 {
  * Converts an object of type 'HpaScalingPolicyV2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_HpaScalingPolicyV2(
-  obj: HpaScalingPolicyV2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_HpaScalingPolicyV2(obj: HpaScalingPolicyV2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -27448,10 +25412,7 @@ export function toJson_HpaScalingPolicyV2(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27494,9 +25455,7 @@ export interface MetricTargetV2 {
  * Converts an object of type 'MetricTargetV2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_MetricTargetV2(
-  obj: MetricTargetV2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_MetricTargetV2(obj: MetricTargetV2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -27507,10 +25466,7 @@ export function toJson_MetricTargetV2(
     value: obj.value?.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27539,9 +25495,7 @@ export interface MetricIdentifierV2 {
  * Converts an object of type 'MetricIdentifierV2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_MetricIdentifierV2(
-  obj: MetricIdentifierV2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_MetricIdentifierV2(obj: MetricIdentifierV2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -27550,10 +25504,7 @@ export function toJson_MetricIdentifierV2(
     selector: toJson_LabelSelector(obj.selector),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27601,10 +25552,7 @@ export function toJson_HpaScalingPolicyV2Beta2(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27647,9 +25595,7 @@ export interface MetricTargetV2Beta2 {
  * Converts an object of type 'MetricTargetV2Beta2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_MetricTargetV2Beta2(
-  obj: MetricTargetV2Beta2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_MetricTargetV2Beta2(obj: MetricTargetV2Beta2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -27660,10 +25606,7 @@ export function toJson_MetricTargetV2Beta2(
     value: obj.value?.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27703,10 +25646,7 @@ export function toJson_MetricIdentifierV2Beta2(
     selector: toJson_LabelSelector(obj.selector),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27762,10 +25702,7 @@ export function toJson_PodFailurePolicyOnExitCodesRequirement(
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27806,10 +25743,7 @@ export function toJson_PodFailurePolicyOnPodConditionsPattern(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27849,10 +25783,7 @@ export function toJson_PreferredSchedulingTerm(
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27892,10 +25823,7 @@ export function toJson_WeightedPodAffinityTerm(
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27938,9 +25866,7 @@ export interface PodAffinityTerm {
  * Converts an object of type 'PodAffinityTerm' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PodAffinityTerm(
-  obj: PodAffinityTerm | undefined,
-): Record<string, any> | undefined {
+export function toJson_PodAffinityTerm(obj: PodAffinityTerm | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -27951,10 +25877,7 @@ export function toJson_PodAffinityTerm(
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -27997,9 +25920,7 @@ export interface EnvVarSource {
  * Converts an object of type 'EnvVarSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_EnvVarSource(
-  obj: EnvVarSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_EnvVarSource(obj: EnvVarSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28010,10 +25931,7 @@ export function toJson_EnvVarSource(
     secretKeyRef: toJson_SecretKeySelector(obj.secretKeyRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28044,9 +25962,7 @@ export interface ConfigMapEnvSource {
  * Converts an object of type 'ConfigMapEnvSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ConfigMapEnvSource(
-  obj: ConfigMapEnvSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_ConfigMapEnvSource(obj: ConfigMapEnvSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28055,10 +25971,7 @@ export function toJson_ConfigMapEnvSource(
     optional: obj.optional,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28089,9 +26002,7 @@ export interface SecretEnvSource {
  * Converts an object of type 'SecretEnvSource' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SecretEnvSource(
-  obj: SecretEnvSource | undefined,
-): Record<string, any> | undefined {
+export function toJson_SecretEnvSource(obj: SecretEnvSource | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28100,10 +26011,7 @@ export function toJson_SecretEnvSource(
     optional: obj.optional,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28139,9 +26047,7 @@ export interface LifecycleHandler {
  * Converts an object of type 'LifecycleHandler' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_LifecycleHandler(
-  obj: LifecycleHandler | undefined,
-): Record<string, any> | undefined {
+export function toJson_LifecycleHandler(obj: LifecycleHandler | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28151,10 +26057,7 @@ export function toJson_LifecycleHandler(
     tcpSocket: toJson_TcpSocketAction(obj.tcpSocket),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28176,9 +26079,7 @@ export interface ExecAction {
  * Converts an object of type 'ExecAction' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ExecAction(
-  obj: ExecAction | undefined,
-): Record<string, any> | undefined {
+export function toJson_ExecAction(obj: ExecAction | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28186,10 +26087,7 @@ export function toJson_ExecAction(
     command: obj.command?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28218,9 +26116,7 @@ export interface GrpcAction {
  * Converts an object of type 'GrpcAction' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_GrpcAction(
-  obj: GrpcAction | undefined,
-): Record<string, any> | undefined {
+export function toJson_GrpcAction(obj: GrpcAction | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28229,10 +26125,7 @@ export function toJson_GrpcAction(
     service: obj.service,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28285,9 +26178,7 @@ export interface HttpGetAction {
  * Converts an object of type 'HttpGetAction' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_HttpGetAction(
-  obj: HttpGetAction | undefined,
-): Record<string, any> | undefined {
+export function toJson_HttpGetAction(obj: HttpGetAction | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28299,10 +26190,7 @@ export function toJson_HttpGetAction(
     scheme: obj.scheme,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28331,9 +26219,7 @@ export interface TcpSocketAction {
  * Converts an object of type 'TcpSocketAction' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_TcpSocketAction(
-  obj: TcpSocketAction | undefined,
-): Record<string, any> | undefined {
+export function toJson_TcpSocketAction(obj: TcpSocketAction | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28342,10 +26228,7 @@ export function toJson_TcpSocketAction(
     port: obj.port?.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28374,9 +26257,7 @@ export interface Capabilities {
  * Converts an object of type 'Capabilities' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_Capabilities(
-  obj: Capabilities | undefined,
-): Record<string, any> | undefined {
+export function toJson_Capabilities(obj: Capabilities | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28385,10 +26266,7 @@ export function toJson_Capabilities(
     drop: obj.drop?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28424,9 +26302,7 @@ export interface KeyToPath {
  * Converts an object of type 'KeyToPath' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_KeyToPath(
-  obj: KeyToPath | undefined,
-): Record<string, any> | undefined {
+export function toJson_KeyToPath(obj: KeyToPath | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28436,10 +26312,7 @@ export function toJson_KeyToPath(
     path: obj.path,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28482,9 +26355,7 @@ export interface DownwardApiVolumeFile {
  * Converts an object of type 'DownwardApiVolumeFile' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DownwardApiVolumeFile(
-  obj: DownwardApiVolumeFile | undefined,
-): Record<string, any> | undefined {
+export function toJson_DownwardApiVolumeFile(obj: DownwardApiVolumeFile | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28495,10 +26366,7 @@ export function toJson_DownwardApiVolumeFile(
     resourceFieldRef: toJson_ResourceFieldSelector(obj.resourceFieldRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28538,10 +26406,7 @@ export function toJson_PersistentVolumeClaimTemplate(
     spec: toJson_PersistentVolumeClaimSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28584,9 +26449,7 @@ export interface VolumeProjection {
  * Converts an object of type 'VolumeProjection' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_VolumeProjection(
-  obj: VolumeProjection | undefined,
-): Record<string, any> | undefined {
+export function toJson_VolumeProjection(obj: VolumeProjection | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28594,15 +26457,10 @@ export function toJson_VolumeProjection(
     configMap: toJson_ConfigMapProjection(obj.configMap),
     downwardAPI: toJson_DownwardApiProjection(obj.downwardApi),
     secret: toJson_SecretProjection(obj.secret),
-    serviceAccountToken: toJson_ServiceAccountTokenProjection(
-      obj.serviceAccountToken,
-    ),
+    serviceAccountToken: toJson_ServiceAccountTokenProjection(obj.serviceAccountToken),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28624,9 +26482,7 @@ export interface GroupSubjectV1Beta1 {
  * Converts an object of type 'GroupSubjectV1Beta1' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_GroupSubjectV1Beta1(
-  obj: GroupSubjectV1Beta1 | undefined,
-): Record<string, any> | undefined {
+export function toJson_GroupSubjectV1Beta1(obj: GroupSubjectV1Beta1 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28634,10 +26490,7 @@ export function toJson_GroupSubjectV1Beta1(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28677,10 +26530,7 @@ export function toJson_ServiceAccountSubjectV1Beta1(
     namespace: obj.namespace,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28702,9 +26552,7 @@ export interface UserSubjectV1Beta1 {
  * Converts an object of type 'UserSubjectV1Beta1' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_UserSubjectV1Beta1(
-  obj: UserSubjectV1Beta1 | undefined,
-): Record<string, any> | undefined {
+export function toJson_UserSubjectV1Beta1(obj: UserSubjectV1Beta1 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28712,10 +26560,7 @@ export function toJson_UserSubjectV1Beta1(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28763,10 +26608,7 @@ export function toJson_QueuingConfigurationV1Beta1(
     queues: obj.queues,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28788,9 +26630,7 @@ export interface GroupSubjectV1Beta2 {
  * Converts an object of type 'GroupSubjectV1Beta2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_GroupSubjectV1Beta2(
-  obj: GroupSubjectV1Beta2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_GroupSubjectV1Beta2(obj: GroupSubjectV1Beta2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28798,10 +26638,7 @@ export function toJson_GroupSubjectV1Beta2(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28841,10 +26678,7 @@ export function toJson_ServiceAccountSubjectV1Beta2(
     namespace: obj.namespace,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28866,9 +26700,7 @@ export interface UserSubjectV1Beta2 {
  * Converts an object of type 'UserSubjectV1Beta2' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_UserSubjectV1Beta2(
-  obj: UserSubjectV1Beta2 | undefined,
-): Record<string, any> | undefined {
+export function toJson_UserSubjectV1Beta2(obj: UserSubjectV1Beta2 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28876,10 +26708,7 @@ export function toJson_UserSubjectV1Beta2(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28927,10 +26756,7 @@ export function toJson_QueuingConfigurationV1Beta2(
     queues: obj.queues,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -28959,9 +26785,7 @@ export interface ServiceBackendPort {
  * Converts an object of type 'ServiceBackendPort' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ServiceBackendPort(
-  obj: ServiceBackendPort | undefined,
-): Record<string, any> | undefined {
+export function toJson_ServiceBackendPort(obj: ServiceBackendPort | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -28970,10 +26794,7 @@ export function toJson_ServiceBackendPort(
     number: obj.number,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29019,9 +26840,7 @@ export interface HttpIngressPath {
  * Converts an object of type 'HttpIngressPath' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_HttpIngressPath(
-  obj: HttpIngressPath | undefined,
-): Record<string, any> | undefined {
+export function toJson_HttpIngressPath(obj: HttpIngressPath | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -29031,10 +26850,7 @@ export function toJson_HttpIngressPath(
     pathType: obj.pathType,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29063,9 +26879,7 @@ export interface IpBlock {
  * Converts an object of type 'IpBlock' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_IpBlock(
-  obj: IpBlock | undefined,
-): Record<string, any> | undefined {
+export function toJson_IpBlock(obj: IpBlock | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -29074,10 +26888,7 @@ export function toJson_IpBlock(
     except: obj.except?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29127,10 +26938,7 @@ export function toJson_NodeSelectorRequirement(
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29419,9 +27227,7 @@ export interface JsonSchemaProps {
  * Converts an object of type 'JsonSchemaProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_JsonSchemaProps(
-  obj: JsonSchemaProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_JsonSchemaProps(obj: JsonSchemaProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -29437,19 +27243,13 @@ export function toJson_JsonSchemaProps(
       obj.definitions === undefined
         ? undefined
         : Object.entries(obj.definitions).reduce(
-            (r, i) =>
-              i[1] === undefined
-                ? r
-                : { ...r, [i[0]]: toJson_JsonSchemaProps(i[1]) },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: toJson_JsonSchemaProps(i[1]) }),
             {},
           ),
     dependencies:
       obj.dependencies === undefined
         ? undefined
-        : Object.entries(obj.dependencies).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.dependencies).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     description: obj.description,
     enum: obj.enum?.map((y) => y),
     example: obj.example,
@@ -29476,20 +27276,14 @@ export function toJson_JsonSchemaProps(
       obj.patternProperties === undefined
         ? undefined
         : Object.entries(obj.patternProperties).reduce(
-            (r, i) =>
-              i[1] === undefined
-                ? r
-                : { ...r, [i[0]]: toJson_JsonSchemaProps(i[1]) },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: toJson_JsonSchemaProps(i[1]) }),
             {},
           ),
     properties:
       obj.properties === undefined
         ? undefined
         : Object.entries(obj.properties).reduce(
-            (r, i) =>
-              i[1] === undefined
-                ? r
-                : { ...r, [i[0]]: toJson_JsonSchemaProps(i[1]) },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: toJson_JsonSchemaProps(i[1]) }),
             {},
           ),
     required: obj.required?.map((y) => y),
@@ -29501,17 +27295,11 @@ export function toJson_JsonSchemaProps(
     "x-kubernetes-list-map-keys": obj.xKubernetesListMapKeys?.map((y) => y),
     "x-kubernetes-list-type": obj.xKubernetesListType,
     "x-kubernetes-map-type": obj.xKubernetesMapType,
-    "x-kubernetes-preserve-unknown-fields":
-      obj.xKubernetesPreserveUnknownFields,
-    "x-kubernetes-validations": obj.xKubernetesValidations?.map((y) =>
-      toJson_ValidationRule(y),
-    ),
+    "x-kubernetes-preserve-unknown-fields": obj.xKubernetesPreserveUnknownFields,
+    "x-kubernetes-validations": obj.xKubernetesValidations?.map((y) => toJson_ValidationRule(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29559,10 +27347,7 @@ export function toJson_CustomResourceSubresourceScale(
     statusReplicasPath: obj.statusReplicasPath,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29598,9 +27383,7 @@ export interface ConfigMapKeySelector {
  * Converts an object of type 'ConfigMapKeySelector' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ConfigMapKeySelector(
-  obj: ConfigMapKeySelector | undefined,
-): Record<string, any> | undefined {
+export function toJson_ConfigMapKeySelector(obj: ConfigMapKeySelector | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -29610,10 +27393,7 @@ export function toJson_ConfigMapKeySelector(
     optional: obj.optional,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29642,9 +27422,7 @@ export interface ObjectFieldSelector {
  * Converts an object of type 'ObjectFieldSelector' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ObjectFieldSelector(
-  obj: ObjectFieldSelector | undefined,
-): Record<string, any> | undefined {
+export function toJson_ObjectFieldSelector(obj: ObjectFieldSelector | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -29653,10 +27431,7 @@ export function toJson_ObjectFieldSelector(
     fieldPath: obj.fieldPath,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29692,9 +27467,7 @@ export interface ResourceFieldSelector {
  * Converts an object of type 'ResourceFieldSelector' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ResourceFieldSelector(
-  obj: ResourceFieldSelector | undefined,
-): Record<string, any> | undefined {
+export function toJson_ResourceFieldSelector(obj: ResourceFieldSelector | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -29704,10 +27477,7 @@ export function toJson_ResourceFieldSelector(
     resource: obj.resource,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29743,9 +27513,7 @@ export interface SecretKeySelector {
  * Converts an object of type 'SecretKeySelector' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SecretKeySelector(
-  obj: SecretKeySelector | undefined,
-): Record<string, any> | undefined {
+export function toJson_SecretKeySelector(obj: SecretKeySelector | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -29755,10 +27523,7 @@ export function toJson_SecretKeySelector(
     optional: obj.optional,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29787,9 +27552,7 @@ export interface HttpHeader {
  * Converts an object of type 'HttpHeader' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_HttpHeader(
-  obj: HttpHeader | undefined,
-): Record<string, any> | undefined {
+export function toJson_HttpHeader(obj: HttpHeader | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -29798,10 +27561,7 @@ export function toJson_HttpHeader(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29839,9 +27599,7 @@ export interface ConfigMapProjection {
  * Converts an object of type 'ConfigMapProjection' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ConfigMapProjection(
-  obj: ConfigMapProjection | undefined,
-): Record<string, any> | undefined {
+export function toJson_ConfigMapProjection(obj: ConfigMapProjection | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -29851,10 +27609,7 @@ export function toJson_ConfigMapProjection(
     optional: obj.optional,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29876,9 +27631,7 @@ export interface DownwardApiProjection {
  * Converts an object of type 'DownwardApiProjection' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DownwardApiProjection(
-  obj: DownwardApiProjection | undefined,
-): Record<string, any> | undefined {
+export function toJson_DownwardApiProjection(obj: DownwardApiProjection | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -29886,10 +27639,7 @@ export function toJson_DownwardApiProjection(
     items: obj.items?.map((y) => toJson_DownwardApiVolumeFile(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29927,9 +27677,7 @@ export interface SecretProjection {
  * Converts an object of type 'SecretProjection' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SecretProjection(
-  obj: SecretProjection | undefined,
-): Record<string, any> | undefined {
+export function toJson_SecretProjection(obj: SecretProjection | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -29939,10 +27687,7 @@ export function toJson_SecretProjection(
     optional: obj.optional,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -29991,10 +27736,7 @@ export function toJson_ServiceAccountTokenProjection(
     path: obj.path,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -30019,9 +27761,7 @@ export interface ExternalDocumentation {
  * Converts an object of type 'ExternalDocumentation' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ExternalDocumentation(
-  obj: ExternalDocumentation | undefined,
-): Record<string, any> | undefined {
+export function toJson_ExternalDocumentation(obj: ExternalDocumentation | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -30030,10 +27770,7 @@ export function toJson_ExternalDocumentation(
     url: obj.url,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -30086,9 +27823,7 @@ export interface ValidationRule {
  * Converts an object of type 'ValidationRule' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ValidationRule(
-  obj: ValidationRule | undefined,
-): Record<string, any> | undefined {
+export function toJson_ValidationRule(obj: ValidationRule | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -30097,9 +27832,6 @@ export function toJson_ValidationRule(
     rule: obj.rule,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */

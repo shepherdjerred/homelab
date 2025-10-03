@@ -1,28 +1,35 @@
-import {
-  Directory,
-  dag,
-  type Secret,
-  Container,
-  type File,
-} from "@dagger.io/dagger";
+import { Directory, dag, type Secret, Container, type File } from "@dagger.io/dagger";
 import { getWorkspaceContainer, getMiseRuntimeContainer } from "./base";
 import type { StepResult } from ".";
 import versions from "./versions";
 
-export async function buildHa(source: Directory): Promise<Directory> {
-  return getWorkspaceContainer(source, "src/ha")
-    .withExec(["bun", "run", "build"])
-    .directory("/workspace/src/ha");
+export function buildHa(source: Directory): Directory {
+  return getWorkspaceContainer(source, "src/ha").withExec(["bun", "run", "build"]).directory("/workspace/src/ha");
 }
 
-export async function typeCheckHa(source: Directory): Promise<string> {
-  const container = getWorkspaceContainer(source, "src/ha");
+/**
+ * Prepares the HA container by generating hass.d.ts.
+ * Accepts optional HA credentials to generate real types, otherwise uses CI stub.
+ */
+function prepareHaContainer(source: Directory, hassBaseUrl: Secret, hassToken: Secret): Container {
+  let container = getWorkspaceContainer(source, "src/ha");
+
+  container = container
+    .withSecretVariable("HASS_BASE_URL", hassBaseUrl)
+    .withSecretVariable("HASS_TOKEN", hassToken)
+    .withExec(["bun", "generate-types.ts"]);
+
+  return container;
+}
+
+export async function typeCheckHa(source: Directory, hassBaseUrl: Secret, hassToken: Secret): Promise<string> {
+  const container = prepareHaContainer(source, hassBaseUrl, hassToken);
 
   return container.withExec(["bun", "run", "typecheck"]).stdout();
 }
 
-export async function lintHa(source: Directory): Promise<string> {
-  const container = getWorkspaceContainer(source, "src/ha");
+export async function lintHa(source: Directory, hassBaseUrl: Secret, hassToken: Secret): Promise<string> {
+  const container = prepareHaContainer(source, hassBaseUrl, hassToken);
 
   return container.withExec(["bun", "run", "lint"]).stdout();
 }
@@ -34,7 +41,7 @@ export async function lintHa(source: Directory): Promise<string> {
  * @param source The source directory.
  * @returns A configured Container ready to run the HA application.
  */
-async function buildHaContainer(source: Directory): Promise<Container> {
+function buildHaContainer(source: Directory): Container {
   // Get just the HA source directory
   const haSource = source.directory("src/ha");
 
@@ -47,28 +54,17 @@ async function buildHaContainer(source: Directory): Promise<Container> {
       .withExec(["bun", "install", "node-gyp"])
       // Copy workspace root files for proper dependency resolution
       .withFile("package.json", source.file("package.json"))
-      .withFile("bun.lock", source.file("bun.lock"))
       // Copy minimal workspace files needed for dependency resolution
       .withFile("src/ha/package.json", haSource.file("package.json"))
       .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
       // Install dependencies (cached unless dependency files change)
-      .withMountedCache(
-        "/root/.bun/install/cache",
-        dag.cacheVolume("bun-cache-default-ha"),
-      )
-      .withExec(["bun", "install"])
+      .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache-default-ha"))
+      .withExec(["bun", "install", "--frozen-lockfile"])
       // Copy the full ha source after dependencies are resolved
       .withDirectory("src/ha", haSource, { exclude: ["package.json"] })
       // Set working directory to the ha workspace
       .withWorkdir("/app/src/ha")
-      .withDefaultArgs([
-        "mise",
-        "exec",
-        `bun@${versions["bun"]}`,
-        "--",
-        "bun",
-        "src/main.ts",
-      ])
+      .withDefaultArgs(["mise", "exec", `bun@${versions.bun}`, "--", "bun", "src/main.ts"])
   );
 }
 
@@ -79,8 +75,8 @@ async function buildHaContainer(source: Directory): Promise<Container> {
  * @param source The source directory.
  * @returns The exported tar file
  */
-export async function buildAndExportHaImage(source: Directory): Promise<File> {
-  const container = await buildHaContainer(source);
+export function buildAndExportHaImage(source: Directory): File {
+  const container = buildHaContainer(source);
   return container.asTarball();
 }
 
@@ -97,12 +93,12 @@ export async function buildAndExportHaImage(source: Directory): Promise<File> {
  */
 export async function buildAndPushHaImage(
   source: Directory,
-  imageName: string = "ghcr.io/shepherdjerred/homelab:latest",
+  imageName = "ghcr.io/shepherdjerred/homelab:latest",
   ghcrUsername: string,
   ghcrPassword: Secret,
-  dryRun: boolean = false,
+  dryRun = false,
 ): Promise<StepResult> {
-  const container = await buildHaContainer(source);
+  const container = buildHaContainer(source);
 
   // Build or publish the image based on dry-run flag
   if (dryRun) {
@@ -112,19 +108,12 @@ export async function buildAndPushHaImage(
       status: "passed",
       message: "Image built successfully",
     };
-  } else {
-    // Publish the image
-    if (ghcrUsername && ghcrPassword) {
-      const result = await container
-        .withRegistryAuth("ghcr.io", ghcrUsername, ghcrPassword)
-        .publish(imageName);
-
-      return {
-        status: "passed",
-        message: `Image published: ${result}`,
-      };
-    } else {
-      throw new Error("GHCR username and password are required");
-    }
   }
+  // Publish the image
+  const result = await container.withRegistryAuth("ghcr.io", ghcrUsername, ghcrPassword).publish(imageName);
+
+  return {
+    status: "passed",
+    message: `Image published: ${result}`,
+  };
 }

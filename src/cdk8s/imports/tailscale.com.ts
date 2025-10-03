@@ -92,9 +92,7 @@ export interface ConnectorProps {
  * Converts an object of type 'ConnectorProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ConnectorProps(
-  obj: ConnectorProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_ConnectorProps(obj: ConnectorProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -103,10 +101,7 @@ export function toJson_ConnectorProps(
     spec: toJson_ConnectorSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -202,9 +197,7 @@ export interface ConnectorSpec {
  * Converts an object of type 'ConnectorSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ConnectorSpec(
-  obj: ConnectorSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ConnectorSpec(obj: ConnectorSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -217,10 +210,7 @@ export function toJson_ConnectorSpec(
     tags: obj.tags?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -269,10 +259,7 @@ export function toJson_ConnectorSpecAppConnector(
     routes: obj.routes?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -311,10 +298,7 @@ export function toJson_ConnectorSpecSubnetRouter(
     advertiseRoutes: obj.advertiseRoutes?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -447,9 +431,7 @@ export interface DnsConfigProps {
  * Converts an object of type 'DnsConfigProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DnsConfigProps(
-  obj: DnsConfigProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_DnsConfigProps(obj: DnsConfigProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -458,10 +440,7 @@ export function toJson_DnsConfigProps(
     spec: toJson_DnsConfigSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -488,9 +467,7 @@ export interface DnsConfigSpec {
  * Converts an object of type 'DnsConfigSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DnsConfigSpec(
-  obj: DnsConfigSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_DnsConfigSpec(obj: DnsConfigSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -498,10 +475,7 @@ export function toJson_DnsConfigSpec(
     nameserver: toJson_DnsConfigSpecNameserver(obj.nameserver),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -545,10 +519,7 @@ export function toJson_DnsConfigSpecNameserver(
     service: toJson_DnsConfigSpecNameserverService(obj.service),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -589,10 +560,7 @@ export function toJson_DnsConfigSpecNameserverImage(
     tag: obj.tag,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -624,10 +592,7 @@ export function toJson_DnsConfigSpecNameserverService(
     clusterIP: obj.clusterIp,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -725,9 +690,7 @@ export interface ProxyClassProps {
  * Converts an object of type 'ProxyClassProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ProxyClassProps(
-  obj: ProxyClassProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_ProxyClassProps(obj: ProxyClassProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -736,10 +699,7 @@ export function toJson_ProxyClassProps(
     spec: toJson_ProxyClassSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -812,9 +772,7 @@ export interface ProxyClassSpec {
  * Converts an object of type 'ProxyClassSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ProxyClassSpec(
-  obj: ProxyClassSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ProxyClassSpec(obj: ProxyClassSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -826,10 +784,7 @@ export function toJson_ProxyClassSpec(
     useLetsEncryptStagingEnvironment: obj.useLetsEncryptStagingEnvironment,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -879,23 +834,16 @@ export interface ProxyClassSpecMetrics {
  * Converts an object of type 'ProxyClassSpecMetrics' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ProxyClassSpecMetrics(
-  obj: ProxyClassSpecMetrics | undefined,
-): Record<string, any> | undefined {
+export function toJson_ProxyClassSpecMetrics(obj: ProxyClassSpecMetrics | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
     enable: obj.enable,
-    serviceMonitor: toJson_ProxyClassSpecMetricsServiceMonitor(
-      obj.serviceMonitor,
-    ),
+    serviceMonitor: toJson_ProxyClassSpecMetricsServiceMonitor(obj.serviceMonitor),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -955,24 +903,15 @@ export function toJson_ProxyClassSpecStatefulSet(
     annotations:
       obj.annotations === undefined
         ? undefined
-        : Object.entries(obj.annotations).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.annotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     pod: toJson_ProxyClassSpecStatefulSetPod(obj.pod),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1006,10 +945,7 @@ export function toJson_ProxyClassSpecStaticEndpoints(
     nodePort: toJson_ProxyClassSpecStaticEndpointsNodePort(obj.nodePort),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1048,10 +984,7 @@ export function toJson_ProxyClassSpecTailscale(
     acceptRoutes: obj.acceptRoutes,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1099,16 +1032,10 @@ export function toJson_ProxyClassSpecMetricsServiceMonitor(
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1235,50 +1162,27 @@ export function toJson_ProxyClassSpecStatefulSetPod(
     annotations:
       obj.annotations === undefined
         ? undefined
-        : Object.entries(obj.annotations).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
-    imagePullSecrets: obj.imagePullSecrets?.map((y) =>
-      toJson_ProxyClassSpecStatefulSetPodImagePullSecrets(y),
-    ),
+        : Object.entries(obj.annotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
+    imagePullSecrets: obj.imagePullSecrets?.map((y) => toJson_ProxyClassSpecStatefulSetPodImagePullSecrets(y)),
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     nodeName: obj.nodeName,
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
-    securityContext: toJson_ProxyClassSpecStatefulSetPodSecurityContext(
-      obj.securityContext,
-    ),
-    tailscaleContainer: toJson_ProxyClassSpecStatefulSetPodTailscaleContainer(
-      obj.tailscaleContainer,
-    ),
-    tailscaleInitContainer:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainer(
-        obj.tailscaleInitContainer,
-      ),
-    tolerations: obj.tolerations?.map((y) =>
-      toJson_ProxyClassSpecStatefulSetPodTolerations(y),
-    ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
+    securityContext: toJson_ProxyClassSpecStatefulSetPodSecurityContext(obj.securityContext),
+    tailscaleContainer: toJson_ProxyClassSpecStatefulSetPodTailscaleContainer(obj.tailscaleContainer),
+    tailscaleInitContainer: toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainer(obj.tailscaleInitContainer),
+    tolerations: obj.tolerations?.map((y) => toJson_ProxyClassSpecStatefulSetPodTolerations(y)),
     topologySpreadConstraints: obj.topologySpreadConstraints?.map((y) =>
       toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraints(y),
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1319,22 +1223,14 @@ export function toJson_ProxyClassSpecStaticEndpointsNodePort(
     return undefined;
   }
   const result = {
-    ports: obj.ports?.map((y) =>
-      toJson_ProxyClassSpecStaticEndpointsNodePortPorts(y),
-    ),
+    ports: obj.ports?.map((y) => toJson_ProxyClassSpecStaticEndpointsNodePortPorts(y)),
     selector:
       obj.selector === undefined
         ? undefined
-        : Object.entries(obj.selector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.selector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1379,21 +1275,12 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinity(
     return undefined;
   }
   const result = {
-    nodeAffinity: toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinity(
-      obj.nodeAffinity,
-    ),
-    podAffinity: toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinity(
-      obj.podAffinity,
-    ),
-    podAntiAffinity: toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity(
-      obj.podAntiAffinity,
-    ),
+    nodeAffinity: toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinity(obj.nodeAffinity),
+    podAffinity: toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinity(obj.podAffinity),
+    podAntiAffinity: toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity(obj.podAntiAffinity),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1430,10 +1317,7 @@ export function toJson_ProxyClassSpecStatefulSetPodImagePullSecrets(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1626,39 +1510,22 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContext(
     return undefined;
   }
   const result = {
-    appArmorProfile:
-      toJson_ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile(
-        obj.appArmorProfile,
-      ),
+    appArmorProfile: toJson_ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfile(obj.appArmorProfile),
     fsGroup: obj.fsGroup,
     fsGroupChangePolicy: obj.fsGroupChangePolicy,
     runAsGroup: obj.runAsGroup,
     runAsNonRoot: obj.runAsNonRoot,
     runAsUser: obj.runAsUser,
     seLinuxChangePolicy: obj.seLinuxChangePolicy,
-    seLinuxOptions:
-      toJson_ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions(
-        obj.seLinuxOptions,
-      ),
-    seccompProfile:
-      toJson_ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile(
-        obj.seccompProfile,
-      ),
+    seLinuxOptions: toJson_ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions(obj.seLinuxOptions),
+    seccompProfile: toJson_ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile(obj.seccompProfile),
     supplementalGroups: obj.supplementalGroups?.map((y) => y),
     supplementalGroupsPolicy: obj.supplementalGroupsPolicy,
-    sysctls: obj.sysctls?.map((y) =>
-      toJson_ProxyClassSpecStatefulSetPodSecurityContextSysctls(y),
-    ),
-    windowsOptions:
-      toJson_ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions(
-        obj.windowsOptions,
-      ),
+    sysctls: obj.sysctls?.map((y) => toJson_ProxyClassSpecStatefulSetPodSecurityContextSysctls(y)),
+    windowsOptions: toJson_ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions(obj.windowsOptions),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1758,27 +1625,15 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainer(
     return undefined;
   }
   const result = {
-    debug: toJson_ProxyClassSpecStatefulSetPodTailscaleContainerDebug(
-      obj.debug,
-    ),
-    env: obj.env?.map((y) =>
-      toJson_ProxyClassSpecStatefulSetPodTailscaleContainerEnv(y),
-    ),
+    debug: toJson_ProxyClassSpecStatefulSetPodTailscaleContainerDebug(obj.debug),
+    env: obj.env?.map((y) => toJson_ProxyClassSpecStatefulSetPodTailscaleContainerEnv(y)),
     image: obj.image,
     imagePullPolicy: obj.imagePullPolicy,
-    resources: toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResources(
-      obj.resources,
-    ),
-    securityContext:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext(
-        obj.securityContext,
-      ),
+    resources: toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResources(obj.resources),
+    securityContext: toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext(obj.securityContext),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1879,28 +1734,15 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainer(
     return undefined;
   }
   const result = {
-    debug: toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerDebug(
-      obj.debug,
-    ),
-    env: obj.env?.map((y) =>
-      toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv(y),
-    ),
+    debug: toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerDebug(obj.debug),
+    env: obj.env?.map((y) => toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv(y)),
     image: obj.image,
     imagePullPolicy: obj.imagePullPolicy,
-    resources:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResources(
-        obj.resources,
-      ),
-    securityContext:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext(
-        obj.securityContext,
-      ),
+    resources: toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResources(obj.resources),
+    securityContext: toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext(obj.securityContext),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1975,10 +1817,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTolerations(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2140,10 +1979,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraints(
     return undefined;
   }
   const result = {
-    labelSelector:
-      toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector(
-        obj.labelSelector,
-      ),
+    labelSelector: toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector(obj.labelSelector),
     matchLabelKeys: obj.matchLabelKeys?.map((y) => y),
     maxSkew: obj.maxSkew,
     minDomains: obj.minDomains,
@@ -2153,10 +1989,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraints(
     whenUnsatisfiable: obj.whenUnsatisfiable,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2196,10 +2029,7 @@ export function toJson_ProxyClassSpecStaticEndpointsNodePortPorts(
     port: obj.port,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2247,22 +2077,16 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinity(
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
-      ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(y),
+    ),
     requiredDuringSchedulingIgnoredDuringExecution:
       toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
         obj.requiredDuringSchedulingIgnoredDuringExecution,
       ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2312,24 +2136,15 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinity(
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
-      ),
-    requiredDuringSchedulingIgnoredDuringExecution:
-      obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
-      ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(y),
+    ),
+    requiredDuringSchedulingIgnoredDuringExecution: obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(y),
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2379,24 +2194,15 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity(
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
-      ),
-    requiredDuringSchedulingIgnoredDuringExecution:
-      obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
-      ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(y),
+    ),
+    requiredDuringSchedulingIgnoredDuringExecution: obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(y),
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2444,10 +2250,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextAppArmorProfil
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2508,10 +2311,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextSeLinuxOptions
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2560,10 +2360,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextSeccompProfile
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2603,10 +2400,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextSysctls(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2674,10 +2468,7 @@ export function toJson_ProxyClassSpecStatefulSetPodSecurityContextWindowsOptions
     runAsUserName: obj.runAsUserName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2719,10 +2510,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerDebug(
     enable: obj.enable,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2768,10 +2556,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerEnv(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2822,9 +2607,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerResources {
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResources#limits
    */
   readonly limits?: {
-    [
-      key: string
-    ]: ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits;
+    [key: string]: ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits;
   };
 
   /**
@@ -2836,9 +2619,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerResources {
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResources#requests
    */
   readonly requests?: {
-    [
-      key: string
-    ]: ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests;
+    [key: string]: ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests;
   };
 }
 
@@ -2853,29 +2634,18 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResources(
     return undefined;
   }
   const result = {
-    claims: obj.claims?.map((y) =>
-      toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims(y),
-    ),
+    claims: obj.claims?.map((y) => toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims(y)),
     limits:
       obj.limits === undefined
         ? undefined
-        : Object.entries(obj.limits).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.limits).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
     requests:
       obj.requests === undefined
         ? undefined
-        : Object.entries(obj.requests).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.requests).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3028,47 +2798,35 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext {
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContext | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
     allowPrivilegeEscalation: obj.allowPrivilegeEscalation,
-    appArmorProfile:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile(
-        obj.appArmorProfile,
-      ),
-    capabilities:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities(
-        obj.capabilities,
-      ),
+    appArmorProfile: toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile(
+      obj.appArmorProfile,
+    ),
+    capabilities: toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities(obj.capabilities),
     privileged: obj.privileged,
     procMount: obj.procMount,
     readOnlyRootFilesystem: obj.readOnlyRootFilesystem,
     runAsGroup: obj.runAsGroup,
     runAsNonRoot: obj.runAsNonRoot,
     runAsUser: obj.runAsUser,
-    seLinuxOptions:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeLinuxOptions(
-        obj.seLinuxOptions,
-      ),
-    seccompProfile:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile(
-        obj.seccompProfile,
-      ),
-    windowsOptions:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions(
-        obj.windowsOptions,
-      ),
+    seLinuxOptions: toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeLinuxOptions(
+      obj.seLinuxOptions,
+    ),
+    seccompProfile: toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile(
+      obj.seccompProfile,
+    ),
+    windowsOptions: toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions(
+      obj.windowsOptions,
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3110,10 +2868,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerDebug(
     enable: obj.enable,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3159,10 +2914,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerEnv(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3213,9 +2965,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerResources {
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResources#limits
    */
   readonly limits?: {
-    [
-      key: string
-    ]: ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits;
+    [key: string]: ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits;
   };
 
   /**
@@ -3227,9 +2977,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerResources {
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResources#requests
    */
   readonly requests?: {
-    [
-      key: string
-    ]: ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests;
+    [key: string]: ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests;
   };
 }
 
@@ -3244,31 +2992,18 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResourc
     return undefined;
   }
   const result = {
-    claims: obj.claims?.map((y) =>
-      toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims(
-        y,
-      ),
-    ),
+    claims: obj.claims?.map((y) => toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims(y)),
     limits:
       obj.limits === undefined
         ? undefined
-        : Object.entries(obj.limits).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.limits).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
     requests:
       obj.requests === undefined
         ? undefined
-        : Object.entries(obj.requests).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.requests).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3421,47 +3156,37 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContext | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
     allowPrivilegeEscalation: obj.allowPrivilegeEscalation,
-    appArmorProfile:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile(
-        obj.appArmorProfile,
-      ),
-    capabilities:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities(
-        obj.capabilities,
-      ),
+    appArmorProfile: toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile(
+      obj.appArmorProfile,
+    ),
+    capabilities: toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities(
+      obj.capabilities,
+    ),
     privileged: obj.privileged,
     procMount: obj.procMount,
     readOnlyRootFilesystem: obj.readOnlyRootFilesystem,
     runAsGroup: obj.runAsGroup,
     runAsNonRoot: obj.runAsNonRoot,
     runAsUser: obj.runAsUser,
-    seLinuxOptions:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeLinuxOptions(
-        obj.seLinuxOptions,
-      ),
-    seccompProfile:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile(
-        obj.seccompProfile,
-      ),
-    windowsOptions:
-      toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions(
-        obj.windowsOptions,
-      ),
+    seLinuxOptions: toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeLinuxOptions(
+      obj.seLinuxOptions,
+    ),
+    seccompProfile: toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile(
+      obj.seccompProfile,
+    ),
+    windowsOptions: toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions(
+      obj.windowsOptions,
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3495,32 +3220,22 @@ export interface ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelec
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector(
-  obj:
-    | ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelector | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
     matchExpressions: obj.matchExpressions?.map((y) =>
-      toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions(
-        y,
-      ),
+      toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions(y),
     ),
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3551,9 +3266,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuring
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3566,10 +3279,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3596,9 +3306,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringS
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3611,10 +3319,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredD
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3645,9 +3350,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringS
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3660,10 +3363,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3754,9 +3454,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSc
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3776,10 +3474,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3810,9 +3505,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDur
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3825,10 +3518,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3919,9 +3609,7 @@ export interface ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuri
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3941,10 +3629,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3978,9 +3663,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims {
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleContainerResourcesClaims | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3990,10 +3673,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResourcesCl
     request: obj.request,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4001,19 +3681,11 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerResourcesCl
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits
  */
 export class ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits {
-  public static fromNumber(
-    value: number,
-  ): ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits {
-    return new ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits(
-      value,
-    );
+  public static fromNumber(value: number): ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits {
+    return new ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits(value);
   }
-  public static fromString(
-    value: string,
-  ): ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits {
-    return new ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits(
-      value,
-    );
+  public static fromString(value: string): ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits {
+    return new ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits(value);
   }
   private constructor(public readonly value: number | string) {}
 }
@@ -4022,19 +3694,11 @@ export class ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits {
  * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests
  */
 export class ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests {
-  public static fromNumber(
-    value: number,
-  ): ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests {
-    return new ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests(
-      value,
-    );
+  public static fromNumber(value: number): ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests {
+    return new ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests(value);
   }
-  public static fromString(
-    value: string,
-  ): ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests {
-    return new ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests(
-      value,
-    );
+  public static fromString(value: string): ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests {
+    return new ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests(value);
   }
   private constructor(public readonly value: number | string) {}
 }
@@ -4074,9 +3738,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAp
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextAppArmorProfile | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4086,10 +3748,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4122,9 +3781,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCa
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextCapabilities | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4134,10 +3791,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
     drop: obj.drop?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4185,9 +3839,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSe
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeLinuxOptions(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeLinuxOptions
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeLinuxOptions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4199,10 +3851,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4243,9 +3892,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSe
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextSeccompProfile | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4255,10 +3902,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4314,9 +3958,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWi
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleContainerSecurityContextWindowsOptions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4328,10 +3970,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleContainerSecurityCon
     runAsUserName: obj.runAsUserName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4365,9 +4004,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClai
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesClaims | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4377,10 +4014,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResourc
     request: obj.request,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4388,19 +4022,11 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerResourc
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits
  */
 export class ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits {
-  public static fromNumber(
-    value: number,
-  ): ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits {
-    return new ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits(
-      value,
-    );
+  public static fromNumber(value: number): ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits {
+    return new ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits(value);
   }
-  public static fromString(
-    value: string,
-  ): ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits {
-    return new ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits(
-      value,
-    );
+  public static fromString(value: string): ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits {
+    return new ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits(value);
   }
   private constructor(public readonly value: number | string) {}
 }
@@ -4409,19 +4035,11 @@ export class ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits {
  * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests
  */
 export class ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests {
-  public static fromNumber(
-    value: number,
-  ): ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests {
-    return new ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests(
-      value,
-    );
+  public static fromNumber(value: number): ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests {
+    return new ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests(value);
   }
-  public static fromString(
-    value: string,
-  ): ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests {
-    return new ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests(
-      value,
-    );
+  public static fromString(value: string): ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests {
+    return new ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests(value);
   }
   private constructor(public readonly value: number | string) {}
 }
@@ -4461,9 +4079,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextAppArmorProfile | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4473,10 +4089,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4509,9 +4122,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextCapabilities | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4521,10 +4132,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
     drop: obj.drop?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4572,9 +4180,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeLinuxOptions(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeLinuxOptions
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeLinuxOptions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4586,10 +4192,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4630,9 +4233,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextSeccompProfile | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4642,10 +4243,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4701,9 +4299,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityConte
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions(
-  obj:
-    | ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurityContextWindowsOptions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4715,10 +4311,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainerSecurit
     runAsUserName: obj.runAsUserName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4760,9 +4353,7 @@ export interface ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelec
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions(
-  obj:
-    | ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions
-    | undefined,
+  obj: ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabelSelectorMatchExpressions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4773,10 +4364,7 @@ export function toJson_ProxyClassSpecStatefulSetPodTopologySpreadConstraintsLabe
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4826,10 +4414,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4881,10 +4466,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredD
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4992,10 +4574,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5044,16 +4623,10 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5105,16 +4678,10 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5222,10 +4789,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5274,16 +4838,10 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5335,16 +4893,10 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5400,10 +4952,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5459,10 +5008,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityPreferred
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5518,10 +5064,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredD
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5577,10 +5120,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityNodeAffinityRequiredD
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5629,16 +5169,10 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5690,16 +5224,10 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5754,10 +5282,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5812,10 +5337,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityRequiredDu
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5864,16 +5386,10 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5925,16 +5441,10 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5989,10 +5499,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6047,10 +5554,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityRequir
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6105,10 +5609,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6163,10 +5664,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAffinityPreferredD
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6221,10 +5719,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6279,10 +5774,7 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinityPrefer
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6395,9 +5887,7 @@ export interface ProxyGroupProps {
  * Converts an object of type 'ProxyGroupProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ProxyGroupProps(
-  obj: ProxyGroupProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_ProxyGroupProps(obj: ProxyGroupProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -6406,10 +5896,7 @@ export function toJson_ProxyGroupProps(
     spec: toJson_ProxyGroupSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6484,9 +5971,7 @@ export interface ProxyGroupSpec {
  * Converts an object of type 'ProxyGroupSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ProxyGroupSpec(
-  obj: ProxyGroupSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ProxyGroupSpec(obj: ProxyGroupSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -6499,10 +5984,7 @@ export function toJson_ProxyGroupSpec(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6549,10 +6031,7 @@ export function toJson_ProxyGroupSpecKubeApiServer(
     mode: obj.mode,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6671,9 +6150,7 @@ export interface RecorderProps {
  * Converts an object of type 'RecorderProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_RecorderProps(
-  obj: RecorderProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_RecorderProps(obj: RecorderProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -6682,10 +6159,7 @@ export function toJson_RecorderProps(
     spec: toJson_RecorderSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6741,9 +6215,7 @@ export interface RecorderSpec {
  * Converts an object of type 'RecorderSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_RecorderSpec(
-  obj: RecorderSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_RecorderSpec(obj: RecorderSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -6754,10 +6226,7 @@ export function toJson_RecorderSpec(
     tags: obj.tags?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6810,24 +6279,15 @@ export function toJson_RecorderSpecStatefulSet(
     annotations:
       obj.annotations === undefined
         ? undefined
-        : Object.entries(obj.annotations).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.annotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     pod: toJson_RecorderSpecStatefulSetPod(obj.pod),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6852,9 +6312,7 @@ export interface RecorderSpecStorage {
  * Converts an object of type 'RecorderSpecStorage' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_RecorderSpecStorage(
-  obj: RecorderSpecStorage | undefined,
-): Record<string, any> | undefined {
+export function toJson_RecorderSpecStorage(obj: RecorderSpecStorage | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -6862,10 +6320,7 @@ export function toJson_RecorderSpecStorage(
     s3: toJson_RecorderSpecStorageS3(obj.s3),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6971,43 +6426,23 @@ export function toJson_RecorderSpecStatefulSetPod(
     annotations:
       obj.annotations === undefined
         ? undefined
-        : Object.entries(obj.annotations).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.annotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     container: toJson_RecorderSpecStatefulSetPodContainer(obj.container),
-    imagePullSecrets: obj.imagePullSecrets?.map((y) =>
-      toJson_RecorderSpecStatefulSetPodImagePullSecrets(y),
-    ),
+    imagePullSecrets: obj.imagePullSecrets?.map((y) => toJson_RecorderSpecStatefulSetPodImagePullSecrets(y)),
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
-    securityContext: toJson_RecorderSpecStatefulSetPodSecurityContext(
-      obj.securityContext,
-    ),
-    serviceAccount: toJson_RecorderSpecStatefulSetPodServiceAccount(
-      obj.serviceAccount,
-    ),
-    tolerations: obj.tolerations?.map((y) =>
-      toJson_RecorderSpecStatefulSetPodTolerations(y),
-    ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
+    securityContext: toJson_RecorderSpecStatefulSetPodSecurityContext(obj.securityContext),
+    serviceAccount: toJson_RecorderSpecStatefulSetPodServiceAccount(obj.serviceAccount),
+    tolerations: obj.tolerations?.map((y) => toJson_RecorderSpecStatefulSetPodTolerations(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7047,9 +6482,7 @@ export interface RecorderSpecStorageS3 {
  * Converts an object of type 'RecorderSpecStorageS3' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_RecorderSpecStorageS3(
-  obj: RecorderSpecStorageS3 | undefined,
-): Record<string, any> | undefined {
+export function toJson_RecorderSpecStorageS3(obj: RecorderSpecStorageS3 | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -7059,10 +6492,7 @@ export function toJson_RecorderSpecStorageS3(
     endpoint: obj.endpoint,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7107,21 +6537,12 @@ export function toJson_RecorderSpecStatefulSetPodAffinity(
     return undefined;
   }
   const result = {
-    nodeAffinity: toJson_RecorderSpecStatefulSetPodAffinityNodeAffinity(
-      obj.nodeAffinity,
-    ),
-    podAffinity: toJson_RecorderSpecStatefulSetPodAffinityPodAffinity(
-      obj.podAffinity,
-    ),
-    podAntiAffinity: toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinity(
-      obj.podAntiAffinity,
-    ),
+    nodeAffinity: toJson_RecorderSpecStatefulSetPodAffinityNodeAffinity(obj.nodeAffinity),
+    podAffinity: toJson_RecorderSpecStatefulSetPodAffinityPodAffinity(obj.podAffinity),
+    podAntiAffinity: toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinity(obj.podAntiAffinity),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7198,18 +6619,11 @@ export function toJson_RecorderSpecStatefulSetPodContainer(
     env: obj.env?.map((y) => toJson_RecorderSpecStatefulSetPodContainerEnv(y)),
     image: obj.image,
     imagePullPolicy: obj.imagePullPolicy,
-    resources: toJson_RecorderSpecStatefulSetPodContainerResources(
-      obj.resources,
-    ),
-    securityContext: toJson_RecorderSpecStatefulSetPodContainerSecurityContext(
-      obj.securityContext,
-    ),
+    resources: toJson_RecorderSpecStatefulSetPodContainerResources(obj.resources),
+    securityContext: toJson_RecorderSpecStatefulSetPodContainerSecurityContext(obj.securityContext),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7246,10 +6660,7 @@ export function toJson_RecorderSpecStatefulSetPodImagePullSecrets(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7441,39 +6852,22 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContext(
     return undefined;
   }
   const result = {
-    appArmorProfile:
-      toJson_RecorderSpecStatefulSetPodSecurityContextAppArmorProfile(
-        obj.appArmorProfile,
-      ),
+    appArmorProfile: toJson_RecorderSpecStatefulSetPodSecurityContextAppArmorProfile(obj.appArmorProfile),
     fsGroup: obj.fsGroup,
     fsGroupChangePolicy: obj.fsGroupChangePolicy,
     runAsGroup: obj.runAsGroup,
     runAsNonRoot: obj.runAsNonRoot,
     runAsUser: obj.runAsUser,
     seLinuxChangePolicy: obj.seLinuxChangePolicy,
-    seLinuxOptions:
-      toJson_RecorderSpecStatefulSetPodSecurityContextSeLinuxOptions(
-        obj.seLinuxOptions,
-      ),
-    seccompProfile:
-      toJson_RecorderSpecStatefulSetPodSecurityContextSeccompProfile(
-        obj.seccompProfile,
-      ),
+    seLinuxOptions: toJson_RecorderSpecStatefulSetPodSecurityContextSeLinuxOptions(obj.seLinuxOptions),
+    seccompProfile: toJson_RecorderSpecStatefulSetPodSecurityContextSeccompProfile(obj.seccompProfile),
     supplementalGroups: obj.supplementalGroups?.map((y) => y),
     supplementalGroupsPolicy: obj.supplementalGroupsPolicy,
-    sysctls: obj.sysctls?.map((y) =>
-      toJson_RecorderSpecStatefulSetPodSecurityContextSysctls(y),
-    ),
-    windowsOptions:
-      toJson_RecorderSpecStatefulSetPodSecurityContextWindowsOptions(
-        obj.windowsOptions,
-      ),
+    sysctls: obj.sysctls?.map((y) => toJson_RecorderSpecStatefulSetPodSecurityContextSysctls(y)),
+    windowsOptions: toJson_RecorderSpecStatefulSetPodSecurityContextWindowsOptions(obj.windowsOptions),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7526,17 +6920,11 @@ export function toJson_RecorderSpecStatefulSetPodServiceAccount(
     annotations:
       obj.annotations === undefined
         ? undefined
-        : Object.entries(obj.annotations).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.annotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7611,10 +6999,7 @@ export function toJson_RecorderSpecStatefulSetPodTolerations(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7649,10 +7034,7 @@ export function toJson_RecorderSpecStorageS3Credentials(
     secret: toJson_RecorderSpecStorageS3CredentialsSecret(obj.secret),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7700,22 +7082,16 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinity(
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
-      ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(y),
+    ),
     requiredDuringSchedulingIgnoredDuringExecution:
       toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
         obj.requiredDuringSchedulingIgnoredDuringExecution,
       ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7765,24 +7141,15 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinity(
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
-      ),
-    requiredDuringSchedulingIgnoredDuringExecution:
-      obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
-      ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(y),
+    ),
+    requiredDuringSchedulingIgnoredDuringExecution: obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(y),
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7832,24 +7199,15 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinity(
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
-      ),
-    requiredDuringSchedulingIgnoredDuringExecution:
-      obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
-      ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(y),
+    ),
+    requiredDuringSchedulingIgnoredDuringExecution: obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(y),
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7895,10 +7253,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerEnv(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7974,29 +7329,18 @@ export function toJson_RecorderSpecStatefulSetPodContainerResources(
     return undefined;
   }
   const result = {
-    claims: obj.claims?.map((y) =>
-      toJson_RecorderSpecStatefulSetPodContainerResourcesClaims(y),
-    ),
+    claims: obj.claims?.map((y) => toJson_RecorderSpecStatefulSetPodContainerResourcesClaims(y)),
     limits:
       obj.limits === undefined
         ? undefined
-        : Object.entries(obj.limits).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.limits).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
     requests:
       obj.requests === undefined
         ? undefined
-        : Object.entries(obj.requests).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }),
-            {},
-          ),
+        : Object.entries(obj.requests).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8151,38 +7495,20 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContext(
   }
   const result = {
     allowPrivilegeEscalation: obj.allowPrivilegeEscalation,
-    appArmorProfile:
-      toJson_RecorderSpecStatefulSetPodContainerSecurityContextAppArmorProfile(
-        obj.appArmorProfile,
-      ),
-    capabilities:
-      toJson_RecorderSpecStatefulSetPodContainerSecurityContextCapabilities(
-        obj.capabilities,
-      ),
+    appArmorProfile: toJson_RecorderSpecStatefulSetPodContainerSecurityContextAppArmorProfile(obj.appArmorProfile),
+    capabilities: toJson_RecorderSpecStatefulSetPodContainerSecurityContextCapabilities(obj.capabilities),
     privileged: obj.privileged,
     procMount: obj.procMount,
     readOnlyRootFilesystem: obj.readOnlyRootFilesystem,
     runAsGroup: obj.runAsGroup,
     runAsNonRoot: obj.runAsNonRoot,
     runAsUser: obj.runAsUser,
-    seLinuxOptions:
-      toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeLinuxOptions(
-        obj.seLinuxOptions,
-      ),
-    seccompProfile:
-      toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeccompProfile(
-        obj.seccompProfile,
-      ),
-    windowsOptions:
-      toJson_RecorderSpecStatefulSetPodContainerSecurityContextWindowsOptions(
-        obj.windowsOptions,
-      ),
+    seLinuxOptions: toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeLinuxOptions(obj.seLinuxOptions),
+    seccompProfile: toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeccompProfile(obj.seccompProfile),
+    windowsOptions: toJson_RecorderSpecStatefulSetPodContainerSecurityContextWindowsOptions(obj.windowsOptions),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8230,10 +7556,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContextAppArmorProfile(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8294,10 +7617,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContextSeLinuxOptions(
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8346,10 +7666,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContextSeccompProfile(
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8389,10 +7706,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContextSysctls(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8460,10 +7774,7 @@ export function toJson_RecorderSpecStatefulSetPodSecurityContextWindowsOptions(
     runAsUserName: obj.runAsUserName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8500,10 +7811,7 @@ export function toJson_RecorderSpecStorageS3CredentialsSecret(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8534,9 +7842,7 @@ export interface RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSc
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -8549,10 +7855,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDu
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8579,9 +7882,7 @@ export interface RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSch
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -8594,10 +7895,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDur
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8628,9 +7926,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSch
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -8643,10 +7939,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8737,9 +8030,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSche
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -8759,10 +8050,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuri
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8793,9 +8081,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDurin
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -8808,10 +8094,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8902,9 +8185,7 @@ export interface RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuring
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -8924,10 +8205,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequired
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8971,10 +8249,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerResourcesClaims(
     request: obj.request,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8982,14 +8257,10 @@ export function toJson_RecorderSpecStatefulSetPodContainerResourcesClaims(
  * @schema RecorderSpecStatefulSetPodContainerResourcesLimits
  */
 export class RecorderSpecStatefulSetPodContainerResourcesLimits {
-  public static fromNumber(
-    value: number,
-  ): RecorderSpecStatefulSetPodContainerResourcesLimits {
+  public static fromNumber(value: number): RecorderSpecStatefulSetPodContainerResourcesLimits {
     return new RecorderSpecStatefulSetPodContainerResourcesLimits(value);
   }
-  public static fromString(
-    value: string,
-  ): RecorderSpecStatefulSetPodContainerResourcesLimits {
+  public static fromString(value: string): RecorderSpecStatefulSetPodContainerResourcesLimits {
     return new RecorderSpecStatefulSetPodContainerResourcesLimits(value);
   }
   private constructor(public readonly value: number | string) {}
@@ -8999,14 +8270,10 @@ export class RecorderSpecStatefulSetPodContainerResourcesLimits {
  * @schema RecorderSpecStatefulSetPodContainerResourcesRequests
  */
 export class RecorderSpecStatefulSetPodContainerResourcesRequests {
-  public static fromNumber(
-    value: number,
-  ): RecorderSpecStatefulSetPodContainerResourcesRequests {
+  public static fromNumber(value: number): RecorderSpecStatefulSetPodContainerResourcesRequests {
     return new RecorderSpecStatefulSetPodContainerResourcesRequests(value);
   }
-  public static fromString(
-    value: string,
-  ): RecorderSpecStatefulSetPodContainerResourcesRequests {
+  public static fromString(value: string): RecorderSpecStatefulSetPodContainerResourcesRequests {
     return new RecorderSpecStatefulSetPodContainerResourcesRequests(value);
   }
   private constructor(public readonly value: number | string) {}
@@ -9047,9 +8314,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContextAppArmorProfi
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextAppArmorProfile(
-  obj:
-    | RecorderSpecStatefulSetPodContainerSecurityContextAppArmorProfile
-    | undefined,
+  obj: RecorderSpecStatefulSetPodContainerSecurityContextAppArmorProfile | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -9059,10 +8324,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextAppArmo
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9095,9 +8357,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContextCapabilities 
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextCapabilities(
-  obj:
-    | RecorderSpecStatefulSetPodContainerSecurityContextCapabilities
-    | undefined,
+  obj: RecorderSpecStatefulSetPodContainerSecurityContextCapabilities | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -9107,10 +8367,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextCapabil
     drop: obj.drop?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9158,9 +8415,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContextSeLinuxOption
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeLinuxOptions(
-  obj:
-    | RecorderSpecStatefulSetPodContainerSecurityContextSeLinuxOptions
-    | undefined,
+  obj: RecorderSpecStatefulSetPodContainerSecurityContextSeLinuxOptions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -9172,10 +8427,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeLinux
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9216,9 +8468,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContextSeccompProfil
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeccompProfile(
-  obj:
-    | RecorderSpecStatefulSetPodContainerSecurityContextSeccompProfile
-    | undefined,
+  obj: RecorderSpecStatefulSetPodContainerSecurityContextSeccompProfile | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -9228,10 +8478,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextSeccomp
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9287,9 +8534,7 @@ export interface RecorderSpecStatefulSetPodContainerSecurityContextWindowsOption
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextWindowsOptions(
-  obj:
-    | RecorderSpecStatefulSetPodContainerSecurityContextWindowsOptions
-    | undefined,
+  obj: RecorderSpecStatefulSetPodContainerSecurityContextWindowsOptions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -9301,10 +8546,7 @@ export function toJson_RecorderSpecStatefulSetPodContainerSecurityContextWindows
     runAsUserName: obj.runAsUserName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9354,10 +8596,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDu
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9409,10 +8648,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDur
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9520,10 +8756,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9572,16 +8805,10 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuri
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9633,16 +8860,10 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuri
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9750,10 +8971,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9802,16 +9020,10 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequired
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9863,16 +9075,10 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequired
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9928,10 +9134,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDu
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -9987,10 +9190,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityPreferredDu
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10046,10 +9246,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDur
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10105,10 +9302,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityNodeAffinityRequiredDur
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10157,16 +9351,10 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10218,16 +9406,10 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10282,10 +9464,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuri
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10340,10 +9519,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityRequiredDuri
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10392,16 +9568,10 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10453,16 +9623,10 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10517,10 +9681,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequired
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10575,10 +9736,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityRequired
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10633,10 +9791,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10691,10 +9846,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAffinityPreferredDur
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10749,10 +9901,7 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -10807,9 +9956,6 @@ export function toJson_RecorderSpecStatefulSetPodAffinityPodAntiAffinityPreferre
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */

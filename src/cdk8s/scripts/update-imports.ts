@@ -21,26 +21,16 @@ const runCommand = async (command: string, args: string[]) => {
     proc.stdout.on("data", (data: Buffer) => (output += data.toString()));
     proc.on("close", (code) => {
       if (code === 0) resolve(output);
-      else
-        reject(
-          new Error(
-            `Command failed with code ${code?.toString() ?? "unknown"}`,
-          ),
-        );
+      else reject(new Error(`Command failed with code ${code?.toString() ?? "unknown"}`));
     });
   });
 };
 
-console.log(
-  await runCommand("cdk8s", ["import", "k8s", "--language=typescript"]),
-);
+console.log(await runCommand("cdk8s", ["import", "k8s", "--language=typescript"]));
 
 // run "kubectl get crds -o json | cdk8s import /dev/stdin --language=typescript"
 console.log(
-  await runCommand("bash", [
-    "-c",
-    "kubectl get crds -o json | cdk8s import /dev/stdin --language=typescript",
-  ]),
+  await runCommand("bash", ["-c", "kubectl get crds -o json | cdk8s import /dev/stdin --language=typescript"]),
 );
 
 const files = await readdir("imports");
@@ -57,10 +47,7 @@ for (const file of files) {
 for (const file of files) {
   const filePath = `imports/${file}`;
   let content = await readFile(filePath, "utf-8");
-  content = content.replaceAll(
-    "public toJson(): any {",
-    "public override toJson(): any {",
-  );
+  content = content.replaceAll("public toJson(): any {", "public override toJson(): any {");
   await writeFile(filePath, content);
 }
 

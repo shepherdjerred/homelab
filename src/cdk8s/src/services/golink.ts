@@ -1,10 +1,4 @@
-import {
-  Deployment,
-  DeploymentStrategy,
-  EnvValue,
-  Secret,
-  Volume,
-} from "cdk8s-plus-31";
+import { Deployment, DeploymentStrategy, EnvValue, Secret, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../utils/common.ts";
 import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
@@ -29,8 +23,7 @@ export function createGolinkDeployment(chart: Chart) {
 
   const item = new OnePasswordItem(chart, "tailscale-auth-key-onepassword", {
     spec: {
-      itemPath:
-        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/t5scpnlhnxvu25dneg6jdd7c7q",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/t5scpnlhnxvu25dneg6jdd7c7q",
     },
     metadata: {
       name: "tailscale-auth-key",
@@ -53,11 +46,7 @@ export function createGolinkDeployment(chart: Chart) {
       volumeMounts: [
         {
           path: "/home/nonroot",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "golink-volume",
-            localPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "golink-volume", localPathVolume.claim),
         },
       ],
     }),

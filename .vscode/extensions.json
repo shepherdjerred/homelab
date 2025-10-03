@@ -6,6 +6,8 @@
     "ms-vscode.vscode-json",
     "github.vscode-github-actions",
     "oven.bun-vscode",
-    "tamasfe.even-better-toml"
+    "tamasfe.even-better-toml",
+    "davidanson.vscode-markdownlint",
+    "arahata.linter-actionlint"
   ]
 }

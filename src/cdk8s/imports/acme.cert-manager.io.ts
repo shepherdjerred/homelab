@@ -78,9 +78,7 @@ export interface ChallengeProps {
  * Converts an object of type 'ChallengeProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ChallengeProps(
-  obj: ChallengeProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_ChallengeProps(obj: ChallengeProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -89,10 +87,7 @@ export function toJson_ChallengeProps(
     spec: toJson_ChallengeSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -186,9 +181,7 @@ export interface ChallengeSpec {
  * Converts an object of type 'ChallengeSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ChallengeSpec(
-  obj: ChallengeSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_ChallengeSpec(obj: ChallengeSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -204,10 +197,7 @@ export function toJson_ChallengeSpec(
     wildcard: obj.wildcard,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -259,10 +249,7 @@ export function toJson_ChallengeSpecIssuerRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -307,9 +294,7 @@ export interface ChallengeSpecSolver {
  * Converts an object of type 'ChallengeSpecSolver' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_ChallengeSpecSolver(
-  obj: ChallengeSpecSolver | undefined,
-): Record<string, any> | undefined {
+export function toJson_ChallengeSpecSolver(obj: ChallengeSpecSolver | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -319,10 +304,7 @@ export function toJson_ChallengeSpecSolver(
     selector: toJson_ChallengeSpecSolverSelector(obj.selector),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -444,10 +426,7 @@ export function toJson_ChallengeSpecSolverDns01(
     webhook: toJson_ChallengeSpecSolverDns01Webhook(obj.webhook),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -492,16 +471,11 @@ export function toJson_ChallengeSpecSolverHttp01(
     return undefined;
   }
   const result = {
-    gatewayHTTPRoute: toJson_ChallengeSpecSolverHttp01GatewayHttpRoute(
-      obj.gatewayHttpRoute,
-    ),
+    gatewayHTTPRoute: toJson_ChallengeSpecSolverHttp01GatewayHttpRoute(obj.gatewayHttpRoute),
     ingress: toJson_ChallengeSpecSolverHttp01Ingress(obj.ingress),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -568,16 +542,10 @@ export function toJson_ChallengeSpecSolverSelector(
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -613,16 +581,11 @@ export function toJson_ChallengeSpecSolverDns01AcmeDns(
     return undefined;
   }
   const result = {
-    accountSecretRef: toJson_ChallengeSpecSolverDns01AcmeDnsAccountSecretRef(
-      obj.accountSecretRef,
-    ),
+    accountSecretRef: toJson_ChallengeSpecSolverDns01AcmeDnsAccountSecretRef(obj.accountSecretRef),
     host: obj.host,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -673,25 +636,13 @@ export function toJson_ChallengeSpecSolverDns01Akamai(
     return undefined;
   }
   const result = {
-    accessTokenSecretRef:
-      toJson_ChallengeSpecSolverDns01AkamaiAccessTokenSecretRef(
-        obj.accessTokenSecretRef,
-      ),
-    clientSecretSecretRef:
-      toJson_ChallengeSpecSolverDns01AkamaiClientSecretSecretRef(
-        obj.clientSecretSecretRef,
-      ),
-    clientTokenSecretRef:
-      toJson_ChallengeSpecSolverDns01AkamaiClientTokenSecretRef(
-        obj.clientTokenSecretRef,
-      ),
+    accessTokenSecretRef: toJson_ChallengeSpecSolverDns01AkamaiAccessTokenSecretRef(obj.accessTokenSecretRef),
+    clientSecretSecretRef: toJson_ChallengeSpecSolverDns01AkamaiClientSecretSecretRef(obj.clientSecretSecretRef),
+    clientTokenSecretRef: toJson_ChallengeSpecSolverDns01AkamaiClientTokenSecretRef(obj.clientTokenSecretRef),
     serviceConsumerDomain: obj.serviceConsumerDomain,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -778,24 +729,16 @@ export function toJson_ChallengeSpecSolverDns01AzureDns(
   }
   const result = {
     clientID: obj.clientId,
-    clientSecretSecretRef:
-      toJson_ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef(
-        obj.clientSecretSecretRef,
-      ),
+    clientSecretSecretRef: toJson_ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef(obj.clientSecretSecretRef),
     environment: obj.environment,
     hostedZoneName: obj.hostedZoneName,
-    managedIdentity: toJson_ChallengeSpecSolverDns01AzureDnsManagedIdentity(
-      obj.managedIdentity,
-    ),
+    managedIdentity: toJson_ChallengeSpecSolverDns01AzureDnsManagedIdentity(obj.managedIdentity),
     resourceGroupName: obj.resourceGroupName,
     subscriptionID: obj.subscriptionId,
     tenantID: obj.tenantId,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -841,16 +784,12 @@ export function toJson_ChallengeSpecSolverDns01CloudDns(
   const result = {
     hostedZoneName: obj.hostedZoneName,
     project: obj.project,
-    serviceAccountSecretRef:
-      toJson_ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef(
-        obj.serviceAccountSecretRef,
-      ),
+    serviceAccountSecretRef: toJson_ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef(
+      obj.serviceAccountSecretRef,
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -895,20 +834,12 @@ export function toJson_ChallengeSpecSolverDns01Cloudflare(
     return undefined;
   }
   const result = {
-    apiKeySecretRef: toJson_ChallengeSpecSolverDns01CloudflareApiKeySecretRef(
-      obj.apiKeySecretRef,
-    ),
-    apiTokenSecretRef:
-      toJson_ChallengeSpecSolverDns01CloudflareApiTokenSecretRef(
-        obj.apiTokenSecretRef,
-      ),
+    apiKeySecretRef: toJson_ChallengeSpecSolverDns01CloudflareApiKeySecretRef(obj.apiKeySecretRef),
+    apiTokenSecretRef: toJson_ChallengeSpecSolverDns01CloudflareApiTokenSecretRef(obj.apiTokenSecretRef),
     email: obj.email,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -951,15 +882,10 @@ export function toJson_ChallengeSpecSolverDns01Digitalocean(
     return undefined;
   }
   const result = {
-    tokenSecretRef: toJson_ChallengeSpecSolverDns01DigitaloceanTokenSecretRef(
-      obj.tokenSecretRef,
-    ),
+    tokenSecretRef: toJson_ChallengeSpecSolverDns01DigitaloceanTokenSecretRef(obj.tokenSecretRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1021,16 +947,10 @@ export function toJson_ChallengeSpecSolverDns01Rfc2136(
     nameserver: obj.nameserver,
     tsigAlgorithm: obj.tsigAlgorithm,
     tsigKeyName: obj.tsigKeyName,
-    tsigSecretSecretRef:
-      toJson_ChallengeSpecSolverDns01Rfc2136TsigSecretSecretRef(
-        obj.tsigSecretSecretRef,
-      ),
+    tsigSecretSecretRef: toJson_ChallengeSpecSolverDns01Rfc2136TsigSecretSecretRef(obj.tsigSecretSecretRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1136,24 +1056,17 @@ export function toJson_ChallengeSpecSolverDns01Route53(
   }
   const result = {
     accessKeyID: obj.accessKeyId,
-    accessKeyIDSecretRef:
-      toJson_ChallengeSpecSolverDns01Route53AccessKeyIdSecretRef(
-        obj.accessKeyIdSecretRef,
-      ),
+    accessKeyIDSecretRef: toJson_ChallengeSpecSolverDns01Route53AccessKeyIdSecretRef(obj.accessKeyIdSecretRef),
     auth: toJson_ChallengeSpecSolverDns01Route53Auth(obj.auth),
     hostedZoneID: obj.hostedZoneId,
     region: obj.region,
     role: obj.role,
-    secretAccessKeySecretRef:
-      toJson_ChallengeSpecSolverDns01Route53SecretAccessKeySecretRef(
-        obj.secretAccessKeySecretRef,
-      ),
+    secretAccessKeySecretRef: toJson_ChallengeSpecSolverDns01Route53SecretAccessKeySecretRef(
+      obj.secretAccessKeySecretRef,
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1214,10 +1127,7 @@ export function toJson_ChallengeSpecSolverDns01Webhook(
     solverName: obj.solverName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1279,23 +1189,13 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoute(
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
-    parentRefs: obj.parentRefs?.map((y) =>
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs(y),
-    ),
-    podTemplate: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplate(
-      obj.podTemplate,
-    ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
+    parentRefs: obj.parentRefs?.map((y) => toJson_ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs(y)),
+    podTemplate: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplate(obj.podTemplate),
     serviceType: obj.serviceType,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1378,20 +1278,13 @@ export function toJson_ChallengeSpecSolverHttp01Ingress(
   const result = {
     class: obj.class,
     ingressClassName: obj.ingressClassName,
-    ingressTemplate: toJson_ChallengeSpecSolverHttp01IngressIngressTemplate(
-      obj.ingressTemplate,
-    ),
+    ingressTemplate: toJson_ChallengeSpecSolverHttp01IngressIngressTemplate(obj.ingressTemplate),
     name: obj.name,
-    podTemplate: toJson_ChallengeSpecSolverHttp01IngressPodTemplate(
-      obj.podTemplate,
-    ),
+    podTemplate: toJson_ChallengeSpecSolverHttp01IngressPodTemplate(obj.podTemplate),
     serviceType: obj.serviceType,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1435,10 +1328,7 @@ export function toJson_ChallengeSpecSolverDns01AcmeDnsAccountSecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1482,10 +1372,7 @@ export function toJson_ChallengeSpecSolverDns01AkamaiAccessTokenSecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1529,10 +1416,7 @@ export function toJson_ChallengeSpecSolverDns01AkamaiClientSecretSecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1576,10 +1460,7 @@ export function toJson_ChallengeSpecSolverDns01AkamaiClientTokenSecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1624,10 +1505,7 @@ export function toJson_ChallengeSpecSolverDns01AzureDnsClientSecretSecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1694,10 +1572,7 @@ export function toJson_ChallengeSpecSolverDns01AzureDnsManagedIdentity(
     tenantID: obj.tenantId,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1741,10 +1616,7 @@ export function toJson_ChallengeSpecSolverDns01CloudDnsServiceAccountSecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1789,10 +1661,7 @@ export function toJson_ChallengeSpecSolverDns01CloudflareApiKeySecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1835,10 +1704,7 @@ export function toJson_ChallengeSpecSolverDns01CloudflareApiTokenSecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1882,10 +1748,7 @@ export function toJson_ChallengeSpecSolverDns01DigitaloceanTokenSecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1929,10 +1792,7 @@ export function toJson_ChallengeSpecSolverDns01Rfc2136TsigSecretSecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1980,10 +1840,7 @@ export function toJson_ChallengeSpecSolverDns01Route53AccessKeyIdSecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2013,15 +1870,10 @@ export function toJson_ChallengeSpecSolverDns01Route53Auth(
     return undefined;
   }
   const result = {
-    kubernetes: toJson_ChallengeSpecSolverDns01Route53AuthKubernetes(
-      obj.kubernetes,
-    ),
+    kubernetes: toJson_ChallengeSpecSolverDns01Route53AuthKubernetes(obj.kubernetes),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2067,10 +1919,7 @@ export function toJson_ChallengeSpecSolverDns01Route53SecretAccessKeySecretRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2240,10 +2089,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRouteParentRefs(
     sectionName: obj.sectionName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2285,19 +2131,11 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplate(
     return undefined;
   }
   const result = {
-    metadata:
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateMetadata(
-        obj.metadata,
-      ),
-    spec: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpec(
-      obj.spec,
-    ),
+    metadata: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateMetadata(obj.metadata),
+    spec: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2330,15 +2168,10 @@ export function toJson_ChallengeSpecSolverHttp01IngressIngressTemplate(
     return undefined;
   }
   const result = {
-    metadata: toJson_ChallengeSpecSolverHttp01IngressIngressTemplateMetadata(
-      obj.metadata,
-    ),
+    metadata: toJson_ChallengeSpecSolverHttp01IngressIngressTemplateMetadata(obj.metadata),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2380,16 +2213,11 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplate(
     return undefined;
   }
   const result = {
-    metadata: toJson_ChallengeSpecSolverHttp01IngressPodTemplateMetadata(
-      obj.metadata,
-    ),
+    metadata: toJson_ChallengeSpecSolverHttp01IngressPodTemplateMetadata(obj.metadata),
     spec: toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2421,16 +2249,10 @@ export function toJson_ChallengeSpecSolverDns01Route53AuthKubernetes(
     return undefined;
   }
   const result = {
-    serviceAccountRef:
-      toJson_ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef(
-        obj.serviceAccountRef,
-      ),
+    serviceAccountRef: toJson_ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef(obj.serviceAccountRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2472,23 +2294,14 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateMetad
     annotations:
       obj.annotations === undefined
         ? undefined
-        : Object.entries(obj.annotations).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.annotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2563,39 +2376,25 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpec(
     return undefined;
   }
   const result = {
-    affinity:
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinity(
-        obj.affinity,
-      ),
+    affinity: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinity(obj.affinity),
     imagePullSecrets: obj.imagePullSecrets?.map((y) =>
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecImagePullSecrets(
-        y,
-      ),
+      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecImagePullSecrets(y),
     ),
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     priorityClassName: obj.priorityClassName,
-    securityContext:
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContext(
-        obj.securityContext,
-      ),
+    securityContext: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContext(
+      obj.securityContext,
+    ),
     serviceAccountName: obj.serviceAccountName,
     tolerations: obj.tolerations?.map((y) =>
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecTolerations(
-        y,
-      ),
+      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecTolerations(y),
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2637,23 +2436,14 @@ export function toJson_ChallengeSpecSolverHttp01IngressIngressTemplateMetadata(
     annotations:
       obj.annotations === undefined
         ? undefined
-        : Object.entries(obj.annotations).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.annotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2695,23 +2485,14 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateMetadata(
     annotations:
       obj.annotations === undefined
         ? undefined
-        : Object.entries(obj.annotations).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.annotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2786,34 +2567,21 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpec(
     return undefined;
   }
   const result = {
-    affinity: toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinity(
-      obj.affinity,
-    ),
+    affinity: toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinity(obj.affinity),
     imagePullSecrets: obj.imagePullSecrets?.map((y) =>
       toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullSecrets(y),
     ),
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     priorityClassName: obj.priorityClassName,
-    securityContext:
-      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContext(
-        obj.securityContext,
-      ),
+    securityContext: toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContext(obj.securityContext),
     serviceAccountName: obj.serviceAccountName,
-    tolerations: obj.tolerations?.map((y) =>
-      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecTolerations(y),
-    ),
+    tolerations: obj.tolerations?.map((y) => toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecTolerations(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2848,9 +2616,7 @@ export interface ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef 
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef(
-  obj:
-    | ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef
-    | undefined,
+  obj: ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccountRef | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -2860,10 +2626,7 @@ export function toJson_ChallengeSpecSolverDns01Route53AuthKubernetesServiceAccou
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2900,32 +2663,20 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinity(
-  obj:
-    | ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinity
-    | undefined,
+  obj: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinity | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    nodeAffinity:
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityNodeAffinity(
-        obj.nodeAffinity,
-      ),
-    podAffinity:
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinity(
-        obj.podAffinity,
-      ),
-    podAntiAffinity:
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinity(
-        obj.podAntiAffinity,
-      ),
+    nodeAffinity: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityNodeAffinity(obj.nodeAffinity),
+    podAffinity: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinity(obj.podAffinity),
+    podAntiAffinity: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinity(
+      obj.podAntiAffinity,
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2953,9 +2704,7 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecImagePu
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecImagePullSecrets(
-  obj:
-    | ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecImagePullSecrets
-    | undefined,
+  obj: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecImagePullSecrets | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -2964,10 +2713,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecI
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3091,9 +2837,7 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurit
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContext(
-  obj:
-    | ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContext
-    | undefined,
+  obj: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContext | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3104,26 +2848,19 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecS
     runAsGroup: obj.runAsGroup,
     runAsNonRoot: obj.runAsNonRoot,
     runAsUser: obj.runAsUser,
-    seLinuxOptions:
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSeLinuxOptions(
-        obj.seLinuxOptions,
-      ),
-    seccompProfile:
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSeccompProfile(
-        obj.seccompProfile,
-      ),
+    seLinuxOptions: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSeLinuxOptions(
+      obj.seLinuxOptions,
+    ),
+    seccompProfile: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSeccompProfile(
+      obj.seccompProfile,
+    ),
     supplementalGroups: obj.supplementalGroups?.map((y) => y),
     sysctls: obj.sysctls?.map((y) =>
-      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSysctls(
-        y,
-      ),
+      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSysctls(y),
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3185,9 +2922,7 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecTolerat
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecTolerations(
-  obj:
-    | ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecTolerations
-    | undefined,
+  obj: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecTolerations | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3200,10 +2935,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecT
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3246,24 +2978,12 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinity(
     return undefined;
   }
   const result = {
-    nodeAffinity:
-      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinity(
-        obj.nodeAffinity,
-      ),
-    podAffinity:
-      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinity(
-        obj.podAffinity,
-      ),
-    podAntiAffinity:
-      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinity(
-        obj.podAntiAffinity,
-      ),
+    nodeAffinity: toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinity(obj.nodeAffinity),
+    podAffinity: toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinity(obj.podAffinity),
+    podAntiAffinity: toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinity(obj.podAntiAffinity),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3291,9 +3011,7 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullSecrets
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullSecrets(
-  obj:
-    | ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullSecrets
-    | undefined,
+  obj: ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullSecrets | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3302,10 +3020,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullS
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3429,9 +3144,7 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContext 
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContext(
-  obj:
-    | ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContext
-    | undefined,
+  obj: ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContext | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3442,26 +3155,17 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityCo
     runAsGroup: obj.runAsGroup,
     runAsNonRoot: obj.runAsNonRoot,
     runAsUser: obj.runAsUser,
-    seLinuxOptions:
-      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSeLinuxOptions(
-        obj.seLinuxOptions,
-      ),
-    seccompProfile:
-      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSeccompProfile(
-        obj.seccompProfile,
-      ),
-    supplementalGroups: obj.supplementalGroups?.map((y) => y),
-    sysctls: obj.sysctls?.map((y) =>
-      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSysctls(
-        y,
-      ),
+    seLinuxOptions: toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSeLinuxOptions(
+      obj.seLinuxOptions,
     ),
+    seccompProfile: toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSeccompProfile(
+      obj.seccompProfile,
+    ),
+    supplementalGroups: obj.supplementalGroups?.map((y) => y),
+    sysctls: obj.sysctls?.map((y) => toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSysctls(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3536,10 +3240,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecToleration
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3581,30 +3282,24 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityNodeAffinity(
-  obj:
-    | ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityNodeAffinity
-    | undefined,
+  obj: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityNodeAffinity | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+        y,
       ),
+    ),
     requiredDuringSchedulingIgnoredDuringExecution:
       toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
         obj.requiredDuringSchedulingIgnoredDuringExecution,
       ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3648,32 +3343,25 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinity(
-  obj:
-    | ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinity
-    | undefined,
+  obj: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinity | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+        y,
       ),
-    requiredDuringSchedulingIgnoredDuringExecution:
-      obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
+    ),
+    requiredDuringSchedulingIgnoredDuringExecution: obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+        y,
       ),
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3717,32 +3405,25 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinity(
-  obj:
-    | ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinity
-    | undefined,
+  obj: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinity | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+        y,
       ),
-    requiredDuringSchedulingIgnoredDuringExecution:
-      obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
+    ),
+    requiredDuringSchedulingIgnoredDuringExecution: obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+        y,
       ),
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3791,9 +3472,7 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurit
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSeLinuxOptions(
-  obj:
-    | ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSeLinuxOptions
-    | undefined,
+  obj: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSeLinuxOptions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3805,10 +3484,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecS
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3847,9 +3523,7 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurit
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSeccompProfile(
-  obj:
-    | ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSeccompProfile
-    | undefined,
+  obj: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSeccompProfile | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3859,10 +3533,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecS
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3892,9 +3563,7 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurit
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSysctls(
-  obj:
-    | ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSysctls
-    | undefined,
+  obj: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContextSysctls | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3904,10 +3573,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecS
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3949,30 +3615,24 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffi
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinity(
-  obj:
-    | ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinity
-    | undefined,
+  obj: ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinity | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+        y,
       ),
+    ),
     requiredDuringSchedulingIgnoredDuringExecution:
       toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
         obj.requiredDuringSchedulingIgnoredDuringExecution,
       ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4016,32 +3676,25 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinity(
-  obj:
-    | ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinity
-    | undefined,
+  obj: ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinity | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+        y,
       ),
-    requiredDuringSchedulingIgnoredDuringExecution:
-      obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
+    ),
+    requiredDuringSchedulingIgnoredDuringExecution: obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+        y,
       ),
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4085,32 +3738,25 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinity(
-  obj:
-    | ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinity
-    | undefined,
+  obj: ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinity | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecution(
+        y,
       ),
-    requiredDuringSchedulingIgnoredDuringExecution:
-      obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
+    ),
+    requiredDuringSchedulingIgnoredDuringExecution: obj.requiredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution(
+        y,
       ),
+    ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4159,9 +3805,7 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextS
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSeLinuxOptions(
-  obj:
-    | ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSeLinuxOptions
-    | undefined,
+  obj: ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSeLinuxOptions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4173,10 +3817,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityCo
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4215,9 +3856,7 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextS
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSeccompProfile(
-  obj:
-    | ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSeccompProfile
-    | undefined,
+  obj: ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSeccompProfile | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4227,10 +3866,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityCo
     type: obj.type,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4260,9 +3896,7 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextS
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSysctls(
-  obj:
-    | ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSysctls
-    | undefined,
+  obj: ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContextSysctls | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4272,10 +3906,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityCo
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4321,10 +3952,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4366,10 +3994,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4415,10 +4040,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4531,10 +4153,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4580,10 +4199,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4696,10 +4312,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4745,10 +4358,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4790,10 +4400,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4839,10 +4446,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4955,10 +4559,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5004,10 +4605,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5120,10 +4718,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5173,10 +4768,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5228,10 +4820,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5339,10 +4928,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5391,16 +4977,10 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5452,16 +5032,10 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5569,10 +5143,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5621,16 +5192,10 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5682,16 +5247,10 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5741,10 +5300,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5796,10 +5352,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5907,10 +5460,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -5959,16 +5509,10 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6020,16 +5564,10 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6137,10 +5675,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     topologyKey: obj.topologyKey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6189,16 +5724,10 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6250,16 +5779,10 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6315,10 +5838,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6374,10 +5894,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6433,10 +5950,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6492,10 +6006,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6544,16 +6055,10 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6605,16 +6110,10 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6669,10 +6168,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6727,10 +6223,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6779,16 +6272,10 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6840,16 +6327,10 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6904,10 +6385,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -6962,10 +6440,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7021,10 +6496,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7080,10 +6552,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7139,10 +6608,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7198,10 +6664,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityNo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7250,16 +6713,10 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7311,16 +6768,10 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7375,10 +6826,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7433,10 +6881,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7485,16 +6930,10 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7546,16 +6985,10 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     matchLabels:
       obj.matchLabels === undefined
         ? undefined
-        : Object.entries(obj.matchLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.matchLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7610,10 +7043,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7668,10 +7098,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7726,10 +7153,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7784,10 +7208,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7842,10 +7263,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7900,10 +7318,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -7958,10 +7373,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8016,10 +7428,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8074,10 +7483,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8132,10 +7538,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8214,9 +7617,7 @@ export interface OrderProps {
  * Converts an object of type 'OrderProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_OrderProps(
-  obj: OrderProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_OrderProps(obj: OrderProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8225,10 +7626,7 @@ export function toJson_OrderProps(
     spec: toJson_OrderSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8304,9 +7702,7 @@ export interface OrderSpec {
  * Converts an object of type 'OrderSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_OrderSpec(
-  obj: OrderSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_OrderSpec(obj: OrderSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8320,10 +7716,7 @@ export function toJson_OrderSpec(
     request: obj.request,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -8363,9 +7756,7 @@ export interface OrderSpecIssuerRef {
  * Converts an object of type 'OrderSpecIssuerRef' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_OrderSpecIssuerRef(
-  obj: OrderSpecIssuerRef | undefined,
-): Record<string, any> | undefined {
+export function toJson_OrderSpecIssuerRef(obj: OrderSpecIssuerRef | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -8375,9 +7766,6 @@ export function toJson_OrderSpecIssuerRef(
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */

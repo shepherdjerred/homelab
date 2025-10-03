@@ -22,11 +22,7 @@ export function createProwlarrDeployment(chart: Chart) {
       volumeMounts: [
         {
           path: "/config",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "prowlarr-volume",
-            localPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "prowlarr-volume", localPathVolume.claim),
         },
       ],
     }),

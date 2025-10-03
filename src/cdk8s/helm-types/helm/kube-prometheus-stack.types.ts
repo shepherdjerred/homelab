@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 // Generated TypeScript types for kube-prometheus-stack Helm chart
 
 export type KubeprometheusstackHelmValuesCommonLabels = object;
@@ -73,23 +74,19 @@ export type KubeprometheusstackHelmValuesCrdsUpgradeJobServiceAccount = {
   automountServiceAccountToken?: boolean;
 };
 
-export type KubeprometheusstackHelmValuesCrdsUpgradeJobServiceAccountAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesCrdsUpgradeJobServiceAccountAnnotations = object;
 
-export type KubeprometheusstackHelmValuesCrdsUpgradeJobServiceAccountLabels =
-  object;
+export type KubeprometheusstackHelmValuesCrdsUpgradeJobServiceAccountLabels = object;
 
-export type KubeprometheusstackHelmValuesCrdsUpgradeJobContainerSecurityContext =
-  {
-    allowPrivilegeEscalation?: boolean;
-    readOnlyRootFilesystem?: boolean;
-    capabilities?: KubeprometheusstackHelmValuesCrdsUpgradeJobContainerSecurityContextCapabilities;
-  };
+export type KubeprometheusstackHelmValuesCrdsUpgradeJobContainerSecurityContext = {
+  allowPrivilegeEscalation?: boolean;
+  readOnlyRootFilesystem?: boolean;
+  capabilities?: KubeprometheusstackHelmValuesCrdsUpgradeJobContainerSecurityContextCapabilities;
+};
 
-export type KubeprometheusstackHelmValuesCrdsUpgradeJobContainerSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type KubeprometheusstackHelmValuesCrdsUpgradeJobContainerSecurityContextCapabilities = {
+  drop?: string[];
+};
 
 export type KubeprometheusstackHelmValuesCrdsUpgradeJobPodSecurityContext = {
   fsGroup?: number;
@@ -99,10 +96,9 @@ export type KubeprometheusstackHelmValuesCrdsUpgradeJobPodSecurityContext = {
   seccompProfile?: KubeprometheusstackHelmValuesCrdsUpgradeJobPodSecurityContextSeccompProfile;
 };
 
-export type KubeprometheusstackHelmValuesCrdsUpgradeJobPodSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type KubeprometheusstackHelmValuesCrdsUpgradeJobPodSecurityContextSeccompProfile = {
+  type?: string;
+};
 
 export type KubeprometheusstackHelmValuesCustomRules = object;
 
@@ -165,275 +161,208 @@ export type KubeprometheusstackHelmValuesDefaultRulesLabels = object;
 
 export type KubeprometheusstackHelmValuesDefaultRulesAnnotations = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleLabels =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleLabels = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleAnnotations = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabels =
-  {
-    alertmanager?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsAlertmanager;
-    etcd?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsEtcd;
-    configReloaders?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsConfigReloaders;
-    general?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsGeneral;
-    k8sContainerCpuUsageSecondsTotal?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerCpuUsageSecondsTotal;
-    k8sContainerMemoryCache?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemoryCache;
-    k8sContainerMemoryRss?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemoryRss;
-    k8sContainerMemorySwap?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemorySwap;
-    k8sContainerResource?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerResource;
-    k8sPodOwner?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sPodOwner;
-    kubeApiserverAvailability?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverAvailability;
-    kubeApiserverBurnrate?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverBurnrate;
-    kubeApiserverHistogram?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverHistogram;
-    kubeApiserverSlos?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverSlos;
-    kubeControllerManager?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeControllerManager;
-    kubelet?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubelet;
-    kubeProxy?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeProxy;
-    kubePrometheusGeneral?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubePrometheusGeneral;
-    kubePrometheusNodeRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubePrometheusNodeRecording;
-    kubernetesApps?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesApps;
-    kubernetesResources?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesResources;
-    kubernetesStorage?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesStorage;
-    kubernetesSystem?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesSystem;
-    kubeSchedulerAlerting?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeSchedulerAlerting;
-    kubeSchedulerRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeSchedulerRecording;
-    kubeStateMetrics?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeStateMetrics;
-    network?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNetwork;
-    node?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNode;
-    nodeExporterAlerting?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNodeExporterAlerting;
-    nodeExporterRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNodeExporterRecording;
-    prometheus?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsPrometheus;
-    prometheusOperator?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsPrometheusOperator;
-  };
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabels = {
+  alertmanager?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsAlertmanager;
+  etcd?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsEtcd;
+  configReloaders?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsConfigReloaders;
+  general?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsGeneral;
+  k8sContainerCpuUsageSecondsTotal?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerCpuUsageSecondsTotal;
+  k8sContainerMemoryCache?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemoryCache;
+  k8sContainerMemoryRss?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemoryRss;
+  k8sContainerMemorySwap?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemorySwap;
+  k8sContainerResource?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerResource;
+  k8sPodOwner?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sPodOwner;
+  kubeApiserverAvailability?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverAvailability;
+  kubeApiserverBurnrate?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverBurnrate;
+  kubeApiserverHistogram?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverHistogram;
+  kubeApiserverSlos?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverSlos;
+  kubeControllerManager?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeControllerManager;
+  kubelet?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubelet;
+  kubeProxy?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeProxy;
+  kubePrometheusGeneral?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubePrometheusGeneral;
+  kubePrometheusNodeRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubePrometheusNodeRecording;
+  kubernetesApps?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesApps;
+  kubernetesResources?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesResources;
+  kubernetesStorage?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesStorage;
+  kubernetesSystem?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesSystem;
+  kubeSchedulerAlerting?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeSchedulerAlerting;
+  kubeSchedulerRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeSchedulerRecording;
+  kubeStateMetrics?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeStateMetrics;
+  network?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNetwork;
+  node?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNode;
+  nodeExporterAlerting?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNodeExporterAlerting;
+  nodeExporterRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNodeExporterRecording;
+  prometheus?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsPrometheus;
+  prometheusOperator?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsPrometheusOperator;
+};
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsAlertmanager =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsAlertmanager = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsEtcd =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsEtcd = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsConfigReloaders =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsConfigReloaders = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsGeneral =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsGeneral = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerCpuUsageSecondsTotal =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerCpuUsageSecondsTotal = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemoryCache =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemoryCache = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemoryRss =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemoryRss = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemorySwap =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerMemorySwap = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerResource =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sContainerResource = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sPodOwner =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsK8sPodOwner = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverAvailability =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverAvailability = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverBurnrate =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverBurnrate = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverHistogram =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverHistogram = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverSlos =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeApiserverSlos = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeControllerManager =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeControllerManager = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubelet =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubelet = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeProxy =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeProxy = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubePrometheusGeneral =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubePrometheusGeneral = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubePrometheusNodeRecording =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubePrometheusNodeRecording = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesApps =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesApps = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesResources =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesResources = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesStorage =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesStorage = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesSystem =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubernetesSystem = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeSchedulerAlerting =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeSchedulerAlerting = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeSchedulerRecording =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeSchedulerRecording = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeStateMetrics =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsKubeStateMetrics = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNetwork =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNetwork = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNode =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNode = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNodeExporterAlerting =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNodeExporterAlerting = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNodeExporterRecording =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsNodeExporterRecording = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsPrometheus =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsPrometheus = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsPrometheusOperator =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabelsPrometheusOperator = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotations =
-  {
-    alertmanager?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsAlertmanager;
-    etcd?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsEtcd;
-    configReloaders?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsConfigReloaders;
-    general?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsGeneral;
-    k8sContainerCpuUsageSecondsTotal?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerCpuUsageSecondsTotal;
-    k8sContainerMemoryCache?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemoryCache;
-    k8sContainerMemoryRss?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemoryRss;
-    k8sContainerMemorySwap?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemorySwap;
-    k8sContainerResource?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerResource;
-    k8sPodOwner?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sPodOwner;
-    kubeApiserverAvailability?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverAvailability;
-    kubeApiserverBurnrate?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverBurnrate;
-    kubeApiserverHistogram?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverHistogram;
-    kubeApiserverSlos?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverSlos;
-    kubeControllerManager?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeControllerManager;
-    kubelet?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubelet;
-    kubeProxy?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeProxy;
-    kubePrometheusGeneral?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubePrometheusGeneral;
-    kubePrometheusNodeRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubePrometheusNodeRecording;
-    kubernetesApps?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesApps;
-    kubernetesResources?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesResources;
-    kubernetesStorage?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesStorage;
-    kubernetesSystem?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesSystem;
-    kubeSchedulerAlerting?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeSchedulerAlerting;
-    kubeSchedulerRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeSchedulerRecording;
-    kubeStateMetrics?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeStateMetrics;
-    network?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNetwork;
-    node?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNode;
-    nodeExporterAlerting?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNodeExporterAlerting;
-    nodeExporterRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNodeExporterRecording;
-    prometheus?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsPrometheus;
-    prometheusOperator?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsPrometheusOperator;
-  };
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotations = {
+  alertmanager?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsAlertmanager;
+  etcd?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsEtcd;
+  configReloaders?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsConfigReloaders;
+  general?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsGeneral;
+  k8sContainerCpuUsageSecondsTotal?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerCpuUsageSecondsTotal;
+  k8sContainerMemoryCache?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemoryCache;
+  k8sContainerMemoryRss?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemoryRss;
+  k8sContainerMemorySwap?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemorySwap;
+  k8sContainerResource?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerResource;
+  k8sPodOwner?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sPodOwner;
+  kubeApiserverAvailability?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverAvailability;
+  kubeApiserverBurnrate?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverBurnrate;
+  kubeApiserverHistogram?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverHistogram;
+  kubeApiserverSlos?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverSlos;
+  kubeControllerManager?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeControllerManager;
+  kubelet?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubelet;
+  kubeProxy?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeProxy;
+  kubePrometheusGeneral?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubePrometheusGeneral;
+  kubePrometheusNodeRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubePrometheusNodeRecording;
+  kubernetesApps?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesApps;
+  kubernetesResources?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesResources;
+  kubernetesStorage?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesStorage;
+  kubernetesSystem?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesSystem;
+  kubeSchedulerAlerting?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeSchedulerAlerting;
+  kubeSchedulerRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeSchedulerRecording;
+  kubeStateMetrics?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeStateMetrics;
+  network?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNetwork;
+  node?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNode;
+  nodeExporterAlerting?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNodeExporterAlerting;
+  nodeExporterRecording?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNodeExporterRecording;
+  prometheus?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsPrometheus;
+  prometheusOperator?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsPrometheusOperator;
+};
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsAlertmanager =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsAlertmanager = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsEtcd =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsEtcd = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsConfigReloaders =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsConfigReloaders = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsGeneral =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsGeneral = object;
 
 export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerCpuUsageSecondsTotal =
   object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemoryCache =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemoryCache = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemoryRss =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemoryRss = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemorySwap =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerMemorySwap = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerResource =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sContainerResource = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sPodOwner =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsK8sPodOwner = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverAvailability =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverAvailability = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverBurnrate =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverBurnrate = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverHistogram =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverHistogram = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverSlos =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeApiserverSlos = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeControllerManager =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeControllerManager = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubelet =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubelet = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeProxy =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeProxy = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubePrometheusGeneral =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubePrometheusGeneral = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubePrometheusNodeRecording =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubePrometheusNodeRecording = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesApps =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesApps = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesResources =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesResources = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesStorage =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesStorage = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesSystem =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubernetesSystem = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeSchedulerAlerting =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeSchedulerAlerting = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeSchedulerRecording =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeSchedulerRecording = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeStateMetrics =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsKubeStateMetrics = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNetwork =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNetwork = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNode =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNode = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNodeExporterAlerting =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNodeExporterAlerting = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNodeExporterRecording =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsNodeExporterRecording = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsPrometheus =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsPrometheus = object;
 
-export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsPrometheusOperator =
-  object;
+export type KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupAnnotationsPrometheusOperator = object;
 
 export type KubeprometheusstackHelmValuesDefaultRulesNode = {
   fsSelector?: string;
@@ -469,11 +398,10 @@ export type KubeprometheusstackHelmValuesPrometheuswindowsexporterPrometheus = {
   monitor?: KubeprometheusstackHelmValuesPrometheuswindowsexporterPrometheusMonitor;
 };
 
-export type KubeprometheusstackHelmValuesPrometheuswindowsexporterPrometheusMonitor =
-  {
-    enabled?: boolean;
-    jobLabel?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheuswindowsexporterPrometheusMonitor = {
+  enabled?: boolean;
+  jobLabel?: string;
+};
 
 export type KubeprometheusstackHelmValuesPrometheuswindowsexporterPodLabels = {
   jobLabel?: string;
@@ -524,19 +452,17 @@ export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyGateway = {
   podLabels?: KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyGatewayPodLabels;
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyGatewayPodLabels =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyGatewayPodLabels = object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyEgress = {
   enabled?: boolean;
   rules?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyMonitoringRules =
-  {
-    prometheus?: boolean;
-    configReloader?: boolean;
-  };
+export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyMonitoringRules = {
+  prometheus?: boolean;
+  configReloader?: boolean;
+};
 
 export type KubeprometheusstackHelmValuesAlertmanagerServiceAccount = {
   create?: boolean;
@@ -545,8 +471,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerServiceAccount = {
   automountServiceAccountToken?: boolean;
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerServiceAccountAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerServiceAccountAnnotations = object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerPodDisruptionBudget = {
   enabled?: boolean;
@@ -566,12 +491,11 @@ export type KubeprometheusstackHelmValuesAlertmanagerConfigGlobal = {
   resolve_timeout?: string;
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerConfigInhibitrulesElement =
-  {
-    source_matchers?: string[];
-    target_matchers?: string[];
-    equal?: string[];
-  };
+export type KubeprometheusstackHelmValuesAlertmanagerConfigInhibitrulesElement = {
+  source_matchers?: string[];
+  target_matchers?: string[];
+  equal?: string[];
+};
 
 export type KubeprometheusstackHelmValuesAlertmanagerConfigRoute = {
   group_by?: string[];
@@ -582,11 +506,10 @@ export type KubeprometheusstackHelmValuesAlertmanagerConfigRoute = {
   routes?: KubeprometheusstackHelmValuesAlertmanagerConfigRouteRoutesElement[];
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerConfigRouteRoutesElement =
-  {
-    receiver?: string;
-    matchers?: string[];
-  };
+export type KubeprometheusstackHelmValuesAlertmanagerConfigRouteRoutesElement = {
+  receiver?: string;
+  matchers?: string[];
+};
 
 export type KubeprometheusstackHelmValuesAlertmanagerConfigReceiversElement = {
   name?: string;
@@ -606,8 +529,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerIngress = {
   tls?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerIngressAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerIngressAnnotations = object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerIngressLabels = object;
 
@@ -629,8 +551,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerRouteMain = {
   additionalRules?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerRouteMainAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerRouteMainAnnotations = object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerRouteMainLabels = object;
 
@@ -661,17 +582,14 @@ export type KubeprometheusstackHelmValuesAlertmanagerIngressPerReplica = {
   tlsSecretPerReplica?: KubeprometheusstackHelmValuesAlertmanagerIngressPerReplicaTlsSecretPerReplica;
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerIngressPerReplicaAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerIngressPerReplicaAnnotations = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerIngressPerReplicaLabels =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerIngressPerReplicaLabels = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerIngressPerReplicaTlsSecretPerReplica =
-  {
-    enabled?: boolean;
-    prefix?: string;
-  };
+export type KubeprometheusstackHelmValuesAlertmanagerIngressPerReplicaTlsSecretPerReplica = {
+  enabled?: boolean;
+  prefix?: string;
+};
 
 export type KubeprometheusstackHelmValuesAlertmanagerService = {
   enabled?: boolean;
@@ -692,8 +610,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerService = {
   type?: string;
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerServiceAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerServiceAnnotations = object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerServiceLabels = object;
 
@@ -703,15 +620,13 @@ export type KubeprometheusstackHelmValuesAlertmanagerServiceIpDualStack = {
   ipFamilyPolicy?: string;
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerServiceSessionAffinityConfig =
-  {
-    clientIP?: KubeprometheusstackHelmValuesAlertmanagerServiceSessionAffinityConfigClientIP;
-  };
+export type KubeprometheusstackHelmValuesAlertmanagerServiceSessionAffinityConfig = {
+  clientIP?: KubeprometheusstackHelmValuesAlertmanagerServiceSessionAffinityConfigClientIP;
+};
 
-export type KubeprometheusstackHelmValuesAlertmanagerServiceSessionAffinityConfigClientIP =
-  {
-    timeoutSeconds?: number;
-  };
+export type KubeprometheusstackHelmValuesAlertmanagerServiceSessionAffinityConfigClientIP = {
+  timeoutSeconds?: number;
+};
 
 export type KubeprometheusstackHelmValuesAlertmanagerServicePerReplica = {
   enabled?: boolean;
@@ -724,8 +639,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerServicePerReplica = {
   type?: string;
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerServicePerReplicaAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerServicePerReplicaAnnotations = object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerServiceMonitor = {
   selfMonitor?: boolean;
@@ -746,11 +660,9 @@ export type KubeprometheusstackHelmValuesAlertmanagerServiceMonitor = {
   additionalEndpoints?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerServiceMonitorAdditionalLabels = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerServiceMonitorTlsConfig =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerServiceMonitorTlsConfig = object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpec = {
   persistentVolumeClaimRetentionPolicy?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecPersistentVolumeClaimRetentionPolicy;
@@ -806,11 +718,9 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpec = {
   additionalConfigString?: string;
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecPersistentVolumeClaimRetentionPolicy =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecPersistentVolumeClaimRetentionPolicy = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecPodMetadata =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecPodMetadata = object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecImage = {
   registry?: string;
@@ -820,63 +730,48 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecImage = {
   pullPolicy?: string;
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecWeb =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecWeb = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAlertmanagerConfigSelector =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAlertmanagerConfigSelector = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAlertmanagerConfigNamespaceSelector =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAlertmanagerConfigNamespaceSelector = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAlertmanagerConfiguration =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAlertmanagerConfiguration = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAlertmanagerConfigMatcherStrategy =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAlertmanagerConfigMatcherStrategy = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecStorage =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecStorage = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecTlsConfig =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecTlsConfig = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecNodeSelector =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecNodeSelector = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecResources =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecResources = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAffinity =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAffinity = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecSecurityContext =
-  {
-    runAsGroup?: number;
-    runAsNonRoot?: boolean;
-    runAsUser?: number;
-    fsGroup?: number;
-    seccompProfile?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecSecurityContextSeccompProfile;
-  };
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecSecurityContext = {
+  runAsGroup?: number;
+  runAsNonRoot?: boolean;
+  runAsUser?: number;
+  fsGroup?: number;
+  seccompProfile?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecSecurityContextSeccompProfile;
+};
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecSecurityContextSeccompProfile = {
+  type?: string;
+};
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecDnsConfig =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecDnsConfig = object;
 
-export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAdditionalConfig =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAdditionalConfig = object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerExtraSecret = {
   annotations?: KubeprometheusstackHelmValuesAlertmanagerExtraSecretAnnotations;
   data?: KubeprometheusstackHelmValuesAlertmanagerExtraSecretData;
 };
 
-export type KubeprometheusstackHelmValuesAlertmanagerExtraSecretAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesAlertmanagerExtraSecretAnnotations = object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerExtraSecretData = object;
 
@@ -959,24 +854,20 @@ export type KubeprometheusstackHelmValuesGrafanaSidecarDashboards = {
   provider?: KubeprometheusstackHelmValuesGrafanaSidecarDashboardsProvider;
 };
 
-export type KubeprometheusstackHelmValuesGrafanaSidecarDashboardsAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesGrafanaSidecarDashboardsAnnotations = object;
 
-export type KubeprometheusstackHelmValuesGrafanaSidecarDashboardsMulticluster =
-  {
-    global?: KubeprometheusstackHelmValuesGrafanaSidecarDashboardsMulticlusterGlobal;
-    etcd?: KubeprometheusstackHelmValuesGrafanaSidecarDashboardsMulticlusterEtcd;
-  };
+export type KubeprometheusstackHelmValuesGrafanaSidecarDashboardsMulticluster = {
+  global?: KubeprometheusstackHelmValuesGrafanaSidecarDashboardsMulticlusterGlobal;
+  etcd?: KubeprometheusstackHelmValuesGrafanaSidecarDashboardsMulticlusterEtcd;
+};
 
-export type KubeprometheusstackHelmValuesGrafanaSidecarDashboardsMulticlusterGlobal =
-  {
-    enabled?: boolean;
-  };
+export type KubeprometheusstackHelmValuesGrafanaSidecarDashboardsMulticlusterGlobal = {
+  enabled?: boolean;
+};
 
-export type KubeprometheusstackHelmValuesGrafanaSidecarDashboardsMulticlusterEtcd =
-  {
-    enabled?: boolean;
-  };
+export type KubeprometheusstackHelmValuesGrafanaSidecarDashboardsMulticlusterEtcd = {
+  enabled?: boolean;
+};
 
 export type KubeprometheusstackHelmValuesGrafanaSidecarDashboardsProvider = {
   allowUiUpdates?: boolean;
@@ -998,20 +889,17 @@ export type KubeprometheusstackHelmValuesGrafanaSidecarDatasources = {
   alertmanager?: KubeprometheusstackHelmValuesGrafanaSidecarDatasourcesAlertmanager;
 };
 
-export type KubeprometheusstackHelmValuesGrafanaSidecarDatasourcesAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesGrafanaSidecarDatasourcesAnnotations = object;
 
-export type KubeprometheusstackHelmValuesGrafanaSidecarDatasourcesExemplarTraceIdDestinations =
-  object;
+export type KubeprometheusstackHelmValuesGrafanaSidecarDatasourcesExemplarTraceIdDestinations = object;
 
-export type KubeprometheusstackHelmValuesGrafanaSidecarDatasourcesAlertmanager =
-  {
-    enabled?: boolean;
-    name?: string;
-    uid?: string;
-    handleGrafanaManagedAlerts?: boolean;
-    implementation?: string;
-  };
+export type KubeprometheusstackHelmValuesGrafanaSidecarDatasourcesAlertmanager = {
+  enabled?: boolean;
+  name?: string;
+  uid?: string;
+  handleGrafanaManagedAlerts?: boolean;
+  implementation?: string;
+};
 
 export type KubeprometheusstackHelmValuesGrafanaService = {
   portName?: string;
@@ -1032,8 +920,7 @@ export type KubeprometheusstackHelmValuesGrafanaServiceMonitor = {
 
 export type KubeprometheusstackHelmValuesGrafanaServiceMonitorLabels = object;
 
-export type KubeprometheusstackHelmValuesGrafanaServiceMonitorTlsConfig =
-  object;
+export type KubeprometheusstackHelmValuesGrafanaServiceMonitorTlsConfig = object;
 
 export type KubeprometheusstackHelmValuesKubernetesServiceMonitors = {
   enabled?: boolean;
@@ -1071,21 +958,18 @@ export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitorSelector = {
   matchLabels?: KubeprometheusstackHelmValuesKubeApiServerServiceMonitorSelectorMatchLabels;
 };
 
-export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitorSelectorMatchLabels =
-  {
-    component?: string;
-    provider?: string;
-  };
+export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitorSelectorMatchLabels = {
+  component?: string;
+  provider?: string;
+};
 
-export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitorMetricRelabelingsElement =
-  {
-    action?: string;
-    regex?: string;
-    sourceLabels?: string[];
-  };
+export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitorMetricRelabelingsElement = {
+  action?: string;
+  regex?: string;
+  sourceLabels?: string[];
+};
 
-export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitorAdditionalLabels = object;
 
 export type KubeprometheusstackHelmValuesKubelet = {
   enabled?: boolean;
@@ -1130,50 +1014,43 @@ export type KubeprometheusstackHelmValuesKubeletServiceMonitorAttachMetadata = {
   node?: boolean;
 };
 
-export type KubeprometheusstackHelmValuesKubeletServiceMonitorCAdvisorMetricRelabelingsElement =
-  {
-    sourceLabels?: string[];
-    action?: string;
-    regex?: string;
-  };
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorCAdvisorMetricRelabelingsElement = {
+  sourceLabels?: string[];
+  action?: string;
+  regex?: string;
+};
 
-export type KubeprometheusstackHelmValuesKubeletServiceMonitorCAdvisorRelabelingsElement =
-  {
-    action?: string;
-    sourceLabels?: string[];
-    targetLabel?: string;
-  };
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorCAdvisorRelabelingsElement = {
+  action?: string;
+  sourceLabels?: string[];
+  targetLabel?: string;
+};
 
-export type KubeprometheusstackHelmValuesKubeletServiceMonitorProbesRelabelingsElement =
-  {
-    action?: string;
-    sourceLabels?: string[];
-    targetLabel?: string;
-  };
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorProbesRelabelingsElement = {
+  action?: string;
+  sourceLabels?: string[];
+  targetLabel?: string;
+};
 
-export type KubeprometheusstackHelmValuesKubeletServiceMonitorResourceRelabelingsElement =
-  {
-    action?: string;
-    sourceLabels?: string[];
-    targetLabel?: string;
-  };
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorResourceRelabelingsElement = {
+  action?: string;
+  sourceLabels?: string[];
+  targetLabel?: string;
+};
 
-export type KubeprometheusstackHelmValuesKubeletServiceMonitorMetricRelabelingsElement =
-  {
-    action?: string;
-    sourceLabels?: string[];
-    regex?: string;
-  };
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorMetricRelabelingsElement = {
+  action?: string;
+  sourceLabels?: string[];
+  regex?: string;
+};
 
-export type KubeprometheusstackHelmValuesKubeletServiceMonitorRelabelingsElement =
-  {
-    action?: string;
-    sourceLabels?: string[];
-    targetLabel?: string;
-  };
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorRelabelingsElement = {
+  action?: string;
+  sourceLabels?: string[];
+  targetLabel?: string;
+};
 
-export type KubeprometheusstackHelmValuesKubeletServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesKubeletServiceMonitorAdditionalLabels = object;
 
 export type KubeprometheusstackHelmValuesKubeControllerManager = {
   enabled?: boolean;
@@ -1189,12 +1066,11 @@ export type KubeprometheusstackHelmValuesKubeControllerManagerService = {
   ipDualStack?: KubeprometheusstackHelmValuesKubeControllerManagerServiceIpDualStack;
 };
 
-export type KubeprometheusstackHelmValuesKubeControllerManagerServiceIpDualStack =
-  {
-    enabled?: boolean;
-    ipFamilies?: string[];
-    ipFamilyPolicy?: string;
-  };
+export type KubeprometheusstackHelmValuesKubeControllerManagerServiceIpDualStack = {
+  enabled?: boolean;
+  ipFamilies?: string[];
+  ipFamilyPolicy?: string;
+};
 
 export type KubeprometheusstackHelmValuesKubeControllerManagerServiceMonitor = {
   enabled?: boolean;
@@ -1217,11 +1093,9 @@ export type KubeprometheusstackHelmValuesKubeControllerManagerServiceMonitor = {
   targetLabels?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesKubeControllerManagerServiceMonitorSelector =
-  object;
+export type KubeprometheusstackHelmValuesKubeControllerManagerServiceMonitorSelector = object;
 
-export type KubeprometheusstackHelmValuesKubeControllerManagerServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesKubeControllerManagerServiceMonitorAdditionalLabels = object;
 
 export type KubeprometheusstackHelmValuesCoreDns = {
   enabled?: boolean;
@@ -1262,8 +1136,7 @@ export type KubeprometheusstackHelmValuesCoreDnsServiceMonitor = {
 
 export type KubeprometheusstackHelmValuesCoreDnsServiceMonitorSelector = object;
 
-export type KubeprometheusstackHelmValuesCoreDnsServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesCoreDnsServiceMonitorAdditionalLabels = object;
 
 export type KubeprometheusstackHelmValuesKubeDns = {
   enabled?: boolean;
@@ -1313,8 +1186,7 @@ export type KubeprometheusstackHelmValuesKubeDnsServiceMonitor = {
 
 export type KubeprometheusstackHelmValuesKubeDnsServiceMonitorSelector = object;
 
-export type KubeprometheusstackHelmValuesKubeDnsServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesKubeDnsServiceMonitorAdditionalLabels = object;
 
 export type KubeprometheusstackHelmValuesKubeEtcd = {
   enabled?: boolean;
@@ -1360,11 +1232,9 @@ export type KubeprometheusstackHelmValuesKubeEtcdServiceMonitor = {
   targetLabels?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesKubeEtcdServiceMonitorSelector =
-  object;
+export type KubeprometheusstackHelmValuesKubeEtcdServiceMonitorSelector = object;
 
-export type KubeprometheusstackHelmValuesKubeEtcdServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesKubeEtcdServiceMonitorAdditionalLabels = object;
 
 export type KubeprometheusstackHelmValuesKubeScheduler = {
   enabled?: boolean;
@@ -1407,11 +1277,9 @@ export type KubeprometheusstackHelmValuesKubeSchedulerServiceMonitor = {
   targetLabels?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesKubeSchedulerServiceMonitorSelector =
-  object;
+export type KubeprometheusstackHelmValuesKubeSchedulerServiceMonitorSelector = object;
 
-export type KubeprometheusstackHelmValuesKubeSchedulerServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesKubeSchedulerServiceMonitorAdditionalLabels = object;
 
 export type KubeprometheusstackHelmValuesKubeProxy = {
   enabled?: boolean;
@@ -1452,11 +1320,9 @@ export type KubeprometheusstackHelmValuesKubeProxyServiceMonitor = {
   targetLabels?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesKubeProxyServiceMonitorSelector =
-  object;
+export type KubeprometheusstackHelmValuesKubeProxyServiceMonitorSelector = object;
 
-export type KubeprometheusstackHelmValuesKubeProxyServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesKubeProxyServiceMonitorAdditionalLabels = object;
 
 export type KubeprometheusstackHelmValuesKubeStateMetrics = {
   enabled?: boolean;
@@ -1544,12 +1410,11 @@ export type KubeprometheusstackHelmValuesPrometheusnodeexporterService = {
   labels?: KubeprometheusstackHelmValuesPrometheusnodeexporterServiceLabels;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusnodeexporterServiceIpDualStack =
-  {
-    enabled?: boolean;
-    ipFamilies?: string[];
-    ipFamilyPolicy?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusnodeexporterServiceIpDualStack = {
+  enabled?: boolean;
+  ipFamilies?: string[];
+  ipFamilyPolicy?: string;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusnodeexporterServiceLabels = {
   jobLabel?: string;
@@ -1559,21 +1424,20 @@ export type KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheus = {
   monitor?: KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheusMonitor;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheusMonitor =
-  {
-    enabled?: boolean;
-    jobLabel?: string;
-    interval?: string;
-    sampleLimit?: number;
-    targetLimit?: number;
-    labelLimit?: number;
-    labelNameLengthLimit?: number;
-    labelValueLengthLimit?: number;
-    scrapeTimeout?: string;
-    proxyUrl?: string;
-    metricRelabelings?: unknown[];
-    relabelings?: unknown[];
-  };
+export type KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheusMonitor = {
+  enabled?: boolean;
+  jobLabel?: string;
+  interval?: string;
+  sampleLimit?: number;
+  targetLimit?: number;
+  labelLimit?: number;
+  labelNameLengthLimit?: number;
+  labelValueLengthLimit?: number;
+  scrapeTimeout?: string;
+  proxyUrl?: string;
+  metricRelabelings?: unknown[];
+  relabelings?: unknown[];
+};
 
 export type KubeprometheusstackHelmValuesPrometheusnodeexporterRbac = {
   pspEnabled?: boolean;
@@ -1675,313 +1539,266 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooks = {
   certManager?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManager;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksNamespaceSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksNamespaceSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksObjectSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksObjectSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksMatchConditions =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksMatchConditions = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksMutatingWebhookConfiguration =
-  {
-    annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksMutatingWebhookConfigurationAnnotations;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksMutatingWebhookConfiguration = {
+  annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksMutatingWebhookConfigurationAnnotations;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksMutatingWebhookConfigurationAnnotations =
   object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksValidatingWebhookConfiguration =
-  {
-    annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksValidatingWebhookConfigurationAnnotations;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksValidatingWebhookConfiguration = {
+  annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksValidatingWebhookConfigurationAnnotations;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksValidatingWebhookConfigurationAnnotations =
   object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeployment =
-  {
-    enabled?: boolean;
-    replicas?: number;
-    strategy?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentStrategy;
-    podDisruptionBudget?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodDisruptionBudget;
-    revisionHistoryLimit?: number;
-    tls?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentTls;
-    serviceAccount?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAccount;
-    service?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentService;
-    labels?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentLabels;
-    annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentAnnotations;
-    podLabels?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodLabels;
-    podAnnotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodAnnotations;
-    image?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentImage;
-    livenessProbe?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentLivenessProbe;
-    readinessProbe?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentReadinessProbe;
-    resources?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentResources;
-    hostNetwork?: boolean;
-    nodeSelector?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentNodeSelector;
-    tolerations?: unknown[];
-    affinity?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentAffinity;
-    dnsConfig?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentDnsConfig;
-    securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentSecurityContext;
-    containerSecurityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentContainerSecurityContext;
-    automountServiceAccountToken?: boolean;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeployment = {
+  enabled?: boolean;
+  replicas?: number;
+  strategy?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentStrategy;
+  podDisruptionBudget?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodDisruptionBudget;
+  revisionHistoryLimit?: number;
+  tls?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentTls;
+  serviceAccount?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAccount;
+  service?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentService;
+  labels?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentLabels;
+  annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentAnnotations;
+  podLabels?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodLabels;
+  podAnnotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodAnnotations;
+  image?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentImage;
+  livenessProbe?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentLivenessProbe;
+  readinessProbe?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentReadinessProbe;
+  resources?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentResources;
+  hostNetwork?: boolean;
+  nodeSelector?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentNodeSelector;
+  tolerations?: unknown[];
+  affinity?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentAffinity;
+  dnsConfig?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentDnsConfig;
+  securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentSecurityContext;
+  containerSecurityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentContainerSecurityContext;
+  automountServiceAccountToken?: boolean;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentStrategy =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentStrategy = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodDisruptionBudget =
-  {
-    enabled?: boolean;
-    minAvailable?: number;
-    unhealthyPodEvictionPolicy?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodDisruptionBudget = {
+  enabled?: boolean;
+  minAvailable?: number;
+  unhealthyPodEvictionPolicy?: string;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentTls =
-  {
-    enabled?: boolean;
-    tlsMinVersion?: string;
-    internalPort?: number;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentTls = {
+  enabled?: boolean;
+  tlsMinVersion?: string;
+  internalPort?: number;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAccount =
-  {
-    annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAccountAnnotations;
-    automountServiceAccountToken?: boolean;
-    create?: boolean;
-    name?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAccount = {
+  annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAccountAnnotations;
+  automountServiceAccountToken?: boolean;
+  create?: boolean;
+  name?: string;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAccountAnnotations =
   object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentService =
-  {
-    annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAnnotations;
-    labels?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceLabels;
-    clusterIP?: string;
-    ipDualStack?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceIpDualStack;
-    nodePort?: number;
-    nodePortTls?: number;
-    additionalPorts?: unknown[];
-    loadBalancerIP?: string;
-    loadBalancerSourceRanges?: unknown[];
-    externalTrafficPolicy?: string;
-    type?: string;
-    externalIPs?: unknown[];
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentService = {
+  annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAnnotations;
+  labels?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceLabels;
+  clusterIP?: string;
+  ipDualStack?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceIpDualStack;
+  nodePort?: number;
+  nodePortTls?: number;
+  additionalPorts?: unknown[];
+  loadBalancerIP?: string;
+  loadBalancerSourceRanges?: unknown[];
+  externalTrafficPolicy?: string;
+  type?: string;
+  externalIPs?: unknown[];
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceLabels =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceLabels = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceIpDualStack =
-  {
-    enabled?: boolean;
-    ipFamilies?: string[];
-    ipFamilyPolicy?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceIpDualStack = {
+  enabled?: boolean;
+  ipFamilies?: string[];
+  ipFamilyPolicy?: string;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentLabels =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentLabels = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodLabels =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodLabels = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentImage =
-  {
-    registry?: string;
-    repository?: string;
-    tag?: string;
-    sha?: string;
-    pullPolicy?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentImage = {
+  registry?: string;
+  repository?: string;
+  tag?: string;
+  sha?: string;
+  pullPolicy?: string;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentLivenessProbe =
-  {
-    enabled?: boolean;
-    failureThreshold?: number;
-    initialDelaySeconds?: number;
-    periodSeconds?: number;
-    successThreshold?: number;
-    timeoutSeconds?: number;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentLivenessProbe = {
+  enabled?: boolean;
+  failureThreshold?: number;
+  initialDelaySeconds?: number;
+  periodSeconds?: number;
+  successThreshold?: number;
+  timeoutSeconds?: number;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentReadinessProbe =
-  {
-    enabled?: boolean;
-    failureThreshold?: number;
-    initialDelaySeconds?: number;
-    periodSeconds?: number;
-    successThreshold?: number;
-    timeoutSeconds?: number;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentReadinessProbe = {
+  enabled?: boolean;
+  failureThreshold?: number;
+  initialDelaySeconds?: number;
+  periodSeconds?: number;
+  successThreshold?: number;
+  timeoutSeconds?: number;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentResources =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentResources = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentNodeSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentNodeSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentAffinity =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentAffinity = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentDnsConfig =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentDnsConfig = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentSecurityContext =
-  {
-    fsGroup?: number;
-    runAsGroup?: number;
-    runAsNonRoot?: boolean;
-    runAsUser?: number;
-    seccompProfile?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentSecurityContextSeccompProfile;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentSecurityContext = {
+  fsGroup?: number;
+  runAsGroup?: number;
+  runAsNonRoot?: boolean;
+  runAsUser?: number;
+  seccompProfile?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentSecurityContextSeccompProfile;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentSecurityContextSeccompProfile = {
+  type?: string;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentContainerSecurityContext =
-  {
-    allowPrivilegeEscalation?: boolean;
-    readOnlyRootFilesystem?: boolean;
-    capabilities?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentContainerSecurityContextCapabilities;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentContainerSecurityContext = {
+  allowPrivilegeEscalation?: boolean;
+  readOnlyRootFilesystem?: boolean;
+  capabilities?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentContainerSecurityContextCapabilities;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentContainerSecurityContextCapabilities =
   {
     drop?: string[];
   };
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatch =
-  {
-    enabled?: boolean;
-    image?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchImage;
-    resources?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchResources;
-    priorityClassName?: string;
-    ttlSecondsAfterFinished?: number;
-    annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchAnnotations;
-    podAnnotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchPodAnnotations;
-    nodeSelector?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchNodeSelector;
-    affinity?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchAffinity;
-    tolerations?: unknown[];
-    securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchSecurityContext;
-    serviceAccount?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchServiceAccount;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatch = {
+  enabled?: boolean;
+  image?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchImage;
+  resources?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchResources;
+  priorityClassName?: string;
+  ttlSecondsAfterFinished?: number;
+  annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchAnnotations;
+  podAnnotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchPodAnnotations;
+  nodeSelector?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchNodeSelector;
+  affinity?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchAffinity;
+  tolerations?: unknown[];
+  securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchSecurityContext;
+  serviceAccount?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchServiceAccount;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchImage =
-  {
-    registry?: string;
-    repository?: string;
-    tag?: string;
-    sha?: string;
-    pullPolicy?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchImage = {
+  registry?: string;
+  repository?: string;
+  tag?: string;
+  sha?: string;
+  pullPolicy?: string;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchResources =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchResources = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchPodAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchPodAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchNodeSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchNodeSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchAffinity =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchAffinity = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchSecurityContext =
-  {
-    runAsGroup?: number;
-    runAsNonRoot?: boolean;
-    runAsUser?: number;
-    seccompProfile?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchSecurityContextSeccompProfile;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchSecurityContext = {
+  runAsGroup?: number;
+  runAsNonRoot?: boolean;
+  runAsUser?: number;
+  seccompProfile?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchSecurityContextSeccompProfile;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchSecurityContextSeccompProfile = {
+  type?: string;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchServiceAccount =
-  {
-    create?: boolean;
-    annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchServiceAccountAnnotations;
-    automountServiceAccountToken?: boolean;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchServiceAccount = {
+  create?: boolean;
+  annotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchServiceAccountAnnotations;
+  automountServiceAccountToken?: boolean;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchServiceAccountAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchServiceAccountAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCreateSecretJob =
-  {
-    securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCreateSecretJobSecurityContext;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCreateSecretJob = {
+  securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCreateSecretJobSecurityContext;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCreateSecretJobSecurityContext =
-  {
-    allowPrivilegeEscalation?: boolean;
-    readOnlyRootFilesystem?: boolean;
-    capabilities?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCreateSecretJobSecurityContextCapabilities;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCreateSecretJobSecurityContext = {
+  allowPrivilegeEscalation?: boolean;
+  readOnlyRootFilesystem?: boolean;
+  capabilities?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCreateSecretJobSecurityContextCapabilities;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCreateSecretJobSecurityContextCapabilities =
   {
     drop?: string[];
   };
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchWebhookJob =
-  {
-    securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchWebhookJobSecurityContext;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchWebhookJob = {
+  securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchWebhookJobSecurityContext;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchWebhookJobSecurityContext =
-  {
-    allowPrivilegeEscalation?: boolean;
-    readOnlyRootFilesystem?: boolean;
-    capabilities?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchWebhookJobSecurityContextCapabilities;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchWebhookJobSecurityContext = {
+  allowPrivilegeEscalation?: boolean;
+  readOnlyRootFilesystem?: boolean;
+  capabilities?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchWebhookJobSecurityContextCapabilities;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchWebhookJobSecurityContextCapabilities =
   {
     drop?: string[];
   };
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManager =
-  {
-    enabled?: boolean;
-    rootCert?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManagerRootCert;
-    admissionCert?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManagerAdmissionCert;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManager = {
+  enabled?: boolean;
+  rootCert?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManagerRootCert;
+  admissionCert?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManagerAdmissionCert;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManagerRootCert =
-  {
-    duration?: string;
-    revisionHistoryLimit?: unknown;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManagerRootCert = {
+  duration?: string;
+  revisionHistoryLimit?: unknown;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManagerAdmissionCert =
-  {
-    duration?: string;
-    revisionHistoryLimit?: unknown;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManagerAdmissionCert = {
+  duration?: string;
+  revisionHistoryLimit?: unknown;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorNamespaces = object;
 
@@ -1997,8 +1814,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorServiceAccount = {
   annotations?: KubeprometheusstackHelmValuesPrometheusOperatorServiceAccountAnnotations;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorServiceAccountAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorServiceAccountAnnotations = object;
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorLifecycle = object;
 
@@ -2017,18 +1833,15 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorService = {
   externalIPs?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorServiceAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorServiceAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorServiceLabels =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorServiceLabels = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorServiceIpDualStack =
-  {
-    enabled?: boolean;
-    ipFamilies?: string[];
-    ipFamilyPolicy?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorServiceIpDualStack = {
+  enabled?: boolean;
+  ipFamilies?: string[];
+  ipFamilyPolicy?: string;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorLabels = object;
 
@@ -2036,15 +1849,13 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAnnotations = object;
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorPodLabels = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorPodAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorPodAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorPodDisruptionBudget =
-  {
-    enabled?: boolean;
-    minAvailable?: number;
-    unhealthyPodEvictionPolicy?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorPodDisruptionBudget = {
+  enabled?: boolean;
+  minAvailable?: number;
+  unhealthyPodEvictionPolicy?: string;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorKubeletService = {
   enabled?: boolean;
@@ -2067,8 +1878,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorServiceMonitor = {
   relabelings?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorServiceMonitorAdditionalLabels = object;
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorResources = object;
 
@@ -2076,8 +1886,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorEnv = {
   GOGC?: string;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorNodeSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorNodeSelector = object;
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorAffinity = object;
 
@@ -2091,42 +1900,35 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorSecurityContext = {
   seccompProfile?: KubeprometheusstackHelmValuesPrometheusOperatorSecurityContextSeccompProfile;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorSecurityContextSeccompProfile = {
+  type?: string;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorContainerSecurityContext =
-  {
-    allowPrivilegeEscalation?: boolean;
-    readOnlyRootFilesystem?: boolean;
-    capabilities?: KubeprometheusstackHelmValuesPrometheusOperatorContainerSecurityContextCapabilities;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorContainerSecurityContext = {
+  allowPrivilegeEscalation?: boolean;
+  readOnlyRootFilesystem?: boolean;
+  capabilities?: KubeprometheusstackHelmValuesPrometheusOperatorContainerSecurityContextCapabilities;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorContainerSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorContainerSecurityContextCapabilities = {
+  drop?: string[];
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscaler =
-  {
-    enabled?: boolean;
-    controlledResources?: unknown[];
-    maxAllowed?: KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerMaxAllowed;
-    minAllowed?: KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerMinAllowed;
-    updatePolicy?: KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerUpdatePolicy;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscaler = {
+  enabled?: boolean;
+  controlledResources?: unknown[];
+  maxAllowed?: KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerMaxAllowed;
+  minAllowed?: KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerMinAllowed;
+  updatePolicy?: KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerUpdatePolicy;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerMaxAllowed =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerMaxAllowed = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerMinAllowed =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerMinAllowed = object;
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerUpdatePolicy =
-  {
-    updateMode?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerUpdatePolicy = {
+  updateMode?: string;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorImage = {
   registry?: string;
@@ -2136,23 +1938,20 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorImage = {
   pullPolicy?: string;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorPrometheusConfigReloader =
-  {
-    image?: KubeprometheusstackHelmValuesPrometheusOperatorPrometheusConfigReloaderImage;
-    enableProbe?: boolean;
-    resources?: KubeprometheusstackHelmValuesPrometheusOperatorPrometheusConfigReloaderResources;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorPrometheusConfigReloader = {
+  image?: KubeprometheusstackHelmValuesPrometheusOperatorPrometheusConfigReloaderImage;
+  enableProbe?: boolean;
+  resources?: KubeprometheusstackHelmValuesPrometheusOperatorPrometheusConfigReloaderResources;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorPrometheusConfigReloaderImage =
-  {
-    registry?: string;
-    repository?: string;
-    tag?: string;
-    sha?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusOperatorPrometheusConfigReloaderImage = {
+  registry?: string;
+  repository?: string;
+  tag?: string;
+  sha?: string;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusOperatorPrometheusConfigReloaderResources =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusOperatorPrometheusConfigReloaderResources = object;
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorThanosImage = {
   registry?: string;
@@ -2202,8 +2001,7 @@ export type KubeprometheusstackHelmValuesPrometheusServiceAccount = {
   automountServiceAccountToken?: boolean;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusServiceAccountAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusServiceAccountAnnotations = object;
 
 export type KubeprometheusstackHelmValuesPrometheusThanosService = {
   enabled?: boolean;
@@ -2223,8 +2021,7 @@ export type KubeprometheusstackHelmValuesPrometheusThanosService = {
   httpNodePort?: number;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusThanosServiceAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusThanosServiceAnnotations = object;
 
 export type KubeprometheusstackHelmValuesPrometheusThanosServiceLabels = object;
 
@@ -2245,11 +2042,9 @@ export type KubeprometheusstackHelmValuesPrometheusThanosServiceMonitor = {
   relabelings?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesPrometheusThanosServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusThanosServiceMonitorAdditionalLabels = object;
 
-export type KubeprometheusstackHelmValuesPrometheusThanosServiceMonitorTlsConfig =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusThanosServiceMonitorTlsConfig = object;
 
 export type KubeprometheusstackHelmValuesPrometheusThanosServiceExternal = {
   enabled?: boolean;
@@ -2269,11 +2064,9 @@ export type KubeprometheusstackHelmValuesPrometheusThanosServiceExternal = {
   httpNodePort?: number;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusThanosServiceExternalAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusThanosServiceExternalAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusThanosServiceExternalLabels =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusThanosServiceExternalLabels = object;
 
 export type KubeprometheusstackHelmValuesPrometheusService = {
   enabled?: boolean;
@@ -2306,15 +2099,13 @@ export type KubeprometheusstackHelmValuesPrometheusServiceIpDualStack = {
   ipFamilyPolicy?: string;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusServiceSessionAffinityConfig =
-  {
-    clientIP?: KubeprometheusstackHelmValuesPrometheusServiceSessionAffinityConfigClientIP;
-  };
+export type KubeprometheusstackHelmValuesPrometheusServiceSessionAffinityConfig = {
+  clientIP?: KubeprometheusstackHelmValuesPrometheusServiceSessionAffinityConfigClientIP;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusServiceSessionAffinityConfigClientIP =
-  {
-    timeoutSeconds?: number;
-  };
+export type KubeprometheusstackHelmValuesPrometheusServiceSessionAffinityConfigClientIP = {
+  timeoutSeconds?: number;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusServicePerReplica = {
   enabled?: boolean;
@@ -2328,15 +2119,13 @@ export type KubeprometheusstackHelmValuesPrometheusServicePerReplica = {
   ipDualStack?: KubeprometheusstackHelmValuesPrometheusServicePerReplicaIpDualStack;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusServicePerReplicaAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusServicePerReplicaAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusServicePerReplicaIpDualStack =
-  {
-    enabled?: boolean;
-    ipFamilies?: string[];
-    ipFamilyPolicy?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusServicePerReplicaIpDualStack = {
+  enabled?: boolean;
+  ipFamilies?: string[];
+  ipFamilyPolicy?: string;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusPodDisruptionBudget = {
   enabled?: boolean;
@@ -2356,8 +2145,7 @@ export type KubeprometheusstackHelmValuesPrometheusThanosIngress = {
   tls?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesPrometheusThanosIngressAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusThanosIngressAnnotations = object;
 
 export type KubeprometheusstackHelmValuesPrometheusThanosIngressLabels = object;
 
@@ -2366,8 +2154,7 @@ export type KubeprometheusstackHelmValuesPrometheusExtraSecret = {
   data?: KubeprometheusstackHelmValuesPrometheusExtraSecretData;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusExtraSecretAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusExtraSecretAnnotations = object;
 
 export type KubeprometheusstackHelmValuesPrometheusExtraSecretData = object;
 
@@ -2403,8 +2190,7 @@ export type KubeprometheusstackHelmValuesPrometheusRouteMain = {
   additionalRules?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesPrometheusRouteMainAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusRouteMainAnnotations = object;
 
 export type KubeprometheusstackHelmValuesPrometheusRouteMainLabels = object;
 
@@ -2429,17 +2215,14 @@ export type KubeprometheusstackHelmValuesPrometheusIngressPerReplica = {
   tlsSecretPerReplica?: KubeprometheusstackHelmValuesPrometheusIngressPerReplicaTlsSecretPerReplica;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusIngressPerReplicaAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusIngressPerReplicaAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusIngressPerReplicaLabels =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusIngressPerReplicaLabels = object;
 
-export type KubeprometheusstackHelmValuesPrometheusIngressPerReplicaTlsSecretPerReplica =
-  {
-    enabled?: boolean;
-    prefix?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusIngressPerReplicaTlsSecretPerReplica = {
+  enabled?: boolean;
+  prefix?: string;
+};
 
 export type KubeprometheusstackHelmValuesPrometheusServiceMonitor = {
   selfMonitor?: boolean;
@@ -2458,11 +2241,9 @@ export type KubeprometheusstackHelmValuesPrometheusServiceMonitor = {
   additionalEndpoints?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesPrometheusServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusServiceMonitorAdditionalLabels = object;
 
-export type KubeprometheusstackHelmValuesPrometheusServiceMonitorTlsConfig =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusServiceMonitorTlsConfig = object;
 
 export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
   persistentVolumeClaimRetentionPolicy?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecPersistentVolumeClaimRetentionPolicy;
@@ -2581,16 +2362,13 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
   scrapeProtocols?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecPersistentVolumeClaimRetentionPolicy =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecPersistentVolumeClaimRetentionPolicy = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecApiserverConfig =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecApiserverConfig = object;
 
 export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecWeb = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecExemplars =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecExemplars = object;
 
 export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecOtlp = object;
 
@@ -2602,97 +2380,71 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecImage = {
   pullPolicy?: string;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecExternalLabels =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecExternalLabels = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecNodeSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecNodeSelector = object;
 
 export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecQuery = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecRuleNamespaceSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecRuleNamespaceSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecRuleSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecRuleSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecServiceMonitorSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecServiceMonitorSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecServiceMonitorNamespaceSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecServiceMonitorNamespaceSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecPodMonitorSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecPodMonitorSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecPodMonitorNamespaceSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecPodMonitorNamespaceSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecProbeSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecProbeSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecProbeNamespaceSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecProbeNamespaceSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecScrapeConfigSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecScrapeConfigSelector = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecScrapeConfigNamespaceSelector =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecScrapeConfigNamespaceSelector = object;
 
 export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecTsdb = {
   outOfOrderTimeWindow?: string;
 };
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecPodMetadata =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecPodMetadata = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAffinity =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAffinity = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecResources =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecResources = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecStorageSpec =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecStorageSpec = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAdditionalScrapeConfigsSecret =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAdditionalScrapeConfigsSecret = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAdditionalPrometheusSecretsAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAdditionalPrometheusSecretsAnnotations = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAdditionalAlertManagerConfigsSecret =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAdditionalAlertManagerConfigsSecret = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAdditionalAlertRelabelConfigsSecret =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAdditionalAlertRelabelConfigsSecret = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecSecurityContext =
-  {
-    runAsGroup?: number;
-    runAsNonRoot?: boolean;
-    runAsUser?: number;
-    fsGroup?: number;
-    seccompProfile?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecSecurityContextSeccompProfile;
-  };
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecSecurityContext = {
+  runAsGroup?: number;
+  runAsNonRoot?: boolean;
+  runAsUser?: number;
+  fsGroup?: number;
+  seccompProfile?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecSecurityContextSeccompProfile;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecSecurityContextSeccompProfile = {
+  type?: string;
+};
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecDnsConfig =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecDnsConfig = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecThanos =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecThanos = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecTracingConfig =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecTracingConfig = object;
 
-export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAdditionalConfig =
-  object;
+export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecAdditionalConfig = object;
 
 export type KubeprometheusstackHelmValuesThanosRuler = {
   enabled?: boolean;
@@ -2715,8 +2467,7 @@ export type KubeprometheusstackHelmValuesThanosRulerServiceAccount = {
   annotations?: KubeprometheusstackHelmValuesThanosRulerServiceAccountAnnotations;
 };
 
-export type KubeprometheusstackHelmValuesThanosRulerServiceAccountAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerServiceAccountAnnotations = object;
 
 export type KubeprometheusstackHelmValuesThanosRulerPodDisruptionBudget = {
   enabled?: boolean;
@@ -2756,8 +2507,7 @@ export type KubeprometheusstackHelmValuesThanosRulerRouteMain = {
   additionalRules?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesThanosRulerRouteMainAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerRouteMainAnnotations = object;
 
 export type KubeprometheusstackHelmValuesThanosRulerRouteMainLabels = object;
 
@@ -2815,11 +2565,9 @@ export type KubeprometheusstackHelmValuesThanosRulerServiceMonitor = {
   additionalEndpoints?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesThanosRulerServiceMonitorAdditionalLabels =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerServiceMonitorAdditionalLabels = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerServiceMonitorTlsConfig =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerServiceMonitorTlsConfig = object;
 
 export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpec = {
   podMetadata?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecPodMetadata;
@@ -2865,8 +2613,7 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpec = {
   additionalConfigString?: string;
 };
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecPodMetadata =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecPodMetadata = object;
 
 export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecImage = {
   registry?: string;
@@ -2875,89 +2622,69 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecImage = {
   sha?: string;
 };
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecRuleNamespaceSelector =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecRuleNamespaceSelector = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecRuleSelector =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecRuleSelector = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecStorage =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecStorage = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfig =
-  {
-    existingSecret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfigExistingSecret;
-    secret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfigSecret;
-  };
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfig = {
+  existingSecret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfigExistingSecret;
+  secret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfigSecret;
+};
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfigExistingSecret =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfigExistingSecret = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfigSecret =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfigSecret = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfig =
-  {
-    existingSecret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfigExistingSecret;
-    secret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfigSecret;
-  };
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfig = {
+  existingSecret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfigExistingSecret;
+  secret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfigSecret;
+};
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfigExistingSecret =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfigExistingSecret = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfigSecret =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfigSecret = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfig =
-  {
-    existingSecret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfigExistingSecret;
-    secret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfigSecret;
-  };
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfig = {
+  existingSecret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfigExistingSecret;
+  secret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfigSecret;
+};
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfigExistingSecret =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfigExistingSecret = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfigSecret =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfigSecret = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecLabels =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecLabels = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecNodeSelector =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecNodeSelector = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecResources =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecResources = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAffinity =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAffinity = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecSecurityContext =
-  {
-    runAsGroup?: number;
-    runAsNonRoot?: boolean;
-    runAsUser?: number;
-    fsGroup?: number;
-    seccompProfile?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecSecurityContextSeccompProfile;
-  };
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecSecurityContext = {
+  runAsGroup?: number;
+  runAsNonRoot?: boolean;
+  runAsUser?: number;
+  fsGroup?: number;
+  seccompProfile?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecSecurityContextSeccompProfile;
+};
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecSecurityContextSeccompProfile = {
+  type?: string;
+};
 
 export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecWeb = object;
 
-export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAdditionalConfig =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAdditionalConfig = object;
 
 export type KubeprometheusstackHelmValuesThanosRulerExtraSecret = {
   annotations?: KubeprometheusstackHelmValuesThanosRulerExtraSecretAnnotations;
   data?: KubeprometheusstackHelmValuesThanosRulerExtraSecretData;
 };
 
-export type KubeprometheusstackHelmValuesThanosRulerExtraSecretAnnotations =
-  object;
+export type KubeprometheusstackHelmValuesThanosRulerExtraSecretAnnotations = object;
 
 export type KubeprometheusstackHelmValuesThanosRulerExtraSecretData = object;
 

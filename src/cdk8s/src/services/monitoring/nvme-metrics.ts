@@ -12,16 +12,12 @@ export async function createNvmeMetricsMonitoring(chart: Chart) {
   const scriptContent = await Bun.file(scriptPath).text();
 
   // Create ServiceAccount for the DaemonSet
-  const serviceAccount = new ServiceAccount(
-    chart,
-    "nvme-metrics-service-account",
-    {
-      metadata: {
-        name: "nvme-metrics-service-account",
-        namespace: "prometheus",
-      },
+  const serviceAccount = new ServiceAccount(chart, "nvme-metrics-service-account", {
+    metadata: {
+      name: "nvme-metrics-service-account",
+      namespace: "prometheus",
     },
-  );
+  });
 
   // Create ConfigMap with the nvme_metrics.py script
   const nvmeMetricsScript = new ConfigMap(chart, "nvme-metrics-script", {
@@ -90,23 +86,14 @@ export async function createNvmeMetricsMonitoring(chart: Chart) {
   });
 
   // Mount the script from ConfigMap
-  const scriptVolume = Volume.fromConfigMap(
-    chart,
-    "nvme-metrics-script-volume",
-    nvmeMetricsScript,
-  );
+  const scriptVolume = Volume.fromConfigMap(chart, "nvme-metrics-script-volume", nvmeMetricsScript);
   nvmeMetricsDaemonSet.addVolume(scriptVolume);
   container.mount("/scripts", scriptVolume);
 
   // Mount host /dev directory for NVMe device access
-  const hostDevVolume = Volume.fromHostPath(
-    chart,
-    "nvme-host-dev",
-    "nvme-host-dev",
-    {
-      path: "/dev",
-    },
-  );
+  const hostDevVolume = Volume.fromHostPath(chart, "nvme-host-dev", "nvme-host-dev", {
+    path: "/dev",
+  });
   nvmeMetricsDaemonSet.addVolume(hostDevVolume);
   container.mount("/dev", hostDevVolume);
 
@@ -120,10 +107,7 @@ export async function createNvmeMetricsMonitoring(chart: Chart) {
     },
   );
   nvmeMetricsDaemonSet.addVolume(textfileCollectorVolume);
-  container.mount(
-    "/host/var/lib/node_exporter/textfile_collector",
-    textfileCollectorVolume,
-  );
+  container.mount("/host/var/lib/node_exporter/textfile_collector", textfileCollectorVolume);
 
   return { serviceAccount, nvmeMetricsScript, nvmeMetricsDaemonSet };
 }

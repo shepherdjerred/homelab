@@ -1,9 +1,6 @@
 import type { Chart } from "cdk8s";
 import { KubeStorageClass } from "../imports/k8s.ts";
-import {
-  VolumeSnapshotClass,
-  VolumeSnapshotClassDeletionPolicy,
-} from "../imports/snapshot.storage.k8s.io.ts";
+import { VolumeSnapshotClass, VolumeSnapshotClassDeletionPolicy } from "../imports/snapshot.storage.k8s.io.ts";
 
 export const SSD_STORAGE_CLASS = "zfs-ssd";
 export const HDD_STORAGE_CLASS = "zfs-hdd";

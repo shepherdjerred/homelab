@@ -1,9 +1,5 @@
 import { Chart } from "cdk8s";
-import {
-  Postgresql,
-  PostgresqlSpecPostgresqlVersion,
-  PostgresqlSpecUsers,
-} from "../../../imports/acid.zalan.do";
+import { Postgresql, PostgresqlSpecPostgresqlVersion, PostgresqlSpecUsers } from "../../../imports/acid.zalan.do";
 
 export function createGrafanaPostgreSQLDatabase(chart: Chart) {
   // The postgres-operator will automatically generate passwords and store them

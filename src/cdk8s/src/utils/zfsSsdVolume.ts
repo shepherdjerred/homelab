@@ -24,8 +24,7 @@ export class ZfsSsdVolume extends Construct {
 
     // Check if storage is under 512GB for backup labeling
     const storageSize = props.storage;
-    const shouldBackup =
-      storageSize.asString() < Size.gibibytes(512).asString();
+    const shouldBackup = storageSize.asString() < Size.gibibytes(512).asString();
 
     const baseProps: PersistentVolumeClaimProps = {
       storage: props.storage,
@@ -42,10 +41,6 @@ export class ZfsSsdVolume extends Construct {
       },
     };
 
-    this.claim = new PersistentVolumeClaim(
-      scope,
-      `${id}-pvc`,
-      merge({}, baseProps, props),
-    );
+    this.claim = new PersistentVolumeClaim(scope, `${id}-pvc`, merge({}, baseProps, props));
   }
 }

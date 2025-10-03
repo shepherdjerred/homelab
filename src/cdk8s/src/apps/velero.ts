@@ -16,20 +16,15 @@ export function createVeleroApp(chart: Chart) {
   });
 
   // 1Password secret for cloud credentials (AWS/GCP/Azure)
-  const cloudCredentials = new OnePasswordItem(
-    chart,
-    "velero-cloud-credentials-onepassword",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/7thelujgeruxxp2qdsrqe2wd7q",
-      },
-      metadata: {
-        name: "cloud-credentials",
-        namespace: "velero",
-      },
+  const cloudCredentials = new OnePasswordItem(chart, "velero-cloud-credentials-onepassword", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/7thelujgeruxxp2qdsrqe2wd7q",
     },
-  );
+    metadata: {
+      name: "cloud-credentials",
+      namespace: "velero",
+    },
+  });
 
   // Every 6 hours backups - keep for 3 days (12 backups total) - FULL BACKUPS
   new Schedule(chart, "velero-backup-6hourly", {
@@ -180,8 +175,7 @@ export function createVeleroApp(chart: Chart) {
           provider: "aws",
           config: {
             region: "auto", // Cloudflare R2 uses "auto" region
-            s3Url:
-              "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
+            s3Url: "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
             s3ForcePathStyle: "true",
           },
         },
@@ -199,8 +193,7 @@ export function createVeleroApp(chart: Chart) {
             namespace: "openebs",
             provider: "aws",
             region: "auto",
-            s3Url:
-              "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
+            s3Url: "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
             s3ForcePathStyle: "true",
           },
         },

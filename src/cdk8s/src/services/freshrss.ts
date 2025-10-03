@@ -1,11 +1,5 @@
 import { Chart, Size } from "cdk8s";
-import {
-  Deployment,
-  DeploymentStrategy,
-  Service,
-  Volume,
-  EnvValue,
-} from "cdk8s-plus-31";
+import { Deployment, DeploymentStrategy, Service, Volume, EnvValue } from "cdk8s-plus-31";
 import { withCommonProps } from "../utils/common.ts";
 import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
 import versions from "../versions.ts";
@@ -20,13 +14,9 @@ export function createFreshRssDeployment(chart: Chart) {
   const freshRssDataVolume = new ZfsSsdVolume(chart, "freshrss-data", {
     storage: Size.gibibytes(32),
   });
-  const freshRssExtensionsVolme = new ZfsSsdVolume(
-    chart,
-    "freshrss-extensions",
-    {
-      storage: Size.gibibytes(8),
-    },
-  );
+  const freshRssExtensionsVolme = new ZfsSsdVolume(chart, "freshrss-extensions", {
+    storage: Size.gibibytes(8),
+  });
 
   deployment.addContainer(
     withCommonProps({
@@ -42,19 +32,11 @@ export function createFreshRssDeployment(chart: Chart) {
       volumeMounts: [
         {
           path: "/var/www/FreshRSS/data",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "freshrss-data-volume",
-            freshRssDataVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "freshrss-data-volume", freshRssDataVolume.claim),
         },
         {
           path: "/var/www/FreshRSS/extensions",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "freshrss-extensions-volume",
-            freshRssExtensionsVolme.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "freshrss-extensions-volume", freshRssExtensionsVolme.claim),
         },
       ],
     }),

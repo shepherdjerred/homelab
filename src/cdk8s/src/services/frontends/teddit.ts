@@ -1,9 +1,4 @@
-import {
-  Deployment,
-  DeploymentStrategy,
-  EnvValue,
-  Service,
-} from "cdk8s-plus-31";
+import { Deployment, DeploymentStrategy, EnvValue, Service } from "cdk8s-plus-31";
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { Redis } from "../common/redis.ts";

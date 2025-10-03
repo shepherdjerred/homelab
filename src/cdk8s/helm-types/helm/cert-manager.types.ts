@@ -112,8 +112,7 @@ export type CertmanagerHelmValuesPrometheusServicemonitorLabels = object;
 
 export type CertmanagerHelmValuesPrometheusServicemonitorAnnotations = object;
 
-export type CertmanagerHelmValuesPrometheusServicemonitorEndpointAdditionalProperties =
-  object;
+export type CertmanagerHelmValuesPrometheusServicemonitorEndpointAdditionalProperties = object;
 
 export type CertmanagerHelmValuesPrometheusPodmonitor = {
   enabled?: boolean;
@@ -131,8 +130,7 @@ export type CertmanagerHelmValuesPrometheusPodmonitorLabels = object;
 
 export type CertmanagerHelmValuesPrometheusPodmonitorAnnotations = object;
 
-export type CertmanagerHelmValuesPrometheusPodmonitorEndpointAdditionalProperties =
-  object;
+export type CertmanagerHelmValuesPrometheusPodmonitorEndpointAdditionalProperties = object;
 
 export type CertmanagerHelmValuesWebhook = {
   replicaCount?: number;
@@ -201,24 +199,21 @@ export type CertmanagerHelmValuesWebhookValidatingWebhookConfiguration = {
   namespaceSelector?: CertmanagerHelmValuesWebhookValidatingWebhookConfigurationNamespaceSelector;
 };
 
-export type CertmanagerHelmValuesWebhookValidatingWebhookConfigurationNamespaceSelector =
-  {
-    matchExpressions?: CertmanagerHelmValuesWebhookValidatingWebhookConfigurationNamespaceSelectorMatchExpressionsElement[];
-  };
+export type CertmanagerHelmValuesWebhookValidatingWebhookConfigurationNamespaceSelector = {
+  matchExpressions?: CertmanagerHelmValuesWebhookValidatingWebhookConfigurationNamespaceSelectorMatchExpressionsElement[];
+};
 
-export type CertmanagerHelmValuesWebhookValidatingWebhookConfigurationNamespaceSelectorMatchExpressionsElement =
-  {
-    key?: string;
-    operator?: string;
-    values?: string[];
-  };
+export type CertmanagerHelmValuesWebhookValidatingWebhookConfigurationNamespaceSelectorMatchExpressionsElement = {
+  key?: string;
+  operator?: string;
+  values?: string[];
+};
 
 export type CertmanagerHelmValuesWebhookMutatingWebhookConfiguration = {
   namespaceSelector?: CertmanagerHelmValuesWebhookMutatingWebhookConfigurationNamespaceSelector;
 };
 
-export type CertmanagerHelmValuesWebhookMutatingWebhookConfigurationNamespaceSelector =
-  object;
+export type CertmanagerHelmValuesWebhookMutatingWebhookConfigurationNamespaceSelector = object;
 
 export type CertmanagerHelmValuesWebhookResources = object;
 
@@ -340,10 +335,9 @@ export type CertmanagerHelmValuesCainjectorContainerSecurityContext = {
   readOnlyRootFilesystem?: boolean;
 };
 
-export type CertmanagerHelmValuesCainjectorContainerSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type CertmanagerHelmValuesCainjectorContainerSecurityContextCapabilities = {
+  drop?: string[];
+};
 
 export type CertmanagerHelmValuesCainjectorPodDisruptionBudget = {
   enabled?: boolean;
@@ -407,10 +401,9 @@ export type CertmanagerHelmValuesStartupapicheckSecurityContext = {
   seccompProfile?: CertmanagerHelmValuesStartupapicheckSecurityContextSeccompProfile;
 };
 
-export type CertmanagerHelmValuesStartupapicheckSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type CertmanagerHelmValuesStartupapicheckSecurityContextSeccompProfile = {
+  type?: string;
+};
 
 export type CertmanagerHelmValuesStartupapicheckContainerSecurityContext = {
   allowPrivilegeEscalation?: boolean;
@@ -418,10 +411,9 @@ export type CertmanagerHelmValuesStartupapicheckContainerSecurityContext = {
   readOnlyRootFilesystem?: boolean;
 };
 
-export type CertmanagerHelmValuesStartupapicheckContainerSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type CertmanagerHelmValuesStartupapicheckContainerSecurityContextCapabilities = {
+  drop?: string[];
+};
 
 export type CertmanagerHelmValuesStartupapicheckJobAnnotations = {
   "helm.sh/hook"?: string;

@@ -22,11 +22,7 @@ export function createTautulliDeployment(chart: Chart) {
       volumeMounts: [
         {
           path: "/config",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "tautulli-volume",
-            localPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "tautulli-volume", localPathVolume.claim),
         },
       ],
     }),

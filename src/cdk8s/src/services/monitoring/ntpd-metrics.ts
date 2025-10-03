@@ -12,16 +12,12 @@ export async function createNtpdMetricsMonitoring(chart: Chart) {
   const scriptContent = await Bun.file(scriptPath).text();
 
   // Create ServiceAccount for the DaemonSet
-  const serviceAccount = new ServiceAccount(
-    chart,
-    "ntpd-metrics-service-account",
-    {
-      metadata: {
-        name: "ntpd-metrics-service-account",
-        namespace: "prometheus",
-      },
+  const serviceAccount = new ServiceAccount(chart, "ntpd-metrics-service-account", {
+    metadata: {
+      name: "ntpd-metrics-service-account",
+      namespace: "prometheus",
     },
-  );
+  });
 
   // Create ConfigMap with the ntpd_metrics.py script
   const ntpdMetricsScript = new ConfigMap(chart, "ntpd-metrics-script", {
@@ -90,11 +86,7 @@ export async function createNtpdMetricsMonitoring(chart: Chart) {
   });
 
   // Mount the script from ConfigMap
-  const scriptVolume = Volume.fromConfigMap(
-    chart,
-    "ntpd-metrics-script-volume",
-    ntpdMetricsScript,
-  );
+  const scriptVolume = Volume.fromConfigMap(chart, "ntpd-metrics-script-volume", ntpdMetricsScript);
   ntpdMetricsDaemonSet.addVolume(scriptVolume);
   container.mount("/scripts", scriptVolume);
 
@@ -108,10 +100,7 @@ export async function createNtpdMetricsMonitoring(chart: Chart) {
     },
   );
   ntpdMetricsDaemonSet.addVolume(textfileCollectorVolume);
-  container.mount(
-    "/host/var/lib/node_exporter/textfile_collector",
-    textfileCollectorVolume,
-  );
+  container.mount("/host/var/lib/node_exporter/textfile_collector", textfileCollectorVolume);
 
   return { serviceAccount, ntpdMetricsScript, ntpdMetricsDaemonSet };
 }

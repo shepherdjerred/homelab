@@ -17,18 +17,12 @@ export function createOverseerrDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: `ghcr.io/linuxserver/overseerr:${
-        versions["linuxserver/overseerr"]
-      }`,
+      image: `ghcr.io/linuxserver/overseerr:${versions["linuxserver/overseerr"]}`,
       portNumber: 5055,
       volumeMounts: [
         {
           path: "/config",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "overseerr-volume",
-            localPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "overseerr-volume", localPathVolume.claim),
         },
       ],
     }),

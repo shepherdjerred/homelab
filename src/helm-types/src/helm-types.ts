@@ -53,9 +53,7 @@ export type TypeProperty = {
 /**
  * Parse chart information from versions.ts comments and values
  */
-export async function parseChartInfoFromVersions(
-  versionsPath = "src/versions.ts",
-): Promise<ChartInfo[]> {
+export async function parseChartInfoFromVersions(versionsPath = "src/versions.ts"): Promise<ChartInfo[]> {
   const content = await Bun.file(versionsPath).text();
   const lines = content.split("\n");
   const charts: ChartInfo[] = [];
@@ -149,17 +147,13 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
         console.log(
           `  🔍 Parsed values keys: ${Object.keys(recordParseResult.data)
             .slice(0, 10)
-            .join(
-              ", ",
-            )}${Object.keys(recordParseResult.data).length > 10 ? "..." : ""}`,
+            .join(", ")}${Object.keys(recordParseResult.data).length > 10 ? "..." : ""}`,
         );
       }
 
       // Check if parsedValues is a valid object using Zod before validation
       if (!recordParseResult.success) {
-        console.warn(
-          `  ⚠️  Parsed values is not a valid record object: ${String(parsedValues)}`,
-        );
+        console.warn(`  ⚠️  Parsed values is not a valid record object: ${String(parsedValues)}`);
         return {};
       }
 
@@ -170,13 +164,8 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
         return parseResult.data;
       } else {
         console.warn(`  ⚠️  Zod validation failed for ${chart.name}:`);
-        console.warn(
-          `    First few errors:`,
-          parseResult.error.issues.slice(0, 3),
-        );
-        console.warn(
-          `  ⚠️  Falling back to unvalidated object for type generation`,
-        );
+        console.warn(`    First few errors:`, parseResult.error.issues.slice(0, 3));
+        console.warn(`  ⚠️  Falling back to unvalidated object for type generation`);
         // Return the validated record data from the successful parse result
         return recordParseResult.data;
       }
@@ -199,19 +188,13 @@ export async function fetchHelmChart(chart: ChartInfo): Promise<HelmValue> {
 /**
  * Convert Helm values to TypeScript interface
  */
-export function convertToTypeScriptInterface(
-  values: HelmValue,
-  interfaceName: string,
-): TypeScriptInterface {
+export function convertToTypeScriptInterface(values: HelmValue, interfaceName: string): TypeScriptInterface {
   const properties: Record<string, TypeProperty> = {};
 
   for (const [key, value] of Object.entries(values)) {
     const sanitizedKey = sanitizePropertyName(key);
     const typeNameSuffix = sanitizeTypeName(key);
-    properties[sanitizedKey] = convertValueToProperty(
-      value,
-      `${interfaceName}${capitalizeFirst(typeNameSuffix)}`,
-    );
+    properties[sanitizedKey] = convertValueToProperty(value, `${interfaceName}${capitalizeFirst(typeNameSuffix)}`);
   }
 
   return {
@@ -220,17 +203,11 @@ export function convertToTypeScriptInterface(
   };
 }
 
-function convertValueToProperty(
-  value: unknown,
-  nestedTypeName: string,
-): TypeProperty {
+function convertValueToProperty(value: unknown, nestedTypeName: string): TypeProperty {
   // Use Zod schemas for robust type detection
 
   // Check for null/undefined first
-  if (
-    NullSchema.safeParse(value).success ||
-    UndefinedSchema.safeParse(value).success
-  ) {
+  if (NullSchema.safeParse(value).success || UndefinedSchema.safeParse(value).success) {
     return { type: "unknown", optional: true };
   }
 
@@ -298,10 +275,7 @@ function convertValueToProperty(
 
     // If mixed types, use union type for common cases
     const types = Array.from(elementTypes).sort();
-    if (
-      types.length <= 3 &&
-      types.every((t) => ["string", "number", "boolean"].includes(t))
-    ) {
+    if (types.length <= 3 && types.every((t) => ["string", "number", "boolean"].includes(t))) {
       return {
         type: `(${types.join(" | ")})[]`,
         optional: true,
@@ -315,10 +289,7 @@ function convertValueToProperty(
   // Check for object (must be last since arrays are also objects)
   const objectResult = HelmValueSchema.safeParse(value);
   if (objectResult.success) {
-    const nestedInterface = convertToTypeScriptInterface(
-      objectResult.data,
-      nestedTypeName,
-    );
+    const nestedInterface = convertToTypeScriptInterface(objectResult.data, nestedTypeName);
     return {
       type: nestedTypeName,
       optional: true,
@@ -327,19 +298,14 @@ function convertValueToProperty(
   }
 
   // Fallback for any unrecognized type
-  console.warn(
-    `Unrecognized value type for: ${String(value)}, using 'unknown'`,
-  );
+  console.warn(`Unrecognized value type for: ${String(value)}, using 'unknown'`);
   return { type: "unknown", optional: true };
 }
 
 /**
  * Generate TypeScript code from interface definition
  */
-export function generateTypeScriptCode(
-  mainInterface: TypeScriptInterface,
-  chartName: string,
-): string {
+export function generateTypeScriptCode(mainInterface: TypeScriptInterface, chartName: string): string {
   const interfaces: TypeScriptInterface[] = [];
 
   // Collect all nested interfaces
@@ -367,10 +333,7 @@ ${code.substring(code.indexOf("\n\n") + 2)}`;
   return code;
 }
 
-function collectNestedInterfaces(
-  iface: TypeScriptInterface,
-  collected: TypeScriptInterface[],
-): void {
+function collectNestedInterfaces(iface: TypeScriptInterface, collected: TypeScriptInterface[]): void {
   for (const prop of Object.values(iface.properties)) {
     if (prop.nested) {
       collected.push(prop.nested);
@@ -396,9 +359,7 @@ function generateInterfaceCode(iface: TypeScriptInterface): string {
 
   for (const [key, prop] of Object.entries(iface.properties)) {
     const optional = prop.optional ? "?" : "";
-    const description = prop.description
-      ? `  /** ${prop.description} */\n`
-      : "";
+    const description = prop.description ? `  /** ${prop.description} */\n` : "";
     code += `${description}  ${key}${optional}: ${prop.type};\n`;
   }
 
@@ -406,10 +367,7 @@ function generateInterfaceCode(iface: TypeScriptInterface): string {
   return code;
 }
 
-function generateParameterType(
-  iface: TypeScriptInterface,
-  chartName: string,
-): string {
+function generateParameterType(iface: TypeScriptInterface, chartName: string): string {
   const parameterKeys = flattenInterfaceKeys(iface);
 
   const normalizedChartName = capitalizeFirst(chartName).replace(/-/g, "");
@@ -424,10 +382,7 @@ function generateParameterType(
   return code;
 }
 
-function flattenInterfaceKeys(
-  iface: TypeScriptInterface,
-  prefix = "",
-): string[] {
+function flattenInterfaceKeys(iface: TypeScriptInterface, prefix = ""): string[] {
   const keys: string[] = [];
 
   for (const [key, prop] of Object.entries(iface.properties)) {
@@ -531,17 +486,11 @@ async function runCommand(command: string, args: string[]): Promise<string> {
     if (exitCode === 0) {
       return output;
     } else {
-      throw new Error(
-        `Command "${command} ${args.join(" ")}" failed with code ${exitCode.toString()}`,
-      );
+      throw new Error(`Command "${command} ${args.join(" ")}" failed with code ${exitCode.toString()}`);
     }
   } catch (error) {
     const parseResult = ErrorSchema.safeParse(error);
-    const errorMessage = parseResult.success
-      ? parseResult.data.message
-      : String(error);
-    throw new Error(
-      `Failed to spawn command "${command} ${args.join(" ")}": ${errorMessage}`,
-    );
+    const errorMessage = parseResult.success ? parseResult.data.message : String(error);
+    throw new Error(`Failed to spawn command "${command} ${args.join(" ")}": ${errorMessage}`);
   }
 }

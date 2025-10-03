@@ -23,15 +23,13 @@
     "constructs": "^10.4.2",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "remeda": "^2.21.2",
-    "ts-pattern": "^5.7.0",
+    "remeda": "^2.22.5",
+    "ts-pattern": "^5.7.1",
     "zod": "^4.1.11"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.23",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash": "^4.17.17",
-    "jiti": "^2.6.0",
     "type-fest": "^4.41.0"
   }
 }

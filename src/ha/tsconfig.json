@@ -1,37 +1,16 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["ESNext"],
-    "allowJs": false,
-    "noEmit": true,
-    "target": "ESNext",
-    "allowImportingTsExtensions": true,
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
-    "erasableSyntaxOnly": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "strictBuiltinIteratorReturn": true,
-    "noImplicitThis": true,
-    "useUnknownInCatchVariables": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "exactOptionalPropertyTypes": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "allowUnusedLabels": false,
-    "allowUnreachableCode": false,
-    "skipLibCheck": true
-  }
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.tsx", "*.ts", "*.tsx"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "../../node_modules/**",
+    "../../eslint.config.ts",
+    "../../*.ts",
+    "../cdk8s/**",
+    "../helm-types/**"
+  ]
 }
