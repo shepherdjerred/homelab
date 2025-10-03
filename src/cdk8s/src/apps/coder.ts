@@ -20,7 +20,7 @@ export function createCoderApp(chart: Chart) {
   createCoderPostgreSQLDatabase(chart);
 
   // Create Tailscale ingress for Coder
-  createIngress(chart, "coder-ingress", "coder", "coder", 8080, ["coder"], true);
+  createIngress(chart, "coder-ingress", "coder", "coder", 80, ["coder"], false);
 
   // The postgres-operator will automatically create a secret with connection credentials
   // Secret name pattern: {username}.{clustername}.credentials.postgresql.acid.zalan.do
