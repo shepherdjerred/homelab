@@ -3,15 +3,5 @@
   "compilerOptions": {
     "jsx": "react-jsx"
     // Note: verbatimModuleSyntax disabled because of cdk8s generation
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "scripts/**/*.ts", "*.ts"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "../../node_modules/**",
-    "../../eslint.config.ts",
-    "../../*.ts",
-    "../ha/**",
-    "../helm-types/**"
-  ]
+  }
 }

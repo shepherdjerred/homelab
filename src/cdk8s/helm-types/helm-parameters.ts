@@ -12,6 +12,7 @@ import type { PostgresoperatorHelmValues } from "./helm/postgres-operator.types"
 import type { PromtailHelmValues } from "./helm/promtail.types";
 import type { TailscaleoperatorHelmValues } from "./helm/tailscale-operator.types";
 import type { VeleroHelmValues } from "./helm/velero.types";
+import type { CoderHelmValues } from "./helm/coder.types";
 
 type HelmChartValuesMap = {
   "argo-cd": ArgocdHelmValues;
@@ -28,6 +29,7 @@ type HelmChartValuesMap = {
   promtail: PromtailHelmValues;
   "tailscale-operator": TailscaleoperatorHelmValues;
   velero: VeleroHelmValues;
+  coder: CoderHelmValues;
 };
 
 export type HelmValuesForChart<TChart extends keyof HelmChartValuesMap> = HelmChartValuesMap[TChart];

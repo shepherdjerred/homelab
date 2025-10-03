@@ -21,6 +21,7 @@ import { createActionsRunnerControllerApp } from "../apps/actions-runner-control
 import { createDaggerApp } from "../apps/dagger.ts";
 import { createVeleroApp } from "../apps/velero.ts";
 import { createPostgresOperatorApp } from "../apps/postgres-operator.ts";
+import { createCoderApp } from "../apps/coder.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -69,4 +70,5 @@ export async function createAppsChart(app: App) {
   createDaggerApp(chart);
   createVeleroApp(chart);
   createPostgresOperatorApp(chart);
+  createCoderApp(chart);
 }

@@ -2,15 +2,5 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx"
-  },
-  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.tsx", "*.ts", "*.tsx"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "../../node_modules/**",
-    "../../eslint.config.ts",
-    "../../*.ts",
-    "../cdk8s/**",
-    "../helm-types/**"
-  ]
+  }
 }

@@ -94,6 +94,8 @@ const versions = {
   "siderolabs/talos": "1.10.5",
   // renovate: datasource=helm registryUrl=https://opensource.zalando.com/postgres-operator/charts/postgres-operator versioning=semver
   "postgres-operator": "1.14.0",
+  // renovate: datasource=helm registryUrl=https://helm.coder.com/v2 versioning=semver
+  coder: "2.26.0",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];
