@@ -43,18 +43,18 @@
     ".github/workflows/*.{yml,yaml}": "actionlint",
     "src/ha/**/*.{ts,tsx}": [
       "bash -c 'cd src/ha && bun run typecheck'",
-      "bash -c 'cd src/ha && bunx eslint --fix'"
+      "bash -c 'cd src/ha && bunx eslint --cache --fix'"
     ],
     "src/cdk8s/**/*.{ts,tsx}": [
-      "bash -c 'cd src/cdk8s && bunx eslint --fix'",
+      "bash -c 'cd src/cdk8s && bunx eslint --cache --fix'",
       "bash -c 'cd src/cdk8s && bun run typecheck'"
     ],
     ".dagger/**/*.{ts,tsx}": [
-      "bash -c 'cd .dagger && bunx eslint --fix'",
+      "bash -c 'cd .dagger && bunx eslint --cache --fix'",
       "bash -c 'cd .dagger && bun run typecheck'"
     ],
     "src/helm-types/**/*.{ts,tsx}": [
-      "bash -c 'cd src/helm-types && bunx eslint --fix'",
+      "bash -c 'cd src/helm-types && bunx eslint --cache --fix'",
       "bash -c 'cd src/helm-types && bun run typecheck'"
     ]
   }

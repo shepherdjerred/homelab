@@ -30,7 +30,9 @@
     "noEmitOnError": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "noErrorTruncation": true
+    "noErrorTruncation": true,
+    // Performance - enable incremental compilation
+    "incremental": true
   },
   "exclude": ["node_modules", "dist", "**/node_modules", "**/dist"]
 }

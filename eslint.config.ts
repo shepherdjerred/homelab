@@ -2,6 +2,7 @@ import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
 
+// Note: ESLint caching is enabled via --cache CLI flag in package.json scripts
 export default defineConfig(
   eslint.configs.recommended,
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
