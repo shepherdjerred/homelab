@@ -2,7 +2,6 @@ import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { Namespace } from "cdk8s-plus-31";
 import { ServiceMonitor } from "../../imports/monitoring.coreos.com.ts";
-import { IntOrString, KubeService } from "../../imports/k8s.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
 import { createCoderPostgreSQLDatabase } from "../services/postgres/coder-db.ts";
@@ -27,9 +26,6 @@ export function createCoderApp(chart: Chart) {
   // For our setup: coder.coder-postgresql.credentials.postgresql.acid.zalan.do
   // The secret contains keys: username, password, dbname
 
-  // TODO: Generate Coder Helm types by running: bun run helm-types
-  // Then add coder types to helm-parameters.ts
-  //
   // Note: The Zalando postgres-operator does not provide a connection URL in its secrets,
   // only username, password, and dbname fields. We use an init container to build the URL
   // from these components and write it to a shared volume that Coder reads on startup.
@@ -122,31 +118,6 @@ export function createCoderApp(chart: Chart) {
       },
     },
   };
-
-  // Create headless service for Prometheus metrics
-  // This is required for the ServiceMonitor to discover the Coder pods
-  new KubeService(chart, "coder-prom-service", {
-    metadata: {
-      name: "coder-prom",
-      namespace: "coder",
-    },
-    spec: {
-      clusterIp: "None", // Headless service
-      ports: [
-        {
-          name: "prom-http",
-          port: 2112,
-          protocol: "TCP",
-          targetPort: IntOrString.fromNumber(2112),
-        },
-      ],
-      selector: {
-        "app.kubernetes.io/instance": "coder",
-        "app.kubernetes.io/name": "coder",
-      },
-      type: "ClusterIP",
-    },
-  });
 
   // Create ServiceMonitor for Prometheus to scrape Coder metrics
   new ServiceMonitor(chart, "coder-service-monitor", {

@@ -176,7 +176,7 @@ export function createVeleroApp(chart: Chart) {
           config: {
             region: "auto", // Cloudflare R2 uses "auto" region
             s3Url: "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
-            Prefix: "torvalds/backups/",
+            prefix: "torvalds/backups/",
           },
         },
       ],
@@ -186,7 +186,6 @@ export function createVeleroApp(chart: Chart) {
           provider: "openebs.io/zfspv-blockstore",
           config: {
             bucket: "homelab",
-            prefix: "zfs",
             incrBackupCount: "15", // number of incremental backups we want to have
             fullBackupPrefix: "zfspv-full",
             backupPathPrefix: "zfspv-incr",
@@ -194,7 +193,7 @@ export function createVeleroApp(chart: Chart) {
             provider: "aws",
             region: "auto",
             s3Url: "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
-            Prefix: "torvalds/zfs/",
+            prefix: "torvalds/zfs/",
           },
         },
       ],
