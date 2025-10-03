@@ -173,10 +173,10 @@ export function createVeleroApp(chart: Chart) {
           bucket: "homelab",
           default: true,
           provider: "aws",
+          prefix: "torvalds/backups/",
           config: {
             region: "auto", // Cloudflare R2 uses "auto" region
             s3Url: "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
-            prefix: "torvalds/backups/",
           },
         },
       ],
