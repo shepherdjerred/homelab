@@ -40,6 +40,7 @@
   "lint-staged": {
     "*": "bunx prettier --ignore-unknown --write",
     "*.md": "bunx markdownlint-cli2 --fix",
+    ".github/workflows/*.{yml,yaml}": "actionlint",
     "src/ha/**/*.{ts,tsx}": [
       "bash -c 'cd src/ha && bun run typecheck'",
       "bash -c 'cd src/ha && bunx eslint --fix'"
