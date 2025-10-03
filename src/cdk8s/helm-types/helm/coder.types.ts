@@ -30,6 +30,8 @@ export type CoderHelmValuesCoder = {
   service?: CoderHelmValuesCoderService;
   ingress?: CoderHelmValuesCoderIngress;
   command?: string[];
+  // manually added
+  args?: string[];
   commandArgs?: unknown[];
 };
 

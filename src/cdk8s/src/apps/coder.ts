@@ -27,27 +27,73 @@ export function createCoderApp(chart: Chart) {
 
   // TODO: Generate Coder Helm types by running: bun run helm-types
   // Then add coder types to helm-parameters.ts
+  //
+  // Note: The Zalando postgres-operator does not provide a connection URL in its secrets,
+  // only username, password, and dbname fields. We use an init container to build the URL
+  // from these components and write it to a shared volume that Coder reads on startup.
   const coderValues: HelmValuesForChart<"coder"> = {
     coder: {
-      env: [
+      // Init container to build the PostgreSQL connection URL from postgres-operator secret
+      initContainers: [
         {
-          name: "CODER_PG_CONNECTION_URL",
-          // Build the connection string using init container or use the direct secret approach
-          // Format: postgres://username:password@host:port/database?sslmode=disable
-          value: "postgres://coder:$(POSTGRES_PASSWORD)@coder-postgresql:5432/coder?sslmode=disable",
-        },
-        {
-          name: "POSTGRES_PASSWORD",
-          valueFrom: {
-            secretKeyRef: {
-              name: "coder.coder-postgresql.credentials.postgresql.acid.zalan.do",
-              key: "password",
+          name: "build-db-url",
+          image: "busybox:latest",
+          command: ["/bin/sh", "-c"],
+          args: [
+            `
+            USER=$(cat /pg-secret/username)
+            PASS=$(cat /pg-secret/password)
+            DB=$(cat /pg-secret/dbname)
+            echo "postgres://$USER:$PASS@coder-postgresql:5432/$DB?sslmode=disable" > /db-url/url
+            echo "Database URL built successfully"
+            `,
+          ],
+          volumeMounts: [
+            {
+              name: "pg-secret",
+              mountPath: "/pg-secret",
+              readOnly: true,
             },
+            {
+              name: "db-url",
+              mountPath: "/db-url",
+            },
+          ],
+        },
+      ],
+      // Mount the postgres-operator secret and shared volume for the URL
+      volumes: [
+        {
+          name: "pg-secret",
+          secret: {
+            secretName: "coder.coder-postgresql.credentials.postgresql.acid.zalan.do",
           },
         },
         {
+          name: "db-url",
+          emptyDir: {},
+        },
+      ],
+      // Additional volume mounts for main container to read the built URL
+      volumeMounts: [
+        {
+          name: "db-url",
+          mountPath: "/db-url",
+          readOnly: true,
+        },
+      ],
+      // Override the command to read DB URL from file before starting Coder
+      command: ["/bin/sh", "-c"],
+      args: [
+        `
+        export CODER_PG_CONNECTION_URL=$(cat /db-url/url)
+        exec /opt/coder server
+        `,
+      ],
+      env: [
+        {
           name: "CODER_ACCESS_URL",
-          value: "https://coder.tail6831a.ts.net",
+          value: "https://coder.tailnet-1a49.ts.net",
         },
         // Enable GitHub OAuth with allow signups
         {
