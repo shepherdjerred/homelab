@@ -1,7 +1,7 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { Namespace } from "cdk8s-plus-31";
-import { ServiceMonitor } from "../../imports/monitoring.coreos.com.ts";
+import { PodMonitor } from "../../imports/monitoring.coreos.com.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
 import { createCoderPostgreSQLDatabase } from "../services/postgres/coder-db.ts";
@@ -119,19 +119,19 @@ export function createCoderApp(chart: Chart) {
     },
   };
 
-  // Create ServiceMonitor for Prometheus to scrape Coder metrics
-  new ServiceMonitor(chart, "coder-service-monitor", {
+  // Create PodMonitor for Prometheus to scrape Coder metrics directly from pods
+  new PodMonitor(chart, "coder-pod-monitor", {
     metadata: {
-      name: "coder-service-monitor",
+      name: "coder-pod-monitor",
       namespace: "coder",
       labels: {
         release: "prometheus", // This label is required for the Prometheus operator to discover it
       },
     },
     spec: {
-      endpoints: [
+      podMetricsEndpoints: [
         {
-          port: "prom-http",
+          port: "prometheus-http", // Port name from the pod container
           interval: "10s",
           scrapeTimeout: "10s",
         },
@@ -139,8 +139,11 @@ export function createCoderApp(chart: Chart) {
       namespaceSelector: {
         matchNames: ["coder"],
       },
-      // Empty selector matches all services in the namespace with the specified port
-      selector: {},
+      selector: {
+        matchLabels: {
+          "app.kubernetes.io/name": "coder",
+        },
+      },
     },
   });
 
