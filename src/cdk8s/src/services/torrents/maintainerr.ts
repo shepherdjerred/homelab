@@ -1,9 +1,6 @@
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
-import {
-  LINUXSERVER_GID,
-  withCommonLinuxServerProps,
-} from "../../utils/linuxserver.ts";
+import { LINUXSERVER_GID, withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
 import { TailscaleIngress } from "../../utils/tailscale.ts";
 import versions from "../../versions.ts";
@@ -28,11 +25,7 @@ export function createMaintainerrDeployment(chart: Chart) {
       volumeMounts: [
         {
           path: "/opt/data",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "maintainerr-volume",
-            localPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "maintainerr-volume", localPathVolume.claim),
         },
       ],
     }),

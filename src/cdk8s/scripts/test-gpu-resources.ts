@@ -13,9 +13,7 @@ function testGpuResources() {
   console.log("🧪 Testing Intel GPU resource allocation...");
 
   if (!existsSync(YAML_FILE)) {
-    console.error(
-      `❌ File ${YAML_FILE} does not exist. Run 'bun run build' first.`,
-    );
+    console.error(`❌ File ${YAML_FILE} does not exist. Run 'bun run build' first.`);
     exit(1);
   }
 
@@ -42,9 +40,7 @@ function testGpuResources() {
       const lineNumber = content.substring(0, match.index).split("\n").length;
 
       if (value === EXPECTED_VALUE.toString()) {
-        console.log(
-          `✅ Line ${lineNumber.toString()}: gpu.intel.com/i915: ${value} (correct)`,
-        );
+        console.log(`✅ Line ${lineNumber.toString()}: gpu.intel.com/i915: ${value} (correct)`);
         successes++;
       } else {
         console.error(
@@ -57,22 +53,15 @@ function testGpuResources() {
 
   // Check for specific services
   for (const service of GPU_SERVICES) {
-    const servicePattern = new RegExp(
-      `name: torvalds-${service}[\\s\\S]*?gpu\\.intel\\.com\\/i915:\\s*(.+?)`,
-      "g",
-    );
+    const servicePattern = new RegExp(`name: torvalds-${service}[\\s\\S]*?gpu\\.intel\\.com\\/i915:\\s*(.+?)`, "g");
     const serviceMatch = servicePattern.exec(content);
 
     if (serviceMatch?.[1]) {
       const value = serviceMatch[1].trim();
       if (value === EXPECTED_VALUE.toString()) {
-        console.log(
-          `✅ Service ${service}: Intel GPU correctly set to ${value}`,
-        );
+        console.log(`✅ Service ${service}: Intel GPU correctly set to ${value}`);
       } else {
-        console.error(
-          `❌ Service ${service}: Intel GPU incorrectly set to ${value}`,
-        );
+        console.error(`❌ Service ${service}: Intel GPU incorrectly set to ${value}`);
         errors++;
       }
     } else {
@@ -92,16 +81,12 @@ function testGpuResources() {
   for (const pattern of problematicPatterns) {
     const matches = [...content.matchAll(pattern)];
     if (matches.length > 0) {
-      console.error(
-        `❌ Found ${matches.length.toString()} problematic pattern(s): ${pattern.source}`,
-      );
+      console.error(`❌ Found ${matches.length.toString()} problematic pattern(s): ${pattern.source}`);
       errors++;
     }
   }
 
-  console.log(
-    `\n📈 Results: ${successes.toString()} successes, ${errors.toString()} errors`,
-  );
+  console.log(`\n📈 Results: ${successes.toString()} successes, ${errors.toString()} errors`);
 
   if (errors > 0) {
     console.error("❌ GPU resource test failed!");

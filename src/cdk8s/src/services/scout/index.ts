@@ -1,11 +1,4 @@
-import {
-  Deployment,
-  DeploymentStrategy,
-  EnvValue,
-  Protocol,
-  Secret,
-  Volume,
-} from "cdk8s-plus-31";
+import { Deployment, DeploymentStrategy, EnvValue, Protocol, Secret, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
@@ -23,9 +16,7 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
   const { path, image, applicationId, s3BucketName } = match(stage)
     .with("beta", () => {
       return {
-        image: `ghcr.io/shepherdjerred/scout-for-lol:${
-          versions["shepherdjerred/scout-for-lol/beta"]
-        }`,
+        image: `ghcr.io/shepherdjerred/scout-for-lol:${versions["shepherdjerred/scout-for-lol/beta"]}`,
         path: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/rtu44pohnp5ixdp2njuv5f6t2e",
         applicationId: "1311755320745394317",
         s3BucketName: "scout-beta",
@@ -33,9 +24,7 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
     })
     .with("prod", () => {
       return {
-        image: `ghcr.io/shepherdjerred/scout-for-lol:${
-          versions["shepherdjerred/scout-for-lol/prod"]
-        }`,
+        image: `ghcr.io/shepherdjerred/scout-for-lol:${versions["shepherdjerred/scout-for-lol/prod"]}`,
         path: "",
         applicationId: "1182800769188110366",
         s3BucketName: "scout-prod",
@@ -70,49 +59,27 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
       volumeMounts: [
         {
           path: "/data",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "scout-volume",
-            localPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "scout-volume", localPathVolume.claim),
         },
       ],
       envVariables: {
         APPLICATION_ID: EnvValue.fromValue(applicationId),
         AWS_ACCESS_KEY_ID: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(
-            chart,
-            "aws-access-key-id",
-            onePasswordItem.name,
-          ),
+          secret: Secret.fromSecretName(chart, "aws-access-key-id", onePasswordItem.name),
           key: "r2-access-key-id",
         }),
         AWS_SECRET_ACCESS_KEY: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(
-            chart,
-            "aws-access-key-secret",
-            onePasswordItem.name,
-          ),
+          secret: Secret.fromSecretName(chart, "aws-access-key-secret", onePasswordItem.name),
           key: "r2-secret-access-key",
         }),
-        AWS_ENDPOINT_URL: EnvValue.fromValue(
-          "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
-        ),
+        AWS_ENDPOINT_URL: EnvValue.fromValue("https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com"),
         AWS_REGION: EnvValue.fromValue("auto"),
         DISCORD_TOKEN: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(
-            chart,
-            "discord-token-secret",
-            onePasswordItem.name,
-          ),
+          secret: Secret.fromSecretName(chart, "discord-token-secret", onePasswordItem.name),
           key: "discord-api-token",
         }),
         RIOT_API_TOKEN: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(
-            chart,
-            "riot-api-key-secret",
-            onePasswordItem.name,
-          ),
+          secret: Secret.fromSecretName(chart, "riot-api-key-secret", onePasswordItem.name),
           key: "riot-api-key",
         }),
         S3_BUCKET_NAME: EnvValue.fromValue(s3BucketName),

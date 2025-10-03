@@ -80,9 +80,7 @@ export interface VolumeSnapshotProps {
  * Converts an object of type 'VolumeSnapshotProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_VolumeSnapshotProps(
-  obj: VolumeSnapshotProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_VolumeSnapshotProps(obj: VolumeSnapshotProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -91,10 +89,7 @@ export function toJson_VolumeSnapshotProps(
     spec: toJson_VolumeSnapshotSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -134,9 +129,7 @@ export interface VolumeSnapshotSpec {
  * Converts an object of type 'VolumeSnapshotSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_VolumeSnapshotSpec(
-  obj: VolumeSnapshotSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_VolumeSnapshotSpec(obj: VolumeSnapshotSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -145,10 +138,7 @@ export function toJson_VolumeSnapshotSpec(
     volumeSnapshotClassName: obj.volumeSnapshotClassName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -188,10 +178,7 @@ export function toJson_VolumeSnapshotSpecSource(
     volumeSnapshotContentName: obj.volumeSnapshotContentName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -229,11 +216,7 @@ export class VolumeSnapshotV1Beta1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: VolumeSnapshotV1Beta1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: VolumeSnapshotV1Beta1Props) {
     super(scope, id, {
       ...VolumeSnapshotV1Beta1.GVK,
       ...props,
@@ -290,10 +273,7 @@ export function toJson_VolumeSnapshotV1Beta1Props(
     spec: toJson_VolumeSnapshotV1Beta1Spec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -347,10 +327,7 @@ export function toJson_VolumeSnapshotV1Beta1Spec(
     volumeSnapshotClassName: obj.volumeSnapshotClassName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -390,10 +367,7 @@ export function toJson_VolumeSnapshotV1Beta1SpecSource(
     volumeSnapshotContentName: obj.volumeSnapshotContentName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -431,11 +405,7 @@ export class VolumeSnapshotClass extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: VolumeSnapshotClassProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: VolumeSnapshotClassProps) {
     super(scope, id, {
       ...VolumeSnapshotClass.GVK,
       ...props,
@@ -505,16 +475,10 @@ export function toJson_VolumeSnapshotClassProps(
     parameters:
       obj.parameters === undefined
         ? undefined
-        : Object.entries(obj.parameters).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.parameters).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -564,11 +528,7 @@ export class VolumeSnapshotClassV1Beta1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: VolumeSnapshotClassV1Beta1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: VolumeSnapshotClassV1Beta1Props) {
     super(scope, id, {
       ...VolumeSnapshotClassV1Beta1.GVK,
       ...props,
@@ -638,16 +598,10 @@ export function toJson_VolumeSnapshotClassV1Beta1Props(
     parameters:
       obj.parameters === undefined
         ? undefined
-        : Object.entries(obj.parameters).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.parameters).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -697,11 +651,7 @@ export class VolumeSnapshotContent extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: VolumeSnapshotContentProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: VolumeSnapshotContentProps) {
     super(scope, id, {
       ...VolumeSnapshotContent.GVK,
       ...props,
@@ -755,10 +705,7 @@ export function toJson_VolumeSnapshotContentProps(
     spec: toJson_VolumeSnapshotContentSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -827,15 +774,10 @@ export function toJson_VolumeSnapshotContentSpec(
     source: toJson_VolumeSnapshotContentSpecSource(obj.source),
     sourceVolumeMode: obj.sourceVolumeMode,
     volumeSnapshotClassName: obj.volumeSnapshotClassName,
-    volumeSnapshotRef: toJson_VolumeSnapshotContentSpecVolumeSnapshotRef(
-      obj.volumeSnapshotRef,
-    ),
+    volumeSnapshotRef: toJson_VolumeSnapshotContentSpecVolumeSnapshotRef(obj.volumeSnapshotRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -887,10 +829,7 @@ export function toJson_VolumeSnapshotContentSpecSource(
     volumeHandle: obj.volumeHandle,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -983,10 +922,7 @@ export function toJson_VolumeSnapshotContentSpecVolumeSnapshotRef(
     uid: obj.uid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1024,11 +960,7 @@ export class VolumeSnapshotContentV1Beta1 extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: VolumeSnapshotContentV1Beta1Props,
-  ) {
+  public constructor(scope: Construct, id: string, props: VolumeSnapshotContentV1Beta1Props) {
     super(scope, id, {
       ...VolumeSnapshotContentV1Beta1.GVK,
       ...props,
@@ -1082,10 +1014,7 @@ export function toJson_VolumeSnapshotContentV1Beta1Props(
     spec: toJson_VolumeSnapshotContentV1Beta1Spec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1146,15 +1075,10 @@ export function toJson_VolumeSnapshotContentV1Beta1Spec(
     driver: obj.driver,
     source: toJson_VolumeSnapshotContentV1Beta1SpecSource(obj.source),
     volumeSnapshotClassName: obj.volumeSnapshotClassName,
-    volumeSnapshotRef: toJson_VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef(
-      obj.volumeSnapshotRef,
-    ),
+    volumeSnapshotRef: toJson_VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef(obj.volumeSnapshotRef),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1206,10 +1130,7 @@ export function toJson_VolumeSnapshotContentV1Beta1SpecSource(
     volumeHandle: obj.volumeHandle,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1302,9 +1223,6 @@ export function toJson_VolumeSnapshotContentV1Beta1SpecVolumeSnapshotRef(
     uid: obj.uid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */

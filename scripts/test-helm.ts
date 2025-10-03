@@ -35,9 +35,7 @@ async function testHelmChart(): Promise<void> {
     const entries = readdirSync(".");
     const directories = entries.filter((entry) => {
       const stat = statSync(entry);
-      return (
-        stat.isDirectory() && entry !== "node_modules" && !entry.startsWith(".")
-      );
+      return stat.isDirectory() && entry !== "node_modules" && !entry.startsWith(".");
     });
 
     if (directories.length === 0) {
@@ -65,9 +63,7 @@ async function testHelmChart(): Promise<void> {
     }
 
     const templatesDir = "templates";
-    const templateFiles = readdirSync(templatesDir).filter(
-      (file) => file.endsWith(".yaml") || file.endsWith(".yml"),
-    );
+    const templateFiles = readdirSync(templatesDir).filter((file) => file.endsWith(".yaml") || file.endsWith(".yml"));
     const templateCount = templateFiles.length;
     console.log(`✅ Found ${templateCount} template files`);
 

@@ -29,26 +29,30 @@ export function getMiseRuntimeContainer(platform?: Platform): Container {
 /**
  * Creates a workspace-specific container with dependencies installed.
  * Uses Docker layer caching: copy dependency files -> install -> copy source.
- * @param source The source directory
- * @param workspacePath The path to the workspace (e.g., "src/ha", "src/cdk8s")
+ * @param repoRoot The repository root directory (must contain package.json, bun.lock, etc.)
+ * @param workspacePath The path to the workspace relative to repo root (e.g., "src/ha", "src/cdk8s")
  * @param platform Optional platform specification
  * @returns A configured container with workspace dependencies installed
  */
-export function getWorkspaceContainer(source: Directory, workspacePath: string, platform?: Platform): Container {
-  const workspaceSource = source.directory(workspacePath);
+export function getWorkspaceContainer(repoRoot: Directory, workspacePath: string, platform?: Platform): Container {
+  const workspaceSource = repoRoot.directory(workspacePath);
 
   const container = getMiseRuntimeContainer(platform)
     .withWorkdir("/workspace")
     // Copy root package.json and bun.lock for proper dependency resolution
-    .withFile("package.json", source.file("package.json"))
-    .withFile("bun.lock", source.file("bun.lock"))
+    .withFile("package.json", repoRoot.file("package.json"))
+    .withFile("bun.lock", repoRoot.file("bun.lock"))
     // Copy root eslint config (workspace configs import from it)
-    .withFile("eslint.config.ts", source.file("eslint.config.ts"))
+    .withFile("eslint.config.ts", repoRoot.file("eslint.config.ts"))
+    // Copy root prettier config (workspaces inherit from it)
+    .withFile(".prettierrc", repoRoot.file(".prettierrc"))
+    // Copy root TypeScript config (workspace configs extend from it)
+    .withFile("tsconfig.base.json", repoRoot.file("tsconfig.base.json"))
     // Copy all workspace package.json files for proper monorepo dependency resolution
-    .withFile("src/ha/package.json", source.file("src/ha/package.json"))
-    .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
-    .withFile("src/helm-types/package.json", source.file("src/helm-types/package.json"))
-    .withFile(".dagger/package.json", source.file(".dagger/package.json"));
+    .withFile("src/ha/package.json", repoRoot.file("src/ha/package.json"))
+    .withFile("src/cdk8s/package.json", repoRoot.file("src/cdk8s/package.json"))
+    .withFile("src/helm-types/package.json", repoRoot.file("src/helm-types/package.json"))
+    .withFile(".dagger/package.json", repoRoot.file(".dagger/package.json"));
 
   return (
     container

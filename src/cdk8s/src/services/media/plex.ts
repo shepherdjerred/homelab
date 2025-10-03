@@ -118,38 +118,21 @@ export function createPlexDeployment(
       volumeMounts: [
         {
           path: "/config",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "plex-volume",
-            localPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "plex-volume", localPathVolume.claim),
         },
         {
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "plex-tv-hdd-volume",
-            claims.tv,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "plex-tv-hdd-volume", claims.tv),
           path: "/data/tv",
         },
         {
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "plex-movies-hdd-volume",
-            claims.movies,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "plex-movies-hdd-volume", claims.movies),
           path: "/data/movies",
         },
         {
-          volume: Volume.fromEmptyDir(
-            chart,
-            "plex-shm-mount",
-            "plex-shm-mount",
-            {
-              medium: EmptyDirMedium.MEMORY,
-              sizeLimit: Size.gibibytes(8),
-            },
-          ),
+          volume: Volume.fromEmptyDir(chart, "plex-shm-mount", "plex-shm-mount", {
+            medium: EmptyDirMedium.MEMORY,
+            sizeLimit: Size.gibibytes(8),
+          }),
           path: "/transcode",
         },
       ],

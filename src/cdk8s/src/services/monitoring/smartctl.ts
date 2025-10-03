@@ -80,45 +80,26 @@ export async function createSmartctlMonitoring(chart: Chart) {
   });
 
   // Mount the script from ConfigMap
-  const scriptVolume = Volume.fromConfigMap(
-    chart,
-    "script-volume",
-    smartmonScript,
-  );
+  const scriptVolume = Volume.fromConfigMap(chart, "script-volume", smartmonScript);
   smartctlDaemonSet.addVolume(scriptVolume);
   container.mount("/scripts", scriptVolume);
 
   // Mount host directories
-  const hostDevVolume = Volume.fromHostPath(
-    chart,
-    "smartctl-host-dev",
-    "smartctl-host-dev",
-    {
-      path: "/dev",
-    },
-  );
+  const hostDevVolume = Volume.fromHostPath(chart, "smartctl-host-dev", "smartctl-host-dev", {
+    path: "/dev",
+  });
   smartctlDaemonSet.addVolume(hostDevVolume);
   container.mount("/dev", hostDevVolume);
 
-  const hostProcVolume = Volume.fromHostPath(
-    chart,
-    "smartctl-host-proc",
-    "smartctl-host-proc",
-    {
-      path: "/proc",
-    },
-  );
+  const hostProcVolume = Volume.fromHostPath(chart, "smartctl-host-proc", "smartctl-host-proc", {
+    path: "/proc",
+  });
   smartctlDaemonSet.addVolume(hostProcVolume);
   container.mount("/host/proc", hostProcVolume, { readOnly: true });
 
-  const hostSysVolume = Volume.fromHostPath(
-    chart,
-    "smartctl-host-sys",
-    "smartctl-host-sys",
-    {
-      path: "/sys",
-    },
-  );
+  const hostSysVolume = Volume.fromHostPath(chart, "smartctl-host-sys", "smartctl-host-sys", {
+    path: "/sys",
+  });
   smartctlDaemonSet.addVolume(hostSysVolume);
   container.mount("/host/sys", hostSysVolume, { readOnly: true });
 
@@ -132,10 +113,7 @@ export async function createSmartctlMonitoring(chart: Chart) {
     },
   );
   smartctlDaemonSet.addVolume(textfileCollectorVolume);
-  container.mount(
-    "/host/var/lib/node_exporter/textfile_collector",
-    textfileCollectorVolume,
-  );
+  container.mount("/host/var/lib/node_exporter/textfile_collector", textfileCollectorVolume);
 
   return { serviceAccount, smartmonScript, smartctlDaemonSet };
 }

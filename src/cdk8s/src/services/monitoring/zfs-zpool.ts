@@ -12,16 +12,12 @@ export async function createZfsZpoolMonitoring(chart: Chart) {
   const scriptContent = await Bun.file(scriptPath).text();
 
   // Create ServiceAccount for the DaemonSet
-  const serviceAccount = new ServiceAccount(
-    chart,
-    "zfs-zpool-service-account",
-    {
-      metadata: {
-        name: "zfs-zpool-service-account",
-        namespace: "prometheus",
-      },
+  const serviceAccount = new ServiceAccount(chart, "zfs-zpool-service-account", {
+    metadata: {
+      name: "zfs-zpool-service-account",
+      namespace: "prometheus",
     },
-  );
+  });
 
   // Create ConfigMap with the zfs_zpool.sh script
   const zfsZpoolScript = new ConfigMap(chart, "zfs-zpool-script", {
@@ -89,47 +85,28 @@ export async function createZfsZpoolMonitoring(chart: Chart) {
   });
 
   // Mount the script from ConfigMap
-  const scriptVolume = Volume.fromConfigMap(
-    chart,
-    "zfs-zpool-script-volume",
-    zfsZpoolScript,
-  );
+  const scriptVolume = Volume.fromConfigMap(chart, "zfs-zpool-script-volume", zfsZpoolScript);
   zfsZpoolDaemonSet.addVolume(scriptVolume);
   container.mount("/scripts", scriptVolume);
 
   // Mount host /dev directory for ZFS device access
-  const hostDevVolume = Volume.fromHostPath(
-    chart,
-    "zfs-zpool-host-dev",
-    "zfs-zpool-host-dev",
-    {
-      path: "/dev",
-    },
-  );
+  const hostDevVolume = Volume.fromHostPath(chart, "zfs-zpool-host-dev", "zfs-zpool-host-dev", {
+    path: "/dev",
+  });
   zfsZpoolDaemonSet.addVolume(hostDevVolume);
   container.mount("/dev", hostDevVolume);
 
   // Mount host /proc directory for ZFS
-  const hostProcVolume = Volume.fromHostPath(
-    chart,
-    "zfs-zpool-host-proc",
-    "zfs-zpool-host-proc",
-    {
-      path: "/proc",
-    },
-  );
+  const hostProcVolume = Volume.fromHostPath(chart, "zfs-zpool-host-proc", "zfs-zpool-host-proc", {
+    path: "/proc",
+  });
   zfsZpoolDaemonSet.addVolume(hostProcVolume);
   container.mount("/host/proc", hostProcVolume, { readOnly: true });
 
   // Mount host /sys directory for ZFS
-  const hostSysVolume = Volume.fromHostPath(
-    chart,
-    "zfs-zpool-host-sys",
-    "zfs-zpool-host-sys",
-    {
-      path: "/sys",
-    },
-  );
+  const hostSysVolume = Volume.fromHostPath(chart, "zfs-zpool-host-sys", "zfs-zpool-host-sys", {
+    path: "/sys",
+  });
   zfsZpoolDaemonSet.addVolume(hostSysVolume);
   container.mount("/host/sys", hostSysVolume, { readOnly: true });
 
@@ -143,10 +120,7 @@ export async function createZfsZpoolMonitoring(chart: Chart) {
     },
   );
   zfsZpoolDaemonSet.addVolume(textfileCollectorVolume);
-  container.mount(
-    "/host/var/lib/node_exporter/textfile_collector",
-    textfileCollectorVolume,
-  );
+  container.mount("/host/var/lib/node_exporter/textfile_collector", textfileCollectorVolume);
 
   return { serviceAccount, zfsZpoolScript, zfsZpoolDaemonSet };
 }

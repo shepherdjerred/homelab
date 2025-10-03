@@ -37,11 +37,7 @@ export class OperatorConfiguration extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: OperatorConfigurationProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: OperatorConfigurationProps) {
     super(scope, id, {
       ...OperatorConfiguration.GVK,
       ...props,
@@ -91,10 +87,7 @@ export function toJson_OperatorConfigurationProps(
     configuration: toJson_OperatorConfigurationConfiguration(obj.configuration),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -291,10 +284,7 @@ export function toJson_OperatorConfigurationConfiguration(
   }
   const result = {
     aws_or_gcp: toJson_OperatorConfigurationConfigurationAwsOrGcp(obj.awsOrGcp),
-    connection_pooler:
-      toJson_OperatorConfigurationConfigurationConnectionPooler(
-        obj.connectionPooler,
-      ),
+    connection_pooler: toJson_OperatorConfigurationConfigurationConnectionPooler(obj.connectionPooler),
     crd_categories: obj.crdCategories?.map((y) => y),
     debug: toJson_OperatorConfigurationConfigurationDebug(obj.debug),
     docker_image: obj.dockerImage,
@@ -306,32 +296,17 @@ export function toJson_OperatorConfigurationConfiguration(
     enable_spilo_wal_path_compat: obj.enableSpiloWalPathCompat,
     enable_team_id_clustername_prefix: obj.enableTeamIdClusternamePrefix,
     etcd_host: obj.etcdHost,
-    ignore_instance_limits_annotation_key:
-      obj.ignoreInstanceLimitsAnnotationKey,
-    kubernetes: toJson_OperatorConfigurationConfigurationKubernetes(
-      obj.kubernetes,
-    ),
+    ignore_instance_limits_annotation_key: obj.ignoreInstanceLimitsAnnotationKey,
+    kubernetes: toJson_OperatorConfigurationConfigurationKubernetes(obj.kubernetes),
     kubernetes_use_configmaps: obj.kubernetesUseConfigmaps,
-    load_balancer: toJson_OperatorConfigurationConfigurationLoadBalancer(
-      obj.loadBalancer,
-    ),
-    logging_rest_api: toJson_OperatorConfigurationConfigurationLoggingRestApi(
-      obj.loggingRestApi,
-    ),
-    logical_backup: toJson_OperatorConfigurationConfigurationLogicalBackup(
-      obj.logicalBackup,
-    ),
-    major_version_upgrade:
-      toJson_OperatorConfigurationConfigurationMajorVersionUpgrade(
-        obj.majorVersionUpgrade,
-      ),
+    load_balancer: toJson_OperatorConfigurationConfigurationLoadBalancer(obj.loadBalancer),
+    logging_rest_api: toJson_OperatorConfigurationConfigurationLoggingRestApi(obj.loggingRestApi),
+    logical_backup: toJson_OperatorConfigurationConfigurationLogicalBackup(obj.logicalBackup),
+    major_version_upgrade: toJson_OperatorConfigurationConfigurationMajorVersionUpgrade(obj.majorVersionUpgrade),
     max_instances: obj.maxInstances,
     min_instances: obj.minInstances,
     patroni: toJson_OperatorConfigurationConfigurationPatroni(obj.patroni),
-    postgres_pod_resources:
-      toJson_OperatorConfigurationConfigurationPostgresPodResources(
-        obj.postgresPodResources,
-      ),
+    postgres_pod_resources: toJson_OperatorConfigurationConfigurationPostgresPodResources(obj.postgresPodResources),
     repair_period: obj.repairPeriod,
     resync_period: obj.resyncPeriod,
     scalyr: toJson_OperatorConfigurationConfigurationScalyr(obj.scalyr),
@@ -350,10 +325,7 @@ export function toJson_OperatorConfigurationConfiguration(
     workers: obj.workers,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -441,10 +413,7 @@ export function toJson_OperatorConfigurationConfigurationAwsOrGcp(
     wal_s3_bucket: obj.walS3Bucket,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -515,25 +484,18 @@ export function toJson_OperatorConfigurationConfigurationConnectionPooler(
   }
   const result = {
     connection_pooler_default_cpu_limit: obj.connectionPoolerDefaultCpuLimit,
-    connection_pooler_default_cpu_request:
-      obj.connectionPoolerDefaultCpuRequest,
-    connection_pooler_default_memory_limit:
-      obj.connectionPoolerDefaultMemoryLimit,
-    connection_pooler_default_memory_request:
-      obj.connectionPoolerDefaultMemoryRequest,
+    connection_pooler_default_cpu_request: obj.connectionPoolerDefaultCpuRequest,
+    connection_pooler_default_memory_limit: obj.connectionPoolerDefaultMemoryLimit,
+    connection_pooler_default_memory_request: obj.connectionPoolerDefaultMemoryRequest,
     connection_pooler_image: obj.connectionPoolerImage,
     connection_pooler_max_db_connections: obj.connectionPoolerMaxDbConnections,
     connection_pooler_mode: obj.connectionPoolerMode,
-    connection_pooler_number_of_instances:
-      obj.connectionPoolerNumberOfInstances,
+    connection_pooler_number_of_instances: obj.connectionPoolerNumberOfInstances,
     connection_pooler_schema: obj.connectionPoolerSchema,
     connection_pooler_user: obj.connectionPoolerUser,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -567,10 +529,7 @@ export function toJson_OperatorConfigurationConfigurationDebug(
     enable_database_access: obj.enableDatabaseAccess,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -850,10 +809,7 @@ export function toJson_OperatorConfigurationConfigurationKubernetes(
     cluster_labels:
       obj.clusterLabels === undefined
         ? undefined
-        : Object.entries(obj.clusterLabels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.clusterLabels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     cluster_name_label: obj.clusterNameLabel,
     custom_pod_annotations:
       obj.customPodAnnotations === undefined
@@ -869,8 +825,7 @@ export function toJson_OperatorConfigurationConfigurationKubernetes(
     enable_finalizers: obj.enableFinalizers,
     enable_init_containers: obj.enableInitContainers,
     enable_owner_references: obj.enableOwnerReferences,
-    enable_persistent_volume_claim_deletion:
-      obj.enablePersistentVolumeClaimDeletion,
+    enable_persistent_volume_claim_deletion: obj.enablePersistentVolumeClaimDeletion,
     enable_pod_antiaffinity: obj.enablePodAntiaffinity,
     enable_pod_disruption_budget: obj.enablePodDisruptionBudget,
     enable_readiness_probe: obj.enableReadinessProbe,
@@ -879,9 +834,7 @@ export function toJson_OperatorConfigurationConfigurationKubernetes(
     ignored_annotations: obj.ignoredAnnotations?.map((y) => y),
     infrastructure_roles_secret_name: obj.infrastructureRolesSecretName,
     infrastructure_roles_secrets: obj.infrastructureRolesSecrets?.map((y) =>
-      toJson_OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets(
-        y,
-      ),
+      toJson_OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets(y),
     ),
     inherited_annotations: obj.inheritedAnnotations?.map((y) => y),
     inherited_labels: obj.inheritedLabels?.map((y) => y),
@@ -901,8 +854,7 @@ export function toJson_OperatorConfigurationConfigurationKubernetes(
       toJson_OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy(
         obj.persistentVolumeClaimRetentionPolicy,
       ),
-    pod_antiaffinity_preferred_during_scheduling:
-      obj.podAntiaffinityPreferredDuringScheduling,
+    pod_antiaffinity_preferred_during_scheduling: obj.podAntiaffinityPreferredDuringScheduling,
     pod_antiaffinity_topology_key: obj.podAntiaffinityTopologyKey,
     pod_environment_configmap: obj.podEnvironmentConfigmap,
     pod_environment_secret: obj.podEnvironmentSecret,
@@ -911,8 +863,7 @@ export function toJson_OperatorConfigurationConfigurationKubernetes(
     pod_role_label: obj.podRoleLabel,
     pod_service_account_definition: obj.podServiceAccountDefinition,
     pod_service_account_name: obj.podServiceAccountName,
-    pod_service_account_role_binding_definition:
-      obj.podServiceAccountRoleBindingDefinition,
+    pod_service_account_role_binding_definition: obj.podServiceAccountRoleBindingDefinition,
     pod_terminate_grace_period: obj.podTerminateGracePeriod,
     secret_name_template: obj.secretNameTemplate,
     share_pgsocket_with_sidecars: obj.sharePgsocketWithSidecars,
@@ -925,17 +876,11 @@ export function toJson_OperatorConfigurationConfigurationKubernetes(
     toleration:
       obj.toleration === undefined
         ? undefined
-        : Object.entries(obj.toleration).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.toleration).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     watched_namespace: obj.watchedNamespace,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1029,10 +974,7 @@ export function toJson_OperatorConfigurationConfigurationLoadBalancer(
     replica_legacy_dns_name_format: obj.replicaLegacyDnsNameFormat,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1072,10 +1014,7 @@ export function toJson_OperatorConfigurationConfigurationLoggingRestApi(
     ring_log_lines: obj.ringLogLines,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1200,19 +1139,14 @@ export function toJson_OperatorConfigurationConfigurationLogicalBackup(
     return undefined;
   }
   const result = {
-    logical_backup_azure_storage_account_key:
-      obj.logicalBackupAzureStorageAccountKey,
-    logical_backup_azure_storage_account_name:
-      obj.logicalBackupAzureStorageAccountName,
-    logical_backup_azure_storage_container:
-      obj.logicalBackupAzureStorageContainer,
+    logical_backup_azure_storage_account_key: obj.logicalBackupAzureStorageAccountKey,
+    logical_backup_azure_storage_account_name: obj.logicalBackupAzureStorageAccountName,
+    logical_backup_azure_storage_container: obj.logicalBackupAzureStorageContainer,
     logical_backup_cpu_limit: obj.logicalBackupCpuLimit,
     logical_backup_cpu_request: obj.logicalBackupCpuRequest,
-    logical_backup_cronjob_environment_secret:
-      obj.logicalBackupCronjobEnvironmentSecret,
+    logical_backup_cronjob_environment_secret: obj.logicalBackupCronjobEnvironmentSecret,
     logical_backup_docker_image: obj.logicalBackupDockerImage,
-    logical_backup_google_application_credentials:
-      obj.logicalBackupGoogleApplicationCredentials,
+    logical_backup_google_application_credentials: obj.logicalBackupGoogleApplicationCredentials,
     logical_backup_job_prefix: obj.logicalBackupJobPrefix,
     logical_backup_memory_limit: obj.logicalBackupMemoryLimit,
     logical_backup_memory_request: obj.logicalBackupMemoryRequest,
@@ -1228,10 +1162,7 @@ export function toJson_OperatorConfigurationConfigurationLogicalBackup(
     logical_backup_schedule: obj.logicalBackupSchedule,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1272,16 +1203,12 @@ export function toJson_OperatorConfigurationConfigurationMajorVersionUpgrade(
   }
   const result = {
     major_version_upgrade_mode: obj.majorVersionUpgradeMode,
-    major_version_upgrade_team_allow_list:
-      obj.majorVersionUpgradeTeamAllowList?.map((y) => y),
+    major_version_upgrade_team_allow_list: obj.majorVersionUpgradeTeamAllowList?.map((y) => y),
     minimal_major_version: obj.minimalMajorVersion,
     target_major_version: obj.targetMajorVersion,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1309,10 +1236,7 @@ export function toJson_OperatorConfigurationConfigurationPatroni(
     enable_patroni_failsafe_mode: obj.enablePatroniFailsafeMode,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1382,10 +1306,7 @@ export function toJson_OperatorConfigurationConfigurationPostgresPodResources(
     min_memory_limit: obj.minMemoryLimit,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1449,10 +1370,7 @@ export function toJson_OperatorConfigurationConfigurationScalyr(
     scalyr_server_url: obj.scalyrServerUrl,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1564,10 +1482,7 @@ export function toJson_OperatorConfigurationConfigurationTeamsApi(
     teams_api_url: obj.teamsApiUrl,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1637,10 +1552,7 @@ export function toJson_OperatorConfigurationConfigurationTimeouts(
     resource_check_timeout: obj.resourceCheckTimeout,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1698,10 +1610,7 @@ export function toJson_OperatorConfigurationConfigurationUsers(
     super_username: obj.superUsername,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1765,9 +1674,7 @@ export interface OperatorConfigurationConfigurationKubernetesInfrastructureRoles
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets(
-  obj:
-    | OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets
-    | undefined,
+  obj: OperatorConfigurationConfigurationKubernetesInfrastructureRolesSecrets | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -1783,10 +1690,7 @@ export function toJson_OperatorConfigurationConfigurationKubernetesInfrastructur
     userkey: obj.userkey,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1820,9 +1724,7 @@ export interface OperatorConfigurationConfigurationKubernetesPersistentVolumeCla
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy(
-  obj:
-    | OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy
-    | undefined,
+  obj: OperatorConfigurationConfigurationKubernetesPersistentVolumeClaimRetentionPolicy | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -1832,10 +1734,7 @@ export function toJson_OperatorConfigurationConfigurationKubernetesPersistentVol
     when_scaled: obj.whenScaled,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1978,9 +1877,7 @@ export interface PostgresqlProps {
  * Converts an object of type 'PostgresqlProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PostgresqlProps(
-  obj: PostgresqlProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_PostgresqlProps(obj: PostgresqlProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1989,10 +1886,7 @@ export function toJson_PostgresqlProps(
     spec: toJson_PostgresqlSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2246,28 +2140,19 @@ export interface PostgresqlSpec {
  * Converts an object of type 'PostgresqlSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PostgresqlSpec(
-  obj: PostgresqlSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_PostgresqlSpec(obj: PostgresqlSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    additionalVolumes: obj.additionalVolumes?.map((y) =>
-      toJson_PostgresqlSpecAdditionalVolumes(y),
-    ),
+    additionalVolumes: obj.additionalVolumes?.map((y) => toJson_PostgresqlSpecAdditionalVolumes(y)),
     allowedSourceRanges: obj.allowedSourceRanges?.map((y) => y),
     clone: toJson_PostgresqlSpecClone(obj.clone),
-    connectionPooler: toJson_PostgresqlSpecConnectionPooler(
-      obj.connectionPooler,
-    ),
+    connectionPooler: toJson_PostgresqlSpecConnectionPooler(obj.connectionPooler),
     databases:
       obj.databases === undefined
         ? undefined
-        : Object.entries(obj.databases).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.databases).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     dockerImage: obj.dockerImage,
     enableConnectionPooler: obj.enableConnectionPooler,
     enableLogicalBackup: obj.enableLogicalBackup,
@@ -2295,10 +2180,7 @@ export function toJson_PostgresqlSpec(
     podAnnotations:
       obj.podAnnotations === undefined
         ? undefined
-        : Object.entries(obj.podAnnotations).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.podAnnotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     podPriorityClassName: obj.podPriorityClassName,
     postgresql: toJson_PostgresqlSpecPostgresql(obj.postgresql),
     preparedDatabases:
@@ -2339,30 +2221,22 @@ export function toJson_PostgresqlSpec(
     streams: obj.streams?.map((y) => toJson_PostgresqlSpecStreams(y)),
     teamId: obj.teamId,
     tls: toJson_PostgresqlSpecTls(obj.tls),
-    tolerations: obj.tolerations?.map((y) =>
-      toJson_PostgresqlSpecTolerations(y),
-    ),
+    tolerations: obj.tolerations?.map((y) => toJson_PostgresqlSpecTolerations(y)),
     useLoadBalancer: obj.useLoadBalancer,
     users:
       obj.users === undefined
         ? undefined
         : Object.entries(obj.users).reduce(
-            (r, i) =>
-              i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) }),
             {},
           ),
     usersIgnoringSecretRotation: obj.usersIgnoringSecretRotation?.map((y) => y),
-    usersWithInPlaceSecretRotation: obj.usersWithInPlaceSecretRotation?.map(
-      (y) => y,
-    ),
+    usersWithInPlaceSecretRotation: obj.usersWithInPlaceSecretRotation?.map((y) => y),
     usersWithSecretRotation: obj.usersWithSecretRotation?.map((y) => y),
     volume: toJson_PostgresqlSpecVolume(obj.volume),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2420,10 +2294,7 @@ export function toJson_PostgresqlSpecAdditionalVolumes(
     volumeSource: obj.volumeSource,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2476,9 +2347,7 @@ export interface PostgresqlSpecClone {
  * Converts an object of type 'PostgresqlSpecClone' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PostgresqlSpecClone(
-  obj: PostgresqlSpecClone | undefined,
-): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecClone(obj: PostgresqlSpecClone | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -2493,10 +2362,7 @@ export function toJson_PostgresqlSpecClone(
     uid: obj.uid,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2560,10 +2426,7 @@ export function toJson_PostgresqlSpecConnectionPooler(
     user: obj.user,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2593,22 +2456,16 @@ export function toJson_PostgresqlSpecNodeAffinity(
     return undefined;
   }
   const result = {
-    preferredDuringSchedulingIgnoredDuringExecution:
-      obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
-        toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-          y,
-        ),
-      ),
+    preferredDuringSchedulingIgnoredDuringExecution: obj.preferredDuringSchedulingIgnoredDuringExecution?.map((y) =>
+      toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(y),
+    ),
     requiredDuringSchedulingIgnoredDuringExecution:
       toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
         obj.requiredDuringSchedulingIgnoredDuringExecution,
       ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2676,9 +2533,7 @@ export interface PostgresqlSpecPatroni {
  * Converts an object of type 'PostgresqlSpecPatroni' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PostgresqlSpecPatroni(
-  obj: PostgresqlSpecPatroni | undefined,
-): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecPatroni(obj: PostgresqlSpecPatroni | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -2687,10 +2542,7 @@ export function toJson_PostgresqlSpecPatroni(
     initdb:
       obj.initdb === undefined
         ? undefined
-        : Object.entries(obj.initdb).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.initdb).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     loop_wait: obj.loopWait,
     maximum_lag_on_failover: obj.maximumLagOnFailover,
     pg_hba: obj.pgHba?.map((y) => y),
@@ -2707,11 +2559,7 @@ export function toJson_PostgresqlSpecPatroni(
                     [i[0]]:
                       i[1] === undefined
                         ? undefined
-                        : Object.entries(i[1]).reduce(
-                            (r, i) =>
-                              i[1] === undefined ? r : { ...r, [i[0]]: i[1] },
-                            {},
-                          ),
+                        : Object.entries(i[1]).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
                   },
             {},
           ),
@@ -2721,10 +2569,7 @@ export function toJson_PostgresqlSpecPatroni(
     ttl: obj.ttl,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2757,17 +2602,11 @@ export function toJson_PostgresqlSpecPostgresql(
     parameters:
       obj.parameters === undefined
         ? undefined
-        : Object.entries(obj.parameters).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.parameters).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     version: obj.version,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2811,10 +2650,7 @@ export function toJson_PostgresqlSpecPreparedDatabases(
     extensions:
       obj.extensions === undefined
         ? undefined
-        : Object.entries(obj.extensions).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.extensions).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     schemas:
       obj.schemas === undefined
         ? undefined
@@ -2831,10 +2667,7 @@ export function toJson_PostgresqlSpecPreparedDatabases(
     secretNamespace: obj.secretNamespace,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2868,10 +2701,7 @@ export function toJson_PostgresqlSpecResources(
     requests: toJson_PostgresqlSpecResourcesRequests(obj.requests),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2904,9 +2734,7 @@ export interface PostgresqlSpecStandby {
  * Converts an object of type 'PostgresqlSpecStandby' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PostgresqlSpecStandby(
-  obj: PostgresqlSpecStandby | undefined,
-): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecStandby(obj: PostgresqlSpecStandby | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -2917,10 +2745,7 @@ export function toJson_PostgresqlSpecStandby(
     standby_port: obj.standbyPort,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -2973,9 +2798,7 @@ export interface PostgresqlSpecStreams {
  * Converts an object of type 'PostgresqlSpecStreams' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PostgresqlSpecStreams(
-  obj: PostgresqlSpecStreams | undefined,
-): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecStreams(obj: PostgresqlSpecStreams | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -2988,27 +2811,18 @@ export function toJson_PostgresqlSpecStreams(
     filter:
       obj.filter === undefined
         ? undefined
-        : Object.entries(obj.filter).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.filter).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     memory: obj.memory,
     tables:
       obj.tables === undefined
         ? undefined
         : Object.entries(obj.tables).reduce(
-            (r, i) =>
-              i[1] === undefined
-                ? r
-                : { ...r, [i[0]]: toJson_PostgresqlSpecStreamsTables(i[1]) },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: toJson_PostgresqlSpecStreamsTables(i[1]) }),
             {},
           ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3046,9 +2860,7 @@ export interface PostgresqlSpecTls {
  * Converts an object of type 'PostgresqlSpecTls' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PostgresqlSpecTls(
-  obj: PostgresqlSpecTls | undefined,
-): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecTls(obj: PostgresqlSpecTls | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -3060,10 +2872,7 @@ export function toJson_PostgresqlSpecTls(
     secretName: obj.secretName,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3115,10 +2924,7 @@ export function toJson_PostgresqlSpecTolerations(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3200,9 +3006,7 @@ export interface PostgresqlSpecVolume {
  * Converts an object of type 'PostgresqlSpecVolume' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PostgresqlSpecVolume(
-  obj: PostgresqlSpecVolume | undefined,
-): Record<string, any> | undefined {
+export function toJson_PostgresqlSpecVolume(obj: PostgresqlSpecVolume | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -3216,10 +3020,7 @@ export function toJson_PostgresqlSpecVolume(
     throughput: obj.throughput,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3260,15 +3061,10 @@ export function toJson_PostgresqlSpecConnectionPoolerResources(
   }
   const result = {
     limits: toJson_PostgresqlSpecConnectionPoolerResourcesLimits(obj.limits),
-    requests: toJson_PostgresqlSpecConnectionPoolerResourcesRequests(
-      obj.requests,
-    ),
+    requests: toJson_PostgresqlSpecConnectionPoolerResourcesRequests(obj.requests),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3292,25 +3088,19 @@ export interface PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDurin
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    preference:
-      toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
-        obj.preference,
-      ),
+    preference: toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
+      obj.preference,
+    ),
     weight: obj.weight,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3329,25 +3119,18 @@ export interface PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuring
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution(
-  obj:
-    | PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution
-    | undefined,
+  obj: PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecution | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
     nodeSelectorTerms: obj.nodeSelectorTerms?.map((y) =>
-      toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
-        y,
-      ),
+      toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(y),
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3397,10 +3180,7 @@ export function toJson_PostgresqlSpecPreparedDatabasesSchemas(
     defaultUsers: obj.defaultUsers,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3446,10 +3226,7 @@ export function toJson_PostgresqlSpecResourcesLimits(
     memory: obj.memory,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3495,10 +3272,7 @@ export function toJson_PostgresqlSpecResourcesRequests(
     memory: obj.memory,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3550,10 +3324,7 @@ export function toJson_PostgresqlSpecStreamsTables(
     recoveryEventType: obj.recoveryEventType,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3605,16 +3376,11 @@ export function toJson_PostgresqlSpecVolumeSelector(
     return undefined;
   }
   const result = {
-    matchExpressions: obj.matchExpressions?.map((y) =>
-      toJson_PostgresqlSpecVolumeSelectorMatchExpressions(y),
-    ),
+    matchExpressions: obj.matchExpressions?.map((y) => toJson_PostgresqlSpecVolumeSelectorMatchExpressions(y)),
     matchLabels: obj.matchLabels,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3648,10 +3414,7 @@ export function toJson_PostgresqlSpecConnectionPoolerResourcesLimits(
     memory: obj.memory,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3685,10 +3448,7 @@ export function toJson_PostgresqlSpecConnectionPoolerResourcesRequests(
     memory: obj.memory,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3712,30 +3472,21 @@ export interface PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDurin
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference(
-  obj:
-    | PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference
-    | undefined,
+  obj: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
     matchExpressions: obj.matchExpressions?.map((y) =>
-      toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
-        y,
-      ),
+      toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(y),
     ),
     matchFields: obj.matchFields?.map((y) =>
-      toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
-        y,
-      ),
+      toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(y),
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3759,9 +3510,7 @@ export interface PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuring
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms(
-  obj:
-    | PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms
-    | undefined,
+  obj: PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTerms | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3773,16 +3522,11 @@ export function toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnored
       ),
     ),
     matchFields: obj.matchFields?.map((y) =>
-      toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
-        y,
-      ),
+      toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(y),
     ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3822,10 +3566,7 @@ export function toJson_PostgresqlSpecVolumeSelectorMatchExpressions(
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3854,9 +3595,7 @@ export interface PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDurin
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions(
-  obj:
-    | PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions
-    | undefined,
+  obj: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3867,10 +3606,7 @@ export function toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnore
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3899,9 +3635,7 @@ export interface PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDurin
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields(
-  obj:
-    | PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields
-    | undefined,
+  obj: PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchFields | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -3912,10 +3646,7 @@ export function toJson_PostgresqlSpecNodeAffinityPreferredDuringSchedulingIgnore
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3957,10 +3688,7 @@ export function toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnored
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -3989,9 +3717,7 @@ export interface PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuring
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields(
-  obj:
-    | PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields
-    | undefined,
+  obj: PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnoredDuringExecutionNodeSelectorTermsMatchFields | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -4002,10 +3728,7 @@ export function toJson_PostgresqlSpecNodeAffinityRequiredDuringSchedulingIgnored
     values: obj.values?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4096,9 +3819,7 @@ export interface PostgresTeamProps {
  * Converts an object of type 'PostgresTeamProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PostgresTeamProps(
-  obj: PostgresTeamProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_PostgresTeamProps(obj: PostgresTeamProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -4107,10 +3828,7 @@ export function toJson_PostgresTeamProps(
     spec: toJson_PostgresTeamSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -4144,9 +3862,7 @@ export interface PostgresTeamSpec {
  * Converts an object of type 'PostgresTeamSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_PostgresTeamSpec(
-  obj: PostgresTeamSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_PostgresTeamSpec(obj: PostgresTeamSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -4155,31 +3871,25 @@ export function toJson_PostgresTeamSpec(
       obj.additionalMembers === undefined
         ? undefined
         : Object.entries(obj.additionalMembers).reduce(
-            (r, i) =>
-              i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) }),
             {},
           ),
     additionalSuperuserTeams:
       obj.additionalSuperuserTeams === undefined
         ? undefined
         : Object.entries(obj.additionalSuperuserTeams).reduce(
-            (r, i) =>
-              i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) }),
             {},
           ),
     additionalTeams:
       obj.additionalTeams === undefined
         ? undefined
         : Object.entries(obj.additionalTeams).reduce(
-            (r, i) =>
-              i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.map((y) => y) }),
             {},
           ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */

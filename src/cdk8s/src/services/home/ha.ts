@@ -1,9 +1,4 @@
-import {
-  Deployment,
-  DeploymentStrategy,
-  EnvValue,
-  Secret,
-} from "cdk8s-plus-31";
+import { Deployment, DeploymentStrategy, EnvValue, Secret } from "cdk8s-plus-31";
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../../utils/common.ts";
 import { OnePasswordItem } from "../../../imports/onepassword.com.ts";
@@ -17,8 +12,7 @@ export function createHaDeployment(chart: Chart) {
 
   const item = new OnePasswordItem(chart, "ha-token", {
     spec: {
-      itemPath:
-        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/a5fjhnycunqy2iag34ls2owzzy",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/a5fjhnycunqy2iag34ls2owzzy",
     },
   });
 
@@ -32,9 +26,7 @@ export function createHaDeployment(chart: Chart) {
           secret,
           key: "password",
         }),
-        HASS_BASE_URL: EnvValue.fromValue(
-          "https://homeassistant.tailnet-1a49.ts.net",
-        ),
+        HASS_BASE_URL: EnvValue.fromValue("https://homeassistant.tailnet-1a49.ts.net"),
       },
       securityContext: {
         ensureNonRoot: false,

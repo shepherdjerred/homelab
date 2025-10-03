@@ -43,9 +43,9 @@ export class Homelab {
   ): Promise<string> {
     const haTypeCheck = typeCheckHa(source, hassBaseUrl, hassToken);
     const haLint = lintHa(source, hassBaseUrl, hassToken);
-    const cdk8sTypeCheck = typeCheckCdk8s(source.directory("src/cdk8s"));
-    const cdk8sLint = lintCdk8s(source.directory("src/cdk8s"));
-    const cdk8sTest = testCdk8s(source.directory("src/cdk8s"));
+    const cdk8sTypeCheck = typeCheckCdk8s(source);
+    const cdk8sLint = lintCdk8s(source);
+    const cdk8sTest = testCdk8s(source);
     const results = await Promise.allSettled([haTypeCheck, haLint, cdk8sTypeCheck, cdk8sLint, cdk8sTest]);
     const summary = results
       .map((result, index) => {
@@ -153,7 +153,7 @@ export class Homelab {
       }));
 
     // CDK8s test (run async)
-    const cdk8sTestPromise = testCdk8s(updatedSource.directory("src/cdk8s"))
+    const cdk8sTestPromise = testCdk8s(updatedSource)
       .then((msg) => ({
         status: "passed" as const,
         message: `CDK8s Test: PASSED\n${msg}`,
@@ -164,7 +164,7 @@ export class Homelab {
       }));
 
     // Linting checks (run async)
-    const cdk8sLintPromise = lintCdk8s(updatedSource.directory("src/cdk8s"))
+    const cdk8sLintPromise = lintCdk8s(updatedSource)
       .then((msg) => ({
         status: "passed" as const,
         message: `CDK8s Lint: PASSED\n${msg}`,
@@ -185,7 +185,7 @@ export class Homelab {
       }));
 
     // Type checking (run async)
-    const cdk8sTypeCheckPromise = typeCheckCdk8s(updatedSource.directory("src/cdk8s"))
+    const cdk8sTypeCheckPromise = typeCheckCdk8s(updatedSource)
       .then((msg) => ({
         status: "passed" as const,
         message: `CDK8s TypeCheck: PASSED\n${msg}`,
@@ -206,7 +206,7 @@ export class Homelab {
       }));
 
     // Start builds in parallel
-    const cdk8sBuildPromise = Promise.resolve(buildK8sManifests(updatedSource.directory("src/cdk8s")))
+    const cdk8sBuildPromise = Promise.resolve(buildK8sManifests(updatedSource))
       .then(() => ({
         status: "passed" as const,
         message: "CDK8s Build: PASSED",
@@ -228,7 +228,7 @@ export class Homelab {
       try {
         const dist = this.helmBuild(
           updatedSource.directory("src/cdk8s/helm"),
-          updatedSource.directory("src/cdk8s"),
+          updatedSource,
           chartVersion || "dev-snapshot",
         );
         return {
@@ -413,7 +413,7 @@ export class Homelab {
     const testVersion = "test-0.1.0";
 
     // Build the chart with test version
-    const helmDist = this.helmBuild(source.directory("src/cdk8s/helm"), source.directory("src/cdk8s"), testVersion);
+    const helmDist = this.helmBuild(source.directory("src/cdk8s/helm"), source, testVersion);
 
     // Test the built chart using TypeScript script
     // Copy Helm binary from official alpine/helm image (avoids network download issues)
@@ -475,14 +475,14 @@ export class Homelab {
 
   /**
    * Runs linter for the CDK8s project.
-   * @param source The CDK8s source directory.
+   * @param source The repository root directory.
    * @returns The stdout from the lint run.
    */
   @func()
   async lintCdk8s(
     @argument({
       ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
-      defaultPath: "src/cdk8s",
+      defaultPath: ".",
     })
     source: Directory,
   ) {
@@ -491,14 +491,14 @@ export class Homelab {
 
   /**
    * Runs TypeScript type checking for the CDK8s project.
-   * @param source The CDK8s source directory.
+   * @param source The repository root directory.
    * @returns The stdout from the type check run.
    */
   @func()
   async typeCheckCdk8s(
     @argument({
       ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
-      defaultPath: "src/cdk8s",
+      defaultPath: ".",
     })
     source: Directory,
   ) {
@@ -507,7 +507,7 @@ export class Homelab {
 
   /**
    * Builds Kubernetes manifests using CDK8s.
-   * @param source The CDK8s source directory.
+   * @param source The repository root directory.
    * @param outputDir The output directory for the generated manifests.
    * @returns The output directory containing the generated manifests.
    */
@@ -515,7 +515,7 @@ export class Homelab {
   buildK8sManifests(
     @argument({
       ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
-      defaultPath: "src/cdk8s",
+      defaultPath: ".",
     })
     source: Directory,
   ): Directory {
@@ -524,14 +524,14 @@ export class Homelab {
 
   /**
    * Tests the CDK8s source code (including GPU resource validation).
-   * @param source The CDK8s source directory.
+   * @param source The repository root directory.
    * @returns The output of the test.
    */
   @func()
   async testCdk8s(
     @argument({
       ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
-      defaultPath: "src/cdk8s",
+      defaultPath: ".",
     })
     source: Directory,
   ) {
@@ -646,23 +646,23 @@ export class Homelab {
   /**
    * Builds the Helm chart, updates version/appVersion, and exports artifacts.
    * @param source The Helm chart source directory (should be src/cdk8s/helm).
-   * @param cdkSource The CDK8s source directory (should be src/cdk8s).
+   * @param repoRoot The repository root directory.
    * @param version The raw build number (e.g. "123") - will be formatted as "1.0.0-123".
    * @returns The dist directory with packaged chart and YAMLs.
    */
   @func()
   helmBuild(
     @argument({ defaultPath: "src/cdk8s/helm" }) source: Directory,
-    @argument({ defaultPath: "src/cdk8s" }) cdkSource: Directory,
+    @argument({ defaultPath: "." }) repoRoot: Directory,
     @argument() version: string,
   ): Directory {
-    return helmBuildFn(source, cdkSource, `1.0.0-${version}`);
+    return helmBuildFn(source, repoRoot, `1.0.0-${version}`);
   }
 
   /**
    * Publishes the packaged Helm chart to a ChartMuseum repo and returns a StepResult.
    * @param source The Helm chart source directory (should be src/cdk8s/helm).
-   * @param cdkSource The CDK8s source directory (should be src/cdk8s).
+   * @param repoRoot The repository root directory.
    * @param version The raw build number (e.g. "123") - will be formatted as "1.0.0-123".
    * @param repo The ChartMuseum repo URL.
    * @param chartMuseumUsername The ChartMuseum username.
@@ -673,7 +673,7 @@ export class Homelab {
   @func()
   async helmPublish(
     @argument({ defaultPath: "src/cdk8s/helm" }) source: Directory,
-    @argument({ defaultPath: "src/cdk8s" }) cdkSource: Directory,
+    @argument({ defaultPath: "." }) repoRoot: Directory,
     @argument() version: string,
     @argument() repo = "https://chartmuseum.tailnet-1a49.ts.net",
     chartMuseumUsername: string,
@@ -686,7 +686,7 @@ export class Homelab {
     try {
       const result = await helmPublishFn(
         source,
-        cdkSource,
+        repoRoot,
         `1.0.0-${version}`,
         repo,
         chartMuseumUsername,

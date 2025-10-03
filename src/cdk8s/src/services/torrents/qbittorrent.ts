@@ -23,8 +23,7 @@ export function createQBitTorrentDeployment(
 ) {
   const item = new OnePasswordItem(chart, "mullvad", {
     spec: {
-      itemPath:
-        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/74rqjncejp7rpgelymnmul5ssm",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/74rqjncejp7rpgelymnmul5ssm",
     },
   });
 
@@ -59,16 +58,10 @@ export function createQBitTorrentDeployment(
           key: "private-key",
         }),
         WIREGUARD_PRESHARED_KEY: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(
-            chart,
-            "airvpn-preshared-key",
-            item.name,
-          ),
+          secret: Secret.fromSecretName(chart, "airvpn-preshared-key", item.name),
           key: "preshared-key",
         }),
-        WIREGUARD_ADDRESSES: EnvValue.fromValue(
-          "10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128",
-        ),
+        WIREGUARD_ADDRESSES: EnvValue.fromValue("10.154.174.240/32,fd7d:76ee:e68f:a993:af57:e79c:b39d:9dde/128"),
         FIREWALL_VPN_INPUT_PORTS: EnvValue.fromValue("17826"),
       },
     }),
@@ -76,25 +69,15 @@ export function createQBitTorrentDeployment(
   deployment.addContainer(
     withCommonLinuxServerProps({
       name: "qbittorrent",
-      image: `ghcr.io/linuxserver/qbittorrent:${
-        versions["linuxserver/qbittorrent"]
-      }`,
+      image: `ghcr.io/linuxserver/qbittorrent:${versions["linuxserver/qbittorrent"]}`,
       portNumber: 8080,
       volumeMounts: [
         {
           path: "/config",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "qbittorrent-volume",
-            localPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "qbittorrent-volume", localPathVolume.claim),
         },
         {
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "qbittorrent-hdd-volume",
-            claims.downloads,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "qbittorrent-hdd-volume", claims.downloads),
           path: "/downloads",
         },
       ],

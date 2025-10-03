@@ -39,11 +39,7 @@ export class DlbDevicePlugin extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: DlbDevicePluginProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: DlbDevicePluginProps = {}) {
     super(scope, id, {
       ...DlbDevicePlugin.GVK,
       ...props,
@@ -88,9 +84,7 @@ export interface DlbDevicePluginProps {
  * Converts an object of type 'DlbDevicePluginProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DlbDevicePluginProps(
-  obj: DlbDevicePluginProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_DlbDevicePluginProps(obj: DlbDevicePluginProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -99,10 +93,7 @@ export function toJson_DlbDevicePluginProps(
     spec: toJson_DlbDevicePluginSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -152,9 +143,7 @@ export interface DlbDevicePluginSpec {
  * Converts an object of type 'DlbDevicePluginSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DlbDevicePluginSpec(
-  obj: DlbDevicePluginSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_DlbDevicePluginSpec(obj: DlbDevicePluginSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -165,19 +154,11 @@ export function toJson_DlbDevicePluginSpec(
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
-    tolerations: obj.tolerations?.map((y) =>
-      toJson_DlbDevicePluginSpecTolerations(y),
-    ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
+    tolerations: obj.tolerations?.map((y) => toJson_DlbDevicePluginSpecTolerations(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -252,10 +233,7 @@ export function toJson_DlbDevicePluginSpecTolerations(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -295,11 +273,7 @@ export class DsaDevicePlugin extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: DsaDevicePluginProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: DsaDevicePluginProps = {}) {
     super(scope, id, {
       ...DsaDevicePlugin.GVK,
       ...props,
@@ -344,9 +318,7 @@ export interface DsaDevicePluginProps {
  * Converts an object of type 'DsaDevicePluginProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DsaDevicePluginProps(
-  obj: DsaDevicePluginProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_DsaDevicePluginProps(obj: DsaDevicePluginProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -355,10 +327,7 @@ export function toJson_DsaDevicePluginProps(
     spec: toJson_DsaDevicePluginSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -422,9 +391,7 @@ export interface DsaDevicePluginSpec {
  * Converts an object of type 'DsaDevicePluginSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_DsaDevicePluginSpec(
-  obj: DsaDevicePluginSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_DsaDevicePluginSpec(obj: DsaDevicePluginSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -435,21 +402,13 @@ export function toJson_DsaDevicePluginSpec(
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     provisioningConfig: obj.provisioningConfig,
     sharedDevNum: obj.sharedDevNum,
-    tolerations: obj.tolerations?.map((y) =>
-      toJson_DsaDevicePluginSpecTolerations(y),
-    ),
+    tolerations: obj.tolerations?.map((y) => toJson_DsaDevicePluginSpecTolerations(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -524,10 +483,7 @@ export function toJson_DsaDevicePluginSpecTolerations(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -567,11 +523,7 @@ export class FpgaDevicePlugin extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: FpgaDevicePluginProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: FpgaDevicePluginProps = {}) {
     super(scope, id, {
       ...FpgaDevicePlugin.GVK,
       ...props,
@@ -616,9 +568,7 @@ export interface FpgaDevicePluginProps {
  * Converts an object of type 'FpgaDevicePluginProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_FpgaDevicePluginProps(
-  obj: FpgaDevicePluginProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_FpgaDevicePluginProps(obj: FpgaDevicePluginProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -627,10 +577,7 @@ export function toJson_FpgaDevicePluginProps(
     spec: toJson_FpgaDevicePluginSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -687,9 +634,7 @@ export interface FpgaDevicePluginSpec {
  * Converts an object of type 'FpgaDevicePluginSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_FpgaDevicePluginSpec(
-  obj: FpgaDevicePluginSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_FpgaDevicePluginSpec(obj: FpgaDevicePluginSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -701,19 +646,11 @@ export function toJson_FpgaDevicePluginSpec(
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
-    tolerations: obj.tolerations?.map((y) =>
-      toJson_FpgaDevicePluginSpecTolerations(y),
-    ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
+    tolerations: obj.tolerations?.map((y) => toJson_FpgaDevicePluginSpecTolerations(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -802,10 +739,7 @@ export function toJson_FpgaDevicePluginSpecTolerations(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -845,11 +779,7 @@ export class GpuDevicePlugin extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: GpuDevicePluginProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: GpuDevicePluginProps = {}) {
     super(scope, id, {
       ...GpuDevicePlugin.GVK,
       ...props,
@@ -894,9 +824,7 @@ export interface GpuDevicePluginProps {
  * Converts an object of type 'GpuDevicePluginProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_GpuDevicePluginProps(
-  obj: GpuDevicePluginProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_GpuDevicePluginProps(obj: GpuDevicePluginProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -905,10 +833,7 @@ export function toJson_GpuDevicePluginProps(
     spec: toJson_GpuDevicePluginSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -989,9 +914,7 @@ export interface GpuDevicePluginSpec {
  * Converts an object of type 'GpuDevicePluginSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_GpuDevicePluginSpec(
-  obj: GpuDevicePluginSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_GpuDevicePluginSpec(obj: GpuDevicePluginSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1003,22 +926,14 @@ export function toJson_GpuDevicePluginSpec(
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     preferredAllocationPolicy: obj.preferredAllocationPolicy,
     resourceManager: obj.resourceManager,
     sharedDevNum: obj.sharedDevNum,
-    tolerations: obj.tolerations?.map((y) =>
-      toJson_GpuDevicePluginSpecTolerations(y),
-    ),
+    tolerations: obj.tolerations?.map((y) => toJson_GpuDevicePluginSpecTolerations(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1109,10 +1024,7 @@ export function toJson_GpuDevicePluginSpecTolerations(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1152,11 +1064,7 @@ export class IaaDevicePlugin extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: IaaDevicePluginProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: IaaDevicePluginProps = {}) {
     super(scope, id, {
       ...IaaDevicePlugin.GVK,
       ...props,
@@ -1201,9 +1109,7 @@ export interface IaaDevicePluginProps {
  * Converts an object of type 'IaaDevicePluginProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_IaaDevicePluginProps(
-  obj: IaaDevicePluginProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_IaaDevicePluginProps(obj: IaaDevicePluginProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1212,10 +1118,7 @@ export function toJson_IaaDevicePluginProps(
     spec: toJson_IaaDevicePluginSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1279,9 +1182,7 @@ export interface IaaDevicePluginSpec {
  * Converts an object of type 'IaaDevicePluginSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_IaaDevicePluginSpec(
-  obj: IaaDevicePluginSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_IaaDevicePluginSpec(obj: IaaDevicePluginSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1292,21 +1193,13 @@ export function toJson_IaaDevicePluginSpec(
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     provisioningConfig: obj.provisioningConfig,
     sharedDevNum: obj.sharedDevNum,
-    tolerations: obj.tolerations?.map((y) =>
-      toJson_IaaDevicePluginSpecTolerations(y),
-    ),
+    tolerations: obj.tolerations?.map((y) => toJson_IaaDevicePluginSpecTolerations(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1381,10 +1274,7 @@ export function toJson_IaaDevicePluginSpecTolerations(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1424,11 +1314,7 @@ export class QatDevicePlugin extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: QatDevicePluginProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: QatDevicePluginProps = {}) {
     super(scope, id, {
       ...QatDevicePlugin.GVK,
       ...props,
@@ -1473,9 +1359,7 @@ export interface QatDevicePluginProps {
  * Converts an object of type 'QatDevicePluginProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_QatDevicePluginProps(
-  obj: QatDevicePluginProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_QatDevicePluginProps(obj: QatDevicePluginProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1484,10 +1368,7 @@ export function toJson_QatDevicePluginProps(
     spec: toJson_QatDevicePluginSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1573,9 +1454,7 @@ export interface QatDevicePluginSpec {
  * Converts an object of type 'QatDevicePluginSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_QatDevicePluginSpec(
-  obj: QatDevicePluginSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_QatDevicePluginSpec(obj: QatDevicePluginSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1589,21 +1468,13 @@ export function toJson_QatDevicePluginSpec(
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     preferredAllocationPolicy: obj.preferredAllocationPolicy,
     provisioningConfig: obj.provisioningConfig,
-    tolerations: obj.tolerations?.map((y) =>
-      toJson_QatDevicePluginSpecTolerations(y),
-    ),
+    tolerations: obj.tolerations?.map((y) => toJson_QatDevicePluginSpecTolerations(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1725,10 +1596,7 @@ export function toJson_QatDevicePluginSpecTolerations(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1768,11 +1636,7 @@ export class SgxDevicePlugin extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: SgxDevicePluginProps = {},
-  ) {
+  public constructor(scope: Construct, id: string, props: SgxDevicePluginProps = {}) {
     super(scope, id, {
       ...SgxDevicePlugin.GVK,
       ...props,
@@ -1817,9 +1681,7 @@ export interface SgxDevicePluginProps {
  * Converts an object of type 'SgxDevicePluginProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SgxDevicePluginProps(
-  obj: SgxDevicePluginProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_SgxDevicePluginProps(obj: SgxDevicePluginProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1828,10 +1690,7 @@ export function toJson_SgxDevicePluginProps(
     spec: toJson_SgxDevicePluginSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1896,9 +1755,7 @@ export interface SgxDevicePluginSpec {
  * Converts an object of type 'SgxDevicePluginSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_SgxDevicePluginSpec(
-  obj: SgxDevicePluginSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_SgxDevicePluginSpec(obj: SgxDevicePluginSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1910,20 +1767,12 @@ export function toJson_SgxDevicePluginSpec(
     nodeSelector:
       obj.nodeSelector === undefined
         ? undefined
-        : Object.entries(obj.nodeSelector).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     provisionLimit: obj.provisionLimit,
-    tolerations: obj.tolerations?.map((y) =>
-      toJson_SgxDevicePluginSpecTolerations(y),
-    ),
+    tolerations: obj.tolerations?.map((y) => toJson_SgxDevicePluginSpecTolerations(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1998,9 +1847,6 @@ export function toJson_SgxDevicePluginSpecTolerations(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */

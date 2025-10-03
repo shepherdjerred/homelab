@@ -82,9 +82,7 @@ export interface NodeFeatureProps {
  * Converts an object of type 'NodeFeatureProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NodeFeatureProps(
-  obj: NodeFeatureProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_NodeFeatureProps(obj: NodeFeatureProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -93,10 +91,7 @@ export function toJson_NodeFeatureProps(
     spec: toJson_NodeFeatureSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -125,9 +120,7 @@ export interface NodeFeatureSpec {
  * Converts an object of type 'NodeFeatureSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NodeFeatureSpec(
-  obj: NodeFeatureSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_NodeFeatureSpec(obj: NodeFeatureSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -136,16 +129,10 @@ export function toJson_NodeFeatureSpec(
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -205,10 +192,7 @@ export function toJson_NodeFeatureSpecFeatures(
       obj.flags === undefined
         ? undefined
         : Object.entries(obj.flags).reduce(
-            (r, i) =>
-              i[1] === undefined
-                ? r
-                : { ...r, [i[0]]: toJson_NodeFeatureSpecFeaturesFlags(i[1]) },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: toJson_NodeFeatureSpecFeaturesFlags(i[1]) }),
             {},
           ),
     instances:
@@ -226,10 +210,7 @@ export function toJson_NodeFeatureSpecFeatures(
           ),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -261,16 +242,10 @@ export function toJson_NodeFeatureSpecFeaturesAttributes(
     elements:
       obj.elements === undefined
         ? undefined
-        : Object.entries(obj.elements).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.elements).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -302,16 +277,10 @@ export function toJson_NodeFeatureSpecFeaturesFlags(
     elements:
       obj.elements === undefined
         ? undefined
-        : Object.entries(obj.elements).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.elements).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -340,15 +309,10 @@ export function toJson_NodeFeatureSpecFeaturesInstances(
     return undefined;
   }
   const result = {
-    elements: obj.elements?.map((y) =>
-      toJson_NodeFeatureSpecFeaturesInstancesElements(y),
-    ),
+    elements: obj.elements?.map((y) => toJson_NodeFeatureSpecFeaturesInstancesElements(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -380,16 +344,10 @@ export function toJson_NodeFeatureSpecFeaturesInstancesElements(
     attributes:
       obj.attributes === undefined
         ? undefined
-        : Object.entries(obj.attributes).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.attributes).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -427,11 +385,7 @@ export class NodeFeatureGroup extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: NodeFeatureGroupProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: NodeFeatureGroupProps) {
     super(scope, id, {
       ...NodeFeatureGroup.GVK,
       ...props,
@@ -474,9 +428,7 @@ export interface NodeFeatureGroupProps {
  * Converts an object of type 'NodeFeatureGroupProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NodeFeatureGroupProps(
-  obj: NodeFeatureGroupProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_NodeFeatureGroupProps(obj: NodeFeatureGroupProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -485,10 +437,7 @@ export function toJson_NodeFeatureGroupProps(
     spec: toJson_NodeFeatureGroupSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -510,22 +459,15 @@ export interface NodeFeatureGroupSpec {
  * Converts an object of type 'NodeFeatureGroupSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NodeFeatureGroupSpec(
-  obj: NodeFeatureGroupSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_NodeFeatureGroupSpec(obj: NodeFeatureGroupSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
   const result = {
-    featureGroupRules: obj.featureGroupRules?.map((y) =>
-      toJson_NodeFeatureGroupSpecFeatureGroupRules(y),
-    ),
+    featureGroupRules: obj.featureGroupRules?.map((y) => toJson_NodeFeatureGroupSpecFeatureGroupRules(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -568,19 +510,12 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRules(
     return undefined;
   }
   const result = {
-    matchAny: obj.matchAny?.map((y) =>
-      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAny(y),
-    ),
-    matchFeatures: obj.matchFeatures?.map((y) =>
-      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures(y),
-    ),
+    matchAny: obj.matchAny?.map((y) => toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAny(y)),
+    matchFeatures: obj.matchFeatures?.map((y) => toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures(y)),
     name: obj.name,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -609,15 +544,10 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAny(
     return undefined;
   }
   const result = {
-    matchFeatures: obj.matchFeatures?.map((y) =>
-      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures(y),
-    ),
+    matchFeatures: obj.matchFeatures?.map((y) => toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -643,9 +573,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures {
    * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures#matchExpressions
    */
   readonly matchExpressions?: {
-    [
-      key: string
-    ]: NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions;
+    [key: string]: NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions;
   };
 
   /**
@@ -678,23 +606,14 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures(
                 ? r
                 : {
                     ...r,
-                    [i[0]]:
-                      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions(
-                        i[1],
-                      ),
+                    [i[0]]: toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions(i[1]),
                   },
             {},
           ),
-    matchName:
-      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName(
-        obj.matchName,
-      ),
+    matchName: toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName(obj.matchName),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -720,9 +639,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures {
    * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeatures#matchExpressions
    */
   readonly matchExpressions?: {
-    [
-      key: string
-    ]: NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions;
+    [key: string]: NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions;
   };
 
   /**
@@ -755,23 +672,14 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeature
                 ? r
                 : {
                     ...r,
-                    [i[0]]:
-                      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions(
-                        i[1],
-                      ),
+                    [i[0]]: toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions(i[1]),
                   },
             {},
           ),
-    matchName:
-      toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName(
-        obj.matchName,
-      ),
+    matchName: toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName(obj.matchName),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -807,9 +715,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressi
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions(
-  obj:
-    | NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions
-    | undefined,
+  obj: NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -819,10 +725,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchEx
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -867,10 +770,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchNa
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -906,9 +806,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatch
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions(
-  obj:
-    | NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions
-    | undefined,
+  obj: NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -918,10 +816,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeature
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -956,9 +851,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatch
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName(
-  obj:
-    | NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName
-    | undefined,
+  obj: NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -968,10 +861,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeature
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1122,11 +1012,7 @@ export class NodeFeatureRule extends ApiObject {
    * @param id a scope-local name for the object
    * @param props initialization props
    */
-  public constructor(
-    scope: Construct,
-    id: string,
-    props: NodeFeatureRuleProps,
-  ) {
+  public constructor(scope: Construct, id: string, props: NodeFeatureRuleProps) {
     super(scope, id, {
       ...NodeFeatureRule.GVK,
       ...props,
@@ -1170,9 +1056,7 @@ export interface NodeFeatureRuleProps {
  * Converts an object of type 'NodeFeatureRuleProps' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NodeFeatureRuleProps(
-  obj: NodeFeatureRuleProps | undefined,
-): Record<string, any> | undefined {
+export function toJson_NodeFeatureRuleProps(obj: NodeFeatureRuleProps | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1181,10 +1065,7 @@ export function toJson_NodeFeatureRuleProps(
     spec: toJson_NodeFeatureRuleSpec(obj.spec),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1206,9 +1087,7 @@ export interface NodeFeatureRuleSpec {
  * Converts an object of type 'NodeFeatureRuleSpec' to JSON representation.
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
-export function toJson_NodeFeatureRuleSpec(
-  obj: NodeFeatureRuleSpec | undefined,
-): Record<string, any> | undefined {
+export function toJson_NodeFeatureRuleSpec(obj: NodeFeatureRuleSpec | undefined): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
   }
@@ -1216,10 +1095,7 @@ export function toJson_NodeFeatureRuleSpec(
     rules: obj.rules?.map((y) => toJson_NodeFeatureRuleSpecRules(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1321,47 +1197,28 @@ export function toJson_NodeFeatureRuleSpecRules(
     annotations:
       obj.annotations === undefined
         ? undefined
-        : Object.entries(obj.annotations).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.annotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     extendedResources:
       obj.extendedResources === undefined
         ? undefined
-        : Object.entries(obj.extendedResources).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.extendedResources).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     labels:
       obj.labels === undefined
         ? undefined
-        : Object.entries(obj.labels).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.labels).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     labelsTemplate: obj.labelsTemplate,
-    matchAny: obj.matchAny?.map((y) =>
-      toJson_NodeFeatureRuleSpecRulesMatchAny(y),
-    ),
-    matchFeatures: obj.matchFeatures?.map((y) =>
-      toJson_NodeFeatureRuleSpecRulesMatchFeatures(y),
-    ),
+    matchAny: obj.matchAny?.map((y) => toJson_NodeFeatureRuleSpecRulesMatchAny(y)),
+    matchFeatures: obj.matchFeatures?.map((y) => toJson_NodeFeatureRuleSpecRulesMatchFeatures(y)),
     name: obj.name,
     taints: obj.taints?.map((y) => toJson_NodeFeatureRuleSpecRulesTaints(y)),
     vars:
       obj.vars === undefined
         ? undefined
-        : Object.entries(obj.vars).reduce(
-            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-            {},
-          ),
+        : Object.entries(obj.vars).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     varsTemplate: obj.varsTemplate,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1390,15 +1247,10 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAny(
     return undefined;
   }
   const result = {
-    matchFeatures: obj.matchFeatures?.map((y) =>
-      toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeatures(y),
-    ),
+    matchFeatures: obj.matchFeatures?.map((y) => toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeatures(y)),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1457,22 +1309,14 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeatures(
                 ? r
                 : {
                     ...r,
-                    [i[0]]:
-                      toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions(
-                        i[1],
-                      ),
+                    [i[0]]: toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions(i[1]),
                   },
             {},
           ),
-    matchName: toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchName(
-      obj.matchName,
-    ),
+    matchName: toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchName(obj.matchName),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1532,10 +1376,7 @@ export function toJson_NodeFeatureRuleSpecRulesTaints(
     value: obj.value,
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1561,9 +1402,7 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeatures {
    * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeatures#matchExpressions
    */
   readonly matchExpressions?: {
-    [
-      key: string
-    ]: NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions;
+    [key: string]: NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions;
   };
 
   /**
@@ -1596,22 +1435,14 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeatures(
                 ? r
                 : {
                     ...r,
-                    [i[0]]:
-                      toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions(
-                        i[1],
-                      ),
+                    [i[0]]: toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions(i[1]),
                   },
             {},
           ),
-    matchName: toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName(
-      obj.matchName,
-    ),
+    matchName: toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName(obj.matchName),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1657,10 +1488,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions(
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1705,10 +1533,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchName(
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1744,9 +1569,7 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions {
  */
 /* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions(
-  obj:
-    | NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions
-    | undefined,
+  obj: NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions | undefined,
 ): Record<string, any> | undefined {
   if (obj === undefined) {
     return undefined;
@@ -1756,10 +1579,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpress
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
@@ -1804,10 +1624,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName(
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
-  return Object.entries(result).reduce(
-    (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }),
-    {},
-  );
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 

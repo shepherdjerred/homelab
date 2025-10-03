@@ -35,35 +35,25 @@ export async function createPrometheusApp(chart: Chart) {
     false,
   );
 
-  const alertmanagerSecrets = new OnePasswordItem(
-    chart,
-    "alertmanager-secrets-onepassword",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/cki3qk5okk5b7xn3jmlpg74yka",
-      },
-      metadata: {
-        name: "alertmanager-secrets",
-        namespace: "prometheus",
-      },
+  const alertmanagerSecrets = new OnePasswordItem(chart, "alertmanager-secrets-onepassword", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/cki3qk5okk5b7xn3jmlpg74yka",
     },
-  );
+    metadata: {
+      name: "alertmanager-secrets",
+      namespace: "prometheus",
+    },
+  });
 
-  const prometheusSecrets = new OnePasswordItem(
-    chart,
-    "grafana-secret-onepassword",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/42fn7x3zaemfenz35en27thw5u",
-      },
-      metadata: {
-        name: "prometheus-secrets",
-        namespace: "prometheus",
-      },
+  const prometheusSecrets = new OnePasswordItem(chart, "grafana-secret-onepassword", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/42fn7x3zaemfenz35en27thw5u",
     },
-  );
+    metadata: {
+      name: "prometheus-secrets",
+      namespace: "prometheus",
+    },
+  });
 
   createPrometheusMonitoring(chart);
   await createSmartctlMonitoring(chart);
@@ -114,8 +104,7 @@ export async function createPrometheusApp(chart: Chart) {
       extraSecretMounts: [
         {
           name: "postgres-secret-mount",
-          secretName:
-            "grafana.grafana-postgresql.credentials.postgresql.acid.zalan.do",
+          secretName: "grafana.grafana-postgresql.credentials.postgresql.acid.zalan.do",
           defaultMode: 0o440,
           mountPath: "/etc/secrets/postgres",
           readOnly: true,
@@ -197,9 +186,7 @@ export async function createPrometheusApp(chart: Chart) {
               {
                 routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
                 // Use utility function to escape templates for Alertmanager processing
-                description: escapeAlertmanagerTemplate(
-                  "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}",
-                ),
+                description: escapeAlertmanagerTemplate("{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"),
                 severity: "error",
                 // details: escapeAlertmanagerTemplate(
                 //   JSON.stringify(
@@ -244,9 +231,7 @@ export async function createPrometheusApp(chart: Chart) {
     // Collects metrics from: SMART, OS info, NTPD, NVMe, ZFS snapshots, ZFS zpools
     // NOTE: this is _not_ a real property?
     "prometheus-node-exporter": {
-      extraArgs: [
-        "--collector.textfile.directory=/host/var/lib/node_exporter/textfile_collector",
-      ],
+      extraArgs: ["--collector.textfile.directory=/host/var/lib/node_exporter/textfile_collector"],
       // Type assertion needed due to incomplete Helm chart types
       extraHostVolumeMounts: [
         {

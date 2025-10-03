@@ -12,12 +12,7 @@ const runCommand = async (command: string, args: string[]) => {
     proc.stdout.on("data", (data: Buffer) => (output += data.toString()));
     proc.on("close", (code) => {
       if (code === 0) resolve(output);
-      else
-        reject(
-          new Error(
-            `Command failed with code ${code?.toString() ?? "unknown"}`,
-          ),
-        );
+      else reject(new Error(`Command failed with code ${code?.toString() ?? "unknown"}`));
     });
   });
 };

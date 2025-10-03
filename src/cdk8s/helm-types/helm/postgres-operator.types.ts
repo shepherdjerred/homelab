@@ -79,11 +79,10 @@ export type PostgresoperatorHelmValuesConfigKubernetesClusterlabels = {
   application?: string;
 };
 
-export type PostgresoperatorHelmValuesConfigKubernetesPersistentvolumeclaimretentionpolicy =
-  {
-    when_deleted?: string;
-    when_scaled?: string;
-  };
+export type PostgresoperatorHelmValuesConfigKubernetesPersistentvolumeclaimretentionpolicy = {
+  when_deleted?: string;
+  when_scaled?: string;
+};
 
 export type PostgresoperatorHelmValuesConfigPostgresPodResources = {
   default_cpu_limit?: string;

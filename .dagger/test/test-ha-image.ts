@@ -41,8 +41,7 @@ async function main() {
 
     // Step 4: Verify the image exists with correct tag
     console.log("🔍 Verifying image exists...");
-    const imageExists =
-      await $`docker images ${FULL_IMAGE_NAME} --format "{{.Repository}}:{{.Tag}}"`.text();
+    const imageExists = await $`docker images ${FULL_IMAGE_NAME} --format "{{.Repository}}:{{.Tag}}"`.text();
     if (!imageExists.trim().includes(FULL_IMAGE_NAME)) {
       throw new Error(`Image ${FULL_IMAGE_NAME} not found in Docker images`);
     }
@@ -57,8 +56,7 @@ async function main() {
     await $`docker rm ha-test-container`.nothrow().quiet();
 
     // Run the container with a timeout to see if it starts without crashing
-    const containerId =
-      await $`docker run -d --name ha-test-container ${FULL_IMAGE_NAME}`.text();
+    const containerId = await $`docker run -d --name ha-test-container ${FULL_IMAGE_NAME}`.text();
     console.log(`📋 Started test container: ${containerId.trim()}`);
 
     // Wait a few seconds for the container to start
@@ -70,8 +68,7 @@ async function main() {
     console.log(logs);
 
     // Check if the container is still running
-    const containerStatus =
-      await $`docker ps -q -f name=ha-test-container`.text();
+    const containerStatus = await $`docker ps -q -f name=ha-test-container`.text();
     if (!containerStatus.trim()) {
       throw new Error("Container stopped unexpectedly");
     }
@@ -93,12 +90,9 @@ async function main() {
     const retryDelay = 2000; // 2 seconds
 
     for (let i = 0; i < maxRetries; i++) {
-      console.log(
-        `🔄 Connection attempt ${String(i + 1)}/${String(maxRetries)}...`,
-      );
+      console.log(`🔄 Connection attempt ${String(i + 1)}/${String(maxRetries)}...`);
 
-      const connectionResult =
-        await $`timeout 5 bash -c "echo > /dev/tcp/${containerIP.trim()}/3000"`.nothrow();
+      const connectionResult = await $`timeout 5 bash -c "echo > /dev/tcp/${containerIP.trim()}/3000"`.nothrow();
 
       if (connectionResult.exitCode === 0) {
         console.log("✅ Application is responding on port 3000");
@@ -113,9 +107,7 @@ async function main() {
     }
 
     if (!connected) {
-      throw new Error(
-        `Application failed to respond on port 3000 after ${String(maxRetries)} attempts`,
-      );
+      throw new Error(`Application failed to respond on port 3000 after ${String(maxRetries)} attempts`);
     }
 
     console.log("🎉 All tests passed!");
@@ -132,9 +124,7 @@ async function main() {
     console.log("🔍 Container left running for inspection. Use:");
     console.log(`   docker logs ha-test-container`);
     console.log(`   docker exec -it ha-test-container /bin/bash`);
-    console.log(
-      `   docker stop ha-test-container && docker rm ha-test-container  # when done`,
-    );
+    console.log(`   docker stop ha-test-container && docker rm ha-test-container  # when done`);
     process.exit(1);
   }
 }

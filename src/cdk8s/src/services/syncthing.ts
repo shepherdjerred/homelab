@@ -1,10 +1,7 @@
 import { Chart, Size } from "cdk8s";
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { ZfsSsdVolume } from "../utils/zfsSsdVolume.ts";
-import {
-  LINUXSERVER_GID,
-  withCommonLinuxServerProps,
-} from "../utils/linuxserver.ts";
+import { LINUXSERVER_GID, withCommonLinuxServerProps } from "../utils/linuxserver.ts";
 import { TailscaleIngress } from "../utils/tailscale.ts";
 import versions from "../versions.ts";
 
@@ -27,26 +24,16 @@ export function createSyncthingDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonLinuxServerProps({
-      image: `ghcr.io/linuxserver/syncthing:${
-        versions["linuxserver/syncthing"]
-      }`,
+      image: `ghcr.io/linuxserver/syncthing:${versions["linuxserver/syncthing"]}`,
       portNumber: 8384,
       volumeMounts: [
         {
           path: "/config",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "syncthing-volume",
-            configLocalPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "syncthing-volume", configLocalPathVolume.claim),
         },
         {
           path: "/sync",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "syncthing-data-volume",
-            dataLocalPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "syncthing-data-volume", dataLocalPathVolume.claim),
         },
       ],
     }),

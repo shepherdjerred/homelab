@@ -7,16 +7,12 @@ import versions from "./versions";
  * Creates a container with Helm chart built and packaged.
  * Common setup used by all helm functions.
  * @param source The Helm chart source directory.
- * @param cdkSource The CDK8s source directory.
+ * @param repoRoot The repository root directory.
  * @param version The version to set in Chart.yaml and appVersion.
  * @returns Container with the chart built and packaged.
  */
-function getHelmContainer(
-  source: Directory,
-  cdkSource: Directory,
-  version: string,
-): Container {
-  const cdk8sManifests = buildK8sManifests(cdkSource);
+function getHelmContainer(source: Directory, repoRoot: Directory, version: string): Container {
+  const cdk8sManifests = buildK8sManifests(repoRoot);
 
   return (
     dag
@@ -44,16 +40,12 @@ function getHelmContainer(
  * Build the Helm chart, update version/appVersion, and export artifacts.
  * Uses caching for improved build performance.
  * @param source The Helm chart source directory (should be src/cdk8s/helm).
- * @param cdkSource The CDK8s source directory (should be src/cdk8s).
+ * @param repoRoot The repository root directory.
  * @param version The full semver version (e.g. "1.0.0-123") - used as-is in Chart.yaml.
  * @returns The dist directory with packaged chart and YAMLs.
  */
-export function build(
-  source: Directory,
-  cdkSource: Directory,
-  version: string,
-): Directory {
-  const container = getHelmContainer(source, cdkSource, version);
+export function build(source: Directory, repoRoot: Directory, version: string): Directory {
+  const container = getHelmContainer(source, repoRoot, version);
 
   // Export all YAMLs and the packaged chart to dist/
   return container
@@ -67,7 +59,7 @@ export function build(
  * Publish the packaged Helm chart to a ChartMuseum repo.
  * Uses caching for improved performance.
  * @param source The Helm chart source directory (should be src/cdk8s/helm).
- * @param cdkSource The CDK8s source directory (should be src/cdk8s).
+ * @param repoRoot The repository root directory.
  * @param version The full semver version (e.g. "1.0.0-123") - used as-is in Chart.yaml.
  * @param repo The ChartMuseum repo URL.
  * @param chartMuseumUsername The ChartMuseum username.
@@ -76,14 +68,14 @@ export function build(
  */
 export async function publish(
   source: Directory,
-  cdkSource: Directory,
+  repoRoot: Directory,
   version: string,
   repo = "https://chartmuseum.tailnet-1a49.ts.net",
   chartMuseumUsername: string,
   chartMuseumPassword: Secret,
 ): Promise<string> {
   const chartFile = `torvalds-${version}.tgz`;
-  const container = getHelmContainer(source, cdkSource, version)
+  const container = getHelmContainer(source, repoRoot, version)
     .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
     .withSecretVariable("CHARTMUSEUM_PASSWORD", chartMuseumPassword)
     .withExec([

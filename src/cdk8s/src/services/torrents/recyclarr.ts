@@ -1,10 +1,4 @@
-import {
-  Deployment,
-  DeploymentStrategy,
-  EnvValue,
-  Secret,
-  Volume,
-} from "cdk8s-plus-31";
+import { Deployment, DeploymentStrategy, EnvValue, Secret, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
@@ -21,38 +15,24 @@ export function createRecyclarrDeployment(chart: Chart) {
     storage: Size.gibibytes(8),
   });
 
-  const configItem = new OnePasswordItem(
-    chart,
-    "recyclarr-config-onepassword-homelab",
-    {
-      spec: {
-        itemPath:
-          "vaults/v64ocnykdqju4ui6j6pua56xw4/items/fu5ufvg6bx3kkcp7lqi5pmwj2a",
-      },
-      metadata: {
-        name: "recyclarr-config-homelab",
+  const configItem = new OnePasswordItem(chart, "recyclarr-config-onepassword-homelab", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/fu5ufvg6bx3kkcp7lqi5pmwj2a",
+    },
+    metadata: {
+      name: "recyclarr-config-homelab",
+    },
+  });
+
+  const secret = Secret.fromSecretName(chart, "recyclarr-config-secret", configItem.name);
+
+  const secretVolume = Volume.fromSecret(chart, "recyclarr-config-volume", secret, {
+    items: {
+      "recyclarr.yaml": {
+        path: "recyclarr.yaml",
       },
     },
-  );
-
-  const secret = Secret.fromSecretName(
-    chart,
-    "recyclarr-config-secret",
-    configItem.name,
-  );
-
-  const secretVolume = Volume.fromSecret(
-    chart,
-    "recyclarr-config-volume",
-    secret,
-    {
-      items: {
-        "recyclarr.yaml": {
-          path: "recyclarr.yaml",
-        },
-      },
-    },
-  );
+  });
 
   deployment.addContainer(
     withCommonLinuxServerProps({
@@ -63,11 +43,7 @@ export function createRecyclarrDeployment(chart: Chart) {
       volumeMounts: [
         {
           path: "/config",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "recyclarr-volume",
-            localPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "recyclarr-volume", localPathVolume.claim),
         },
         {
           path: "/config/recyclarr.yaml",

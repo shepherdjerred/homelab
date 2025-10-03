@@ -1,11 +1,4 @@
-import {
-  Deployment,
-  DeploymentStrategy,
-  EnvValue,
-  type PersistentVolumeClaim,
-  Service,
-  Volume,
-} from "cdk8s-plus-31";
+import { Deployment, DeploymentStrategy, EnvValue, type PersistentVolumeClaim, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../utils/linuxserver.ts";
 import { ZfsSsdVolume } from "../../utils/zfsSsdVolume.ts";
@@ -38,26 +31,14 @@ export function createBazarrDeployment(
       volumeMounts: [
         {
           path: "/config",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "bazarr-volume",
-            localPathVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "bazarr-volume", localPathVolume.claim),
         },
         {
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "bazarr-movies-hdd-volume",
-            claims.movies,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "bazarr-movies-hdd-volume", claims.movies),
           path: "/movies",
         },
         {
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "bazarr-tv-hdd-volume",
-            claims.tv,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "bazarr-tv-hdd-volume", claims.tv),
           path: "/tv",
         },
       ],

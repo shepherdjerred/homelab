@@ -76,10 +76,7 @@ export async function sync(
         health: typedParsed.status?.health?.status ?? "Unknown",
         revision: typedParsed.status?.sync?.revision?.slice(0, 8) ?? "Unknown",
         resourcesCount: typedParsed.status?.resources?.length ?? 0,
-        message:
-          typedParsed.status?.conditions?.[0]?.message ??
-          typedParsed.message ??
-          "Sync operation completed",
+        message: typedParsed.status?.conditions?.[0]?.message ?? typedParsed.message ?? "Sync operation completed",
       };
       message = `Phase: ${syncInfo.phase}, Health: ${syncInfo.health}, Revision: ${syncInfo.revision}, Resources: ${String(syncInfo.resourcesCount)}\n${syncInfo.message}`;
     } else {

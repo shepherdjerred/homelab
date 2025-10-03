@@ -1,7 +1,4 @@
-import {
-  PrometheusRuleSpecGroups,
-  PrometheusRuleSpecGroupsRulesExpr,
-} from "../../../imports/monitoring.coreos.com";
+import { PrometheusRuleSpecGroups, PrometheusRuleSpecGroupsRulesExpr } from "../../../imports/monitoring.coreos.com";
 import { escapePrometheusTemplate } from "./shared";
 
 export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
@@ -30,8 +27,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             description: escapePrometheusTemplate(
               "ZFS ARC hit rate on {{ $labels.instance }} is critically low: {{ $value | humanizePercentage }} (should be >85%)",
             ),
-            summary:
-              "ZFS ARC hit rate is critically low - severe performance impact",
+            summary: "ZFS ARC hit rate is critically low - severe performance impact",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             "(rate(node_zfs_arc_hits[5m]) / (rate(node_zfs_arc_hits[5m]) + rate(node_zfs_arc_demand_data_misses[5m]) + rate(node_zfs_arc_demand_metadata_misses[5m]))) * 100 < 70",
@@ -47,9 +43,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS ARC size approaching maximum limit",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "(node_zfs_arc_c / node_zfs_arc_c_max) > 0.95",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("(node_zfs_arc_c / node_zfs_arc_c_max) > 0.95"),
           for: "10m",
           labels: { severity: "warning" },
         },
@@ -61,9 +55,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS ARC metadata usage is high",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "(node_zfs_arc_arc_meta_used / node_zfs_arc_c) > 0.75",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("(node_zfs_arc_arc_meta_used / node_zfs_arc_c) > 0.75"),
           for: "15m",
           labels: { severity: "warning" },
         },
@@ -75,9 +67,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High ZFS ARC eviction rate detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_arc_deleted[5m]) > 1000",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_deleted[5m]) > 1000"),
           for: "10m",
           labels: { severity: "warning" },
         },
@@ -110,9 +100,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS L2ARC IO errors detected - check L2ARC device health",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "increase(node_zfs_arc_l2_io_error[1h]) > 0",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("increase(node_zfs_arc_l2_io_error[1h]) > 0"),
           for: "5m",
           labels: { severity: "critical" },
         },
@@ -122,12 +110,9 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             description: escapePrometheusTemplate(
               "ZFS L2ARC on {{ $labels.instance }} has write errors: {{ $value }} errors",
             ),
-            summary:
-              "ZFS L2ARC write errors detected - L2ARC device may be failing",
+            summary: "ZFS L2ARC write errors detected - L2ARC device may be failing",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "increase(node_zfs_arc_l2_writes_error[1h]) > 0",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("increase(node_zfs_arc_l2_writes_error[1h]) > 0"),
           for: "5m",
           labels: { severity: "critical" },
         },
@@ -139,9 +124,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS L2ARC checksum errors detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "increase(node_zfs_arc_l2_cksum_bad[1h]) > 0",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("increase(node_zfs_arc_l2_cksum_bad[1h]) > 0"),
           for: "5m",
           labels: { severity: "critical" },
         },
@@ -174,9 +157,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High ZFS memory pressure detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_arc_memory_throttle_count[5m]) > 10",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_memory_throttle_count[5m]) > 10"),
           for: "10m",
           labels: { severity: "warning" },
         },
@@ -188,9 +169,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS memory reclaim active - system under memory pressure",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_arc_need_free > 0",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("node_zfs_arc_arc_need_free > 0"),
           for: "15m",
           labels: { severity: "warning" },
         },
@@ -202,9 +181,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High ZFS ABD page allocation retries",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_abd_scatter_page_alloc_retry[5m]) > 50",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_abd_scatter_page_alloc_retry[5m]) > 50"),
           for: "10m",
           labels: { severity: "warning" },
         },
@@ -223,9 +200,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High ZFS hash collisions detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_arc_hash_collisions[5m]) > 1000",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_hash_collisions[5m]) > 1000"),
           for: "15m",
           labels: { severity: "warning" },
         },
@@ -237,9 +212,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS hash chain length is high",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_hash_chain_max > 20",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("node_zfs_arc_hash_chain_max > 20"),
           for: "20m",
           labels: { severity: "warning" },
         },
@@ -258,9 +231,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS ARC growth is constrained",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_arc_no_grow > 0",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("node_zfs_arc_arc_no_grow > 0"),
           for: "10m",
           labels: { severity: "info" },
         },
@@ -286,9 +257,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS L2ARC low memory aborts detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "increase(node_zfs_arc_l2_abort_lowmem[1h]) > 0",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("increase(node_zfs_arc_l2_abort_lowmem[1h]) > 0"),
           for: "10m",
           labels: { severity: "warning" },
         },
@@ -300,9 +269,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High ZFS eviction skips - potential lock contention",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_arc_evict_skip[5m]) > 100",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_evict_skip[5m]) > 100"),
           for: "15m",
           labels: { severity: "warning" },
         },
@@ -314,9 +281,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High ZFS L2ARC write lock retries",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_arc_l2_writes_lock_retry[5m]) > 10",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_l2_writes_lock_retry[5m]) > 10"),
           for: "10m",
           labels: { severity: "warning" },
         },
@@ -335,9 +300,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS ARC size is below configured minimum",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_c < node_zfs_arc_c_min",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("node_zfs_arc_c < node_zfs_arc_c_min"),
           for: "10m",
           labels: { severity: "critical" },
         },
@@ -384,9 +347,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High ZFS access skips detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_arc_access_skip[5m]) > 100",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_access_skip[5m]) > 100"),
           for: "10m",
           labels: { severity: "warning" },
         },
@@ -405,9 +366,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS L2ARC read/write clashes detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "increase(node_zfs_arc_l2_rw_clash[1h]) > 0",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("increase(node_zfs_arc_l2_rw_clash[1h]) > 0"),
           for: "5m",
           labels: { severity: "warning" },
         },
@@ -419,9 +378,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High ZFS L2ARC evict lock retries",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_arc_l2_evict_lock_retry[5m]) > 10",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_l2_evict_lock_retry[5m]) > 10"),
           for: "10m",
           labels: { severity: "warning" },
         },
@@ -454,9 +411,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS ABD SG table retries detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_abd_scatter_sg_table_retry[5m]) > 10",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_abd_scatter_sg_table_retry[5m]) > 10"),
           for: "10m",
           labels: { severity: "warning" },
         },
@@ -524,9 +479,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High ZFS async upgrade sync activity",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_arc_async_upgrade_sync[5m]) > 10",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_async_upgrade_sync[5m]) > 10"),
           for: "10m",
           labels: { severity: "info" },
         },
@@ -538,9 +491,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "ZFS ARC pruning activity detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_zfs_arc_arc_prune[5m]) > 5",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_arc_prune[5m]) > 5"),
           for: "10m",
           labels: { severity: "info" },
         },

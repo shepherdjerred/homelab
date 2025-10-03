@@ -219,8 +219,7 @@ export type VeleroHelmValuesConfigurationBackupStorageLocationCredential = {
 
 export type VeleroHelmValuesConfigurationBackupStorageLocationConfig = object;
 
-export type VeleroHelmValuesConfigurationBackupStorageLocationAnnotations =
-  object;
+export type VeleroHelmValuesConfigurationBackupStorageLocationAnnotations = object;
 
 export type VeleroHelmValuesConfigurationVolumeSnapshotLocationElement = {
   name?: unknown;
@@ -237,8 +236,7 @@ export type VeleroHelmValuesConfigurationVolumeSnapshotLocationCredential = {
 
 export type VeleroHelmValuesConfigurationVolumeSnapshotLocationConfig = object;
 
-export type VeleroHelmValuesConfigurationVolumeSnapshotLocationAnnotations =
-  object;
+export type VeleroHelmValuesConfigurationVolumeSnapshotLocationAnnotations = object;
 
 export type VeleroHelmValuesConfigurationRepositoryMaintenanceJob = {
   requests?: unknown;
@@ -247,18 +245,15 @@ export type VeleroHelmValuesConfigurationRepositoryMaintenanceJob = {
   repositoryConfigData?: VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigData;
 };
 
-export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigData =
-  {
-    name?: string;
-    global?: VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataGlobal;
-    repositories?: VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataRepositories;
-  };
+export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigData = {
+  name?: string;
+  global?: VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataGlobal;
+  repositories?: VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataRepositories;
+};
 
-export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataGlobal =
-  object;
+export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataGlobal = object;
 
-export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataRepositories =
-  object;
+export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataRepositories = object;
 
 export type VeleroHelmValuesRbac = {
   create?: boolean;

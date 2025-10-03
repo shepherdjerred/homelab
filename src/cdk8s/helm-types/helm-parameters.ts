@@ -30,5 +30,4 @@ type HelmChartValuesMap = {
   velero: VeleroHelmValues;
 };
 
-export type HelmValuesForChart<TChart extends keyof HelmChartValuesMap> =
-  HelmChartValuesMap[TChart];
+export type HelmValuesForChart<TChart extends keyof HelmChartValuesMap> = HelmChartValuesMap[TChart];

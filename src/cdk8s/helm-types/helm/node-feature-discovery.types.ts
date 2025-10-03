@@ -63,8 +63,7 @@ export type NodefeaturediscoveryHelmValuesMasterServiceAccount = {
   name?: unknown;
 };
 
-export type NodefeaturediscoveryHelmValuesMasterServiceAccountAnnotations =
-  object;
+export type NodefeaturediscoveryHelmValuesMasterServiceAccountAnnotations = object;
 
 export type NodefeaturediscoveryHelmValuesMasterRbac = {
   create?: boolean;
@@ -212,8 +211,7 @@ export type NodefeaturediscoveryHelmValuesWorkerServiceAccount = {
   name?: unknown;
 };
 
-export type NodefeaturediscoveryHelmValuesWorkerServiceAccountAnnotations =
-  object;
+export type NodefeaturediscoveryHelmValuesWorkerServiceAccountAnnotations = object;
 
 export type NodefeaturediscoveryHelmValuesWorkerRbac = {
   create?: boolean;
@@ -275,15 +273,13 @@ export type NodefeaturediscoveryHelmValuesTopologyUpdaterServiceAccount = {
   name?: unknown;
 };
 
-export type NodefeaturediscoveryHelmValuesTopologyUpdaterServiceAccountAnnotations =
-  object;
+export type NodefeaturediscoveryHelmValuesTopologyUpdaterServiceAccountAnnotations = object;
 
 export type NodefeaturediscoveryHelmValuesTopologyUpdaterRbac = {
   create?: boolean;
 };
 
-export type NodefeaturediscoveryHelmValuesTopologyUpdaterPodSecurityContext =
-  object;
+export type NodefeaturediscoveryHelmValuesTopologyUpdaterPodSecurityContext = object;
 
 export type NodefeaturediscoveryHelmValuesTopologyUpdaterSecurityContext = {
   allowPrivilegeEscalation?: boolean;
@@ -292,10 +288,9 @@ export type NodefeaturediscoveryHelmValuesTopologyUpdaterSecurityContext = {
   runAsUser?: number;
 };
 
-export type NodefeaturediscoveryHelmValuesTopologyUpdaterSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type NodefeaturediscoveryHelmValuesTopologyUpdaterSecurityContextCapabilities = {
+  drop?: string[];
+};
 
 export type NodefeaturediscoveryHelmValuesTopologyUpdaterLivenessProbe = {
   grpc?: NodefeaturediscoveryHelmValuesTopologyUpdaterLivenessProbeGrpc;
@@ -334,8 +329,7 @@ export type NodefeaturediscoveryHelmValuesTopologyUpdaterNodeSelector = object;
 
 export type NodefeaturediscoveryHelmValuesTopologyUpdaterAnnotations = object;
 
-export type NodefeaturediscoveryHelmValuesTopologyUpdaterDaemonsetAnnotations =
-  object;
+export type NodefeaturediscoveryHelmValuesTopologyUpdaterDaemonsetAnnotations = object;
 
 export type NodefeaturediscoveryHelmValuesTopologyUpdaterAffinity = object;
 

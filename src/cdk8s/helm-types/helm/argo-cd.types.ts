@@ -424,8 +424,7 @@ export type ArgocdHelmValuesControllerMetricsServiceMonitorSelector = object;
 
 export type ArgocdHelmValuesControllerMetricsServiceMonitorTlsConfig = object;
 
-export type ArgocdHelmValuesControllerMetricsServiceMonitorAdditionalLabels =
-  object;
+export type ArgocdHelmValuesControllerMetricsServiceMonitorAdditionalLabels = object;
 
 export type ArgocdHelmValuesControllerMetricsServiceMonitorAnnotations = object;
 
@@ -741,15 +740,13 @@ export type ArgocdHelmValuesRedisExporterContainerSecurityContext = {
   capabilities?: ArgocdHelmValuesRedisExporterContainerSecurityContextCapabilities;
 };
 
-export type ArgocdHelmValuesRedisExporterContainerSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type ArgocdHelmValuesRedisExporterContainerSecurityContextSeccompProfile = {
+  type?: string;
+};
 
-export type ArgocdHelmValuesRedisExporterContainerSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type ArgocdHelmValuesRedisExporterContainerSecurityContextCapabilities = {
+  drop?: string[];
+};
 
 export type ArgocdHelmValuesRedisExporterReadinessProbe = {
   enabled?: boolean;
@@ -1028,15 +1025,13 @@ export type ArgocdHelmValuesRedisSecretInitContainerSecurityContext = {
   seccompProfile?: ArgocdHelmValuesRedisSecretInitContainerSecurityContextSeccompProfile;
 };
 
-export type ArgocdHelmValuesRedisSecretInitContainerSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type ArgocdHelmValuesRedisSecretInitContainerSecurityContextCapabilities = {
+  drop?: string[];
+};
 
-export type ArgocdHelmValuesRedisSecretInitContainerSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type ArgocdHelmValuesRedisSecretInitContainerSecurityContextSeccompProfile = {
+  type?: string;
+};
 
 export type ArgocdHelmValuesRedisSecretInitSecurityContext = object;
 
@@ -1158,15 +1153,13 @@ export type ArgocdHelmValuesServerExtensionsContainerSecurityContext = {
   capabilities?: ArgocdHelmValuesServerExtensionsContainerSecurityContextCapabilities;
 };
 
-export type ArgocdHelmValuesServerExtensionsContainerSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type ArgocdHelmValuesServerExtensionsContainerSecurityContextSeccompProfile = {
+  type?: string;
+};
 
-export type ArgocdHelmValuesServerExtensionsContainerSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type ArgocdHelmValuesServerExtensionsContainerSecurityContextCapabilities = {
+  drop?: string[];
+};
 
 export type ArgocdHelmValuesServerExtensionsResources = object;
 
@@ -1332,8 +1325,7 @@ export type ArgocdHelmValuesServerMetricsServiceMonitorSelector = object;
 
 export type ArgocdHelmValuesServerMetricsServiceMonitorTlsConfig = object;
 
-export type ArgocdHelmValuesServerMetricsServiceMonitorAdditionalLabels =
-  object;
+export type ArgocdHelmValuesServerMetricsServiceMonitorAdditionalLabels = object;
 
 export type ArgocdHelmValuesServerMetricsServiceMonitorAnnotations = object;
 
@@ -1633,8 +1625,7 @@ export type ArgocdHelmValuesRepoServerMetricsServiceMonitorSelector = object;
 
 export type ArgocdHelmValuesRepoServerMetricsServiceMonitorTlsConfig = object;
 
-export type ArgocdHelmValuesRepoServerMetricsServiceMonitorAdditionalLabels =
-  object;
+export type ArgocdHelmValuesRepoServerMetricsServiceMonitorAdditionalLabels = object;
 
 export type ArgocdHelmValuesRepoServerMetricsServiceMonitorAnnotations = object;
 
@@ -1758,17 +1749,13 @@ export type ArgocdHelmValuesApplicationSetMetricsServiceMonitor = {
   annotations?: ArgocdHelmValuesApplicationSetMetricsServiceMonitorAnnotations;
 };
 
-export type ArgocdHelmValuesApplicationSetMetricsServiceMonitorSelector =
-  object;
+export type ArgocdHelmValuesApplicationSetMetricsServiceMonitorSelector = object;
 
-export type ArgocdHelmValuesApplicationSetMetricsServiceMonitorTlsConfig =
-  object;
+export type ArgocdHelmValuesApplicationSetMetricsServiceMonitorTlsConfig = object;
 
-export type ArgocdHelmValuesApplicationSetMetricsServiceMonitorAdditionalLabels =
-  object;
+export type ArgocdHelmValuesApplicationSetMetricsServiceMonitorAdditionalLabels = object;
 
-export type ArgocdHelmValuesApplicationSetMetricsServiceMonitorAnnotations =
-  object;
+export type ArgocdHelmValuesApplicationSetMetricsServiceMonitorAnnotations = object;
 
 export type ArgocdHelmValuesApplicationSetService = {
   annotations?: ArgocdHelmValuesApplicationSetServiceAnnotations;
@@ -1820,15 +1807,13 @@ export type ArgocdHelmValuesApplicationSetContainerSecurityContext = {
   capabilities?: ArgocdHelmValuesApplicationSetContainerSecurityContextCapabilities;
 };
 
-export type ArgocdHelmValuesApplicationSetContainerSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type ArgocdHelmValuesApplicationSetContainerSecurityContextSeccompProfile = {
+  type?: string;
+};
 
-export type ArgocdHelmValuesApplicationSetContainerSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type ArgocdHelmValuesApplicationSetContainerSecurityContextCapabilities = {
+  drop?: string[];
+};
 
 export type ArgocdHelmValuesApplicationSetReadinessProbe = {
   enabled?: boolean;
@@ -2017,14 +2002,11 @@ export type ArgocdHelmValuesNotificationsMetricsServiceMonitor = {
 
 export type ArgocdHelmValuesNotificationsMetricsServiceMonitorSelector = object;
 
-export type ArgocdHelmValuesNotificationsMetricsServiceMonitorAdditionalLabels =
-  object;
+export type ArgocdHelmValuesNotificationsMetricsServiceMonitorAdditionalLabels = object;
 
-export type ArgocdHelmValuesNotificationsMetricsServiceMonitorAnnotations =
-  object;
+export type ArgocdHelmValuesNotificationsMetricsServiceMonitorAnnotations = object;
 
-export type ArgocdHelmValuesNotificationsMetricsServiceMonitorTlsConfig =
-  object;
+export type ArgocdHelmValuesNotificationsMetricsServiceMonitorTlsConfig = object;
 
 export type ArgocdHelmValuesNotificationsNotifiers = object;
 
@@ -2052,15 +2034,13 @@ export type ArgocdHelmValuesNotificationsContainerSecurityContext = {
   capabilities?: ArgocdHelmValuesNotificationsContainerSecurityContextCapabilities;
 };
 
-export type ArgocdHelmValuesNotificationsContainerSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type ArgocdHelmValuesNotificationsContainerSecurityContextSeccompProfile = {
+  type?: string;
+};
 
-export type ArgocdHelmValuesNotificationsContainerSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type ArgocdHelmValuesNotificationsContainerSecurityContextCapabilities = {
+  drop?: string[];
+};
 
 export type ArgocdHelmValuesNotificationsReadinessProbe = {
   enabled?: boolean;
@@ -2221,10 +2201,9 @@ export type ArgocdHelmValuesCommitServerContainerSecurityContextCapabilities = {
   drop?: string[];
 };
 
-export type ArgocdHelmValuesCommitServerContainerSecurityContextSeccompProfile =
-  {
-    type?: string;
-  };
+export type ArgocdHelmValuesCommitServerContainerSecurityContextSeccompProfile = {
+  type?: string;
+};
 
 export type ArgocdHelmValuesCommitServerReadinessProbe = {
   enabled?: boolean;

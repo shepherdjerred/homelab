@@ -51,19 +51,12 @@ async function main() {
 
     // Step 5: Verify Chart.yaml has correct version
     console.log("🏷️  Verifying Chart.yaml version...");
-    const chartYaml = await readFile(
-      join(EXPORT_DIR, CHART_NAME, "Chart.yaml"),
-      "utf-8",
-    );
+    const chartYaml = await readFile(join(EXPORT_DIR, CHART_NAME, "Chart.yaml"), "utf-8");
     if (!chartYaml.includes(`version: ${TEST_VERSION}`)) {
-      throw new Error(
-        `Chart.yaml does not contain expected version: ${TEST_VERSION}`,
-      );
+      throw new Error(`Chart.yaml does not contain expected version: ${TEST_VERSION}`);
     }
     if (!chartYaml.includes(`appVersion: ${TEST_VERSION}`)) {
-      throw new Error(
-        `Chart.yaml does not contain expected appVersion: ${TEST_VERSION}`,
-      );
+      throw new Error(`Chart.yaml does not contain expected appVersion: ${TEST_VERSION}`);
     }
     console.log("✅ Chart.yaml version is correct");
 
@@ -83,11 +76,7 @@ async function main() {
     const templates = await readdir(templatesDir);
     console.log("Found templates:", templates);
 
-    const expectedTemplates = [
-      "apps.k8s.yaml",
-      "project.k8s.yaml",
-      "torvalds.k8s.yaml",
-    ];
+    const expectedTemplates = ["apps.k8s.yaml", "project.k8s.yaml", "torvalds.k8s.yaml"];
 
     for (const template of expectedTemplates) {
       if (!templates.includes(template)) {
@@ -100,18 +89,10 @@ async function main() {
     console.log("🔬 Validating template contents...");
 
     // Check torvalds.k8s.yaml for expected resources
-    const torvaldsTemplate = await readFile(
-      join(templatesDir, "torvalds.k8s.yaml"),
-      "utf-8",
-    );
+    const torvaldsTemplate = await readFile(join(templatesDir, "torvalds.k8s.yaml"), "utf-8");
 
     // Verify it contains Kubernetes resources
-    const expectedResourceTypes = [
-      "apiVersion:",
-      "kind: PersistentVolumeClaim",
-      "kind: Deployment",
-      "kind: Service",
-    ];
+    const expectedResourceTypes = ["apiVersion:", "kind: PersistentVolumeClaim", "kind: Deployment", "kind: Service"];
 
     for (const resourceType of expectedResourceTypes) {
       if (!torvaldsTemplate.includes(resourceType)) {
@@ -120,35 +101,21 @@ async function main() {
     }
 
     // Verify it contains homelab-specific resources
-    const expectedResources = [
-      "name: plex-tv-hdd-pvc",
-      "namespace: torvalds",
-      "storageClassName: zfs-hdd",
-    ];
+    const expectedResources = ["name: plex-tv-hdd-pvc", "namespace: torvalds", "storageClassName: zfs-hdd"];
 
     for (const resource of expectedResources) {
       if (!torvaldsTemplate.includes(resource)) {
         throw new Error(`Expected homelab resource not found: ${resource}`);
       }
     }
-    console.log(
-      "✅ Template contents are valid and contain expected resources",
-    );
+    console.log("✅ Template contents are valid and contain expected resources");
 
     // Step 9: Check apps.k8s.yaml for ArgoCD applications
     console.log("🎯 Validating ArgoCD applications...");
-    const appsTemplate = await readFile(
-      join(templatesDir, "apps.k8s.yaml"),
-      "utf-8",
-    );
+    const appsTemplate = await readFile(join(templatesDir, "apps.k8s.yaml"), "utf-8");
 
-    if (
-      !appsTemplate.includes("kind: Application") ||
-      !appsTemplate.includes("argoproj.io")
-    ) {
-      throw new Error(
-        "apps.k8s.yaml does not contain expected ArgoCD applications",
-      );
+    if (!appsTemplate.includes("kind: Application") || !appsTemplate.includes("argoproj.io")) {
+      throw new Error("apps.k8s.yaml does not contain expected ArgoCD applications");
     }
     console.log("✅ ArgoCD applications are present in apps template");
 
@@ -159,13 +126,8 @@ async function main() {
     if (helmLintResult.exitCode === 0) {
       console.log("✅ Helm chart passes lint validation");
     } else {
-      console.log(
-        "⚠️  Helm not available or lint failed - skipping validation",
-      );
-      console.log(
-        "Lint output:",
-        helmLintResult.stderr.toString() || "No error output",
-      );
+      console.log("⚠️  Helm not available or lint failed - skipping validation");
+      console.log("Lint output:", helmLintResult.stderr.toString() || "No error output");
     }
 
     console.log("🎉 All Helm chart tests passed!");
@@ -180,9 +142,7 @@ async function main() {
     console.log("   Use the following to inspect:");
     console.log(`   ls -la ${EXPORT_DIR}`);
     console.log(`   cd ${EXPORT_DIR} && tar -tzf ${CHART_FILE}`);
-    console.log(
-      `   cd ${EXPORT_DIR} && tar -xzf ${CHART_FILE} && ls -la ${CHART_NAME}/`,
-    );
+    console.log(`   cd ${EXPORT_DIR} && tar -xzf ${CHART_FILE} && ls -la ${CHART_NAME}/`);
     console.log(`   rm -rf ${EXPORT_DIR}  # when done`);
     process.exit(1);
   }

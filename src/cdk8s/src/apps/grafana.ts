@@ -14,15 +14,7 @@ export function createGrafanaApp(chart: Chart) {
     },
   });
 
-  createIngress(
-    chart,
-    "grafana-ingress",
-    "prometheus",
-    "prometheus-grafana",
-    80,
-    ["grafana"],
-    false,
-  );
+  createIngress(chart, "grafana-ingress", "prometheus", "prometheus-grafana", 80, ["grafana"], false);
 
   return new Application(chart, "grafana-app", {
     metadata: {

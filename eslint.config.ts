@@ -18,10 +18,7 @@ export default defineConfig(
   },
   {
     rules: {
-      "max-lines": [
-        "error",
-        { max: 1000, skipBlankLines: false, skipComments: false },
-      ],
+      "max-lines": ["error", { max: 1000, skipBlankLines: false, skipComments: false }],
       "@typescript-eslint/consistent-type-definitions": ["error", "type"],
       "@typescript-eslint/no-non-null-assertion": "error",
       "@typescript-eslint/consistent-type-assertions": [
@@ -35,14 +32,11 @@ export default defineConfig(
         "error",
         {
           selector: "UnaryExpression[operator='typeof']",
-          message:
-            "Prefer Zod schema validation over typeof operator. Use z.string(), z.number(), etc. instead.",
+          message: "Prefer Zod schema validation over typeof operator. Use z.string(), z.number(), etc. instead.",
         },
         {
-          selector:
-            "CallExpression[callee.object.name='Array'][callee.property.name='isArray']",
-          message:
-            "Prefer Zod schema validation over Array.isArray(). Use z.array() instead.",
+          selector: "CallExpression[callee.object.name='Array'][callee.property.name='isArray']",
+          message: "Prefer Zod schema validation over Array.isArray(). Use z.array() instead.",
         },
         {
           selector: "BinaryExpression[operator='instanceof']",
@@ -50,22 +44,17 @@ export default defineConfig(
             "Prefer Zod schema validation over instanceof operator. Use appropriate z.instanceof() or custom Zod schemas instead.",
         },
         {
-          selector:
-            "CallExpression[callee.object.name='Number'][callee.property.name='isInteger']",
-          message:
-            "Prefer Zod schema validation over Number.isInteger(). Use z.number().int() instead.",
+          selector: "CallExpression[callee.object.name='Number'][callee.property.name='isInteger']",
+          message: "Prefer Zod schema validation over Number.isInteger(). Use z.number().int() instead.",
         },
         {
-          selector:
-            "CallExpression[callee.object.name='Number'][callee.property.name='isNaN']",
+          selector: "CallExpression[callee.object.name='Number'][callee.property.name='isNaN']",
           message:
             "Prefer Zod schema validation over Number.isNaN(). Use z.number() with proper error handling instead.",
         },
         {
-          selector:
-            "CallExpression[callee.object.name='Number'][callee.property.name='isFinite']",
-          message:
-            "Prefer Zod schema validation over Number.isFinite(). Use z.number().finite() instead.",
+          selector: "CallExpression[callee.object.name='Number'][callee.property.name='isFinite']",
+          message: "Prefer Zod schema validation over Number.isFinite(). Use z.number().finite() instead.",
         },
         {
           selector: "TSTypePredicate",
@@ -73,8 +62,7 @@ export default defineConfig(
             "Prefer Zod schema validation over type guard functions. Use z.schema.safeParse() instead of custom type guards.",
         },
         {
-          selector:
-            "TSTypeAssertion:not([typeAnnotation.type='TSUnknownKeyword'])",
+          selector: "TSTypeAssertion:not([typeAnnotation.type='TSUnknownKeyword'])",
           message:
             "Type assertions are not allowed except for casting to 'unknown'. Use 'value as unknown' if you need to cast to unknown, otherwise use Zod schema validation.",
         },

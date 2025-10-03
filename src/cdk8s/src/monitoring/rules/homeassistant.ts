@@ -1,7 +1,4 @@
-import {
-  PrometheusRuleSpecGroups,
-  PrometheusRuleSpecGroupsRulesExpr,
-} from "../../../imports/monitoring.coreos.com";
+import { PrometheusRuleSpecGroups, PrometheusRuleSpecGroupsRulesExpr } from "../../../imports/monitoring.coreos.com";
 import { createSensorAlert, createBinarySensorAlert } from "./shared";
 
 export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {

@@ -6,20 +6,11 @@ import { createIngress } from "../utils/tailscale.ts";
 import { HDD_STORAGE_CLASS } from "../storageclasses.ts";
 import type { HelmValuesForChart } from "../../helm-types/helm-parameters.ts";
 export function createChartMuseumApp(chart: Chart) {
-  createIngress(
-    chart,
-    "chartmusuem-ingress",
-    "chartmuseum",
-    "chartmuseum",
-    8080,
-    ["chartmuseum"],
-    true,
-  );
+  createIngress(chart, "chartmusuem-ingress", "chartmuseum", "chartmuseum", 8080, ["chartmuseum"], true);
 
   const basicAuth = new OnePasswordItem(chart, "chartmuseum-admin-password", {
     spec: {
-      itemPath:
-        "vaults/v64ocnykdqju4ui6j6pua56xw4/items/wwoism5fsvmbisv4ef47yxqy2i",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/wwoism5fsvmbisv4ef47yxqy2i",
     },
     metadata: {
       name: "chartmuseum-basic-auth",

@@ -827,16 +827,14 @@ export type LokiHelmValuesGatewayAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
-export type LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
-  {
-    matchLabels?: LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
-  };
+export type LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector = {
+  matchLabels?: LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+};
 
 export type LokiHelmValuesGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
   {
@@ -978,10 +976,9 @@ export type LokiHelmValuesEnterpriseGatewayContainerSecurityContext = {
   allowPrivilegeEscalation?: boolean;
 };
 
-export type LokiHelmValuesEnterpriseGatewayContainerSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type LokiHelmValuesEnterpriseGatewayContainerSecurityContextCapabilities = {
+  drop?: string[];
+};
 
 export type LokiHelmValuesEnterpriseGatewayStrategy = {
   type?: string;
@@ -1101,11 +1098,10 @@ export type LokiHelmValuesSingleBinaryAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
 export type LokiHelmValuesSingleBinaryAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
   {
@@ -1236,16 +1232,14 @@ export type LokiHelmValuesWriteAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
-export type LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
-  {
-    matchLabels?: LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
-  };
+export type LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector = {
+  matchLabels?: LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+};
 
 export type LokiHelmValuesWriteAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
   {
@@ -1356,16 +1350,14 @@ export type LokiHelmValuesReadAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
-export type LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
-  {
-    matchLabels?: LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
-  };
+export type LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector = {
+  matchLabels?: LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+};
 
 export type LokiHelmValuesReadAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
   {
@@ -1462,16 +1454,14 @@ export type LokiHelmValuesBackendAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
-export type LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
-  {
-    matchLabels?: LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
-  };
+export type LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector = {
+  matchLabels?: LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+};
 
 export type LokiHelmValuesBackendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
   {
@@ -1497,8 +1487,7 @@ export type LokiHelmValuesBackendPersistenceDataVolumeParameters = {
   emptyDir?: LokiHelmValuesBackendPersistenceDataVolumeParametersEmptyDir;
 };
 
-export type LokiHelmValuesBackendPersistenceDataVolumeParametersEmptyDir =
-  object;
+export type LokiHelmValuesBackendPersistenceDataVolumeParametersEmptyDir = object;
 
 export type LokiHelmValuesBackendPersistenceAnnotations = object;
 
@@ -1592,10 +1581,9 @@ export type LokiHelmValuesIngesterTopologySpreadConstraintsLabelSelector = {
   matchLabels?: LokiHelmValuesIngesterTopologySpreadConstraintsLabelSelectorMatchLabels;
 };
 
-export type LokiHelmValuesIngesterTopologySpreadConstraintsLabelSelectorMatchLabels =
-  {
-    "app.kubernetes.io/component"?: string;
-  };
+export type LokiHelmValuesIngesterTopologySpreadConstraintsLabelSelectorMatchLabels = {
+  "app.kubernetes.io/component"?: string;
+};
 
 export type LokiHelmValuesIngesterAffinity = {
   podAntiAffinity?: LokiHelmValuesIngesterAffinityPodAntiAffinity;
@@ -1605,16 +1593,14 @@ export type LokiHelmValuesIngesterAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
-export type LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
-  {
-    matchLabels?: LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
-  };
+export type LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector = {
+  matchLabels?: LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+};
 
 export type LokiHelmValuesIngesterAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
   {
@@ -1666,13 +1652,11 @@ export type LokiHelmValuesIngesterZoneAwareReplicationZoneA = {
   podAnnotations?: LokiHelmValuesIngesterZoneAwareReplicationZoneAPodAnnotations;
 };
 
-export type LokiHelmValuesIngesterZoneAwareReplicationZoneAExtraAffinity =
-  object;
+export type LokiHelmValuesIngesterZoneAwareReplicationZoneAExtraAffinity = object;
 
 export type LokiHelmValuesIngesterZoneAwareReplicationZoneAAnnotations = object;
 
-export type LokiHelmValuesIngesterZoneAwareReplicationZoneAPodAnnotations =
-  object;
+export type LokiHelmValuesIngesterZoneAwareReplicationZoneAPodAnnotations = object;
 
 export type LokiHelmValuesIngesterZoneAwareReplicationZoneB = {
   nodeSelector?: unknown;
@@ -1681,13 +1665,11 @@ export type LokiHelmValuesIngesterZoneAwareReplicationZoneB = {
   podAnnotations?: LokiHelmValuesIngesterZoneAwareReplicationZoneBPodAnnotations;
 };
 
-export type LokiHelmValuesIngesterZoneAwareReplicationZoneBExtraAffinity =
-  object;
+export type LokiHelmValuesIngesterZoneAwareReplicationZoneBExtraAffinity = object;
 
 export type LokiHelmValuesIngesterZoneAwareReplicationZoneBAnnotations = object;
 
-export type LokiHelmValuesIngesterZoneAwareReplicationZoneBPodAnnotations =
-  object;
+export type LokiHelmValuesIngesterZoneAwareReplicationZoneBPodAnnotations = object;
 
 export type LokiHelmValuesIngesterZoneAwareReplicationZoneC = {
   nodeSelector?: unknown;
@@ -1696,13 +1678,11 @@ export type LokiHelmValuesIngesterZoneAwareReplicationZoneC = {
   podAnnotations?: LokiHelmValuesIngesterZoneAwareReplicationZoneCPodAnnotations;
 };
 
-export type LokiHelmValuesIngesterZoneAwareReplicationZoneCExtraAffinity =
-  object;
+export type LokiHelmValuesIngesterZoneAwareReplicationZoneCExtraAffinity = object;
 
 export type LokiHelmValuesIngesterZoneAwareReplicationZoneCAnnotations = object;
 
-export type LokiHelmValuesIngesterZoneAwareReplicationZoneCPodAnnotations =
-  object;
+export type LokiHelmValuesIngesterZoneAwareReplicationZoneCPodAnnotations = object;
 
 export type LokiHelmValuesIngesterZoneAwareReplicationMigration = {
   enabled?: boolean;
@@ -1784,11 +1764,10 @@ export type LokiHelmValuesDistributorAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
 export type LokiHelmValuesDistributorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
   {
@@ -1883,10 +1862,9 @@ export type LokiHelmValuesQuerierTopologySpreadConstraintsLabelSelector = {
   matchLabels?: LokiHelmValuesQuerierTopologySpreadConstraintsLabelSelectorMatchLabels;
 };
 
-export type LokiHelmValuesQuerierTopologySpreadConstraintsLabelSelectorMatchLabels =
-  {
-    "app.kubernetes.io/component"?: string;
-  };
+export type LokiHelmValuesQuerierTopologySpreadConstraintsLabelSelectorMatchLabels = {
+  "app.kubernetes.io/component"?: string;
+};
 
 export type LokiHelmValuesQuerierAffinity = {
   podAntiAffinity?: LokiHelmValuesQuerierAffinityPodAntiAffinity;
@@ -1896,16 +1874,14 @@ export type LokiHelmValuesQuerierAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
-export type LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
-  {
-    matchLabels?: LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
-  };
+export type LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector = {
+  matchLabels?: LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+};
 
 export type LokiHelmValuesQuerierAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
   {
@@ -1991,11 +1967,10 @@ export type LokiHelmValuesQueryFrontendAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
 export type LokiHelmValuesQueryFrontendAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
   {
@@ -2062,11 +2037,10 @@ export type LokiHelmValuesQuerySchedulerAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
 export type LokiHelmValuesQuerySchedulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
   {
@@ -2137,11 +2111,10 @@ export type LokiHelmValuesIndexGatewayAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
 export type LokiHelmValuesIndexGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
   {
@@ -2232,11 +2205,10 @@ export type LokiHelmValuesCompactorAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
 export type LokiHelmValuesCompactorAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
   {
@@ -2344,11 +2316,10 @@ export type LokiHelmValuesBloomGatewayAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
 export type LokiHelmValuesBloomGatewayAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
   {
@@ -2456,11 +2427,10 @@ export type LokiHelmValuesBloomPlannerAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
 export type LokiHelmValuesBloomPlannerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
   {
@@ -2590,11 +2560,10 @@ export type LokiHelmValuesBloomBuilderAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
 export type LokiHelmValuesBloomBuilderAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
   {
@@ -2781,16 +2750,14 @@ export type LokiHelmValuesRulerAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
-export type LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
-  {
-    matchLabels?: LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
-  };
+export type LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector = {
+  matchLabels?: LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels;
+};
 
 export type LokiHelmValuesRulerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelectorMatchLabels =
   {
@@ -2981,10 +2948,9 @@ export type LokiHelmValuesMemcachedExporterContainerSecurityContext = {
   allowPrivilegeEscalation?: boolean;
 };
 
-export type LokiHelmValuesMemcachedExporterContainerSecurityContextCapabilities =
-  {
-    drop?: string[];
-  };
+export type LokiHelmValuesMemcachedExporterContainerSecurityContextCapabilities = {
+  drop?: string[];
+};
 
 export type LokiHelmValuesMemcachedExporterExtraArgs = object;
 
@@ -3424,11 +3390,9 @@ export type LokiHelmValuesMonitoringServiceMonitorMetricsInstance = {
   remoteWrite?: unknown;
 };
 
-export type LokiHelmValuesMonitoringServiceMonitorMetricsInstanceAnnotations =
-  object;
+export type LokiHelmValuesMonitoringServiceMonitorMetricsInstanceAnnotations = object;
 
-export type LokiHelmValuesMonitoringServiceMonitorMetricsInstanceLabels =
-  object;
+export type LokiHelmValuesMonitoringServiceMonitorMetricsInstanceLabels = object;
 
 export type LokiHelmValuesMonitoringSelfMonitoring = {
   enabled?: boolean;
@@ -3454,13 +3418,11 @@ export type LokiHelmValuesMonitoringSelfMonitoringGrafanaAgent = {
   tolerations?: unknown[];
 };
 
-export type LokiHelmValuesMonitoringSelfMonitoringGrafanaAgentAnnotations =
-  object;
+export type LokiHelmValuesMonitoringSelfMonitoringGrafanaAgentAnnotations = object;
 
 export type LokiHelmValuesMonitoringSelfMonitoringGrafanaAgentLabels = object;
 
-export type LokiHelmValuesMonitoringSelfMonitoringGrafanaAgentResources =
-  object;
+export type LokiHelmValuesMonitoringSelfMonitoringGrafanaAgentResources = object;
 
 export type LokiHelmValuesMonitoringSelfMonitoringPodLogs = {
   apiVersion?: string;
@@ -3480,8 +3442,7 @@ export type LokiHelmValuesMonitoringSelfMonitoringLogsInstance = {
   clients?: unknown;
 };
 
-export type LokiHelmValuesMonitoringSelfMonitoringLogsInstanceAnnotations =
-  object;
+export type LokiHelmValuesMonitoringSelfMonitoringLogsInstanceAnnotations = object;
 
 export type LokiHelmValuesMonitoringSelfMonitoringLogsInstanceLabels = object;
 
@@ -3541,11 +3502,10 @@ export type LokiHelmValuesTableManagerAffinityPodAntiAffinity = {
   requiredDuringSchedulingIgnoredDuringExecution?: LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement[];
 };
 
-export type LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement =
-  {
-    labelSelector?: LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
-    topologyKey?: string;
-  };
+export type LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionElement = {
+  labelSelector?: LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector;
+  topologyKey?: string;
+};
 
 export type LokiHelmValuesTableManagerAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecutionLabelSelector =
   {
