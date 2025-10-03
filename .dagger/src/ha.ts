@@ -57,6 +57,8 @@ function buildHaContainer(source: Directory): Container {
       // Copy minimal workspace files needed for dependency resolution
       .withFile("src/ha/package.json", haSource.file("package.json"))
       .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
+      .withFile("src/helm-types/package.json", source.file("src/helm-types/package.json"))
+      .withFile(".dagger/package.json", source.file(".dagger/package.json"))
       // Install dependencies (cached unless dependency files change)
       .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache-default-ha"))
       .withExec(["bun", "install", "--frozen-lockfile"])
