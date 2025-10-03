@@ -176,7 +176,7 @@ export function createVeleroApp(chart: Chart) {
           config: {
             region: "auto", // Cloudflare R2 uses "auto" region
             s3Url: "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
-            s3ForcePathStyle: "true",
+            Prefix: "torvalds/backups/",
           },
         },
       ],
@@ -194,7 +194,7 @@ export function createVeleroApp(chart: Chart) {
             provider: "aws",
             region: "auto",
             s3Url: "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
-            s3ForcePathStyle: "true",
+            Prefix: "torvalds/zfs/",
           },
         },
       ],

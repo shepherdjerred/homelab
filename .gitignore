@@ -4,4 +4,4 @@ node_modules
 *.iml
 dist/
 *.tar
-tsconfig.tsbuildinfo
+*.tsbuildinfo
