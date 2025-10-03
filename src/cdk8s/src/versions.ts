@@ -43,7 +43,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "tailscale/golink": "main@sha256:22c63ff0fe9e1540ecfb96d40efbae4955fd86496042b90f8a6cca4a92c6ff19",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
-  "home-assistant/home-assistant": "2025.9.4@sha256:89ec0583c7f47c8a150204f6b5ed48b5432026012bebe1226cf72775a795a5e1",
+  "home-assistant/home-assistant": "2025.10.0@sha256:ae0e2a2f03822c49a0c506bc40e367b4abc8b3207d67a6e0312b42d60867c5e5",
   // Custom homelab HA image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/homelab": "latest",
@@ -64,7 +64,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
   openebs: "4.3.3",
   // not managed by renovate
-  "shepherdjerred/scout-for-lol/beta": "1.0.141",
+  "shepherdjerred/scout-for-lol/beta": "1.0.142",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/prod": "1.0.167",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
@@ -74,7 +74,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set": "0.12.1",
   // renovate: datasource=docker registryUrl=https://registry.dagger.io versioning=loose
-  "dagger-helm": "0.18.19",
+  "dagger-helm": "0.19.0",
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
   velero: "10.1.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
