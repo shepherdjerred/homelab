@@ -1,6 +1,8 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../imports/argoproj.io.ts";
 import { Namespace } from "cdk8s-plus-31";
+import { ServiceMonitor } from "../../imports/monitoring.coreos.com.ts";
+import { IntOrString, KubeService } from "../../imports/k8s.ts";
 import versions from "../versions.ts";
 import { createIngress } from "../utils/tailscale.ts";
 import { createCoderPostgreSQLDatabase } from "../services/postgres/coder-db.ts";
@@ -93,11 +95,11 @@ export function createCoderApp(chart: Chart) {
         // Enable GitHub OAuth with allow signups
         {
           name: "CODER_OAUTH2_GITHUB_ALLOW_SIGNUPS",
-          value: "true",
+          value: "false",
         },
         {
           name: "CODER_OAUTH2_GITHUB_ALLOW_EVERYONE",
-          value: "true",
+          value: "false",
         },
         {
           name: "CODER_PROMETHEUS_ENABLE",
@@ -120,6 +122,59 @@ export function createCoderApp(chart: Chart) {
       },
     },
   };
+
+  // Create headless service for Prometheus metrics
+  // This is required for the ServiceMonitor to discover the Coder pods
+  new KubeService(chart, "coder-prom-service", {
+    metadata: {
+      name: "coder-prom",
+      namespace: "coder",
+    },
+    spec: {
+      clusterIp: "None", // Headless service
+      ports: [
+        {
+          name: "prom-http",
+          port: 2112,
+          protocol: "TCP",
+          targetPort: IntOrString.fromNumber(2112),
+        },
+      ],
+      selector: {
+        "app.kubernetes.io/instance": "coder",
+        "app.kubernetes.io/name": "coder",
+      },
+      type: "ClusterIP",
+    },
+  });
+
+  // Create ServiceMonitor for Prometheus to scrape Coder metrics
+  new ServiceMonitor(chart, "coder-service-monitor", {
+    metadata: {
+      name: "coder-service-monitor",
+      namespace: "coder",
+      labels: {
+        release: "prometheus", // This label is required for the Prometheus operator to discover it
+      },
+    },
+    spec: {
+      endpoints: [
+        {
+          port: "prom-http",
+          interval: "10s",
+          scrapeTimeout: "10s",
+        },
+      ],
+      namespaceSelector: {
+        matchNames: ["coder"],
+      },
+      selector: {
+        matchLabels: {
+          "app.kubernetes.io/name": "coder",
+        },
+      },
+    },
+  });
 
   return new Application(chart, "coder-app", {
     metadata: {
