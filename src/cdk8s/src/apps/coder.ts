@@ -82,9 +82,7 @@ export function createCoderApp(chart: Chart) {
           readOnly: true,
         },
       ],
-      // Override the command to read DB URL from file before starting Coder
-      command: ["/bin/sh", "-c"],
-      args: ["'export CODER_PG_CONNECTION_URL=$(cat /db-url/url) && exec /opt/coder server'"],
+      commandArgs: ["'export CODER_PG_CONNECTION_URL=$(cat /db-url/url) && exec /opt/coder server'"],
       env: [
         {
           name: "CODER_ACCESS_URL",
