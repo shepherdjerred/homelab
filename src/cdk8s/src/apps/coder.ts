@@ -139,11 +139,8 @@ export function createCoderApp(chart: Chart) {
       namespaceSelector: {
         matchNames: ["coder"],
       },
-      selector: {
-        matchLabels: {
-          "app.kubernetes.io/name": "coder",
-        },
-      },
+      // Empty selector matches all services in the namespace with the specified port
+      selector: {},
     },
   });
 
