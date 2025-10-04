@@ -10,11 +10,7 @@ export function createPrometheusAdapterApp(chart: Chart) {
       port: 9090,
       path: "",
     },
-    replicas: 2,
-    podDisruptionBudget: {
-      enabled: true,
-      minAvailable: 1,
-    },
+    replicas: 1,
     // Use default rules which include resource metrics (CPU/memory)
     // and allow custom metrics to be added later if needed
     rules: {
