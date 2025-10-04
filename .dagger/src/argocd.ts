@@ -36,7 +36,7 @@ export async function sync(
   let message: string;
   try {
     // Define Zod schema for ArgoCD sync response
-    const argocdResponseSchema = z.object({
+    const ArgocdResponseSchema = z.object({
       status: z
         .object({
           sync: z
@@ -65,7 +65,7 @@ export async function sync(
 
     // Parse and validate the JSON response
     const parsed = JSON.parse(bodyRaw) as unknown;
-    const result = argocdResponseSchema.safeParse(parsed);
+    const result = ArgocdResponseSchema.safeParse(parsed);
 
     if (result.success) {
       const typedParsed = result.data;

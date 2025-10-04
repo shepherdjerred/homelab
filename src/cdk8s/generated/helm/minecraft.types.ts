@@ -159,7 +159,13 @@ export type MinecraftHelmValuesStartupProbe = {
   periodSeconds?: number;
 };
 
-export type MinecraftHelmValuesExtraPodSpec = object;
+export type MinecraftHelmValuesExtraPodSpec = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
 
 export type MinecraftHelmValuesMinecraftServer = {
   /**
@@ -177,6 +183,11 @@ export type MinecraftHelmValuesMinecraftServer = {
    */
   version?: string;
   /**
+   * The type of Minecraft server to run, check for related settings below
+   * Common types: "VANILLA", "FABRIC", "FORGE", "SPIGOT", "BUKKIT", "PAPER",
+   * "FTBA", "SPONGEVANILLA", "AUTO_CURSEFORGE"
+   * ref: https://docker-minecraft-server.readthedocs.io/en/latest/types-and-platforms
+   *
    * Refer to https://docker-minecraft-server.readthedocs.io/en/latest/types-and-platforms/
    *
    * @default "VANILLA"
@@ -194,8 +205,6 @@ export type MinecraftHelmValuesMinecraftServer = {
   fabricLauncherVersion?: unknown;
   fabricLoaderVersion?: unknown;
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default "default"
    */
   ftbLegacyJavaFixer?: "default" | boolean;
@@ -209,8 +218,6 @@ export type MinecraftHelmValuesMinecraftServer = {
   ops?: unknown;
   icon?: unknown;
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default "default"
    */
   maxPlayers?: number | "default";
@@ -300,8 +307,6 @@ export type MinecraftHelmValuesMinecraftServer = {
   viewDistance?: number | "default";
   levelSeed?: unknown;
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default "survival"
    */
   gameMode?: string;
@@ -325,22 +330,16 @@ export type MinecraftHelmValuesMinecraftServer = {
   levelType?: string;
   generatorSettings?: unknown;
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default "world"
    */
   worldSaveName?: string;
   downloadWorldUrl?: unknown;
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default false
    */
   forceReDownload?: boolean;
   downloadModpackUrl?: unknown;
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default false
    */
   removeOldMods?: boolean;
@@ -348,8 +347,6 @@ export type MinecraftHelmValuesMinecraftServer = {
   resourcePackUrl?: unknown;
   resourcePackSha?: unknown;
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default false
    */
   resourcePackEnforce?: boolean;
@@ -384,27 +381,19 @@ export type MinecraftHelmValuesMinecraftServer = {
    */
   jvmXXOpts?: string;
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default "default"
    */
   overrideServerProperties?: "default" | boolean;
   /**
-   * DEPRECATED: use top-level rconServiceAnnotations instead
-   *
    * @default {}
    */
   serviceAnnotations?: MinecraftHelmValuesMinecraftServerServiceAnnotations;
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default "ClusterIP"
    */
   serviceType?: string;
   nodePort?: unknown;
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default 25565
    */
   servicePort?: number;
@@ -420,8 +409,6 @@ export type MinecraftHelmValuesMinecraftServer = {
    */
   modUrls?: string[];
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default []
    */
   pluginUrls?: string[];
@@ -450,21 +437,18 @@ export type MinecraftHelmValuesMinecraftServer = {
    */
   autoCurseForge?: MinecraftHelmValuesMinecraftServerAutoCurseForge;
   /**
-   * This must be overridden, since we can't accept this for the user.
+   * Set the externalTrafficPolicy in the Service to either Cluster or Local
+   * set this to false to not have colorized logs
    *
    * @default {...} (11 keys)
    */
   rcon?: MinecraftHelmValuesMinecraftServerRcon;
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default true
    */
   tty?: boolean;
   extraPorts?: unknown[];
   /**
-   * This must be overridden, since we can't accept this for the user.
-   *
    * @default {"enabled":false,"port":25565}
    */
   query?: MinecraftHelmValuesMinecraftServerQuery;
@@ -501,6 +485,7 @@ export type MinecraftHelmValuesMinecraftServerAutoCurseForge = {
    */
   apiKey?: MinecraftHelmValuesMinecraftServerAutoCurseForgeApiKey;
   /**
+   * Link to modpack in general or a specific file
    * NOTE: In case of specific file - do not point at server file
    *
    * @default ""
@@ -513,6 +498,7 @@ export type MinecraftHelmValuesMinecraftServerAutoCurseForge = {
    */
   slug?: string;
   /**
+   * Id used to specify which exact modpack file needs to be downloaded
    * NOTE: Do not use server file id
    *
    * @default ""
@@ -561,6 +547,7 @@ export type MinecraftHelmValuesMinecraftServerAutoCurseForge = {
    */
   parallelDownloads?: number;
   /**
+   * Set to skip files in modpack "overrides" folder that would replace existing files
    * NOTE: World data is always skipped if present
    *
    * @default false
@@ -599,27 +586,19 @@ export type MinecraftHelmValuesMinecraftServerRcon = {
    */
   withGeneratedPassword?: boolean;
   /**
-   * If you enable this, make SURE to change your password below.
-   *
    * @default 25575
    */
   port?: number;
   /**
-   * If you enable this, make SURE to change your password below.
-   *
    * @default "CHANGEME!"
    */
   password?: string;
   existingSecret?: unknown;
   /**
-   * If you enable this, make SURE to change your password below.
-   *
    * @default "rcon-password"
    */
   secretKey?: string;
   /**
-   * If you enable this, make SURE to change your password below.
-   *
    * @default "ClusterIP"
    */
   serviceType?: string;
@@ -637,8 +616,6 @@ export type MinecraftHelmValuesMinecraftServerQuery = {
    */
   enabled?: boolean;
   /**
-   * If you enable this, your server will be "published" to Gamespy
-   *
    * @default 25565
    */
   port?: number;
@@ -667,6 +644,13 @@ export type MinecraftHelmValuesPersistence = {
    */
   annotations?: MinecraftHelmValuesPersistenceAnnotations;
   /**
+   * specify an alternative volume to be mounted to /data instead of datadir.
+   * If defined, storageClassName: <storageClass>
+   * If set to "-", storageClassName: "", which disables dynamic provisioning
+   * If undefined (the default) or set to null, no storageClassName spec is
+   * set, choosing the default provisioner.  (gp2 on AWS, standard on
+   * GKE, AWS & OpenStack)
+   *
    * @default {"enabled":false,"Size":"1Gi","accessModes":["ReadWriteOnce"]}
    */
   dataDir?: MinecraftHelmValuesPersistenceDataDir;
@@ -701,8 +685,6 @@ export type MinecraftHelmValuesPersistenceDataDir = {
    */
   enabled?: boolean;
   /**
-   * Set this to false if you don't care to persist state between restarts.
-   *
    * @default "1Gi"
    */
   Size?: string;
@@ -816,6 +798,15 @@ export type MinecraftHelmValuesMcbackup = {
   rcloneCompressMethod?: string;
   rcloneConfig?: unknown;
   /**
+   * type = google cloud storage
+   * client_id =
+   * client_secret =
+   * token = {"AccessToken":"super","RefreshToken":"secret","Expiry":"date","Extra":null}
+   * project_number = 12345678
+   * object_acl = private
+   * bucket_acl = private
+   * if you prefer to create a secret from file (e.g. kubectl create secret generic my-rclone-config --from-file=~/.config/rclone/rclone.conf)
+   *
    * @default ""
    */
   resticRepository?: string;
@@ -909,6 +900,13 @@ export type MinecraftHelmValuesMcbackupPersistence = {
    */
   annotations?: MinecraftHelmValuesMcbackupPersistenceAnnotations;
   /**
+   * minecraft data Persistent Volume Storage Class
+   * If defined, storageClassName: <storageClass>
+   * If set to "-", storageClassName: "", which disables dynamic provisioning
+   * If undefined (the default) or set to null, no storageClassName spec is
+   * set, choosing the default provisioner.  (gp2 on AWS, standard on
+   * GKE, AWS & OpenStack)
+   *
    * @default {"enabled":false,"Size":"1Gi","accessModes":["ReadWriteOnce"]}
    */
   backupDir?: MinecraftHelmValuesMcbackupPersistenceBackupDir;
@@ -943,13 +941,15 @@ export type MinecraftHelmValuesMcbackupPersistenceBackupDir = {
 
 export type MinecraftHelmValues = {
   /**
+   * ref: https://hub.docker.com/r/itzg/minecraft-server/
+   *
    * @default {...} (4 keys)
    */
   image?: MinecraftHelmValuesImage;
   /**
-   * ### WARNING ###
+   * WARNING ###
    * Minecraft is not horizontally scalable, adjusting this will most likely break your setup.
-   * ### WARNING ###
+   * WARNING ###
    *
    * @default 1
    */
@@ -963,6 +963,9 @@ export type MinecraftHelmValues = {
    */
   fullnameOverride?: string;
   /**
+   * Configure resource requests and limits
+   * ref: http://kubernetes.io/docs/user-guide/compute-resources/
+   *
    * @default {"requests":{"memory":"512Mi","cpu":"500m"}}
    */
   resources?: MinecraftHelmValuesResources;
@@ -1008,6 +1011,9 @@ export type MinecraftHelmValues = {
    */
   securityContext?: MinecraftHelmValuesSecurityContext;
   /**
+   * Most of these map to environment variables. See Minecraft for details:
+   * https://hub.docker.com/r/itzg/minecraft-server/
+   *
    * @default {...} (6 keys)
    */
   livenessProbe?: MinecraftHelmValuesLivenessProbe;
@@ -1020,19 +1026,31 @@ export type MinecraftHelmValues = {
    */
   startupProbe?: MinecraftHelmValuesStartupProbe;
   /**
+   * Array of initContainers to add to include in deployment (supports templating)
+   *
    * @default []
    */
   initContainers?: object | string[];
   /**
+   * Array of additional sidecards to include in the deployment (supports templating)
+   *
    * @default []
    */
   sidecarContainers?: object | string[];
   extraVolumes?: unknown[];
   /**
+   * Array of extra objects to deploy with the release
+   *
    * @default []
    */
   extraDeploy?: object | string[];
   /**
+   * Extra fields to set on the pod
+   * Fields set here will be added to the end of the Pod spec
+   * Can include any fields from https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodSpec
+   * that are not already set by the chart.
+   * The value of the field will be interpretted as a template.
+   *
    * @default {}
    */
   extraPodSpec?: MinecraftHelmValuesExtraPodSpec;

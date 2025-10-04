@@ -2,7 +2,7 @@
 
 export type PromtailHelmValuesGlobal = {
   /**
-   * -- Allow parent charts to override registry hostname
+   * Allow parent charts to override registry hostname
    *
    * @default ""
    */
@@ -12,14 +12,12 @@ export type PromtailHelmValuesGlobal = {
 
 export type PromtailHelmValuesDaemonset = {
   /**
-   * -- Deploys Promtail as a DaemonSet
+   * Deploys Promtail as a DaemonSet
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * -- Deploys Promtail as a DaemonSet
-   *
    * @default {...} (4 keys)
    */
   autoscaling?: PromtailHelmValuesDaemonsetAutoscaling;
@@ -27,19 +25,22 @@ export type PromtailHelmValuesDaemonset = {
 
 export type PromtailHelmValuesDaemonsetAutoscaling = {
   /**
-   * -- Creates a VerticalPodAutoscaler for the daemonset
+   * Creates a VerticalPodAutoscaler for the daemonset
    *
    * @default false
    */
   enabled?: boolean;
   controlledResources?: unknown[];
   /**
-   * -- Defines the max allowed resources for the pod
+   * Specifies which resource values should be controlled: RequestsOnly or RequestsAndLimits.
+   * Defines the max allowed resources for the pod
    *
    * @default {}
    */
   maxAllowed?: PromtailHelmValuesDaemonsetAutoscalingMaxAllowed;
   /**
+   * Defines the min allowed resources for the pod
+   *
    * @default {}
    */
   minAllowed?: PromtailHelmValuesDaemonsetAutoscalingMinAllowed;
@@ -51,25 +52,21 @@ export type PromtailHelmValuesDaemonsetAutoscalingMinAllowed = object;
 
 export type PromtailHelmValuesDeployment = {
   /**
-   * -- Deploys Promtail as a Deployment
+   * Deploys Promtail as a Deployment
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Deploys Promtail as a Deployment
-   *
    * @default 1
    */
   replicaCount?: number;
   /**
-   * -- Deploys Promtail as a Deployment
-   *
    * @default {...} (5 keys)
    */
   autoscaling?: PromtailHelmValuesDeploymentAutoscaling;
   /**
-   * -- Deploys Promtail as a Deployment
+   * Set deployment object update strategy
    *
    * @default {"type":"RollingUpdate"}
    */
@@ -78,26 +75,20 @@ export type PromtailHelmValuesDeployment = {
 
 export type PromtailHelmValuesDeploymentAutoscaling = {
   /**
-   * -- Creates a HorizontalPodAutoscaler for the deployment
+   * Creates a HorizontalPodAutoscaler for the deployment
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Creates a HorizontalPodAutoscaler for the deployment
-   *
    * @default 1
    */
   minReplicas?: number;
   /**
-   * -- Creates a HorizontalPodAutoscaler for the deployment
-   *
    * @default 10
    */
   maxReplicas?: number;
   /**
-   * -- Creates a HorizontalPodAutoscaler for the deployment
-   *
    * @default 80
    */
   targetCPUUtilizationPercentage?: number;
@@ -117,13 +108,13 @@ export type PromtailHelmValuesService = {
    */
   enabled?: boolean;
   /**
-   * -- Labels for the service
+   * Labels for the service
    *
    * @default {}
    */
   labels?: PromtailHelmValuesServiceLabels;
   /**
-   * -- Annotations for the service
+   * Annotations for the service
    *
    * @default {}
    */
@@ -148,13 +139,13 @@ export type PromtailHelmValuesServiceAnnotations = {
 
 export type PromtailHelmValuesSecret = {
   /**
-   * -- Labels for the Secret
+   * Labels for the Secret
    *
    * @default {}
    */
   labels?: PromtailHelmValuesSecretLabels;
   /**
-   * -- Annotations for the Secret
+   * Annotations for the Secret
    *
    * @default {}
    */
@@ -179,7 +170,7 @@ export type PromtailHelmValuesSecretAnnotations = {
 
 export type PromtailHelmValuesConfigmap = {
   /**
-   * -- If enabled, promtail config will be created as a ConfigMap instead of a secret
+   * If enabled, promtail config will be created as a ConfigMap instead of a secret
    *
    * @default false
    */
@@ -188,25 +179,25 @@ export type PromtailHelmValuesConfigmap = {
 
 export type PromtailHelmValuesImage = {
   /**
-   * -- The Docker registry
+   * The Docker registry
    *
    * @default "docker.io"
    */
   registry?: string;
   /**
-   * -- Docker image repository
+   * Docker image repository
    *
    * @default "grafana/promtail"
    */
   repository?: string;
   /**
-   * -- Overrides the image tag whose default is the chart's appVersion
+   * Overrides the image tag whose default is the chart's appVersion
    *
    * @default ""
    */
   tag?: string;
   /**
-   * -- Docker image pull policy
+   * Docker image pull policy
    *
    * @default "IfNotPresent"
    */
@@ -301,13 +292,13 @@ export type PromtailHelmValuesContainerSecurityContextCapabilities = {
 
 export type PromtailHelmValuesRbac = {
   /**
-   * -- Specifies whether RBAC resources are to be created
+   * Specifies whether RBAC resources are to be created
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- Specifies whether a PodSecurityPolicy is to be created
+   * Specifies whether a PodSecurityPolicy is to be created
    *
    * @default false
    */
@@ -316,7 +307,7 @@ export type PromtailHelmValuesRbac = {
 
 export type PromtailHelmValuesServiceAccount = {
   /**
-   * -- Specifies whether a ServiceAccount should be created
+   * Specifies whether a ServiceAccount should be created
    *
    * @default true
    */
@@ -324,13 +315,13 @@ export type PromtailHelmValuesServiceAccount = {
   name?: unknown;
   imagePullSecrets?: unknown[];
   /**
-   * -- Annotations for the service account
+   * Annotations for the service account
    *
    * @default {}
    */
   annotations?: PromtailHelmValuesServiceAccountAnnotations;
   /**
-   * -- Automatically mount a ServiceAccount's API credentials
+   * Automatically mount a ServiceAccount's API credentials
    *
    * @default true
    */
@@ -395,26 +386,26 @@ export type PromtailHelmValuesDefaultVolumeMountsElement = {
 
 export type PromtailHelmValuesServiceMonitor = {
   /**
-   * -- If enabled, ServiceMonitor resources for Prometheus Operator are created
+   * If enabled, ServiceMonitor resources for Prometheus Operator are created
    *
    * @default false
    */
   enabled?: boolean;
   namespace?: unknown;
   /**
-   * -- Namespace selector for ServiceMonitor resources
+   * Namespace selector for ServiceMonitor resources
    *
    * @default {}
    */
   namespaceSelector?: PromtailHelmValuesServiceMonitorNamespaceSelector;
   /**
-   * -- ServiceMonitor annotations
+   * ServiceMonitor annotations
    *
    * @default {}
    */
   annotations?: PromtailHelmValuesServiceMonitorAnnotations;
   /**
-   * -- Additional ServiceMonitor labels
+   * Additional ServiceMonitor labels
    *
    * @default {}
    */
@@ -425,14 +416,14 @@ export type PromtailHelmValuesServiceMonitor = {
   metricRelabelings?: unknown[];
   targetLabels?: unknown[];
   /**
-   * -- ServiceMonitor will use http by default, but you can pick https as well
+   * ServiceMonitor will use http by default, but you can pick https as well
    *
    * @default "http"
    */
   scheme?: string;
   tlsConfig?: unknown;
   /**
-   * -- Prometheus rules will be deployed for alerting purposes
+   * Prometheus rules will be deployed for alerting purposes
    *
    * @default {"enabled":false,"additionalLabels":{},"rules":[]}
    */
@@ -555,7 +546,7 @@ export type PromtailHelmValuesConfig = {
    */
   [key: string]: unknown;
   /**
-   * -- Enable Promtail config from Helm chart
+   * Enable Promtail config from Helm chart
    * Set `configmap.enabled: true` and this to `false` to manage your own Promtail config
    * See default config in `values.yaml`
    *
@@ -563,7 +554,7 @@ export type PromtailHelmValuesConfig = {
    */
   enabled?: boolean;
   /**
-   * -- The log level of the Promtail server
+   * The log level of the Promtail server
    * Must be reference in `config.file` to configure `server.log_level`
    * See default config in `values.yaml`
    *
@@ -571,7 +562,7 @@ export type PromtailHelmValuesConfig = {
    */
   logLevel?: string;
   /**
-   * -- The log format of the Promtail server
+   * The log format of the Promtail server
    * Must be reference in `config.file` to configure `server.log_format`
    * Valid formats: `logfmt, json`
    * See default config in `values.yaml`
@@ -580,7 +571,7 @@ export type PromtailHelmValuesConfig = {
    */
   logFormat?: string;
   /**
-   * -- The port of the Promtail server
+   * The port of the Promtail server
    * Must be reference in `config.file` to configure `server.http_listen_port`
    * See default config in `values.yaml`
    *
@@ -589,20 +580,20 @@ export type PromtailHelmValuesConfig = {
   serverPort?: number;
   clients?: PromtailHelmValuesConfigClientsElement[];
   /**
-   * -- Configures where Promtail will save it's positions file, to resume reading after restarts.
+   * Configures where Promtail will save it's positions file, to resume reading after restarts.
    * Must be referenced in `config.file` to configure `positions`
    *
    * @default {"filename":"/run/promtail/positions.yaml"}
    */
   positions?: PromtailHelmValuesConfigPositions;
   /**
-   * -- The config to enable tracing
+   * The config to enable tracing
    *
    * @default false
    */
   enableTracing?: boolean;
   /**
-   * -- A section of reusable snippets that can be reference in `config.file`.
+   * A section of reusable snippets that can be reference in `config.file`.
    * Custom snippets may be added in order to reduce redundancy.
    * This is especially helpful when multiple `kubernetes_sd_configs` are use which usually have large parts in common.
    *
@@ -610,7 +601,7 @@ export type PromtailHelmValuesConfig = {
    */
   snippets?: PromtailHelmValuesConfigSnippets;
   /**
-   * -- Config file contents for Promtail.
+   * Config file contents for Promtail.
    * Must be configured as string.
    * It is templated so it can be assembled from reusable snippets in order to avoid redundancy.
    *
@@ -645,19 +636,19 @@ export type PromtailHelmValuesConfigSnippets = {
    */
   addScrapeJobLabel?: boolean;
   /**
-   * -- You can put here any keys that will be directly added to the config file's 'limits_config' block.
+   * You can put here any keys that will be directly added to the config file's 'limits_config' block.
    *
    * @default ""
    */
   extraLimitsConfig?: string;
   /**
-   * -- You can put here any keys that will be directly added to the config file's 'server' block.
+   * You can put here any keys that will be directly added to the config file's 'server' block.
    *
    * @default ""
    */
   extraServerConfigs?: string;
   /**
-   * -- You can put here any additional scrape configs you want to add to the config file.
+   * You can put here any additional scrape configs you want to add to the config file.
    *
    * @default ""
    */
@@ -692,20 +683,16 @@ export type PromtailHelmValuesConfigSnippetsCommonElement = {
 
 export type PromtailHelmValuesNetworkPolicy = {
   /**
-   * -- Specifies whether Network Policies should be created
+   * Specifies whether Network Policies should be created
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Specifies whether Network Policies should be created
-   *
    * @default {"podSelector":{},"namespaceSelector":{},"cidrs":[]}
    */
   metrics?: PromtailHelmValuesNetworkPolicyMetrics;
   /**
-   * -- Specifies whether Network Policies should be created
-   *
    * @default {"port":8443,"cidrs":[]}
    */
   k8sApi?: PromtailHelmValuesNetworkPolicyK8sApi;
@@ -713,14 +700,14 @@ export type PromtailHelmValuesNetworkPolicy = {
 
 export type PromtailHelmValuesNetworkPolicyMetrics = {
   /**
-   * -- Specifies the Pods which are allowed to access the metrics port.
+   * Specifies the Pods which are allowed to access the metrics port.
    * As this is cross-namespace communication, you also neeed the namespaceSelector.
    *
    * @default {}
    */
   podSelector?: PromtailHelmValuesNetworkPolicyMetricsPodSelector;
   /**
-   * -- Specifies the namespaces which are allowed to access the metrics port
+   * Specifies the namespaces which are allowed to access the metrics port
    *
    * @default {}
    */
@@ -734,7 +721,7 @@ export type PromtailHelmValuesNetworkPolicyMetricsNamespaceSelector = object;
 
 export type PromtailHelmValuesNetworkPolicyK8sApi = {
   /**
-   * -- Specify the k8s API endpoint port
+   * Specify the k8s API endpoint port
    *
    * @default 8443
    */
@@ -762,25 +749,25 @@ export type PromtailHelmValuesSidecarConfigReloader = {
   extraEnv?: unknown[];
   extraEnvFrom?: unknown[];
   /**
-   * -- The security context for containers for sidecar config-reloader
+   * The security context for containers for sidecar config-reloader
    *
    * @default {"readOnlyRootFilesystem":true,"capabilities":{"drop":["ALL"]},"allowPrivilegeEscalation":false}
    */
   containerSecurityContext?: PromtailHelmValuesSidecarConfigReloaderContainerSecurityContext;
   /**
-   * -- Readiness probe for sidecar config-reloader
+   * Readiness probe for sidecar config-reloader
    *
    * @default {}
    */
   readinessProbe?: PromtailHelmValuesSidecarConfigReloaderReadinessProbe;
   /**
-   * -- Liveness probe for sidecar config-reloader
+   * Liveness probe for sidecar config-reloader
    *
    * @default {}
    */
   livenessProbe?: PromtailHelmValuesSidecarConfigReloaderLivenessProbe;
   /**
-   * -- Resource requests and limits for sidecar config-reloader
+   * Resource requests and limits for sidecar config-reloader
    *
    * @default {}
    */
@@ -797,25 +784,25 @@ export type PromtailHelmValuesSidecarConfigReloader = {
 
 export type PromtailHelmValuesSidecarConfigReloaderImage = {
   /**
-   * -- The Docker registry for sidecar config-reloader
+   * The Docker registry for sidecar config-reloader
    *
    * @default "ghcr.io"
    */
   registry?: string;
   /**
-   * -- Docker image repository for sidecar config-reloader
+   * Docker image repository for sidecar config-reloader
    *
    * @default "jimmidyson/configmap-reload"
    */
   repository?: string;
   /**
-   * -- Docker image tag for sidecar config-reloader
+   * Docker image tag for sidecar config-reloader
    *
    * @default "v0.12.0"
    */
   tag?: string;
   /**
-   * -- Docker image pull policy for sidecar config-reloader
+   * Docker image pull policy for sidecar config-reloader
    *
    * @default "IfNotPresent"
    */
@@ -854,7 +841,7 @@ export type PromtailHelmValuesSidecarConfigReloaderConfig = {
    */
   [key: string]: unknown;
   /**
-   * -- The port of the config-reloader server
+   * The port of the config-reloader server
    *
    * @default 9533
    */
@@ -904,56 +891,57 @@ export type PromtailHelmValues = {
   hostAliases?: unknown[];
   hostNetwork?: unknown;
   /**
-   * -- Annotations for the DaemonSet
+   * Annotations for the DaemonSet
    *
    * @default {}
    */
   annotations?: PromtailHelmValuesAnnotations;
   /**
-   * -- The update strategy for the DaemonSet
+   * Number of old history to retain to allow rollback (If not set, default Kubernetes value is set to 10)
+   * The update strategy for the DaemonSet
    *
    * @default {}
    */
   updateStrategy?: PromtailHelmValuesUpdateStrategy;
   /**
-   * -- Pod labels
+   * Pod labels
    *
    * @default {}
    */
   podLabels?: PromtailHelmValuesPodLabels;
   /**
-   * -- Pod annotations
+   * Pod annotations
    *
    * @default {}
    */
   podAnnotations?: PromtailHelmValuesPodAnnotations;
   priorityClassName?: unknown;
   /**
-   * -- Liveness probe
+   * Liveness probe
    *
    * @default {}
    */
   livenessProbe?: PromtailHelmValuesLivenessProbe;
   /**
-   * -- Readiness probe
+   * Readiness probe
    *
    * @default {...} (6 keys)
    */
   readinessProbe?: PromtailHelmValuesReadinessProbe;
   /**
-   * -- Resource requests and limits
+   * Resource requests and limits
    *
    * @default {}
    */
   resources?: PromtailHelmValuesResources;
   /**
-   * -- The security context for pods
+   * The security context for pods
    *
    * @default {"runAsUser":0,"runAsGroup":0}
    */
   podSecurityContext?: PromtailHelmValuesPodSecurityContext;
   /**
-   * -- The security context for containers
+   * The security context for containers
    *
    * @default {"readOnlyRootFilesystem":true,"capabilities":{"drop":["ALL"]},"allowPrivilegeEscalation":false}
    */
@@ -968,19 +956,19 @@ export type PromtailHelmValues = {
    */
   serviceAccount?: PromtailHelmValuesServiceAccount;
   /**
-   * -- Automatically mount API credentials for a particular Pod
+   * Automatically mount API credentials for a particular Pod
    *
    * @default true
    */
   automountServiceAccountToken?: boolean;
   /**
-   * -- Node selector for pods
+   * Node selector for pods
    *
    * @default {}
    */
   nodeSelector?: PromtailHelmValuesNodeSelector;
   /**
-   * -- Affinity configuration for pods
+   * Affinity configuration for pods
    *
    * @default {}
    */
@@ -994,7 +982,7 @@ export type PromtailHelmValues = {
   extraEnv?: unknown[];
   extraEnvFrom?: unknown[];
   /**
-   * -- Configure enableServiceLinks in pod
+   * Configure enableServiceLinks in pod
    *
    * @default true
    */
@@ -1006,24 +994,28 @@ export type PromtailHelmValues = {
    */
   serviceMonitor?: PromtailHelmValuesServiceMonitor;
   /**
+   * Extra containers created as part of a Promtail Deployment resource
+   * Note that the key is used as the `name` field, i.e. below will create a
+   * container named `promtail-proxy`.
+   *
    * @default {}
    */
   extraContainers?: PromtailHelmValuesExtraContainers;
   /**
-   * -- Configure additional ports and services. For each configured port, a corresponding service is created.
+   * Configure additional ports and services. For each configured port, a corresponding service is created.
    * See values.yaml for details
    *
    * @default {}
    */
   extraPorts?: PromtailHelmValuesExtraPorts;
   /**
-   * -- PodSecurityPolicy configuration.
+   * PodSecurityPolicy configuration.
    *
    * @default {...} (12 keys)
    */
   podSecurityPolicy?: PromtailHelmValuesPodSecurityPolicy;
   /**
-   * -- Section for crafting Promtails config file. The only directly relevant value is `config.file`
+   * Section for crafting Promtails config file. The only directly relevant value is `config.file`
    * which is a templated string that references the other values and snippets below this key.
    *
    * @default {...} (9 keys)
@@ -1034,7 +1026,7 @@ export type PromtailHelmValues = {
    */
   networkPolicy?: PromtailHelmValuesNetworkPolicy;
   /**
-   * -- Base path to server all API routes fro
+   * Base path to server all API routes fro
    *
    * @default ""
    */

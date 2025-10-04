@@ -9,6 +9,7 @@ import {
   wait,
 } from "../util.ts";
 import z from "zod";
+import { instrumentWorkflow } from "../metrics.ts";
 
 export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   const bedroomScene = hass.refBy.id("scene.bedroom_dimmed");
@@ -31,19 +32,19 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   // one hour before
   scheduler.cron({
     schedule: [`0 ${(weekdayWakeUpHour - 1).toString()} * * 1-5`, `0 ${(weekendWakeUpHour - 1).toString()} * * 6,0`],
-    exec: runEarly,
+    exec: () => instrumentWorkflow("good_morning_early", runEarly),
   });
 
   // at wake up time
   scheduler.cron({
     schedule: [`0 ${weekdayWakeUpHour.toString()} * * 1-5`, `0 ${weekendWakeUpHour.toString()} * * 6,0`],
-    exec: runWakeUp,
+    exec: () => instrumentWorkflow("good_morning_wake_up", runWakeUp),
   });
 
   // 15 minutes later
   scheduler.cron({
     schedule: [`15 ${weekdayWakeUpHour.toString()} * * 1-5`, `15 ${weekendWakeUpHour.toString()} * * 6,0`],
-    exec: runGetUp,
+    exec: () => instrumentWorkflow("good_morning_get_up", runGetUp),
   });
 
   async function runEarly() {

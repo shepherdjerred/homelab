@@ -743,12 +743,12 @@ export class Homelab {
       return { status: "passed", message: result };
     } catch (err: unknown) {
       // Define Zod schema for error objects with stderr/message
-      const errorSchema = z.object({
+      const ErrorSchema = z.object({
         stderr: z.string().optional(),
         message: z.string().optional(),
       });
 
-      const result = errorSchema.safeParse(err);
+      const result = ErrorSchema.safeParse(err);
       if (result.success) {
         const { stderr = "", message = "" } = result.data;
         if (stderr.includes("409") || message.includes("409")) {

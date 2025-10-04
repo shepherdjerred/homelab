@@ -67,6 +67,8 @@ function buildHaContainer(source: Directory): Container {
       .withDirectory("src/ha", haSource, { exclude: ["package.json"] })
       // Set working directory to the ha workspace
       .withWorkdir("/app/src/ha")
+      // Expose metrics port
+      .withExposedPort(9090)
       .withDefaultArgs(["mise", "exec", `bun@${versions.bun}`, "--", "bun", "src/main.ts"])
   );
 }

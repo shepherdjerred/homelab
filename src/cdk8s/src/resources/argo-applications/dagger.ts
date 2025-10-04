@@ -87,6 +87,7 @@ export function createDaggerApp(chart: Chart) {
         chart: "dagger-helm",
         targetRevision: versions["dagger-helm"],
         helm: {
+          // TODO: use types for this
           valuesObject: {
             persistentVolumeClaim: {
               enabled: true,

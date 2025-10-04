@@ -37,8 +37,6 @@ export type PostgresoperatorHelmValuesConfigGeneral = {
   enable_crd_registration?: boolean;
   crd_categories?: string[];
   /**
-   * the deployment should create/update the CRDs
-   *
    * @default false
    */
   enable_lazy_spilo_upgrade?: boolean;
@@ -79,6 +77,7 @@ export type PostgresoperatorHelmValuesConfigGeneral = {
    */
   docker_image?: string;
   /**
+   * key name for annotation to ignore globally configured instance limits
    * min number of instances in Postgres cluster. -1 = no limit
    *
    * @default -1
@@ -103,6 +102,8 @@ export type PostgresoperatorHelmValuesConfigGeneral = {
    */
   resync_period?: string;
   /**
+   * can prevent certain cases of memory overcommitment
+   * map of sidecar names to docker images
    * number of routines the operator spawns to process requests concurrently
    *
    * @default 8
@@ -184,6 +185,9 @@ export type PostgresoperatorHelmValuesConfigKubernetes = {
    */
   cluster_name_label?: string;
   /**
+   * key name for annotation that compares manifest value with current date
+   * key name for annotation that compares manifest value with cluster name
+   * list of annotations propagated from cluster manifest to statefulset and deployment
    * allow user secrets in other namespaces than the Postgres cluster
    *
    * @default false
@@ -246,6 +250,13 @@ export type PostgresoperatorHelmValuesConfigKubernetes = {
    */
   enable_sidecars?: boolean;
   /**
+   * namespaced name of the secret containing infrastructure roles names and passwords
+   * list of annotation keys that can be inherited from the cluster manifest
+   * list of label keys that can be inherited from the cluster manifest
+   * timeout for successful migration of master pods from unschedulable node
+   * set of labels that a running and active node should possess to be considered ready
+   * defines how nodeAffinity from manifest should be merged with node_readiness_label
+   * namespaced name of the secret containing the OAuth2 token to pass to the teams API
    * toggle if `spilo-role=master` selector should be added to the PDB (Pod Disruption Budget)
    *
    * @default true
@@ -276,6 +287,7 @@ export type PostgresoperatorHelmValuesConfigKubernetes = {
    */
   pod_antiaffinity_topology_key?: string;
   /**
+   * namespaced name of the ConfigMap with environment variables to populate on every pod
    * specify the pod management policy of stateful sets of Postgres clusters
    *
    * @default "ordered_ready"
@@ -288,6 +300,8 @@ export type PostgresoperatorHelmValuesConfigKubernetes = {
    */
   pod_role_label?: string;
   /**
+   * service account definition as JSON/YAML string to be used by postgres cluster pods
+   * role binding definition as JSON/YAML string to be used by pod service account
    * Postgres pods are terminated forcefully after this timeout
    *
    * @default "5m"
@@ -309,6 +323,7 @@ export type PostgresoperatorHelmValuesConfigKubernetes = {
    */
   share_pgsocket_with_sidecars?: boolean;
   /**
+   * group ID with write-access to volumes (required to run Spilo as non-root process)
    * whether the Spilo container should run in privileged mode
    *
    * @default false
@@ -329,6 +344,7 @@ export type PostgresoperatorHelmValuesConfigKubernetes = {
   storage_resize_mode?: string;
   /**
    * operator watches for postgres objects in the given namespace
+   * listen to all namespaces
    *
    * @default "*"
    */
@@ -379,6 +395,8 @@ export type PostgresoperatorHelmValuesConfigPostgresPodResources = {
    */
   default_memory_request?: string;
   /**
+   * optional upper boundary for CPU request
+   * optional upper boundary for memory request
    * hard CPU minimum required to properly run a Postgres cluster
    *
    * @default "250m"
@@ -544,6 +562,8 @@ export type PostgresoperatorHelmValuesConfigLoggingRestApi = {
 
 export type PostgresoperatorHelmValuesConfigAwsOrGcp = {
   /**
+   * Additional Secret (aws or gcp credentials) to mount in the pod
+   * Path to mount the above Secret in the filesystem of the container(s)
    * AWS region used to store EBS volumes
    *
    * @default "eu-central-1"
@@ -565,6 +585,7 @@ export type PostgresoperatorHelmValuesConfigLogicalBackup = {
    */
   logical_backup_docker_image?: string;
   /**
+   * path of google cloud service account json file
    * prefix for the backup job name
    *
    * @default "logical-backup-"
@@ -676,6 +697,7 @@ export type PostgresoperatorHelmValuesConfigTeamsApi = {
    */
   enable_teams_api?: boolean;
   /**
+   * should contain a URL to use for authentication (username and token)
    * pam_configuration: https://info.example.com/oauth2/tokeninfo?access_token= uid realm=/employees
    * operator will add all team member roles to this group and add a pg_hba line
    *
@@ -755,20 +777,14 @@ export type PostgresoperatorHelmValuesConfigConnectionPooler = {
    */
   connection_pooler_default_cpu_request?: string;
   /**
-   * db schema to install lookup function into
-   *
    * @default "100Mi"
    */
   connection_pooler_default_memory_request?: string;
   /**
-   * db schema to install lookup function into
-   *
    * @default "1"
    */
   connection_pooler_default_cpu_limit?: number;
   /**
-   * db schema to install lookup function into
-   *
    * @default "100Mi"
    */
   connection_pooler_default_memory_limit?: string;
@@ -834,10 +850,6 @@ export type PostgresoperatorHelmValuesPodPriorityClassName = {
    */
   name?: string;
   /**
-   * If create is false with no name set, no podPriorityClassName is specified.
-   * Hence, the pod priorityClass is the one with globalDefault set.
-   * If there is no PriorityClass with globalDefault set, the priority of Pods with no priorityClassName is zero.
-   *
    * @default 1000000
    */
   priority?: number;
@@ -928,6 +940,10 @@ export type PostgresoperatorHelmValues = {
    */
   image?: PostgresoperatorHelmValuesImage;
   /**
+   * Optionally specify an array of imagePullSecrets.
+   * Secrets must be manually created in the namespace.
+   * ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
+   *
    * @default {}
    */
   podAnnotations?: PostgresoperatorHelmValuesPodAnnotations;
@@ -997,6 +1013,14 @@ export type PostgresoperatorHelmValues = {
   configLoggingRestApi?: PostgresoperatorHelmValuesConfigLoggingRestApi;
   /**
    * configure interaction with non-Kubernetes objects from AWS or GCP
+   * defines maximum volume size in GB until which auto migration happens
+   * GCP credentials that will be used by the operator / pods
+   * AWS IAM role to supply in the iam.amazonaws.com/role annotation of Postgres pods
+   * S3 bucket to use for shipping postgres daily logs
+   * S3 bucket to use for shipping WAL segments with WAL-E
+   * GCS bucket to use for shipping WAL segments with WAL-E
+   * Azure Storage Account to use for shipping WAL segments with WAL-G
+   * configure K8s cron job managed by the operator
    *
    * @default {"aws_region":"eu-central-1","enable_ebs_gp3_migration":false}
    */
@@ -1007,6 +1031,9 @@ export type PostgresoperatorHelmValues = {
   configLogicalBackup?: PostgresoperatorHelmValuesConfigLogicalBackup;
   /**
    * automate creation of human users with teams API service
+   * URL of the Teams API service
+   * teams_api_url: http://fake-teams-api.default.svc.cluster.local
+   * configure connection pooler deployment created by the operator
    *
    * @default {...} (12 keys)
    */
@@ -1065,10 +1092,16 @@ export type PostgresoperatorHelmValues = {
   readinessProbe?: PostgresoperatorHelmValuesReadinessProbe;
   extraEnvs?: unknown[];
   /**
+   * Affinity for pod assignment
+   * Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+   *
    * @default {}
    */
   affinity?: PostgresoperatorHelmValuesAffinity;
   /**
+   * Node labels for pod assignment
+   * Ref: https://kubernetes.io/docs/user-guide/node-selection/
+   *
    * @default {}
    */
   nodeSelector?: PostgresoperatorHelmValuesNodeSelector;

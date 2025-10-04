@@ -6,6 +6,7 @@ import { getArgoCDRuleGroups } from "./rules/argocd";
 import { getResourceMonitoringRuleGroups } from "./rules/resource-monitoring";
 import { getZfsMonitoringRuleGroups } from "./rules/zfs";
 import { getSmartctlRuleGroups } from "./rules/smartctl";
+import { getHaWorkflowRuleGroups } from "./rules/ha-workflows";
 
 export function createPrometheusMonitoring(chart: Chart) {
   // Create Home Assistant rules
@@ -76,6 +77,18 @@ export function createPrometheusMonitoring(chart: Chart) {
     },
     spec: {
       groups: getSmartctlRuleGroups(),
+    },
+  });
+
+  // Create HA Workflow rules
+  new PrometheusRule(chart, "prometheus-ha-workflow-rules", {
+    metadata: {
+      name: "prometheus-ha-workflow-rules",
+      namespace: "torvalds",
+      labels: { release: "prometheus" },
+    },
+    spec: {
+      groups: getHaWorkflowRuleGroups(),
     },
   });
 }

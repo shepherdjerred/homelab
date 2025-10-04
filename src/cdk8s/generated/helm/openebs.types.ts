@@ -192,7 +192,7 @@ export type OpenebsHelmValuesMayastorCsiNodeInitContainers = {
 
 export type OpenebsHelmValuesMayastorEtcd = {
   /**
-   * -- Kubernetes Cluster Domain
+   * Kubernetes Cluster Domain
    *
    * @default "cluster.local"
    */
@@ -231,6 +231,8 @@ export type OpenebsHelmValuesPreUpgradeHook = {
   tolerations?: unknown[];
   imagePullSecrets?: unknown[];
   /**
+   * Labels to be added to the pod hook job
+   *
    * @default {}
    */
   podLabels?: OpenebsHelmValuesPreUpgradeHookPodLabels;
@@ -244,25 +246,25 @@ export type OpenebsHelmValuesPreUpgradeHookPodLabels = object;
 
 export type OpenebsHelmValuesPreUpgradeHookImage = {
   /**
-   * -- The container image registry URL for the hook job
+   * The container image registry URL for the hook job
    *
    * @default "docker.io"
    */
   registry?: string;
   /**
-   * -- The container repository for the hook job
+   * The container repository for the hook job
    *
    * @default "openebs/kubectl"
    */
   repo?: string;
   /**
-   * -- The container image tag for the hook job
+   * The container image tag for the hook job
    *
    * @default "1.25.15"
    */
   tag?: string;
   /**
-   * -- The imagePullPolicy for the container
+   * The imagePullPolicy for the container
    *
    * @default "IfNotPresent"
    */
@@ -325,7 +327,6 @@ export type OpenebsHelmValuesLoki = {
    */
   enabled?: boolean;
   /**
-   * NOTE: For all possible storage options for loki, check https://github.com/openebs/openebs/blob/HEAD/charts/loki-storage.md
    * Configuration for loki's localpv hostpath storage class.
    *
    * @default {"enabled":true,"loki":{"name":"openebs-loki-localpv","basePath":"/var/local/{{ .Release.Name }}/localpv-hostpath/loki","reclaimPolicy":"Delete","volumeBindingMode":"WaitForFirstConsumer"},"minio":{"name":"openebs-minio-localpv","basePath":"/var/local/{{ .Release.Name }}/localpv-hostpath/minio","reclaimPolicy":"Delete","volumeBindingMode":"WaitForFirstConsumer"}}
@@ -440,19 +441,19 @@ export type OpenebsHelmValuesLokiLocalpvScConfigLoki = {
    */
   name?: string;
   /**
-   * -- Host path where local loki data is stored in.
+   * Host path where local loki data is stored in.
    *
    * @default "/var/local/{{ .Release.Name }}/localpv-hostpath..."
    */
   basePath?: string;
   /**
-   * -- ReclaimPolicy of loki's localpv hostpath storage class.
+   * ReclaimPolicy of loki's localpv hostpath storage class.
    *
    * @default "Delete"
    */
   reclaimPolicy?: string;
   /**
-   * -- VolumeBindingMode of loki's localpv hostpath storage class.
+   * VolumeBindingMode of loki's localpv hostpath storage class.
    *
    * @default "WaitForFirstConsumer"
    */
@@ -467,19 +468,19 @@ export type OpenebsHelmValuesLokiLocalpvScConfigMinio = {
    */
   name?: string;
   /**
-   * -- Host path where local minio data is stored in.
+   * Host path where local minio data is stored in.
    *
    * @default "/var/local/{{ .Release.Name }}/localpv-hostpath..."
    */
   basePath?: string;
   /**
-   * -- ReclaimPolicy of minio's localpv hostpath storage class.
+   * ReclaimPolicy of minio's localpv hostpath storage class.
    *
    * @default "Delete"
    */
   reclaimPolicy?: string;
   /**
-   * -- VolumeBindingMode of minio's localpv hostpath storage class.
+   * VolumeBindingMode of minio's localpv hostpath storage class.
    *
    * @default "WaitForFirstConsumer"
    */
@@ -643,20 +644,20 @@ export type OpenebsHelmValuesLokiSingleBinaryPersistence = {
    */
   [key: string]: unknown;
   /**
-   * -- Enabled persistence for loki
+   * Enabled persistence for loki
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * -- Storage class for loki storage
+   * Storage class for loki storage
    *
    * @default "openebs-loki-localpv"
    */
   storageClass?: string;
   accessModes?: string[];
   /**
-   * -- Size of loki local storage volume
+   * Size of loki local storage volume
    *
    * @default "2Gi"
    */
@@ -695,19 +696,19 @@ export type OpenebsHelmValuesLokiMinioPersistence = {
    */
   [key: string]: unknown;
   /**
-   * -- Enabled persistence for minio
+   * Enabled persistence for minio
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * -- Storage class for minio storage
+   * Storage class for minio storage
    *
    * @default "openebs-minio-localpv"
    */
   storageClass?: string;
   /**
-   * -- Size of minio local storage volume
+   * Size of minio local storage volume
    *
    * @default "2Gi"
    */
@@ -856,13 +857,13 @@ export type OpenebsHelmValuesAlloyLoggingconfig = {
    */
   debugging?: boolean;
   /**
-   * -- Labels to enable scraping on, at-least one of these labels should be present.
+   * Labels to enable scraping on, at-least one of these labels should be present.
    *
    * @default {"openebs.io/logging":true}
    */
   labels?: OpenebsHelmValuesAlloyLoggingconfigLabels;
   /**
-   * -- X-Scope-OrgID to pe populated which pushing logs. Make sure the caller also uses the same.
+   * X-Scope-OrgID to pe populated which pushing logs. Make sure the caller also uses the same.
    *
    * @default "openebs"
    */
@@ -940,7 +941,7 @@ export type OpenebsHelmValues = {
    */
   mayastor?: OpenebsHelmValuesMayastor;
   /**
-   * -- Configuration options for pre-upgrade helm hook job.
+   * Configuration options for pre-upgrade helm hook job.
    *
    * @default {...} (4 keys)
    */

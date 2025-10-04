@@ -40,6 +40,12 @@ export type ConnectHelmValuesConnect = {
    */
   host?: string;
   /**
+   * The type of Service resource to create for the Connect API and sync services.
+   * See: https://kubernetes.io/docs/concepts/services-networking/service
+   * This by default is ClusterIP and can also be defined as NodePort or LoadBalancer.
+   * If serviceType is LoadBalancer then loadBalancerSourceRanges and loadBalancerIP should be defined.
+   * See: https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer
+   *
    * @default "ClusterIP"
    */
   serviceType?: string;
@@ -77,6 +83,9 @@ export type ConnectHelmValuesConnect = {
    */
   version?: string;
   /**
+   * Node selector stanza for the Connect pod
+   * See: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
+   *
    * @default {}
    */
   nodeSelector?: ConnectHelmValuesConnectNodeSelector;
@@ -152,13 +161,13 @@ export type ConnectHelmValuesConnect = {
    * Ingress allows ingress services to be created to allow external access
    * from Kubernetes to access 1Password Connect pods.
    * In order to expose the service, use the route section below
+   * Optionally the internal profiler can be enabled to debug memory or performance issues.
+   * For normal operation of Connect this does not have to enabled.
    *
    * @default {...} (8 keys)
    */
   ingress?: ConnectHelmValuesConnectIngress;
   /**
-   * Denotes whether the 1Password Connect server will be deployed
-   *
    * @default {"enabled":false,"interval":"6h","keepLast":12}
    */
   profiler?: ConnectHelmValuesConnectProfiler;
@@ -193,6 +202,9 @@ export type ConnectHelmValuesConnectApi = {
    */
   logLevel?: string;
   /**
+   * Prometheus Service Monitor
+   * ref: https://github.com/coreos/prometheus-operator
+   *
    * @default {...} (5 keys)
    */
   serviceMonitor?: ConnectHelmValuesConnectApiServiceMonitor;
@@ -478,6 +490,9 @@ export type ConnectHelmValuesConnectIngress = {
    */
   annotations?: ConnectHelmValuesConnectIngressAnnotations;
   /**
+   * Optionally use ingressClassName instead of deprecated annotation.
+   * See: https://kubernetes.io/docs/concepts/services-networking/ingress/#deprecated-annotation
+   *
    * @default ""
    */
   ingressClassName?: string;
@@ -596,6 +611,9 @@ export type ConnectHelmValuesOperator = {
    */
   version?: string;
   /**
+   * Node selector stanza for the Operator pod
+   * See: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
+   *
    * @default {}
    */
   nodeSelector?: ConnectHelmValuesOperatorNodeSelector;
@@ -662,14 +680,10 @@ export type ConnectHelmValuesOperator = {
    */
   token?: ConnectHelmValuesOperatorToken;
   /**
-   * Denotes whether the 1Password Operator will be deployed
-   *
    * @default {"name":"onepassword-service-account-token","key":"token","value":null}
    */
   serviceAccountToken?: ConnectHelmValuesOperatorServiceAccountToken;
   /**
-   * Denotes whether the 1Password Operator will be deployed
-   *
    * @default {"create":"{{ .Values.operator.create }}","annotations":{},"name":"onepassword-connect-operator"}
    */
   serviceAccount?: ConnectHelmValuesOperatorServiceAccount;

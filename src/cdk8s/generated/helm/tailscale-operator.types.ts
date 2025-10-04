@@ -7,69 +7,49 @@ export type TailscaleoperatorHelmValuesOauthSecretVolume = object;
 export type TailscaleoperatorHelmValuesOperatorConfig = {
   defaultTags?: string[];
   /**
-   * Multiple tags are defined as array items and passed to the operator as a comma-separated string
-   *
    * @default {...} (4 keys)
    */
   image?: TailscaleoperatorHelmValuesOperatorConfigImage;
   /**
-   * Multiple tags are defined as array items and passed to the operator as a comma-separated string
+   * info, debug, dev
    *
    * @default "info"
    */
   logging?: string;
   /**
-   * Multiple tags are defined as array items and passed to the operator as a comma-separated string
-   *
    * @default "tailscale-operator"
    */
   hostname?: string;
   /**
-   * Multiple tags are defined as array items and passed to the operator as a comma-separated string
-   *
    * @default {"kubernetes.io/os":"linux"}
    */
   nodeSelector?: TailscaleoperatorHelmValuesOperatorConfigNodeSelector;
   /**
-   * Multiple tags are defined as array items and passed to the operator as a comma-separated string
-   *
    * @default {}
    */
   resources?: TailscaleoperatorHelmValuesOperatorConfigResources;
   /**
-   * Multiple tags are defined as array items and passed to the operator as a comma-separated string
-   *
    * @default {}
    */
   podAnnotations?: TailscaleoperatorHelmValuesOperatorConfigPodAnnotations;
   /**
-   * Multiple tags are defined as array items and passed to the operator as a comma-separated string
-   *
    * @default {}
    */
   podLabels?: TailscaleoperatorHelmValuesOperatorConfigPodLabels;
   /**
-   * Multiple tags are defined as array items and passed to the operator as a comma-separated string
-   *
    * @default {}
    */
   serviceAccountAnnotations?: TailscaleoperatorHelmValuesOperatorConfigServiceAccountAnnotations;
   tolerations?: unknown[];
   /**
-   * Multiple tags are defined as array items and passed to the operator as a comma-separated string
-   *
    * @default {}
    */
   affinity?: TailscaleoperatorHelmValuesOperatorConfigAffinity;
   /**
-   * Multiple tags are defined as array items and passed to the operator as a comma-separated string
-   *
    * @default {}
    */
   podSecurityContext?: TailscaleoperatorHelmValuesOperatorConfigPodSecurityContext;
   /**
-   * Multiple tags are defined as array items and passed to the operator as a comma-separated string
-   *
    * @default {}
    */
   securityContext?: TailscaleoperatorHelmValuesOperatorConfigSecurityContext;
@@ -91,14 +71,10 @@ export type TailscaleoperatorHelmValuesOperatorConfigImage = {
    */
   tag?: string;
   /**
-   * Repository defaults to DockerHub, but images are also synced to ghcr.io/tailscale/k8s-operator.
-   *
    * @default ""
    */
   digest?: string;
   /**
-   * Repository defaults to DockerHub, but images are also synced to ghcr.io/tailscale/k8s-operator.
-   *
    * @default "Always"
    */
   pullPolicy?: string;
@@ -135,10 +111,6 @@ export type TailscaleoperatorHelmValuesIngressClass = {
    */
   name?: string;
   /**
-   * Allows for customization of the ingress class name used by the operator to identify ingresses to reconcile. This does
-   * not allow multiple operator instances to manage different ingresses, but provides an onboarding route for users that
-   * may have previously set up ingress classes named "tailscale" prior to using the operator.
-   *
    * @default true
    */
   enabled?: boolean;
@@ -157,6 +129,9 @@ export type TailscaleoperatorHelmValuesProxyConfig = {
    */
   image?: TailscaleoperatorHelmValuesProxyConfigImage;
   /**
+   * ACL tag that operator will tag proxies with. Operator must be made owner of
+   * these tags
+   * https://tailscale.com/kb/1236/kubernetes-operator/?q=operator#setting-up-the-kubernetes-operator
    * Multiple tags can be passed as a comma-separated string i.e 'tag:k8s-proxies,tag:prod'.
    * Note that if you pass multiple tags to this field via `--set` flag to helm upgrade/install commands you must escape the comma (for example, "tag:k8s-proxies\,tag:prod"). See https://github.com/helm/helm/issues/1556
    *
@@ -164,13 +139,6 @@ export type TailscaleoperatorHelmValuesProxyConfig = {
    */
   defaultTags?: string;
   /**
-   * Configure the proxy image to use instead of the default tailscale/tailscale:latest.
-   * Applying a ProxyClass with `spec.statefulSet.pod.tailscaleContainer.image`
-   * set will override any defaults here.
-   * Note that ProxyGroups of type "kube-apiserver" use a different default image,
-   * tailscale/k8s-proxy:latest, and it is currently only possible to override
-   * that image via the same ProxyClass field.
-   *
    * @default "auto"
    */
   firewallMode?: string;
@@ -199,8 +167,6 @@ export type TailscaleoperatorHelmValuesProxyConfigImage = {
    */
   tag?: string;
   /**
-   * Repository defaults to DockerHub, but images are also synced to ghcr.io/tailscale/tailscale.
-   *
    * @default ""
    */
   digest?: string;
@@ -208,10 +174,7 @@ export type TailscaleoperatorHelmValuesProxyConfigImage = {
 
 export type TailscaleoperatorHelmValuesApiServerProxyConfig = {
   /**
-   * Set to "true" to create the ClusterRole permissions required for the API
-   * server proxy's auth mode. In auth mode, the API server proxy impersonates
-   * groups and users based on tailnet ACL grants. Required for ProxyGroups of
-   * type "kube-apiserver" running in auth mode.
+   * "true", "false"
    *
    * @default "false"
    */
@@ -220,6 +183,7 @@ export type TailscaleoperatorHelmValuesApiServerProxyConfig = {
    * If true or noauth, the operator will run an in-process API server proxy.
    * You can deploy a ProxyGroup of type "kube-apiserver" to run a high
    * availability set of API server proxies instead.
+   * "true", "false", "noauth"
    *
    * @default "false"
    */
@@ -228,6 +192,7 @@ export type TailscaleoperatorHelmValuesApiServerProxyConfig = {
 
 export type TailscaleoperatorHelmValues = {
   /**
+   * Copyright (c) Tailscale Inc & AUTHORS
    * Operator oauth credentials. If set a Kubernetes Secret with the provided
    * values will be created in the operator namespace. If unset a Secret named
    * operator-oauth must be precreated or oauthSecretVolume needs to be adjusted.
@@ -253,10 +218,18 @@ export type TailscaleoperatorHelmValues = {
    */
   oauthSecretVolume?: TailscaleoperatorHelmValuesOauthSecretVolume;
   /**
+   * NAME is pre-defined!
+   * installCRDs determines whether tailscale.com CRDs should be installed as part
+   * of chart installation. We do not use Helm's CRD installation mechanism as that
+   * does not allow for upgrading CRDs.
+   * https://helm.sh/docs/chart_best_practices/custom_resource_definitions/
+   *
    * @default true
    */
   installCRDs?: boolean;
   /**
+   * In the case that you already have a tailscale ingressclass in your cluster (or vcluster), you can disable the creation here
+   *
    * @default {...} (14 keys)
    */
   operatorConfig?: TailscaleoperatorHelmValuesOperatorConfig;
@@ -265,10 +238,23 @@ export type TailscaleoperatorHelmValues = {
    */
   ingressClass?: TailscaleoperatorHelmValuesIngressClass;
   /**
+   * proxyConfig contains configuraton that will be applied to any ingress/egress
+   * proxies created by the operator.
+   * https://tailscale.com/kb/1439/kubernetes-operator-cluster-ingress
+   * https://tailscale.com/kb/1438/kubernetes-operator-cluster-egress
+   * Note that this section contains only a few global configuration options and
+   * will not be updated with more configuration options in the future.
+   * If you need more configuration options, take a look at ProxyClass:
+   * https://tailscale.com/kb/1445/kubernetes-operator-customization#cluster-resource-customization-using-proxyclass-custom-resource
+   *
    * @default {...} (4 keys)
    */
   proxyConfig?: TailscaleoperatorHelmValuesProxyConfig;
   /**
+   * apiServerProxyConfig allows to configure whether the operator should expose
+   * Kubernetes API server.
+   * https://tailscale.com/kb/1437/kubernetes-operator-api-server-proxy
+   *
    * @default {"allowImpersonation":"false","mode":"false"}
    */
   apiServerProxyConfig?: TailscaleoperatorHelmValuesApiServerProxyConfig;

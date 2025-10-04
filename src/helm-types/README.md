@@ -225,7 +225,7 @@ bun test
 - Schema validation
 - Edge cases
 
-## Architecture
+## File Structure
 
 Modular design:
 
@@ -235,10 +235,92 @@ Modular design:
 - `comment-parser.ts` - YAML comments
 - `chart-fetcher.ts` - Chart downloading
 - `type-inference.ts` - Type conversion
-- `code-generator.ts` - Code generation
+- `interface-generator.ts` - Code generation
 
 ## Notes
 
 - This is a general-purpose library
 - Application-specific logic belongs in your app
 - See cdk8s example for integration patterns
+
+## Architecture
+
+```mermaid
+flowchart TD
+    Start([User Input]) --> CLI[CLI Entry Point<br/>cli.ts]
+    CLI --> Parse[Parse Arguments<br/>--name, --repo, --version]
+    Parse --> Fetch[Chart Fetcher<br/>chart-fetcher.ts]
+
+    Fetch --> HelmAdd[Add Helm Repo]
+    HelmAdd --> HelmPull[Pull Chart]
+    HelmPull --> ReadFiles[Read Chart Files]
+
+    ReadFiles --> ValuesYAML[values.yaml]
+    ReadFiles --> SchemaJSON[values.schema.json<br/>optional]
+
+    ValuesYAML --> YAMLParser[YAML Parser<br/>yaml-comments.ts]
+    YAMLParser --> Comments[Extract Comments]
+    YAMLParser --> ParsedValues[Parse Values]
+
+    ParsedValues --> TypeInference[Type Inference<br/>type-inference.ts]
+    SchemaJSON --> TypeInference
+    Comments --> TypeInference
+
+    TypeInference --> SchemaCheck{JSON Schema<br/>Available?}
+    SchemaCheck -->|Yes| UseSchema[Use Schema Types<br/>jsonSchemaToTypeScript]
+    SchemaCheck -->|No| InferTypes[Infer from Values<br/>inferTypeFromValue]
+
+    UseSchema --> BuildInterface[Build Interface Tree]
+    InferTypes --> BuildInterface
+
+    BuildInterface --> Nested{Nested<br/>Objects?}
+    Nested -->|Yes| Recurse[Create Nested Interfaces]
+    Nested -->|No| AddProp[Add Property]
+    Recurse --> BuildInterface
+    AddProp --> BuildInterface
+
+    BuildInterface --> TSInterface[TypeScript Interface<br/>Definition]
+
+    TSInterface --> CodeGen[Code Generator<br/>interface-generator.ts]
+
+    CodeGen --> GenMain[Generate Main Interface]
+    CodeGen --> GenNested[Generate Nested Types]
+    CodeGen --> GenParams[Generate Parameters Type<br/>Flattened Dot Notation]
+
+    GenMain --> Output[TypeScript Code]
+    GenNested --> Output
+    GenParams --> Output
+
+    Output --> Write{Output<br/>Destination?}
+    Write -->|File| WriteFile[Write to File]
+    Write -->|Stdout| WriteStdout[Print to Console]
+
+    WriteFile --> End([Complete])
+    WriteStdout --> End
+
+    Fetch -.-> Cleanup[Cleanup<br/>Remove Repo & Temp Files]
+    Cleanup -.-> Write
+
+    style Start fill:#e1f5e1
+    style End fill:#e1f5e1
+    style CLI fill:#fff4e1
+    style Fetch fill:#e1f0ff
+    style TypeInference fill:#ffe1f0
+    style CodeGen fill:#f0e1ff
+    style Output fill:#fff4e1
+```
+
+### Component Responsibilities
+
+| Component          | File                     | Purpose                                                   |
+| ------------------ | ------------------------ | --------------------------------------------------------- |
+| **CLI**            | `cli.ts`                 | Parse command-line arguments and orchestrate the workflow |
+| **Chart Fetcher**  | `chart-fetcher.ts`       | Download Helm charts and extract configuration files      |
+| **YAML Parser**    | `yaml-comments.ts`       | Parse YAML with AST to preserve and extract comments      |
+| **Comment Parser** | `comment-parser.ts`      | Clean and format YAML comments for JSDoc                  |
+| **Type Inference** | `type-inference.ts`      | Convert values and schemas to TypeScript types            |
+| **Type Converter** | `type-converter.ts`      | Build TypeScript interface definitions from values        |
+| **Code Generator** | `interface-generator.ts` | Generate final TypeScript code with proper formatting     |
+| **Utilities**      | `utils.ts`               | Sanitize names, handle reserved keywords                  |
+| **Schemas**        | `schemas.ts`             | Zod validation schemas for runtime type safety            |
+| **Types**          | `types.ts`               | Core TypeScript type definitions                          |

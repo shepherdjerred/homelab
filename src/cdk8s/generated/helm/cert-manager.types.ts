@@ -15,6 +15,8 @@ export type CertmanagerHelmValuesGlobal = {
    */
   commonLabels?: CertmanagerHelmValuesGlobalCommonLabels;
   /**
+   * The number of old ReplicaSets to retain to allow rollback (if not set, the default Kubernetes value is set to 10).
+   * +docs:property
    * The optional priority class to be used for the cert-manager pods.
    *
    * @default ""
@@ -35,6 +37,21 @@ export type CertmanagerHelmValuesGlobal = {
    */
   logLevel?: number;
   /**
+   * The duration that non-leader candidates will wait after observing a
+   * leadership renewal until attempting to acquire leadership of a led but
+   * unrenewed leader slot. This is effectively the maximum duration that a
+   * leader can be stopped before it is replaced by another candidate.
+   * +docs:property
+   * The interval between attempts by the acting master to renew a leadership
+   * slot before it stops leading. This must be less than or equal to the
+   * lease duration.
+   * +docs:property
+   * The duration the clients should wait between attempting acquisition and
+   * renewal of a leadership.
+   * +docs:property
+   * This option is equivalent to setting crds.enabled=true and crds.keep=true.
+   * Deprecated: use crds.enabled and crds.keep instead.
+   *
    * @default {"namespace":"kube-system"}
    */
   leaderElection?: CertmanagerHelmValuesGlobalLeaderElection;
@@ -119,6 +136,8 @@ export type CertmanagerHelmValuesPodDisruptionBudget = {
 
 export type CertmanagerHelmValuesImage = {
   /**
+   * The container registry to pull the manager image from.
+   * +docs:property
    * The container image for the cert-manager controller.
    * +docs:property
    *
@@ -126,6 +145,12 @@ export type CertmanagerHelmValuesImage = {
    */
   repository?: string;
   /**
+   * Override the image tag to deploy by setting this variable.
+   * If no value is set, the chart's appVersion is used.
+   * +docs:property
+   * Setting a digest will override any tag.
+   * +docs:property
+   * digest: sha256:0e072dddd1f7f8fc8909a2ca6f65e76c5f0d2fcfb8be47935ae3457e8bbceb20
    * Kubernetes imagePullPolicy on Deployment.
    *
    * @default "IfNotPresent"
@@ -141,6 +166,12 @@ export type CertmanagerHelmValuesServiceAccount = {
    */
   create?: boolean;
   /**
+   * The name of the service account to use.
+   * If not set and create is true, a name is generated using the fullname template.
+   * +docs:property
+   * Optional additional annotations to add to the controller's Service Account. Templates are allowed for both keys and values.
+   * Optional additional labels to add to the controller's Service Account.
+   * +docs:property
    * Automount API credentials for a Service Account.
    *
    * @default true
@@ -250,15 +281,6 @@ export type CertmanagerHelmValuesPrometheus = {
    */
   enabled?: boolean;
   /**
-   * Enable Prometheus monitoring for the cert-manager controller and webhook.
-   * If you use the Prometheus Operator, set prometheus.podmonitor.enabled or
-   * prometheus.servicemonitor.enabled, to create a PodMonitor or a
-   * ServiceMonitor resource.
-   * Otherwise, 'prometheus.io' annotations are added to the cert-manager and
-   * cert-manager-webhook Deployments.
-   * Note that you cannot enable both PodMonitor and ServiceMonitor as they are
-   * mutually exclusive. Enabling both will result in an error.
-   *
    * @default {...} (10 keys)
    */
   servicemonitor?: CertmanagerHelmValuesPrometheusServicemonitor;
@@ -278,6 +300,9 @@ export type CertmanagerHelmValuesPrometheusServicemonitor = {
    */
   enabled?: boolean;
   /**
+   * The namespace that the service monitor should live in, defaults
+   * to the cert-manager namespace.
+   * +docs:property
    * Specifies the `prometheus` label on the created ServiceMonitor. This is
    * used when different Prometheus instances have label selectors matching
    * different ServiceMonitors.
@@ -330,6 +355,9 @@ export type CertmanagerHelmValuesPrometheusServicemonitor = {
    */
   honorLabels?: boolean;
   /**
+   * EndpointAdditionalProperties allows setting additional properties on the
+   * endpoint such as relabelings, metricRelabelings etc.
+   * For example:
    * +docs:property
    *
    * @default {}
@@ -353,7 +381,13 @@ export type CertmanagerHelmValuesPrometheusServicemonitorAnnotations = {
   [key: string]: unknown;
 };
 
-export type CertmanagerHelmValuesPrometheusServicemonitorEndpointAdditionalProperties = object;
+export type CertmanagerHelmValuesPrometheusServicemonitorEndpointAdditionalProperties = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
 
 export type CertmanagerHelmValuesPrometheusPodmonitor = {
   /**
@@ -363,6 +397,9 @@ export type CertmanagerHelmValuesPrometheusPodmonitor = {
    */
   enabled?: boolean;
   /**
+   * The namespace that the pod monitor should live in, defaults
+   * to the cert-manager namespace.
+   * +docs:property
    * Specifies the `prometheus` label on the created PodMonitor. This is
    * used when different Prometheus instances have label selectors matching
    * different PodMonitors.
@@ -485,29 +522,35 @@ export type CertmanagerHelmValuesWebhook = {
    */
   containerSecurityContext?: CertmanagerHelmValuesWebhookContainerSecurityContext;
   /**
-   * Number of replicas of the cert-manager webhook to run.
-   * The default is 1, but in production set this to 2 or 3 to provide high
-   * availability.
-   * If `replicas > 1`, consider setting `webhook.podDisruptionBudget.enabled=true`.
+   * This property configures the minimum available pods for disruptions. Can either be set to
+   * an integer (e.g., 1) or a percentage value (e.g., 25%).
+   * It cannot be used if `maxUnavailable` is set.
+   * +docs:property
+   * +docs:type=unknown
+   * This property configures the maximum unavailable pods for disruptions. Can either be set to
+   * an integer (e.g., 1) or a percentage value (e.g., 25%).
+   * It cannot be used if `minAvailable` is set.
+   * +docs:property
+   * +docs:type=unknown
+   * Optional additional annotations to add to the webhook Deployment.
+   * +docs:property
+   * Optional additional annotations to add to the webhook Pods.
+   * +docs:property
+   * Optional additional annotations to add to the webhook Service.
+   * +docs:property
+   * Optional additional annotations to add to the webhook MutatingWebhookConfiguration.
+   * +docs:property
+   * Optional additional annotations to add to the webhook ValidatingWebhookConfiguration.
+   * +docs:property
    *
    * @default {"enabled":false}
    */
   podDisruptionBudget?: CertmanagerHelmValuesWebhookPodDisruptionBudget;
   /**
-   * Number of replicas of the cert-manager webhook to run.
-   * The default is 1, but in production set this to 2 or 3 to provide high
-   * availability.
-   * If `replicas > 1`, consider setting `webhook.podDisruptionBudget.enabled=true`.
-   *
    * @default {"namespaceSelector":{"matchExpressions":[{"key":"cert-manager.io/disable-validation","operator":"NotIn","values":["true"]}]}}
    */
   validatingWebhookConfiguration?: CertmanagerHelmValuesWebhookValidatingWebhookConfiguration;
   /**
-   * Number of replicas of the cert-manager webhook to run.
-   * The default is 1, but in production set this to 2 or 3 to provide high
-   * availability.
-   * If `replicas > 1`, consider setting `webhook.podDisruptionBudget.enabled=true`.
-   *
    * @default {"namespaceSelector":{}}
    */
   mutatingWebhookConfiguration?: CertmanagerHelmValuesWebhookMutatingWebhookConfiguration;
@@ -579,26 +622,19 @@ export type CertmanagerHelmValuesWebhook = {
   serviceIPFamilyPolicy?: string;
   serviceIPFamilies?: unknown[];
   /**
-   * Number of replicas of the cert-manager webhook to run.
-   * The default is 1, but in production set this to 2 or 3 to provide high
-   * availability.
-   * If `replicas > 1`, consider setting `webhook.podDisruptionBudget.enabled=true`.
-   *
    * @default {"repository":"quay.io/jetstack/cert-manager-webhook","pullPolicy":"IfNotPresent"}
    */
   image?: CertmanagerHelmValuesWebhookImage;
   /**
-   * Number of replicas of the cert-manager webhook to run.
-   * The default is 1, but in production set this to 2 or 3 to provide high
-   * availability.
-   * If `replicas > 1`, consider setting `webhook.podDisruptionBudget.enabled=true`.
-   *
    * @default {"create":true,"automountServiceAccountToken":true}
    */
   serviceAccount?: CertmanagerHelmValuesWebhookServiceAccount;
   /**
+   * Automounting API credentials for a particular pod.
+   * +docs:property
    * The port that the webhook listens on for requests.
    * In GKE private clusters, by default Kubernetes apiservers are allowed to
+   * talk to the cluster nodes only on 443 and 10250. Configuring
    * securePort: 10250, therefore will work out-of-the-box without needing to add firewall
    * rules or requiring NET_BIND_SERVICE capabilities to bind port numbers <1000.
    *
@@ -626,6 +662,8 @@ export type CertmanagerHelmValuesWebhook = {
    */
   serviceType?: string;
   /**
+   * Specify the load balancer IP for the created service.
+   * +docs:property
    * Overrides the mutating webhook and validating webhook so they reach the webhook
    * service using the `url` field instead of a service.
    *
@@ -811,6 +849,8 @@ export type CertmanagerHelmValuesWebhookServiceLabels = object;
 
 export type CertmanagerHelmValuesWebhookImage = {
   /**
+   * The container registry to pull the webhook image from.
+   * +docs:property
    * The container image for the cert-manager webhook
    * +docs:property
    *
@@ -818,6 +858,12 @@ export type CertmanagerHelmValuesWebhookImage = {
    */
   repository?: string;
   /**
+   * Override the image tag to deploy by setting this variable.
+   * If no value is set, the chart's appVersion will be used.
+   * +docs:property
+   * Setting a digest will override any tag
+   * +docs:property
+   * digest: sha256:0e072dddd1f7f8fc8909a2ca6f65e76c5f0d2fcfb8be47935ae3457e8bbceb20
    * Kubernetes imagePullPolicy on Deployment.
    *
    * @default "IfNotPresent"
@@ -833,6 +879,13 @@ export type CertmanagerHelmValuesWebhookServiceAccount = {
    */
   create?: boolean;
   /**
+   * The name of the service account to use.
+   * If not set and create is true, a name is generated using the fullname template.
+   * +docs:property
+   * Optional additional annotations to add to the webhook's Service Account.
+   * +docs:property
+   * Optional additional labels to add to the webhook's Service Account.
+   * +docs:property
    * Automount API credentials for a Service Account.
    *
    * @default true
@@ -944,7 +997,24 @@ export type CertmanagerHelmValuesCainjector = {
    */
   containerSecurityContext?: CertmanagerHelmValuesCainjectorContainerSecurityContext;
   /**
-   * Create the CA Injector deployment
+   * `minAvailable` configures the minimum available pods for disruptions. It can either be set to
+   * an integer (e.g., 1) or a percentage value (e.g., 25%).
+   * Cannot be used if `maxUnavailable` is set.
+   * +docs:property
+   * +docs:type=unknown
+   * `maxUnavailable` configures the maximum unavailable pods for disruptions. It can either be set to
+   * an integer (e.g., 1) or a percentage value (e.g., 25%).
+   * Cannot be used if `minAvailable` is set.
+   * +docs:property
+   * +docs:type=unknown
+   * Optional additional annotations to add to the cainjector Deployment.
+   * +docs:property
+   * Optional additional annotations to add to the cainjector Pods.
+   * +docs:property
+   * Optional additional annotations to add to the cainjector metrics Service.
+   * +docs:property
+   * Additional command line flags to pass to cert-manager cainjector binary.
+   * To see all available flags run `docker run quay.io/jetstack/cert-manager-cainjector:<version> --help`.
    *
    * @default {"enabled":false}
    */
@@ -994,14 +1064,10 @@ export type CertmanagerHelmValuesCainjector = {
    */
   serviceLabels?: CertmanagerHelmValuesCainjectorServiceLabels;
   /**
-   * Create the CA Injector deployment
-   *
    * @default {"repository":"quay.io/jetstack/cert-manager-cainjector","pullPolicy":"IfNotPresent"}
    */
   image?: CertmanagerHelmValuesCainjectorImage;
   /**
-   * Create the CA Injector deployment
-   *
    * @default {"create":true,"automountServiceAccountToken":true}
    */
   serviceAccount?: CertmanagerHelmValuesCainjectorServiceAccount;
@@ -1094,6 +1160,8 @@ export type CertmanagerHelmValuesCainjectorServiceLabels = object;
 
 export type CertmanagerHelmValuesCainjectorImage = {
   /**
+   * The container registry to pull the cainjector image from.
+   * +docs:property
    * The container image for the cert-manager cainjector
    * +docs:property
    *
@@ -1101,6 +1169,12 @@ export type CertmanagerHelmValuesCainjectorImage = {
    */
   repository?: string;
   /**
+   * Override the image tag to deploy by setting this variable.
+   * If no value is set, the chart's appVersion will be used.
+   * +docs:property
+   * Setting a digest will override any tag.
+   * +docs:property
+   * digest: sha256:0e072dddd1f7f8fc8909a2ca6f65e76c5f0d2fcfb8be47935ae3457e8bbceb20
    * Kubernetes imagePullPolicy on Deployment.
    *
    * @default "IfNotPresent"
@@ -1116,6 +1190,13 @@ export type CertmanagerHelmValuesCainjectorServiceAccount = {
    */
   create?: boolean;
   /**
+   * The name of the service account to use.
+   * If not set and create is true, a name is generated using the fullname template
+   * +docs:property
+   * Optional additional annotations to add to the cainjector's Service Account.
+   * +docs:property
+   * Optional additional labels to add to the cainjector's Service Account.
+   * +docs:property
    * Automount API credentials for a Service Account.
    *
    * @default true
@@ -1132,6 +1213,8 @@ export type CertmanagerHelmValuesAcmesolver = {
 
 export type CertmanagerHelmValuesAcmesolverImage = {
   /**
+   * The container registry to pull the acmesolver image from.
+   * +docs:property
    * The container image for the cert-manager acmesolver.
    * +docs:property
    *
@@ -1139,6 +1222,12 @@ export type CertmanagerHelmValuesAcmesolverImage = {
    */
   repository?: string;
   /**
+   * Override the image tag to deploy by setting this variable.
+   * If no value is set, the chart's appVersion is used.
+   * +docs:property
+   * Setting a digest will override any tag.
+   * +docs:property
+   * digest: sha256:0e072dddd1f7f8fc8909a2ca6f65e76c5f0d2fcfb8be47935ae3457e8bbceb20
    * Kubernetes imagePullPolicy on Deployment.
    *
    * @default "IfNotPresent"
@@ -1219,18 +1308,20 @@ export type CertmanagerHelmValuesStartupapicheck = {
    */
   podLabels?: CertmanagerHelmValuesStartupapicheckPodLabels;
   /**
-   * Enables the startup api check.
-   *
    * @default {"repository":"quay.io/jetstack/cert-manager-startupapicheck","pullPolicy":"IfNotPresent"}
    */
   image?: CertmanagerHelmValuesStartupapicheckImage;
   /**
-   * Enables the startup api check.
-   *
    * @default {"annotations":{"helm.sh/hook":"post-install","helm.sh/hook-weight":"-5","helm.sh/hook-delete-policy":"before-hook-creation,hook-succeeded"}}
    */
   rbac?: CertmanagerHelmValuesStartupapicheckRbac;
   /**
+   * Automounting API credentials for a particular pod.
+   * +docs:property
+   * Optional additional labels to add to the startupapicheck's Service Account.
+   * +docs:property
+   * Additional volumes to add to the cert-manager controller pod.
+   *
    * @default {"create":true,"annotations":{"helm.sh/hook":"post-install","helm.sh/hook-weight":"-5","helm.sh/hook-delete-policy":"before-hook-creation,hook-succeeded"},"automountServiceAccountToken":true}
    */
   serviceAccount?: CertmanagerHelmValuesStartupapicheckServiceAccount;
@@ -1313,6 +1404,8 @@ export type CertmanagerHelmValuesStartupapicheckPodLabels = object;
 
 export type CertmanagerHelmValuesStartupapicheckImage = {
   /**
+   * The container registry to pull the startupapicheck image from.
+   * +docs:property
    * The container image for the cert-manager startupapicheck.
    * +docs:property
    *
@@ -1320,6 +1413,12 @@ export type CertmanagerHelmValuesStartupapicheckImage = {
    */
   repository?: string;
   /**
+   * Override the image tag to deploy by setting this variable.
+   * If no value is set, the chart's appVersion is used.
+   * +docs:property
+   * Setting a digest will override any tag.
+   * +docs:property
+   * digest: sha256:0e072dddd1f7f8fc8909a2ca6f65e76c5f0d2fcfb8be47935ae3457e8bbceb20
    * Kubernetes imagePullPolicy on Deployment.
    *
    * @default "IfNotPresent"
@@ -1365,6 +1464,9 @@ export type CertmanagerHelmValuesStartupapicheckServiceAccount = {
    */
   create?: boolean;
   /**
+   * The name of the service account to use.
+   * If not set and create is true, a name is generated using the fullname template.
+   * +docs:property
    * Optional additional annotations to add to the Job's Service Account.
    * +docs:property
    *
@@ -1411,6 +1513,9 @@ export type CertmanagerHelmValues = {
    */
   global?: CertmanagerHelmValuesGlobal;
   /**
+   * This option is equivalent to setting crds.enabled=true and crds.keep=true.
+   * Deprecated: use crds.enabled and crds.keep instead.
+   *
    * @default false
    */
   installCRDs?: boolean;
@@ -1431,14 +1536,34 @@ export type CertmanagerHelmValues = {
    */
   replicaCount?: number;
   /**
+   * Deployment update strategy for the cert-manager controller deployment.
+   * For more information, see the [Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy).
+   * For example:
+   *
    * @default {}
    */
   strategy?: CertmanagerHelmValuesStrategy;
   /**
+   * This configures the minimum available pods for disruptions. It can either be set to
+   * an integer (e.g., 1) or a percentage value (e.g., 25%).
+   * It cannot be used if `maxUnavailable` is set.
+   * +docs:property
+   * +docs:type=unknown
+   * This configures the maximum unavailable pods for disruptions. It can either be set to
+   * an integer (e.g., 1) or a percentage value (e.g., 25%).
+   * it cannot be used if `minAvailable` is set.
+   * +docs:property
+   * +docs:type=unknown
+   * A comma-separated list of feature gates that should be enabled on the
+   * controller pod.
+   *
    * @default {"enabled":false}
    */
   podDisruptionBudget?: CertmanagerHelmValuesPodDisruptionBudget;
   /**
+   * Comma separated list of feature gates that should be enabled on the
+   * cainjector pod.
+   *
    * @default ""
    */
   featureGates?: string;
@@ -1469,16 +1594,55 @@ export type CertmanagerHelmValues = {
    */
   namespace?: string;
   /**
+   * Override the "cert-manager.fullname" value. This value is used as part of
+   * most of the names of the resources created by this Helm chart.
+   * +docs:property
+   * Override the "cert-manager.name" value, which is used to annotate some of
+   * the resources that are created by this Chart (using "app.kubernetes.io/name").
+   * NOTE: There are some inconsistencies in the Helm chart when it comes to
+   * these annotations (some resources use, e.g., "cainjector.name" which resolves
+   * to the value "cainjector").
+   * +docs:property
+   *
    * @default {"create":true,"automountServiceAccountToken":true}
    */
   serviceAccount?: CertmanagerHelmValuesServiceAccount;
   /**
+   * Automounting API credentials for a particular pod.
+   * +docs:property
    * When this flag is enabled, secrets will be automatically removed when the certificate resource is deleted.
    *
    * @default false
    */
   enableCertificateOwnerRef?: boolean;
   /**
+   * This property is used to configure options for the controller pod.
+   * This allows setting options that would usually be provided using flags.
+   * If `apiVersion` and `kind` are unspecified they default to the current latest
+   * version (currently `controller.config.cert-manager.io/v1alpha1`). You can pin
+   * the version by specifying the `apiVersion` yourself.
+   * For example:
+   * Feature gates as of v1.18.1. Listed with their default values.
+   * See https://cert-manager.io/docs/cli/controller/
+   * AdditionalCertificateOutputFormats: true # GA - default=true
+   * AllAlpha: false # ALPHA - default=false
+   * AllBeta: false # BETA - default=false
+   * ExperimentalCertificateSigningRequestControllers: false # ALPHA - default=false
+   * ExperimentalGatewayAPISupport: true # BETA - default=true
+   * LiteralCertificateSubject: true # BETA - default=true
+   * NameConstraints: true # BETA - default=true
+   * OtherNames: false # ALPHA - default=false
+   * SecretsFilteredCaching: true # BETA - default=true
+   * ServerSideApply: false # ALPHA - default=false
+   * StableCertificateRequestName: true # BETA - default=true
+   * UseCertificateRequestBasicConstraints: false # ALPHA - default=false
+   * UseDomainQualifiedFinalizer: true # GA - default=true
+   * ValidateCAA: false # ALPHA - default=false
+   * DefaultPrivateKeyRotationPolicyAlways: true # BETA - default=true
+   * ACMEHTTP01IngressPathTypeExact: true # BETA - default=true
+   * Configure the metrics server for TLS
+   * See https://cert-manager.io/docs/devops-tips/prometheus-metrics/#tls
+   *
    * @default {}
    */
   config?: CertmanagerHelmValuesConfig;
@@ -1510,6 +1674,8 @@ export type CertmanagerHelmValues = {
   extraArgs?: unknown[];
   extraEnv?: unknown[];
   /**
+   * Resources to provide to the cert-manager controller pod.
+   * For example:
    * For more information, see [Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
    *
    * @default {}
@@ -1534,6 +1700,10 @@ export type CertmanagerHelmValues = {
   volumes?: unknown[];
   volumeMounts?: unknown[];
   /**
+   * Optional additional annotations to add to the controller Deployment.
+   * +docs:property
+   * Optional additional annotations to add to the controller Pods.
+   * +docs:property
    * Optional additional labels to add to the controller Pods.
    *
    * @default {}
@@ -1553,11 +1723,30 @@ export type CertmanagerHelmValues = {
   nodeSelector?: CertmanagerHelmValuesNodeSelector;
   /**
    * +docs:ignore
+   * Optional default issuer to use for ingress resources.
+   * +docs:property=ingressShim.defaultIssuerName
+   * Optional default issuer kind to use for ingress resources.
+   * +docs:property=ingressShim.defaultIssuerKind
+   * Optional default issuer group to use for ingress resources.
+   * +docs:property=ingressShim.defaultIssuerGroup
    *
    * @default {}
    */
   ingressShim?: CertmanagerHelmValuesIngressShim;
   /**
+   * Use these variables to configure the HTTP_PROXY environment variables.
+   * Configures the HTTP_PROXY environment variable where a HTTP proxy is required.
+   * +docs:property
+   * http_proxy: "http://proxy:8080"
+   * Configures the HTTPS_PROXY environment variable where a HTTP proxy is required.
+   * +docs:property
+   * https_proxy: "https://proxy:8080"
+   * Configures the NO_PROXY environment variable where a HTTP proxy is required,
+   * but certain domains should be excluded.
+   * +docs:property
+   * A Kubernetes Affinity, if required. For more information, see [Affinity v1 core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#affinity-v1-core).
+   * For example:
+   *
    * @default {}
    */
   affinity?: CertmanagerHelmValuesAffinity;

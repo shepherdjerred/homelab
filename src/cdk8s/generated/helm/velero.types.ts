@@ -2,6 +2,15 @@
 
 export type VeleroHelmValuesNamespace = {
   /**
+   * Enforce Pod Security Standards with Namespace Labels
+   * https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-namespace-labels/
+   * pod-security.kubernetes.io/enforce: privileged
+   * pod-security.kubernetes.io/enforce-version: latest
+   * pod-security.kubernetes.io/audit: privileged
+   * pod-security.kubernetes.io/audit-version: latest
+   * pod-security.kubernetes.io/warn: privileged
+   * pod-security.kubernetes.io/warn-version: latest
+   *
    * @default {}
    */
   labels?: VeleroHelmValuesNamespaceLabels;
@@ -25,6 +34,9 @@ export type VeleroHelmValuesImage = {
    */
   tag?: string;
   /**
+   * Digest value example: sha256:d238835e151cec91c6a811fe3a89a66d3231d9f64d09e5f3c49552672d271f38.
+   * If used, it will take precedence over the image.tag.
+   *
    * @default "IfNotPresent"
    */
   pullPolicy?: string;
@@ -77,6 +89,8 @@ export type VeleroHelmValuesUpgradeCRDsJob = {
   extraVolumeMounts?: unknown[];
   /**
    * Additional values to be used as environment variables. Optional.
+   * Simple value
+   * FieldRef example
    *
    * @default []
    */
@@ -211,10 +225,19 @@ export type VeleroHelmValuesMetrics = {
    */
   podAnnotations?: VeleroHelmValuesMetricsPodAnnotations;
   /**
+   * metrics.serviceMonitor.relabelings [array] Prometheus relabeling rules
+   * ServiceMonitor namespace. Default to Velero namespace.
+   * ServiceMonitor connection scheme. Defaults to HTTP.
+   * ServiceMonitor connection tlsConfig. Defaults to {}.
+   *
    * @default {...} (4 keys)
    */
   serviceMonitor?: VeleroHelmValuesMetricsServiceMonitor;
   /**
+   * ServiceMonitor namespace. Default to Velero namespace.
+   * ServiceMonitor connection scheme. Defaults to HTTP.
+   * ServiceMonitor connection tlsConfig. Defaults to {}.
+   *
    * @default {...} (4 keys)
    */
   nodeAgentPodMonitor?: VeleroHelmValuesMetricsNodeAgentPodMonitor;
@@ -239,6 +262,9 @@ export type VeleroHelmValuesMetricsService = {
   labels?: VeleroHelmValuesMetricsServiceLabels;
   nodePort?: unknown;
   /**
+   * External/Internal traffic policy setting (Cluster, Local)
+   * https://kubernetes.io/docs/reference/networking/virtual-ips/#traffic-policies
+   *
    * @default ""
    */
   externalTrafficPolicy?: string;
@@ -360,6 +386,7 @@ export type VeleroHelmValuesMetricsPrometheusRule = {
    */
   additionalLabels?: VeleroHelmValuesMetricsPrometheusRuleAdditionalLabels;
   /**
+   * PrometheusRule namespace. Defaults to Velero namespace.
    * Rules to be deployed
    *
    * @default []
@@ -371,6 +398,11 @@ export type VeleroHelmValuesMetricsPrometheusRuleAdditionalLabels = object;
 
 export type VeleroHelmValuesKubectl = {
   /**
+   * Digest value example: sha256:d238835e151cec91c6a811fe3a89a66d3231d9f64d09e5f3c49552672d271f38.
+   * If used, it will take precedence over the kubectl.image.tag.
+   * Container Level Security Context for the 'kubectl' container of the crd jobs. Optional.
+   * See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+   *
    * @default {"repository":"docker.io/bitnami/kubectl"}
    */
   image?: VeleroHelmValuesKubectlImage;
@@ -439,16 +471,13 @@ export type VeleroHelmValuesKubectlLabels = {
 
 export type VeleroHelmValuesConfiguration = {
   /**
-   * Parameters for the BackupStorageLocation(s). Configure multiple by adding other element(s) to the backupStorageLocation slice.
-   * See https://velero.io/docs/v1.6/api-types/backupstoragelocation/
+   * Parameters for the VolumeSnapshotLocation(s). Configure multiple by adding other element(s) to the volumeSnapshotLocation slice.
+   * See https://velero.io/docs/v1.6/api-types/volumesnapshotlocation/
    *
    * @default [{"name":null,"provider":"","bucket":"","caCert":null,"prefix":null,"default":false,"validationFrequency":null,"accessMode":"ReadWrite","credential":{"name":null,"key":null},"config":{},"annotations":{}}]
    */
   backupStorageLocation?: object[];
   /**
-   * Parameters for the BackupStorageLocation(s). Configure multiple by adding other element(s) to the backupStorageLocation slice.
-   * See https://velero.io/docs/v1.6/api-types/backupstoragelocation/
-   *
    * @default [{"name":null,"provider":"","credential":{"name":null,"key":null},"config":{},"annotations":{}}]
    */
   volumeSnapshotLocation?: object[];
@@ -464,9 +493,6 @@ export type VeleroHelmValuesConfiguration = {
   defaultVolumeSnapshotLocations?: unknown;
   disableControllers?: unknown;
   /**
-   * Parameters for the BackupStorageLocation(s). Configure multiple by adding other element(s) to the backupStorageLocation slice.
-   * See https://velero.io/docs/v1.6/api-types/backupstoragelocation/
-   *
    * @default false
    */
   disableInformerCache?: boolean;
@@ -485,21 +511,28 @@ export type VeleroHelmValuesConfiguration = {
   features?: unknown;
   dataMoverPrepareTimeout?: unknown;
   /**
+   * https://velero.io/docs/v1.14/repository-maintenance/#resource-limitation
+   *
    * @default {...} (4 keys)
    */
   repositoryMaintenanceJob?: VeleroHelmValuesConfigurationRepositoryMaintenanceJob;
   /**
    * `velero server` default: velero
+   * additional command-line arguments that will be passed to the `velero server`
    *
    * @default null
    */
   namespace?: string | null;
   /**
+   * e.g.: extraArgs: ["--foo=bar"]
+   *
    * @default []
    */
   extraArgs?: unknown[];
   /**
    * Additional values to be used as environment variables. Optional.
+   * Simple value
+   * FieldRef example
    *
    * @default []
    */
@@ -524,6 +557,10 @@ export type VeleroHelmValuesConfigurationRepositoryMaintenanceJob = {
    */
   latestJobsCount?: number;
   /**
+   * Per-repository resource settings ConfigMap
+   * This ConfigMap allows specifying different settings for different repositories
+   * See: https://velero.io/docs/main/repository-maintenance/
+   *
    * @default {"name":"velero-repo-maintenance","global":{},"repositories":{}}
    */
   repositoryConfigData?: VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigData;
@@ -545,6 +582,12 @@ export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfi
    */
   global?: VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataGlobal;
   /**
+   * Repository-specific configurations
+   * Repository keys are formed as: "{namespace}-{storageLocation}-{repositoryType}"
+   * For example: "default-default-kopia" or "prod-s3-backup-kopia"
+   * Note: priorityClassName is NOT supported in repository-specific configurations
+   * "kibishii-default-kopia":
+   *
    * Repository-specific configurations keyed by repository identifier (namespace-storageLocation-repositoryType)
    *
    * @default {}
@@ -625,12 +668,14 @@ export type VeleroHelmValuesCredentials = {
   useSecret?: boolean;
   /**
    * Name of the secret to create if `useSecret` is true and `existingSecret` is empty
+   * Name of a pre-existing secret (if any) in the Velero namespace
    *
    * @default null
    */
   name?: string | null;
   /**
    * that should be used to get IAM account credentials. Optional.
+   * Data to be stored in the Velero secret, if `useSecret` is true and `existingSecret` is empty.
    *
    * @default null
    */
@@ -648,6 +693,11 @@ export type VeleroHelmValuesCredentials = {
    */
   secretContents?: VeleroHelmValuesCredentialsSecretContents;
   /**
+   * [default]
+   * aws_access_key_id=<REDACTED>
+   * aws_secret_access_key=<REDACTED>
+   * additional key/value pairs to be used as environment variables such as "DIGITALOCEAN_TOKEN: <your-key>". Values will be stored in the secret.
+   *
    * @default {}
    */
   extraEnvVars?: VeleroHelmValuesCredentialsExtraEnvVars;
@@ -663,7 +713,13 @@ export type VeleroHelmValuesCredentials = {
 
 export type VeleroHelmValuesCredentialsSecretContents = object;
 
-export type VeleroHelmValuesCredentialsExtraEnvVars = object;
+export type VeleroHelmValuesCredentialsExtraEnvVars = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
 
 export type VeleroHelmValuesNodeAgent = {
   /**
@@ -687,6 +743,9 @@ export type VeleroHelmValuesNodeAgent = {
    */
   runtimeClassName?: string;
   /**
+   * Resource requests/limits to specify for the node-agent daemonset deployment. Optional.
+   * https://velero.io/docs/v1.6/customize-installation/#customize-resource-requests-and-limits
+   *
    * @default {}
    */
   resources?: VeleroHelmValuesNodeAgentResources;
@@ -709,6 +768,9 @@ export type VeleroHelmValuesNodeAgent = {
    */
   labels?: VeleroHelmValuesNodeAgentLabels;
   /**
+   * Additional pod labels for the node-agent daemonset. Optional
+   * ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+   *
    * @default {}
    */
   podLabels?: VeleroHelmValuesNodeAgentPodLabels;
@@ -734,15 +796,23 @@ export type VeleroHelmValuesNodeAgent = {
   extraVolumeMounts?: unknown[];
   /**
    * Additional values to be used as environment variables for node-agent daemonset. Optional.
+   * Simple key/value
+   * FieldRef example
    *
    * @default []
    */
   extraEnvVars?: unknown[];
   /**
+   * Additional command-line arguments that will be passed to the node-agent. Optional.
+   * e.g.: extraArgs: ["--foo=bar"]
+   *
    * @default []
    */
   extraArgs?: unknown[];
   /**
+   * Configure the dnsPolicy of the node-agent daemonset
+   * See: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+   *
    * @default "ClusterFirst"
    */
   dnsPolicy?: string;
@@ -756,6 +826,9 @@ export type VeleroHelmValuesNodeAgent = {
    */
   podSecurityContext?: VeleroHelmValuesNodeAgentPodSecurityContext;
   /**
+   * Container Level Security Context for the 'node-agent' container of the node-agent daemonset. Optional.
+   * See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+   *
    * @default {}
    */
   containerSecurityContext?: VeleroHelmValuesNodeAgentContainerSecurityContext;
@@ -847,11 +920,14 @@ export type VeleroHelmValues = {
    * Configuration settings that directly affect the Velero deployment YAML.
    * Details of the container image to use in the Velero deployment & daemonset (if
    * enabling node-agent). Required.
+   * - registrySecretName
    *
    * @default {...} (4 keys)
    */
   image?: VeleroHelmValuesImage;
   /**
+   * - registrySecretName
+   *
    * @default ""
    */
   nameOverride?: string;
@@ -883,15 +959,23 @@ export type VeleroHelmValues = {
    * Annotations to add to the Velero deployment's pod template. Optional.
    * If using kube2iam or kiam, use the following annotation with your AWS_ACCOUNT_ID
    * and VELERO_ROLE_NAME filled in:
+   * iam.amazonaws.com/role: "arn:aws:iam::<AWS_ACCOUNT_ID>:role/<VELERO_ROLE_NAME>"
    *
    * @default {}
    */
   podAnnotations?: VeleroHelmValuesPodAnnotations;
   /**
+   * Additional pod labels for Velero deployment's template. Optional
+   * ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+   *
    * @default {}
    */
   podLabels?: VeleroHelmValuesPodLabels;
   /**
+   * Number of old history to retain to allow rollback (If not set, default Kubernetes value is set to 10)
+   * Resource requests/limits to specify for the Velero deployment.
+   * https://velero.io/docs/v1.6/customize-installation/#customize-resource-requests-and-limits
+   *
    * @default {}
    */
   resources?: VeleroHelmValuesResources;
@@ -907,6 +991,9 @@ export type VeleroHelmValues = {
    */
   upgradeCRDsJob?: VeleroHelmValuesUpgradeCRDsJob;
   /**
+   * Configure the dnsPolicy of the Velero deployment
+   * See: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+   *
    * @default "ClusterFirst"
    */
   dnsPolicy?: string;
@@ -926,6 +1013,9 @@ export type VeleroHelmValues = {
    */
   podSecurityContext?: VeleroHelmValuesPodSecurityContext;
   /**
+   * Container Level Security Context for the 'velero' container of the Velero deployment. Optional.
+   * See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+   *
    * @default {}
    */
   containerSecurityContext?: VeleroHelmValuesContainerSecurityContext;
@@ -1008,8 +1098,6 @@ export type VeleroHelmValues = {
    */
   extraObjects?: unknown[];
   /**
-   * Settings for Velero's prometheus metrics. Enabled by default.
-   *
    * @default {...} (8 keys)
    */
   metrics?: VeleroHelmValuesMetrics;
@@ -1079,10 +1167,16 @@ export type VeleroHelmValues = {
    */
   nodeAgent?: VeleroHelmValuesNodeAgent;
   /**
+   * Backup schedules to create.
+   * See: https://velero.io/docs/v1.14/resource-filtering/#excludes
+   *
    * @default {}
    */
   schedules?: VeleroHelmValuesSchedules;
   /**
+   * Velero ConfigMaps.
+   * See: https://velero.io/docs/v1.11/file-system-backup/
+   *
    * @default {}
    */
   configMaps?: VeleroHelmValuesConfigMaps;

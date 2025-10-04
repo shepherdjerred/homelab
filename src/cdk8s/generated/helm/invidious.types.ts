@@ -55,6 +55,9 @@ export type InvidiousHelmValuesIngress = {
    */
   className?: string;
   /**
+   * kubernetes.io/ingress.class: nginx
+   * kubernetes.io/tls-acme: "true"
+   *
    * @default {}
    */
   annotations?: InvidiousHelmValuesIngressAnnotations;
@@ -305,6 +308,8 @@ export type InvidiousHelmValues = {
    */
   ingress?: InvidiousHelmValuesIngress;
   /**
+   * - chart-example.local
+   *
    * @default {}
    */
   resources?: InvidiousHelmValuesResources;
@@ -330,10 +335,14 @@ export type InvidiousHelmValues = {
    */
   affinity?: InvidiousHelmValuesAffinity;
   /**
+   * Reference: https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+   *
    * @default {"enabled":true,"image":{"tag":16},"auth":{"username":"kemal","password":"kemal","database":"invidious"}}
    */
   postgresql?: InvidiousHelmValuesPostgresql;
   /**
+   * Reference: https://github.com/iv-org/invidious/blob/master/config/config.example.yml
+   *
    * @default {...} (7 keys)
    */
   config?: InvidiousHelmValuesConfig;

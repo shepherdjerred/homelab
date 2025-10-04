@@ -33,6 +33,8 @@ export type NodefeaturediscoveryHelmValuesMaster = {
   hostNetwork?: boolean;
   config?: unknown;
   /**
+   * <NFD-MASTER-CONF-END-DO-NOT-REMOVE>
+   *
    * @default 8081
    */
   metricsPort?: number;
@@ -925,6 +927,9 @@ export type NodefeaturediscoveryHelmValuesPrometheusLabels = {
 
 export type NodefeaturediscoveryHelmValues = {
   /**
+   * tag, if defined will use the given image tag, else Chart.AppVersion will be used
+   * tag
+   *
    * @default {"repository":"registry.k8s.io/nfd/node-feature-discovery","pullPolicy":"IfNotPresent"}
    */
   image?: NodefeaturediscoveryHelmValuesImage;

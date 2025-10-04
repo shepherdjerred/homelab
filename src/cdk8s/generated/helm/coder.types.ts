@@ -13,24 +13,38 @@ export type CoderHelmValuesCoder = {
   envUseClusterAccessURL?: boolean;
   /**
    * coder.image -- The image to use for Coder.
+   * coder.initContainers -- Init containers for the deployment. See:
+   * https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
    *
    * @default {...} (4 keys)
    */
   image?: CoderHelmValuesCoderImage;
   initContainers?: unknown[];
   /**
+   * coder.annotations -- The Deployment annotations. See:
+   * https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+   *
    * @default {}
    */
   annotations?: CoderHelmValuesCoderAnnotations;
   /**
+   * coder.labels -- The Deployment labels. See:
+   * https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+   *
    * @default {}
    */
   labels?: CoderHelmValuesCoderLabels;
   /**
+   * coder.podAnnotations -- The Coder pod annotations. See:
+   * https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+   *
    * @default {}
    */
   podAnnotations?: CoderHelmValuesCoderPodAnnotations;
   /**
+   * coder.podLabels -- The Coder pod labels. See:
+   * https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+   *
    * @default {}
    */
   podLabels?: CoderHelmValuesCoderPodLabels;
@@ -79,10 +93,28 @@ export type CoderHelmValuesCoder = {
    */
   replicaCount?: number;
   /**
+   * coder.workspaceProxy -- Whether or not this deployment of Coder is a Coder
+   * Workspace Proxy. Workspace Proxies reduce the latency between the user and
+   * their workspace for web connections (workspace apps and web terminal) and
+   * proxied connections from the CLI. Workspace Proxies are optional and only
+   * recommended for geographically sparse teams.
+   * Make sure you set CODER_PRIMARY_ACCESS_URL and CODER_PROXY_SESSION_TOKEN in
+   * the environment below. You can get a proxy token using the CLI:
+   * coder wsproxy create \
+   * name "proxy-name" \
+   * display-name "Proxy Name" \
+   * icon "/emojis/xyz.png"
+   * This is an Enterprise feature. Contact sales@coder.com
+   * Docs: https://coder.com/docs/admin/workspace-proxies
+   *
    * @default false
    */
   workspaceProxy?: boolean;
   /**
+   * coder.lifecycle -- container lifecycle handlers for the Coder container, allowing
+   * for lifecycle events such as postStart and preStop events
+   * See: https://kubernetes.io/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/
+   *
    * @default {}
    */
   lifecycle?: CoderHelmValuesCoderLifecycle;
@@ -116,6 +148,9 @@ export type CoderHelmValuesCoder = {
   topologySpreadConstraints?: unknown;
   tolerations?: unknown[];
   /**
+   * coder.nodeSelector -- Node labels for constraining coder pods to nodes.
+   * See: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+   *
    * @default {}
    */
   nodeSelector?: CoderHelmValuesCoderNodeSelector;
@@ -153,6 +188,9 @@ export type CoderHelmValuesCoderImage = {
    */
   tag?: string;
   /**
+   * coder.image.pullPolicy -- The pull policy to use for the image. See:
+   * https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy
+   *
    * @default "IfNotPresent"
    */
   pullPolicy?: string;
@@ -200,6 +238,13 @@ export type CoderHelmValuesCoderServiceAccount = {
   enableDeployments?: boolean;
   extraRules?: unknown[];
   /**
+   * - delete
+   * - deletecollection
+   * - get
+   * - list
+   * - patch
+   * - update
+   * - watch
    * coder.serviceAccount.annotations -- The Coder service account annotations.
    *
    * @default {}
@@ -369,14 +414,27 @@ export type CoderHelmValuesCoderService = {
    */
   enable?: boolean;
   /**
+   * coder.service.type -- The type of service to expose. See:
+   * https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+   *
    * @default "LoadBalancer"
    */
   type?: string;
   /**
+   * coder.service.sessionAffinity -- Must be set to ClientIP or None
+   * AWS ELB does not support session stickiness based on ClientIP, so you must set this to None.
+   * The error message you might see: "Unsupported load balancer affinity: ClientIP"
+   * https://kubernetes.io/docs/reference/networking/virtual-ips/#session-affinity
+   *
    * @default "None"
    */
   sessionAffinity?: string;
   /**
+   * coder.service.externalTrafficPolicy -- The external traffic policy to use.
+   * You may need to change this to "Local" to preserve the source IP address
+   * in some situations.
+   * https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+   *
    * @default "Cluster"
    */
   externalTrafficPolicy?: string;
@@ -391,10 +449,16 @@ export type CoderHelmValuesCoderService = {
    */
   loadBalancerIP?: string;
   /**
+   * coder.service.loadBalancerClass -- The class name of the LoadBalancer. See:
+   * https://kubernetes.io/docs/concepts/services-networking/service/#load-balancer-class
+   *
    * @default ""
    */
   loadBalancerClass?: string;
   /**
+   * coder.service.annotations -- The service annotations. See:
+   * https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
+   *
    * @default {}
    */
   annotations?: CoderHelmValuesCoderServiceAnnotations;

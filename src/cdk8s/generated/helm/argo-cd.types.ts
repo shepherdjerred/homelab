@@ -4,7 +4,7 @@ export type ArgocdHelmValuesApiVersionOverrides = object;
 
 export type ArgocdHelmValuesOpenshift = {
   /**
-   * -- enables using arbitrary uid for argo repo server
+   * enables using arbitrary uid for argo repo server
    *
    * @default false
    */
@@ -13,25 +13,25 @@ export type ArgocdHelmValuesOpenshift = {
 
 export type ArgocdHelmValuesCrds = {
   /**
-   * -- Install and upgrade CRDs
+   * Install and upgrade CRDs
    *
    * @default true
    */
   install?: boolean;
   /**
-   * -- Keep CRDs on chart uninstall
+   * Keep CRDs on chart uninstall
    *
    * @default true
    */
   keep?: boolean;
   /**
-   * -- Annotations to be added to all CRDs
+   * Annotations to be added to all CRDs
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesCrdsAnnotations;
   /**
-   * -- Additional labels to be added to all CRDs
+   * Additional labels to be added to all CRDs
    *
    * @default {}
    */
@@ -50,26 +50,26 @@ export type ArgocdHelmValuesCrdsAdditionalLabels = object;
 
 export type ArgocdHelmValuesGlobal = {
   /**
-   * -- Default domain used by all components
+   * Default domain used by all components
    * Used for ingresses, certificates, SSO, notifications, etc.
    *
    * @default "argocd.example.com"
    */
   domain?: string;
   /**
-   * -- Runtime class name for all components
+   * Runtime class name for all components
    *
    * @default ""
    */
   runtimeClassName?: string;
   /**
-   * -- Common labels for the all resources
+   * Common labels for the all resources
    *
    * @default {}
    */
   additionalLabels?: ArgocdHelmValuesGlobalAdditionalLabels;
   /**
-   * -- Number of old deployment ReplicaSets to retain. The rest will be garbage collected.
+   * Number of old deployment ReplicaSets to retain. The rest will be garbage collected.
    *
    * @default 3
    */
@@ -88,43 +88,43 @@ export type ArgocdHelmValuesGlobal = {
    */
   logging?: ArgocdHelmValuesGlobalLogging;
   /**
-   * -- Annotations for the all deployed Statefulsets
+   * Annotations for the all deployed Statefulsets
    *
    * @default {}
    */
   statefulsetAnnotations?: ArgocdHelmValuesGlobalStatefulsetAnnotations;
   /**
-   * -- Annotations for the all deployed Deployments
+   * Annotations for the all deployed Deployments
    *
    * @default {}
    */
   deploymentAnnotations?: ArgocdHelmValuesGlobalDeploymentAnnotations;
   /**
-   * -- Labels for the all deployed Deployments
+   * Labels for the all deployed Deployments
    *
    * @default {}
    */
   deploymentLabels?: ArgocdHelmValuesGlobalDeploymentLabels;
   /**
-   * -- Annotations for the all deployed pods
+   * Annotations for the all deployed pods
    *
    * @default {}
    */
   podAnnotations?: ArgocdHelmValuesGlobalPodAnnotations;
   /**
-   * -- Labels for the all deployed pods
+   * Labels for the all deployed pods
    *
    * @default {}
    */
   podLabels?: ArgocdHelmValuesGlobalPodLabels;
   /**
-   * -- Add Prometheus scrape annotations to all metrics services. This can be used as an alternative to the ServiceMonitors.
+   * Add Prometheus scrape annotations to all metrics services. This can be used as an alternative to the ServiceMonitors.
    *
    * @default false
    */
   addPrometheusAnnotations?: boolean;
   /**
-   * -- Toggle and define pod-level security context.
+   * Toggle and define pod-level security context.
    *
    * @default {}
    */
@@ -143,13 +143,13 @@ export type ArgocdHelmValuesGlobal = {
    */
   networkPolicy?: ArgocdHelmValuesGlobalNetworkPolicy;
   /**
-   * -- Default priority class for all components
+   * Default priority class for all components
    *
    * @default ""
    */
   priorityClassName?: string;
   /**
-   * -- Default node selector for all components
+   * Default node selector for all components
    *
    * @default {"kubernetes.io/os":"linux"}
    */
@@ -163,14 +163,14 @@ export type ArgocdHelmValuesGlobal = {
   affinity?: ArgocdHelmValuesGlobalAffinity;
   topologySpreadConstraints?: unknown[];
   /**
-   * -- Deployment strategy for the all deployed Deployments
+   * Deployment strategy for the all deployed Deployments
    *
    * @default {}
    */
   deploymentStrategy?: ArgocdHelmValuesGlobalDeploymentStrategy;
   env?: unknown[];
   /**
-   * -- Annotations for the all deployed Certificates
+   * Annotations for the all deployed Certificates
    *
    * @default {}
    */
@@ -181,19 +181,19 @@ export type ArgocdHelmValuesGlobalAdditionalLabels = object;
 
 export type ArgocdHelmValuesGlobalImage = {
   /**
-   * -- If defined, a repository applied to all Argo CD deployments
+   * If defined, a repository applied to all Argo CD deployments
    *
    * @default "quay.io/argoproj/argocd"
    */
   repository?: string;
   /**
-   * -- Overrides the global Argo CD image tag whose default is the chart appVersion
+   * Overrides the global Argo CD image tag whose default is the chart appVersion
    *
    * @default ""
    */
   tag?: string;
   /**
-   * -- If defined, a imagePullPolicy applied to all Argo CD deployments
+   * If defined, a imagePullPolicy applied to all Argo CD deployments
    *
    * @default "IfNotPresent"
    */
@@ -202,10 +202,14 @@ export type ArgocdHelmValuesGlobalImage = {
 
 export type ArgocdHelmValuesGlobalLogging = {
   /**
+   * Set the global logging format. Either: `text` or `json`
+   *
    * @default "text"
    */
   format?: string;
   /**
+   * Set the global logging level. One of: `debug`, `info`, `warn` or `error`
+   *
    * @default "info"
    */
   level?: string;
@@ -225,6 +229,8 @@ export type ArgocdHelmValuesGlobalSecurityContext = object;
 
 export type ArgocdHelmValuesGlobalDualStack = {
   /**
+   * IP family policy to configure dual-stack see [Configure dual-stack](https://kubernetes.io/docs/concepts/services-networking/dual-stack/#services)
+   *
    * @default ""
    */
   ipFamilyPolicy?: string;
@@ -233,13 +239,13 @@ export type ArgocdHelmValuesGlobalDualStack = {
 
 export type ArgocdHelmValuesGlobalNetworkPolicy = {
   /**
-   * -- Create NetworkPolicy objects for all components
+   * Create NetworkPolicy objects for all components
    *
    * @default false
    */
   create?: boolean;
   /**
-   * -- Default deny all ingress traffic
+   * Default deny all ingress traffic
    *
    * @default false
    */
@@ -255,6 +261,8 @@ export type ArgocdHelmValuesGlobalNodeSelector = {
 
 export type ArgocdHelmValuesGlobalAffinity = {
   /**
+   * Default pod anti-affinity rules. Either: `none`, `soft` or `hard`
+   *
    * @default "soft"
    */
   podAntiAffinity?: string;
@@ -273,6 +281,8 @@ export type ArgocdHelmValuesGlobalAffinityNodeAffinity = {
    */
   [key: string]: unknown;
   /**
+   * Default node affinity rules. Either: `none`, `soft` or `hard`
+   *
    * @default "hard"
    */
   type?: string;
@@ -290,18 +300,30 @@ export type ArgocdHelmValuesConfigs = {
    */
   [key: string]: unknown;
   /**
+   * General Argo CD configuration. Any values you put under `.configs.cm` are passed to argocd-cm ConfigMap.
+   * Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
+   *
    * @default {...} (19 keys)
    */
   cm?: ArgocdHelmValuesConfigsCm;
   /**
+   * Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cmd-params-cm.yaml
+   *
    * @default {...} (23 keys)
    */
   params?: ArgocdHelmValuesConfigsParams;
   /**
+   * Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
+   *
    * @default {...} (6 keys)
    */
   rbac?: ArgocdHelmValuesConfigsRbac;
   /**
+   * GnuPG public keys for commit verification
+   * Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/gpg-verification/
+   * SSH known hosts for Git repositories
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#ssh-known-host-public-keys
+   *
    * @default {"annotations":{},"keys":{}}
    */
   gpg?: ArgocdHelmValuesConfigsGpg;
@@ -310,48 +332,59 @@ export type ArgocdHelmValuesConfigs = {
    */
   ssh?: ArgocdHelmValuesConfigsSsh;
   /**
+   * Repository TLS certificates
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#repositories-using-self-signed-tls-certificates-or-are-signed-by-custom-ca
+   *
    * @default {"annotations":{},"certificates":{},"create":true}
    */
   tls?: ArgocdHelmValuesConfigsTls;
   /**
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/
+   *
    * @default {"create":false,"annotations":{},"plugins":{}}
    */
   cmp?: ArgocdHelmValuesConfigsCmp;
   /**
+   * Provide one or multiple [external cluster credentials]
+   *
    * @default {}
    */
   clusterCredentials?: ArgocdHelmValuesConfigsClusterCredentials;
   /**
-   * -- Repository credentials to be used as Templates for other repos
+   * Repository credentials to be used as Templates for other repos
    * Creates a secret for each key/value specified below to create repository credentials
    *
    * @default {}
    */
   credentialTemplates?: ArgocdHelmValuesConfigsCredentialTemplates;
   /**
-   * -- Annotations to be added to `configs.credentialTemplates` Secret
-   *
    * @default {}
    */
   credentialTemplatesAnnotations?: ArgocdHelmValuesConfigsCredentialTemplatesAnnotations;
   /**
-   * -- Repositories list to be used by applications
+   * Repositories list to be used by applications
+   * Creates a secret for each key/value specified below to create repositories
    * Note: the last example in the list would use a repository credential template, configured under "configs.credentialTemplates".
    *
    * @default {}
    */
   repositories?: ArgocdHelmValuesConfigsRepositories;
   /**
-   * -- Annotations to be added to `configs.repositories` Secret
-   *
    * @default {}
    */
   repositoriesAnnotations?: ArgocdHelmValuesConfigsRepositoriesAnnotations;
   /**
+   * Argo CD sensitive data
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
+   *
    * @default {...} (12 keys)
    */
   secret?: ArgocdHelmValuesConfigsSecret;
   /**
+   * Define custom [CSS styles] for your argo instance.
+   * This setting will automatically mount the provided CSS and reference it in the argo configuration.
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/custom-styles/
+   *
    * @default ""
    */
   styles?: string;
@@ -364,52 +397,67 @@ export type ArgocdHelmValuesConfigsCm = {
    */
   [key: string]: unknown;
   /**
-   * -- Create the argocd-cm configmap for [declarative setup]
+   * Create the argocd-cm configmap for [declarative setup]
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- Annotations to be added to argocd-cm configmap
+   * Annotations to be added to argocd-cm configmap
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesConfigsCmAnnotations;
   /**
-   * -- The name of tracking label used by Argo CD for resource pruning
+   * The name of tracking label used by Argo CD for resource pruning
    *
    * @default "argocd.argoproj.io/instance"
    */
   "application.instanceLabelKey"?: string;
   /**
+   * Enable control of the service account used for the sync operation (alpha)
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/app-sync-using-impersonation/
+   *
    * @default false
    */
   "application.sync.impersonation.enabled"?: boolean;
   /**
+   * Enable logs RBAC enforcement
+   * Ref: https://argo-cd.readthedocs.io/en/latest/operator-manual/upgrading/2.3-2.4/#enable-logs-rbac-enforcement
+   *
    * @default false
    */
   "server.rbac.log.enforce.enable"?: boolean;
   /**
+   * Enable exec feature in Argo UI
+   * Ref: https://argo-cd.readthedocs.io/en/latest/operator-manual/rbac/#exec-resource
+   *
    * @default false
    */
   "exec.enabled"?: boolean;
   /**
+   * Enable local admin user
+   * Ref: https://argo-cd.readthedocs.io/en/latest/faq/#how-to-disable-admin-user
+   *
    * @default true
    */
   "admin.enabled"?: boolean;
   /**
-   * -- Timeout to discover if a new manifests version got published to the repository
+   * Timeout to discover if a new manifests version got published to the repository
    *
    * @default "180s"
    */
   "timeout.reconciliation"?: string;
   /**
-   * -- Timeout to refresh application data as well as target manifests cache
+   * Timeout to refresh application data as well as target manifests cache
    *
    * @default "0s"
    */
   "timeout.hard.reconciliation"?: string;
   /**
+   * Enable Status Badge
+   * Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/status-badge/
+   *
    * @default false
    */
   "statusbadge.enabled"?: boolean;
@@ -417,7 +465,7 @@ export type ArgocdHelmValuesConfigsCm = {
    * Default configuration for ignoreResourceUpdates.
    * The ignoreResourceUpdates list contains K8s resource's properties that are known to be frequently updated
    * by controllers and operators. These resources, when watched by argo, will cause many unnecessary updates.
-   * -- Ignoring status for all resources. An update will still be sent if the status update causes the health to change.
+   * Ignoring status for all resources. An update will still be sent if the status update causes the health to change.
    *
    * @default "jsonPointers:
   - /status
@@ -425,7 +473,7 @@ export type ArgocdHelmValuesConfigsCm = {
    */
   "resource.customizations.ignoreResourceUpdates.all"?: string;
   /**
-   * -- Some Application fields are generated and not related to the application updates itself
+   * Some Application fields are generated and not related to the application updates itself
    * The Application itself is already watched by the controller lister, but this configuration is applied for apps of apps
    *
    * @default "jqPathExpressions:
@@ -433,35 +481,35 @@ export type ArgocdHelmValuesConfigsCm = {
    */
   "resource.customizations.ignoreResourceUpdates.argoproj.io_Application"?: string;
   /**
-   * -- Ignore Argo Rollouts generated fields
+   * Ignore Argo Rollouts generated fields
    *
    * @default "jqPathExpressions:
   - '.metadata.annotations."..."
    */
   "resource.customizations.ignoreResourceUpdates.argoproj.io_Rollout"?: string;
   /**
-   * -- Legacy annotations used on HPA autoscaling/v1
+   * Legacy annotations used on HPA autoscaling/v1
    *
    * @default "jqPathExpressions:
   - '.metadata.annotations."..."
    */
   "resource.customizations.ignoreResourceUpdates.autoscaling_HorizontalPodAutoscaler"?: string;
   /**
-   * -- Ignore the cluster-autoscaler status
+   * Ignore the cluster-autoscaler status
    *
    * @default "jqPathExpressions:
   # Ignore the cluster-autos..."
    */
   "resource.customizations.ignoreResourceUpdates.ConfigMap"?: string;
   /**
-   * -- Ignore the common scaling annotations
+   * Ignore the common scaling annotations
    *
    * @default "jqPathExpressions:
   - '.metadata.annotations."..."
    */
   "resource.customizations.ignoreResourceUpdates.apps_ReplicaSet"?: string;
   /**
-   * -- Ignores update if EndpointSlice is not excluded globally
+   * Ignores update if EndpointSlice is not excluded globally
    *
    * @default "jsonPointers:
   - /metadata
@@ -470,7 +518,7 @@ export type ArgocdHelmValuesConfigsCm = {
    */
   "resource.customizations.ignoreResourceUpdates.discovery.k8s.io_EndpointSlice"?: string;
   /**
-   * -- Ignores update if Endpoints is not excluded globally
+   * Ignores update if Endpoints is not excluded globally
    *
    * @default "jsonPointers:
   - /metadata
@@ -484,7 +532,7 @@ export type ArgocdHelmValuesConfigsCm = {
    * and are never child objects of managed resources that need to be presented in the resource tree.
    * This list contains high volume and  high churn metadata objects which we exclude for performance
    * reasons, reducing connections and load to the K8s API servers of managed clusters.
-   * -- Resource Exclusion/Inclusion
+   * Resource Exclusion/Inclusion
    *
    * @default "### Network resources created by the Kubernetes..."
    */
@@ -501,138 +549,141 @@ export type ArgocdHelmValuesConfigsCmAnnotations = {
 
 export type ArgocdHelmValuesConfigsParams = {
   /**
-   * -- Create the argocd-cmd-params-cm configmap
+   * Create the argocd-cmd-params-cm configmap
    * If false, it is expected the configmap will be created by something else.
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- Annotations to be added to the argocd-cmd-params-cm ConfigMap
+   * Annotations to be added to the argocd-cmd-params-cm ConfigMap
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesConfigsParamsAnnotations;
   /**
    * Generic parameters
+   * Open-Telemetry collector address: (e.g. "otel-collector:4317")
    *
    * @default ""
    */
   "otlp.address"?: string;
   /**
    * Controller Properties
-   * -- Number of application status processors
+   * Number of application status processors
    *
    * @default 20
    */
   "controller.status.processors"?: number;
   /**
-   * -- Number of application operation processors
+   * Number of application operation processors
    *
    * @default 10
    */
   "controller.operation.processors"?: number;
   /**
-   * -- Specifies timeout between application self heal attempts
+   * Specifies timeout between application self heal attempts
    *
    * @default 5
    */
   "controller.self.heal.timeout.seconds"?: number;
   /**
-   * -- Repo server RPC call timeout seconds.
+   * Repo server RPC call timeout seconds.
    *
    * @default 60
    */
   "controller.repo.server.timeout.seconds"?: number;
   /**
-   * -- Specifies the timeout after which a sync would be terminated. 0 means no timeout
+   * Specifies the timeout after which a sync would be terminated. 0 means no timeout
    *
    * @default 0
    */
   "controller.sync.timeout.seconds"?: number;
   /**
    * Server properties
+   * Run server without TLS
    * NOTE: This value should be set when you generate params by other means as it changes ports used by ingress template.
    *
    * @default false
    */
   "server.insecure"?: boolean;
   /**
-   * -- Value for base href in index.html. Used if Argo CD is running behind reverse proxy under subpath different from /
+   * Value for base href in index.html. Used if Argo CD is running behind reverse proxy under subpath different from /
    *
    * @default "/"
    */
   "server.basehref"?: string;
   /**
-   * -- Used if Argo CD is running behind reverse proxy under subpath different from /
+   * Used if Argo CD is running behind reverse proxy under subpath different from /
    *
    * @default ""
    */
   "server.rootpath"?: string;
   /**
-   * -- Directory path that contains additional static assets
+   * Directory path that contains additional static assets
    *
    * @default "/shared/app"
    */
   "server.staticassets"?: string;
   /**
-   * -- Disable Argo CD RBAC for user authentication
+   * Disable Argo CD RBAC for user authentication
    *
    * @default false
    */
   "server.disable.auth"?: boolean;
   /**
-   * -- Enable GZIP compression
+   * Enable GZIP compression
    *
    * @default true
    */
   "server.enable.gzip"?: boolean;
   /**
-   * -- Enable proxy extension feature. (proxy extension is in Alpha phase)
+   * Enable proxy extension feature. (proxy extension is in Alpha phase)
    *
    * @default false
    */
   "server.enable.proxy.extension"?: boolean;
   /**
-   * -- Enable the hydrator feature (hydrator is in Alpha phase)
+   * Enable the hydrator feature (hydrator is in Alpha phase)
    *
    * @default false
    */
   "hydrator.enabled"?: boolean;
   /**
-   * -- Set X-Frame-Options header in HTTP responses to value. To disable, set to "".
+   * Set X-Frame-Options header in HTTP responses to value. To disable, set to "".
    *
    * @default "sameorigin"
    */
   "server.x.frame.options"?: string;
   /**
    * Repo-server properties
-   * -- Limit on number of concurrent manifests generate requests. Any value less the 1 means no limit.
+   * Limit on number of concurrent manifests generate requests. Any value less the 1 means no limit.
    *
    * @default 0
    */
   "reposerver.parallelism.limit"?: number;
   /**
    * ApplicationSet Properties
+   * Modify how application is synced between the generator and the cluster. One of: `sync`, `create-only`, `create-update`, `create-delete`
    *
    * @default "sync"
    */
   "applicationsetcontroller.policy"?: string;
   /**
-   * -- Enables use of the Progressive Syncs capability
+   * Enables use of the Progressive Syncs capability
    *
    * @default false
    */
   "applicationsetcontroller.enable.progressive.syncs"?: boolean;
   /**
-   * -- A list of glob patterns specifying where to look for ApplicationSet resources. (e.g. `"argocd,argocd-appsets-*"`)
+   * A list of glob patterns specifying where to look for ApplicationSet resources. (e.g. `"argocd,argocd-appsets-*"`)
    * For more information: https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Appset-Any-Namespace/
    *
    * @default ""
    */
   "applicationsetcontroller.namespaces"?: string;
   /**
-   * -- Enables [Applications in any namespace]
+   * Enables [Applications in any namespace]
    * List of additional namespaces where applications may be created in and reconciled from.
    * The namespace where Argo CD is installed to will always be allowed.
    * Set comma-separated list. (e.g. app-team-one, app-team-two)
@@ -641,7 +692,7 @@ export type ArgocdHelmValuesConfigsParams = {
    */
   "application.namespaces"?: string;
   /**
-   * -- JQ Path expression timeout
+   * JQ Path expression timeout
    * By default, the evaluation of a JQPathExpression is limited to one second.
    * If you encounter a "JQ patch execution timed out" error message due to a complex JQPathExpression
    * that requires more time to evaluate, you can extend the timeout period.
@@ -666,7 +717,7 @@ export type ArgocdHelmValuesConfigsRbac = {
    */
   [key: string]: unknown;
   /**
-   * -- Create the argocd-rbac-cm configmap with ([Argo CD RBAC policy]) definitions.
+   * Create the argocd-rbac-cm configmap with ([Argo CD RBAC policy]) definitions.
    * If false, it is expected the configmap will be created by something else.
    * Argo CD will not work if there is no configmap created with the name above.
    *
@@ -674,33 +725,35 @@ export type ArgocdHelmValuesConfigsRbac = {
    */
   create?: boolean;
   /**
-   * -- Annotations to be added to argocd-rbac-cm configmap
+   * Annotations to be added to argocd-rbac-cm configmap
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesConfigsRbacAnnotations;
   /**
-   * -- The name of the default role which Argo CD will falls back to, when authorizing API requests (optional).
+   * The name of the default role which Argo CD will falls back to, when authorizing API requests (optional).
    * If omitted or empty, users may be still be able to login, but will see no apps, projects, etc...
    *
    * @default ""
    */
   "policy.default"?: string;
   /**
-   * -- File containing user-defined policies and role definitions.
+   * File containing user-defined policies and role definitions.
    *
    * @default ""
    */
   "policy.csv"?: string;
   /**
-   * -- OIDC scopes to examine during rbac enforcement (in addition to `sub` scope).
+   * Policy rules are in the form:
+   * Role definitions and bindings are in the form:
+   * OIDC scopes to examine during rbac enforcement (in addition to `sub` scope).
    * The scope value can be a string, or a list of strings.
    *
    * @default "[groups]"
    */
   scopes?: string;
   /**
-   * -- Matcher function for Casbin, `glob` for glob matcher and `regex` for regex matcher.
+   * Matcher function for Casbin, `glob` for glob matcher and `regex` for regex matcher.
    *
    * @default "glob"
    */
@@ -717,13 +770,13 @@ export type ArgocdHelmValuesConfigsRbacAnnotations = {
 
 export type ArgocdHelmValuesConfigsGpg = {
   /**
-   * -- Annotations to be added to argocd-gpg-keys-cm configmap
+   * Annotations to be added to argocd-gpg-keys-cm configmap
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesConfigsGpgAnnotations;
   /**
-   * -- [GnuPG] public keys to add to the keyring
+   * [GnuPG] public keys to add to the keyring
    * Note: Public keys should be exported with `gpg --export --armor <KEY>`
    *
    * @default {}
@@ -743,25 +796,25 @@ export type ArgocdHelmValuesConfigsGpgKeys = object;
 
 export type ArgocdHelmValuesConfigsSsh = {
   /**
-   * -- Specifies if the argocd-ssh-known-hosts-cm configmap should be created by Helm.
+   * Specifies if the argocd-ssh-known-hosts-cm configmap should be created by Helm.
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- Annotations to be added to argocd-ssh-known-hosts-cm configmap
+   * Annotations to be added to argocd-ssh-known-hosts-cm configmap
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesConfigsSshAnnotations;
   /**
-   * -- Known hosts to be added to the known host list by default.
+   * Known hosts to be added to the known host list by default.
    *
    * @default "[ssh.github.com]:443 ecdsa-sha2-nistp256 AAAAE2..."
    */
   knownHosts?: string;
   /**
-   * -- Additional known hosts for private repositories
+   * Additional known hosts for private repositories
    *
    * @default ""
    */
@@ -778,19 +831,19 @@ export type ArgocdHelmValuesConfigsSshAnnotations = {
 
 export type ArgocdHelmValuesConfigsTls = {
   /**
-   * -- Annotations to be added to argocd-tls-certs-cm configmap
+   * Annotations to be added to argocd-tls-certs-cm configmap
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesConfigsTlsAnnotations;
   /**
-   * -- TLS certificates for Git repositories
+   * TLS certificates for Git repositories
    *
    * @default {}
    */
   certificates?: ArgocdHelmValuesConfigsTlsCertificates;
   /**
-   * -- Specifies if the argocd-tls-certs-cm configmap should be created by Helm.
+   * Specifies if the argocd-tls-certs-cm configmap should be created by Helm.
    *
    * @default true
    */
@@ -809,19 +862,20 @@ export type ArgocdHelmValuesConfigsTlsCertificates = object;
 
 export type ArgocdHelmValuesConfigsCmp = {
   /**
-   * -- Create the argocd-cmp-cm configmap
+   * Create the argocd-cmp-cm configmap
    *
    * @default false
    */
   create?: boolean;
   /**
-   * -- Annotations to be added to argocd-cmp-cm configmap
+   * Annotations to be added to argocd-cmp-cm configmap
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesConfigsCmpAnnotations;
   /**
-   * -- Plugin yaml files to be added to argocd-cmp-cm
+   * Plugin yaml files to be added to argocd-cmp-cm
+   * - First plugin
    *
    * @default {}
    */
@@ -850,49 +904,49 @@ export type ArgocdHelmValuesConfigsRepositoriesAnnotations = object;
 
 export type ArgocdHelmValuesConfigsSecret = {
   /**
-   * -- Create the argocd-secret
+   * Create the argocd-secret
    *
    * @default true
    */
   createSecret?: boolean;
   /**
-   * -- Labels to be added to argocd-secret
+   * Labels to be added to argocd-secret
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesConfigsSecretLabels;
   /**
-   * -- Annotations to be added to argocd-secret
+   * Annotations to be added to argocd-secret
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesConfigsSecretAnnotations;
   /**
-   * -- Shared secret for authenticating GitHub webhook events
+   * Shared secret for authenticating GitHub webhook events
    *
    * @default ""
    */
   githubSecret?: string;
   /**
-   * -- Shared secret for authenticating GitLab webhook events
+   * Shared secret for authenticating GitLab webhook events
    *
    * @default ""
    */
   gitlabSecret?: string;
   /**
-   * -- Shared secret for authenticating BitbucketServer webhook events
+   * Shared secret for authenticating BitbucketServer webhook events
    *
    * @default ""
    */
   bitbucketServerSecret?: string;
   /**
-   * -- UUID for authenticating Bitbucket webhook events
+   * UUID for authenticating Bitbucket webhook events
    *
    * @default ""
    */
   bitbucketUUID?: string;
   /**
-   * -- Shared secret for authenticating Gogs webhook events
+   * Shared secret for authenticating Gogs webhook events
    *
    * @default ""
    */
@@ -904,13 +958,16 @@ export type ArgocdHelmValuesConfigsSecret = {
    */
   azureDevops?: ArgocdHelmValuesConfigsSecretAzureDevops;
   /**
+   * add additional secrets to be added to argocd-secret
+   * Custom secrets. Useful for injecting SSO secrets into environment variables.
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
    * Note that all values must be non-empty.
    *
    * @default {}
    */
   extra?: ArgocdHelmValuesConfigsSecretExtra;
   /**
-   * -- Bcrypt hashed admin password
+   * Bcrypt hashed admin password
    * Argo expects the password in the secret to be bcrypt hashed. You can create this hash with
    * `htpasswd -nbBC 10 "" $ARGO_PWD | tr -d ':\n' | sed 's/$2y/$2a/'`
    *
@@ -918,6 +975,8 @@ export type ArgocdHelmValuesConfigsSecret = {
    */
   argocdServerAdminPassword?: string;
   /**
+   * Admin password modification time. Eg. `"2006-01-02T15:04:05Z"`
+   *
    * @default ""
    */
   argocdServerAdminPasswordMtime?: string;
@@ -941,13 +1000,13 @@ export type ArgocdHelmValuesConfigsSecretAnnotations = {
 
 export type ArgocdHelmValuesConfigsSecretAzureDevops = {
   /**
-   * -- Shared secret username for authenticating Azure DevOps webhook events
+   * Shared secret username for authenticating Azure DevOps webhook events
    *
    * @default ""
    */
   username?: string;
   /**
-   * -- Shared secret password for authenticating Azure DevOps webhook events
+   * Shared secret password for authenticating Azure DevOps webhook events
    *
    * @default ""
    */
@@ -958,13 +1017,13 @@ export type ArgocdHelmValuesConfigsSecretExtra = object;
 
 export type ArgocdHelmValuesController = {
   /**
-   * -- Application controller name string
+   * Application controller name string
    *
    * @default "application-controller"
    */
   name?: string;
   /**
-   * -- The number of application controller pods to run.
+   * The number of application controller pods to run.
    * Additional replicas will cause sharding of managed clusters across number of replicas.
    * With dynamic cluster distribution turned on, sharding of the clusters will gracefully
    * rebalance if the number of replica's changes or one becomes unhealthy. (alpha)
@@ -973,6 +1032,8 @@ export type ArgocdHelmValuesController = {
    */
   replicas?: number;
   /**
+   * Enable dynamic cluster distribution (alpha)
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/dynamic-cluster-distribution
    * This is done using a deployment instead of a statefulSet
    * When replicas are added or removed, the sharding algorithm is re-run to ensure that the
    * clusters are distributed according to the algorithm. If the algorithm is well-balanced,
@@ -982,22 +1043,28 @@ export type ArgocdHelmValuesController = {
    */
   dynamicClusterDistribution?: boolean;
   /**
-   * -- Runtime class name for the application controller
+   * Runtime class name for the application controller
    *
    * @default ""
    */
   runtimeClassName?: string;
   /**
+   * Application controller heartbeat time
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/dynamic-cluster-distribution/#working-of-dynamic-distribution
+   *
    * @default 10
    */
   heartbeatTime?: number;
   /**
-   * -- Maximum number of controller revisions that will be maintained in StatefulSet history
+   * Maximum number of controller revisions that will be maintained in StatefulSet history
    *
    * @default 5
    */
   revisionHistoryLimit?: number;
   /**
+   * Application controller Pod Disruption Budget
+   * Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+   *
    * @default {...} (5 keys)
    */
   pdb?: ArgocdHelmValuesControllerPdb;
@@ -1022,37 +1089,37 @@ export type ArgocdHelmValuesController = {
    */
   emptyDir?: ArgocdHelmValuesControllerEmptyDir;
   /**
-   * -- Application controller name string
+   * Annotations for the application controller StatefulSet
    *
    * @default {}
    */
   statefulsetAnnotations?: ArgocdHelmValuesControllerStatefulsetAnnotations;
   /**
-   * -- Annotations for the application controller Deployment
+   * Annotations for the application controller Deployment
    *
    * @default {}
    */
   deploymentAnnotations?: ArgocdHelmValuesControllerDeploymentAnnotations;
   /**
-   * -- Labels for the application controller Deployment
+   * Labels for the application controller Deployment
    *
    * @default {}
    */
   deploymentLabels?: ArgocdHelmValuesControllerDeploymentLabels;
   /**
-   * -- Annotations to be added to application controller pods
+   * Annotations to be added to application controller pods
    *
    * @default {}
    */
   podAnnotations?: ArgocdHelmValuesControllerPodAnnotations;
   /**
-   * -- Labels to be added to application controller pods
+   * Labels to be added to application controller pods
    *
    * @default {}
    */
   podLabels?: ArgocdHelmValuesControllerPodLabels;
   /**
-   * -- Resource limits and requests for the application controller pods
+   * Resource limits and requests for the application controller pods
    *
    * @default {}
    */
@@ -1064,68 +1131,69 @@ export type ArgocdHelmValuesController = {
    */
   containerPorts?: ArgocdHelmValuesControllerContainerPorts;
   /**
-   * -- Host Network for application controller pods
+   * Host Network for application controller pods
    *
    * @default false
    */
   hostNetwork?: boolean;
   /**
-   * -- [DNS configuration]
+   * [DNS configuration]
    *
    * @default {}
    */
   dnsConfig?: ArgocdHelmValuesControllerDnsConfig;
   /**
-   * -- Alternative DNS policy for application controller pods
+   * Alternative DNS policy for application controller pods
    *
    * @default "ClusterFirst"
    */
   dnsPolicy?: string;
   /**
-   * -- Application controller container-level security context
+   * Application controller container-level security context
    *
    * @default {...} (5 keys)
    */
   containerSecurityContext?: ArgocdHelmValuesControllerContainerSecurityContext;
   /**
+   * Readiness probe for application controller
+   * Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+   *
    * @default {...} (5 keys)
    */
   readinessProbe?: ArgocdHelmValuesControllerReadinessProbe;
   /**
-   * -- terminationGracePeriodSeconds for container lifecycle hook
+   * terminationGracePeriodSeconds for container lifecycle hook
    *
    * @default 30
    */
   terminationGracePeriodSeconds?: number;
   /**
-   * -- Priority class for the application controller pods
+   * Priority class for the application controller pods
    *
    * @default ""
    */
   priorityClassName?: string;
   /**
-   * -- [Node selector]
+   * [Node selector]
    *
    * @default {}
    */
   nodeSelector?: ArgocdHelmValuesControllerNodeSelector;
   tolerations?: unknown[];
   /**
-   * -- Assign custom [affinity] rules to the deployment
+   * Assign custom [affinity] rules to the deployment
    *
    * @default {}
    */
   affinity?: ArgocdHelmValuesControllerAffinity;
   topologySpreadConstraints?: unknown[];
   /**
-   * -- Automount API credentials for the Service Account into the pod.
+   * Automount API credentials for the Service Account into the pod.
    *
    * @default true
    */
   automountServiceAccountToken?: boolean;
   /**
-   * -- Application controller name string
-   *
    * @default {...} (5 keys)
    */
   serviceAccount?: ArgocdHelmValuesControllerServiceAccount;
@@ -1136,8 +1204,6 @@ export type ArgocdHelmValuesController = {
    */
   metrics?: ArgocdHelmValuesControllerMetrics;
   /**
-   * -- Application controller name string
-   *
    * @default {"enabled":false,"rules":[]}
    */
   clusterRoleRules?: ArgocdHelmValuesControllerClusterRoleRules;
@@ -1151,28 +1217,31 @@ export type ArgocdHelmValuesController = {
 
 export type ArgocdHelmValuesControllerPdb = {
   /**
-   * -- Deploy a [PodDisruptionBudget] for the application controller
+   * Deploy a [PodDisruptionBudget] for the application controller
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Labels to be added to application controller pdb
+   * Labels to be added to application controller pdb
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesControllerPdbLabels;
   /**
-   * -- Annotations to be added to application controller pdb
+   * Annotations to be added to application controller pdb
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesControllerPdbAnnotations;
   /**
+   * Number of pods that are available after eviction as number or percentage (eg.: 50%)
+   *
    * @default ""
    */
   minAvailable?: string;
   /**
+   * Number of pods that are unavailable after eviction as number or percentage (eg.: 50%).
    * Has higher precedence over `controller.pdb.minAvailable`
    *
    * @default ""
@@ -1198,19 +1267,19 @@ export type ArgocdHelmValuesControllerPdbAnnotations = {
 
 export type ArgocdHelmValuesControllerImage = {
   /**
-   * -- Repository to use for the application controller
+   * Repository to use for the application controller
    *
    * @default ""
    */
   repository?: string;
   /**
-   * -- Tag to use for the application controller
+   * Tag to use for the application controller
    *
    * @default ""
    */
   tag?: string;
   /**
-   * -- Image pull policy for the application controller
+   * Image pull policy for the application controller
    *
    * @default ""
    */
@@ -1219,7 +1288,7 @@ export type ArgocdHelmValuesControllerImage = {
 
 export type ArgocdHelmValuesControllerEmptyDir = {
   /**
-   * -- EmptyDir size limit for application controller
+   * EmptyDir size limit for application controller
    *
    * @default ""
    */
@@ -1240,7 +1309,7 @@ export type ArgocdHelmValuesControllerResources = object;
 
 export type ArgocdHelmValuesControllerContainerPorts = {
   /**
-   * -- Metrics container port
+   * Metrics container port
    *
    * @default 8082
    */
@@ -1285,31 +1354,31 @@ export type ArgocdHelmValuesControllerContainerSecurityContextCapabilities = {
 
 export type ArgocdHelmValuesControllerReadinessProbe = {
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
   failureThreshold?: number;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 10
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
@@ -1322,31 +1391,31 @@ export type ArgocdHelmValuesControllerAffinity = object;
 
 export type ArgocdHelmValuesControllerServiceAccount = {
   /**
-   * -- Create a service account for the application controller
+   * Create a service account for the application controller
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- Service account name
+   * Service account name
    *
    * @default "argocd-application-controller"
    */
   name?: string;
   /**
-   * -- Annotations applied to created service account
+   * Annotations applied to created service account
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesControllerServiceAccountAnnotations;
   /**
-   * -- Labels applied to created service account
+   * Labels applied to created service account
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesControllerServiceAccountLabels;
   /**
-   * -- Automount API credentials for the Service Account
+   * Automount API credentials for the Service Account
    *
    * @default true
    */
@@ -1371,37 +1440,32 @@ export type ArgocdHelmValuesControllerServiceAccountLabels = {
 
 export type ArgocdHelmValuesControllerMetrics = {
   /**
-   * -- Deploy metrics service
+   * Deploy metrics service
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
+   * Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
    *
    * @default ""
    */
   scrapeTimeout?: string;
   /**
-   * -- Deploy metrics service
-   *
    * @default {"enabled":false,"labels":[]}
    */
   applicationLabels?: ArgocdHelmValuesControllerMetricsApplicationLabels;
   /**
-   * -- Deploy metrics service
-   *
    * @default {...} (6 keys)
    */
   service?: ArgocdHelmValuesControllerMetricsService;
   /**
-   * -- Deploy metrics service
-   *
    * @default {...} (11 keys)
    */
   serviceMonitor?: ArgocdHelmValuesControllerMetricsServiceMonitor;
   /**
-   * -- Deploy metrics service
+   * Enable this and set the rules: to whatever custom rules you want for the Cluster Role resource.
+   * Defaults to off
    *
    * @default {...} (6 keys)
    */
@@ -1410,7 +1474,7 @@ export type ArgocdHelmValuesControllerMetrics = {
 
 export type ArgocdHelmValuesControllerMetricsApplicationLabels = {
   /**
-   * -- Enables additional labels in argocd_app_labels metric
+   * Enables additional labels in argocd_app_labels metric
    *
    * @default false
    */
@@ -1420,37 +1484,37 @@ export type ArgocdHelmValuesControllerMetricsApplicationLabels = {
 
 export type ArgocdHelmValuesControllerMetricsService = {
   /**
-   * -- Metrics service type
+   * Metrics service type
    *
    * @default "ClusterIP"
    */
   type?: string;
   /**
-   * -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
+   * Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
    *
    * @default ""
    */
   clusterIP?: string;
   /**
-   * -- Metrics service annotations
+   * Metrics service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesControllerMetricsServiceAnnotations;
   /**
-   * -- Metrics service labels
+   * Metrics service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesControllerMetricsServiceLabels;
   /**
-   * -- Metrics service port
+   * Metrics service port
    *
    * @default 8082
    */
   servicePort?: number;
   /**
-   * -- Metrics service port name
+   * Metrics service port name
    *
    * @default "http-metrics"
    */
@@ -1475,19 +1539,19 @@ export type ArgocdHelmValuesControllerMetricsServiceLabels = {
 
 export type ArgocdHelmValuesControllerMetricsServiceMonitor = {
   /**
-   * -- Enable a prometheus ServiceMonitor
+   * Enable a prometheus ServiceMonitor
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Prometheus ServiceMonitor interval
+   * Prometheus ServiceMonitor interval
    *
    * @default "30s"
    */
   interval?: string;
   /**
-   * -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
+   * When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
    *
    * @default false
    */
@@ -1495,37 +1559,38 @@ export type ArgocdHelmValuesControllerMetricsServiceMonitor = {
   relabelings?: unknown[];
   metricRelabelings?: unknown[];
   /**
-   * -- Prometheus ServiceMonitor selector
+   * Prometheus ServiceMonitor selector
    *
    * @default {}
    */
   selector?: ArgocdHelmValuesControllerMetricsServiceMonitorSelector;
   /**
-   * -- Prometheus ServiceMonitor scheme
+   * Prometheus ServiceMonitor scheme
    *
    * @default ""
    */
   scheme?: string;
   /**
-   * -- Prometheus ServiceMonitor tlsConfig
+   * Prometheus ServiceMonitor tlsConfig
    *
    * @default {}
    */
   tlsConfig?: ArgocdHelmValuesControllerMetricsServiceMonitorTlsConfig;
   /**
-   * -- Prometheus ServiceMonitor namespace
+   * Prometheus ServiceMonitor namespace
+   * "monitoring"
    *
    * @default ""
    */
   namespace?: string;
   /**
-   * -- Prometheus ServiceMonitor labels
+   * Prometheus ServiceMonitor labels
    *
    * @default {}
    */
   additionalLabels?: ArgocdHelmValuesControllerMetricsServiceMonitorAdditionalLabels;
   /**
-   * -- Prometheus ServiceMonitor annotations
+   * Prometheus ServiceMonitor annotations
    *
    * @default {}
    */
@@ -1548,31 +1613,32 @@ export type ArgocdHelmValuesControllerMetricsServiceMonitorAnnotations = {
 
 export type ArgocdHelmValuesControllerMetricsRules = {
   /**
-   * -- Deploy a PrometheusRule for the application controller
+   * Deploy a PrometheusRule for the application controller
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- PrometheusRule namespace
+   * PrometheusRule namespace
+   * "monitoring"
    *
    * @default ""
    */
   namespace?: string;
   /**
-   * -- PrometheusRule selector
+   * PrometheusRule selector
    *
    * @default {}
    */
   selector?: ArgocdHelmValuesControllerMetricsRulesSelector;
   /**
-   * -- PrometheusRule labels
+   * PrometheusRule labels
    *
    * @default {}
    */
   additionalLabels?: ArgocdHelmValuesControllerMetricsRulesAdditionalLabels;
   /**
-   * -- PrometheusRule annotations
+   * PrometheusRule annotations
    *
    * @default {}
    */
@@ -1594,7 +1660,7 @@ export type ArgocdHelmValuesControllerMetricsRulesAnnotations = {
 
 export type ArgocdHelmValuesControllerClusterRoleRules = {
   /**
-   * -- Enable custom rules for the application controller's ClusterRole resource
+   * Enable custom rules for the application controller's ClusterRole resource
    *
    * @default false
    */
@@ -1604,7 +1670,7 @@ export type ArgocdHelmValuesControllerClusterRoleRules = {
 
 export type ArgocdHelmValuesControllerNetworkPolicy = {
   /**
-   * -- Default network policy rules used by application controller
+   * Default network policy rules used by application controller
    *
    * @default false
    */
@@ -1613,31 +1679,32 @@ export type ArgocdHelmValuesControllerNetworkPolicy = {
 
 export type ArgocdHelmValuesDex = {
   /**
-   * -- Enable dex
+   * Enable dex
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * -- Dex name
+   * Dex name
    *
    * @default "dex-server"
    */
   name?: string;
   extraArgs?: unknown[];
   /**
-   * -- Runtime class name for Dex
+   * Runtime class name for Dex
    *
    * @default ""
    */
   runtimeClassName?: string;
   /**
-   * -- Enable dex
-   *
    * @default {"enabled":false,"service":{"annotations":{},"labels":{},"portName":"http-metrics"},"serviceMonitor":{"enabled":false,"interval":"30s","honorLabels":false,"relabelings":[],"metricRelabelings":[],"selector":{},"scheme":"","tlsConfig":{},"namespace":"","additionalLabels":{},"annotations":{}}}
    */
   metrics?: ArgocdHelmValuesDexMetrics;
   /**
+   * Dex Pod Disruption Budget
+   * Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+   *
    * @default {...} (5 keys)
    */
   pdb?: ArgocdHelmValuesDexPdb;
@@ -1667,61 +1734,60 @@ export type ArgocdHelmValuesDex = {
    */
   emptyDir?: ArgocdHelmValuesDexEmptyDir;
   /**
-   * -- Enable dex
-   *
    * @default {...} (6 keys)
    */
   certificateSecret?: ArgocdHelmValuesDexCertificateSecret;
   /**
-   * -- Annotations to be added to the Dex server Deployment
+   * Annotations to be added to the Dex server Deployment
    *
    * @default {}
    */
   deploymentAnnotations?: ArgocdHelmValuesDexDeploymentAnnotations;
   /**
-   * -- Labels for the Dex server Deployment
+   * Labels for the Dex server Deployment
    *
    * @default {}
    */
   deploymentLabels?: ArgocdHelmValuesDexDeploymentLabels;
   /**
-   * -- Annotations to be added to the Dex server pods
+   * Annotations to be added to the Dex server pods
    *
    * @default {}
    */
   podAnnotations?: ArgocdHelmValuesDexPodAnnotations;
   /**
-   * -- Labels to be added to the Dex server pods
+   * Labels to be added to the Dex server pods
    *
    * @default {}
    */
   podLabels?: ArgocdHelmValuesDexPodLabels;
   /**
-   * -- Resource limits and requests for dex
+   * Resource limits and requests for dex
    *
    * @default {}
    */
   resources?: ArgocdHelmValuesDexResources;
   /**
+   * Dex container ports
    * NOTE: These ports are currently hardcoded and cannot be changed
    *
    * @default {"http":5556,"grpc":5557,"metrics":5558}
    */
   containerPorts?: ArgocdHelmValuesDexContainerPorts;
   /**
-   * -- [DNS configuration]
+   * [DNS configuration]
    *
    * @default {}
    */
   dnsConfig?: ArgocdHelmValuesDexDnsConfig;
   /**
-   * -- Alternative DNS policy for Dex server pods
+   * Alternative DNS policy for Dex server pods
    *
    * @default "ClusterFirst"
    */
   dnsPolicy?: string;
   /**
-   * -- Dex container-level security context
+   * Dex container-level security context
    *
    * @default {...} (5 keys)
    */
@@ -1734,81 +1800,77 @@ export type ArgocdHelmValuesDex = {
    */
   livenessProbe?: ArgocdHelmValuesDexLivenessProbe;
   /**
-   * -- Enable dex
-   *
    * @default {...} (9 keys)
    */
   readinessProbe?: ArgocdHelmValuesDexReadinessProbe;
   /**
-   * -- terminationGracePeriodSeconds for container lifecycle hook
+   * terminationGracePeriodSeconds for container lifecycle hook
    *
    * @default 30
    */
   terminationGracePeriodSeconds?: number;
   /**
-   * -- Automount API credentials for the Service Account into the pod.
+   * Automount API credentials for the Service Account into the pod.
    *
    * @default true
    */
   automountServiceAccountToken?: boolean;
   /**
-   * -- Enable dex
-   *
    * @default {...} (4 keys)
    */
   serviceAccount?: ArgocdHelmValuesDexServiceAccount;
   /**
-   * -- Service port for HTTP access
+   * Service port for HTTP access
    *
    * @default 5556
    */
   servicePortHttp?: number;
   /**
-   * -- Service port name for HTTP access
+   * Service port name for HTTP access
    *
    * @default "http"
    */
   servicePortHttpName?: string;
   /**
-   * -- Service port for gRPC access
+   * Service port for gRPC access
    *
    * @default 5557
    */
   servicePortGrpc?: number;
   /**
-   * -- Service port name for gRPC access
+   * Service port name for gRPC access
    *
    * @default "grpc"
    */
   servicePortGrpcName?: string;
   /**
-   * -- Service port for metrics access
+   * Service port for metrics access
    *
    * @default 5558
    */
   servicePortMetrics?: number;
   /**
-   * -- Priority class for the dex pods
+   * Priority class for the dex pods
    *
    * @default ""
    */
   priorityClassName?: string;
   /**
-   * -- [Node selector]
+   * [Node selector]
    *
    * @default {}
    */
   nodeSelector?: ArgocdHelmValuesDexNodeSelector;
   tolerations?: unknown[];
   /**
-   * -- Assign custom [affinity] rules to the deployment
+   * Assign custom [affinity] rules to the deployment
    *
    * @default {}
    */
   affinity?: ArgocdHelmValuesDexAffinity;
   topologySpreadConstraints?: unknown[];
   /**
-   * -- Deployment strategy to be added to the Dex server Deployment
+   * Deployment strategy to be added to the Dex server Deployment
    *
    * @default {}
    */
@@ -1823,20 +1885,16 @@ export type ArgocdHelmValuesDex = {
 
 export type ArgocdHelmValuesDexMetrics = {
   /**
-   * -- Deploy metrics service
+   * Deploy metrics service
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Deploy metrics service
-   *
    * @default {"annotations":{},"labels":{},"portName":"http-metrics"}
    */
   service?: ArgocdHelmValuesDexMetricsService;
   /**
-   * -- Deploy metrics service
-   *
    * @default {...} (11 keys)
    */
   serviceMonitor?: ArgocdHelmValuesDexMetricsServiceMonitor;
@@ -1844,19 +1902,19 @@ export type ArgocdHelmValuesDexMetrics = {
 
 export type ArgocdHelmValuesDexMetricsService = {
   /**
-   * -- Metrics service annotations
+   * Metrics service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesDexMetricsServiceAnnotations;
   /**
-   * -- Metrics service labels
+   * Metrics service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesDexMetricsServiceLabels;
   /**
-   * -- Metrics service port name
+   * Metrics service port name
    *
    * @default "http-metrics"
    */
@@ -1881,19 +1939,19 @@ export type ArgocdHelmValuesDexMetricsServiceLabels = {
 
 export type ArgocdHelmValuesDexMetricsServiceMonitor = {
   /**
-   * -- Enable a prometheus ServiceMonitor
+   * Enable a prometheus ServiceMonitor
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Prometheus ServiceMonitor interval
+   * Prometheus ServiceMonitor interval
    *
    * @default "30s"
    */
   interval?: string;
   /**
-   * -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
+   * When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
    *
    * @default false
    */
@@ -1901,37 +1959,38 @@ export type ArgocdHelmValuesDexMetricsServiceMonitor = {
   relabelings?: unknown[];
   metricRelabelings?: unknown[];
   /**
-   * -- Prometheus ServiceMonitor selector
+   * Prometheus ServiceMonitor selector
    *
    * @default {}
    */
   selector?: ArgocdHelmValuesDexMetricsServiceMonitorSelector;
   /**
-   * -- Prometheus ServiceMonitor scheme
+   * Prometheus ServiceMonitor scheme
    *
    * @default ""
    */
   scheme?: string;
   /**
-   * -- Prometheus ServiceMonitor tlsConfig
+   * Prometheus ServiceMonitor tlsConfig
    *
    * @default {}
    */
   tlsConfig?: ArgocdHelmValuesDexMetricsServiceMonitorTlsConfig;
   /**
-   * -- Prometheus ServiceMonitor namespace
+   * Prometheus ServiceMonitor namespace
+   * "monitoring"
    *
    * @default ""
    */
   namespace?: string;
   /**
-   * -- Prometheus ServiceMonitor labels
+   * Prometheus ServiceMonitor labels
    *
    * @default {}
    */
   additionalLabels?: ArgocdHelmValuesDexMetricsServiceMonitorAdditionalLabels;
   /**
-   * -- Prometheus ServiceMonitor annotations
+   * Prometheus ServiceMonitor annotations
    *
    * @default {}
    */
@@ -1954,28 +2013,31 @@ export type ArgocdHelmValuesDexMetricsServiceMonitorAnnotations = {
 
 export type ArgocdHelmValuesDexPdb = {
   /**
-   * -- Deploy a [PodDisruptionBudget] for the Dex server
+   * Deploy a [PodDisruptionBudget] for the Dex server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Labels to be added to Dex server pdb
+   * Labels to be added to Dex server pdb
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesDexPdbLabels;
   /**
-   * -- Annotations to be added to Dex server pdb
+   * Annotations to be added to Dex server pdb
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesDexPdbAnnotations;
   /**
+   * Number of pods that are available after eviction as number or percentage (eg.: 50%)
+   *
    * @default ""
    */
   minAvailable?: string;
   /**
+   * Number of pods that are unavailble after eviction as number or percentage (eg.: 50%).
    * Has higher precedence over `dex.pdb.minAvailable`
    *
    * @default ""
@@ -2001,19 +2063,19 @@ export type ArgocdHelmValuesDexPdbAnnotations = {
 
 export type ArgocdHelmValuesDexImage = {
   /**
-   * -- Dex image repository
+   * Dex image repository
    *
    * @default "ghcr.io/dexidp/dex"
    */
   repository?: string;
   /**
-   * -- Dex image tag
+   * Dex image tag
    *
    * @default "v2.43.1"
    */
   tag?: string;
   /**
-   * -- Dex imagePullPolicy
+   * Dex imagePullPolicy
    *
    * @default ""
    */
@@ -2022,25 +2084,25 @@ export type ArgocdHelmValuesDexImage = {
 
 export type ArgocdHelmValuesDexInitImage = {
   /**
-   * -- Argo CD init image repository
+   * Argo CD init image repository
    *
    * @default ""
    */
   repository?: string;
   /**
-   * -- Argo CD init image tag
+   * Argo CD init image tag
    *
    * @default ""
    */
   tag?: string;
   /**
-   * -- Argo CD init image imagePullPolicy
+   * Argo CD init image imagePullPolicy
    *
    * @default ""
    */
   imagePullPolicy?: string;
   /**
-   * -- Argo CD init image resources
+   * Argo CD init image resources
    *
    * @default {}
    */
@@ -2051,7 +2113,7 @@ export type ArgocdHelmValuesDexInitImageResources = object;
 
 export type ArgocdHelmValuesDexEmptyDir = {
   /**
-   * -- EmptyDir size limit for Dex server
+   * EmptyDir size limit for Dex server
    *
    * @default ""
    */
@@ -2060,36 +2122,38 @@ export type ArgocdHelmValuesDexEmptyDir = {
 
 export type ArgocdHelmValuesDexCertificateSecret = {
   /**
-   * -- Create argocd-dex-server-tls secret
+   * Create argocd-dex-server-tls secret
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Labels to be added to argocd-dex-server-tls secret
+   * Labels to be added to argocd-dex-server-tls secret
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesDexCertificateSecretLabels;
   /**
-   * -- Annotations to be added to argocd-dex-server-tls secret
+   * Annotations to be added to argocd-dex-server-tls secret
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesDexCertificateSecretAnnotations;
   /**
-   * -- Certificate authority. Required for self-signed certificates.
+   * Certificate authority. Required for self-signed certificates.
    *
    * @default ""
    */
   ca?: string;
   /**
-   * -- Certificate private key
+   * Certificate private key
    *
    * @default ""
    */
   key?: string;
   /**
+   * Certificate data. Must contain SANs of Dex service (ie: argocd-dex-server, argocd-dex-server.argo-cd.svc)
+   *
    * @default ""
    */
   crt?: string;
@@ -2123,19 +2187,19 @@ export type ArgocdHelmValuesDexResources = object;
 
 export type ArgocdHelmValuesDexContainerPorts = {
   /**
-   * -- HTTP container port
+   * HTTP container port
    *
    * @default 5556
    */
   http?: number;
   /**
-   * -- gRPC container port
+   * gRPC container port
    *
    * @default 5557
    */
   grpc?: number;
   /**
-   * -- Metrics container port
+   * Metrics container port
    *
    * @default 5558
    */
@@ -2180,55 +2244,55 @@ export type ArgocdHelmValuesDexContainerSecurityContextCapabilities = {
 
 export type ArgocdHelmValuesDexLivenessProbe = {
   /**
-   * -- Enable Kubernetes liveness probe for Dex >= 2.28.0
+   * Enable Kubernetes liveness probe for Dex >= 2.28.0
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Http path to use for the liveness probe
+   * Http path to use for the liveness probe
    *
    * @default "/healthz/live"
    */
   httpPath?: string;
   /**
-   * -- Http port to use for the liveness probe
+   * Http port to use for the liveness probe
    *
    * @default "metrics"
    */
   httpPort?: string;
   /**
-   * -- Scheme to use for for the liveness probe (can be HTTP or HTTPS)
+   * Scheme to use for for the liveness probe (can be HTTP or HTTPS)
    *
    * @default "HTTP"
    */
   httpScheme?: string;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
   failureThreshold?: number;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 10
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
@@ -2237,55 +2301,55 @@ export type ArgocdHelmValuesDexLivenessProbe = {
 
 export type ArgocdHelmValuesDexReadinessProbe = {
   /**
-   * -- Enable Kubernetes readiness probe for Dex >= 2.28.0
+   * Enable Kubernetes readiness probe for Dex >= 2.28.0
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Http path to use for the readiness probe
+   * Http path to use for the readiness probe
    *
    * @default "/healthz/ready"
    */
   httpPath?: string;
   /**
-   * -- Http port to use for the readiness probe
+   * Http port to use for the readiness probe
    *
    * @default "metrics"
    */
   httpPort?: string;
   /**
-   * -- Scheme to use for for the liveness probe (can be HTTP or HTTPS)
+   * Scheme to use for for the liveness probe (can be HTTP or HTTPS)
    *
    * @default "HTTP"
    */
   httpScheme?: string;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
   failureThreshold?: number;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 10
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
@@ -2294,25 +2358,25 @@ export type ArgocdHelmValuesDexReadinessProbe = {
 
 export type ArgocdHelmValuesDexServiceAccount = {
   /**
-   * -- Create dex service account
+   * Create dex service account
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- Dex service account name
+   * Dex service account name
    *
    * @default "argocd-dex-server"
    */
   name?: string;
   /**
-   * -- Annotations applied to created service account
+   * Annotations applied to created service account
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesDexServiceAccountAnnotations;
   /**
-   * -- Automount API credentials for the Service Account
+   * Automount API credentials for the Service Account
    *
    * @default true
    */
@@ -2335,7 +2399,7 @@ export type ArgocdHelmValuesDexDeploymentStrategy = object;
 
 export type ArgocdHelmValuesDexNetworkPolicy = {
   /**
-   * -- Default network policy rules used by Dex server
+   * Default network policy rules used by Dex server
    *
    * @default false
    */
@@ -2344,24 +2408,27 @@ export type ArgocdHelmValuesDexNetworkPolicy = {
 
 export type ArgocdHelmValuesRedis = {
   /**
-   * -- Enable redis
+   * Enable redis
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * -- Redis name
+   * Redis name
    *
    * @default "redis"
    */
   name?: string;
   /**
-   * -- Runtime class name for redis
+   * Runtime class name for redis
    *
    * @default ""
    */
   runtimeClassName?: string;
   /**
+   * Redis Pod Disruption Budget
+   * Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+   *
    * @default {...} (5 keys)
    */
   pdb?: ArgocdHelmValuesRedisPdb;
@@ -2382,12 +2449,13 @@ export type ArgocdHelmValuesRedis = {
   env?: unknown[];
   envFrom?: unknown[];
   /**
+   * Probes for Redis server (optional)
+   * Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+   *
    * @default {...} (6 keys)
    */
   readinessProbe?: ArgocdHelmValuesRedisReadinessProbe;
   /**
-   * -- Enable redis
-   *
    * @default {...} (6 keys)
    */
   livenessProbe?: ArgocdHelmValuesRedisLivenessProbe;
@@ -2396,37 +2464,37 @@ export type ArgocdHelmValuesRedis = {
   volumeMounts?: unknown[];
   volumes?: unknown[];
   /**
-   * -- Annotations to be added to the Redis server Deployment
+   * Annotations to be added to the Redis server Deployment
    *
    * @default {}
    */
   deploymentAnnotations?: ArgocdHelmValuesRedisDeploymentAnnotations;
   /**
-   * -- Labels for the Redis server Deployment
+   * Labels for the Redis server Deployment
    *
    * @default {}
    */
   deploymentLabels?: ArgocdHelmValuesRedisDeploymentLabels;
   /**
-   * -- Annotations to be added to the Redis server pods
+   * Annotations to be added to the Redis server pods
    *
    * @default {}
    */
   podAnnotations?: ArgocdHelmValuesRedisPodAnnotations;
   /**
-   * -- Labels to be added to the Redis server pods
+   * Labels to be added to the Redis server pods
    *
    * @default {}
    */
   podLabels?: ArgocdHelmValuesRedisPodLabels;
   /**
-   * -- Resource limits and requests for redis
+   * Resource limits and requests for redis
    *
    * @default {}
    */
   resources?: ArgocdHelmValuesRedisResources;
   /**
-   * -- Redis pod-level security context
+   * Redis pod-level security context
    *
    * @default {"runAsNonRoot":true,"runAsUser":999,"seccompProfile":{"type":"RuntimeDefault"}}
    */
@@ -2438,76 +2506,70 @@ export type ArgocdHelmValuesRedis = {
    */
   containerPorts?: ArgocdHelmValuesRedisContainerPorts;
   /**
-   * -- [DNS configuration]
+   * [DNS configuration]
    *
    * @default {}
    */
   dnsConfig?: ArgocdHelmValuesRedisDnsConfig;
   /**
-   * -- Alternative DNS policy for Redis server pods
+   * Alternative DNS policy for Redis server pods
    *
    * @default "ClusterFirst"
    */
   dnsPolicy?: string;
   /**
-   * -- Redis container-level security context
+   * Redis container-level security context
    *
    * @default {"readOnlyRootFilesystem":true,"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]}}
    */
   containerSecurityContext?: ArgocdHelmValuesRedisContainerSecurityContext;
   /**
-   * -- Redis service port
+   * Redis service port
    *
    * @default 6379
    */
   servicePort?: number;
   /**
-   * -- Priority class for redis pods
+   * Priority class for redis pods
    *
    * @default ""
    */
   priorityClassName?: string;
   /**
-   * -- [Node selector]
+   * [Node selector]
    *
    * @default {}
    */
   nodeSelector?: ArgocdHelmValuesRedisNodeSelector;
   tolerations?: unknown[];
   /**
-   * -- Assign custom [affinity] rules to the deployment
+   * Assign custom [affinity] rules to the deployment
    *
    * @default {}
    */
   affinity?: ArgocdHelmValuesRedisAffinity;
   topologySpreadConstraints?: unknown[];
   /**
-   * -- terminationGracePeriodSeconds for container lifecycle hook
+   * terminationGracePeriodSeconds for container lifecycle hook
    *
    * @default 30
    */
   terminationGracePeriodSeconds?: number;
   /**
-   * -- Automount API credentials for the Service Account into the pod.
+   * Automount API credentials for the Service Account into the pod.
    *
    * @default true
    */
   automountServiceAccountToken?: boolean;
   /**
-   * -- Enable redis
-   *
    * @default {...} (4 keys)
    */
   serviceAccount?: ArgocdHelmValuesRedisServiceAccount;
   /**
-   * -- Enable redis
-   *
    * @default {"annotations":{},"labels":{}}
    */
   service?: ArgocdHelmValuesRedisService;
   /**
-   * -- Enable redis
-   *
    * @default {"enabled":false,"service":{"type":"ClusterIP","clusterIP":"None","annotations":{},"labels":{},"servicePort":9121,"portName":"http-metrics"},"serviceMonitor":{"enabled":false,"interval":"30s","honorLabels":false,"relabelings":[],"metricRelabelings":[],"selector":{},"scheme":"","tlsConfig":{},"namespace":"","additionalLabels":{},"annotations":{}}}
    */
   metrics?: ArgocdHelmValuesRedisMetrics;
@@ -2521,28 +2583,31 @@ export type ArgocdHelmValuesRedis = {
 
 export type ArgocdHelmValuesRedisPdb = {
   /**
-   * -- Deploy a [PodDisruptionBudget] for the Redis
+   * Deploy a [PodDisruptionBudget] for the Redis
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Labels to be added to Redis pdb
+   * Labels to be added to Redis pdb
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesRedisPdbLabels;
   /**
-   * -- Annotations to be added to Redis pdb
+   * Annotations to be added to Redis pdb
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesRedisPdbAnnotations;
   /**
+   * Number of pods that are available after eviction as number or percentage (eg.: 50%)
+   *
    * @default ""
    */
   minAvailable?: string;
   /**
+   * Number of pods that are unavailble after eviction as number or percentage (eg.: 50%).
    * Has higher precedence over `redis.pdb.minAvailable`
    *
    * @default ""
@@ -2568,20 +2633,20 @@ export type ArgocdHelmValuesRedisPdbAnnotations = {
 
 export type ArgocdHelmValuesRedisImage = {
   /**
-   * -- Redis repository
+   * Redis repository
    *
    * @default "ecr-public.aws.com/docker/library/redis"
    */
   repository?: string;
   /**
-   * -- Redis tag
+   * Redis tag
    * Do not upgrade to >= 7.4.0, otherwise you are no longer using an open source version of Redis
    *
    * @default "7.2.8-alpine"
    */
   tag?: string;
   /**
-   * -- Redis image pull policy
+   * Redis image pull policy
    *
    * @default ""
    */
@@ -2590,7 +2655,7 @@ export type ArgocdHelmValuesRedisImage = {
 
 export type ArgocdHelmValuesRedisExporter = {
   /**
-   * -- Enable Prometheus redis-exporter sidecar
+   * Enable Prometheus redis-exporter sidecar
    *
    * @default false
    */
@@ -2603,23 +2668,24 @@ export type ArgocdHelmValuesRedisExporter = {
    */
   image?: ArgocdHelmValuesRedisExporterImage;
   /**
-   * -- Redis exporter security context
+   * Redis exporter security context
    *
    * @default {...} (5 keys)
    */
   containerSecurityContext?: ArgocdHelmValuesRedisExporterContainerSecurityContext;
   /**
+   * Probes for Redis exporter (optional)
+   * Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+   *
    * @default {...} (6 keys)
    */
   readinessProbe?: ArgocdHelmValuesRedisExporterReadinessProbe;
   /**
-   * -- Enable Prometheus redis-exporter sidecar
-   *
    * @default {...} (6 keys)
    */
   livenessProbe?: ArgocdHelmValuesRedisExporterLivenessProbe;
   /**
-   * -- Resource limits and requests for redis-exporter sidecar
+   * Resource limits and requests for redis-exporter sidecar
    *
    * @default {}
    */
@@ -2628,19 +2694,19 @@ export type ArgocdHelmValuesRedisExporter = {
 
 export type ArgocdHelmValuesRedisExporterImage = {
   /**
-   * -- Repository to use for the redis-exporter
+   * Repository to use for the redis-exporter
    *
    * @default "ghcr.io/oliver006/redis_exporter"
    */
   repository?: string;
   /**
-   * -- Tag to use for the redis-exporter
+   * Tag to use for the redis-exporter
    *
    * @default "v1.75.0"
    */
   tag?: string;
   /**
-   * -- Image pull policy for the redis-exporter
+   * Image pull policy for the redis-exporter
    *
    * @default ""
    */
@@ -2683,37 +2749,37 @@ export type ArgocdHelmValuesRedisExporterContainerSecurityContextCapabilities = 
 
 export type ArgocdHelmValuesRedisExporterReadinessProbe = {
   /**
-   * -- Enable Kubernetes liveness probe for Redis exporter (optional)
+   * Enable Kubernetes liveness probe for Redis exporter (optional)
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 30
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 15
    */
   periodSeconds?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 15
    */
   timeoutSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 5
    */
@@ -2722,37 +2788,37 @@ export type ArgocdHelmValuesRedisExporterReadinessProbe = {
 
 export type ArgocdHelmValuesRedisExporterLivenessProbe = {
   /**
-   * -- Enable Kubernetes liveness probe for Redis exporter
+   * Enable Kubernetes liveness probe for Redis exporter
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 30
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 15
    */
   periodSeconds?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 15
    */
   timeoutSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 5
    */
@@ -2763,37 +2829,37 @@ export type ArgocdHelmValuesRedisExporterResources = object;
 
 export type ArgocdHelmValuesRedisReadinessProbe = {
   /**
-   * -- Enable Kubernetes liveness probe for Redis server
+   * Enable Kubernetes liveness probe for Redis server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 30
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 15
    */
   periodSeconds?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 15
    */
   timeoutSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 5
    */
@@ -2802,37 +2868,37 @@ export type ArgocdHelmValuesRedisReadinessProbe = {
 
 export type ArgocdHelmValuesRedisLivenessProbe = {
   /**
-   * -- Enable Kubernetes liveness probe for Redis server
+   * Enable Kubernetes liveness probe for Redis server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 30
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 15
    */
   periodSeconds?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 15
    */
   timeoutSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 5
    */
@@ -2873,13 +2939,13 @@ export type ArgocdHelmValuesRedisSecurityContextSeccompProfile = {
 
 export type ArgocdHelmValuesRedisContainerPorts = {
   /**
-   * -- Redis container port
+   * Redis container port
    *
    * @default 6379
    */
   redis?: number;
   /**
-   * -- Metrics container port
+   * Metrics container port
    *
    * @default 9121
    */
@@ -2913,25 +2979,25 @@ export type ArgocdHelmValuesRedisAffinity = object;
 
 export type ArgocdHelmValuesRedisServiceAccount = {
   /**
-   * -- Create a service account for the redis pod
+   * Create a service account for the redis pod
    *
    * @default false
    */
   create?: boolean;
   /**
-   * -- Service account name for redis pod
+   * Service account name for redis pod
    *
    * @default ""
    */
   name?: string;
   /**
-   * -- Annotations applied to created service account
+   * Annotations applied to created service account
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesRedisServiceAccountAnnotations;
   /**
-   * -- Automount API credentials for the Service Account
+   * Automount API credentials for the Service Account
    *
    * @default false
    */
@@ -2948,13 +3014,13 @@ export type ArgocdHelmValuesRedisServiceAccountAnnotations = {
 
 export type ArgocdHelmValuesRedisService = {
   /**
-   * -- Redis service annotations
+   * Redis service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesRedisServiceAnnotations;
   /**
-   * -- Additional redis service labels
+   * Additional redis service labels
    *
    * @default {}
    */
@@ -2979,7 +3045,7 @@ export type ArgocdHelmValuesRedisServiceLabels = {
 
 export type ArgocdHelmValuesRedisMetrics = {
   /**
-   * -- Deploy metrics service
+   * Deploy metrics service
    *
    * @default false
    */
@@ -2991,8 +3057,6 @@ export type ArgocdHelmValuesRedisMetrics = {
    */
   service?: ArgocdHelmValuesRedisMetricsService;
   /**
-   * -- Deploy metrics service
-   *
    * @default {...} (11 keys)
    */
   serviceMonitor?: ArgocdHelmValuesRedisMetricsServiceMonitor;
@@ -3000,37 +3064,37 @@ export type ArgocdHelmValuesRedisMetrics = {
 
 export type ArgocdHelmValuesRedisMetricsService = {
   /**
-   * -- Metrics service type
+   * Metrics service type
    *
    * @default "ClusterIP"
    */
   type?: string;
   /**
-   * -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
+   * Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
    *
    * @default "None"
    */
   clusterIP?: string;
   /**
-   * -- Metrics service annotations
+   * Metrics service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesRedisMetricsServiceAnnotations;
   /**
-   * -- Metrics service labels
+   * Metrics service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesRedisMetricsServiceLabels;
   /**
-   * -- Metrics service port
+   * Metrics service port
    *
    * @default 9121
    */
   servicePort?: number;
   /**
-   * -- Metrics service port name
+   * Metrics service port name
    *
    * @default "http-metrics"
    */
@@ -3055,19 +3119,19 @@ export type ArgocdHelmValuesRedisMetricsServiceLabels = {
 
 export type ArgocdHelmValuesRedisMetricsServiceMonitor = {
   /**
-   * -- Enable a prometheus ServiceMonitor
+   * Enable a prometheus ServiceMonitor
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Interval at which metrics should be scraped
+   * Interval at which metrics should be scraped
    *
    * @default "30s"
    */
   interval?: string;
   /**
-   * -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
+   * When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
    *
    * @default false
    */
@@ -3075,37 +3139,38 @@ export type ArgocdHelmValuesRedisMetricsServiceMonitor = {
   relabelings?: unknown[];
   metricRelabelings?: unknown[];
   /**
-   * -- Prometheus ServiceMonitor selector
+   * Prometheus ServiceMonitor selector
    *
    * @default {}
    */
   selector?: ArgocdHelmValuesRedisMetricsServiceMonitorSelector;
   /**
-   * -- Prometheus ServiceMonitor scheme
+   * Prometheus ServiceMonitor scheme
    *
    * @default ""
    */
   scheme?: string;
   /**
-   * -- Prometheus ServiceMonitor tlsConfig
+   * Prometheus ServiceMonitor tlsConfig
    *
    * @default {}
    */
   tlsConfig?: ArgocdHelmValuesRedisMetricsServiceMonitorTlsConfig;
   /**
-   * -- Prometheus ServiceMonitor namespace
+   * Prometheus ServiceMonitor namespace
+   * "monitoring"
    *
    * @default ""
    */
   namespace?: string;
   /**
-   * -- Prometheus ServiceMonitor labels
+   * Prometheus ServiceMonitor labels
    *
    * @default {}
    */
   additionalLabels?: ArgocdHelmValuesRedisMetricsServiceMonitorAdditionalLabels;
   /**
-   * -- Prometheus ServiceMonitor annotations
+   * Prometheus ServiceMonitor annotations
    *
    * @default {}
    */
@@ -3128,7 +3193,7 @@ export type ArgocdHelmValuesRedisMetricsServiceMonitorAnnotations = {
 
 export type ArgocdHelmValuesRedisNetworkPolicy = {
   /**
-   * -- Default network policy rules used by redis
+   * Default network policy rules used by redis
    *
    * @default false
    */
@@ -3137,7 +3202,7 @@ export type ArgocdHelmValuesRedisNetworkPolicy = {
 
 export type ArgocdHelmValuesRedisha = {
   /**
-   * -- Enables the Redis HA subchart and disables the custom Redis single node deployment
+   * Enables the Redis HA subchart and disables the custom Redis single node deployment
    *
    * @default false
    */
@@ -3155,8 +3220,6 @@ export type ArgocdHelmValuesRedisha = {
    */
   exporter?: ArgocdHelmValuesRedishaExporter;
   /**
-   * -- Enables the Redis HA subchart and disables the custom Redis single node deployment
-   *
    * @default {"enabled":false}
    */
   persistentVolume?: ArgocdHelmValuesRedishaPersistentVolume;
@@ -3173,43 +3236,46 @@ export type ArgocdHelmValuesRedisha = {
    */
   haproxy?: ArgocdHelmValuesRedishaHaproxy;
   /**
-   * -- Configures redis-ha with AUTH
+   * Configures redis-ha with AUTH
    *
    * @default true
    */
   auth?: boolean;
   /**
-   * -- Existing Secret to use for redis-ha authentication.
+   * Existing Secret to use for redis-ha authentication.
    * By default the redis-secret-init Job is generating this Secret.
    *
    * @default "argocd-redis"
    */
   existingSecret?: string;
   /**
-   * -- Whether the Redis server pods should be forced to run on separate nodes.
+   * Whether the Redis server pods should be forced to run on separate nodes.
    *
    * @default true
    */
   hardAntiAffinity?: boolean;
   /**
-   * -- Additional affinities to add to the Redis server pods.
+   * Additional affinities to add to the Redis server pods.
    *
    * @default {}
    */
   additionalAffinities?: ArgocdHelmValuesRedishaAdditionalAffinities;
   /**
-   * -- Assign custom [affinity] rules to the Redis pods.
+   * Assign custom [affinity] rules to the Redis pods.
    *
    * @default ""
    */
   affinity?: string;
   tolerations?: unknown[];
   /**
+   * Assign custom [TopologySpreadConstraints] rules to the Redis pods.
+   * https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/
+   *
    * @default {...} (4 keys)
    */
   topologySpreadConstraints?: ArgocdHelmValuesRedishaTopologySpreadConstraints;
   /**
-   * -- Redis HA statefulset container-level security context
+   * Redis HA statefulset container-level security context
    *
    * @default {"readOnlyRootFilesystem":true}
    */
@@ -3218,13 +3284,13 @@ export type ArgocdHelmValuesRedisha = {
 
 export type ArgocdHelmValuesRedishaImage = {
   /**
-   * -- Redis repository
+   * Redis repository
    *
    * @default "ecr-public.aws.com/docker/library/redis"
    */
   repository?: string;
   /**
-   * -- Redis tag
+   * Redis tag
    * Do not upgrade to >= 7.4.0, otherwise you are no longer using an open source version of Redis
    *
    * @default "7.2.8-alpine"
@@ -3234,19 +3300,19 @@ export type ArgocdHelmValuesRedishaImage = {
 
 export type ArgocdHelmValuesRedishaExporter = {
   /**
-   * -- Enable Prometheus redis-exporter sidecar
+   * Enable Prometheus redis-exporter sidecar
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Repository to use for the redis-exporter
+   * Repository to use for the redis-exporter
    *
    * @default "ghcr.io/oliver006/redis_exporter"
    */
   image?: string;
   /**
-   * -- Tag to use for the redis-exporter
+   * Tag to use for the redis-exporter
    *
    * @default "v1.75.0"
    */
@@ -3255,7 +3321,7 @@ export type ArgocdHelmValuesRedishaExporter = {
 
 export type ArgocdHelmValuesRedishaPersistentVolume = {
   /**
-   * -- Configures persistence on Redis nodes
+   * Configures persistence on Redis nodes
    *
    * @default false
    */
@@ -3264,11 +3330,13 @@ export type ArgocdHelmValuesRedishaPersistentVolume = {
 
 export type ArgocdHelmValuesRedishaRedis = {
   /**
+   * Redis convention for naming the cluster group: must match `^[\\w-\\.]+$` and can be templated
+   *
    * @default "argocd"
    */
   masterGroupName?: string;
   /**
-   * -- Any valid redis config options in this section will be applied to each server (see `redis-ha` chart)
+   * Any valid redis config options in this section will be applied to each server (see `redis-ha` chart)
    *
    * @default {"save":"\"\""}
    */
@@ -3282,7 +3350,7 @@ export type ArgocdHelmValuesRedishaRedisConfig = {
    */
   [key: string]: unknown;
   /**
-   * -- Will save the DB if both the given number of seconds and the given number of write operations against the DB occurred. `""`  is disabled
+   * Will save the DB if both the given number of seconds and the given number of write operations against the DB occurred. `""`  is disabled
    *
    * @default """"
    */
@@ -3291,50 +3359,46 @@ export type ArgocdHelmValuesRedishaRedisConfig = {
 
 export type ArgocdHelmValuesRedishaHaproxy = {
   /**
-   * -- Enabled HAProxy LoadBalancing/Proxy
+   * Enabled HAProxy LoadBalancing/Proxy
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * --  Custom labels for the haproxy pod. This is relevant for Argo CD CLI.
+   * Custom labels for the haproxy pod. This is relevant for Argo CD CLI.
    *
    * @default {"app.kubernetes.io/name":"argocd-redis-ha-haproxy"}
    */
   labels?: ArgocdHelmValuesRedishaHaproxyLabels;
   /**
-   * -- Enabled HAProxy LoadBalancing/Proxy
-   *
    * @default {"repository":"ecr-public.aws.com/docker/library/haproxy"}
    */
   image?: ArgocdHelmValuesRedishaHaproxyImage;
   /**
-   * -- Enabled HAProxy LoadBalancing/Proxy
-   *
    * @default {"enabled":true}
    */
   metrics?: ArgocdHelmValuesRedishaHaproxyMetrics;
   /**
-   * -- Whether the haproxy pods should be forced to run on separate nodes.
+   * Whether the haproxy pods should be forced to run on separate nodes.
    *
    * @default true
    */
   hardAntiAffinity?: boolean;
   /**
-   * -- Additional affinities to add to the haproxy pods.
+   * Additional affinities to add to the haproxy pods.
    *
    * @default {}
    */
   additionalAffinities?: ArgocdHelmValuesRedishaHaproxyAdditionalAffinities;
   /**
-   * -- Assign custom [affinity] rules to the haproxy pods.
+   * Assign custom [affinity] rules to the haproxy pods.
    *
    * @default ""
    */
   affinity?: string;
   tolerations?: unknown[];
   /**
-   * -- HAProxy container-level security context
+   * HAProxy container-level security context
    *
    * @default {"readOnlyRootFilesystem":true}
    */
@@ -3355,7 +3419,7 @@ export type ArgocdHelmValuesRedishaHaproxyLabels = {
 
 export type ArgocdHelmValuesRedishaHaproxyImage = {
   /**
-   * -- HAProxy Image Repository
+   * HAProxy Image Repository
    *
    * @default "ecr-public.aws.com/docker/library/haproxy"
    */
@@ -3364,7 +3428,7 @@ export type ArgocdHelmValuesRedishaHaproxyImage = {
 
 export type ArgocdHelmValuesRedishaHaproxyMetrics = {
   /**
-   * -- HAProxy enable prometheus metric scraping
+   * HAProxy enable prometheus metric scraping
    *
    * @default true
    */
@@ -3384,25 +3448,25 @@ export type ArgocdHelmValuesRedishaAdditionalAffinities = object;
 
 export type ArgocdHelmValuesRedishaTopologySpreadConstraints = {
   /**
-   * -- Enable Redis HA topology spread constraints
+   * Enable Redis HA topology spread constraints
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Max skew of pods tolerated
+   * Max skew of pods tolerated
    *
    * @default ""
    */
   maxSkew?: string;
   /**
-   * -- Topology key for spread
+   * Topology key for spread
    *
    * @default ""
    */
   topologyKey?: string;
   /**
-   * -- Enforcement policy, hard or soft
+   * Enforcement policy, hard or soft
    *
    * @default ""
    */
@@ -3418,38 +3482,38 @@ export type ArgocdHelmValuesRedishaContainerSecurityContext = {
 
 export type ArgocdHelmValuesExternalRedis = {
   /**
-   * -- External Redis server host
+   * External Redis server host
    *
    * @default ""
    */
   host?: string;
   /**
-   * -- External Redis username
+   * External Redis username
    *
    * @default ""
    */
   username?: string;
   /**
-   * -- External Redis password
+   * External Redis password
    *
    * @default ""
    */
   password?: string;
   /**
-   * -- External Redis server port
+   * External Redis server port
    *
    * @default 6379
    */
   port?: number;
   /**
-   * -- The name of an existing secret with Redis (must contain key `redis-password`. And should contain `redis-username` if username is not `default`) and Sentinel credentials.
+   * The name of an existing secret with Redis (must contain key `redis-password`. And should contain `redis-username` if username is not `default`) and Sentinel credentials.
    * When it's set, the `externalRedis.username` and `externalRedis.password` parameters are ignored
    *
    * @default ""
    */
   existingSecret?: string;
   /**
-   * -- External Redis Secret annotations
+   * External Redis Secret annotations
    *
    * @default {}
    */
@@ -3460,80 +3524,76 @@ export type ArgocdHelmValuesExternalRedisSecretAnnotations = object;
 
 export type ArgocdHelmValuesRedisSecretInit = {
   /**
-   * -- Enable Redis secret initialization. If disabled, secret must be provisioned by alternative methods
+   * Enable Redis secret initialization. If disabled, secret must be provisioned by alternative methods
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * -- Redis secret-init name
+   * Redis secret-init name
    *
    * @default "redis-secret-init"
    */
   name?: string;
   /**
-   * -- Enable Redis secret initialization. If disabled, secret must be provisioned by alternative methods
-   *
    * @default {"repository":"","tag":"","imagePullPolicy":""}
    */
   image?: ArgocdHelmValuesRedisSecretInitImage;
   imagePullSecrets?: unknown[];
   /**
-   * -- Annotations to be added to the Redis secret-init Job
+   * Annotations to be added to the Redis secret-init Job
    *
    * @default {}
    */
   jobAnnotations?: ArgocdHelmValuesRedisSecretInitJobAnnotations;
   /**
-   * -- Annotations to be added to the Redis secret-init Job
+   * Annotations to be added to the Redis secret-init Job
    *
    * @default {}
    */
   podAnnotations?: ArgocdHelmValuesRedisSecretInitPodAnnotations;
   /**
-   * -- Labels to be added to the Redis secret-init Job
+   * Labels to be added to the Redis secret-init Job
    *
    * @default {}
    */
   podLabels?: ArgocdHelmValuesRedisSecretInitPodLabels;
   /**
-   * -- Resource limits and requests for Redis secret-init Job
+   * Resource limits and requests for Redis secret-init Job
    *
    * @default {}
    */
   resources?: ArgocdHelmValuesRedisSecretInitResources;
   /**
-   * -- Application controller container-level security context
+   * Application controller container-level security context
    *
    * @default {...} (5 keys)
    */
   containerSecurityContext?: ArgocdHelmValuesRedisSecretInitContainerSecurityContext;
   /**
-   * -- Redis secret-init Job pod-level security context
+   * Redis secret-init Job pod-level security context
    *
    * @default {}
    */
   securityContext?: ArgocdHelmValuesRedisSecretInitSecurityContext;
   /**
-   * -- Enable Redis secret initialization. If disabled, secret must be provisioned by alternative methods
-   *
    * @default {...} (4 keys)
    */
   serviceAccount?: ArgocdHelmValuesRedisSecretInitServiceAccount;
   /**
-   * -- Priority class for Redis secret-init Job
+   * Priority class for Redis secret-init Job
    *
    * @default ""
    */
   priorityClassName?: string;
   /**
-   * -- Assign custom [affinity] rules to the Redis secret-init Job
+   * Assign custom [affinity] rules to the Redis secret-init Job
    *
    * @default {}
    */
   affinity?: ArgocdHelmValuesRedisSecretInitAffinity;
   /**
-   * -- Node selector to be added to the Redis secret-init Job
+   * Node selector to be added to the Redis secret-init Job
    *
    * @default {}
    */
@@ -3543,19 +3603,21 @@ export type ArgocdHelmValuesRedisSecretInit = {
 
 export type ArgocdHelmValuesRedisSecretInitImage = {
   /**
-   * -- Repository to use for the Redis secret-init Job
+   * defaults to global.image.repository
    *
    * @default ""
    */
   repository?: string;
   /**
-   * -- Tag to use for the Redis secret-init Job
+   * Tag to use for the Redis secret-init Job
+   * defaults to global.image.tag
    *
    * @default ""
    */
   tag?: string;
   /**
-   * -- Image pull policy for the Redis secret-init Job
+   * Image pull policy for the Redis secret-init Job
+   * IfNotPresent
    *
    * @default ""
    */
@@ -3608,25 +3670,25 @@ export type ArgocdHelmValuesRedisSecretInitSecurityContext = object;
 
 export type ArgocdHelmValuesRedisSecretInitServiceAccount = {
   /**
-   * -- Create a service account for the redis pod
+   * Create a service account for the redis pod
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- Service account name for redis pod
+   * Service account name for redis pod
    *
    * @default ""
    */
   name?: string;
   /**
-   * -- Annotations applied to created service account
+   * Annotations applied to created service account
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesRedisSecretInitServiceAccountAnnotations;
   /**
-   * -- Automount API credentials for the Service Account
+   * Automount API credentials for the Service Account
    *
    * @default true
    */
@@ -3647,19 +3709,19 @@ export type ArgocdHelmValuesRedisSecretInitNodeSelector = object;
 
 export type ArgocdHelmValuesServer = {
   /**
-   * -- Argo CD server name
+   * Argo CD server name
    *
    * @default "server"
    */
   name?: string;
   /**
-   * -- The number of server pods to run
+   * The number of server pods to run
    *
    * @default 1
    */
   replicas?: number;
   /**
-   * -- Runtime class name for the Argo CD server
+   * Runtime class name for the Argo CD server
    *
    * @default ""
    */
@@ -3671,6 +3733,9 @@ export type ArgocdHelmValuesServer = {
    */
   autoscaling?: ArgocdHelmValuesServerAutoscaling;
   /**
+   * Argo CD server Pod Disruption Budget
+   * Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+   *
    * @default {...} (5 keys)
    */
   pdb?: ArgocdHelmValuesServerPdb;
@@ -3685,12 +3750,18 @@ export type ArgocdHelmValuesServer = {
   env?: unknown[];
   envFrom?: unknown[];
   /**
-   * -- Specify postStart and preStop lifecycle hooks for your argo-cd-server container
+   * Specify postStart and preStop lifecycle hooks for your argo-cd-server container
    *
    * @default {}
    */
   lifecycle?: ArgocdHelmValuesServerLifecycle;
   /**
+   * Argo CD extensions
+   * This function in tech preview stage, do expect instability or breaking changes in newer versions.
+   * Ref: https://github.com/argoproj-labs/argocd-extension-installer
+   * When you enable extensions, you need to configure RBAC of logged in Argo CD user.
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/#the-extensions-resource
+   *
    * @default {...} (5 keys)
    */
   extensions?: ArgocdHelmValuesServerExtensions;
@@ -3705,31 +3776,31 @@ export type ArgocdHelmValuesServer = {
    */
   emptyDir?: ArgocdHelmValuesServerEmptyDir;
   /**
-   * -- Argo CD server name
+   * Annotations to be added to server Deployment
    *
    * @default {}
    */
   deploymentAnnotations?: ArgocdHelmValuesServerDeploymentAnnotations;
   /**
-   * -- Labels for the server Deployment
+   * Labels for the server Deployment
    *
    * @default {}
    */
   deploymentLabels?: ArgocdHelmValuesServerDeploymentLabels;
   /**
-   * -- Annotations to be added to server pods
+   * Annotations to be added to server pods
    *
    * @default {}
    */
   podAnnotations?: ArgocdHelmValuesServerPodAnnotations;
   /**
-   * -- Labels to be added to server pods
+   * Labels to be added to server pods
    *
    * @default {}
    */
   podLabels?: ArgocdHelmValuesServerPodLabels;
   /**
-   * -- Resource limits and requests for the Argo CD server
+   * Resource limits and requests for the Argo CD server
    *
    * @default {}
    */
@@ -3741,76 +3812,81 @@ export type ArgocdHelmValuesServer = {
    */
   containerPorts?: ArgocdHelmValuesServerContainerPorts;
   /**
-   * -- Host Network for Server pods
+   * Host Network for Server pods
    *
    * @default false
    */
   hostNetwork?: boolean;
   /**
-   * -- [DNS configuration]
+   * [DNS configuration]
    *
    * @default {}
    */
   dnsConfig?: ArgocdHelmValuesServerDnsConfig;
   /**
-   * -- Alternative DNS policy for Server pods
+   * Alternative DNS policy for Server pods
    *
    * @default "ClusterFirst"
    */
   dnsPolicy?: string;
   /**
-   * -- Server container-level security context
+   * Server container-level security context
    *
    * @default {...} (5 keys)
    */
   containerSecurityContext?: ArgocdHelmValuesServerContainerSecurityContext;
   /**
+   * Readiness and liveness probes for default backend
+   * Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+   *
    * @default {...} (5 keys)
    */
   readinessProbe?: ArgocdHelmValuesServerReadinessProbe;
   /**
-   * -- Argo CD server name
-   *
    * @default {...} (5 keys)
    */
   livenessProbe?: ArgocdHelmValuesServerLivenessProbe;
   /**
-   * -- terminationGracePeriodSeconds for container lifecycle hook
+   * terminationGracePeriodSeconds for container lifecycle hook
    *
    * @default 30
    */
   terminationGracePeriodSeconds?: number;
   /**
-   * -- Priority class for the Argo CD server pods
+   * Priority class for the Argo CD server pods
    *
    * @default ""
    */
   priorityClassName?: string;
   /**
-   * -- [Node selector]
+   * [Node selector]
    *
    * @default {}
    */
   nodeSelector?: ArgocdHelmValuesServerNodeSelector;
   tolerations?: unknown[];
   /**
-   * -- Assign custom [affinity] rules to the deployment
+   * Assign custom [affinity] rules to the deployment
    *
    * @default {}
    */
   affinity?: ArgocdHelmValuesServerAffinity;
   topologySpreadConstraints?: unknown[];
   /**
-   * -- Deployment strategy to be added to the server Deployment
+   * Deployment strategy to be added to the server Deployment
    *
    * @default {}
    */
   deploymentStrategy?: ArgocdHelmValuesServerDeploymentStrategy;
   /**
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#tls-certificates-used-by-argocd-server
+   *
    * @default {...} (10 keys)
    */
   certificate?: ArgocdHelmValuesServerCertificate;
   /**
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#tls-certificates-used-by-argocd-server
+   *
    * @default {...} (5 keys)
    */
   certificateSecret?: ArgocdHelmValuesServerCertificateSecret;
@@ -3827,14 +3903,12 @@ export type ArgocdHelmValuesServer = {
    */
   metrics?: ArgocdHelmValuesServerMetrics;
   /**
-   * -- Automount API credentials for the Service Account into the pod.
+   * Automount API credentials for the Service Account into the pod.
    *
    * @default true
    */
   automountServiceAccountToken?: boolean;
   /**
-   * -- Argo CD server name
-   *
    * @default {...} (5 keys)
    */
   serviceAccount?: ArgocdHelmValuesServerServiceAccount;
@@ -3845,6 +3919,9 @@ export type ArgocdHelmValuesServer = {
    */
   ingress?: ArgocdHelmValuesServerIngress;
   /**
+   * Dedicated gRPC ingress for ingress controllers that supports only single backend protocol per Ingress resource
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-multiple-ingress-objects-and-hosts
+   *
    * @default {...} (12 keys)
    */
   ingressGrpc?: ArgocdHelmValuesServerIngressGrpc;
@@ -3874,37 +3951,37 @@ export type ArgocdHelmValuesServer = {
 
 export type ArgocdHelmValuesServerAutoscaling = {
   /**
-   * -- Enable Horizontal Pod Autoscaler ([HPA]) for the Argo CD server
+   * Enable Horizontal Pod Autoscaler ([HPA]) for the Argo CD server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Minimum number of replicas for the Argo CD server [HPA]
+   * Minimum number of replicas for the Argo CD server [HPA]
    *
    * @default 1
    */
   minReplicas?: number;
   /**
-   * -- Maximum number of replicas for the Argo CD server [HPA]
+   * Maximum number of replicas for the Argo CD server [HPA]
    *
    * @default 5
    */
   maxReplicas?: number;
   /**
-   * -- Average CPU utilization percentage for the Argo CD server [HPA]
+   * Average CPU utilization percentage for the Argo CD server [HPA]
    *
    * @default 50
    */
   targetCPUUtilizationPercentage?: number;
   /**
-   * -- Average memory utilization percentage for the Argo CD server [HPA]
+   * Average memory utilization percentage for the Argo CD server [HPA]
    *
    * @default 50
    */
   targetMemoryUtilizationPercentage?: number;
   /**
-   * -- Configures the scaling behavior of the target in both Up and Down directions.
+   * Configures the scaling behavior of the target in both Up and Down directions.
    *
    * @default {}
    */
@@ -3916,28 +3993,31 @@ export type ArgocdHelmValuesServerAutoscalingBehavior = object;
 
 export type ArgocdHelmValuesServerPdb = {
   /**
-   * -- Deploy a [PodDisruptionBudget] for the Argo CD server
+   * Deploy a [PodDisruptionBudget] for the Argo CD server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Labels to be added to Argo CD server pdb
+   * Labels to be added to Argo CD server pdb
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesServerPdbLabels;
   /**
-   * -- Annotations to be added to Argo CD server pdb
+   * Annotations to be added to Argo CD server pdb
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesServerPdbAnnotations;
   /**
+   * Number of pods that are available after eviction as number or percentage (eg.: 50%)
+   *
    * @default ""
    */
   minAvailable?: string;
   /**
+   * Number of pods that are unavailable after eviction as number or percentage (eg.: 50%).
    * Has higher precedence over `server.pdb.minAvailable`
    *
    * @default ""
@@ -3963,19 +4043,21 @@ export type ArgocdHelmValuesServerPdbAnnotations = {
 
 export type ArgocdHelmValuesServerImage = {
   /**
-   * -- Repository to use for the Argo CD server
+   * defaults to global.image.repository
    *
    * @default ""
    */
   repository?: string;
   /**
-   * -- Tag to use for the Argo CD server
+   * Tag to use for the Argo CD server
+   * defaults to global.image.tag
    *
    * @default ""
    */
   tag?: string;
   /**
-   * -- Image pull policy for the Argo CD server
+   * Image pull policy for the Argo CD server
+   * IfNotPresent
    *
    * @default ""
    */
@@ -3986,7 +4068,7 @@ export type ArgocdHelmValuesServerLifecycle = object;
 
 export type ArgocdHelmValuesServerExtensions = {
   /**
-   * -- Enable support for Argo CD extensions
+   * Enable support for Argo CD extensions
    *
    * @default false
    */
@@ -3999,13 +4081,13 @@ export type ArgocdHelmValuesServerExtensions = {
   image?: ArgocdHelmValuesServerExtensionsImage;
   extensionList?: unknown[];
   /**
-   * -- Server UI extensions container-level security context
+   * Server UI extensions container-level security context
    *
    * @default {...} (6 keys)
    */
   containerSecurityContext?: ArgocdHelmValuesServerExtensionsContainerSecurityContext;
   /**
-   * -- Resource limits and requests for the argocd-extensions container
+   * Resource limits and requests for the argocd-extensions container
    *
    * @default {}
    */
@@ -4014,19 +4096,19 @@ export type ArgocdHelmValuesServerExtensions = {
 
 export type ArgocdHelmValuesServerExtensionsImage = {
   /**
-   * -- Repository to use for extension installer image
+   * Repository to use for extension installer image
    *
    * @default "quay.io/argoprojlabs/argocd-extension-installer"
    */
   repository?: string;
   /**
-   * -- Tag to use for extension installer image
+   * Tag to use for extension installer image
    *
    * @default "v0.0.8"
    */
   tag?: string;
   /**
-   * -- Image pull policy for extensions
+   * Image pull policy for extensions
    *
    * @default ""
    */
@@ -4075,7 +4157,7 @@ export type ArgocdHelmValuesServerExtensionsResources = object;
 
 export type ArgocdHelmValuesServerEmptyDir = {
   /**
-   * -- EmptyDir size limit for the Argo CD server
+   * EmptyDir size limit for the Argo CD server
    *
    * @default ""
    */
@@ -4094,13 +4176,13 @@ export type ArgocdHelmValuesServerResources = object;
 
 export type ArgocdHelmValuesServerContainerPorts = {
   /**
-   * -- Server container port
+   * Server container port
    *
    * @default 8080
    */
   server?: number;
   /**
-   * -- Metrics container port
+   * Metrics container port
    *
    * @default 8083
    */
@@ -4145,31 +4227,31 @@ export type ArgocdHelmValuesServerContainerSecurityContextCapabilities = {
 
 export type ArgocdHelmValuesServerReadinessProbe = {
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
   failureThreshold?: number;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 10
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
@@ -4178,31 +4260,31 @@ export type ArgocdHelmValuesServerReadinessProbe = {
 
 export type ArgocdHelmValuesServerLivenessProbe = {
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
   failureThreshold?: number;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 10
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
@@ -4217,27 +4299,35 @@ export type ArgocdHelmValuesServerDeploymentStrategy = object;
 
 export type ArgocdHelmValuesServerCertificate = {
   /**
-   * -- Deploy a Certificate resource (requires cert-manager)
+   * Deploy a Certificate resource (requires cert-manager)
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Certificate primary domain (commonName)
+   * Certificate primary domain (commonName)
    *
    * @default ""
    */
   domain?: string;
   additionalHosts?: unknown[];
   /**
+   * The requested 'duration' (i.e. lifetime) of the certificate.
+   * Ref: https://cert-manager.io/docs/usage/certificate/#renewal
+   *
    * @default ""
    */
   duration?: string;
   /**
+   * How long before the expiry a certificate should be renewed.
+   * Ref: https://cert-manager.io/docs/usage/certificate/#renewal
+   *
    * @default ""
    */
   renewBefore?: string;
   /**
+   * Ref: https://cert-manager.io/docs/concepts/issuer
+   *
    * @default {"group":"","kind":"","name":""}
    */
   issuer?: ArgocdHelmValuesServerCertificateIssuer;
@@ -4248,14 +4338,14 @@ export type ArgocdHelmValuesServerCertificate = {
    */
   privateKey?: ArgocdHelmValuesServerCertificatePrivateKey;
   /**
-   * -- Annotations to be applied to the Server Certificate
+   * Annotations to be applied to the Server Certificate
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesServerCertificateAnnotations;
   usages?: unknown[];
   /**
-   * -- Annotations that allow the certificate to be composed from data residing in existing Kubernetes Resources
+   * Annotations that allow the certificate to be composed from data residing in existing Kubernetes Resources
    *
    * @default {}
    */
@@ -4264,19 +4354,19 @@ export type ArgocdHelmValuesServerCertificate = {
 
 export type ArgocdHelmValuesServerCertificateIssuer = {
   /**
-   * -- Certificate issuer group. Set if using an external issuer. Eg. `cert-manager.io`
+   * Certificate issuer group. Set if using an external issuer. Eg. `cert-manager.io`
    *
    * @default ""
    */
   group?: string;
   /**
-   * -- Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
+   * Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
    *
    * @default ""
    */
   kind?: string;
   /**
-   * -- Certificate issuer name. Eg. `letsencrypt`
+   * Certificate issuer name. Eg. `letsencrypt`
    *
    * @default ""
    */
@@ -4285,19 +4375,25 @@ export type ArgocdHelmValuesServerCertificateIssuer = {
 
 export type ArgocdHelmValuesServerCertificatePrivateKey = {
   /**
+   * Rotation policy of private key when certificate is re-issued. Either: `Never` or `Always`
+   *
    * @default "Never"
    */
   rotationPolicy?: string;
   /**
+   * The private key cryptography standards (PKCS) encoding for private key. Either: `PCKS1` or `PKCS8`
+   *
    * @default "PKCS1"
    */
   encoding?: string;
   /**
+   * Algorithm used to generate certificate private key. One of: `RSA`, `Ed25519` or `ECDSA`
+   *
    * @default "RSA"
    */
   algorithm?: string;
   /**
-   * -- Key bit size of the private key. If algorithm is set to `Ed25519`, size is ignored.
+   * Key bit size of the private key. If algorithm is set to `Ed25519`, size is ignored.
    *
    * @default 2048
    */
@@ -4316,31 +4412,31 @@ export type ArgocdHelmValuesServerCertificateSecretTemplateAnnotations = object;
 
 export type ArgocdHelmValuesServerCertificateSecret = {
   /**
-   * -- Create argocd-server-tls secret
+   * Create argocd-server-tls secret
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Annotations to be added to argocd-server-tls secret
+   * Annotations to be added to argocd-server-tls secret
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesServerCertificateSecretAnnotations;
   /**
-   * -- Labels to be added to argocd-server-tls secret
+   * Labels to be added to argocd-server-tls secret
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesServerCertificateSecretLabels;
   /**
-   * -- Private Key of the certificate
+   * Private Key of the certificate
    *
    * @default ""
    */
   key?: string;
   /**
-   * -- Certificate data
+   * Certificate data
    *
    * @default ""
    */
@@ -4365,71 +4461,74 @@ export type ArgocdHelmValuesServerCertificateSecretLabels = {
 
 export type ArgocdHelmValuesServerService = {
   /**
-   * -- Server service annotations
+   * Server service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesServerServiceAnnotations;
   /**
-   * -- Server service labels
+   * Server service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesServerServiceLabels;
   /**
-   * -- Server service type
+   * Server service type
    *
    * @default "ClusterIP"
    */
   type?: string;
   /**
-   * -- Server service http port for NodePort service type (only if `server.service.type` is set to "NodePort")
+   * Server service http port for NodePort service type (only if `server.service.type` is set to "NodePort")
    *
    * @default 30080
    */
   nodePortHttp?: number;
   /**
-   * -- Server service https port for NodePort service type (only if `server.service.type` is set to "NodePort")
+   * Server service https port for NodePort service type (only if `server.service.type` is set to "NodePort")
    *
    * @default 30443
    */
   nodePortHttps?: number;
   /**
-   * -- Server service http port
+   * Server service http port
    *
    * @default 80
    */
   servicePortHttp?: number;
   /**
-   * -- Server service https port
+   * Server service https port
    *
    * @default 443
    */
   servicePortHttps?: number;
   /**
-   * -- Server service http port name, can be used to route traffic via istio
+   * Server service http port name, can be used to route traffic via istio
    *
    * @default "http"
    */
   servicePortHttpName?: string;
   /**
-   * -- Server service https port name, can be used to route traffic via istio
+   * Server service https port name, can be used to route traffic via istio
    *
    * @default "https"
    */
   servicePortHttpsName?: string;
   /**
+   * Server service https port appProtocol
+   * Ref: https://kubernetes.io/docs/concepts/services-networking/service/#application-protocol
+   *
    * @default ""
    */
   servicePortHttpsAppProtocol?: string;
   /**
-   * -- The class of the load balancer implementation
+   * The class of the load balancer implementation
    *
    * @default ""
    */
   loadBalancerClass?: string;
   /**
-   * -- LoadBalancer will get created with the IP specified in this field
+   * LoadBalancer will get created with the IP specified in this field
    *
    * @default ""
    */
@@ -4437,10 +4536,16 @@ export type ArgocdHelmValuesServerService = {
   loadBalancerSourceRanges?: unknown[];
   externalIPs?: unknown[];
   /**
+   * Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
+   * Ref: https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+   *
    * @default "Cluster"
    */
   externalTrafficPolicy?: string;
   /**
+   * Used to maintain session affinity. Supports `ClientIP` and `None`
+   * Ref: https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies
+   *
    * @default "None"
    */
   sessionAffinity?: string;
@@ -4464,20 +4569,16 @@ export type ArgocdHelmValuesServerServiceLabels = {
 
 export type ArgocdHelmValuesServerMetrics = {
   /**
-   * -- Deploy metrics service
+   * Deploy metrics service
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Deploy metrics service
-   *
    * @default {...} (6 keys)
    */
   service?: ArgocdHelmValuesServerMetricsService;
   /**
-   * -- Deploy metrics service
-   *
    * @default {...} (12 keys)
    */
   serviceMonitor?: ArgocdHelmValuesServerMetricsServiceMonitor;
@@ -4485,37 +4586,37 @@ export type ArgocdHelmValuesServerMetrics = {
 
 export type ArgocdHelmValuesServerMetricsService = {
   /**
-   * -- Metrics service type
+   * Metrics service type
    *
    * @default "ClusterIP"
    */
   type?: string;
   /**
-   * -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
+   * Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
    *
    * @default ""
    */
   clusterIP?: string;
   /**
-   * -- Metrics service annotations
+   * Metrics service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesServerMetricsServiceAnnotations;
   /**
-   * -- Metrics service labels
+   * Metrics service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesServerMetricsServiceLabels;
   /**
-   * -- Metrics service port
+   * Metrics service port
    *
    * @default 8083
    */
   servicePort?: number;
   /**
-   * -- Metrics service port name
+   * Metrics service port name
    *
    * @default "http-metrics"
    */
@@ -4540,25 +4641,25 @@ export type ArgocdHelmValuesServerMetricsServiceLabels = {
 
 export type ArgocdHelmValuesServerMetricsServiceMonitor = {
   /**
-   * -- Enable a prometheus ServiceMonitor
+   * Enable a prometheus ServiceMonitor
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Prometheus ServiceMonitor interval
+   * Prometheus ServiceMonitor interval
    *
    * @default "30s"
    */
   interval?: string;
   /**
-   * -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
+   * Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
    *
    * @default ""
    */
   scrapeTimeout?: string;
   /**
-   * -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
+   * When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
    *
    * @default false
    */
@@ -4566,37 +4667,38 @@ export type ArgocdHelmValuesServerMetricsServiceMonitor = {
   relabelings?: unknown[];
   metricRelabelings?: unknown[];
   /**
-   * -- Prometheus ServiceMonitor selector
+   * Prometheus ServiceMonitor selector
    *
    * @default {}
    */
   selector?: ArgocdHelmValuesServerMetricsServiceMonitorSelector;
   /**
-   * -- Prometheus ServiceMonitor scheme
+   * Prometheus ServiceMonitor scheme
    *
    * @default ""
    */
   scheme?: string;
   /**
-   * -- Prometheus ServiceMonitor tlsConfig
+   * Prometheus ServiceMonitor tlsConfig
    *
    * @default {}
    */
   tlsConfig?: ArgocdHelmValuesServerMetricsServiceMonitorTlsConfig;
   /**
-   * -- Prometheus ServiceMonitor namespace
+   * Prometheus ServiceMonitor namespace
+   * monitoring
    *
    * @default ""
    */
   namespace?: string;
   /**
-   * -- Prometheus ServiceMonitor labels
+   * Prometheus ServiceMonitor labels
    *
    * @default {}
    */
   additionalLabels?: ArgocdHelmValuesServerMetricsServiceMonitorAdditionalLabels;
   /**
-   * -- Prometheus ServiceMonitor annotations
+   * Prometheus ServiceMonitor annotations
    *
    * @default {}
    */
@@ -4619,31 +4721,31 @@ export type ArgocdHelmValuesServerMetricsServiceMonitorAnnotations = {
 
 export type ArgocdHelmValuesServerServiceAccount = {
   /**
-   * -- Create server service account
+   * Create server service account
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- Server service account name
+   * Server service account name
    *
    * @default "argocd-server"
    */
   name?: string;
   /**
-   * -- Annotations applied to created service account
+   * Annotations applied to created service account
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesServerServiceAccountAnnotations;
   /**
-   * -- Labels applied to created service account
+   * Labels applied to created service account
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesServerServiceAccountLabels;
   /**
-   * -- Automount API credentials for the Service Account
+   * Automount API credentials for the Service Account
    *
    * @default true
    */
@@ -4668,54 +4770,59 @@ export type ArgocdHelmValuesServerServiceAccountLabels = {
 
 export type ArgocdHelmValuesServerIngress = {
   /**
-   * -- Enable an ingress resource for the Argo CD server
+   * Enable an ingress resource for the Argo CD server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Specific implementation for ingress controller. One of `generic`, `aws` or `gke`
+   * Specific implementation for ingress controller. One of `generic`, `aws` or `gke`
    * Additional configuration might be required in related configuration sections
    *
    * @default "generic"
    */
   controller?: string;
   /**
-   * -- Additional ingress labels
+   * Additional ingress labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesServerIngressLabels;
   /**
+   * Additional ingress annotations
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-1-ssl-passthrough
+   * nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+   * nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+   *
    * @default {}
    */
   annotations?: ArgocdHelmValuesServerIngressAnnotations;
   /**
-   * -- Defines which ingress controller will implement the resource
+   * Defines which ingress controller will implement the resource
    *
    * @default ""
    */
   ingressClassName?: string;
   /**
-   * -- Argo CD server hostname
+   * Argo CD server hostname
    *
    * @default ""
    */
   hostname?: string;
   /**
-   * -- The path to Argo CD server
+   * The path to Argo CD server
    *
    * @default "/"
    */
   path?: string;
   /**
-   * -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
+   * Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
    *
    * @default "Prefix"
    */
   pathType?: string;
   /**
-   * -- Enable TLS configuration for the hostname defined at `server.ingress.hostname`
+   * Enable TLS configuration for the hostname defined at `server.ingress.hostname`
    * TLS certificate will be retrieved from a TLS secret `argocd-server-tls`
    * You can create this secret via `certificate` or `certificateSecret` option
    *
@@ -4727,10 +4834,18 @@ export type ArgocdHelmValuesServerIngress = {
   extraRules?: unknown[];
   extraTls?: unknown[];
   /**
+   * AWS specific options for Application Load Balancer
+   * Applies only when `serv.ingress.controller` is set to `aws`
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#aws-application-load-balancers-albs-and-classic-elb-http-mode
+   *
    * @default {"backendProtocolVersion":"GRPC","serviceType":"NodePort"}
    */
   aws?: ArgocdHelmValuesServerIngressAws;
   /**
+   * Google specific options for Google Application Load Balancer
+   * Applies only when `server.ingress.controller` is set to `gke`
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#google-cloud-load-balancers-with-kubernetes-ingress
+   *
    * @default {"backendConfig":{},"frontendConfig":{},"managedCertificate":{"create":true,"extraDomains":[]}}
    */
   gke?: ArgocdHelmValuesServerIngressGke;
@@ -4754,7 +4869,7 @@ export type ArgocdHelmValuesServerIngressAnnotations = {
 
 export type ArgocdHelmValuesServerIngressAws = {
   /**
-   * -- Backend protocol version for the AWS ALB gRPC service
+   * Backend protocol version for the AWS ALB gRPC service
    * This tells AWS to send traffic from the ALB using gRPC.
    * For more information: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html#health-check-settings
    *
@@ -4762,6 +4877,11 @@ export type ArgocdHelmValuesServerIngressAws = {
    */
   backendProtocolVersion?: string;
   /**
+   * Service type for the AWS ALB gRPC service
+   * Can be of type NodePort or ClusterIP depending on which mode you are running.
+   * Instance mode needs type NodePort, IP mode needs type ClusterIP
+   * Ref: https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/how-it-works/#ingress-traffic
+   *
    * @default "NodePort"
    */
   serviceType?: string;
@@ -4769,6 +4889,9 @@ export type ArgocdHelmValuesServerIngressAws = {
 
 export type ArgocdHelmValuesServerIngressGke = {
   /**
+   * Google [BackendConfig] resource, for use with the GKE Ingress Controller
+   * Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#configuring_ingress_features_through_frontendconfig_parameters
+   *
    * @default {}
    */
   backendConfig?: ArgocdHelmValuesServerIngressGkeBackendConfig;
@@ -4790,6 +4913,9 @@ export type ArgocdHelmValuesServerIngressGkeFrontendConfig = object;
 
 export type ArgocdHelmValuesServerIngressGkeManagedCertificate = {
   /**
+   * Create ManagedCertificate resource and annotations for Google Load balancer
+   * Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs
+   *
    * @default true
    */
   create?: boolean;
@@ -4798,49 +4924,49 @@ export type ArgocdHelmValuesServerIngressGkeManagedCertificate = {
 
 export type ArgocdHelmValuesServerIngressGrpc = {
   /**
-   * -- Enable an ingress resource for the Argo CD server for dedicated [gRPC-ingress]
+   * Enable an ingress resource for the Argo CD server for dedicated [gRPC-ingress]
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Additional ingress annotations for dedicated [gRPC-ingress]
+   * Additional ingress annotations for dedicated [gRPC-ingress]
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesServerIngressGrpcAnnotations;
   /**
-   * -- Additional ingress labels for dedicated [gRPC-ingress]
+   * Additional ingress labels for dedicated [gRPC-ingress]
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesServerIngressGrpcLabels;
   /**
-   * -- Defines which ingress controller will implement the resource [gRPC-ingress]
+   * Defines which ingress controller will implement the resource [gRPC-ingress]
    *
    * @default ""
    */
   ingressClassName?: string;
   /**
-   * -- Argo CD server hostname for dedicated [gRPC-ingress]
+   * Argo CD server hostname for dedicated [gRPC-ingress]
    *
    * @default ""
    */
   hostname?: string;
   /**
-   * -- Argo CD server ingress path for dedicated [gRPC-ingress]
+   * Argo CD server ingress path for dedicated [gRPC-ingress]
    *
    * @default "/"
    */
   path?: string;
   /**
-   * -- Ingress path type for dedicated [gRPC-ingress]. One of `Exact`, `Prefix` or `ImplementationSpecific`
+   * Ingress path type for dedicated [gRPC-ingress]. One of `Exact`, `Prefix` or `ImplementationSpecific`
    *
    * @default "Prefix"
    */
   pathType?: string;
   /**
-   * -- Enable TLS configuration for the hostname defined at `server.ingressGrpc.hostname`
+   * Enable TLS configuration for the hostname defined at `server.ingressGrpc.hostname`
    * TLS certificate will be retrieved from a TLS secret with name: `argocd-server-grpc-tls`
    *
    * @default false
@@ -4870,31 +4996,31 @@ export type ArgocdHelmValuesServerIngressGrpcLabels = {
 
 export type ArgocdHelmValuesServerRoute = {
   /**
-   * -- Enable an OpenShift Route for the Argo CD server
+   * Enable an OpenShift Route for the Argo CD server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Openshift Route annotations
+   * Openshift Route annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesServerRouteAnnotations;
   /**
-   * -- Hostname of OpenShift Route
+   * Hostname of OpenShift Route
    *
    * @default ""
    */
   hostname?: string;
   /**
-   * -- Termination type of Openshift Route
+   * Termination type of Openshift Route
    *
    * @default "passthrough"
    */
   termination_type?: string;
   /**
-   * -- Termination policy of Openshift Route
+   * Termination policy of Openshift Route
    *
    * @default "None"
    */
@@ -4911,7 +5037,7 @@ export type ArgocdHelmValuesServerRouteAnnotations = {
 
 export type ArgocdHelmValuesServerClusterRoleRules = {
   /**
-   * -- Enable custom rules for the server's ClusterRole resource
+   * Enable custom rules for the server's ClusterRole resource
    *
    * @default false
    */
@@ -4921,7 +5047,7 @@ export type ArgocdHelmValuesServerClusterRoleRules = {
 
 export type ArgocdHelmValuesServerNetworkPolicy = {
   /**
-   * -- Default network policy rules used by ArgoCD Server
+   * Default network policy rules used by ArgoCD Server
    *
    * @default false
    */
@@ -4930,19 +5056,19 @@ export type ArgocdHelmValuesServerNetworkPolicy = {
 
 export type ArgocdHelmValuesRepoServer = {
   /**
-   * -- Repo server name
+   * Repo server name
    *
    * @default "repo-server"
    */
   name?: string;
   /**
-   * -- The number of repo server pods to run
+   * The number of repo server pods to run
    *
    * @default 1
    */
   replicas?: number;
   /**
-   * -- Runtime class name for the repo server
+   * Runtime class name for the repo server
    *
    * @default ""
    */
@@ -4954,6 +5080,9 @@ export type ArgocdHelmValuesRepoServer = {
    */
   autoscaling?: ArgocdHelmValuesRepoServerAutoscaling;
   /**
+   * Repo server Pod Disruption Budget
+   * Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+   *
    * @default {...} (5 keys)
    */
   pdb?: ArgocdHelmValuesRepoServerPdb;
@@ -4968,7 +5097,7 @@ export type ArgocdHelmValuesRepoServer = {
   env?: unknown[];
   envFrom?: unknown[];
   /**
-   * -- Specify postStart and preStop lifecycle hooks for your argo-repo-server container
+   * Specify postStart and preStop lifecycle hooks for your argo-repo-server container
    *
    * @default {}
    */
@@ -4978,7 +5107,7 @@ export type ArgocdHelmValuesRepoServer = {
   volumeMounts?: unknown[];
   volumes?: unknown[];
   /**
-   * -- Volumes to be used in replacement of emptydir on default volumes
+   * Volumes to be used in replacement of emptydir on default volumes
    *
    * @default {}
    */
@@ -4990,37 +5119,37 @@ export type ArgocdHelmValuesRepoServer = {
    */
   emptyDir?: ArgocdHelmValuesRepoServerEmptyDir;
   /**
-   * -- Repo server name
+   * Toggle the usage of a ephemeral Helm working directory
    *
    * @default true
    */
   useEphemeralHelmWorkingDir?: boolean;
   /**
-   * -- Annotations to be added to repo server Deployment
+   * Annotations to be added to repo server Deployment
    *
    * @default {}
    */
   deploymentAnnotations?: ArgocdHelmValuesRepoServerDeploymentAnnotations;
   /**
-   * -- Labels for the repo server Deployment
+   * Labels for the repo server Deployment
    *
    * @default {}
    */
   deploymentLabels?: ArgocdHelmValuesRepoServerDeploymentLabels;
   /**
-   * -- Annotations to be added to repo server pods
+   * Annotations to be added to repo server pods
    *
    * @default {}
    */
   podAnnotations?: ArgocdHelmValuesRepoServerPodAnnotations;
   /**
-   * -- Labels to be added to repo server pods
+   * Labels to be added to repo server pods
    *
    * @default {}
    */
   podLabels?: ArgocdHelmValuesRepoServerPodLabels;
   /**
-   * -- Resource limits and requests for the repo server pods
+   * Resource limits and requests for the repo server pods
    *
    * @default {}
    */
@@ -5032,74 +5161,72 @@ export type ArgocdHelmValuesRepoServer = {
    */
   containerPorts?: ArgocdHelmValuesRepoServerContainerPorts;
   /**
-   * -- Host Network for Repo server pods
+   * Host Network for Repo server pods
+   * [DNS configuration]
    *
    * @default false
    */
   hostNetwork?: boolean;
   /**
-   * -- Repo server name
-   *
    * @default {}
    */
   dnsConfig?: ArgocdHelmValuesRepoServerDnsConfig;
   /**
-   * -- Alternative DNS policy for Repo server pods
+   * Alternative DNS policy for Repo server pods
    *
    * @default "ClusterFirst"
    */
   dnsPolicy?: string;
   /**
-   * -- Repo server container-level security context
+   * Repo server container-level security context
    *
    * @default {...} (5 keys)
    */
   containerSecurityContext?: ArgocdHelmValuesRepoServerContainerSecurityContext;
   /**
+   * Readiness and liveness probes for default backend
+   * Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+   *
    * @default {...} (5 keys)
    */
   readinessProbe?: ArgocdHelmValuesRepoServerReadinessProbe;
   /**
-   * -- Repo server name
-   *
    * @default {...} (5 keys)
    */
   livenessProbe?: ArgocdHelmValuesRepoServerLivenessProbe;
   /**
-   * -- terminationGracePeriodSeconds for container lifecycle hook
+   * terminationGracePeriodSeconds for container lifecycle hook
    *
    * @default 30
    */
   terminationGracePeriodSeconds?: number;
   /**
-   * -- [Node selector]
+   * [Node selector]
    *
    * @default {}
    */
   nodeSelector?: ArgocdHelmValuesRepoServerNodeSelector;
   tolerations?: unknown[];
   /**
-   * -- Assign custom [affinity] rules to the deployment
+   * Assign custom [affinity] rules to the deployment
    *
    * @default {}
    */
   affinity?: ArgocdHelmValuesRepoServerAffinity;
   topologySpreadConstraints?: unknown[];
   /**
-   * -- Deployment strategy to be added to the repo server Deployment
+   * Deployment strategy to be added to the repo server Deployment
    *
    * @default {}
    */
   deploymentStrategy?: ArgocdHelmValuesRepoServerDeploymentStrategy;
   /**
-   * -- Priority class for the repo server pods
+   * Priority class for the repo server pods
    *
    * @default ""
    */
   priorityClassName?: string;
   /**
-   * Note: Issuing certificates via cert-manager in not supported right now because it's not possible to restart repo server automatically without extra controllers.
-   *
    * @default {...} (6 keys)
    */
   certificateSecret?: ArgocdHelmValuesRepoServerCertificateSecret;
@@ -5124,7 +5251,7 @@ export type ArgocdHelmValuesRepoServer = {
    */
   clusterRoleRules?: ArgocdHelmValuesRepoServerClusterRoleRules;
   /**
-   * -- Automount API credentials for the Service Account into the pod.
+   * Automount API credentials for the Service Account into the pod.
    *
    * @default true
    */
@@ -5147,37 +5274,37 @@ export type ArgocdHelmValuesRepoServer = {
 
 export type ArgocdHelmValuesRepoServerAutoscaling = {
   /**
-   * -- Enable Horizontal Pod Autoscaler ([HPA]) for the repo server
+   * Enable Horizontal Pod Autoscaler ([HPA]) for the repo server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Minimum number of replicas for the repo server [HPA]
+   * Minimum number of replicas for the repo server [HPA]
    *
    * @default 1
    */
   minReplicas?: number;
   /**
-   * -- Maximum number of replicas for the repo server [HPA]
+   * Maximum number of replicas for the repo server [HPA]
    *
    * @default 5
    */
   maxReplicas?: number;
   /**
-   * -- Average CPU utilization percentage for the repo server [HPA]
+   * Average CPU utilization percentage for the repo server [HPA]
    *
    * @default 50
    */
   targetCPUUtilizationPercentage?: number;
   /**
-   * -- Average memory utilization percentage for the repo server [HPA]
+   * Average memory utilization percentage for the repo server [HPA]
    *
    * @default 50
    */
   targetMemoryUtilizationPercentage?: number;
   /**
-   * -- Configures the scaling behavior of the target in both Up and Down directions.
+   * Configures the scaling behavior of the target in both Up and Down directions.
    *
    * @default {}
    */
@@ -5189,28 +5316,31 @@ export type ArgocdHelmValuesRepoServerAutoscalingBehavior = object;
 
 export type ArgocdHelmValuesRepoServerPdb = {
   /**
-   * -- Deploy a [PodDisruptionBudget] for the repo server
+   * Deploy a [PodDisruptionBudget] for the repo server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Labels to be added to repo server pdb
+   * Labels to be added to repo server pdb
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesRepoServerPdbLabels;
   /**
-   * -- Annotations to be added to repo server pdb
+   * Annotations to be added to repo server pdb
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesRepoServerPdbAnnotations;
   /**
+   * Number of pods that are available after eviction as number or percentage (eg.: 50%)
+   *
    * @default ""
    */
   minAvailable?: string;
   /**
+   * Number of pods that are unavailable after eviction as number or percentage (eg.: 50%).
    * Has higher precedence over `repoServer.pdb.minAvailable`
    *
    * @default ""
@@ -5236,19 +5366,19 @@ export type ArgocdHelmValuesRepoServerPdbAnnotations = {
 
 export type ArgocdHelmValuesRepoServerImage = {
   /**
-   * -- Repository to use for the repo server
+   * Repository to use for the repo server
    *
    * @default ""
    */
   repository?: string;
   /**
-   * -- Tag to use for the repo server
+   * Tag to use for the repo server
    *
    * @default ""
    */
   tag?: string;
   /**
-   * -- Image pull policy for the repo server
+   * Image pull policy for the repo server
    *
    * @default ""
    */
@@ -5261,7 +5391,7 @@ export type ArgocdHelmValuesRepoServerExistingVolumes = object;
 
 export type ArgocdHelmValuesRepoServerEmptyDir = {
   /**
-   * -- EmptyDir size limit for repo server
+   * EmptyDir size limit for repo server
    *
    * @default ""
    */
@@ -5280,13 +5410,13 @@ export type ArgocdHelmValuesRepoServerResources = object;
 
 export type ArgocdHelmValuesRepoServerContainerPorts = {
   /**
-   * -- Repo server container port
+   * Repo server container port
    *
    * @default 8081
    */
   server?: number;
   /**
-   * -- Metrics container port
+   * Metrics container port
    *
    * @default 8084
    */
@@ -5331,31 +5461,31 @@ export type ArgocdHelmValuesRepoServerContainerSecurityContextCapabilities = {
 
 export type ArgocdHelmValuesRepoServerReadinessProbe = {
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
   failureThreshold?: number;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 10
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
@@ -5364,31 +5494,31 @@ export type ArgocdHelmValuesRepoServerReadinessProbe = {
 
 export type ArgocdHelmValuesRepoServerLivenessProbe = {
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
   failureThreshold?: number;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 10
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
@@ -5403,36 +5533,38 @@ export type ArgocdHelmValuesRepoServerDeploymentStrategy = object;
 
 export type ArgocdHelmValuesRepoServerCertificateSecret = {
   /**
-   * -- Create argocd-repo-server-tls secret
+   * Create argocd-repo-server-tls secret
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Annotations to be added to argocd-repo-server-tls secret
+   * Annotations to be added to argocd-repo-server-tls secret
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesRepoServerCertificateSecretAnnotations;
   /**
-   * -- Labels to be added to argocd-repo-server-tls secret
+   * Labels to be added to argocd-repo-server-tls secret
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesRepoServerCertificateSecretLabels;
   /**
-   * -- Certificate authority. Required for self-signed certificates.
+   * Certificate authority. Required for self-signed certificates.
    *
    * @default ""
    */
   ca?: string;
   /**
-   * -- Certificate private key
+   * Certificate private key
    *
    * @default ""
    */
   key?: string;
   /**
+   * Certificate data. Must contain SANs of Repo service (ie: argocd-repo-server, argocd-repo-server.argo-cd.svc)
+   *
    * @default ""
    */
   crt?: string;
@@ -5456,31 +5588,31 @@ export type ArgocdHelmValuesRepoServerCertificateSecretLabels = {
 
 export type ArgocdHelmValuesRepoServerService = {
   /**
-   * -- Repo server service annotations
+   * Repo server service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesRepoServerServiceAnnotations;
   /**
-   * -- Repo server service labels
+   * Repo server service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesRepoServerServiceLabels;
   /**
-   * -- Repo server service port
+   * Repo server service port
    *
    * @default 8081
    */
   port?: number;
   /**
-   * -- Repo server service port name
+   * Repo server service port name
    *
    * @default "tcp-repo-server"
    */
   portName?: string;
   /**
-   * -- Traffic distribution preference for the repo server service. If the field is not set, the implementation will apply its default routing strategy.
+   * Traffic distribution preference for the repo server service. If the field is not set, the implementation will apply its default routing strategy.
    *
    * @default ""
    */
@@ -5505,20 +5637,16 @@ export type ArgocdHelmValuesRepoServerServiceLabels = {
 
 export type ArgocdHelmValuesRepoServerMetrics = {
   /**
-   * -- Deploy metrics service
+   * Deploy metrics service
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Deploy metrics service
-   *
    * @default {...} (6 keys)
    */
   service?: ArgocdHelmValuesRepoServerMetricsService;
   /**
-   * -- Deploy metrics service
-   *
    * @default {...} (12 keys)
    */
   serviceMonitor?: ArgocdHelmValuesRepoServerMetricsServiceMonitor;
@@ -5526,37 +5654,37 @@ export type ArgocdHelmValuesRepoServerMetrics = {
 
 export type ArgocdHelmValuesRepoServerMetricsService = {
   /**
-   * -- Metrics service type
+   * Metrics service type
    *
    * @default "ClusterIP"
    */
   type?: string;
   /**
-   * -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
+   * Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
    *
    * @default ""
    */
   clusterIP?: string;
   /**
-   * -- Metrics service annotations
+   * Metrics service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesRepoServerMetricsServiceAnnotations;
   /**
-   * -- Metrics service labels
+   * Metrics service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesRepoServerMetricsServiceLabels;
   /**
-   * -- Metrics service port
+   * Metrics service port
    *
    * @default 8084
    */
   servicePort?: number;
   /**
-   * -- Metrics service port name
+   * Metrics service port name
    *
    * @default "http-metrics"
    */
@@ -5581,25 +5709,25 @@ export type ArgocdHelmValuesRepoServerMetricsServiceLabels = {
 
 export type ArgocdHelmValuesRepoServerMetricsServiceMonitor = {
   /**
-   * -- Enable a prometheus ServiceMonitor
+   * Enable a prometheus ServiceMonitor
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Prometheus ServiceMonitor interval
+   * Prometheus ServiceMonitor interval
    *
    * @default "30s"
    */
   interval?: string;
   /**
-   * -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
+   * Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
    *
    * @default ""
    */
   scrapeTimeout?: string;
   /**
-   * -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
+   * When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
    *
    * @default false
    */
@@ -5607,37 +5735,38 @@ export type ArgocdHelmValuesRepoServerMetricsServiceMonitor = {
   relabelings?: unknown[];
   metricRelabelings?: unknown[];
   /**
-   * -- Prometheus ServiceMonitor selector
+   * Prometheus ServiceMonitor selector
    *
    * @default {}
    */
   selector?: ArgocdHelmValuesRepoServerMetricsServiceMonitorSelector;
   /**
-   * -- Prometheus ServiceMonitor scheme
+   * Prometheus ServiceMonitor scheme
    *
    * @default ""
    */
   scheme?: string;
   /**
-   * -- Prometheus ServiceMonitor tlsConfig
+   * Prometheus ServiceMonitor tlsConfig
    *
    * @default {}
    */
   tlsConfig?: ArgocdHelmValuesRepoServerMetricsServiceMonitorTlsConfig;
   /**
-   * -- Prometheus ServiceMonitor namespace
+   * Prometheus ServiceMonitor namespace
+   * "monitoring"
    *
    * @default ""
    */
   namespace?: string;
   /**
-   * -- Prometheus ServiceMonitor labels
+   * Prometheus ServiceMonitor labels
    *
    * @default {}
    */
   additionalLabels?: ArgocdHelmValuesRepoServerMetricsServiceMonitorAdditionalLabels;
   /**
-   * -- Prometheus ServiceMonitor annotations
+   * Prometheus ServiceMonitor annotations
    *
    * @default {}
    */
@@ -5660,7 +5789,7 @@ export type ArgocdHelmValuesRepoServerMetricsServiceMonitorAnnotations = {
 
 export type ArgocdHelmValuesRepoServerClusterRoleRules = {
   /**
-   * -- Enable custom rules for the Repo server's Cluster Role resource
+   * Enable custom rules for the Repo server's Cluster Role resource
    *
    * @default false
    */
@@ -5670,31 +5799,32 @@ export type ArgocdHelmValuesRepoServerClusterRoleRules = {
 
 export type ArgocdHelmValuesRepoServerServiceAccount = {
   /**
-   * -- Create repo server service account
+   * Create repo server service account
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- Repo server service account name
+   * Repo server service account name
+   * "argocd-repo-server"
    *
    * @default ""
    */
   name?: string;
   /**
-   * -- Annotations applied to created service account
+   * Annotations applied to created service account
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesRepoServerServiceAccountAnnotations;
   /**
-   * -- Labels applied to created service account
+   * Labels applied to created service account
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesRepoServerServiceAccountLabels;
   /**
-   * -- Automount API credentials for the Service Account
+   * Automount API credentials for the Service Account
    *
    * @default true
    */
@@ -5719,7 +5849,7 @@ export type ArgocdHelmValuesRepoServerServiceAccountLabels = {
 
 export type ArgocdHelmValuesRepoServerNetworkPolicy = {
   /**
-   * -- Default network policy rules used by repo server
+   * Default network policy rules used by repo server
    *
    * @default false
    */
@@ -5728,24 +5858,27 @@ export type ArgocdHelmValuesRepoServerNetworkPolicy = {
 
 export type ArgocdHelmValuesApplicationSet = {
   /**
-   * -- ApplicationSet controller name string
+   * ApplicationSet controller name string
    *
    * @default "applicationset-controller"
    */
   name?: string;
   /**
-   * -- The number of ApplicationSet controller pods to run
+   * The number of ApplicationSet controller pods to run
    *
    * @default 1
    */
   replicas?: number;
   /**
-   * -- Runtime class name for the ApplicationSet controller
+   * Runtime class name for the ApplicationSet controller
    *
    * @default ""
    */
   runtimeClassName?: string;
   /**
+   * ApplicationSet controller Pod Disruption Budget
+   * Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+   *
    * @default {...} (5 keys)
    */
   pdb?: ArgocdHelmValuesApplicationSetPdb;
@@ -5770,7 +5903,7 @@ export type ArgocdHelmValuesApplicationSet = {
    */
   emptyDir?: ArgocdHelmValuesApplicationSetEmptyDir;
   /**
-   * -- ApplicationSet controller name string
+   * Metrics service configuration
    *
    * @default {"enabled":false,"service":{"type":"ClusterIP","clusterIP":"","annotations":{},"labels":{},"servicePort":8080,"portName":"http-metrics"},"serviceMonitor":{"enabled":false,"interval":"30s","scrapeTimeout":"","honorLabels":false,"relabelings":[],"metricRelabelings":[],"selector":{},"scheme":"","tlsConfig":{},"namespace":"","additionalLabels":{},"annotations":{}}}
    */
@@ -5782,43 +5915,41 @@ export type ArgocdHelmValuesApplicationSet = {
    */
   service?: ArgocdHelmValuesApplicationSetService;
   /**
-   * -- Automount API credentials for the Service Account into the pod.
+   * Automount API credentials for the Service Account into the pod.
    *
    * @default true
    */
   automountServiceAccountToken?: boolean;
   /**
-   * -- ApplicationSet controller name string
-   *
    * @default {...} (5 keys)
    */
   serviceAccount?: ArgocdHelmValuesApplicationSetServiceAccount;
   /**
-   * -- Annotations to be added to ApplicationSet controller Deployment
+   * Annotations to be added to ApplicationSet controller Deployment
    *
    * @default {}
    */
   deploymentAnnotations?: ArgocdHelmValuesApplicationSetDeploymentAnnotations;
   /**
-   * -- Labels for the ApplicationSet controller Deployment
+   * Labels for the ApplicationSet controller Deployment
    *
    * @default {}
    */
   deploymentLabels?: ArgocdHelmValuesApplicationSetDeploymentLabels;
   /**
-   * -- Annotations for the ApplicationSet controller pods
+   * Annotations for the ApplicationSet controller pods
    *
    * @default {}
    */
   podAnnotations?: ArgocdHelmValuesApplicationSetPodAnnotations;
   /**
-   * -- Labels for the ApplicationSet controller pods
+   * Labels for the ApplicationSet controller pods
    *
    * @default {}
    */
   podLabels?: ArgocdHelmValuesApplicationSetPodLabels;
   /**
-   * -- Resource limits and requests for the ApplicationSet controller pods.
+   * Resource limits and requests for the ApplicationSet controller pods.
    *
    * @default {}
    */
@@ -5830,75 +5961,81 @@ export type ArgocdHelmValuesApplicationSet = {
    */
   containerPorts?: ArgocdHelmValuesApplicationSetContainerPorts;
   /**
-   * -- [DNS configuration]
+   * [DNS configuration]
    *
    * @default {}
    */
   dnsConfig?: ArgocdHelmValuesApplicationSetDnsConfig;
   /**
-   * -- Alternative DNS policy for ApplicationSet controller pods
+   * Alternative DNS policy for ApplicationSet controller pods
    *
    * @default "ClusterFirst"
    */
   dnsPolicy?: string;
   /**
-   * -- ApplicationSet controller container-level security context
+   * ApplicationSet controller container-level security context
    *
    * @default {...} (5 keys)
    */
   containerSecurityContext?: ArgocdHelmValuesApplicationSetContainerSecurityContext;
   /**
+   * Probes for ApplicationSet controller (optional)
+   * Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+   *
    * @default {...} (6 keys)
    */
   readinessProbe?: ArgocdHelmValuesApplicationSetReadinessProbe;
   /**
-   * -- ApplicationSet controller name string
-   *
    * @default {...} (6 keys)
    */
   livenessProbe?: ArgocdHelmValuesApplicationSetLivenessProbe;
   /**
-   * -- terminationGracePeriodSeconds for container lifecycle hook
+   * terminationGracePeriodSeconds for container lifecycle hook
    *
    * @default 30
    */
   terminationGracePeriodSeconds?: number;
   /**
-   * -- [Node selector]
+   * [Node selector]
    *
    * @default {}
    */
   nodeSelector?: ArgocdHelmValuesApplicationSetNodeSelector;
   tolerations?: unknown[];
   /**
-   * -- Assign custom [affinity] rules
+   * Assign custom [affinity] rules
    *
    * @default {}
    */
   affinity?: ArgocdHelmValuesApplicationSetAffinity;
   topologySpreadConstraints?: unknown[];
   /**
-   * -- Deployment strategy to be added to the ApplicationSet controller Deployment
+   * Deployment strategy to be added to the ApplicationSet controller Deployment
    *
    * @default {}
    */
   deploymentStrategy?: ArgocdHelmValuesApplicationSetDeploymentStrategy;
   /**
-   * -- Priority class for the ApplicationSet controller pods
+   * Priority class for the ApplicationSet controller pods
    *
    * @default ""
    */
   priorityClassName?: string;
   /**
+   * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#tls-configuration
+   *
    * @default {...} (8 keys)
    */
   certificate?: ArgocdHelmValuesApplicationSetCertificate;
   /**
+   * Ingress for the Git Generator webhook
+   * Ref: https://argocd-applicationset.readthedocs.io/en/master/Generators-Git/#webhook-configuration)
+   *
    * @default {...} (12 keys)
    */
   ingress?: ArgocdHelmValuesApplicationSetIngress;
   /**
-   * -- Enable ApplicationSet in any namespace feature
+   * Enable ApplicationSet in any namespace feature
    *
    * @default false
    */
@@ -5913,28 +6050,31 @@ export type ArgocdHelmValuesApplicationSet = {
 
 export type ArgocdHelmValuesApplicationSetPdb = {
   /**
-   * -- Deploy a [PodDisruptionBudget] for the ApplicationSet controller
+   * Deploy a [PodDisruptionBudget] for the ApplicationSet controller
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Labels to be added to ApplicationSet controller pdb
+   * Labels to be added to ApplicationSet controller pdb
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesApplicationSetPdbLabels;
   /**
-   * -- Annotations to be added to ApplicationSet controller pdb
+   * Annotations to be added to ApplicationSet controller pdb
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesApplicationSetPdbAnnotations;
   /**
+   * Number of pods that are available after eviction as number or percentage (eg.: 50%)
+   *
    * @default ""
    */
   minAvailable?: string;
   /**
+   * Number of pods that are unavailable after eviction as number or percentage (eg.: 50%).
    * Has higher precedence over `applicationSet.pdb.minAvailable`
    *
    * @default ""
@@ -5960,19 +6100,19 @@ export type ArgocdHelmValuesApplicationSetPdbAnnotations = {
 
 export type ArgocdHelmValuesApplicationSetImage = {
   /**
-   * -- Repository to use for the ApplicationSet controller
+   * Repository to use for the ApplicationSet controller
    *
    * @default ""
    */
   repository?: string;
   /**
-   * -- Tag to use for the ApplicationSet controller
+   * Tag to use for the ApplicationSet controller
    *
    * @default ""
    */
   tag?: string;
   /**
-   * -- Image pull policy for the ApplicationSet controller
+   * Image pull policy for the ApplicationSet controller
    *
    * @default ""
    */
@@ -5981,7 +6121,7 @@ export type ArgocdHelmValuesApplicationSetImage = {
 
 export type ArgocdHelmValuesApplicationSetEmptyDir = {
   /**
-   * -- EmptyDir size limit for applicationSet controller
+   * EmptyDir size limit for applicationSet controller
    *
    * @default ""
    */
@@ -5990,20 +6130,16 @@ export type ArgocdHelmValuesApplicationSetEmptyDir = {
 
 export type ArgocdHelmValuesApplicationSetMetrics = {
   /**
-   * -- Deploy metrics service
+   * Deploy metrics service
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Deploy metrics service
-   *
    * @default {...} (6 keys)
    */
   service?: ArgocdHelmValuesApplicationSetMetricsService;
   /**
-   * -- Deploy metrics service
-   *
    * @default {...} (12 keys)
    */
   serviceMonitor?: ArgocdHelmValuesApplicationSetMetricsServiceMonitor;
@@ -6011,37 +6147,37 @@ export type ArgocdHelmValuesApplicationSetMetrics = {
 
 export type ArgocdHelmValuesApplicationSetMetricsService = {
   /**
-   * -- Metrics service type
+   * Metrics service type
    *
    * @default "ClusterIP"
    */
   type?: string;
   /**
-   * -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
+   * Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
    *
    * @default ""
    */
   clusterIP?: string;
   /**
-   * -- Metrics service annotations
+   * Metrics service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesApplicationSetMetricsServiceAnnotations;
   /**
-   * -- Metrics service labels
+   * Metrics service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesApplicationSetMetricsServiceLabels;
   /**
-   * -- Metrics service port
+   * Metrics service port
    *
    * @default 8080
    */
   servicePort?: number;
   /**
-   * -- Metrics service port name
+   * Metrics service port name
    *
    * @default "http-metrics"
    */
@@ -6066,25 +6202,25 @@ export type ArgocdHelmValuesApplicationSetMetricsServiceLabels = {
 
 export type ArgocdHelmValuesApplicationSetMetricsServiceMonitor = {
   /**
-   * -- Enable a prometheus ServiceMonitor
+   * Enable a prometheus ServiceMonitor
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Prometheus ServiceMonitor interval
+   * Prometheus ServiceMonitor interval
    *
    * @default "30s"
    */
   interval?: string;
   /**
-   * -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
+   * Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
    *
    * @default ""
    */
   scrapeTimeout?: string;
   /**
-   * -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
+   * When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
    *
    * @default false
    */
@@ -6092,37 +6228,38 @@ export type ArgocdHelmValuesApplicationSetMetricsServiceMonitor = {
   relabelings?: unknown[];
   metricRelabelings?: unknown[];
   /**
-   * -- Prometheus ServiceMonitor selector
+   * Prometheus ServiceMonitor selector
    *
    * @default {}
    */
   selector?: ArgocdHelmValuesApplicationSetMetricsServiceMonitorSelector;
   /**
-   * -- Prometheus ServiceMonitor scheme
+   * Prometheus ServiceMonitor scheme
    *
    * @default ""
    */
   scheme?: string;
   /**
-   * -- Prometheus ServiceMonitor tlsConfig
+   * Prometheus ServiceMonitor tlsConfig
    *
    * @default {}
    */
   tlsConfig?: ArgocdHelmValuesApplicationSetMetricsServiceMonitorTlsConfig;
   /**
-   * -- Prometheus ServiceMonitor namespace
+   * Prometheus ServiceMonitor namespace
+   * monitoring
    *
    * @default ""
    */
   namespace?: string;
   /**
-   * -- Prometheus ServiceMonitor labels
+   * Prometheus ServiceMonitor labels
    *
    * @default {}
    */
   additionalLabels?: ArgocdHelmValuesApplicationSetMetricsServiceMonitorAdditionalLabels;
   /**
-   * -- Prometheus ServiceMonitor annotations
+   * Prometheus ServiceMonitor annotations
    *
    * @default {}
    */
@@ -6145,31 +6282,31 @@ export type ArgocdHelmValuesApplicationSetMetricsServiceMonitorAnnotations = {
 
 export type ArgocdHelmValuesApplicationSetService = {
   /**
-   * -- ApplicationSet service annotations
+   * ApplicationSet service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesApplicationSetServiceAnnotations;
   /**
-   * -- ApplicationSet service labels
+   * ApplicationSet service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesApplicationSetServiceLabels;
   /**
-   * -- ApplicationSet service type
+   * ApplicationSet service type
    *
    * @default "ClusterIP"
    */
   type?: string;
   /**
-   * -- ApplicationSet service port
+   * ApplicationSet service port
    *
    * @default 7000
    */
   port?: number;
   /**
-   * -- ApplicationSet service port name
+   * ApplicationSet service port name
    *
    * @default "http-webhook"
    */
@@ -6194,31 +6331,31 @@ export type ArgocdHelmValuesApplicationSetServiceLabels = {
 
 export type ArgocdHelmValuesApplicationSetServiceAccount = {
   /**
-   * -- Create ApplicationSet controller service account
+   * Create ApplicationSet controller service account
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- ApplicationSet controller service account name
+   * ApplicationSet controller service account name
    *
    * @default "argocd-applicationset-controller"
    */
   name?: string;
   /**
-   * -- Annotations applied to created service account
+   * Annotations applied to created service account
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesApplicationSetServiceAccountAnnotations;
   /**
-   * -- Labels applied to created service account
+   * Labels applied to created service account
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesApplicationSetServiceAccountLabels;
   /**
-   * -- Automount API credentials for the Service Account
+   * Automount API credentials for the Service Account
    *
    * @default true
    */
@@ -6253,19 +6390,19 @@ export type ArgocdHelmValuesApplicationSetResources = object;
 
 export type ArgocdHelmValuesApplicationSetContainerPorts = {
   /**
-   * -- Metrics container port
+   * Metrics container port
    *
    * @default 8080
    */
   metrics?: number;
   /**
-   * -- Probe container port
+   * Probe container port
    *
    * @default 8081
    */
   probe?: number;
   /**
-   * -- Webhook container port
+   * Webhook container port
    *
    * @default 7000
    */
@@ -6310,37 +6447,37 @@ export type ArgocdHelmValuesApplicationSetContainerSecurityContextCapabilities =
 
 export type ArgocdHelmValuesApplicationSetReadinessProbe = {
   /**
-   * -- Enable Kubernetes liveness probe for ApplicationSet controller
+   * Enable Kubernetes liveness probe for ApplicationSet controller
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 10
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
   timeoutSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
@@ -6349,37 +6486,37 @@ export type ArgocdHelmValuesApplicationSetReadinessProbe = {
 
 export type ArgocdHelmValuesApplicationSetLivenessProbe = {
   /**
-   * -- Enable Kubernetes liveness probe for ApplicationSet controller
+   * Enable Kubernetes liveness probe for ApplicationSet controller
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 10
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
   timeoutSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
@@ -6394,27 +6531,35 @@ export type ArgocdHelmValuesApplicationSetDeploymentStrategy = object;
 
 export type ArgocdHelmValuesApplicationSetCertificate = {
   /**
-   * -- Deploy a Certificate resource (requires cert-manager)
+   * Deploy a Certificate resource (requires cert-manager)
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Certificate primary domain (commonName)
+   * Certificate primary domain (commonName)
    *
    * @default ""
    */
   domain?: string;
   additionalHosts?: unknown[];
   /**
+   * The requested 'duration' (i.e. lifetime) of the certificate.
+   * Ref: https://cert-manager.io/docs/usage/certificate/#renewal
+   *
    * @default ""
    */
   duration?: string;
   /**
+   * How long before the expiry a certificate should be renewed.
+   * Ref: https://cert-manager.io/docs/usage/certificate/#renewal
+   *
    * @default ""
    */
   renewBefore?: string;
   /**
+   * Ref: https://cert-manager.io/docs/concepts/issuer
+   *
    * @default {"group":"","kind":"","name":""}
    */
   issuer?: ArgocdHelmValuesApplicationSetCertificateIssuer;
@@ -6425,7 +6570,7 @@ export type ArgocdHelmValuesApplicationSetCertificate = {
    */
   privateKey?: ArgocdHelmValuesApplicationSetCertificatePrivateKey;
   /**
-   * -- Annotations to be applied to the ApplicationSet Certificate
+   * Annotations to be applied to the ApplicationSet Certificate
    *
    * @default {}
    */
@@ -6434,19 +6579,19 @@ export type ArgocdHelmValuesApplicationSetCertificate = {
 
 export type ArgocdHelmValuesApplicationSetCertificateIssuer = {
   /**
-   * -- Certificate issuer group. Set if using an external issuer. Eg. `cert-manager.io`
+   * Certificate issuer group. Set if using an external issuer. Eg. `cert-manager.io`
    *
    * @default ""
    */
   group?: string;
   /**
-   * -- Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
+   * Certificate issuer kind. Either `Issuer` or `ClusterIssuer`
    *
    * @default ""
    */
   kind?: string;
   /**
-   * -- Certificate issuer name. Eg. `letsencrypt`
+   * Certificate issuer name. Eg. `letsencrypt`
    *
    * @default ""
    */
@@ -6455,19 +6600,25 @@ export type ArgocdHelmValuesApplicationSetCertificateIssuer = {
 
 export type ArgocdHelmValuesApplicationSetCertificatePrivateKey = {
   /**
+   * Rotation policy of private key when certificate is re-issued. Either: `Never` or `Always`
+   *
    * @default "Never"
    */
   rotationPolicy?: string;
   /**
+   * The private key cryptography standards (PKCS) encoding for private key. Either: `PCKS1` or `PKCS8`
+   *
    * @default "PKCS1"
    */
   encoding?: string;
   /**
+   * Algorithm used to generate certificate private key. One of: `RSA`, `Ed25519` or `ECDSA`
+   *
    * @default "RSA"
    */
   algorithm?: string;
   /**
-   * -- Key bit size of the private key. If algorithm is set to `Ed25519`, size is ignored.
+   * Key bit size of the private key. If algorithm is set to `Ed25519`, size is ignored.
    *
    * @default 2048
    */
@@ -6484,49 +6635,49 @@ export type ArgocdHelmValuesApplicationSetCertificateAnnotations = {
 
 export type ArgocdHelmValuesApplicationSetIngress = {
   /**
-   * -- Enable an ingress resource for ApplicationSet webhook
+   * Enable an ingress resource for ApplicationSet webhook
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Additional ingress labels
+   * Additional ingress labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesApplicationSetIngressLabels;
   /**
-   * -- Additional ingress annotations
+   * Additional ingress annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesApplicationSetIngressAnnotations;
   /**
-   * -- Defines which ingress ApplicationSet controller will implement the resource
+   * Defines which ingress ApplicationSet controller will implement the resource
    *
    * @default ""
    */
   ingressClassName?: string;
   /**
-   * -- Argo CD ApplicationSet hostname
+   * Argo CD ApplicationSet hostname
    *
    * @default ""
    */
   hostname?: string;
   /**
-   * -- List of ingress paths
+   * List of ingress paths
    *
    * @default "/api/webhook"
    */
   path?: string;
   /**
-   * -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
+   * Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
    *
    * @default "Prefix"
    */
   pathType?: string;
   /**
-   * -- Enable TLS configuration for the hostname defined at `applicationSet.webhook.ingress.hostname`
+   * Enable TLS configuration for the hostname defined at `applicationSet.webhook.ingress.hostname`
    * TLS certificate will be retrieved from a TLS secret with name:`argocd-applicationset-controller-tls`
    *
    * @default false
@@ -6556,7 +6707,7 @@ export type ArgocdHelmValuesApplicationSetIngressAnnotations = {
 
 export type ArgocdHelmValuesApplicationSetNetworkPolicy = {
   /**
-   * -- Default network policy rules used by ApplicationSet controller
+   * Default network policy rules used by ApplicationSet controller
    *
    * @default false
    */
@@ -6565,30 +6716,33 @@ export type ArgocdHelmValuesApplicationSetNetworkPolicy = {
 
 export type ArgocdHelmValuesNotifications = {
   /**
-   * -- Enable notifications controller
+   * Enable notifications controller
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * -- Notifications controller name string
+   * Notifications controller name string
    *
    * @default "notifications-controller"
    */
   name?: string;
   /**
-   * -- Argo CD dashboard url; used in place of {{.context.argocdUrl}} in templates
+   * Argo CD dashboard url; used in place of {{.context.argocdUrl}} in templates
    *
    * @default ""
    */
   argocdUrl?: string;
   /**
-   * -- Runtime class name for the notifications controller
+   * Runtime class name for the notifications controller
    *
    * @default ""
    */
   runtimeClassName?: string;
   /**
+   * Notifications controller Pod Disruption Budget
+   * Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+   *
    * @default {...} (5 keys)
    */
   pdb?: ArgocdHelmValuesNotificationsPdb;
@@ -6607,57 +6761,53 @@ export type ArgocdHelmValuesNotifications = {
   extraVolumeMounts?: unknown[];
   extraVolumes?: unknown[];
   /**
-   * -- Define user-defined context
+   * Define user-defined context
    * For more information: https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/templates/#defining-user-defined-context
    *
    * @default {}
    */
   context?: ArgocdHelmValuesNotificationsContext;
   /**
-   * -- Enable notifications controller
-   *
    * @default {...} (5 keys)
    */
   secret?: ArgocdHelmValuesNotificationsSecret;
   /**
-   * -- Enable notifications controller
-   *
    * @default {...} (4 keys)
    */
   metrics?: ArgocdHelmValuesNotificationsMetrics;
   /**
-   * -- Configures notification services such as slack, email or custom webhook
+   * Configures notification services such as slack, email or custom webhook
    * For more information: https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/services/overview/
    *
    * @default {}
    */
   notifiers?: ArgocdHelmValuesNotificationsNotifiers;
   /**
-   * -- Annotations to be applied to the notifications controller Deployment
+   * Annotations to be applied to the notifications controller Deployment
    *
    * @default {}
    */
   deploymentAnnotations?: ArgocdHelmValuesNotificationsDeploymentAnnotations;
   /**
-   * -- Labels for the notifications controller Deployment
+   * Labels for the notifications controller Deployment
    *
    * @default {}
    */
   deploymentLabels?: ArgocdHelmValuesNotificationsDeploymentLabels;
   /**
-   * -- Annotations to be applied to the notifications controller Pods
+   * Annotations to be applied to the notifications controller Pods
    *
    * @default {}
    */
   podAnnotations?: ArgocdHelmValuesNotificationsPodAnnotations;
   /**
-   * -- Labels to be applied to the notifications controller Pods
+   * Labels to be applied to the notifications controller Pods
    *
    * @default {}
    */
   podLabels?: ArgocdHelmValuesNotificationsPodLabels;
   /**
-   * -- Resource limits and requests for the notifications controller
+   * Resource limits and requests for the notifications controller
    *
    * @default {}
    */
@@ -6669,80 +6819,77 @@ export type ArgocdHelmValuesNotifications = {
    */
   containerPorts?: ArgocdHelmValuesNotificationsContainerPorts;
   /**
-   * -- [DNS configuration]
+   * [DNS configuration]
    *
    * @default {}
    */
   dnsConfig?: ArgocdHelmValuesNotificationsDnsConfig;
   /**
-   * -- Alternative DNS policy for notifications controller Pods
+   * Alternative DNS policy for notifications controller Pods
    *
    * @default "ClusterFirst"
    */
   dnsPolicy?: string;
   /**
-   * -- Notification controller container-level security Context
+   * Notification controller container-level security Context
    *
    * @default {...} (5 keys)
    */
   containerSecurityContext?: ArgocdHelmValuesNotificationsContainerSecurityContext;
   /**
+   * Probes for notifications controller Pods (optional)
+   * Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+   *
    * @default {...} (6 keys)
    */
   readinessProbe?: ArgocdHelmValuesNotificationsReadinessProbe;
   /**
-   * -- Enable notifications controller
-   *
    * @default {...} (6 keys)
    */
   livenessProbe?: ArgocdHelmValuesNotificationsLivenessProbe;
   /**
-   * -- terminationGracePeriodSeconds for container lifecycle hook
+   * terminationGracePeriodSeconds for container lifecycle hook
    *
    * @default 30
    */
   terminationGracePeriodSeconds?: number;
   /**
-   * -- [Node selector]
+   * [Node selector]
    *
    * @default {}
    */
   nodeSelector?: ArgocdHelmValuesNotificationsNodeSelector;
   tolerations?: unknown[];
   /**
-   * -- Assign custom [affinity] rules
+   * Assign custom [affinity] rules
    *
    * @default {}
    */
   affinity?: ArgocdHelmValuesNotificationsAffinity;
   topologySpreadConstraints?: unknown[];
   /**
-   * -- Deployment strategy to be added to the notifications controller Deployment
+   * Deployment strategy to be added to the notifications controller Deployment
    *
    * @default {"type":"Recreate"}
    */
   deploymentStrategy?: ArgocdHelmValuesNotificationsDeploymentStrategy;
   /**
-   * -- Priority class for the notifications controller pods
+   * Priority class for the notifications controller pods
    *
    * @default ""
    */
   priorityClassName?: string;
   /**
-   * -- Automount API credentials for the Service Account into the pod.
+   * Automount API credentials for the Service Account into the pod.
    *
    * @default true
    */
   automountServiceAccountToken?: boolean;
   /**
-   * -- Enable notifications controller
-   *
    * @default {...} (5 keys)
    */
   serviceAccount?: ArgocdHelmValuesNotificationsServiceAccount;
   /**
-   * -- Enable notifications controller
-   *
    * @default {"create":true}
    */
   cm?: ArgocdHelmValuesNotificationsCm;
@@ -6755,20 +6902,21 @@ export type ArgocdHelmValuesNotifications = {
   clusterRoleRules?: ArgocdHelmValuesNotificationsClusterRoleRules;
   subscriptions?: unknown[];
   /**
-   * -- The notification template is used to generate the notification content
+   * The notification template is used to generate the notification content
    * For more information: https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/templates/
    *
    * @default {}
    */
   templates?: ArgocdHelmValuesNotificationsTemplates;
   /**
-   * -- The trigger defines the condition when the notification should be sent
+   * The trigger defines the condition when the notification should be sent
    * For more information: https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/triggers/
    *
    * @default {}
    */
   triggers?: ArgocdHelmValuesNotificationsTriggers;
   /**
+   * For more information: https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/triggers/#default-triggers
    * Default notifications controller's network policy
    *
    * @default {"create":false}
@@ -6778,28 +6926,31 @@ export type ArgocdHelmValuesNotifications = {
 
 export type ArgocdHelmValuesNotificationsPdb = {
   /**
-   * -- Deploy a [PodDisruptionBudget] for the notifications controller
+   * Deploy a [PodDisruptionBudget] for the notifications controller
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Labels to be added to notifications controller pdb
+   * Labels to be added to notifications controller pdb
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesNotificationsPdbLabels;
   /**
-   * -- Annotations to be added to notifications controller pdb
+   * Annotations to be added to notifications controller pdb
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesNotificationsPdbAnnotations;
   /**
+   * Number of pods that are available after eviction as number or percentage (eg.: 50%)
+   *
    * @default ""
    */
   minAvailable?: string;
   /**
+   * Number of pods that are unavailable after eviction as number or percentage (eg.: 50%).
    * Has higher precedence over `notifications.pdb.minAvailable`
    *
    * @default ""
@@ -6825,19 +6976,19 @@ export type ArgocdHelmValuesNotificationsPdbAnnotations = {
 
 export type ArgocdHelmValuesNotificationsImage = {
   /**
-   * -- Repository to use for the notifications controller
+   * Repository to use for the notifications controller
    *
    * @default ""
    */
   repository?: string;
   /**
-   * -- Tag to use for the notifications controller
+   * Tag to use for the notifications controller
    *
    * @default ""
    */
   tag?: string;
   /**
-   * -- Image pull policy for the notifications controller
+   * Image pull policy for the notifications controller
    *
    * @default ""
    */
@@ -6848,27 +6999,32 @@ export type ArgocdHelmValuesNotificationsContext = object;
 
 export type ArgocdHelmValuesNotificationsSecret = {
   /**
-   * -- Whether helm chart creates notifications controller secret
+   * Whether helm chart creates notifications controller secret
    * If true, will create a secret with the name below. Otherwise, will assume existence of a secret with that name.
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- notifications controller Secret name
+   * notifications controller Secret name
    *
    * @default "argocd-notifications-secret"
    */
   name?: string;
   /**
+   * key:value pairs of annotations to be added to the secret
+   *
    * @default {}
    */
   annotations?: ArgocdHelmValuesNotificationsSecretAnnotations;
   /**
+   * key:value pairs of labels to be added to the secret
+   *
    * @default {}
    */
   labels?: ArgocdHelmValuesNotificationsSecretLabels;
   /**
+   * Generic key:value pairs to be inserted into the secret
    * Can be used for templates, notification services etc. Some examples given below.
    * For more information: https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/services/overview/
    *
@@ -6897,26 +7053,22 @@ export type ArgocdHelmValuesNotificationsSecretItems = object;
 
 export type ArgocdHelmValuesNotificationsMetrics = {
   /**
-   * -- Enables prometheus metrics server
+   * Enables prometheus metrics server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Metrics port
+   * Metrics port
    *
    * @default 9001
    */
   port?: number;
   /**
-   * -- Enables prometheus metrics server
-   *
    * @default {...} (5 keys)
    */
   service?: ArgocdHelmValuesNotificationsMetricsService;
   /**
-   * -- Enables prometheus metrics server
-   *
    * @default {...} (9 keys)
    */
   serviceMonitor?: ArgocdHelmValuesNotificationsMetricsServiceMonitor;
@@ -6924,31 +7076,31 @@ export type ArgocdHelmValuesNotificationsMetrics = {
 
 export type ArgocdHelmValuesNotificationsMetricsService = {
   /**
-   * -- Metrics service type
+   * Metrics service type
    *
    * @default "ClusterIP"
    */
   type?: string;
   /**
-   * -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
+   * Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
    *
    * @default ""
    */
   clusterIP?: string;
   /**
-   * -- Metrics service annotations
+   * Metrics service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesNotificationsMetricsServiceAnnotations;
   /**
-   * -- Metrics service labels
+   * Metrics service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesNotificationsMetricsServiceLabels;
   /**
-   * -- Metrics service port name
+   * Metrics service port name
    *
    * @default "http-metrics"
    */
@@ -6973,41 +7125,43 @@ export type ArgocdHelmValuesNotificationsMetricsServiceLabels = {
 
 export type ArgocdHelmValuesNotificationsMetricsServiceMonitor = {
   /**
-   * -- Enable a prometheus ServiceMonitor
+   * Enable a prometheus ServiceMonitor
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Prometheus ServiceMonitor selector
+   * Prometheus ServiceMonitor selector
    *
    * @default {}
    */
   selector?: ArgocdHelmValuesNotificationsMetricsServiceMonitorSelector;
   /**
-   * -- Prometheus ServiceMonitor labels
+   * Prometheus ServiceMonitor labels
    *
    * @default {}
    */
   additionalLabels?: ArgocdHelmValuesNotificationsMetricsServiceMonitorAdditionalLabels;
   /**
-   * -- Prometheus ServiceMonitor annotations
+   * Prometheus ServiceMonitor annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesNotificationsMetricsServiceMonitorAnnotations;
   /**
+   * Prometheus ServiceMonitor scheme
+   *
    * @default ""
    */
   scheme?: string;
   /**
-   * -- Prometheus ServiceMonitor tlsConfig
+   * Prometheus ServiceMonitor tlsConfig
    *
    * @default {}
    */
   tlsConfig?: ArgocdHelmValuesNotificationsMetricsServiceMonitorTlsConfig;
   /**
-   * -- When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
+   * When true, honorLabels preserves the metric’s labels when they collide with the target’s labels.
    *
    * @default false
    */
@@ -7044,7 +7198,7 @@ export type ArgocdHelmValuesNotificationsResources = object;
 
 export type ArgocdHelmValuesNotificationsContainerPorts = {
   /**
-   * -- Metrics container port
+   * Metrics container port
    *
    * @default 9001
    */
@@ -7089,37 +7243,37 @@ export type ArgocdHelmValuesNotificationsContainerSecurityContextCapabilities = 
 
 export type ArgocdHelmValuesNotificationsReadinessProbe = {
   /**
-   * -- Enable Kubernetes liveness probe for notifications controller Pods
+   * Enable Kubernetes liveness probe for notifications controller Pods
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 10
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
   timeoutSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
@@ -7128,37 +7282,37 @@ export type ArgocdHelmValuesNotificationsReadinessProbe = {
 
 export type ArgocdHelmValuesNotificationsLivenessProbe = {
   /**
-   * -- Enable Kubernetes liveness probe for notifications controller Pods
+   * Enable Kubernetes liveness probe for notifications controller Pods
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 10
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
   timeoutSeconds?: number;
   /**
-   * -- Minimum consecutive successes for the [probe] to be considered successful after having failed
+   * Minimum consecutive successes for the [probe] to be considered successful after having failed
    *
    * @default 1
    */
   successThreshold?: number;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
@@ -7178,31 +7332,31 @@ export type ArgocdHelmValuesNotificationsDeploymentStrategy = {
 
 export type ArgocdHelmValuesNotificationsServiceAccount = {
   /**
-   * -- Create notifications controller service account
+   * Create notifications controller service account
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- Notification controller service account name
+   * Notification controller service account name
    *
    * @default "argocd-notifications-controller"
    */
   name?: string;
   /**
-   * -- Annotations applied to created service account
+   * Annotations applied to created service account
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesNotificationsServiceAccountAnnotations;
   /**
-   * -- Labels applied to created service account
+   * Labels applied to created service account
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesNotificationsServiceAccountLabels;
   /**
-   * -- Automount API credentials for the Service Account
+   * Automount API credentials for the Service Account
    *
    * @default true
    */
@@ -7232,7 +7386,7 @@ export type ArgocdHelmValuesNotificationsCm = {
    */
   [key: string]: unknown;
   /**
-   * -- Whether helm chart creates notifications controller config map
+   * Whether helm chart creates notifications controller config map
    *
    * @default true
    */
@@ -7249,7 +7403,7 @@ export type ArgocdHelmValuesNotificationsTriggers = object;
 
 export type ArgocdHelmValuesNotificationsNetworkPolicy = {
   /**
-   * -- Default network policy rules used by notifications controller
+   * Default network policy rules used by notifications controller
    *
    * @default false
    */
@@ -7258,19 +7412,19 @@ export type ArgocdHelmValuesNotificationsNetworkPolicy = {
 
 export type ArgocdHelmValuesCommitServer = {
   /**
-   * -- Enable commit server
+   * Enable commit server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Commit server name
+   * Commit server name
    *
    * @default "commit-server"
    */
   name?: string;
   /**
-   * -- Runtime class name for the commit server
+   * Runtime class name for the commit server
    *
    * @default ""
    */
@@ -7287,8 +7441,6 @@ export type ArgocdHelmValuesCommitServer = {
   extraVolumeMounts?: unknown[];
   extraVolumes?: unknown[];
   /**
-   * -- Enable commit server
-   *
    * @default {"enabled":false,"service":{"type":"ClusterIP","clusterIP":"","annotations":{},"labels":{},"servicePort":8087,"portName":"metrics"}}
    */
   metrics?: ArgocdHelmValuesCommitServerMetrics;
@@ -7299,103 +7451,102 @@ export type ArgocdHelmValuesCommitServer = {
    */
   service?: ArgocdHelmValuesCommitServerService;
   /**
-   * -- Automount API credentials for the Service Account into the pod.
+   * Automount API credentials for the Service Account into the pod.
    *
    * @default false
    */
   automountServiceAccountToken?: boolean;
   /**
-   * -- Enable commit server
-   *
    * @default {...} (5 keys)
    */
   serviceAccount?: ArgocdHelmValuesCommitServerServiceAccount;
   /**
-   * -- Annotations to be added to commit server Deployment
+   * Annotations to be added to commit server Deployment
    *
    * @default {}
    */
   deploymentAnnotations?: ArgocdHelmValuesCommitServerDeploymentAnnotations;
   /**
-   * -- Labels for the commit server Deployment
+   * Labels for the commit server Deployment
    *
    * @default {}
    */
   deploymentLabels?: ArgocdHelmValuesCommitServerDeploymentLabels;
   /**
-   * -- Annotations for the commit server pods
+   * Annotations for the commit server pods
    *
    * @default {}
    */
   podAnnotations?: ArgocdHelmValuesCommitServerPodAnnotations;
   /**
-   * -- Labels for the commit server pods
+   * Labels for the commit server pods
    *
    * @default {}
    */
   podLabels?: ArgocdHelmValuesCommitServerPodLabels;
   /**
-   * -- Resource limits and requests for the commit server pods.
+   * Resource limits and requests for the commit server pods.
    *
    * @default {}
    */
   resources?: ArgocdHelmValuesCommitServerResources;
   /**
-   * -- [DNS configuration]
+   * [DNS configuration]
    *
    * @default {}
    */
   dnsConfig?: ArgocdHelmValuesCommitServerDnsConfig;
   /**
-   * -- Alternative DNS policy for commit server pods
+   * Alternative DNS policy for commit server pods
    *
    * @default "ClusterFirst"
    */
   dnsPolicy?: string;
   /**
-   * -- commit server container-level security context
+   * commit server container-level security context
    *
    * @default {...} (5 keys)
    */
   containerSecurityContext?: ArgocdHelmValuesCommitServerContainerSecurityContext;
   /**
+   * Probes for commit server (optional)
+   * Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+   *
    * @default {...} (5 keys)
    */
   readinessProbe?: ArgocdHelmValuesCommitServerReadinessProbe;
   /**
-   * -- Enable commit server
-   *
    * @default {...} (5 keys)
    */
   livenessProbe?: ArgocdHelmValuesCommitServerLivenessProbe;
   /**
-   * -- terminationGracePeriodSeconds for container lifecycle hook
+   * terminationGracePeriodSeconds for container lifecycle hook
    *
    * @default 30
    */
   terminationGracePeriodSeconds?: number;
   /**
-   * -- [Node selector]
+   * [Node selector]
    *
    * @default {}
    */
   nodeSelector?: ArgocdHelmValuesCommitServerNodeSelector;
   tolerations?: unknown[];
   /**
-   * -- Assign custom [affinity] rules
+   * Assign custom [affinity] rules
    *
    * @default {}
    */
   affinity?: ArgocdHelmValuesCommitServerAffinity;
   topologySpreadConstraints?: unknown[];
   /**
-   * -- Deployment strategy to be added to the commit server Deployment
+   * Deployment strategy to be added to the commit server Deployment
    *
    * @default {}
    */
   deploymentStrategy?: ArgocdHelmValuesCommitServerDeploymentStrategy;
   /**
-   * -- Priority class for the commit server pods
+   * Priority class for the commit server pods
    *
    * @default ""
    */
@@ -7410,19 +7561,19 @@ export type ArgocdHelmValuesCommitServer = {
 
 export type ArgocdHelmValuesCommitServerImage = {
   /**
-   * -- Repository to use for the commit server
+   * Repository to use for the commit server
    *
    * @default ""
    */
   repository?: string;
   /**
-   * -- Tag to use for the commit server
+   * Tag to use for the commit server
    *
    * @default ""
    */
   tag?: string;
   /**
-   * -- Image pull policy for the commit server
+   * Image pull policy for the commit server
    *
    * @default ""
    */
@@ -7431,14 +7582,12 @@ export type ArgocdHelmValuesCommitServerImage = {
 
 export type ArgocdHelmValuesCommitServerMetrics = {
   /**
-   * -- Enables prometheus metrics server
+   * Enables prometheus metrics server
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Enables prometheus metrics server
-   *
    * @default {...} (6 keys)
    */
   service?: ArgocdHelmValuesCommitServerMetricsService;
@@ -7446,37 +7595,37 @@ export type ArgocdHelmValuesCommitServerMetrics = {
 
 export type ArgocdHelmValuesCommitServerMetricsService = {
   /**
-   * -- Metrics service type
+   * Metrics service type
    *
    * @default "ClusterIP"
    */
   type?: string;
   /**
-   * -- Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
+   * Metrics service clusterIP. `None` makes a "headless service" (no virtual IP)
    *
    * @default ""
    */
   clusterIP?: string;
   /**
-   * -- Metrics service annotations
+   * Metrics service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesCommitServerMetricsServiceAnnotations;
   /**
-   * -- Metrics service labels
+   * Metrics service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesCommitServerMetricsServiceLabels;
   /**
-   * -- Metrics service port
+   * Metrics service port
    *
    * @default 8087
    */
   servicePort?: number;
   /**
-   * -- Metrics service port name
+   * Metrics service port name
    *
    * @default "metrics"
    */
@@ -7501,25 +7650,25 @@ export type ArgocdHelmValuesCommitServerMetricsServiceLabels = {
 
 export type ArgocdHelmValuesCommitServerService = {
   /**
-   * -- commit server service annotations
+   * commit server service annotations
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesCommitServerServiceAnnotations;
   /**
-   * -- commit server service labels
+   * commit server service labels
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesCommitServerServiceLabels;
   /**
-   * -- commit server service port
+   * commit server service port
    *
    * @default 8086
    */
   port?: number;
   /**
-   * -- commit server service port name
+   * commit server service port name
    *
    * @default "server"
    */
@@ -7544,31 +7693,31 @@ export type ArgocdHelmValuesCommitServerServiceLabels = {
 
 export type ArgocdHelmValuesCommitServerServiceAccount = {
   /**
-   * -- Create commit server service account
+   * Create commit server service account
    *
    * @default true
    */
   create?: boolean;
   /**
-   * -- commit server service account name
+   * commit server service account name
    *
    * @default "argocd-commit-server"
    */
   name?: string;
   /**
-   * -- Annotations applied to created service account
+   * Annotations applied to created service account
    *
    * @default {}
    */
   annotations?: ArgocdHelmValuesCommitServerServiceAccountAnnotations;
   /**
-   * -- Labels applied to created service account
+   * Labels applied to created service account
    *
    * @default {}
    */
   labels?: ArgocdHelmValuesCommitServerServiceAccountLabels;
   /**
-   * -- Automount API credentials for the Service Account
+   * Automount API credentials for the Service Account
    *
    * @default true
    */
@@ -7639,31 +7788,31 @@ export type ArgocdHelmValuesCommitServerContainerSecurityContextSeccompProfile =
 
 export type ArgocdHelmValuesCommitServerReadinessProbe = {
   /**
-   * -- Enable Kubernetes liveness probe for commit server
+   * Enable Kubernetes liveness probe for commit server
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 5
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 10
    */
   periodSeconds?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 1
    */
   timeoutSeconds?: number;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
@@ -7672,31 +7821,31 @@ export type ArgocdHelmValuesCommitServerReadinessProbe = {
 
 export type ArgocdHelmValuesCommitServerLivenessProbe = {
   /**
-   * -- Enable Kubernetes liveness probe for commit server
+   * Enable Kubernetes liveness probe for commit server
    *
    * @default true
    */
   enabled?: boolean;
   /**
-   * -- Number of seconds after the container has started before [probe] is initiated
+   * Number of seconds after the container has started before [probe] is initiated
    *
    * @default 30
    */
   initialDelaySeconds?: number;
   /**
-   * -- How often (in seconds) to perform the [probe]
+   * How often (in seconds) to perform the [probe]
    *
    * @default 30
    */
   periodSeconds?: number;
   /**
-   * -- Number of seconds after which the [probe] times out
+   * Number of seconds after which the [probe] times out
    *
    * @default 5
    */
   timeoutSeconds?: number;
   /**
-   * -- Minimum consecutive failures for the [probe] to be considered failed after having succeeded
+   * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
    */
@@ -7711,7 +7860,7 @@ export type ArgocdHelmValuesCommitServerDeploymentStrategy = object;
 
 export type ArgocdHelmValuesCommitServerNetworkPolicy = {
   /**
-   * -- Default network policy rules used by commit server
+   * Default network policy rules used by commit server
    *
    * @default false
    */
@@ -7720,25 +7869,26 @@ export type ArgocdHelmValuesCommitServerNetworkPolicy = {
 
 export type ArgocdHelmValues = {
   /**
-   * -- Provide a name in place of `argocd`
+   * Ref: https://github.com/argoproj/argo-cd
+   * Provide a name in place of `argocd`
    *
    * @default "argocd"
    */
   nameOverride?: string;
   /**
-   * -- String to fully override `"argo-cd.fullname"`
+   * String to fully override `"argo-cd.fullname"`
    *
    * @default ""
    */
   fullnameOverride?: string;
   /**
-   * -- Override the namespace
+   * Override the namespace
    *
    * @default ""
    */
   namespaceOverride?: string;
   /**
-   * -- Override the Kubernetes version, which is used to evaluate certain manifests
+   * Override the Kubernetes version, which is used to evaluate certain manifests
    *
    * @default ""
    */
@@ -7752,11 +7902,14 @@ export type ArgocdHelmValues = {
    */
   apiVersionOverrides?: ArgocdHelmValuesApiVersionOverrides;
   /**
+   * Create aggregated roles that extend existing cluster roles to interact with argo-cd resources
+   * Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/#aggregated-clusterroles
+   *
    * @default false
    */
   createAggregateRoles?: boolean;
   /**
-   * -- Create cluster roles for cluster-wide installation.
+   * Create cluster roles for cluster-wide installation.
    * Used when you manage applications in the same cluster where Argo CD runs
    *
    * @default true
@@ -7780,28 +7933,42 @@ export type ArgocdHelmValues = {
   global?: ArgocdHelmValuesGlobal;
   /**
    * Argo Configs
+   * background: linear-gradient(to bottom, #999, #777, #333, #222, #111);
+   * }
+   * Array of extra K8s manifests to deploy
+   * Note: Supports use of custom Helm templates
    *
    * @default {...} (14 keys)
    */
   configs?: ArgocdHelmValuesConfigs;
   extraObjects?: unknown[];
   /**
-   * Application controller
+   * Specific implementation for ingress controller. One of `generic`, `aws` or `gke`
+   * Additional configuration might be required in related configuration sections
    *
    * @default {...} (40 keys)
    */
   controller?: ArgocdHelmValuesController;
   /**
    * Dex
+   * DEPRECATED - Use configs.params to override
+   * Dex log format. Either `text` or `json`
+   * Dex log level. One of: `debug`, `info`, `warn`, `error`
+   * Redis
    *
    * @default {...} (43 keys)
    */
   dex?: ArgocdHelmValuesDex;
   /**
+   * Redis container port
+   *
    * @default {...} (38 keys)
    */
   redis?: ArgocdHelmValuesRedis;
   /**
+   * Redis-HA subchart replaces custom redis deployment when `redis-ha.enabled=true`
+   * Ref: https://github.com/DandyDeveloper/charts/blob/master/charts/redis-ha/values.yaml
+   *
    * @default {...} (14 keys)
    */
   "redis-ha"?: ArgocdHelmValuesRedisha;

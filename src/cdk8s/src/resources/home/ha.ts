@@ -1,7 +1,8 @@
-import { Deployment, DeploymentStrategy, EnvValue, Secret } from "cdk8s-plus-31";
+import { Deployment, DeploymentStrategy, EnvValue, Secret, Service } from "cdk8s-plus-31";
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
+import { ServiceMonitor } from "../../../generated/imports/monitoring.coreos.com.ts";
 import versions from "../../versions.ts";
 
 export function createHaDeployment(chart: Chart) {
@@ -27,6 +28,7 @@ export function createHaDeployment(chart: Chart) {
           key: "password",
         }),
         HASS_BASE_URL: EnvValue.fromValue("https://homeassistant.tailnet-1a49.ts.net"),
+        METRICS_PORT: EnvValue.fromValue("9090"),
       },
       securityContext: {
         ensureNonRoot: false,
@@ -35,8 +37,44 @@ export function createHaDeployment(chart: Chart) {
         privileged: true,
         allowPrivilegeEscalation: true,
       },
-      ports: [],
+      ports: [{ name: "metrics", number: 9090 }],
       volumeMounts: [],
     }),
   );
+
+  // Create Service to expose metrics port
+  new Service(chart, "ha-service", {
+    metadata: {
+      name: "ha-service",
+      labels: {
+        app: "ha",
+      },
+    },
+    selector: deployment,
+    ports: [{ name: "metrics", port: 9090 }],
+  });
+
+  // Create ServiceMonitor for Prometheus to scrape HA metrics
+  new ServiceMonitor(chart, "ha-service-monitor", {
+    metadata: {
+      name: "ha-service-monitor",
+      labels: {
+        release: "prometheus", // Required for Prometheus operator discovery
+      },
+    },
+    spec: {
+      endpoints: [
+        {
+          port: "metrics",
+          interval: "30s",
+          path: "/metrics",
+        },
+      ],
+      selector: {
+        matchLabels: {
+          app: "ha",
+        },
+      },
+    },
+  });
 }

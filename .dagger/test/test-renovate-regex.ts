@@ -12,7 +12,7 @@ import daggerVersions from "../src/versions";
  * This ensures all managed dependencies will be detected by Renovate.
  */
 
-const renovateConfigSchema = z.object({
+const RenovateConfigSchema = z.object({
   customManagers: z
     .array(
       z.object({
@@ -24,7 +24,7 @@ const renovateConfigSchema = z.object({
 });
 
 async function getRenovateRegexes(): Promise<RegExp[]> {
-  const renovateConfig = renovateConfigSchema.parse(JSON.parse(await readFile("renovate.json", "utf-8")));
+  const renovateConfig = RenovateConfigSchema.parse(JSON.parse(await readFile("renovate.json", "utf-8")));
   const customManagers = renovateConfig.customManagers ?? [];
 
   for (const manager of customManagers) {

@@ -87,8 +87,6 @@ export type ChartmuseumHelmValuesEnvOpen = {
   STORAGE_ORACLE_BUCKET?: unknown;
   STORAGE_ORACLE_PREFIX?: unknown;
   /**
-   * storage backend, can be one of: local, alibaba, amazon, google, microsoft, oracle
-   *
    * @default "chart"
    */
   CHART_POST_FORM_FIELD_NAME?: string;
@@ -142,23 +140,17 @@ export type ChartmuseumHelmValuesEnvOpen = {
   ALLOW_OVERWRITE?: boolean;
   CHART_URL?: unknown;
   /**
-   * storage backend, can be one of: local, alibaba, amazon, google, microsoft, oracle
-   *
    * @default false
    */
   AUTH_ANONYMOUS_GET?: boolean;
   CONTEXT_PATH?: unknown;
   /**
-   * storage backend, can be one of: local, alibaba, amazon, google, microsoft, oracle
-   *
    * @default 0
    */
   INDEX_LIMIT?: number;
   CACHE?: unknown;
   CACHE_REDIS_ADDR?: unknown;
   /**
-   * storage backend, can be one of: local, alibaba, amazon, google, microsoft, oracle
-   *
    * @default 0
    */
   CACHE_REDIS_DB?: number;
@@ -517,6 +509,11 @@ export type ChartmuseumHelmValuesPersistencePvNfs = {
 
 export type ChartmuseumHelmValuesVolumePermissions = {
   /**
+   * Optionally specify an array of imagePullSecrets.
+   * Secrets must be manually created in the namespace.
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+   * Ingress for load balancer
+   *
    * @default {...} (4 keys)
    */
   image?: ChartmuseumHelmValuesVolumePermissionsImage;
@@ -558,6 +555,8 @@ export type ChartmuseumHelmValuesIngress = {
   labels?: ChartmuseumHelmValuesIngressLabels;
   /**
    * Chartmuseum Ingress annotations
+   * kubernetes.io/ingress.class: nginx
+   * kubernetes.io/tls-acme: "true"
    *
    * @default {}
    */
@@ -647,6 +646,8 @@ export type ChartmuseumHelmValuesBearerAuthSecret = {
 export type ChartmuseumHelmValues = {
   extraArgs?: unknown[];
   /**
+   * - --storage-timestamp-tolerance 1s
+   *
    * @default 1
    */
   replicaCount?: number;
@@ -677,10 +678,16 @@ export type ChartmuseumHelmValues = {
    */
   deployment?: ChartmuseumHelmValuesDeployment;
   /**
+   * ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+   * Read more about kube2iam to provide access to s3 https://github.com/jtblin/kube2iam
+   * iam.amazonaws.com/role: role-arn
+   *
    * @default {}
    */
   podAnnotations?: ChartmuseumHelmValuesPodAnnotations;
   /**
+   * ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+   *
    * @default {}
    */
   podLabels?: ChartmuseumHelmValuesPodLabels;

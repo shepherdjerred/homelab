@@ -36,24 +36,32 @@ export type KubeprometheusstackHelmValuesCrdsUpgradeJob = {
    */
   env?: KubeprometheusstackHelmValuesCrdsUpgradeJobEnv;
   /**
+   * Define resources requests and limits for single Pods.
+   * ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   *
    * @default {}
    */
   resources?: KubeprometheusstackHelmValuesCrdsUpgradeJobResources;
   extraVolumes?: unknown[];
   extraVolumeMounts?: unknown[];
   /**
+   * Define which Nodes the Pods are scheduled on.
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
+   *
    * @default {}
    */
   nodeSelector?: KubeprometheusstackHelmValuesCrdsUpgradeJobNodeSelector;
   /**
+   * Assign custom affinity rules to the upgrade-crd job
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+   *
    * @default {}
    */
   affinity?: KubeprometheusstackHelmValuesCrdsUpgradeJobAffinity;
   tolerations?: unknown[];
   topologySpreadConstraints?: unknown[];
   /**
-   * ## Labels to add to the upgrade-crd job
-   * ##
+   * Labels to add to the upgrade-crd job
    *
    * @default {}
    */
@@ -77,14 +85,23 @@ export type KubeprometheusstackHelmValuesCrdsUpgradeJob = {
    */
   podAnnotations?: KubeprometheusstackHelmValuesCrdsUpgradeJobPodAnnotations;
   /**
+   * Service account for upgrade crd job to use.
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+   *
    * @default {...} (5 keys)
    */
   serviceAccount?: KubeprometheusstackHelmValuesCrdsUpgradeJobServiceAccount;
   /**
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+   *
    * @default {"allowPrivilegeEscalation":false,"readOnlyRootFilesystem":true,"capabilities":{"drop":["ALL"]}}
    */
   containerSecurityContext?: KubeprometheusstackHelmValuesCrdsUpgradeJobContainerSecurityContext;
   /**
+   * SecurityContext holds pod-level security attributes and common container settings.
+   * This defaults to non root user with uid 1000 and gid 2000. *v1.PodSecurityContext  false
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+   *
    * @default {...} (5 keys)
    */
   podSecurityContext?: KubeprometheusstackHelmValuesCrdsUpgradeJobPodSecurityContext;
@@ -134,6 +151,8 @@ export type KubeprometheusstackHelmValuesCrdsUpgradeJobImageKubectl = {
    */
   repository?: string;
   /**
+   * defaults to the Kubernetes version
+   *
    * @default ""
    */
   tag?: string;
@@ -342,6 +361,8 @@ export type KubeprometheusstackHelmValuesDefaultRules = {
    */
   node?: KubeprometheusstackHelmValuesDefaultRulesNode;
   /**
+   * Disabled PrometheusRule alerts
+   *
    * @default {}
    */
   disabled?: KubeprometheusstackHelmValuesDefaultRulesDisabled;
@@ -940,6 +961,9 @@ export type KubeprometheusstackHelmValuesGlobalRbac = {
    */
   create?: boolean;
   /**
+   * Create ClusterRoles that extend the existing view, edit and admin ClusterRoles to interact with prometheus-operator CRDs
+   * Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/#aggregated-clusterroles
+   *
    * @default false
    */
   createAggregateClusterRoles?: boolean;
@@ -962,8 +986,6 @@ export type KubeprometheusstackHelmValuesPrometheuswindowsexporter = {
    */
   prometheus?: KubeprometheusstackHelmValuesPrometheuswindowsexporterPrometheus;
   /**
-   * Enable ServiceMonitor and set Kubernetes label to use as a job label
-   *
    * @default true
    */
   releaseLabel?: boolean;
@@ -1015,8 +1037,6 @@ export type KubeprometheusstackHelmValuesAlertmanager = {
    */
   enabled?: boolean;
   /**
-   * Optional: Override the namespace where Alertmanager will be deployed.
-   *
    * @default ""
    */
   namespaceOverride?: string;
@@ -1052,10 +1072,16 @@ export type KubeprometheusstackHelmValuesAlertmanager = {
    */
   networkPolicy?: KubeprometheusstackHelmValuesAlertmanagerNetworkPolicy;
   /**
+   * Service account for Alertmanager to use.
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+   *
    * @default {...} (4 keys)
    */
   serviceAccount?: KubeprometheusstackHelmValuesAlertmanagerServiceAccount;
   /**
+   * Configure pod disruption budgets for Alertmanager
+   * ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget
+   *
    * @default {"enabled":false,"minAvailable":1,"unhealthyPodEvictionPolicy":"AlwaysAllow"}
    */
   podDisruptionBudget?: KubeprometheusstackHelmValuesAlertmanagerPodDisruptionBudget;
@@ -1068,6 +1094,8 @@ export type KubeprometheusstackHelmValuesAlertmanager = {
    */
   stringConfig?: string;
   /**
+   * https://prometheus.io/docs/alerting/notification_examples/
+   *
    * @default false
    */
   tplConfig?: boolean;
@@ -1089,13 +1117,17 @@ export type KubeprometheusstackHelmValuesAlertmanager = {
    * {{ end }}
    * {{ end }}
    * {{ end }}
+   * BETA: Configure the gateway routes for the chart here.
+   * More routes can be added by adding a dictionary key like the 'main' route.
+   * Be aware that this is an early beta of this feature,
+   * kube-prometheus-stack does not guarantee this works and is subject to change.
+   * Being BETA this can/will change in the future without notice, do not use unless you want to take that risk
+   * [[ref]](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io%2fv1alpha2)
    *
    * @default {...} (7 keys)
    */
   ingress?: KubeprometheusstackHelmValuesAlertmanagerIngress;
   /**
-   * Deploy alertmanager
-   *
    * @default {"main":{"enabled":false,"apiVersion":"gateway.networking.k8s.io/v1","kind":"HTTPRoute","annotations":{},"labels":{},"hostnames":[],"parentRefs":[],"httpsRedirect":false,"matches":[{"path":{"type":"PathPrefix","value":"/"}}],"filters":[],"additionalRules":[]}}
    */
   route?: KubeprometheusstackHelmValuesAlertmanagerRoute;
@@ -1126,13 +1158,12 @@ export type KubeprometheusstackHelmValuesAlertmanager = {
   servicePerReplica?: KubeprometheusstackHelmValuesAlertmanagerServicePerReplica;
   /**
    * Configuration for creating a ServiceMonitor for AlertManager
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#alertmanagerspec
    *
    * @default {...} (16 keys)
    */
   serviceMonitor?: KubeprometheusstackHelmValuesAlertmanagerServiceMonitor;
   /**
-   * Deploy alertmanager
-   *
    * @default {...} (51 keys)
    */
   alertmanagerSpec?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpec;
@@ -1157,33 +1188,33 @@ export type KubeprometheusstackHelmValuesAlertmanagerAdditionalLabels = object;
 
 export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicy = {
   /**
-   * -- Enable network policy for Alertmanager
+   * Enable network policy for Alertmanager
    *
    * @default false
    */
   enabled?: boolean;
   policyTypes?: string[];
   /**
-   * -- Gateway (formerly ingress controller) configuration
+   * Gateway (formerly ingress controller) configuration
+   * app.kubernetes.io/name: ingress-nginx
+   * Additional custom ingress rules
    *
    * @default {"namespace":"","podLabels":{}}
    */
   gateway?: KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyGateway;
   additionalIngress?: unknown[];
   /**
-   * -- Configure egress rules
+   * Configure egress rules
    *
    * @default {"enabled":false,"rules":[]}
    */
   egress?: KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyEgress;
   /**
-   * -- Enable network policy for Alertmanager
-   *
    * @default true
    */
   enableClusterRules?: boolean;
   /**
-   * -- Configure monitoring component rules
+   * Configure monitoring component rules
    *
    * @default {"prometheus":true,"configReloader":true}
    */
@@ -1192,13 +1223,13 @@ export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicy = {
 
 export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyGateway = {
   /**
-   * -- Gateway namespace
+   * Gateway namespace
    *
    * @default ""
    */
   namespace?: string;
   /**
-   * -- Gateway pod labels
+   * Gateway pod labels
    *
    * @default {}
    */
@@ -1209,7 +1240,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyGatewayPodLabe
 
 export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyEgress = {
   /**
-   * -- Enable egress rules. When enabled, policyTypes will include Egress
+   * Enable egress rules. When enabled, policyTypes will include Egress
    *
    * @default false
    */
@@ -1219,13 +1250,13 @@ export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyEgress = {
 
 export type KubeprometheusstackHelmValuesAlertmanagerNetworkPolicyMonitoringRules = {
   /**
-   * -- Enable ingress from Prometheus
+   * Enable ingress from Prometheus
    *
    * @default true
    */
   prometheus?: boolean;
   /**
-   * -- Enable ingress for config reloader metrics
+   * Enable ingress for config reloader metrics
    *
    * @default true
    */
@@ -1396,39 +1427,36 @@ export type KubeprometheusstackHelmValuesAlertmanagerRoute = {
 
 export type KubeprometheusstackHelmValuesAlertmanagerRouteMain = {
   /**
-   * -- Enables or disables the route
+   * Enables or disables the route
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Set the route apiVersion, e.g. gateway.networking.k8s.io/v1 or gateway.networking.k8s.io/v1alpha2
+   * Set the route apiVersion, e.g. gateway.networking.k8s.io/v1 or gateway.networking.k8s.io/v1alpha2
    *
    * @default "gateway.networking.k8s.io/v1"
    */
   apiVersion?: string;
   /**
-   * -- Set the route kind
+   * Set the route kind
    * Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
    *
    * @default "HTTPRoute"
    */
   kind?: string;
   /**
-   * -- Enables or disables the route
-   *
    * @default {}
    */
   annotations?: KubeprometheusstackHelmValuesAlertmanagerRouteMainAnnotations;
   /**
-   * -- Enables or disables the route
-   *
    * @default {}
    */
   labels?: KubeprometheusstackHelmValuesAlertmanagerRouteMainLabels;
   hostnames?: unknown[];
   parentRefs?: unknown[];
   /**
+   * create http route for redirect (https://gateway-api.sigs.k8s.io/guides/http-redirect-rewrite/#http-to-https-redirects)
    * Take care that you only enable this on the http listener of the gateway to avoid an infinite redirect.
    * matches, filters and additionalRules will be ignored if this is set to true. Be are
    *
@@ -1523,6 +1551,9 @@ export type KubeprometheusstackHelmValuesAlertmanagerIngressPerReplica = {
   hostDomain?: string;
   paths?: unknown[];
   /**
+   * - /
+   * For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
+   * See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
    * Secret name containing the TLS certificate for alertmanager per replica ingress
    * Secret must be manually created in the namespace
    *
@@ -1595,6 +1626,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerService = {
    */
   port?: number;
   /**
+   * Port for Alertmanager cluster communication
    * To be used with a proxy extraContainer port
    *
    * @default 9093
@@ -1785,26 +1817,20 @@ export type KubeprometheusstackHelmValuesAlertmanagerServiceMonitor = {
    */
   labelValueLengthLimit?: number;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
   /**
-   * scheme: HTTP scheme to use for scraping. Can be used with `tlsConfig` for example if using istio mTLS.
-   *
    * @default ""
    */
   scheme?: string;
   /**
-   * enableHttp2: Whether to enable HTTP2.
    * See https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#endpoint
    *
    * @default true
    */
   enableHttp2?: boolean;
   /**
-   * tlsConfig: TLS configuration to use when scraping the endpoint. For example if using istio mTLS.
    * Of type: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#tlsconfig
    *
    * @default {}
@@ -1822,6 +1848,13 @@ export type KubeprometheusstackHelmValuesAlertmanagerServiceMonitorTlsConfig = o
 
 export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpec = {
   /**
+   * Statefulset's persistent volume claim retention policy
+   * whenDeleted and whenScaled determine whether
+   * statefulset's PVCs are deleted (true) or retained (false)
+   * on scaling down and deleting statefulset, respectively.
+   * Requires Kubernetes version 1.27.0+.
+   * Ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention
+   *
    * @default {}
    */
   persistentVolumeClaimRetentionPolicy?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecPersistentVolumeClaimRetentionPolicy;
@@ -1855,6 +1888,11 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpec = {
   automountServiceAccountToken?: boolean;
   configMaps?: unknown[];
   /**
+   * ConfigSecret is the name of a Kubernetes Secret in the same namespace as the Alertmanager object, which contains configuration for
+   * this Alertmanager instance. Defaults to 'alertmanager-' The secret is mounted into /etc/alertmanager/config.
+   * WebTLSConfig defines the TLS parameters for HTTPS
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#alertmanagerwebspec
+   *
    * @default {}
    */
   web?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecWeb;
@@ -1865,12 +1903,14 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpec = {
    */
   alertmanagerConfigSelector?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAlertmanagerConfigSelector;
   /**
+   * - example-config-2
    * Namespaces to be selected for AlertmanagerConfig discovery. If nil, only check own namespace.
    *
    * @default {}
    */
   alertmanagerConfigNamespaceSelector?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAlertmanagerConfigNamespaceSelector;
   /**
+   * - example-namespace-2
    * AlermanagerConfig to be used as top level configuration
    *
    * @default {}
@@ -1911,6 +1951,9 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpec = {
    */
   retention?: string;
   /**
+   * Storage is the definition of how storage will be used by the Alertmanager instances.
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/platform/storage.md
+   *
    * @default {}
    */
   storage?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecStorage;
@@ -1923,13 +1966,10 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpec = {
    */
   routePrefix?: string;
   /**
-   * scheme: HTTP scheme to use. Can be used with `tlsConfig` for example if using istio mTLS.
-   *
    * @default ""
    */
   scheme?: string;
   /**
-   * tlsConfig: TLS configuration to use when connect to the endpoint. For example if using istio mTLS.
    * Of type: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#tlsconfig
    *
    * @default {}
@@ -1942,10 +1982,16 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpec = {
    */
   paused?: boolean;
   /**
+   * Define which Nodes the Pods are scheduled on.
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
+   *
    * @default {}
    */
   nodeSelector?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecNodeSelector;
   /**
+   * Define resources requests and limits for single Pods.
+   * ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   *
    * @default {}
    */
   resources?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecResources;
@@ -1966,20 +2012,33 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpec = {
    */
   podAntiAffinityTopologyKey?: string;
   /**
+   * Assign custom affinity rules to the alertmanager instance
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+   *
    * @default {}
    */
   affinity?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAffinity;
   tolerations?: unknown[];
   topologySpreadConstraints?: unknown[];
   /**
+   * SecurityContext holds pod-level security attributes and common container settings.
+   * This defaults to non root user with uid 1000 and gid 2000. *v1.PodSecurityContext  false
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+   *
    * @default {...} (5 keys)
    */
   securityContext?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecSecurityContext;
   /**
+   * DNS configuration for Alertmanager.
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#monitoring.coreos.com/v1.PodDNSConfig
+   *
    * @default {}
    */
   dnsConfig?: KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecDnsConfig;
   /**
+   * DNS policy for Alertmanager.
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#dnspolicystring-alias
+   *
    * @default ""
    */
   dnsPolicy?: string;
@@ -2159,6 +2218,8 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecAdditionalC
 
 export type KubeprometheusstackHelmValuesAlertmanagerExtraSecret = {
   /**
+   * if not set, name will be auto generated
+   *
    * @default {}
    */
   annotations?: KubeprometheusstackHelmValuesAlertmanagerExtraSecretAnnotations;
@@ -2217,6 +2278,8 @@ export type KubeprometheusstackHelmValuesGrafana = {
    */
   defaultDashboardsEnabled?: boolean;
   /**
+   * "timeInterval": "5s"
+   *
    * @default {...} (5 keys)
    */
   operator?: KubeprometheusstackHelmValuesGrafanaOperator;
@@ -2252,6 +2315,8 @@ export type KubeprometheusstackHelmValuesGrafana = {
    */
   rbac?: KubeprometheusstackHelmValuesGrafanaRbac;
   /**
+   * To make Grafana persistent (Using Statefulset)
+   *
    * @default {...} (6 keys)
    */
   ingress?: KubeprometheusstackHelmValuesGrafanaIngress;
@@ -2267,6 +2332,10 @@ export type KubeprometheusstackHelmValuesGrafana = {
   deleteDatasources?: unknown[];
   additionalDataSources?: unknown[];
   /**
+   * Flag to mark provisioned data sources for deletion if they are no longer configured.
+   * It takes no effect if data sources are already listed in the deleteDatasources section.
+   * ref: https://grafana.com/docs/grafana/latest/administration/provisioning/#example-data-source-configuration-file
+   *
    * @default false
    */
   prune?: boolean;
@@ -2302,6 +2371,7 @@ export type KubeprometheusstackHelmValuesGrafanaOperator = {
    */
   annotations?: KubeprometheusstackHelmValuesGrafanaOperatorAnnotations;
   /**
+   * Labels that should be matched kind: Grafana instance
    * Example: { app: grafana, category: dashboard }
    *
    * @default {}
@@ -2365,7 +2435,11 @@ export type KubeprometheusstackHelmValuesGrafanaIngress = {
    */
   enabled?: boolean;
   /**
+   * IngressClassName for Grafana Ingress.
+   * Should be provided if Ingress is enable.
    * Annotations for Grafana Ingress
+   * kubernetes.io/ingress.class: nginx
+   * kubernetes.io/tls-acme: "true"
    *
    * @default {}
    */
@@ -2567,6 +2641,12 @@ export type KubeprometheusstackHelmValuesGrafanaSidecarDatasources = {
    */
   uid?: string;
   /**
+   * URL of prometheus datasource
+   * url: http://prometheus-stack-prometheus:9090/
+   * Prometheus request timeout in seconds
+   * Query parameters to add, as a URL-encoded string,
+   * to query Prometheus
+   * If not defined, will use prometheus.prometheusSpec.scrapeInterval or its default
    * Annotations for Grafana datasource configmaps
    *
    * @default {}
@@ -2579,6 +2659,12 @@ export type KubeprometheusstackHelmValuesGrafanaSidecarDatasources = {
    */
   httpMethod?: string;
   /**
+   * Create datasource for each Pod of Prometheus StatefulSet;
+   * this uses by default the headless service `prometheus-operated` which is
+   * created by Prometheus Operator. In case you deployed your own Service for your
+   * Prometheus instance, you can specify it with the field `prometheusServiceName`
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/0fee93e12dc7c2ea1218f19ae25ec6b893460590/pkg/prometheus/statefulset.go#L255-L286
+   *
    * @default false
    */
   createPrometheusReplicasDatasources?: boolean;
@@ -2675,6 +2761,9 @@ export type KubeprometheusstackHelmValuesGrafanaServiceMonitor = {
    */
   [key: string]: unknown;
   /**
+   * If true, a ServiceMonitor CRD is created for a prometheus operator
+   * https://github.com/prometheus-operator/prometheus-operator
+   *
    * @default true
    */
   enabled?: boolean;
@@ -2686,7 +2775,6 @@ export type KubeprometheusstackHelmValuesGrafanaServiceMonitor = {
    */
   path?: string;
   /**
-   * namespace: monitoring  (defaults to use the namespace this chart is deployed to)
    * labels for the ServiceMonitor
    *
    * @default {}
@@ -2804,8 +2892,6 @@ export type KubeprometheusstackHelmValuesKubeApiServerServiceMonitor = {
    */
   labelValueLengthLimit?: number;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
@@ -2949,16 +3035,21 @@ export type KubeprometheusstackHelmValuesKubeletServiceMonitor = {
    */
   labelValueLengthLimit?: number;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
   /**
+   * Enable scraping the kubelet over https. For requirements to enable this see
+   * https://github.com/prometheus-operator/prometheus-operator/issues/926
+   *
    * @default true
    */
   https?: boolean;
   /**
+   * Skip TLS certificate validation when scraping.
+   * This is enabled by default because kubelet serving certificate deployed by kubeadm is by default self-signed
+   * ref: https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#kubelet-serving-certs
+   *
    * @default true
    */
   insecureSkipVerify?: boolean;
@@ -3188,14 +3279,10 @@ export type KubeprometheusstackHelmValuesKubeControllerManagerServiceMonitor = {
    */
   labelValueLengthLimit?: number;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
   /**
-   * port: Name of the port the metrics will be scraped from
-   *
    * @default "http-metrics"
    */
   port?: string;
@@ -3313,14 +3400,10 @@ export type KubeprometheusstackHelmValuesCoreDnsServiceMonitor = {
    */
   labelValueLengthLimit?: number;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
   /**
-   * port: Name of the port the metrics will be scraped from
-   *
    * @default "http-metrics"
    */
   port?: string;
@@ -3449,20 +3532,14 @@ export type KubeprometheusstackHelmValuesKubeDnsServiceMonitor = {
    */
   labelValueLengthLimit?: number;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
   /**
-   * Scrape interval. If not set, the Prometheus default scrape interval is used.
-   *
    * @default "jobLabel"
    */
   jobLabel?: string;
   /**
-   * Scrape interval. If not set, the Prometheus default scrape interval is used.
-   *
    * @default {}
    */
   selector?: KubeprometheusstackHelmValuesKubeDnsServiceMonitorSelector;
@@ -3577,8 +3654,6 @@ export type KubeprometheusstackHelmValuesKubeEtcdServiceMonitor = {
    */
   labelValueLengthLimit?: number;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
@@ -3607,8 +3682,6 @@ export type KubeprometheusstackHelmValuesKubeEtcdServiceMonitor = {
    */
   keyFile?: string;
   /**
-   * port: Name of the port the metrics will be scraped from
-   *
    * @default "http-metrics"
    */
   port?: string;
@@ -3723,15 +3796,11 @@ export type KubeprometheusstackHelmValuesKubeSchedulerServiceMonitor = {
    */
   labelValueLengthLimit?: number;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
   https?: unknown;
   /**
-   * port: Name of the port the metrics will be scraped from
-   *
    * @default "http-metrics"
    */
   port?: string;
@@ -3853,14 +3922,10 @@ export type KubeprometheusstackHelmValuesKubeProxyServiceMonitor = {
    */
   labelValueLengthLimit?: number;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
   /**
-   * port: Name of the port the metrics will be scraped from
-   *
    * @default "http-metrics"
    */
   port?: string;
@@ -3996,8 +4061,6 @@ export type KubeprometheusstackHelmValuesKubestatemetricsPrometheusMonitor = {
    */
   scrapeTimeout?: string;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
@@ -4174,6 +4237,8 @@ export type KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheus = {
    */
   [key: string]: unknown;
   /**
+   * Attach node metadata to discovered targets. Requires Prometheus v2.35.0 and above.
+   *
    * @default {...} (12 keys)
    */
   monitor?: KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheusMonitor;
@@ -4236,8 +4301,6 @@ export type KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheusMonitor
    */
   scrapeTimeout?: string;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
@@ -4309,6 +4372,9 @@ export type KubeprometheusstackHelmValuesPrometheusOperator = {
    */
   admissionWebhooks?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooks;
   /**
+   * Namespaces to scope the interaction of the Prometheus Operator and the apiserver (allow list).
+   * This is mutually exclusive with denyNamespaces. Setting this to an empty object will disable the configuration
+   *
    * @default {}
    */
   namespaces?: KubeprometheusstackHelmValuesPrometheusOperatorNamespaces;
@@ -4318,6 +4384,10 @@ export type KubeprometheusstackHelmValuesPrometheusOperator = {
   prometheusInstanceNamespaces?: unknown[];
   thanosRulerInstanceNamespaces?: unknown[];
   /**
+   * The clusterDomain value will be added to the cluster.peer option of the alertmanager.
+   * Without this specified option cluster.peer will have value alertmanager-monitoring-alertmanager-0.alertmanager-operated:9094 (default value)
+   * With this specified option cluster.peer will have value alertmanager-monitoring-alertmanager-0.alertmanager-operated.namespace.svc.cluster-domain:9094
+   *
    * @default {"enabled":false,"flavor":"kubernetes"}
    */
   networkPolicy?: KubeprometheusstackHelmValuesPrometheusOperatorNetworkPolicy;
@@ -4326,13 +4396,13 @@ export type KubeprometheusstackHelmValuesPrometheusOperator = {
    */
   serviceAccount?: KubeprometheusstackHelmValuesPrometheusOperatorServiceAccount;
   /**
-   * -- terminationGracePeriodSeconds for container lifecycle hook
+   * terminationGracePeriodSeconds for container lifecycle hook
    *
    * @default 30
    */
   terminationGracePeriodSeconds?: number;
   /**
-   * -- Specify lifecycle hooks for the  controller
+   * Specify lifecycle hooks for the  controller
    *
    * @default {}
    */
@@ -4344,8 +4414,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperator = {
    */
   service?: KubeprometheusstackHelmValuesPrometheusOperatorService;
   /**
-   * ## Labels to add to the operator deployment
-   * ##
+   * Labels to add to the operator deployment
    *
    * @default {}
    */
@@ -4375,6 +4444,11 @@ export type KubeprometheusstackHelmValuesPrometheusOperator = {
    */
   podDisruptionBudget?: KubeprometheusstackHelmValuesPrometheusOperatorPodDisruptionBudget;
   /**
+   * Assign a PriorityClassName to pods if set
+   * Define Log Format
+   * Use logfmt (default) or json logging
+   * Decrease log verbosity to errors only
+   *
    * @default {...} (4 keys)
    */
   kubeletService?: KubeprometheusstackHelmValuesPrometheusOperatorKubeletService;
@@ -4399,6 +4473,8 @@ export type KubeprometheusstackHelmValuesPrometheusOperator = {
    */
   serviceMonitor?: KubeprometheusstackHelmValuesPrometheusOperatorServiceMonitor;
   /**
+   * Resource limits & requests
+   *
    * @default {}
    */
   resources?: KubeprometheusstackHelmValuesPrometheusOperatorResources;
@@ -4414,11 +4490,17 @@ export type KubeprometheusstackHelmValuesPrometheusOperator = {
    */
   hostNetwork?: boolean;
   /**
+   * Define which Nodes the Pods are scheduled on.
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
+   *
    * @default {}
    */
   nodeSelector?: KubeprometheusstackHelmValuesPrometheusOperatorNodeSelector;
   tolerations?: unknown[];
   /**
+   * Assign custom affinity rules to the prometheus operator
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+   *
    * @default {}
    */
   affinity?: KubeprometheusstackHelmValuesPrometheusOperatorAffinity;
@@ -4431,6 +4513,8 @@ export type KubeprometheusstackHelmValuesPrometheusOperator = {
    */
   securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorSecurityContext;
   /**
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+   *
    * @default {"allowPrivilegeEscalation":false,"readOnlyRootFilesystem":true,"capabilities":{"drop":["ALL"]}}
    */
   containerSecurityContext?: KubeprometheusstackHelmValuesPrometheusOperatorContainerSecurityContext;
@@ -4447,6 +4531,10 @@ export type KubeprometheusstackHelmValuesPrometheusOperator = {
    */
   image?: KubeprometheusstackHelmValuesPrometheusOperatorImage;
   /**
+   * Prometheus image to use for prometheuses managed by the operator
+   * Prometheus image registry to use for prometheuses managed by the operator
+   * Alertmanager image to use for alertmanagers managed by the operator
+   * Alertmanager image registry to use for alertmanagers managed by the operator
    * Prometheus-config-reloader
    *
    * @default {"image":{"registry":"quay.io","repository":"prometheus-operator/prometheus-config-reloader","tag":"","sha":""},"enableProbe":false,"resources":{}}
@@ -4582,9 +4670,6 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooks = {
    */
   timeoutSeconds?: number;
   /**
-   * Valid values: Fail, Ignore, IgnoreOnInstallOnly
-   * IgnoreOnInstallOnly - If Release.IsInstall returns "true", set "Ignore" otherwise "Fail"
-   *
    * @default true
    */
   enabled?: boolean;
@@ -4611,57 +4696,41 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooks = {
    */
   namespaceSelector?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksNamespaceSelector;
   /**
-   * Valid values: Fail, Ignore, IgnoreOnInstallOnly
-   * IgnoreOnInstallOnly - If Release.IsInstall returns "true", set "Ignore" otherwise "Fail"
-   *
    * @default {}
    */
   objectSelector?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksObjectSelector;
   /**
-   * Valid values: Fail, Ignore, IgnoreOnInstallOnly
-   * IgnoreOnInstallOnly - If Release.IsInstall returns "true", set "Ignore" otherwise "Fail"
-   *
    * @default {}
    */
   matchConditions?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksMatchConditions;
   /**
-   * Valid values: Fail, Ignore, IgnoreOnInstallOnly
-   * IgnoreOnInstallOnly - If Release.IsInstall returns "true", set "Ignore" otherwise "Fail"
+   * argocd.argoproj.io/hook: PreSync
    *
    * @default {"annotations":{}}
    */
   mutatingWebhookConfiguration?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksMutatingWebhookConfiguration;
   /**
-   * Valid values: Fail, Ignore, IgnoreOnInstallOnly
-   * IgnoreOnInstallOnly - If Release.IsInstall returns "true", set "Ignore" otherwise "Fail"
+   * argocd.argoproj.io/hook: PreSync
    *
    * @default {"annotations":{}}
    */
   validatingWebhookConfiguration?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksValidatingWebhookConfiguration;
   /**
-   * Valid values: Fail, Ignore, IgnoreOnInstallOnly
-   * IgnoreOnInstallOnly - If Release.IsInstall returns "true", set "Ignore" otherwise "Fail"
-   *
    * @default {...} (24 keys)
    */
   deployment?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeployment;
   /**
-   * Valid values: Fail, Ignore, IgnoreOnInstallOnly
-   * IgnoreOnInstallOnly - If Release.IsInstall returns "true", set "Ignore" otherwise "Fail"
-   *
    * @default {...} (12 keys)
    */
   patch?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatch;
   /**
    * Security context for create job container
+   * Security context for patch job container
    *
    * @default {"securityContext":{"allowPrivilegeEscalation":false,"readOnlyRootFilesystem":true,"capabilities":{"drop":["ALL"]}}}
    */
   createSecretJob?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCreateSecretJob;
   /**
-   * Valid values: Fail, Ignore, IgnoreOnInstallOnly
-   * IgnoreOnInstallOnly - If Release.IsInstall returns "true", set "Ignore" otherwise "Fail"
-   *
    * @default {"securityContext":{"allowPrivilegeEscalation":false,"readOnlyRootFilesystem":true,"capabilities":{"drop":["ALL"]}}}
    */
   patchWebhookJob?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchWebhookJob;
@@ -4736,6 +4805,8 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDepl
    */
   strategy?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentStrategy;
   /**
+   * Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+   *
    * @default {"enabled":false,"minAvailable":1,"unhealthyPodEvictionPolicy":"AlwaysAllow"}
    */
   podDisruptionBudget?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodDisruptionBudget;
@@ -4753,6 +4824,9 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDepl
    */
   tls?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentTls;
   /**
+   * Service account for Prometheus Operator Webhook to use.
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+   *
    * @default {...} (4 keys)
    */
   serviceAccount?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentServiceAccount;
@@ -4763,8 +4837,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDepl
    */
   service?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentService;
   /**
-   * ## Labels to add to the operator webhook deployment
-   * ##
+   * Labels to add to the operator webhook deployment
    *
    * @default {}
    */
@@ -4788,12 +4861,19 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDepl
    */
   podAnnotations?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentPodAnnotations;
   /**
+   * Assign a PriorityClassName to pods if set
+   * Define Log Format
+   * Use logfmt (default) or json logging
+   * Decrease log verbosity to errors only
    * Prometheus-operator webhook image
    *
    * @default {...} (5 keys)
    */
   image?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentImage;
   /**
+   * Define Log Format
+   * Use logfmt (default) or json logging
+   * Decrease log verbosity to errors only
    * Liveness probe
    *
    * @default {...} (6 keys)
@@ -4819,17 +4899,21 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDepl
    */
   hostNetwork?: boolean;
   /**
+   * Define which Nodes the Pods are scheduled on.
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
+   *
    * @default {}
    */
   nodeSelector?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentNodeSelector;
   tolerations?: unknown[];
   /**
+   * Assign custom affinity rules to the prometheus operator
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+   *
    * @default {}
    */
   affinity?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentAffinity;
   /**
-   * - e2e-az2
-   *
    * @default {}
    */
   dnsConfig?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentDnsConfig;
@@ -4838,6 +4922,8 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDepl
    */
   securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentSecurityContext;
   /**
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+   *
    * @default {"allowPrivilegeEscalation":false,"readOnlyRootFilesystem":true,"capabilities":{"drop":["ALL"]}}
    */
   containerSecurityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksDeploymentContainerSecurityContext;
@@ -5194,10 +5280,17 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatc
   affinity?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchAffinity;
   tolerations?: unknown[];
   /**
+   * SecurityContext holds pod-level security attributes and common container settings.
+   * This defaults to non root user with uid 2000 and gid 2000. *v1.PodSecurityContext  false
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+   *
    * @default {...} (4 keys)
    */
   securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchSecurityContext;
   /**
+   * Service account for Prometheus Operator Webhook Job Patch to use.
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+   *
    * @default {"create":true,"annotations":{},"automountServiceAccountToken":true}
    */
   serviceAccount?: KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchServiceAccount;
@@ -5213,6 +5306,8 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatc
    */
   repository?: string;
   /**
+   * latest tag: https://github.com/kubernetes/ingress-nginx/blob/main/images/kube-webhook-certgen/TAG
+   *
    * @default "v1.6.1"
    */
   tag?: string;
@@ -5364,6 +5459,8 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCert
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManagerRootCert = {
   /**
+   * default to be 5y
+   *
    * @default ""
    */
   duration?: string;
@@ -5372,6 +5469,8 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCert
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksCertManagerAdmissionCert = {
   /**
+   * default to be 1y
+   *
    * @default ""
    */
   duration?: string;
@@ -5545,6 +5644,9 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorPodDisruptionBudget =
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorKubeletService = {
   /**
+   * If true, the operator will create and maintain a service for scraping kubelets
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/helm/prometheus-operator/README.md
+   *
    * @default true
    */
   enabled?: boolean;
@@ -5696,6 +5798,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscaler
   enabled?: boolean;
   controlledResources?: unknown[];
   /**
+   * Specifies which resource values should be controlled: RequestsOnly or RequestsAndLimits.
    * Define the max allowed resources for the pod
    *
    * @default {}
@@ -5719,6 +5822,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscaler
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorVerticalPodAutoscalerUpdatePolicy = {
   /**
+   * Specifies minimal number of replicas which need to be alive for VPA Updater to attempt pod eviction
    * Specifies whether recommended updates are applied when a Pod is started and whether recommended updates
    * are applied during the life of a Pod. Possible values are "Off", "Initial", "Recreate", and "Auto".
    *
@@ -5819,6 +5923,10 @@ export type KubeprometheusstackHelmValuesPrometheus = {
    */
   enabled?: boolean;
   /**
+   * Toggle prometheus into agent mode
+   * Note many of features described below (e.g. rules, query, alerting, remote read, thanos) will not work in agent mode.
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/platform/prometheus-agent.md
+   *
    * @default false
    */
   agentMode?: boolean;
@@ -5881,11 +5989,16 @@ export type KubeprometheusstackHelmValuesPrometheus = {
    */
   servicePerReplica?: KubeprometheusstackHelmValuesPrometheusServicePerReplica;
   /**
+   * Configure pod disruption budgets for Prometheus
+   * ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget
+   *
    * @default {"enabled":false,"minAvailable":1,"unhealthyPodEvictionPolicy":"AlwaysAllow"}
    */
   podDisruptionBudget?: KubeprometheusstackHelmValuesPrometheusPodDisruptionBudget;
   /**
    * Ingress exposes thanos sidecar outside the cluster
+   * ExtraSecret can be used to store various data in an extra secret
+   * (use it for example to store hashed basic auth credentials)
    *
    * @default {...} (9 keys)
    */
@@ -5895,10 +6008,14 @@ export type KubeprometheusstackHelmValuesPrometheus = {
    */
   extraSecret?: KubeprometheusstackHelmValuesPrometheusExtraSecret;
   /**
+   * foo:$apr1$OFG3Xybp$ckL0FHDAkoXYIlH9.cysT0
+   * someoneelse:$apr1$DMZX2Z4q$6SbQIfyuLQd.xmo/P0m2c.
+   *
    * @default {...} (7 keys)
    */
   ingress?: KubeprometheusstackHelmValuesPrometheusIngress;
   /**
+   * BETA: Configure the gateway routes for the chart here.
    * More routes can be added by adding a dictionary key like the 'main' route.
    * Be aware that this is an early beta of this feature,
    * kube-prometheus-stack does not guarantee this works and is subject to change.
@@ -5916,6 +6033,8 @@ export type KubeprometheusstackHelmValuesPrometheus = {
    */
   ingressPerReplica?: KubeprometheusstackHelmValuesPrometheusIngressPerReplica;
   /**
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#prometheusspec
+   *
    * @default {...} (14 keys)
    */
   serviceMonitor?: KubeprometheusstackHelmValuesPrometheusServiceMonitor;
@@ -6103,13 +6222,10 @@ export type KubeprometheusstackHelmValuesPrometheusThanosServiceMonitor = {
    */
   additionalLabels?: KubeprometheusstackHelmValuesPrometheusThanosServiceMonitorAdditionalLabels;
   /**
-   * scheme: HTTP scheme to use for scraping. Can be used with `tlsConfig` for example if using istio mTLS.
-   *
    * @default ""
    */
   scheme?: string;
   /**
-   * tlsConfig: TLS configuration to use when scraping the endpoint. For example if using istio mTLS.
    * Of type: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#tlsconfig
    *
    * @default {}
@@ -6279,6 +6395,9 @@ export type KubeprometheusstackHelmValuesPrometheusService = {
   type?: string;
   additionalPorts?: unknown[];
   /**
+   * Consider that all endpoints are considered "ready" even if the Pods themselves are not
+   * Ref: https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceSpec
+   *
    * @default false
    */
   publishNotReadyAddresses?: boolean;
@@ -6475,6 +6594,8 @@ export type KubeprometheusstackHelmValuesPrometheusThanosIngressLabels = {
 
 export type KubeprometheusstackHelmValuesPrometheusExtraSecret = {
   /**
+   * if not set, name will be auto generated
+   *
    * @default {}
    */
   annotations?: KubeprometheusstackHelmValuesPrometheusExtraSecretAnnotations;
@@ -6547,39 +6668,36 @@ export type KubeprometheusstackHelmValuesPrometheusRoute = {
 
 export type KubeprometheusstackHelmValuesPrometheusRouteMain = {
   /**
-   * -- Enables or disables the route
+   * Enables or disables the route
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Set the route apiVersion, e.g. gateway.networking.k8s.io/v1 or gateway.networking.k8s.io/v1alpha2
+   * Set the route apiVersion, e.g. gateway.networking.k8s.io/v1 or gateway.networking.k8s.io/v1alpha2
    *
    * @default "gateway.networking.k8s.io/v1"
    */
   apiVersion?: string;
   /**
-   * -- Set the route kind
+   * Set the route kind
    * Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
    *
    * @default "HTTPRoute"
    */
   kind?: string;
   /**
-   * -- Enables or disables the route
-   *
    * @default {}
    */
   annotations?: KubeprometheusstackHelmValuesPrometheusRouteMainAnnotations;
   /**
-   * -- Enables or disables the route
-   *
    * @default {}
    */
   labels?: KubeprometheusstackHelmValuesPrometheusRouteMainLabels;
   hostnames?: unknown[];
   parentRefs?: unknown[];
   /**
+   * create http route for redirect (https://gateway-api.sigs.k8s.io/guides/http-redirect-rewrite/#http-to-https-redirects)
    * Take care that you only enable this on the http listener of the gateway to avoid an infinite redirect.
    * matches, filters and additionalRules will be ignored if this is set to true. Be are
    *
@@ -6659,6 +6777,9 @@ export type KubeprometheusstackHelmValuesPrometheusIngressPerReplica = {
   hostDomain?: string;
   paths?: unknown[];
   /**
+   * - /
+   * For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
+   * See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
    * Secret name containing the TLS certificate for Prometheus per replica ingress
    * Secret must be manually created in the namespace
    *
@@ -6753,13 +6874,10 @@ export type KubeprometheusstackHelmValuesPrometheusServiceMonitor = {
    */
   labelValueLengthLimit?: number;
   /**
-   * scheme: HTTP scheme to use for scraping. Can be used with `tlsConfig` for example if using istio mTLS.
-   *
    * @default ""
    */
   scheme?: string;
   /**
-   * tlsConfig: TLS configuration to use when scraping the endpoint. For example if using istio mTLS.
    * Of type: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#tlsconfig
    *
    * @default {}
@@ -6777,6 +6895,13 @@ export type KubeprometheusstackHelmValuesPrometheusServiceMonitorTlsConfig = obj
 
 export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
   /**
+   * Statefulset's persistent volume claim retention policy
+   * whenDeleted and whenScaled determine whether
+   * statefulset's PVCs are deleted (true) or retained (false)
+   * on scaling down and deleting statefulset, respectively.
+   * Requires Kubernetes version 1.27.0+.
+   * Ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention
+   *
    * @default {}
    */
   persistentVolumeClaimRetentionPolicy?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecPersistentVolumeClaimRetentionPolicy;
@@ -6796,15 +6921,27 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
    */
   automountServiceAccountToken?: boolean;
   /**
+   * APIServerConfig
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#apiserverconfig
+   *
    * @default {}
    */
   apiserverConfig?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecApiserverConfig;
   additionalArgs?: unknown[];
   /**
+   * File to which scrape failures are logged.
+   * Reloading the configuration will reopen the file.
+   * Defaults to empty (disabled)
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#monitoring.coreos.com/v1.Prometheus
+   *
    * @default ""
    */
   scrapeFailureLogFile?: string;
   /**
+   * Interval between consecutive scrapes.
+   * Defaults to 30s.
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/release-0.44/pkg/prometheus/promcfg.go#L180-L183
+   *
    * @default ""
    */
   scrapeInterval?: string;
@@ -6836,6 +6973,10 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
    */
   enableOTLPReceiver?: boolean;
   /**
+   * EnableAdminAPI enables Prometheus the administrative HTTP API which includes functionality such as deleting time series.
+   * This is disabled by default.
+   * ref: https://prometheus.io/docs/prometheus/latest/querying/api/#tsdb-admin-apis
+   *
    * @default false
    */
   enableAdminAPI?: boolean;
@@ -6847,12 +6988,18 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
    */
   version?: string;
   /**
+   * WebTLSConfig defines the TLS parameters for HTTPS
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#webtlsconfig
+   *
    * @default {}
    */
   web?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecWeb;
   /**
    * Exemplars related settings that are runtime reloadable.
    * It requires to enable the exemplar storage feature to be effective.
+   * Maximum number of exemplars stored in memory for all series.
+   * If not set, Prometheus uses its default value.
+   * A value of zero or less than zero disables the storage.
    *
    * @default {}
    */
@@ -6915,12 +7062,18 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
    */
   externalUrl?: string;
   /**
+   * Define which Nodes the Pods are scheduled on.
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
+   *
    * @default {}
    */
   nodeSelector?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecNodeSelector;
   secrets?: unknown[];
   configMaps?: unknown[];
   /**
+   * QuerySpec defines the query command line flags when starting Prometheus.
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#queryspec
+   *
    * @default {}
    */
   query?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecQuery;
@@ -6946,6 +7099,7 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
    */
   ruleSelector?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecRuleSelector;
   /**
+   * - example-rules-2
    * If true, a nil or {} value for prometheus.prometheusSpec.serviceMonitorSelector will cause the
    * prometheus resource to be created with selectors based on values in the helm deployment,
    * which will also match the servicemonitors created
@@ -7072,7 +7226,6 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
    */
   replicas?: number;
   /**
-   * EXPERIMENTAL: Number of shards to distribute targets onto.
    * Number of replicas multiplied by shards is the total number of Pods created.
    * Note that scaling down shards will not reshard data onto remaining instances, it must be manually moved.
    * Increasing shards will not reshard data either but it will continue to be available from the same instances.
@@ -7125,6 +7278,9 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
    */
   podAntiAffinityTopologyKey?: string;
   /**
+   * Assign custom affinity rules to the prometheus instance
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+   *
    * @default {}
    */
   affinity?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecAffinity;
@@ -7145,6 +7301,9 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
    */
   resources?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecResources;
   /**
+   * Prometheus StorageSpec for persistent data
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/platform/storage.md
+   *
    * @default {}
    */
   storageSpec?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecStorageSpec;
@@ -7152,6 +7311,7 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
   volumeMounts?: unknown[];
   additionalScrapeConfigs?: unknown[];
   /**
+   * If scrape config contains a repetitive section, you may want to use a template.
    * If additional scrape configurations are already deployed in a single secret file you can use this section.
    * Expected values are the secret name and key
    * Cannot be used with additionalScrapeConfigs
@@ -7187,14 +7347,24 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
    */
   additionalAlertRelabelConfigsSecret?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecAdditionalAlertRelabelConfigsSecret;
   /**
+   * SecurityContext holds pod-level security attributes and common container settings.
+   * This defaults to non root user with uid 1000 and gid 2000.
+   * https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md
+   *
    * @default {...} (5 keys)
    */
   securityContext?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecSecurityContext;
   /**
+   * DNS configuration for Prometheus.
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#monitoring.coreos.com/v1.PodDNSConfig
+   *
    * @default {}
    */
   dnsConfig?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecDnsConfig;
   /**
+   * DNS policy for Prometheus.
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#dnspolicystring-alias
+   *
    * @default ""
    */
   dnsPolicy?: string;
@@ -7205,6 +7375,11 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
    */
   priorityClassName?: string;
   /**
+   * Thanos configuration allows configuring various aspects of a Prometheus server in a Thanos environment.
+   * This section is experimental, it may change significantly without deprecation notice in any release.
+   * This is experimental and may change significantly without backward compatibility in any release.
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#thanosspec
+   *
    * @default {}
    */
   thanos?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecThanos;
@@ -7532,22 +7707,31 @@ export type KubeprometheusstackHelmValuesThanosRuler = {
    */
   annotations?: KubeprometheusstackHelmValuesThanosRulerAnnotations;
   /**
+   * Service account for ThanosRuler to use.
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+   *
    * @default {"create":true,"name":"","annotations":{}}
    */
   serviceAccount?: KubeprometheusstackHelmValuesThanosRulerServiceAccount;
   /**
+   * Configure pod disruption budgets for ThanosRuler
+   * ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/#specifying-a-poddisruptionbudget
+   *
    * @default {"enabled":false,"minAvailable":1,"unhealthyPodEvictionPolicy":"AlwaysAllow"}
    */
   podDisruptionBudget?: KubeprometheusstackHelmValuesThanosRulerPodDisruptionBudget;
   /**
-   * Deploy thanosRuler
+   * BETA: Configure the gateway routes for the chart here.
+   * More routes can be added by adding a dictionary key like the 'main' route.
+   * Be aware that this is an early beta of this feature,
+   * kube-prometheus-stack does not guarantee this works and is subject to change.
+   * Being BETA this can/will change in the future without notice, do not use unless you want to take that risk
+   * [[ref]](https://gateway-api.sigs.k8s.io/reference/spec/#gateway.networking.k8s.io%2fv1alpha2)
    *
    * @default {...} (7 keys)
    */
   ingress?: KubeprometheusstackHelmValuesThanosRulerIngress;
   /**
-   * Deploy thanosRuler
-   *
    * @default {"main":{"enabled":false,"apiVersion":"gateway.networking.k8s.io/v1","kind":"HTTPRoute","annotations":{},"labels":{},"hostnames":[],"parentRefs":[],"httpsRedirect":false,"matches":[{"path":{"type":"PathPrefix","value":"/"}}],"filters":[],"additionalRules":[]}}
    */
   route?: KubeprometheusstackHelmValuesThanosRulerRoute;
@@ -7559,13 +7743,12 @@ export type KubeprometheusstackHelmValuesThanosRuler = {
   service?: KubeprometheusstackHelmValuesThanosRulerService;
   /**
    * Configuration for creating a ServiceMonitor for the ThanosRuler service
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#thanosrulerspec
    *
    * @default {...} (15 keys)
    */
   serviceMonitor?: KubeprometheusstackHelmValuesThanosRulerServiceMonitor;
   /**
-   * Deploy thanosRuler
-   *
    * @default {...} (41 keys)
    */
   thanosRulerSpec?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpec;
@@ -7671,39 +7854,36 @@ export type KubeprometheusstackHelmValuesThanosRulerRoute = {
 
 export type KubeprometheusstackHelmValuesThanosRulerRouteMain = {
   /**
-   * -- Enables or disables the route
+   * Enables or disables the route
    *
    * @default false
    */
   enabled?: boolean;
   /**
-   * -- Set the route apiVersion, e.g. gateway.networking.k8s.io/v1 or gateway.networking.k8s.io/v1alpha2
+   * Set the route apiVersion, e.g. gateway.networking.k8s.io/v1 or gateway.networking.k8s.io/v1alpha2
    *
    * @default "gateway.networking.k8s.io/v1"
    */
   apiVersion?: string;
   /**
-   * -- Set the route kind
+   * Set the route kind
    * Valid options are GRPCRoute, HTTPRoute, TCPRoute, TLSRoute, UDPRoute
    *
    * @default "HTTPRoute"
    */
   kind?: string;
   /**
-   * -- Enables or disables the route
-   *
    * @default {}
    */
   annotations?: KubeprometheusstackHelmValuesThanosRulerRouteMainAnnotations;
   /**
-   * -- Enables or disables the route
-   *
    * @default {}
    */
   labels?: KubeprometheusstackHelmValuesThanosRulerRouteMainLabels;
   hostnames?: unknown[];
   parentRefs?: unknown[];
   /**
+   * create http route for redirect (https://gateway-api.sigs.k8s.io/guides/http-redirect-rewrite/#http-to-https-redirects)
    * Take care that you only enable this on the http listener of the gateway to avoid an infinite redirect.
    * matches, filters and additionalRules will be ignored if this is set to true. Be are
    *
@@ -7888,19 +8068,14 @@ export type KubeprometheusstackHelmValuesThanosRulerServiceMonitor = {
    */
   labelValueLengthLimit?: number;
   /**
-   * proxyUrl: URL of a proxy that should be used for scraping.
-   *
    * @default ""
    */
   proxyUrl?: string;
   /**
-   * scheme: HTTP scheme to use for scraping. Can be used with `tlsConfig` for example if using istio mTLS.
-   *
    * @default ""
    */
   scheme?: string;
   /**
-   * tlsConfig: TLS configuration to use when scraping the endpoint. For example if using istio mTLS.
    * Of type: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#tlsconfig
    *
    * @default {}
@@ -7955,6 +8130,7 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpec = {
    */
   ruleSelector?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecRuleSelector;
   /**
+   * - example-rules-2
    * Define Log Format
    * Use logfmt (default) or json logging
    *
@@ -7988,6 +8164,9 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpec = {
    */
   evaluationInterval?: string;
   /**
+   * Storage is the definition of how storage will be used by the ThanosRuler instances.
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/platform/storage.md
+   *
    * @default {}
    */
   storage?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecStorage;
@@ -8044,10 +8223,16 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpec = {
   paused?: boolean;
   additionalArgs?: unknown[];
   /**
+   * Define which Nodes the Pods are scheduled on.
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
+   *
    * @default {}
    */
   nodeSelector?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecNodeSelector;
   /**
+   * Define resources requests and limits for single Pods.
+   * ref: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   *
    * @default {}
    */
   resources?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecResources;
@@ -8068,12 +8253,19 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpec = {
    */
   podAntiAffinityTopologyKey?: string;
   /**
+   * Assign custom affinity rules to the thanosRuler instance
+   * ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
+   *
    * @default {}
    */
   affinity?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAffinity;
   tolerations?: unknown[];
   topologySpreadConstraints?: unknown[];
   /**
+   * SecurityContext holds pod-level security attributes and common container settings.
+   * This defaults to non root user with uid 1000 and gid 2000. *v1.PodSecurityContext  false
+   * ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+   *
    * @default {...} (5 keys)
    */
   securityContext?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecSecurityContext;
@@ -8101,6 +8293,9 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpec = {
    */
   portName?: string;
   /**
+   * WebTLSConfig defines the TLS parameters for HTTPS
+   * ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api-reference/api.md#thanosrulerwebspec
+   *
    * @default {}
    */
   web?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecWeb;
@@ -8160,6 +8355,9 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagers
    */
   existingSecret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfigExistingSecret;
   /**
+   * will render alertmanagersConfig secret data and configure it to be used by Thanos Ruler custom resource, ignored when alertmanagersConfig.existingSecret is set
+   * https://thanos.io/tip/components/rule.md/#alertmanager
+   *
    * @default {}
    */
   secret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAlertmanagersConfigSecret;
@@ -8182,6 +8380,9 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorage
    */
   existingSecret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfigExistingSecret;
   /**
+   * will render objectStorageConfig secret data and configure it to be used by Thanos Ruler custom resource, ignored when objectStorageConfig.existingSecret is set
+   * https://thanos.io/tip/thanos/storage.md/#s3
+   *
    * @default {}
    */
   secret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecObjectStorageConfigSecret;
@@ -8211,6 +8412,9 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfig =
    */
   existingSecret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfigExistingSecret;
   /**
+   * render queryConfig secret data and configure it to be used by Thanos Ruler custom resource, ignored when queryConfig.existingSecret is set
+   * https://thanos.io/tip/components/rule.md/#query-api
+   *
    * @default {}
    */
   secret?: KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecQueryConfigSecret;
@@ -8270,6 +8474,8 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecAdditionalCon
 
 export type KubeprometheusstackHelmValuesThanosRulerExtraSecret = {
   /**
+   * if not set, name will be auto generated
+   *
    * @default {}
    */
   annotations?: KubeprometheusstackHelmValuesThanosRulerExtraSecretAnnotations;
@@ -8354,6 +8560,9 @@ export type KubeprometheusstackHelmValues = {
    */
   defaultRules?: KubeprometheusstackHelmValuesDefaultRules;
   /**
+   * Deprecated way to provide custom recording or alerting rules to be deployed into the cluster.
+   * Provide custom recording or alerting rules to be deployed into the cluster.
+   *
    * @default {}
    */
   additionalPrometheusRulesMap?: KubeprometheusstackHelmValuesAdditionalPrometheusRulesMap;
@@ -8366,10 +8575,17 @@ export type KubeprometheusstackHelmValues = {
    */
   windowsMonitoring?: KubeprometheusstackHelmValuesWindowsMonitoring;
   /**
+   * ref: https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-windows-exporter
+   *
    * @default {...} (4 keys)
    */
   "prometheus-windows-exporter"?: KubeprometheusstackHelmValuesPrometheuswindowsexporter;
   /**
+   * ref: https://prometheus.io/docs/alerting/alertmanager/
+   * foo:$apr1$OFG3Xybp$ckL0FHDAkoXYIlH9.cysT0
+   * someoneelse:$apr1$DMZX2Z4q$6SbQIfyuLQd.xmo/P0m2c.
+   * Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
+   *
    * @default {...} (23 keys)
    */
   alertmanager?: KubeprometheusstackHelmValuesAlertmanager;
@@ -8378,6 +8594,8 @@ export type KubeprometheusstackHelmValues = {
    */
   grafana?: KubeprometheusstackHelmValuesGrafana;
   /**
+   * Flag to disable all the kubernetes component scrapers
+   *
    * @default {"enabled":true}
    */
   kubernetesServiceMonitors?: KubeprometheusstackHelmValuesKubernetesServiceMonitors;
@@ -8466,10 +8684,18 @@ export type KubeprometheusstackHelmValues = {
    */
   prometheus?: KubeprometheusstackHelmValuesPrometheus;
   /**
+   * foo:$apr1$OFG3Xybp$ckL0FHDAkoXYIlH9.cysT0
+   * someoneelse:$apr1$DMZX2Z4q$6SbQIfyuLQd.xmo/P0m2c.
+   * Setting to true produces cleaner resource names, but requires a data migration because the name of the persistent volume changes. Therefore this should only be set once on initial installation.
+   *
    * @default {...} (10 keys)
    */
   thanosRuler?: KubeprometheusstackHelmValuesThanosRuler;
   /**
+   * foo:$apr1$OFG3Xybp$ckL0FHDAkoXYIlH9.cysT0
+   * someoneelse:$apr1$DMZX2Z4q$6SbQIfyuLQd.xmo/P0m2c.
+   * Setting to true produces cleaner resource names, but requires a data migration because the name of the persistent volume changes. Therefore this should only be set once on initial installation.
+   *
    * @default false
    */
   cleanPrometheusOperatorObjectNames?: boolean;

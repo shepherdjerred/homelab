@@ -1,6 +1,7 @@
 import type { TServiceParams } from "@digital-alchemy/core";
 import type { ENTITY_STATE } from "@digital-alchemy/hass";
 import { shouldStopCleaning } from "../util.ts";
+import { instrumentWorkflow } from "../metrics.ts";
 
 export function welcomeHome({ hass, logger }: TServiceParams) {
   const personJerred = hass.refBy.id("person.jerred");
@@ -14,23 +15,25 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
       oldState: ENTITY_STATE<"person.jerred"> | undefined,
     ) => {
       if (oldState && newState && newState.state === "home" && oldState.state === "not_home") {
-        logger.info("Welcome Home automation triggered");
+        await instrumentWorkflow("welcome_home", async () => {
+          logger.info("Welcome Home automation triggered");
 
-        await hass.call.notify.notify({
-          title: "Welcome Home",
-          message: "Welcome back! Hope you had a great time.",
+          await hass.call.notify.notify({
+            title: "Welcome Home",
+            message: "Welcome back! Hope you had a great time.",
+          });
+
+          logger.debug("Turning on entryway light");
+          await entrywayLight.turn_on();
+
+          logger.debug("Setting living room scene to bright");
+          await livingRoomScene.turn_on();
+
+          if (shouldStopCleaning(roomba.state)) {
+            logger.debug("Commanding Roomba to return to base");
+            await roomba.return_to_base();
+          }
         });
-
-        logger.debug("Turning on entryway light");
-        await entrywayLight.turn_on();
-
-        logger.debug("Setting living room scene to bright");
-        await livingRoomScene.turn_on();
-
-        if (shouldStopCleaning(roomba.state)) {
-          logger.debug("Commanding Roomba to return to base");
-          await roomba.return_to_base();
-        }
       }
     },
   );
