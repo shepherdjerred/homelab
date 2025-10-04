@@ -13,7 +13,7 @@ import {
   type TypeScriptInterface,
   type HelmValue,
   type JSONSchemaProperty,
-} from "../../helm-types/src/helm-types.ts";
+} from "@homelab/helm-types";
 import { parseChartInfoFromVersions, type ChartInfo } from "./parse-helm-charts.ts";
 
 const VERSIONS_FILE = "src/versions.ts";

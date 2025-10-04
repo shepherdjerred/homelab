@@ -8,12 +8,35 @@ export function buildHa(source: Directory): Directory {
 }
 
 /**
- * Prepares the HA container by generating hass.d.ts.
- * Accepts optional HA credentials to generate real types, otherwise uses CI stub.
+ * Prepares the HA container by generating hass.d.ts if needed.
+ * If src/ha/src/hass/ exists, skips generation and uses existing files.
+ * Otherwise, requires HA credentials to generate types.
  */
-function prepareHaContainer(source: Directory, hassBaseUrl: Secret, hassToken: Secret): Container {
+async function prepareHaContainer(source: Directory, hassBaseUrl?: Secret, hassToken?: Secret): Promise<Container> {
   let container = getWorkspaceContainer(source, "src/ha");
 
+  // Check if hass directory already exists
+  const hassDir = source.directory("src/ha/src/hass");
+  const hasExistingTypes = await hassDir
+    .entries()
+    .then((entries) => entries.length > 0)
+    .catch(() => false);
+
+  if (hasExistingTypes) {
+    console.log("✅ Using existing @hass/ types from src/ha/src/hass/");
+    // Skip type generation, types already exist
+    return container;
+  }
+
+  // Types don't exist, need to generate them
+  if (!hassBaseUrl || !hassToken) {
+    throw new Error(
+      "HASS_BASE_URL and HASS_TOKEN are required when src/ha/src/hass/ does not exist. " +
+        "Either provide the secrets or commit the generated types to the repository.",
+    );
+  }
+
+  console.log("🔄 Generating @hass/ types using provided credentials...");
   container = container
     .withSecretVariable("HASS_BASE_URL", hassBaseUrl)
     .withSecretVariable("HASS_TOKEN", hassToken)
@@ -22,14 +45,14 @@ function prepareHaContainer(source: Directory, hassBaseUrl: Secret, hassToken: S
   return container;
 }
 
-export async function typeCheckHa(source: Directory, hassBaseUrl: Secret, hassToken: Secret): Promise<string> {
-  const container = prepareHaContainer(source, hassBaseUrl, hassToken);
+export async function typeCheckHa(source: Directory, hassBaseUrl?: Secret, hassToken?: Secret): Promise<string> {
+  const container = await prepareHaContainer(source, hassBaseUrl, hassToken);
 
   return container.withExec(["bun", "run", "typecheck"]).stdout();
 }
 
-export async function lintHa(source: Directory, hassBaseUrl: Secret, hassToken: Secret): Promise<string> {
-  const container = prepareHaContainer(source, hassBaseUrl, hassToken);
+export async function lintHa(source: Directory, hassBaseUrl?: Secret, hassToken?: Secret): Promise<string> {
+  const container = await prepareHaContainer(source, hassBaseUrl, hassToken);
 
   return container.withExec(["bun", "run", "lint"]).stdout();
 }

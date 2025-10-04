@@ -81,9 +81,9 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             `(
-              time() - max(ha_workflow_executions_total{workflow=~"good_morning_.*"}) > 90000
+              time() - max(ha_workflow_last_execution_timestamp{workflow=~"good_morning_.*",status="success"}) > 90000
             ) or (
-              absent(ha_workflow_executions_total{workflow=~"good_morning_.*"})
+              absent(ha_workflow_last_execution_timestamp{workflow=~"good_morning_.*",status="success"})
             )`,
           ),
           for: "30m",
@@ -101,9 +101,9 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             `(
-              time() - max(ha_workflow_executions_total{workflow="run_vacuum_if_not_home"}) > 90000
+              time() - max(ha_workflow_last_execution_timestamp{workflow="run_vacuum_if_not_home",status="success"}) > 90000
             ) or (
-              absent(ha_workflow_executions_total{workflow="run_vacuum_if_not_home"})
+              absent(ha_workflow_last_execution_timestamp{workflow="run_vacuum_if_not_home",status="success"})
             )`,
           ),
           for: "30m",

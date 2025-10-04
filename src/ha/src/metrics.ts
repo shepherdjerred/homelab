@@ -56,6 +56,16 @@ export const uptimeSeconds = new Gauge({
   registers: [registry],
 });
 
+/**
+ * Gauge for last workflow execution timestamp
+ */
+export const workflowLastExecutionTimestamp = new Gauge<"workflow" | "status">({
+  name: "ha_workflow_last_execution_timestamp",
+  help: "Unix timestamp of the last workflow execution",
+  labelNames: ["workflow", "status"] as const,
+  registers: [registry],
+});
+
 // Track uptime
 const startTime = Date.now();
 setInterval(() => {
@@ -72,9 +82,11 @@ export async function instrumentWorkflow<T>(workflowName: string, fn: () => Prom
   try {
     const result = await fn();
     workflowExecutionsTotal.inc({ workflow: workflowName, status: "success" });
+    workflowLastExecutionTimestamp.set({ workflow: workflowName, status: "success" }, Date.now() / 1000);
     return result;
   } catch (error: unknown) {
     workflowExecutionsTotal.inc({ workflow: workflowName, status: "failure" });
+    workflowLastExecutionTimestamp.set({ workflow: workflowName, status: "failure" }, Date.now() / 1000);
 
     const errorType = z
       .instanceof(Error)

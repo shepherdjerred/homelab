@@ -35,8 +35,6 @@ export function getMiseRuntimeContainer(platform?: Platform): Container {
  * @returns A configured container with workspace dependencies installed
  */
 export function getWorkspaceContainer(repoRoot: Directory, workspacePath: string, platform?: Platform): Container {
-  const workspaceSource = repoRoot.directory(workspacePath);
-
   const container = getMiseRuntimeContainer(platform)
     .withWorkdir("/workspace")
     // Copy root package.json and bun.lock for proper dependency resolution
@@ -54,17 +52,25 @@ export function getWorkspaceContainer(repoRoot: Directory, workspacePath: string
     .withFile("src/ha/package.json", repoRoot.file("src/ha/package.json"))
     .withFile("src/cdk8s/package.json", repoRoot.file("src/cdk8s/package.json"))
     .withFile("src/helm-types/package.json", repoRoot.file("src/helm-types/package.json"))
-    .withFile(".dagger/package.json", repoRoot.file(".dagger/package.json"));
+    // Create stub .dagger/package.json since Dagger excludes .dagger directory by default
+    // Copy the root package.json and extract just the dagger workspace package.json structure
+    .withExec([
+      "sh",
+      "-c",
+      'mkdir -p .dagger && echo \'{"name":"@homelab/dagger","type":"module","private":true}\' > .dagger/package.json',
+    ]);
 
   return (
     container
+      // Copy all workspace sources BEFORE install (needed for workspace symlinks)
+      .withDirectory("src/ha", repoRoot.directory("src/ha"), { exclude: ["package.json", "node_modules"] })
+      .withDirectory("src/cdk8s", repoRoot.directory("src/cdk8s"), { exclude: ["package.json", "node_modules"] })
+      .withDirectory("src/helm-types", repoRoot.directory("src/helm-types"), {
+        exclude: ["package.json", "node_modules"],
+      })
       // Install dependencies (cached unless dependency files change)
       .withMountedCache("/root/.bun/install/cache", dag.cacheVolume(`bun-cache-${platform ?? "default"}`))
       .withExec(["bun", "install", "--frozen-lockfile"])
-      // Now copy the full workspace source (source changes won't invalidate dependency layer)
-      .withDirectory(workspacePath, workspaceSource, {
-        exclude: ["package.json"],
-      })
       // Set working directory to the workspace
       .withWorkdir(`/workspace/${workspacePath}`)
   );

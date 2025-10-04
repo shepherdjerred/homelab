@@ -5,6 +5,9 @@
   "type": "module",
   "private": true,
   "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "bin": {
     "helm-types": "src/cli.ts"
   },
