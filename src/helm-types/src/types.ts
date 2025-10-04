@@ -1,3 +1,5 @@
+// Core type definitions for Helm chart type generation
+
 export type ChartInfo = {
   name: string;
   repoUrl: string;
@@ -20,6 +22,11 @@ export type JSONSchemaProperty = {
 export type TypeScriptInterface = {
   name: string;
   properties: Record<string, TypeProperty>;
+  /**
+   * If true, add an index signature to allow arbitrary additional properties
+   * Useful for config maps, arbitrary key-value stores, etc.
+   */
+  allowArbitraryProps?: boolean;
 };
 
 export type TypeProperty = {

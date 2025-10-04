@@ -28,23 +28,20 @@ export function cleanYAMLComment(comment: string): string {
     if (currentLine.startsWith("@default")) continue;
 
     // Detect various patterns that indicate this is an example/code block, not documentation
-    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
-    const isExample = Boolean(
-      /^-{3,}/.exec(currentLine) ||
-        /^BEGIN .*(KEY|CERTIFICATE)/.exec(currentLine) ||
-        /^END .*(KEY|CERTIFICATE)/.exec(currentLine) ||
-        (currentLine.startsWith("-") && (currentLine.includes(":") || /^-\s+\|/.exec(currentLine))) ||
-        /^\w+:$/.exec(currentLine) ||
-        /^[\w-]+:\s*$/.exec(currentLine) ||
-        /^[\w.-]+:\s*\|/.exec(currentLine) || // YAML multiline indicator (e.g., "policy.csv: |")
-        currentLine.startsWith("|") ||
-        currentLine.includes("$ARGOCD_") ||
-        currentLine.includes("$KUBE_") ||
-        /^\s{2,}/.exec(currentLine) ||
-        /^echo\s+/.exec(currentLine) ||
-        /^[pg],\s*/.exec(currentLine), // Policy rules like "p, role:..." or "g, subject, ..."
-    );
-    /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
+    const isExample =
+      /^-{3,}/.test(currentLine) ||
+      /^BEGIN .*(KEY|CERTIFICATE)/.test(currentLine) ||
+      /^END .*(KEY|CERTIFICATE)/.test(currentLine) ||
+      (currentLine.startsWith("-") && (currentLine.includes(":") || /^-\s+\|/.test(currentLine))) ||
+      /^\w+:$/.test(currentLine) ||
+      /^[\w-]+:\s*$/.test(currentLine) ||
+      /^[\w.-]+:\s*\|/.test(currentLine) || // YAML multiline indicator (e.g., "policy.csv: |")
+      currentLine.startsWith("|") ||
+      currentLine.includes("$ARGOCD_") ||
+      currentLine.includes("$KUBE_") ||
+      /^\s{2,}/.test(currentLine) ||
+      /^echo\s+/.test(currentLine) ||
+      /^[pg],\s*/.test(currentLine); // Policy rules like "p, role:..." or "g, subject, ..."
 
     if (isExample) {
       inCodeBlock = true;
@@ -54,16 +51,13 @@ export function cleanYAMLComment(comment: string): string {
     // If we're in a code block, skip until we hit normal prose
     if (inCodeBlock) {
       // Check if this line looks like normal prose (sentence case, punctuation)
-      /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
-      const looksLikeProse = Boolean(
-        /^[A-Z][\w\s]+[.!?]$/.exec(currentLine) ||
-          /^[A-Z][\w\s,'"-]+:?\s*$/.exec(currentLine) ||
-          currentLine.startsWith("Ref:") ||
-          currentLine.startsWith("See:") ||
-          currentLine.startsWith("http://") ||
-          currentLine.startsWith("https://"),
-      );
-      /* eslint-enable @typescript-eslint/prefer-nullish-coalescing */
+      const looksLikeProse =
+        /^[A-Z][\w\s]+[.!?]$/.test(currentLine) ||
+        /^[A-Z][\w\s,'"-]+:?\s*$/.test(currentLine) ||
+        currentLine.startsWith("Ref:") ||
+        currentLine.startsWith("See:") ||
+        currentLine.startsWith("http://") ||
+        currentLine.startsWith("https://");
 
       if (looksLikeProse) {
         inCodeBlock = false;

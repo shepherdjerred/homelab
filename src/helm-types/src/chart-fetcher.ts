@@ -1,10 +1,9 @@
 import { join } from "node:path";
 import { parse as yamlParse } from "yaml";
 import type { ChartInfo, JSONSchemaProperty } from "./types.js";
+import { HelmValueSchema, RecordSchema, ErrorSchema } from "./schemas.js";
 import type { HelmValue } from "./schemas.js";
-import { HelmValueSchema, RecordSchema } from "./schemas.js";
-import { parseYAMLComments } from "./comment-parser.js";
-import { runCommand } from "./utils.js";
+import { parseYAMLComments } from "./yaml-comments.js";
 
 /**
  * Load JSON schema if it exists in the chart
@@ -26,6 +25,34 @@ async function loadJSONSchema(chartPath: string): Promise<JSONSchemaProperty | n
   } catch {
     // Schema doesn't exist or couldn't be parsed - that's okay
     return null;
+  }
+}
+
+/**
+ * Run a command and return its output using Bun
+ */
+async function runCommand(command: string, args: string[]): Promise<string> {
+  try {
+    // Use full path for helm command
+    const commandPath = command === "helm" ? "/home/linuxbrew/.linuxbrew/bin/helm" : command;
+
+    const proc = Bun.spawn([commandPath, ...args], {
+      stdout: "pipe",
+      stderr: "inherit",
+    });
+
+    const output = await new Response(proc.stdout).text();
+    const exitCode = await proc.exited;
+
+    if (exitCode === 0) {
+      return output;
+    } else {
+      throw new Error(`Command "${command} ${args.join(" ")}" failed with code ${exitCode.toString()}`);
+    }
+  } catch (error) {
+    const parseResult = ErrorSchema.safeParse(error);
+    const errorMessage = parseResult.success ? parseResult.data.message : String(error);
+    throw new Error(`Failed to spawn command "${command} ${args.join(" ")}": ${errorMessage}`);
   }
 }
 

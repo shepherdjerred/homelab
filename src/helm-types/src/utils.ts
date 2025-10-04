@@ -1,8 +1,6 @@
-import { ErrorSchema } from "./schemas.js";
-
-export function capitalizeFirst(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+/**
+ * Utility functions for Helm type generation
+ */
 
 /**
  * Sanitize property names for TypeScript interfaces
@@ -71,26 +69,8 @@ export function sanitizeTypeName(key: string): string {
 }
 
 /**
- * Run a command and return its output using Bun
+ * Capitalize the first letter of a string
  */
-export async function runCommand(command: string, args: string[]): Promise<string> {
-  try {
-    const proc = Bun.spawn([command, ...args], {
-      stdout: "pipe",
-      stderr: "inherit",
-    });
-
-    const output = await new Response(proc.stdout).text();
-    const exitCode = await proc.exited;
-
-    if (exitCode === 0) {
-      return output;
-    } else {
-      throw new Error(`Command "${command} ${args.join(" ")}" failed with code ${exitCode.toString()}`);
-    }
-  } catch (error) {
-    const parseResult = ErrorSchema.safeParse(error);
-    const errorMessage = parseResult.success ? parseResult.data.message : String(error);
-    throw new Error(`Failed to spawn command "${command} ${args.join(" ")}": ${errorMessage}`);
-  }
+export function capitalizeFirst(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }

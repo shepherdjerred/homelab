@@ -1,3 +1,4 @@
+// Zod schemas for runtime validation
 import { z } from "zod";
 
 // Individual Zod schemas for type detection
