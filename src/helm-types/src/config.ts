@@ -38,6 +38,9 @@ export const EXTENSIBLE_TYPE_PATTERNS: Record<string, string[]> = {
     // Root level for device-specific settings
     "",
   ],
+  "prometheus-adapter": [
+    "rules", // Allows resource, custom, external and other rule configurations
+  ],
 };
 
 /**

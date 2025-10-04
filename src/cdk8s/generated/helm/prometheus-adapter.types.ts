@@ -218,6 +218,11 @@ export type PrometheusadapterHelmValuesStartupProbe = object;
 
 export type PrometheusadapterHelmValuesRules = {
   /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
    * @default true
    */
   default?: boolean;
