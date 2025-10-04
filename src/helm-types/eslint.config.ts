@@ -1,33 +1,13 @@
-import js from "@eslint/js";
-import tseslint from "typescript-eslint";
+import { defineConfig } from "eslint/config";
+import rootConfig from "../../eslint.config";
 
-export default tseslint.config(
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
-  {
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
+export default defineConfig(...rootConfig, {
+  languageOptions: {
+    parserOptions: {
+      projectService: {
+        allowDefaultProject: ["eslint.config.ts"],
       },
+      tsconfigRootDir: import.meta.dirname,
     },
   },
-  {
-    rules: {
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-          caughtErrorsIgnorePattern: "^_",
-        },
-      ],
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/prefer-nullish-coalescing": "error",
-      "@typescript-eslint/prefer-optional-chain": "error",
-    },
-  },
-  {
-    ignores: ["node_modules/**", "dist/**", "*.js", "*.mjs", "eslint.config.ts"],
-  },
-);
+});

@@ -1,162 +1,244 @@
-# Helm Types Generator
+# @homelab/helm-types
 
-**Note** this module/README was authored by AI
+Module authored by AI. Appears correct but not thoroughly reviewed.
 
-A generic TypeScript type generator for Helm charts.
-This tool fetches Helm chart values and generates corresponding TypeScript interfaces and parameter types.
+Generate TypeScript types from Helm chart values.
 
-## Features
+## Overview
 
-- **Generic Chart Support**: Works with any Helm chart from any repository
-- **TypeScript Interface Generation**: Creates strongly-typed interfaces from `values.yaml`
-- **Parameter Type Generation**: Generates flattened dot-notation parameter types for Helm values
-- **Automatic Validation**: Includes Prettier, TypeScript, and ESLint validation
-- **CLI Interface**: Easy-to-use command-line interface
-- **Programmatic API**: Can be used as a library in other projects
+A library for fetching Helm charts and generating strongly-typed TypeScript interfaces from their
+`values.yaml` and `values.schema.json` files.
+
+**Key Features:**
+
+- Fetch charts from any Helm repository
+- Parse YAML comments for JSDoc documentation
+- Generate nested interfaces with proper types
+- Support for arrays, unions, enums, and optional properties
+- Handle reserved keywords and special characters
 
 ## Installation
-
-This is a private package within the homelab monorepo. Install dependencies:
 
 ```bash
 bun install
 ```
 
-## Usage
+## Quick Start
 
-### Command Line Interface
+### Using the CLI with bunx
+
+The fastest way to generate types is using the CLI with `bunx`:
 
 ```bash
-# Generate types from default locations
-bun run generate
+# Generate types for ArgoCD
+bunx @homelab/helm-types \
+  --name argo-cd \
+  --repo https://argoproj.github.io/argo-helm \
+  --version 8.3.1 \
+  --output argo-cd.types.ts
 
-# Specify custom paths
-bun run src/cli.ts --versions-file ./my-versions.ts --output-dir ./generated-types
+# Or use short flags
+bunx @homelab/helm-types \
+  -n argo-cd \
+  -r https://argoproj.github.io/argo-helm \
+  -v 8.3.1 \
+  -o argo-cd.types.ts
 
-# Skip validation steps
-bun run src/cli.ts --no-prettier --no-lint --no-typecheck
+# Print to stdout (useful for piping)
+bunx @homelab/helm-types \
+  -n argo-cd \
+  -r https://argoproj.github.io/argo-helm \
+  -v 8.3.1
 
-# Show help
-bun run src/cli.ts --help
+# Customize interface name
+bunx @homelab/helm-types \
+  -n argo-cd \
+  -r https://argoproj.github.io/argo-helm \
+  -v 8.3.1 \
+  -i CustomArgocdValues \
+  -o argo-cd.types.ts
 ```
 
-### Programmatic API
+**CLI Options:**
+
+- `--name, -n` - Unique identifier for the chart (required)
+- `--chart, -c` - Chart name in repository (defaults to --name)
+- `--repo, -r` - Helm repository URL (required)
+- `--version, -v` - Chart version (required)
+- `--output, -o` - Output file path (defaults to stdout)
+- `--interface, -i` - Interface name (auto-generated if not provided)
+- `--help, -h` - Show help message
+
+### Using as a Library
 
 ```typescript
-import { generateHelmTypes, parseChartInfoFromVersions, fetchHelmChart } from "@homelab/helm-types";
+import { fetchHelmChart, convertToTypeScriptInterface, generateTypeScriptCode } from "@homelab/helm-types";
 
-// Generate all types from a versions file
-await generateHelmTypes({
-  versionsFile: "src/versions.ts",
-  outputDir: "src/types/helm",
-  runPrettier: true,
-  runTypeCheck: true,
-  runLinter: true,
-});
+// 1. Define your chart
+const chart = {
+  name: "argo-cd",
+  chartName: "argo-cd",
+  repoUrl: "https://argoproj.github.io/argo-helm",
+  version: "8.3.1",
+};
 
-// Or work with individual charts
-const charts = await parseChartInfoFromVersions("src/versions.ts");
-for (const chart of charts) {
-  const values = await fetchHelmChart(chart);
-  // Process values...
+// 2. Fetch and generate types
+const { values, schema, yamlComments } = await fetchHelmChart(chart);
+const tsInterface = convertToTypeScriptInterface(values, "ArgocdHelmValues", schema, yamlComments);
+const code = generateTypeScriptCode(tsInterface, chart.name);
+
+// 3. Write output
+await Bun.write("argo-cd.types.ts", code);
+```
+
+## API
+
+### `fetchHelmChart(chart: ChartInfo)`
+
+Fetches a Helm chart and extracts configuration.
+
+```typescript
+type ChartInfo = {
+  name: string; // Unique identifier
+  chartName: string; // Chart name in repo
+  repoUrl: string; // Helm repository URL
+  version: string; // Chart version
+};
+
+// Returns
+{
+  values: Record<string, unknown>;
+  schema: JSONSchemaProperty | null;
+  yamlComments: Map<string, string>;
 }
 ```
 
-## Input Format
+### `convertToTypeScriptInterface(values, name, schema?, comments?, prefix?)`
 
-The tool expects a `versions.ts` file with Renovate comments indicating Helm charts:
+Converts Helm values to TypeScript interface definition.
+
+**Parameters:**
+
+- `values` - Chart values object
+- `name` - Interface name
+- `schema?` - Optional JSON schema for validation
+- `comments?` - Optional YAML comments for JSDoc
+- `prefix?` - Optional key prefix for nested types
+
+### `generateTypeScriptCode(interface, chartName)`
+
+Generates TypeScript code from interface definition.
+
+**Returns:** String containing:
+
+- Main values interface
+- Nested type definitions
+- Flattened parameters type
+
+### `parseYAMLComments(yamlContent)`
+
+Extracts YAML comments and associates them with keys.
+
+## Generated Output
+
+### Values Interface
 
 ```typescript
-export const versions = {
-  // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts
-  "kube-prometheus-stack": "65.1.1",
+export type ArgocdHelmValues = {
+  /**
+   * Number of replicas
+   * @default 1
+   */
+  replicaCount?: number;
 
-  // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm
-  "argo-cd": "7.6.12",
+  image?: ArgocdHelmValuesImage;
+  service?: ArgocdHelmValuesService;
 };
 ```
 
-## Output
-
-The tool generates:
-
-1. **Type Files**: `{chart-name}.types.ts` containing:
-   - `{ChartName}HelmValues` - Strongly typed interface matching the chart's values.yaml
-   - `{ChartName}HelmParameters` - Flattened parameter type for Helm value overrides
-
-2. **Index File**: `index.ts` that re-exports all generated types
-
-### Example Output
+### Nested Types
 
 ```typescript
-// Generated TypeScript types for kube-prometheus-stack Helm chart
-
-export type KubePrometheusStackHelmValues = {
-  alertmanager?: KubePrometheusStackHelmValuesAlertmanager;
-  prometheus?: KubePrometheusStackHelmValuesPrometheus;
-  grafana?: KubePrometheusStackHelmValuesGrafana;
-  // ... more properties
-};
-
-export type KubePrometheusStackHelmParameters = {
-  "alertmanager.enabled"?: string;
-  "alertmanager.config.global.smtp_smarthost"?: string;
-  "prometheus.prometheusSpec.retention"?: string;
-  // ... flattened parameter keys
+export type ArgocdHelmValuesImage = {
+  repository?: string;
+  tag?: string;
+  pullPolicy?: "Always" | "IfNotPresent" | "Never";
 };
 ```
 
-## Configuration
-
-### CLI Options
-
-- `--versions-file, -v`: Path to versions.ts file (default: `src/versions.ts`)
-- `--output-dir, -o`: Output directory (default: `src/types/helm`)
-- `--no-prettier`: Skip Prettier formatting
-- `--no-typecheck`: Skip TypeScript compilation check
-- `--no-lint`: Skip ESLint validation
-
-### Programmatic Options
+### Parameters Type
 
 ```typescript
-interface HelmTypesOptions {
-  versionsFile?: string; // Path to versions file
-  outputDir?: string; // Output directory
-  runPrettier?: boolean; // Run prettier (default: true)
-  runTypeCheck?: boolean; // Run tsc --noEmit (default: true)
-  runLinter?: boolean; // Run eslint (default: true)
-}
+export type ArgocdHelmParameters = {
+  replicaCount?: string;
+  "image.repository"?: string;
+  "image.tag"?: string;
+  "service.type"?: string;
+};
 ```
 
-## Dependencies
+## Complete Example
 
-- **Bun**: Runtime and package manager
-- **js-yaml**: YAML parsing
-- **zod**: Runtime type validation
-- **Helm CLI**: Must be available at `/home/linuxbrew/.linuxbrew/bin/helm`
+See `../cdk8s/scripts/generate-helm-types.ts` for a full application that:
+
+- Parses multiple charts from a versions file
+- Generates types for all charts
+- Includes validation and formatting
+- Provides a CLI interface
+
+## Type Inference
+
+The library intelligently infers types:
+
+| Value               | Inferred Type                 |
+| ------------------- | ----------------------------- |
+| `true`, `false`     | `boolean`                     |
+| `"true"`, `"false"` | `boolean`                     |
+| `123`, `3.14`       | `number`                      |
+| `"123"`             | `number`                      |
+| `"hello"`           | `string`                      |
+| `[]`                | `unknown[]`                   |
+| `[1, 2]`            | `number[]`                    |
+| `{}`                | nested interface              |
+| `"default"`         | `string \| number \| boolean` |
+
+JSON schema takes precedence when available.
+
+## Requirements
+
+- **Bun** - Runtime
+- **yaml** - YAML parsing with AST and comment preservation
+- **zod** - Validation
+- **Helm CLI**
+
+## Testing
+
+```bash
+bun test
+```
+
+136 tests covering:
+
+- YAML comment parsing
+- Type inference
+- Code generation
+- Schema validation
+- Edge cases
 
 ## Architecture
 
-The tool follows a modular architecture:
+Modular design:
 
-1. **Parser**: Extracts chart information from versions.ts comments
-2. **Fetcher**: Downloads and extracts Helm chart values using Helm CLI
-3. **Converter**: Transforms YAML values into TypeScript interface definitions
-4. **Generator**: Produces TypeScript code with proper formatting
-5. **CLI**: Provides command-line interface with validation pipeline
+- `types.ts` - Type definitions
+- `schemas.ts` - Zod validation
+- `utils.ts` - Utilities
+- `comment-parser.ts` - YAML comments
+- `chart-fetcher.ts` - Chart downloading
+- `type-inference.ts` - Type conversion
+- `code-generator.ts` - Code generation
 
-## Error Handling
+## Notes
 
-- Charts that fail to download are skipped with warnings
-- Invalid YAML falls back to unvalidated objects
-- Missing values.yaml results in minimal type definitions
-- Validation failures don't stop the generation process
-
-## Contributing
-
-This tool is designed to be generic and reusable. When making changes:
-
-1. Keep the core logic chart-agnostic
-2. Maintain backward compatibility with existing APIs
-3. Add tests for new functionality
-4. Update documentation for new features
+- This is a general-purpose library
+- Application-specific logic belongs in your app
+- See cdk8s example for integration patterns

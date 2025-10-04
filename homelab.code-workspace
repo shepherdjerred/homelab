@@ -15,6 +15,13 @@
     "[toml]": {
       "editor.defaultFormatter": "tamasfe.even-better-toml",
     },
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+    },
   },
   "extensions": {
     "recommendations": [

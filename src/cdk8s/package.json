@@ -13,7 +13,7 @@
     "build-app": "bun run src/app.ts",
     "patch": "bun run scripts/patch.ts",
     "update-imports": "bun run update-imports.ts",
-    "generate-helm-types": "cd ../helm-types && bun run generate --versions-file ../cdk8s/src/versions.ts --output-dir ../cdk8s/helm-types",
+    "generate-helm-types": "bun run scripts/generate-helm-types.ts",
     "up": "bun run build && kubectl apply -f dist",
     "diff": "KUBECTL_EXTERNAL_DIFF=delta DELTA_PAGER=bat BAT_PAGER=/opt/homebrew/bin/less kubectl diff -f dist/torvalds.k8s.yaml"
   },
@@ -21,14 +21,12 @@
     "cdk8s": "^2.69.60",
     "cdk8s-plus-31": "^2.2.4",
     "constructs": "^10.4.2",
-    "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "remeda": "^2.22.5",
     "ts-pattern": "^5.7.1",
     "zod": "^4.1.11"
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.9",
     "@types/lodash": "^4.17.17",
     "type-fest": "^4.41.0"
   }

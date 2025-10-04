@@ -33,8 +33,8 @@ some things I'm proud of:
   - [My approach](https://github.com/shepherdjerred/homelab/blob/main/src/cdk8s/src/versions.ts)
     allows all of my dependencies to be pinned and updated regularly
 - Static typing for:
-  - [Kubernetes resources](src/cdk8s/update-imports.ts)
-  - [Helm chart parameters](src/cdk8s/generate-helm-types.ts)
+  - [Kubernetes resources including CRDs](src/cdk8s/scripts/update-imports.ts)
+  - [Helm chart parameters](src/helm-types)
   - [Home Assistant entities](src/ha/generate-types.ts)
 
 ## Installation
@@ -57,10 +57,10 @@ talosctl gen config \
 
 ```
 
-3. Configure `endpoints` in `talosconfig`
+1. Configure `endpoints` in `talosconfig`
    - This allows commands to be run without the `--endpoints` argument
 
-4. Move the talosconfig:
+1. Move the talosconfig:
 
 - This allows commands to be run without the `--talosconfig` argument
 
@@ -69,14 +69,14 @@ mv talosconfig ~/.talos/config
 
 ```
 
-5. Apply the configuration:
+1. Apply the configuration:
 
 ```bash
 talosctl apply-config --insecure --nodes 192.168.1.81 --file controlplane.yaml
 
 ```
 
-6. If needed, update:
+1. If needed, update:
 
 ```bash
 talosctl apply-config --nodes 192.168.1.81 --file controlplane.yaml
@@ -91,14 +91,14 @@ talosctl upgrade-k8s
 
 ```
 
-7. Bootstrap the Kubernetes cluster:
+1. Bootstrap the Kubernetes cluster:
 
 ```bash
 talosctl bootstrap --nodes 192.168.1.8    talosctl bootstrap --nodes 192.168.1.811
 
 ```
 
-8. Create a Kubernetes configuration:
+1. Create a Kubernetes configuration:
 
 ```bash
 talosctl kubeconfig --nodes 192.168.1.81
@@ -114,7 +114,7 @@ brew install helm
 
 ```
 
-2. Install Argo CD manually:
+1. Install Argo CD manually:
 
 > [!NOTE] This will be imported into Argo CD itself as part of the CDK8s
 > manifest
@@ -126,7 +126,7 @@ helm install argocd argo/argo-cd --namespace argocd
 
 ```
 
-3. Set the credentials in the `secrets` directory:
+1. Set the credentials in the `secrets` directory:
 
 - Be sure not to commit any changes to these files so that secrets don't
   leak.
@@ -149,21 +149,21 @@ kubectl apply -f secrets/1password-token.yaml
 
 ```
 
-4. Build and deploy the manifests in this repo:
+1. Build and deploy the manifests in this repo:
 
 ```bash
 cd cdk8s
 
 ```
 
-5. Get the initial Argo CD `admin` password:
+1. Get the initial Argo CD `admin` password:
 
 ```bash
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
 ```
 
-6. Change Argo CD the `admin` password.
+1. Change Argo CD the `admin` password.
 
 ### ZFS
 
@@ -176,7 +176,7 @@ kubectl apply -f pods/shell.yaml
 
 ```
 
-2. Create a ZFS pool:
+1. Create a ZFS pool:
 
 ```bash
 # for nvme storage
@@ -200,15 +200,15 @@ kubectl exec pod/shell -n maintenance -- \
 
 ## Upgrade
 
-### Talos
+### Upgrade Talos
 
-```
+```bash
 talosctl upgrade --nodes 192.168.1.81 \
   --image $IMAGE
 ```
 
-### Kubernetes
+### Upgrade Kubernetes
 
-```
+```bash
 talosctl --nodes 192.168.1.81 upgrade-k8s --to $VERSION
 ```

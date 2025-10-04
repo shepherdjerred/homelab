@@ -1,7 +1,7 @@
 import { Chart } from "cdk8s";
-import { Application } from "../../imports/argoproj.io.ts";
+import { Application } from "../../generated/imports/argoproj.io.ts";
 import versions from "../versions.ts";
-import type { HelmValuesForChart } from "../../helm-types/helm-parameters.ts";
+import type { HelmValuesForChart } from "../misc/typed-helm-parameters.ts";
 export function createOnePasswordApp(chart: Chart) {
   // TODO: create the 1password secrets here
 

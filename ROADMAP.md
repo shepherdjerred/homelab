@@ -4,9 +4,9 @@
 
 - Configure Recyclarr with env vars and config files committed to repo
 - ZFS grafana dashboard
-- https://github.com/prometheus/blackbox_exporter
-- https://github.com/esanchezm/prometheus-qbittorrent-exporter
-- https://github.com/jsclayton/prometheus-plex-exporter
+- <https://github.com/prometheus/blackbox_exporter>
+- <https://github.com/esanchezm/prometheus-qbittorrent-exporter>
+- <https://github.com/jsclayton/prometheus-plex-exporter>
 - CI
   - Output is still difficult to understand
   - it's really a mess altogether tbh. Maybe I should get rid of Dagger?
@@ -15,7 +15,7 @@
 
 ## Done
 
-- https://github.com/openebs/monitoring
+- <https://github.com/openebs/monitoring>
 - Metrics not working
   - Velero
   - ArgoCD

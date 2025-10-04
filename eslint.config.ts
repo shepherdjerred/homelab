@@ -1,6 +1,22 @@
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
+import unicorn from "eslint-plugin-unicorn";
+import { zodSchemaNaming } from "./eslint-rules/zod-schema-naming.ts";
+
+/**
+ * Bridge typescript-eslint rule to ESLint plugin system
+ *
+ * Type assertion required: @typescript-eslint/utils RuleContext includes extra methods
+ * (getAncestors, getDeclaredVariables, getScope, markVariableAsUsed) that base ESLint
+ * RuleContext doesn't have. At runtime, typescript-eslint provides a compatible context,
+ * but TypeScript sees the types as incompatible. The rule works correctly at runtime.
+ */
+const customRulesPlugin = {
+  rules: {
+    "zod-schema-naming": zodSchemaNaming as never,
+  },
+};
 
 // Note: ESLint caching is enabled via --cache CLI flag in package.json scripts
 export default defineConfig(
@@ -76,7 +92,84 @@ export default defineConfig(
       ],
     },
   },
+  // File naming conventions
   {
-    ignores: ["dist/", "node_modules/", "imports/", ".dagger/sdk/"],
+    plugins: {
+      unicorn,
+    },
+    rules: {
+      "unicorn/filename-case": [
+        "error",
+        {
+          case: "kebabCase",
+        },
+      ],
+    },
+  },
+  // Custom rules for Zod schema naming
+  {
+    plugins: {
+      "custom-rules": customRulesPlugin,
+    },
+    rules: {
+      "custom-rules/zod-schema-naming": "error",
+    },
+  },
+  // Variable and identifier naming conventions
+  {
+    rules: {
+      "@typescript-eslint/naming-convention": [
+        "error",
+        // Functions: camelCase
+        {
+          selector: "function",
+          format: ["camelCase"],
+          leadingUnderscore: "allow",
+          trailingUnderscore: "allow",
+        },
+        // Constants: UPPER_SNAKE_CASE or camelCase (excluding *Schema variables - handled by custom rule)
+        {
+          selector: "variable",
+          modifiers: ["const"],
+          filter: {
+            regex: "Schema$",
+            match: false,
+          },
+          format: ["camelCase", "UPPER_CASE"],
+          leadingUnderscore: "allow",
+          trailingUnderscore: "allow",
+        },
+        // All other variables: camelCase (excluding *Schema variables - handled by custom rule)
+        {
+          selector: "variable",
+          filter: {
+            regex: "Schema$",
+            match: false,
+          },
+          format: ["camelCase"],
+          leadingUnderscore: "allow",
+          trailingUnderscore: "allow",
+        },
+        // Parameters: camelCase
+        {
+          selector: "parameter",
+          format: ["camelCase"],
+          leadingUnderscore: "allow",
+        },
+        // Types, interfaces, classes: PascalCase
+        {
+          selector: ["typeLike"],
+          format: ["PascalCase"],
+        },
+        // Enum members: PascalCase or UPPER_CASE
+        {
+          selector: "enumMember",
+          format: ["PascalCase", "UPPER_CASE"],
+        },
+      ],
+    },
+  },
+  {
+    ignores: ["dist/", "node_modules/", "generated/", ".dagger/sdk/", "eslint-rules/"],
   },
 );

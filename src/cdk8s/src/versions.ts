@@ -81,6 +81,8 @@ const versions = {
   "velero/velero-plugin-for-aws": "v1.12.2@sha256:bef271808e0547bb70f69f0430cc73f7a2fa938949c50f7b31171018be967335",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "openebs/velero-plugin": "3.6.0@sha256:9ea3331d891e436a7239e37e68ca4c8888500cb122be7cdc9d8400f345555c76",
+  // renovate: datasource=helm registryUrl=https://iv-org.github.io/invidious-helm-chart versioning=semver
+  invidious: "2.3.0",
   // renovate: datasource=github-releases versioning=semver
   "kubernetes/kubernetes": "v1.33.2",
   // renovate: datasource=custom.papermc versioning=semver

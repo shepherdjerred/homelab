@@ -1,8 +1,8 @@
 import { Chart } from "cdk8s";
-import { Application } from "../../imports/argoproj.io.ts";
+import { Application } from "../../generated/imports/argoproj.io.ts";
 import versions from "../versions.ts";
-import { createIngress } from "../utils/tailscale.ts";
-import type { HelmValuesForChart } from "../../helm-types/helm-parameters.ts";
+import { createIngress } from "../misc/tailscale.ts";
+import type { HelmValuesForChart } from "../misc/typed-helm-parameters.ts";
 
 export function createArgoCdApp(chart: Chart) {
   createIngress(chart, "argocd-ingress", "argocd", "argocd-server", 443, ["argocd"], true);

@@ -4,22 +4,22 @@
   "description": "Generic TypeScript type generator for Helm charts",
   "type": "module",
   "private": true,
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "bin": {
-    "helm-types": "dist/cli.js"
+    "helm-types": "src/cli.ts"
   },
   "scripts": {
     "build": "bun run src/cli.ts",
     "generate": "bun run src/cli.ts",
+    "test": "bun test",
+    "test:helm-types": "bun test src/helm-types.test.ts",
+    "test:cli": "bun test src/cli.test.ts",
     "lint": "bunx eslint .",
     "lint:fix": "bunx eslint . --fix",
     "typecheck": "bunx tsc --noEmit"
   },
   "dependencies": {
-    "js-yaml": "^4.1.0",
+    "yaml": "^2.8.1",
     "zod": "^4.1.11"
-  },
-  "devDependencies": {
-    "@types/js-yaml": "^4.0.9"
   }
 }

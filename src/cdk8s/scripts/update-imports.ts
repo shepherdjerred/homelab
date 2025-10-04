@@ -33,11 +33,11 @@ console.log(
   await runCommand("bash", ["-c", "kubectl get crds -o json | cdk8s import /dev/stdin --language=typescript"]),
 );
 
-const files = await readdir("imports");
+const files = await readdir("generated/imports");
 
 // add "// @ts-nocheck" to the top of each file in the imports directory
 for (const file of files) {
-  const filePath = `imports/${file}`;
+  const filePath = `generated/imports/${file}`;
   const content = await readFile(filePath, "utf-8");
   await writeFile(filePath, `// @ts-nocheck\n${content}`);
 }
@@ -45,11 +45,11 @@ for (const file of files) {
 // look for "public toJson(): any {", change this to "public override toJson(): any {"
 // fixes This member must have an 'override' modifier because it overrides a member in the base class 'ApiObject'.
 for (const file of files) {
-  const filePath = `imports/${file}`;
+  const filePath = `generated/imports/${file}`;
   let content = await readFile(filePath, "utf-8");
   content = content.replaceAll("public toJson(): any {", "public override toJson(): any {");
   await writeFile(filePath, content);
 }
 
 // run prettier
-console.log(await runCommand("bunx", ["prettier", "--write", "imports"]));
+console.log(await runCommand("bunx", ["prettier", "--write", "generated/imports"]));
