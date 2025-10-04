@@ -20,8 +20,9 @@ import { ZfsHddVolume } from "../utils/zfsHddVolume.ts";
 import { KubeNamespace } from "../../imports/k8s.ts";
 import { createRecyclarrDeployment } from "../services/torrents/recyclarr.ts";
 import { createGrafanaPostgreSQLDatabase } from "../services/postgres/grafana-db.ts";
+import { createGickupDeployment } from "../services/gickup.ts";
 
-export function createTorvaldsChart(app: App) {
+export async function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
     namespace: "torvalds",
     disableResourceNameHashes: true,
@@ -77,4 +78,5 @@ export function createTorvaldsChart(app: App) {
   createHaDeployment(chart);
   createRecyclarrDeployment(chart);
   createGrafanaPostgreSQLDatabase(chart);
+  await createGickupDeployment(chart);
 }

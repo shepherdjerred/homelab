@@ -8,7 +8,7 @@ const app = new App();
 
 createProjectChart(app);
 await createAppsChart(app);
-createTorvaldsChart(app);
+await createTorvaldsChart(app);
 createScoutChart(app, "beta");
 
 app.synth();

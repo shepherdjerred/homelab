@@ -96,6 +96,8 @@ const versions = {
   "postgres-operator": "1.14.0",
   // renovate: datasource=helm registryUrl=https://helm.coder.com/v2 versioning=semver
   coder: "2.26.0",
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
+  "cooperspencer/gickup": "0.10.39",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];
