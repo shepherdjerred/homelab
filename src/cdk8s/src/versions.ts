@@ -11,6 +11,8 @@ const versions = {
   "node-feature-discovery": "0.17.3",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
   "kube-prometheus-stack": "76.5.1",
+  // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
+  "prometheus-adapter": "5.1.0",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
   "tailscale-operator": "1.88.3",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver

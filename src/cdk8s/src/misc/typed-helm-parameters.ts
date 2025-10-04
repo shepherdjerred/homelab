@@ -72,6 +72,7 @@ import type { ChartmuseumHelmValues } from "../../generated/helm/chartmuseum.typ
 import type { ConnectHelmValues } from "../../generated/helm/connect.types";
 import type { InteldevicepluginsoperatorHelmValues } from "../../generated/helm/intel-device-plugins-operator.types";
 import type { KubeprometheusstackHelmValues } from "../../generated/helm/kube-prometheus-stack.types";
+import type { PrometheusadapterHelmValues } from "../../generated/helm/prometheus-adapter.types";
 import type { LokiHelmValues } from "../../generated/helm/loki.types";
 import type { MinecraftHelmValues } from "../../generated/helm/minecraft.types";
 import type { NodefeaturediscoveryHelmValues } from "../../generated/helm/node-feature-discovery.types";
@@ -90,6 +91,7 @@ type HelmChartValuesMap = {
   connect: ConnectHelmValues;
   "intel-device-plugins-operator": InteldevicepluginsoperatorHelmValues;
   "kube-prometheus-stack": KubeprometheusstackHelmValues;
+  "prometheus-adapter": PrometheusadapterHelmValues;
   loki: LokiHelmValues;
   minecraft: MinecraftHelmValues;
   "node-feature-discovery": NodefeaturediscoveryHelmValues;
