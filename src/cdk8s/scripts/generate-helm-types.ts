@@ -10,6 +10,9 @@ import {
   fetchHelmChart,
   convertToTypeScriptInterface,
   generateTypeScriptCode,
+  type TypeScriptInterface,
+  type HelmValue,
+  type JSONSchemaProperty,
 } from "../../helm-types/src/helm-types.ts";
 import { parseChartInfoFromVersions, type ChartInfo } from "./parse-helm-charts.ts";
 
@@ -123,7 +126,9 @@ async function generateChartTypes(chart: ChartInfo) {
   console.log(`  📊 Fetching Helm values for ${chart.name}...`);
 
   // Fetch the actual Helm chart values, schema, and comments
-  const { values: helmValues, schema, yamlComments } = await fetchHelmChart(chart);
+  const chartData: { values: HelmValue; schema: JSONSchemaProperty | null; yamlComments: Map<string, string> } =
+    await fetchHelmChart(chart);
+  const { values: helmValues, schema, yamlComments } = chartData;
 
   // Debug logging for main script
   console.log(`  🔍 Found ${Object.keys(helmValues).length.toString()} top-level properties`);
@@ -151,8 +156,15 @@ export type ${capitalizeFirst(chart.name).replace(/-/g, "")}HelmParameters = {
 
   console.log(`  🏗️  Converting to TypeScript interfaces...`);
   const interfaceName = `${capitalizeFirst(chart.name).replace(/-/g, "")}HelmValues`;
-  const tsInterface = convertToTypeScriptInterface(helmValues, interfaceName, schema, yamlComments, "", chart.name);
-  const code = generateTypeScriptCode(tsInterface, chart.name);
+  const tsInterface: TypeScriptInterface = convertToTypeScriptInterface(
+    helmValues,
+    interfaceName,
+    schema,
+    yamlComments,
+    "",
+    chart.name,
+  );
+  const code: string = generateTypeScriptCode(tsInterface, chart.name);
 
   const filePath = join(OUTPUT_DIR, `${chart.name}.types.ts`);
   await Bun.write(filePath, code);
