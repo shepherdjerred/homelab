@@ -51,6 +51,26 @@ export function createDaggerApp(chart: Chart) {
     });
   });
 
+  // Grant Coder default ServiceAccount access to pods in dagger namespace
+  new KubeRoleBinding(chart, "dagger-coder-access-binding", {
+    metadata: {
+      name: "dagger-coder-access-binding",
+      namespace: "dagger",
+    },
+    roleRef: {
+      apiGroup: "rbac.authorization.k8s.io",
+      kind: "Role",
+      name: "dagger-gha-access",
+    },
+    subjects: [
+      {
+        kind: "ServiceAccount",
+        name: "default",
+        namespace: "coder",
+      },
+    ],
+  });
+
   // Create a ZFS SSD PVC for Dagger data
   const dataPvc = new ZfsSsdVolume(chart, "dagger-data", {
     storage: Size.gibibytes(128),
