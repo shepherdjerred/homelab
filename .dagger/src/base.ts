@@ -44,6 +44,8 @@ export function getWorkspaceContainer(repoRoot: Directory, workspacePath: string
     .withFile("bun.lock", repoRoot.file("bun.lock"))
     // Copy root eslint config (workspace configs import from it)
     .withFile("eslint.config.ts", repoRoot.file("eslint.config.ts"))
+    // Copy custom eslint rules directory (required by eslint.config.ts)
+    .withDirectory("eslint-rules", repoRoot.directory("eslint-rules"))
     // Copy root prettier config (workspaces inherit from it)
     .withFile(".prettierrc", repoRoot.file(".prettierrc"))
     // Copy root TypeScript config (workspace configs extend from it)

@@ -1086,20 +1086,43 @@ export type KubeprometheusstackHelmValuesAlertmanager = {
    */
   podDisruptionBudget?: KubeprometheusstackHelmValuesAlertmanagerPodDisruptionBudget;
   /**
+   * ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
+   * https://prometheus.io/webtools/alerting/routing-tree-editor/
+   *
    * @default {...} (5 keys)
    */
   config?: KubeprometheusstackHelmValuesAlertmanagerConfig;
   /**
+   * Alertmanager configuration directives (as string type, preferred over the config hash map)
+   * stringConfig will be used only, if tplConfig is true
+   * ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
+   * https://prometheus.io/webtools/alerting/routing-tree-editor/
+   *
    * @default ""
    */
   stringConfig?: string;
   /**
+   * Pass the Alertmanager configuration directives through Helm's templating
+   * engine. If the Alertmanager configuration contains Alertmanager templates,
+   * they'll need to be properly escaped so that they are not interpreted by
+   * Helm
+   * ref: https://helm.sh/docs/developing_charts/#using-the-tpl-function
+   * https://prometheus.io/docs/alerting/configuration/#tmpl_string
+   * https://prometheus.io/docs/alerting/notifications/
    * https://prometheus.io/docs/alerting/notification_examples/
    *
    * @default false
    */
   tplConfig?: boolean;
   /**
+   * Alertmanager template files to format alerts
+   * By default, templateFiles are placed in /etc/alertmanager/config/ and if
+   * they have a .tmpl file suffix will be loaded. See config.templates above
+   * to change, add other suffixes. If adding other suffixes, be sure to update
+   * config.templates above to include those suffixes.
+   * ref: https://prometheus.io/docs/alerting/notifications/
+   * https://prometheus.io/docs/alerting/notification_examples/
+   *
    * @default {}
    */
   templateFiles?: KubeprometheusstackHelmValuesAlertmanagerTemplateFiles;
@@ -7006,6 +7029,9 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
   exemplars?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecExemplars;
   enableFeatures?: unknown[];
   /**
+   * - exemplar-storage
+   * https://prometheus.io/docs/guides/opentelemetry
+   *
    * @default {}
    */
   otlp?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecOtlp;
