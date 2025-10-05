@@ -99,7 +99,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://opensource.zalando.com/postgres-operator/charts/postgres-operator versioning=semver
   "postgres-operator": "1.14.0",
   // renovate: datasource=helm registryUrl=https://helm.coder.com/v2 versioning=semver
-  coder: "2.26.0",
+  coder: "2.26.1",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "cooperspencer/gickup": "0.10.39",
 };
