@@ -16,7 +16,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
   "tailscale-operator": "1.88.3",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
-  "library/redis": "7.2@sha256:80f52338282f0b18caafcab372e816b3e11bca49d503c00db96799d6a12131b7",
+  "library/redis": "7.2@sha256:9c44a721d444690605ffa32d6b6e1ac565060676386f88bbbb376f56cef2f724",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "teddit/teddit": "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
