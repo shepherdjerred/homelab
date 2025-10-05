@@ -27,7 +27,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/tautulli": "2.16.0@sha256:ec6714a372e869967bab7411f4ef87683d782c527ded241e8c84779d6b7c4f9f",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "linuxserver/bazarr": "1.5.3@sha256:e424330f048ff1401f22413e34ee11c25ac2de79b6213c6ead3f593b44626c55",
+  "linuxserver/bazarr": "1.5.3@sha256:cf7a02a46d37899eeafd1d96b81984168f771f89c554a52a2fd35437fdc16cb6",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/overseerr": "1.34.0@sha256:bad11167104f7b0ff0beb924c9568bb7ea991c225949a209d0b8b00a5434479d",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
