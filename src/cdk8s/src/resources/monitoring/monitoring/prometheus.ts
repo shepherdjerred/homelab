@@ -7,6 +7,7 @@ import { getResourceMonitoringRuleGroups } from "./rules/resource-monitoring";
 import { getZfsMonitoringRuleGroups } from "./rules/zfs";
 import { getSmartctlRuleGroups } from "./rules/smartctl";
 import { getHaWorkflowRuleGroups } from "./rules/ha-workflows";
+import { getGitckupRuleGroups } from "./rules/gitckup";
 
 export function createPrometheusMonitoring(chart: Chart) {
   // Create Home Assistant rules
@@ -89,6 +90,18 @@ export function createPrometheusMonitoring(chart: Chart) {
     },
     spec: {
       groups: getHaWorkflowRuleGroups(),
+    },
+  });
+
+  // Create Gitckup rules
+  new PrometheusRule(chart, "prometheus-gitckup-rules", {
+    metadata: {
+      name: "prometheus-gitckup-rules",
+      namespace: "torvalds",
+      labels: { release: "prometheus" },
+    },
+    spec: {
+      groups: getGitckupRuleGroups(),
     },
   });
 }
