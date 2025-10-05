@@ -80,11 +80,7 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "HA Good Morning workflow missing",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `(
-              time() - max(ha_workflow_last_execution_timestamp{workflow=~"good_morning_.*",status="success"}) > 90000
-            ) or (
-              absent(ha_workflow_last_execution_timestamp{workflow=~"good_morning_.*",status="success"})
-            )`,
+            'increase(ha_workflow_executions_total{workflow=~"good_morning_.*",status="success"}[25h]) == 0',
           ),
           for: "30m",
           labels: { severity: "warning" },
@@ -100,11 +96,7 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "HA Vacuum workflow missing",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `(
-              time() - max(ha_workflow_last_execution_timestamp{workflow="run_vacuum_if_not_home",status="success"}) > 90000
-            ) or (
-              absent(ha_workflow_last_execution_timestamp{workflow="run_vacuum_if_not_home",status="success"})
-            )`,
+            'increase(ha_workflow_executions_total{workflow="run_vacuum_if_not_home",status="success"}[25h]) == 0',
           ),
           for: "30m",
           labels: { severity: "info" },

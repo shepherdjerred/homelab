@@ -37,17 +37,13 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
           annotations: {
             summary: "No new successful Velero backup",
             message: escapePrometheusTemplate(
-              "Velero backup {{ $labels.schedule }} has not run successfully in the last 30h",
+              "Velero backup {{ $labels.schedule }} has not had any successful backups in the last 30h",
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `(
-  rate(velero_backup_last_successful_timestamp{schedule!=""}[15m]) <=bool 0
-  or
-  absent(velero_backup_last_successful_timestamp{schedule!=""})
-) == 1`,
+            'increase(velero_backup_success_total{schedule!=""}[30h]) == 0',
           ),
-          for: "30h",
+          for: "1h",
           labels: {
             severity: "critical",
           },

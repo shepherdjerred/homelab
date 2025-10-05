@@ -11,7 +11,7 @@ export function getSmartctlRuleGroups(): PrometheusRuleSpecGroups[] {
         // SMART Health Status Rules
         {
           alert: "SmartDeviceHealthFailure",
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("smartmon_device_smart_healthy == 0"),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("smartmon:device_healthy == 0"),
           for: "0m",
           labels: {
             severity: "critical",

@@ -12,11 +12,11 @@ export function getGitckupRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "GitckupJobFailed",
           annotations: {
             summary: "Gitckup backup job has failed",
-            message: escapePrometheusTemplate("Gitckup backup job has failed. Check logs for details."),
+            message: escapePrometheusTemplate(
+              "Gitckup backup job has failed. {{ $value }} jobs started but not completed.",
+            ),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "gickup_job_duration_sum == 0 and gickup_jobs_complete == 0",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("gickup_jobs_started > gickup_jobs_complete"),
           for: "15m",
           labels: {
             severity: "warning",
@@ -30,13 +30,7 @@ export function getGitckupRuleGroups(): PrometheusRuleSpecGroups[] {
               "Gitckup backup job has not completed successfully in the last 25 hours. Expected to run daily at 2 AM.",
             ),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `(
-  time() - gickup_job_duration_sum > 25 * 3600
-  or
-  absent(gickup_job_duration_sum)
-) == 1`,
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("increase(gickup_jobs_complete[25h]) == 0"),
           for: "30m",
           labels: {
             severity: "critical",
@@ -95,10 +89,12 @@ export function getGitckupRuleGroups(): PrometheusRuleSpecGroups[] {
           annotations: {
             summary: "Gitckup backup job is taking too long",
             message: escapePrometheusTemplate(
-              "Gitckup backup job has been running for more than 4 hours. Current duration: {{ $value | humanizeDuration }}",
+              "Gitckup backup job average duration is more than 4 hours. Current average: {{ $value | humanizeDuration }}",
             ),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("gickup_job_duration_sum > 4 * 3600"),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "gickup_job_duration_sum / gickup_job_duration_count > 4 * 3600",
+          ),
           for: "10m",
           labels: {
             severity: "warning",
@@ -109,10 +105,12 @@ export function getGitckupRuleGroups(): PrometheusRuleSpecGroups[] {
           annotations: {
             summary: "Gitckup backup job appears to be stuck",
             message: escapePrometheusTemplate(
-              "Gitckup backup job has been running for more than 8 hours and may be stuck. Manual intervention required.",
+              "Gitckup backup job average duration is more than 8 hours and may be stuck. Manual intervention required.",
             ),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("gickup_job_duration_sum > 8 * 3600"),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "gickup_job_duration_sum / gickup_job_duration_count > 8 * 3600",
+          ),
           for: "30m",
           labels: {
             severity: "critical",
@@ -133,7 +131,7 @@ export function getGitckupRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "(gickup_repo_success / gickup_repos_discovered) * 100 < 95 and gickup_repos_discovered > 0",
+            "(count(gickup_repo_success == 1) / gickup_repos_discovered) * 100 < 95 and gickup_repos_discovered > 0",
           ),
           for: "5m",
           labels: {
@@ -149,7 +147,7 @@ export function getGitckupRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "gickup_repo_success == 0 and gickup_repos_discovered > 0",
+            "count(gickup_repo_success == 1) == 0 and gickup_repos_discovered > 0",
           ),
           for: "10m",
           labels: {
