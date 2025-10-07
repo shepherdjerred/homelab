@@ -3,6 +3,7 @@ import { goodNight } from "./workflows/good-night.ts";
 import { welcomeHome } from "./workflows/welcome-home.ts";
 import { runVacuumIfNotHome } from "./workflows/run-vacuum-if-not-home.ts";
 import { leavingHome } from "./workflows/leaving-home.ts";
+import { resetLeftBlind } from "./workflows/reset-left-blind.ts";
 import { startMetricsServer } from "./metrics-server.ts";
 
 import { LIB_HASS } from "@digital-alchemy/hass";
@@ -20,6 +21,7 @@ const app = CreateApplication({
     welcomeHome,
     runVacuumIfNotHome,
     leavingHome,
+    resetLeftBlind,
   },
 });
 

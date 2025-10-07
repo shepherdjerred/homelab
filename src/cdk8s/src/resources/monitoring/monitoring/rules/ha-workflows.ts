@@ -25,6 +25,20 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
           labels: { severity: "warning" },
         },
         {
+          alert: "HaWorkflowTimeout",
+          annotations: {
+            description: escapePrometheusTemplate(
+              'HA workflow "{{ $labels.workflow }}" timed out. Error type: {{ $labels.error_type }}. This may indicate a stuck Home Assistant API call or unresponsive device.',
+            ),
+            summary: "HA workflow timeout",
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'increase(ha_workflow_errors_total{error_type="TimeoutError"}[5m]) > 0',
+          ),
+          for: "1m",
+          labels: { severity: "warning" },
+        },
+        {
           alert: "HaWorkflowHighFailureRate",
           annotations: {
             description: escapePrometheusTemplate(

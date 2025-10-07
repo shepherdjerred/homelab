@@ -26,6 +26,18 @@ export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
           "Litter Robot waste drawer is high: {{ $value }}% ({{ $labels.entity }}).",
           "Litter Robot waste high",
         ),
+        {
+          alert: "LitterRobotNotCyclingRecently",
+          annotations: {
+            description: 'Litter Robot has not cycled in the last 6 hours ({{ "{{" }} $value {{ "}}" }} cycles).',
+            summary: "Litter Robot not cycling",
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'increase(homeassistant_sensor_unit_cycles{entity="sensor.litter_robot_4_total_cycles"}[6h]) == 0',
+          ),
+          for: "30m",
+          labels: { severity: "warning" },
+        },
       ],
     },
 
@@ -65,6 +77,19 @@ export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
           "Granary feeder desiccant is overdue: {{ $value }} days remaining ({{ $labels.entity }}).",
           "Granary feeder desiccant remaining days",
         ),
+        {
+          alert: "GranaryFeederNotDispensing",
+          annotations: {
+            description:
+              'Granary feeder has not dispensed food in over 14 hours. Time since last feed: {{ "{{" }} $value | humanizeDuration {{ "}}" }}.',
+            summary: "Granary feeder not dispensing",
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'time() - homeassistant_sensor_timestamp_seconds{entity="sensor.granary_smart_camera_feeder_last_feed_time"} > 50400',
+          ),
+          for: "30m",
+          labels: { severity: "warning" },
+        },
         createBinarySensorAlert(
           "RoombaBinFull",
           "binary_sensor.roomba_bin_full",
@@ -72,6 +97,19 @@ export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
           "Roomba bin full",
           "15m",
         ),
+        {
+          alert: "RoombaNotRunningRecently",
+          annotations: {
+            description:
+              'Roomba has not run any missions in the last 48 hours ({{ "{{" }} $value {{ "}}" }} missions).',
+            summary: "Roomba not running recently",
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'increase(homeassistant_sensor_unit_missions{entity="sensor.roomba_total_missions"}[48h]) == 0',
+          ),
+          for: "1h",
+          labels: { severity: "warning" },
+        },
       ],
     },
 

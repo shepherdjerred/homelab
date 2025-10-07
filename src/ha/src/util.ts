@@ -7,25 +7,88 @@ export type Time = {
   unit?: "ms" | "s" | "m";
 };
 
-export function wait({ amount, unit = "ms" }: Time) {
-  const ms = match(unit)
+/**
+ * Custom error class for timeout failures
+ */
+export class TimeoutError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "TimeoutError";
+  }
+}
+
+/**
+ * Convert Time to milliseconds
+ */
+function timeToMs({ amount, unit = "ms" }: Time): number {
+  return match(unit)
     .with("ms", () => amount)
     .with("s", () => amount * 1000)
     .with("m", () => amount * 60 * 1000)
     .exhaustive();
-  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function wait({ amount, unit = "ms" }: Time) {
+  return new Promise((resolve) => setTimeout(resolve, timeToMs({ amount, unit })));
+}
+
+/**
+ * Wrap a promise with a timeout. If the promise doesn't resolve/reject within
+ * the specified time, it will reject with a TimeoutError.
+ *
+ * @param promise - The promise to wrap
+ * @param timeout - The timeout configuration
+ * @param operationName - Optional name for the operation (used in error message)
+ * @returns The result of the promise if it completes in time
+ * @throws TimeoutError if the timeout is exceeded
+ */
+export function withTimeout<T>(promise: Promise<T>, timeout: Time, operationName?: string): Promise<T> {
+  const timeoutMs = timeToMs(timeout);
+  const operation = operationName ? ` for ${operationName}` : "";
+
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => {
+        reject(new TimeoutError(`Operation timeout after ${timeoutMs.toString()}ms${operation}`));
+      }, timeoutMs),
+    ),
+  ]);
+}
+
+/**
+ * Wrap a promise factory with a timeout. Useful for lazy evaluation.
+ *
+ * @param promiseFactory - Function that returns a promise
+ * @param timeout - The timeout configuration
+ * @param operationName - Optional name for the operation
+ */
+export function withTimeoutFactory<T>(
+  promiseFactory: () => Promise<T>,
+  timeout: Time,
+  operationName?: string,
+): () => Promise<T> {
+  return () => withTimeout(promiseFactory(), timeout, operationName);
 }
 
 export async function openCoversWithDelay(hass: TServiceParams["hass"], covers: PICK_ENTITY<"cover">[]) {
   for (const cover of covers) {
-    await hass.call.cover.open_cover({ entity_id: cover });
+    await withTimeout(
+      hass.call.cover.open_cover({ entity_id: cover }),
+      { amount: 30, unit: "s" },
+      `open cover ${cover}`,
+    );
     await wait({ amount: 1, unit: "s" });
   }
 }
 
 export async function closeCoversWithDelay(hass: TServiceParams["hass"], covers: PICK_ENTITY<"cover">[]) {
   for (const cover of covers) {
-    await hass.call.cover.close_cover({ entity_id: cover });
+    await withTimeout(
+      hass.call.cover.close_cover({ entity_id: cover }),
+      { amount: 30, unit: "s" },
+      `close cover ${cover}`,
+    );
     await wait({ amount: 1, unit: "s" });
   }
 }

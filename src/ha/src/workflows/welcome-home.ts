@@ -1,6 +1,6 @@
 import type { TServiceParams } from "@digital-alchemy/core";
 import type { ENTITY_STATE } from "@digital-alchemy/hass";
-import { shouldStopCleaning } from "../util.ts";
+import { shouldStopCleaning, withTimeout } from "../util.ts";
 import { instrumentWorkflow } from "../metrics.ts";
 
 export function welcomeHome({ hass, logger }: TServiceParams) {
@@ -16,23 +16,29 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
     ) => {
       if (oldState && newState && newState.state === "home" && oldState.state === "not_home") {
         await instrumentWorkflow("welcome_home", async () => {
-          logger.info("Welcome Home automation triggered");
+          await withTimeout(
+            (async () => {
+              logger.info("Welcome Home automation triggered");
 
-          await hass.call.notify.notify({
-            title: "Welcome Home",
-            message: "Welcome back! Hope you had a great time.",
-          });
+              await hass.call.notify.notify({
+                title: "Welcome Home",
+                message: "Welcome back! Hope you had a great time.",
+              });
 
-          logger.debug("Turning on entryway light");
-          await entrywayLight.turn_on();
+              logger.debug("Turning on entryway light");
+              await entrywayLight.turn_on();
 
-          logger.debug("Setting living room scene to bright");
-          await livingRoomScene.turn_on();
+              logger.debug("Setting living room scene to bright");
+              await livingRoomScene.turn_on();
 
-          if (shouldStopCleaning(roomba.state)) {
-            logger.debug("Commanding Roomba to return to base");
-            await roomba.return_to_base();
-          }
+              if (shouldStopCleaning(roomba.state)) {
+                logger.debug("Commanding Roomba to return to base");
+                await roomba.return_to_base();
+              }
+            })(),
+            { amount: 2, unit: "m" },
+            "welcome_home workflow",
+          );
         });
       }
     },

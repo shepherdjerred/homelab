@@ -7,6 +7,7 @@ import {
   repeat,
   runIf,
   wait,
+  withTimeout,
 } from "../util.ts";
 import z from "zod";
 import { instrumentWorkflow } from "../metrics.ts";
@@ -48,157 +49,169 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   });
 
   async function runEarly() {
-    await runIf(personJerred.state === "home", () =>
-      bedroomHeater.set_temperature({
-        hvac_mode: "heat",
-        temperature: 24,
-      }),
+    await withTimeout(
+      runIf(personJerred.state === "home", () =>
+        bedroomHeater.set_temperature({
+          hvac_mode: "heat",
+          temperature: 24,
+        }),
+      ),
+      { amount: 2, unit: "m" },
+      "good_morning_early workflow",
     );
   }
 
   async function runWakeUp() {
-    await runParallel([
-      () => bedroomHeater.turn_off(),
-      () =>
-        runIf(personJerred.state === "home", () =>
-          runParallel([
-            () =>
-              hass.call.notify.notify({
-                title: "Good Morning",
-                message: "Good Morning! Time to wake up.",
-              }),
-            () =>
-              runSequential([
-                // Debug: Log the full state before doing anything
-                () =>
-                  (async () => {
-                    logger.info(`Before any changes - Full state: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
-                    logger.info(`Before any changes - Entity state: ${bedroomMediaPlayer.state}`);
-                    return Promise.resolve();
-                  })(),
-                () => bedroomMediaPlayer.unjoin(),
-                // Wait longer for unjoin to complete fully
-                () => wait({ amount: 5, unit: "s" }),
-                // Debug: Log state after unjoin
-                () =>
-                  (async () => {
-                    logger.info(`After unjoin - Full state: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
-                    logger.info(`After unjoin - Entity state: ${bedroomMediaPlayer.state}`);
-                    return Promise.resolve();
-                  })(),
-                // Try volume_set with explicit value
-                () =>
-                  (async () => {
-                    logger.info("Calling volume_set with volume_level: 0");
-                    await bedroomMediaPlayer.volume_set({ volume_level: 0 });
-                    logger.info("volume_set call completed");
-                    return Promise.resolve();
-                  })(),
-                // Wait and check if it took effect
-                () => wait({ amount: 2, unit: "s" }),
-                // Debug: Log state after volume_set
-                () =>
-                  (async () => {
-                    logger.info(`After volume_set - Full state: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
-                    return Promise.resolve();
-                  })(),
-                // Play media with error handling and retry
-                () =>
-                  (async () => {
-                    try {
-                      logger.info("Attempting to play media on bedroom player");
-                      await bedroomMediaPlayer.play_media({
-                        media: {
-                          media_content_id: "FV:2/5",
-                          media_content_type: "favorite_item_id",
-                        },
-                      });
-                      logger.info("Successfully started media playback");
-                    } catch (error) {
-                      const errorMsg = z
-                        .instanceof(Error)
-                        .transform((error) => error.message)
-                        .catch((ctx) => String(ctx.value))
-                        .parse(error);
-                      logger.error(`First play_media attempt failed: ${errorMsg}`);
-                      logger.info("Waiting additional time and retrying...");
-                      await wait({ amount: 3, unit: "s" });
+    await withTimeout(
+      runParallel([
+        () => bedroomHeater.turn_off(),
+        () =>
+          runIf(personJerred.state === "home", () =>
+            runParallel([
+              () =>
+                hass.call.notify.notify({
+                  title: "Good Morning",
+                  message: "Good Morning! Time to wake up.",
+                }),
+              () =>
+                runSequential([
+                  // Debug: Log the full state before doing anything
+                  () =>
+                    (async () => {
+                      logger.info(`Before any changes - Full state: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+                      logger.info(`Before any changes - Entity state: ${bedroomMediaPlayer.state}`);
+                      return Promise.resolve();
+                    })(),
+                  () => bedroomMediaPlayer.unjoin(),
+                  // Wait longer for unjoin to complete fully
+                  () => wait({ amount: 5, unit: "s" }),
+                  // Debug: Log state after unjoin
+                  () =>
+                    (async () => {
+                      logger.info(`After unjoin - Full state: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+                      logger.info(`After unjoin - Entity state: ${bedroomMediaPlayer.state}`);
+                      return Promise.resolve();
+                    })(),
+                  // Try volume_set with explicit value
+                  () =>
+                    (async () => {
+                      logger.info("Calling volume_set with volume_level: 0");
+                      await bedroomMediaPlayer.volume_set({ volume_level: 0 });
+                      logger.info("volume_set call completed");
+                      return Promise.resolve();
+                    })(),
+                  // Wait and check if it took effect
+                  () => wait({ amount: 2, unit: "s" }),
+                  // Debug: Log state after volume_set
+                  () =>
+                    (async () => {
+                      logger.info(`After volume_set - Full state: ${JSON.stringify(bedroomMediaPlayer.attributes)}`);
+                      return Promise.resolve();
+                    })(),
+                  // Play media with error handling and retry
+                  () =>
+                    (async () => {
                       try {
+                        logger.info("Attempting to play media on bedroom player");
                         await bedroomMediaPlayer.play_media({
                           media: {
                             media_content_id: "FV:2/5",
                             media_content_type: "favorite_item_id",
                           },
                         });
-                        logger.info("Retry successful");
-                      } catch (retryError) {
-                        const retryErrorMsg = z
+                        logger.info("Successfully started media playback");
+                      } catch (error) {
+                        const errorMsg = z
                           .instanceof(Error)
                           .transform((error) => error.message)
                           .catch((ctx) => String(ctx.value))
-                          .parse(retryError);
-                        logger.error(`Retry also failed: ${retryErrorMsg}`);
-                        // Continue with the rest of the routine even if media fails
+                          .parse(error);
+                        logger.error(`First play_media attempt failed: ${errorMsg}`);
+                        logger.info("Waiting additional time and retrying...");
+                        await wait({ amount: 3, unit: "s" });
+                        try {
+                          await bedroomMediaPlayer.play_media({
+                            media: {
+                              media_content_id: "FV:2/5",
+                              media_content_type: "favorite_item_id",
+                            },
+                          });
+                          logger.info("Retry successful");
+                        } catch (retryError) {
+                          const retryErrorMsg = z
+                            .instanceof(Error)
+                            .transform((error) => error.message)
+                            .catch((ctx) => String(ctx.value))
+                            .parse(retryError);
+                          logger.error(`Retry also failed: ${retryErrorMsg}`);
+                          // Continue with the rest of the routine even if media fails
+                        }
                       }
-                    }
-                  })(),
-                () =>
-                  runSequentialWithDelay(repeat(bedroomMediaPlayer.volume_up, initialVolumeSteps), {
-                    amount: 5,
-                    unit: "s",
-                  }),
-              ]),
-            () => bedroomScene.turn_on({ transition: 3 }),
-            () => mainBathroomLight.turn_on(),
-          ]),
-        ),
-    ]);
+                    })(),
+                  () =>
+                    runSequentialWithDelay(repeat(bedroomMediaPlayer.volume_up, initialVolumeSteps), {
+                      amount: 5,
+                      unit: "s",
+                    }),
+                ]),
+              () => bedroomScene.turn_on({ transition: 3 }),
+              () => mainBathroomLight.turn_on(),
+            ]),
+          ),
+      ]),
+      { amount: 5, unit: "m" },
+      "good_morning_wake_up workflow",
+    );
   }
 
   async function runGetUp() {
-    await runIf(personJerred.state === "home", () =>
-      runParallel([
-        () =>
-          runIf(personShuxin.state === "not_home", () =>
-            openCoversWithDelay(hass, ["cover.bedroom_left", "cover.bedroom_right"]),
-          ),
-        () => bedroomBrightScene.turn_on({ transition: 60 }),
-        () =>
-          runSequential([
-            // Set extra players to start volume
-            () =>
-              (async () => {
-                for (const player of extraMediaPlayers) {
-                  await player.volume_set({ volume_level: startVolume });
-                }
-              })(),
-            // Join all players together
-            () =>
-              bedroomMediaPlayer.join({
-                group_members: extraMediaPlayers.map((p) => p.entity_id),
-              }),
-            // Gentle volume increase for all players (bedroom + extra)
-            () =>
-              runSequentialWithDelay(
-                repeat(async () => {
-                  // Increase bedroom player volume
-                  await bedroomMediaPlayer.volume_up();
-                  // Increase extra players volume
-                  await Promise.all(
-                    extraMediaPlayers.map(async (player) => {
-                      logger.debug(`Increasing volume for ${player.entity_id}`);
-                      await player.volume_up();
-                    }),
-                  );
-                }, additionalVolumeSteps), // Only 2 additional steps instead of 5+3
-                {
-                  amount: 5,
-                  unit: "s",
-                },
-              ),
-          ]),
-        () => entrywayLight.turn_on(),
-      ]),
+    await withTimeout(
+      runIf(personJerred.state === "home", () =>
+        runParallel([
+          () =>
+            runIf(personShuxin.state === "not_home", () =>
+              openCoversWithDelay(hass, ["cover.bedroom_left", "cover.bedroom_right"]),
+            ),
+          () => bedroomBrightScene.turn_on({ transition: 60 }),
+          () =>
+            runSequential([
+              // Set extra players to start volume
+              () =>
+                (async () => {
+                  for (const player of extraMediaPlayers) {
+                    await player.volume_set({ volume_level: startVolume });
+                  }
+                })(),
+              // Join all players together
+              () =>
+                bedroomMediaPlayer.join({
+                  group_members: extraMediaPlayers.map((p) => p.entity_id),
+                }),
+              // Gentle volume increase for all players (bedroom + extra)
+              () =>
+                runSequentialWithDelay(
+                  repeat(async () => {
+                    // Increase bedroom player volume
+                    await bedroomMediaPlayer.volume_up();
+                    // Increase extra players volume
+                    await Promise.all(
+                      extraMediaPlayers.map(async (player) => {
+                        logger.debug(`Increasing volume for ${player.entity_id}`);
+                        await player.volume_up();
+                      }),
+                    );
+                  }, additionalVolumeSteps), // Only 2 additional steps instead of 5+3
+                  {
+                    amount: 5,
+                    unit: "s",
+                  },
+                ),
+            ]),
+          () => entrywayLight.turn_on(),
+        ]),
+      ),
+      { amount: 5, unit: "m" },
+      "good_morning_get_up workflow",
     );
   }
 }
