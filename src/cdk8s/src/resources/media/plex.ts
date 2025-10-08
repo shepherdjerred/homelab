@@ -157,4 +157,12 @@ export function createPlexDeployment(
       },
     }),
   );
+
+  // Exclude large media volumes from Velero backups
+  // Only backup the config volume, not the 4TB TV and movies volumes
+  ApiObject.of(deployment).addJsonPatch(
+    JsonPatch.add("/spec/template/metadata/annotations", {
+      "backup.velero.io/backup-volumes-excludes": "plex-tv-hdd-volume,plex-movies-hdd-volume",
+    }),
+  );
 }
