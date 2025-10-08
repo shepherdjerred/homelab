@@ -1,4 +1,4 @@
-import { Chart } from "cdk8s";
+import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import { Schedule } from "../../../generated/imports/velero.io.ts";
@@ -194,6 +194,7 @@ export function createVeleroApp(chart: Chart) {
             region: "auto",
             s3Url: "https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com",
             prefix: "torvalds/zfs/",
+            multiPartChunkSize: Size.mebibytes(20).asString(),
           },
         },
       ],
