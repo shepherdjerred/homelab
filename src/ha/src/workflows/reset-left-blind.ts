@@ -12,6 +12,9 @@ export function resetLeftBlind({ hass, logger }: TServiceParams) {
   let lastExecutionTime = 0;
 
   leftBlindControl.onUpdate(async (newState, oldState) => {
+    logger.info(`Left blind control state: ${newState.state}`);
+    logger.info(`Left blind switch state: ${leftBlindSwitch.state}`);
+
     // Check if the blind control just became unavailable
     if (newState.state === "unavailable" && oldState.state !== "unavailable") {
       const now = Date.now();
