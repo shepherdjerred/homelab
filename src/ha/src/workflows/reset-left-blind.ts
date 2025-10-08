@@ -3,7 +3,7 @@ import { wait, withTimeout } from "../util.ts";
 import { instrumentWorkflow } from "../metrics.ts";
 
 export function resetLeftBlind({ hass, logger }: TServiceParams) {
-  const leftBlindControl = hass.refBy.id("cover.bedroom_left");
+  const leftBlindControl = hass.refBy.id("cover.office_left");
 
   const leftBlindSwitch = hass.refBy.id("switch.office_left_blinds");
 
@@ -20,9 +20,9 @@ export function resetLeftBlind({ hass, logger }: TServiceParams) {
     logger.info(`Left blind switch state: ${leftBlindSwitch.state}`);
 
     // Log all timestamps
-    logger.info(`Last reported: ${newState.last_reported.format()}`);
-    logger.info(`Last changed: ${newState.last_changed.format()}`);
-    logger.info(`Last updated: ${newState.last_updated.format()}`);
+    logger.info(`Last reported: ${JSON.stringify(newState.last_reported)}`);
+    logger.info(`Last changed: ${JSON.stringify(newState.last_changed)}`);
+    logger.info(`Last updated: ${JSON.stringify(newState.last_updated)}`);
 
     // Log all attributes
     logger.info(`Attributes: ${JSON.stringify(newState.attributes, null, 2)}`);
