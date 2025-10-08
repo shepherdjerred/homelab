@@ -7,7 +7,7 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
   const personJerred = hass.refBy.id("person.jerred");
   const roomba = hass.refBy.id("vacuum.roomba");
   const entrywayLight = hass.refBy.id("switch.entryway_overhead_lights");
-  const livingRoomScene = hass.refBy.id("scene.living_room_bright");
+  const livingRoomScene = hass.refBy.id("scene.living_room_main_bright");
 
   personJerred.onUpdate(
     async (
