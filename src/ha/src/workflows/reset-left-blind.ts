@@ -12,12 +12,41 @@ export function resetLeftBlind({ hass, logger }: TServiceParams) {
   let lastExecutionTime = 0;
 
   leftBlindControl.onUpdate(async (newState, oldState) => {
-    logger.info(`Left blind control state: ${newState.state}`);
+    // Debug logging: log everything about the state
+    logger.info(`===== Left Blind Control State Update =====`);
+    logger.info(`Current state: ${newState.state}`);
+    logger.info(`Previous state: ${oldState.state}`);
+    logger.info(`Entity ID: ${newState.entity_id}`);
     logger.info(`Left blind switch state: ${leftBlindSwitch.state}`);
 
-    // Check if the blind control just became unavailable
-    if (newState.state === "unavailable" && oldState.state !== "unavailable") {
-      const now = Date.now();
+    // Log all timestamps
+    logger.info(`Last reported: ${newState.last_reported.format()}`);
+    logger.info(`Last changed: ${newState.last_changed.format()}`);
+    logger.info(`Last updated: ${newState.last_updated.format()}`);
+
+    // Log all attributes
+    logger.info(`Attributes: ${JSON.stringify(newState.attributes, null, 2)}`);
+
+    // Log the full state object for complete debugging
+    logger.debug(`Full newState: ${JSON.stringify(newState, null, 2)}`);
+    logger.debug(`Full oldState: ${JSON.stringify(oldState, null, 2)}`);
+    logger.info(`===========================================`);
+
+    // Check if the blind hasn't reported in more than 2 minutes (device offline)
+    const now = Date.now();
+    const OFFLINE_THRESHOLD_MS = 2 * 60 * 1000; // 2 minutes
+
+    const lastReportedMs = newState.last_reported.valueOf();
+    const timeSinceReport = now - lastReportedMs;
+    const minutesSinceReport = Math.floor(timeSinceReport / 60000);
+    const secondsSinceReport = Math.floor((timeSinceReport % 60000) / 1000);
+
+    logger.info(`Time since last report: ${minutesSinceReport.toString()}m ${secondsSinceReport.toString()}s`);
+
+    // Only trigger if the device has been offline for more than 2 minutes
+    if (timeSinceReport > OFFLINE_THRESHOLD_MS) {
+      logger.info(`Device has been offline for more than 2 minutes`);
+
       const timeSinceLastExecution = now - lastExecutionTime;
 
       // Check if we're still in the cooldown period
@@ -32,18 +61,18 @@ export function resetLeftBlind({ hass, logger }: TServiceParams) {
       await instrumentWorkflow("reset_left_blind", async () => {
         await withTimeout(
           (async () => {
-            logger.info("Reset Left Blind automation triggered - blind control is unavailable");
+            logger.info("Reset Left Blind automation triggered - device hasn't reported in over 2 minutes");
 
             await hass.call.notify.notify({
               title: "Left Blind Reset",
-              message: "The left blind control is unavailable. Attempting to reset...",
+              message: "The left blind hasn't reported in over 2 minutes. Attempting to reset...",
             });
 
             // Turn off the switch
             logger.debug("Turning off left blind switch");
             await leftBlindSwitch.turn_off();
 
-            // Wait 5 seconds
+            // Wait 10 seconds
             logger.debug("Waiting 10 seconds");
             await wait({ amount: 10, unit: "s" });
 
