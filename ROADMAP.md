@@ -7,11 +7,13 @@
 - <https://github.com/prometheus/blackbox_exporter>
 - <https://github.com/esanchezm/prometheus-qbittorrent-exporter>
 - <https://github.com/jsclayton/prometheus-plex-exporter>
+- Prometheus Minecraft exporter
 - CI
   - Output is still difficult to understand
   - it's really a mess altogether tbh. Maybe I should get rid of Dagger?
 - Verify Gomplate syntax
 - Helm is downloaded via Docker rather than mise
+- Get Coder tf to apply automatically
 
 ## Done
 
