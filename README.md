@@ -18,6 +18,7 @@ some things I'm proud of:
 
 - Close to zero host setup
   - It's just a few commands to deploy my entire cluster
+
 - Entirely written in TypeScript built with [cdk8s](https://cdk8s.io/) and
   [Bun](https://bun.sh/)
 - Automated backups
@@ -26,12 +27,14 @@ some things I'm proud of:
 - GHA Runners w/ Dagger used by my open-source projects
 - Entirely automated deployment for updates, upgrades, etc.
   - Commit-to-deployment takes ~1min
+
 - Automated dependency updates
   - For Docker images (w/ pinned SHAs)
   - For Helm charts
   - For Bun dependencies
   - [My approach](https://github.com/shepherdjerred/homelab/blob/main/src/cdk8s/src/versions.ts)
     allows all of my dependencies to be pinned and updated regularly
+
 - Static typing for:
   - [Kubernetes resources including CRDs](src/cdk8s/scripts/update-imports.ts)
   - [Helm chart parameters](src/helm-types)
@@ -42,7 +45,6 @@ some things I'm proud of:
 ### Talos
 
 1. Create `secrets.yaml`
-
 2. Create the configuration file:
 
 ```bash
@@ -60,7 +62,7 @@ talosctl gen config \
 1. Configure `endpoints` in `talosconfig`
    - This allows commands to be run without the `--endpoints` argument
 
-1. Move the talosconfig:
+2. Move the talosconfig:
 
 - This allows commands to be run without the `--talosconfig` argument
 
@@ -130,10 +132,8 @@ helm install argocd argo/argo-cd --namespace argocd
 
 - Be sure not to commit any changes to these files so that secrets don't
   leak.
-
 - These should be the only credentials that are manually set. Everything else
   can be retrieved from 1Password.
-
 - Annoyingly, the credential in `1password-secret.yaml` _must_ be base64
   encoded.
 
@@ -202,13 +202,15 @@ kubectl exec pod/shell -n maintenance -- \
 
 ### Upgrade Talos
 
-```bash
+```bash {"interpreter":"/opt/homebrew/bin/bash"}
+IMAGE=factory.talos.dev/metal-installer-secureboot/1612e3d9548d23f80819529fecb71683b235380f86f9e37adb0070736752423a:v1.11.2
 talosctl upgrade --nodes 192.168.1.81 \
   --image $IMAGE
 ```
 
 ### Upgrade Kubernetes
 
-```bash
+```bash {"interpreter":"/opt/homebrew/bin/bash"}
+VERSION=1.34.1
 talosctl --nodes 192.168.1.81 upgrade-k8s --to $VERSION
 ```

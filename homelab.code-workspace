@@ -34,6 +34,7 @@
       "tamasfe.even-better-toml",
       "davidanson.vscode-markdownlint",
       "arahata.linter-actionlint",
+      "stateful.runme",
     ],
   },
   "tasks": {
