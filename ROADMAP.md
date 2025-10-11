@@ -14,6 +14,13 @@
 - Verify Gomplate syntax
 - Helm is downloaded via Docker rather than mise
 - Get Coder tf to apply automatically
+- Get Pokemon bot running
+- Deploy Karma bot
+- Collect Prometheus metrics from Scout for League of Legends
+- `homeassistant_sensor_timestamp_seconds{entity="sensor.granary_smart_camera_feeder_last_feed_time"}`
+  - metric does not exist
+- `rate(node_disk_written_bytes_total[5m]) > 1048576`
+  - metric on the edge of alerting. should have another alarm for writes per day
 
 ## Done
 

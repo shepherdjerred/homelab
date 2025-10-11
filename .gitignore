@@ -6,3 +6,6 @@ dist/
 *.tar
 *.tsbuildinfo
 .eslintcache
+
+# MCP credentials cache
+.cursor/cache/

@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "grafana": {
+      "command": "/workspaces/homelab/.cursor/mcp-env-wrapper.sh",
+      "args": ["go", "run", "github.com/grafana/mcp-grafana/cmd/mcp-grafana@latest"],
+      "env": {
+        "GRAFANA_URL": "http://prometheus-grafana.prometheus"
+      }
+    },
+    "pagerduty-mcp": {
+      "type": "stdio",
+      "command": "/workspaces/homelab/.cursor/mcp-env-wrapper.sh",
+      "args": ["uvx", "pagerduty-mcp", "--enable-write-tools"]
+    },
+    "Home Assistant": {
+      "command": "/workspaces/homelab/.cursor/mcp-env-wrapper.sh",
+      "args": ["uvx", "mcp-proxy", "http://homeassistant.tailnet-1a49.ts.net/mcp_server/sse"],
+      "env": {
+        "API_ACCESS_TOKEN": "${HOME_ASSISTANT_API_ACCESS_TOKEN}"
+      }
+    }
+  }
+}
