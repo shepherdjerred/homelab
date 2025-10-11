@@ -86,7 +86,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://iv-org.github.io/invidious-helm-chart versioning=semver
   invidious: "2.3.0",
   // renovate: datasource=github-releases versioning=semver
-  "kubernetes/kubernetes": "v1.33.2",
+  "kubernetes/kubernetes": "v1.34.1",
   // renovate: datasource=custom.papermc versioning=semver
   paper: "1.21.9",
   // this is empty because we have to perform some string manipulation below
