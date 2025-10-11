@@ -5,6 +5,7 @@ import { Schedule } from "../../../generated/imports/velero.io.ts";
 import versions from "../../versions.ts";
 import { Namespace } from "cdk8s-plus-31";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
+import { KubeClusterRole, KubeClusterRoleBinding } from "../../../generated/imports/k8s.ts";
 export function createVeleroApp(chart: Chart) {
   new Namespace(chart, `velero-namespace`, {
     metadata: {
@@ -13,6 +14,38 @@ export function createVeleroApp(chart: Chart) {
         "pod-security.kubernetes.io/enforce": "privileged",
       },
     },
+  });
+
+  // Grant Coder default ServiceAccount access to Velero resources
+  new KubeClusterRole(chart, "velero-coder-access-role", {
+    metadata: {
+      name: "velero-coder-access",
+    },
+    rules: [
+      {
+        apiGroups: ["velero.io"],
+        resources: ["backups", "restores", "schedules", "backupstoragelocations", "volumesnapshotlocations"],
+        verbs: ["get", "list", "watch", "create", "delete", "patch", "update"],
+      },
+    ],
+  });
+
+  new KubeClusterRoleBinding(chart, "velero-coder-access-binding", {
+    metadata: {
+      name: "velero-coder-access-binding",
+    },
+    roleRef: {
+      apiGroup: "rbac.authorization.k8s.io",
+      kind: "ClusterRole",
+      name: "velero-coder-access",
+    },
+    subjects: [
+      {
+        kind: "ServiceAccount",
+        name: "default",
+        namespace: "coder",
+      },
+    ],
   });
 
   // 1Password secret for cloud credentials (AWS/GCP/Azure)
