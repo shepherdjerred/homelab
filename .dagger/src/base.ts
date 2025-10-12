@@ -99,7 +99,7 @@ export function getCurlContainer(): Container {
  * @returns A configured Container with kubectl and caching ready.
  */
 export function getKubectlContainer(): Container {
-  return dag.container().from(`bitnami/kubectl:${versions["bitnami/kubectl"]}`);
+  return dag.container().from(`alpine/kubectl:${versions["alpine/kubectl"]}`);
 }
 
 /**
