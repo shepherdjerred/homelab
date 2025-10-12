@@ -48,8 +48,8 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
       image: image,
       ports: [
         {
-          name: "port-8000",
-          number: 8000,
+          name: "port-3000",
+          number: 3000,
           protocol: Protocol.TCP,
         },
       ],
@@ -103,7 +103,7 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
       },
     },
     selector: deployment,
-    ports: [{ name: "metrics", port: 8000 }],
+    ports: [{ name: "metrics", port: 3000 }],
   });
 
   // Create ServiceMonitor for Prometheus to scrape Scout metrics
