@@ -101,7 +101,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://helm.coder.com/v2 versioning=semver
   coder: "2.27.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "cooperspencer/gickup": "0.10.39",
+  "cooperspencer/gickup": "0.10.39@sha256:3d0dabf3180ac8d3cc1939161e8b55947d697e453abeda29bdc42bb0319a9ed1",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];
