@@ -66,7 +66,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
   openebs: "4.3.3",
   // not managed by renovate
-  "shepherdjerred/scout-for-lol/beta": "1.0.144",
+  "shepherdjerred/scout-for-lol/beta": "1.0.179",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/prod": "1.0.167",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
