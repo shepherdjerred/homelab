@@ -28,5 +28,7 @@ cat > ~/.config/velero/config.json <<EOF
 }
 EOF
 
+bun install
+
 echo "✓ Velero installed and S3 configured for Cloudflare R2"
 echo "Note: Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY from 1Password to use velero CLI"

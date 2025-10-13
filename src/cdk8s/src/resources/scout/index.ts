@@ -26,7 +26,7 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
     .with("prod", () => {
       return {
         image: `ghcr.io/shepherdjerred/scout-for-lol:${versions["shepherdjerred/scout-for-lol/prod"]}`,
-        path: "",
+        path: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/pacrc4wfbtct4y3qazkvazop5a",
         applicationId: "1182800769188110366",
         s3BucketName: "scout-prod",
       };

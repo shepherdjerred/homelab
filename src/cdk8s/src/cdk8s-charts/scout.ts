@@ -11,15 +11,9 @@ export function createScoutChart(app: App, stage: Stage) {
     disableResourceNameHashes: true,
   });
 
-  new Namespace(chart, `scout-beta-namespace`, {
+  new Namespace(chart, `scout-${stage}-namespace`, {
     metadata: {
-      name: `scout-beta`,
-    },
-  });
-
-  new Namespace(chart, `scout-prod-namespace`, {
-    metadata: {
-      name: `scout-prod`,
+      name: `scout-${stage}`,
     },
   });
 

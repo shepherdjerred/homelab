@@ -10,5 +10,6 @@ createProjectChart(app);
 await createAppsChart(app);
 await createTorvaldsChart(app);
 createScoutChart(app, "beta");
+createScoutChart(app, "prod");
 
 app.synth();
