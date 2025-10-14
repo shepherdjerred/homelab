@@ -31,19 +31,18 @@ export type NodefeaturediscoveryHelmValuesMaster = {
    * @default false
    */
   hostNetwork?: boolean;
+  /**
+   * @default "ClusterFirstWithHostNet"
+   */
+  dnsPolicy?: string;
   config?: unknown;
   /**
    * <NFD-MASTER-CONF-END-DO-NOT-REMOVE>
    *
-   * @default 8081
+   * @default 8080
    */
-  metricsPort?: number;
-  /**
-   * @default 8082
-   */
-  healthPort?: number;
+  port?: number;
   instance?: unknown;
-  featureApi?: unknown;
   resyncPeriod?: unknown;
   denyLabelNs?: unknown[];
   extraLabelNs?: unknown[];
@@ -51,7 +50,6 @@ export type NodefeaturediscoveryHelmValuesMaster = {
    * @default false
    */
   enableTaints?: boolean;
-  featureRulesController?: unknown;
   nfdApiParallelism?: unknown;
   /**
    * @default {}
@@ -88,23 +86,27 @@ export type NodefeaturediscoveryHelmValuesMaster = {
   nodeSelector?: NodefeaturediscoveryHelmValuesMasterNodeSelector;
   tolerations?: NodefeaturediscoveryHelmValuesMasterTolerationsElement[];
   /**
+   * @default {"enable":false,"minAvailable":1,"unhealthyPodEvictionPolicy":"AlwaysAllow"}
+   */
+  podDisruptionBudget?: NodefeaturediscoveryHelmValuesMasterPodDisruptionBudget;
+  /**
    * @default {}
    */
   annotations?: NodefeaturediscoveryHelmValuesMasterAnnotations;
   /**
-   * @default {"nodeAffinity":{"preferredDuringSchedulingIgnoredDuringExecution":[{"weight":1,"preference":{"matchExpressions":[{"key":"node-role.kubernetes.io/master","operator":"In","values":[""]}]}},{"weight":1,"preference":{"matchExpressions":[{"key":"node-role.kubernetes.io/control-plane","operator":"In","values":[""]}]}}]}}
+   * @default {"nodeAffinity":{"preferredDuringSchedulingIgnoredDuringExecution":[{"weight":1,"preference":{"matchExpressions":[{"key":"node-role.kubernetes.io/control-plane","operator":"In","values":[""]}]}}]}}
    */
   affinity?: NodefeaturediscoveryHelmValuesMasterAffinity;
   /**
-   * @default {"grpc":{"port":8082},"failureThreshold":30}
+   * @default {"failureThreshold":30}
    */
   startupProbe?: NodefeaturediscoveryHelmValuesMasterStartupProbe;
   /**
-   * @default {"grpc":{"port":8082}}
+   * @default {}
    */
   livenessProbe?: NodefeaturediscoveryHelmValuesMasterLivenessProbe;
   /**
-   * @default {"grpc":{"port":8082},"failureThreshold":10}
+   * @default {"failureThreshold":10}
    */
   readinessProbe?: NodefeaturediscoveryHelmValuesMasterReadinessProbe;
 };
@@ -206,7 +208,7 @@ export type NodefeaturediscoveryHelmValuesMasterNodeSelector = object;
 
 export type NodefeaturediscoveryHelmValuesMasterTolerationsElement = {
   /**
-   * @default "node-role.kubernetes.io/master"
+   * @default "node-role.kubernetes.io/control-plane"
    */
   key?: string;
   /**
@@ -223,6 +225,21 @@ export type NodefeaturediscoveryHelmValuesMasterTolerationsElement = {
   effect?: string;
 };
 
+export type NodefeaturediscoveryHelmValuesMasterPodDisruptionBudget = {
+  /**
+   * @default false
+   */
+  enable?: boolean;
+  /**
+   * @default 1
+   */
+  minAvailable?: number;
+  /**
+   * @default "AlwaysAllow"
+   */
+  unhealthyPodEvictionPolicy?: string;
+};
+
 export type NodefeaturediscoveryHelmValuesMasterAnnotations = {
   /**
    * This type allows arbitrary additional properties beyond those defined below.
@@ -233,7 +250,7 @@ export type NodefeaturediscoveryHelmValuesMasterAnnotations = {
 
 export type NodefeaturediscoveryHelmValuesMasterAffinity = {
   /**
-   * @default {"preferredDuringSchedulingIgnoredDuringExecution":[{"weight":1,"preference":{"matchExpressions":[{"key":"node-role.kubernetes.io/master","operator":"In","values":[""]}]}},{"weight":1,"preference":{"matchExpressions":[{"key":"node-role.kubernetes.io/control-plane","operator":"In","values":[""]}]}}]}
+   * @default {"preferredDuringSchedulingIgnoredDuringExecution":[{"weight":1,"preference":{"matchExpressions":[{"key":"node-role.kubernetes.io/control-plane","operator":"In","values":[""]}]}}]}
    */
   nodeAffinity?: NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinity;
 };
@@ -254,7 +271,7 @@ export type NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDur
      */
     weight?: number;
     /**
-     * @default {"matchExpressions":[{"key":"node-role.kubernetes.io/master","operator":"In","values":[""]}]}
+     * @default {"matchExpressions":[{"key":"node-role.kubernetes.io/control-plane","operator":"In","values":[""]}]}
      */
     preference?: NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreference;
   };
@@ -267,7 +284,7 @@ export type NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDur
 export type NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDuringSchedulingIgnoredDuringExecutionPreferenceMatchExpressionsElement =
   {
     /**
-     * @default "node-role.kubernetes.io/master"
+     * @default "node-role.kubernetes.io/control-plane"
      */
     key?: string;
     /**
@@ -279,52 +296,18 @@ export type NodefeaturediscoveryHelmValuesMasterAffinityNodeAffinityPreferredDur
 
 export type NodefeaturediscoveryHelmValuesMasterStartupProbe = {
   /**
-   * @default {"port":8082}
-   */
-  grpc?: NodefeaturediscoveryHelmValuesMasterStartupProbeGrpc;
-  /**
    * @default 30
    */
   failureThreshold?: number;
 };
 
-export type NodefeaturediscoveryHelmValuesMasterStartupProbeGrpc = {
-  /**
-   * @default 8082
-   */
-  port?: number;
-};
-
-export type NodefeaturediscoveryHelmValuesMasterLivenessProbe = {
-  /**
-   * @default {"port":8082}
-   */
-  grpc?: NodefeaturediscoveryHelmValuesMasterLivenessProbeGrpc;
-};
-
-export type NodefeaturediscoveryHelmValuesMasterLivenessProbeGrpc = {
-  /**
-   * @default 8082
-   */
-  port?: number;
-};
+export type NodefeaturediscoveryHelmValuesMasterLivenessProbe = object;
 
 export type NodefeaturediscoveryHelmValuesMasterReadinessProbe = {
-  /**
-   * @default {"port":8082}
-   */
-  grpc?: NodefeaturediscoveryHelmValuesMasterReadinessProbeGrpc;
   /**
    * @default 10
    */
   failureThreshold?: number;
-};
-
-export type NodefeaturediscoveryHelmValuesMasterReadinessProbeGrpc = {
-  /**
-   * @default 8082
-   */
-  port?: number;
 };
 
 export type NodefeaturediscoveryHelmValuesWorker = {
@@ -338,15 +321,15 @@ export type NodefeaturediscoveryHelmValuesWorker = {
    * @default false
    */
   hostNetwork?: boolean;
+  /**
+   * @default "ClusterFirstWithHostNet"
+   */
+  dnsPolicy?: string;
   config?: unknown;
   /**
-   * @default 8081
+   * @default 8080
    */
-  metricsPort?: number;
-  /**
-   * @default 8082
-   */
-  healthPort?: number;
+  port?: number;
   /**
    * @default {}
    */
@@ -360,11 +343,11 @@ export type NodefeaturediscoveryHelmValuesWorker = {
    */
   securityContext?: NodefeaturediscoveryHelmValuesWorkerSecurityContext;
   /**
-   * @default {"grpc":{"port":8082},"initialDelaySeconds":10}
+   * @default {"initialDelaySeconds":10}
    */
   livenessProbe?: NodefeaturediscoveryHelmValuesWorkerLivenessProbe;
   /**
-   * @default {"grpc":{"port":8082},"initialDelaySeconds":5,"failureThreshold":10}
+   * @default {"initialDelaySeconds":5,"failureThreshold":10}
    */
   readinessProbe?: NodefeaturediscoveryHelmValuesWorkerReadinessProbe;
   /**
@@ -404,6 +387,10 @@ export type NodefeaturediscoveryHelmValuesWorker = {
    * @default ""
    */
   priorityClassName?: string;
+  /**
+   * @default {}
+   */
+  updateStrategy?: NodefeaturediscoveryHelmValuesWorkerUpdateStrategy;
 };
 
 export type NodefeaturediscoveryHelmValuesWorkerDaemonsetAnnotations = object;
@@ -435,27 +422,12 @@ export type NodefeaturediscoveryHelmValuesWorkerSecurityContextCapabilities = {
 
 export type NodefeaturediscoveryHelmValuesWorkerLivenessProbe = {
   /**
-   * @default {"port":8082}
-   */
-  grpc?: NodefeaturediscoveryHelmValuesWorkerLivenessProbeGrpc;
-  /**
    * @default 10
    */
   initialDelaySeconds?: number;
 };
 
-export type NodefeaturediscoveryHelmValuesWorkerLivenessProbeGrpc = {
-  /**
-   * @default 8082
-   */
-  port?: number;
-};
-
 export type NodefeaturediscoveryHelmValuesWorkerReadinessProbe = {
-  /**
-   * @default {"port":8082}
-   */
-  grpc?: NodefeaturediscoveryHelmValuesWorkerReadinessProbeGrpc;
   /**
    * @default 5
    */
@@ -464,13 +436,6 @@ export type NodefeaturediscoveryHelmValuesWorkerReadinessProbe = {
    * @default 10
    */
   failureThreshold?: number;
-};
-
-export type NodefeaturediscoveryHelmValuesWorkerReadinessProbeGrpc = {
-  /**
-   * @default 8082
-   */
-  port?: number;
 };
 
 export type NodefeaturediscoveryHelmValuesWorkerServiceAccount = {
@@ -546,6 +511,8 @@ export type NodefeaturediscoveryHelmValuesWorkerAnnotations = {
 
 export type NodefeaturediscoveryHelmValuesWorkerAffinity = object;
 
+export type NodefeaturediscoveryHelmValuesWorkerUpdateStrategy = object;
+
 export type NodefeaturediscoveryHelmValuesTopologyUpdater = {
   config?: unknown;
   /**
@@ -563,6 +530,10 @@ export type NodefeaturediscoveryHelmValuesTopologyUpdater = {
    */
   hostNetwork?: boolean;
   /**
+   * @default "ClusterFirstWithHostNet"
+   */
+  dnsPolicy?: string;
+  /**
    * @default {"create":true,"annotations":{},"name":null}
    */
   serviceAccount?: NodefeaturediscoveryHelmValuesTopologyUpdaterServiceAccount;
@@ -572,13 +543,9 @@ export type NodefeaturediscoveryHelmValuesTopologyUpdater = {
    */
   rbac?: NodefeaturediscoveryHelmValuesTopologyUpdaterRbac;
   /**
-   * @default 8081
+   * @default 8080
    */
-  metricsPort?: number;
-  /**
-   * @default 8082
-   */
-  healthPort?: number;
+  port?: number;
   kubeletConfigPath?: unknown;
   kubeletPodResourcesSockPath?: unknown;
   /**
@@ -602,11 +569,11 @@ export type NodefeaturediscoveryHelmValuesTopologyUpdater = {
    */
   securityContext?: NodefeaturediscoveryHelmValuesTopologyUpdaterSecurityContext;
   /**
-   * @default {"grpc":{"port":8082},"initialDelaySeconds":10}
+   * @default {"initialDelaySeconds":10}
    */
   livenessProbe?: NodefeaturediscoveryHelmValuesTopologyUpdaterLivenessProbe;
   /**
-   * @default {"grpc":{"port":8082},"initialDelaySeconds":5,"failureThreshold":10}
+   * @default {"initialDelaySeconds":5,"failureThreshold":10}
    */
   readinessProbe?: NodefeaturediscoveryHelmValuesTopologyUpdaterReadinessProbe;
   /**
@@ -690,27 +657,12 @@ export type NodefeaturediscoveryHelmValuesTopologyUpdaterSecurityContextCapabili
 
 export type NodefeaturediscoveryHelmValuesTopologyUpdaterLivenessProbe = {
   /**
-   * @default {"port":8082}
-   */
-  grpc?: NodefeaturediscoveryHelmValuesTopologyUpdaterLivenessProbeGrpc;
-  /**
    * @default 10
    */
   initialDelaySeconds?: number;
 };
 
-export type NodefeaturediscoveryHelmValuesTopologyUpdaterLivenessProbeGrpc = {
-  /**
-   * @default 8082
-   */
-  port?: number;
-};
-
 export type NodefeaturediscoveryHelmValuesTopologyUpdaterReadinessProbe = {
-  /**
-   * @default {"port":8082}
-   */
-  grpc?: NodefeaturediscoveryHelmValuesTopologyUpdaterReadinessProbeGrpc;
   /**
    * @default 5
    */
@@ -719,13 +671,6 @@ export type NodefeaturediscoveryHelmValuesTopologyUpdaterReadinessProbe = {
    * @default 10
    */
   failureThreshold?: number;
-};
-
-export type NodefeaturediscoveryHelmValuesTopologyUpdaterReadinessProbeGrpc = {
-  /**
-   * @default 8082
-   */
-  port?: number;
 };
 
 export type NodefeaturediscoveryHelmValuesTopologyUpdaterResources = {
@@ -787,6 +732,10 @@ export type NodefeaturediscoveryHelmValuesGc = {
    */
   replicaCount?: number;
   /**
+   * @default "ClusterFirstWithHostNet"
+   */
+  dnsPolicy?: string;
+  /**
    * @default {"create":true,"annotations":{},"name":null}
    */
   serviceAccount?: NodefeaturediscoveryHelmValuesGcServiceAccount;
@@ -803,13 +752,21 @@ export type NodefeaturediscoveryHelmValuesGc = {
    */
   podSecurityContext?: NodefeaturediscoveryHelmValuesGcPodSecurityContext;
   /**
+   * @default {"initialDelaySeconds":10}
+   */
+  livenessProbe?: NodefeaturediscoveryHelmValuesGcLivenessProbe;
+  /**
+   * @default {"initialDelaySeconds":5}
+   */
+  readinessProbe?: NodefeaturediscoveryHelmValuesGcReadinessProbe;
+  /**
    * @default {"limits":{"memory":"1Gi"},"requests":{"cpu":"10m","memory":"128Mi"}}
    */
   resources?: NodefeaturediscoveryHelmValuesGcResources;
   /**
-   * @default 8081
+   * @default 8080
    */
-  metricsPort?: number;
+  port?: number;
   /**
    * @default {}
    */
@@ -827,6 +784,10 @@ export type NodefeaturediscoveryHelmValuesGc = {
    * @default {}
    */
   affinity?: NodefeaturediscoveryHelmValuesGcAffinity;
+  /**
+   * @default {"enable":false,"minAvailable":1,"unhealthyPodEvictionPolicy":"AlwaysAllow"}
+   */
+  podDisruptionBudget?: NodefeaturediscoveryHelmValuesGcPodDisruptionBudget;
   revisionHistoryLimit?: unknown;
 };
 
@@ -858,6 +819,20 @@ export type NodefeaturediscoveryHelmValuesGcRbac = {
 };
 
 export type NodefeaturediscoveryHelmValuesGcPodSecurityContext = object;
+
+export type NodefeaturediscoveryHelmValuesGcLivenessProbe = {
+  /**
+   * @default 10
+   */
+  initialDelaySeconds?: number;
+};
+
+export type NodefeaturediscoveryHelmValuesGcReadinessProbe = {
+  /**
+   * @default 5
+   */
+  initialDelaySeconds?: number;
+};
 
 export type NodefeaturediscoveryHelmValuesGcResources = {
   /**
@@ -901,6 +876,21 @@ export type NodefeaturediscoveryHelmValuesGcAnnotations = {
 export type NodefeaturediscoveryHelmValuesGcDeploymentAnnotations = object;
 
 export type NodefeaturediscoveryHelmValuesGcAffinity = object;
+
+export type NodefeaturediscoveryHelmValuesGcPodDisruptionBudget = {
+  /**
+   * @default false
+   */
+  enable?: boolean;
+  /**
+   * @default 1
+   */
+  minAvailable?: number;
+  /**
+   * @default "AlwaysAllow"
+   */
+  unhealthyPodEvictionPolicy?: string;
+};
 
 export type NodefeaturediscoveryHelmValuesPrometheus = {
   /**
@@ -955,11 +945,15 @@ export type NodefeaturediscoveryHelmValues = {
    */
   priorityClassName?: string;
   /**
-   * @default {...} (30 keys)
+   * @default true
+   */
+  postDeleteCleanup?: boolean;
+  /**
+   * @default {...} (29 keys)
    */
   master?: NodefeaturediscoveryHelmValuesMaster;
   /**
-   * @default {...} (22 keys)
+   * @default {...} (23 keys)
    */
   worker?: NodefeaturediscoveryHelmValuesWorker;
   /**
@@ -967,7 +961,7 @@ export type NodefeaturediscoveryHelmValues = {
    */
   topologyUpdater?: NodefeaturediscoveryHelmValuesTopologyUpdater;
   /**
-   * @default {...} (17 keys)
+   * @default {...} (21 keys)
    */
   gc?: NodefeaturediscoveryHelmValuesGc;
   /**
@@ -985,20 +979,19 @@ export type NodefeaturediscoveryHelmParameters = {
   namespaceOverride?: string;
   "featureGates.NodeFeatureGroupAPI"?: string;
   priorityClassName?: string;
+  postDeleteCleanup?: string;
   "master.enable"?: string;
   "master.extraArgs"?: string;
   "master.extraEnvs"?: string;
   "master.hostNetwork"?: string;
+  "master.dnsPolicy"?: string;
   "master.config"?: string;
-  "master.metricsPort"?: string;
-  "master.healthPort"?: string;
+  "master.port"?: string;
   "master.instance"?: string;
-  "master.featureApi"?: string;
   "master.resyncPeriod"?: string;
   "master.denyLabelNs"?: string;
   "master.extraLabelNs"?: string;
   "master.enableTaints"?: string;
-  "master.featureRulesController"?: string;
   "master.nfdApiParallelism"?: string;
   "master.replicaCount"?: string;
   "master.securityContext.allowPrivilegeEscalation"?: string;
@@ -1016,29 +1009,27 @@ export type NodefeaturediscoveryHelmParameters = {
   "master.tolerations.operator"?: string;
   "master.tolerations.value"?: string;
   "master.tolerations.effect"?: string;
+  "master.podDisruptionBudget.enable"?: string;
+  "master.podDisruptionBudget.minAvailable"?: string;
+  "master.podDisruptionBudget.unhealthyPodEvictionPolicy"?: string;
   "master.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.weight"?: string;
   "master.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.preference.matchExpressions.key"?: string;
   "master.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.preference.matchExpressions.operator"?: string;
   "master.affinity.nodeAffinity.preferredDuringSchedulingIgnoredDuringExecution.preference.matchExpressions.values"?: string;
-  "master.startupProbe.grpc.port"?: string;
   "master.startupProbe.failureThreshold"?: string;
-  "master.livenessProbe.grpc.port"?: string;
-  "master.readinessProbe.grpc.port"?: string;
   "master.readinessProbe.failureThreshold"?: string;
   "worker.enable"?: string;
   "worker.extraArgs"?: string;
   "worker.extraEnvs"?: string;
   "worker.hostNetwork"?: string;
+  "worker.dnsPolicy"?: string;
   "worker.config"?: string;
-  "worker.metricsPort"?: string;
-  "worker.healthPort"?: string;
+  "worker.port"?: string;
   "worker.securityContext.allowPrivilegeEscalation"?: string;
   "worker.securityContext.capabilities.drop"?: string;
   "worker.securityContext.readOnlyRootFilesystem"?: string;
   "worker.securityContext.runAsNonRoot"?: string;
-  "worker.livenessProbe.grpc.port"?: string;
   "worker.livenessProbe.initialDelaySeconds"?: string;
-  "worker.readinessProbe.grpc.port"?: string;
   "worker.readinessProbe.initialDelaySeconds"?: string;
   "worker.readinessProbe.failureThreshold"?: string;
   "worker.serviceAccount.create"?: string;
@@ -1057,12 +1048,12 @@ export type NodefeaturediscoveryHelmParameters = {
   "topologyUpdater.extraArgs"?: string;
   "topologyUpdater.extraEnvs"?: string;
   "topologyUpdater.hostNetwork"?: string;
+  "topologyUpdater.dnsPolicy"?: string;
   "topologyUpdater.serviceAccount.create"?: string;
   "topologyUpdater.serviceAccount.name"?: string;
   "topologyUpdater.revisionHistoryLimit"?: string;
   "topologyUpdater.rbac.create"?: string;
-  "topologyUpdater.metricsPort"?: string;
-  "topologyUpdater.healthPort"?: string;
+  "topologyUpdater.port"?: string;
   "topologyUpdater.kubeletConfigPath"?: string;
   "topologyUpdater.kubeletPodResourcesSockPath"?: string;
   "topologyUpdater.updateInterval"?: string;
@@ -1072,9 +1063,7 @@ export type NodefeaturediscoveryHelmParameters = {
   "topologyUpdater.securityContext.capabilities.drop"?: string;
   "topologyUpdater.securityContext.readOnlyRootFilesystem"?: string;
   "topologyUpdater.securityContext.runAsUser"?: string;
-  "topologyUpdater.livenessProbe.grpc.port"?: string;
   "topologyUpdater.livenessProbe.initialDelaySeconds"?: string;
-  "topologyUpdater.readinessProbe.grpc.port"?: string;
   "topologyUpdater.readinessProbe.initialDelaySeconds"?: string;
   "topologyUpdater.readinessProbe.failureThreshold"?: string;
   "topologyUpdater.resources.limits.memory"?: string;
@@ -1087,15 +1076,21 @@ export type NodefeaturediscoveryHelmParameters = {
   "gc.extraEnvs"?: string;
   "gc.hostNetwork"?: string;
   "gc.replicaCount"?: string;
+  "gc.dnsPolicy"?: string;
   "gc.serviceAccount.create"?: string;
   "gc.serviceAccount.name"?: string;
   "gc.rbac.create"?: string;
   "gc.interval"?: string;
+  "gc.livenessProbe.initialDelaySeconds"?: string;
+  "gc.readinessProbe.initialDelaySeconds"?: string;
   "gc.resources.limits.memory"?: string;
   "gc.resources.requests.cpu"?: string;
   "gc.resources.requests.memory"?: string;
-  "gc.metricsPort"?: string;
+  "gc.port"?: string;
   "gc.tolerations"?: string;
+  "gc.podDisruptionBudget.enable"?: string;
+  "gc.podDisruptionBudget.minAvailable"?: string;
+  "gc.podDisruptionBudget.unhealthyPodEvictionPolicy"?: string;
   "gc.revisionHistoryLimit"?: string;
   "prometheus.enable"?: string;
   "prometheus.scrapeInterval"?: string;

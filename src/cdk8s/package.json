@@ -24,7 +24,8 @@
     "lodash": "^4.17.21",
     "remeda": "^2.22.5",
     "ts-pattern": "^5.7.1",
-    "zod": "^4.1.11"
+    "zod": "^4.1.11",
+    "@homelab/helm-types": "workspace:*"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.17",

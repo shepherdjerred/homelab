@@ -41,6 +41,9 @@ export const EXTENSIBLE_TYPE_PATTERNS: Record<string, string[]> = {
   "prometheus-adapter": [
     "rules", // Allows resource, custom, external and other rule configurations
   ],
+  "velero": [
+    "kubectl.image", // Allows image configuration
+  ],
 };
 
 /**

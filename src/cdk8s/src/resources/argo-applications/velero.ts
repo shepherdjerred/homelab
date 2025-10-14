@@ -237,7 +237,8 @@ export function createVeleroApp(chart: Chart) {
     },
     kubectl: {
       image: {
-        repository: "bitnami/kubectl",
+        repository: "registry.k8s.io/kubectl",
+        tag: "v1.34.1",
       },
     },
     initContainers: [

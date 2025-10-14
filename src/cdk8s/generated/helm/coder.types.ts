@@ -52,7 +52,7 @@ export type CoderHelmValuesCoder = {
    * coder.serviceAccount -- Configuration for the automatically created service
    * account. Creation of the service account cannot be disabled.
    *
-   * @default {...} (6 keys)
+   * @default {...} (7 keys)
    */
   serviceAccount?: CoderHelmValuesCoderServiceAccount;
   /**
@@ -230,21 +230,14 @@ export type CoderHelmValuesCoderServiceAccount = {
    */
   workspacePerms?: boolean;
   /**
-   * coder.serviceAccount.enableDeployments -- Provides the service account
-   * permission to manage Kubernetes deployments. Depends on workspacePerms.
+   * Defaults to top-level setting
    *
    * @default true
    */
   enableDeployments?: boolean;
   extraRules?: unknown[];
+  workspaceNamespaces?: unknown[];
   /**
-   * - delete
-   * - deletecollection
-   * - get
-   * - list
-   * - patch
-   * - update
-   * - watch
    * coder.serviceAccount.annotations -- The Coder service account annotations.
    *
    * @default {}
@@ -606,6 +599,7 @@ export type CoderHelmParameters = {
   "coder.serviceAccount.workspacePerms"?: string;
   "coder.serviceAccount.enableDeployments"?: string;
   "coder.serviceAccount.extraRules"?: string;
+  "coder.serviceAccount.workspaceNamespaces"?: string;
   "coder.serviceAccount.name"?: string;
   "coder.serviceAccount.disableCreate"?: string;
   "coder.securityContext.runAsNonRoot"?: string;

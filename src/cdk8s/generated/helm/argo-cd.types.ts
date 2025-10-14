@@ -1069,6 +1069,13 @@ export type ArgocdHelmValuesController = {
    */
   pdb?: ArgocdHelmValuesControllerPdb;
   /**
+   * Application controller Vertical Pod Autoscaler
+   * Ref: https://kubernetes.io/docs/concepts/workloads/autoscaling/#scaling-workloads-vertically/
+   *
+   * @default {...} (5 keys)
+   */
+  vpa?: ArgocdHelmValuesControllerVpa;
+  /**
    * Application controller image
    *
    * @default {"repository":"","tag":"","imagePullPolicy":""}
@@ -1207,6 +1214,7 @@ export type ArgocdHelmValuesController = {
    * @default {"enabled":false,"rules":[]}
    */
   clusterRoleRules?: ArgocdHelmValuesControllerClusterRoleRules;
+  roleRules?: unknown[];
   /**
    * Default application controller's network policy
    *
@@ -1264,6 +1272,56 @@ export type ArgocdHelmValuesControllerPdbAnnotations = {
    */
   [key: string]: unknown;
 };
+
+export type ArgocdHelmValuesControllerVpa = {
+  /**
+   * Deploy a [VerticalPodAutoscaler](https://kubernetes.io/docs/concepts/workloads/autoscaling/#scaling-workloads-vertically/) for the application controller
+   *
+   * @default false
+   */
+  enabled?: boolean;
+  /**
+   * Labels to be added to application controller vpa
+   *
+   * @default {}
+   */
+  labels?: ArgocdHelmValuesControllerVpaLabels;
+  /**
+   * Annotations to be added to application controller vpa
+   *
+   * @default {}
+   */
+  annotations?: ArgocdHelmValuesControllerVpaAnnotations;
+  /**
+   * @default "Initial"
+   */
+  updateMode?: string;
+  /**
+   * Controls how VPA computes the recommended resources for application controller container
+   * Ref: https://github.com/kubernetes/autoscaler/blob/master/vertical-pod-autoscaler/examples/hamster.yaml
+   *
+   * @default {}
+   */
+  containerPolicy?: ArgocdHelmValuesControllerVpaContainerPolicy;
+};
+
+export type ArgocdHelmValuesControllerVpaLabels = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
+
+export type ArgocdHelmValuesControllerVpaAnnotations = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
+
+export type ArgocdHelmValuesControllerVpaContainerPolicy = object;
 
 export type ArgocdHelmValuesControllerImage = {
   /**
@@ -1711,7 +1769,7 @@ export type ArgocdHelmValuesDex = {
   /**
    * Dex image
    *
-   * @default {"repository":"ghcr.io/dexidp/dex","tag":"v2.43.1","imagePullPolicy":""}
+   * @default {"repository":"ghcr.io/dexidp/dex","tag":"v2.44.0","imagePullPolicy":""}
    */
   image?: ArgocdHelmValuesDexImage;
   imagePullSecrets?: unknown[];
@@ -2071,7 +2129,7 @@ export type ArgocdHelmValuesDexImage = {
   /**
    * Dex image tag
    *
-   * @default "v2.43.1"
+   * @default "v2.44.0"
    */
   tag?: string;
   /**
@@ -2435,7 +2493,7 @@ export type ArgocdHelmValuesRedis = {
   /**
    * Redis image
    *
-   * @default {"repository":"ecr-public.aws.com/docker/library/redis","tag":"7.2.8-alpine","imagePullPolicy":""}
+   * @default {"repository":"ecr-public.aws.com/docker/library/redis","tag":"7.2.11-alpine","imagePullPolicy":""}
    */
   image?: ArgocdHelmValuesRedisImage;
   /**
@@ -2642,7 +2700,7 @@ export type ArgocdHelmValuesRedisImage = {
    * Redis tag
    * Do not upgrade to >= 7.4.0, otherwise you are no longer using an open source version of Redis
    *
-   * @default "7.2.8-alpine"
+   * @default "7.2.11-alpine"
    */
   tag?: string;
   /**
@@ -2664,7 +2722,7 @@ export type ArgocdHelmValuesRedisExporter = {
   /**
    * Prometheus redis-exporter image
    *
-   * @default {"repository":"ghcr.io/oliver006/redis_exporter","tag":"v1.75.0","imagePullPolicy":""}
+   * @default {"repository":"ghcr.io/oliver006/redis_exporter","tag":"v1.78.0","imagePullPolicy":""}
    */
   image?: ArgocdHelmValuesRedisExporterImage;
   /**
@@ -2702,7 +2760,7 @@ export type ArgocdHelmValuesRedisExporterImage = {
   /**
    * Tag to use for the redis-exporter
    *
-   * @default "v1.75.0"
+   * @default "v1.78.0"
    */
   tag?: string;
   /**
@@ -3210,7 +3268,7 @@ export type ArgocdHelmValuesRedisha = {
   /**
    * Redis image
    *
-   * @default {"repository":"ecr-public.aws.com/docker/library/redis","tag":"7.2.8-alpine"}
+   * @default {"repository":"ecr-public.aws.com/docker/library/redis","tag":"7.2.11-alpine"}
    */
   image?: ArgocdHelmValuesRedishaImage;
   /**
@@ -3293,7 +3351,7 @@ export type ArgocdHelmValuesRedishaImage = {
    * Redis tag
    * Do not upgrade to >= 7.4.0, otherwise you are no longer using an open source version of Redis
    *
-   * @default "7.2.8-alpine"
+   * @default "7.2.11-alpine"
    */
   tag?: string;
 };
@@ -3934,6 +3992,23 @@ export type ArgocdHelmValuesServer = {
    * @default {...} (5 keys)
    */
   route?: ArgocdHelmValuesServerRoute;
+  /**
+   * NOTE: Gateway API support is in EXPERIMENTAL status
+   * Support depends on your Gateway controller implementation
+   * Some controllers may require additional configuration (e.g., BackendTLSPolicy for HTTPS backends)
+   * Refer to https://gateway-api.sigs.k8s.io/implementations/ for controller-specific details
+   *
+   * @default {...} (6 keys)
+   */
+  httproute?: ArgocdHelmValuesServerHttproute;
+  /**
+   * @default {...} (6 keys)
+   */
+  grpcroute?: ArgocdHelmValuesServerGrpcroute;
+  /**
+   * @default {...} (5 keys)
+   */
+  backendTLSPolicy?: ArgocdHelmValuesServerBackendTLSPolicy;
   /**
    * Enable this and set the rules: to whatever custom rules you want for the Cluster Role resource.
    * Defaults to off
@@ -5035,6 +5110,172 @@ export type ArgocdHelmValuesServerRouteAnnotations = {
   [key: string]: unknown;
 };
 
+export type ArgocdHelmValuesServerHttproute = {
+  /**
+   * Enable HTTPRoute resource for Argo CD server (Gateway API)
+   *
+   * @default false
+   */
+  enabled?: boolean;
+  /**
+   * Additional HTTPRoute labels
+   *
+   * @default {}
+   */
+  labels?: ArgocdHelmValuesServerHttprouteLabels;
+  /**
+   * Additional HTTPRoute annotations
+   *
+   * @default {}
+   */
+  annotations?: ArgocdHelmValuesServerHttprouteAnnotations;
+  parentRefs?: unknown[];
+  hostnames?: unknown[];
+  rules?: ArgocdHelmValuesServerHttprouteRulesElement[];
+};
+
+export type ArgocdHelmValuesServerHttprouteLabels = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
+
+export type ArgocdHelmValuesServerHttprouteAnnotations = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
+
+export type ArgocdHelmValuesServerHttprouteRulesElement = {
+  matches?: ArgocdHelmValuesServerHttprouteRulesMatchesElement[];
+};
+
+export type ArgocdHelmValuesServerHttprouteRulesMatchesElement = {
+  /**
+   * @default {"type":"PathPrefix","value":"/"}
+   */
+  path?: ArgocdHelmValuesServerHttprouteRulesMatchesPath;
+};
+
+export type ArgocdHelmValuesServerHttprouteRulesMatchesPath = {
+  /**
+   * @default "PathPrefix"
+   */
+  type?: string;
+  /**
+   * @default "/"
+   */
+  value?: string;
+};
+
+export type ArgocdHelmValuesServerGrpcroute = {
+  /**
+   * Enable GRPCRoute resource for Argo CD server (Gateway API)
+   *
+   * @default false
+   */
+  enabled?: boolean;
+  /**
+   * Additional GRPCRoute labels
+   *
+   * @default {}
+   */
+  labels?: ArgocdHelmValuesServerGrpcrouteLabels;
+  /**
+   * Additional GRPCRoute annotations
+   *
+   * @default {}
+   */
+  annotations?: ArgocdHelmValuesServerGrpcrouteAnnotations;
+  parentRefs?: unknown[];
+  hostnames?: unknown[];
+  rules?: ArgocdHelmValuesServerGrpcrouteRulesElement[];
+};
+
+export type ArgocdHelmValuesServerGrpcrouteLabels = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
+
+export type ArgocdHelmValuesServerGrpcrouteAnnotations = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
+
+export type ArgocdHelmValuesServerGrpcrouteRulesElement = {
+  matches?: ArgocdHelmValuesServerGrpcrouteRulesMatchesElement[];
+};
+
+export type ArgocdHelmValuesServerGrpcrouteRulesMatchesElement = {
+  /**
+   * @default {"type":"Exact"}
+   */
+  method?: ArgocdHelmValuesServerGrpcrouteRulesMatchesMethod;
+};
+
+export type ArgocdHelmValuesServerGrpcrouteRulesMatchesMethod = {
+  /**
+   * @default "Exact"
+   */
+  type?: string;
+};
+
+export type ArgocdHelmValuesServerBackendTLSPolicy = {
+  /**
+   * Enable BackendTLSPolicy resource for Argo CD server (Gateway API)
+   *
+   * @default false
+   */
+  enabled?: boolean;
+  /**
+   * Additional BackendTLSPolicy labels
+   *
+   * @default {}
+   */
+  labels?: ArgocdHelmValuesServerBackendTLSPolicyLabels;
+  /**
+   * Additional BackendTLSPolicy annotations
+   *
+   * @default {}
+   */
+  annotations?: ArgocdHelmValuesServerBackendTLSPolicyAnnotations;
+  targetRefs?: unknown[];
+  /**
+   * TLS validation configuration
+   *
+   * @default {}
+   */
+  validation?: ArgocdHelmValuesServerBackendTLSPolicyValidation;
+};
+
+export type ArgocdHelmValuesServerBackendTLSPolicyLabels = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
+
+export type ArgocdHelmValuesServerBackendTLSPolicyAnnotations = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
+
+export type ArgocdHelmValuesServerBackendTLSPolicyValidation = object;
+
 export type ArgocdHelmValuesServerClusterRoleRules = {
   /**
    * Enable custom rules for the server's ClusterRole resource
@@ -5104,6 +5345,10 @@ export type ArgocdHelmValuesRepoServer = {
   lifecycle?: ArgocdHelmValuesRepoServerLifecycle;
   extraContainers?: unknown[];
   initContainers?: unknown[];
+  /**
+   * @default {"resources":{}}
+   */
+  copyutil?: ArgocdHelmValuesRepoServerCopyutil;
   volumeMounts?: unknown[];
   volumes?: unknown[];
   /**
@@ -5386,6 +5631,17 @@ export type ArgocdHelmValuesRepoServerImage = {
 };
 
 export type ArgocdHelmValuesRepoServerLifecycle = object;
+
+export type ArgocdHelmValuesRepoServerCopyutil = {
+  /**
+   * Resource limits and requests for the repo server copyutil initContainer
+   *
+   * @default {}
+   */
+  resources?: ArgocdHelmValuesRepoServerCopyutilResources;
+};
+
+export type ArgocdHelmValuesRepoServerCopyutilResources = object;
 
 export type ArgocdHelmValuesRepoServerExistingVolumes = object;
 
@@ -7946,7 +8202,7 @@ export type ArgocdHelmValues = {
    * Specific implementation for ingress controller. One of `generic`, `aws` or `gke`
    * Additional configuration might be required in related configuration sections
    *
-   * @default {...} (40 keys)
+   * @default {...} (42 keys)
    */
   controller?: ArgocdHelmValuesController;
   /**
@@ -7985,13 +8241,13 @@ export type ArgocdHelmValues = {
   /**
    * Server
    *
-   * @default {...} (47 keys)
+   * @default {...} (50 keys)
    */
   server?: ArgocdHelmValuesServer;
   /**
    * Repo Server
    *
-   * @default {...} (45 keys)
+   * @default {...} (46 keys)
    */
   repoServer?: ArgocdHelmValuesRepoServer;
   /**
@@ -8116,6 +8372,8 @@ export type ArgocdHelmParameters = {
   "controller.pdb.enabled"?: string;
   "controller.pdb.minAvailable"?: string;
   "controller.pdb.maxUnavailable"?: string;
+  "controller.vpa.enabled"?: string;
+  "controller.vpa.updateMode"?: string;
   "controller.image.repository"?: string;
   "controller.image.tag"?: string;
   "controller.image.imagePullPolicy"?: string;
@@ -8169,6 +8427,7 @@ export type ArgocdHelmParameters = {
   "controller.metrics.rules.spec"?: string;
   "controller.clusterRoleRules.enabled"?: string;
   "controller.clusterRoleRules.rules"?: string;
+  "controller.roleRules"?: string;
   "controller.networkPolicy.create"?: string;
   "dex.enabled"?: string;
   "dex.name"?: string;
@@ -8509,6 +8768,17 @@ export type ArgocdHelmParameters = {
   "server.route.hostname"?: string;
   "server.route.termination_type"?: string;
   "server.route.termination_policy"?: string;
+  "server.httproute.enabled"?: string;
+  "server.httproute.parentRefs"?: string;
+  "server.httproute.hostnames"?: string;
+  "server.httproute.rules.matches.path.type"?: string;
+  "server.httproute.rules.matches.path.value"?: string;
+  "server.grpcroute.enabled"?: string;
+  "server.grpcroute.parentRefs"?: string;
+  "server.grpcroute.hostnames"?: string;
+  "server.grpcroute.rules.matches.method.type"?: string;
+  "server.backendTLSPolicy.enabled"?: string;
+  "server.backendTLSPolicy.targetRefs"?: string;
   "server.clusterRoleRules.enabled"?: string;
   "server.clusterRoleRules.rules"?: string;
   "server.networkPolicy.create"?: string;

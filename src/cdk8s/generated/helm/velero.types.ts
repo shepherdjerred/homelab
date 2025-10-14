@@ -30,7 +30,7 @@ export type VeleroHelmValuesImage = {
    */
   repository?: string;
   /**
-   * @default "v1.16.2"
+   * @default "v1.17.0"
    */
   tag?: string;
   /**
@@ -403,7 +403,7 @@ export type VeleroHelmValuesKubectl = {
    * Container Level Security Context for the 'kubectl' container of the crd jobs. Optional.
    * See: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
    *
-   * @default {"repository":"docker.io/bitnami/kubectl"}
+   * @default {"repository":"docker.io/bitnamilegacy/kubectl"}
    */
   image?: VeleroHelmValuesKubectlImage;
   /**
@@ -444,7 +444,12 @@ export type VeleroHelmValuesKubectl = {
 
 export type VeleroHelmValuesKubectlImage = {
   /**
-   * @default "docker.io/bitnami/kubectl"
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
+   * @default "docker.io/bitnamilegacy/kubectl"
    */
   repository?: string;
 };
@@ -513,7 +518,7 @@ export type VeleroHelmValuesConfiguration = {
   /**
    * https://velero.io/docs/v1.14/repository-maintenance/#resource-limitation
    *
-   * @default {...} (4 keys)
+   * @default {"repositoryConfigData":{"name":"velero-repo-maintenance","global":{"keepLatestMaintenanceJobs":3},"repositories":{}}}
    */
   repositoryMaintenanceJob?: VeleroHelmValuesConfigurationRepositoryMaintenanceJob;
   /**
@@ -543,25 +548,11 @@ export type VeleroHelmValuesConfiguration = {
 
 export type VeleroHelmValuesConfigurationRepositoryMaintenanceJob = {
   /**
-   * @default null
-   */
-  requests?: object | null;
-  /**
-   * @default null
-   */
-  limits?: object | null;
-  /**
-   * Number of latest maintenance jobs to keep for each repository
-   *
-   * @default 3
-   */
-  latestJobsCount?: number;
-  /**
    * Per-repository resource settings ConfigMap
    * This ConfigMap allows specifying different settings for different repositories
    * See: https://velero.io/docs/main/repository-maintenance/
    *
-   * @default {"name":"velero-repo-maintenance","global":{},"repositories":{}}
+   * @default {"name":"velero-repo-maintenance","global":{"keepLatestMaintenanceJobs":3},"repositories":{}}
    */
   repositoryConfigData?: VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigData;
 };
@@ -578,7 +569,7 @@ export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfi
   /**
    * Global configuration applied to all repositories when no specific repository configuration is found
    *
-   * @default {}
+   * @default {"keepLatestMaintenanceJobs":3}
    */
   global?: VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataGlobal;
   /**
@@ -595,7 +586,12 @@ export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfi
   repositories?: VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataRepositories;
 };
 
-export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataGlobal = object;
+export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataGlobal = {
+  /**
+   * @default 3
+   */
+  keepLatestMaintenanceJobs?: number;
+};
 
 export type VeleroHelmValuesConfigurationRepositoryMaintenanceJobRepositoryConfigDataRepositories = object;
 
@@ -749,6 +745,7 @@ export type VeleroHelmValuesNodeAgent = {
    * @default {}
    */
   resources?: VeleroHelmValuesNodeAgentResources;
+  resizePolicy?: unknown[];
   /**
    * Tolerations to use for the node-agent daemonset. Optional.
    *
@@ -979,6 +976,7 @@ export type VeleroHelmValues = {
    * @default {}
    */
   resources?: VeleroHelmValuesResources;
+  resizePolicy?: unknown[];
   hostAliases?: unknown[];
   /**
    * Resource requests/limits to specify for the upgradeCRDs job pod. Need to be adjusted by user accordingly.
@@ -1003,7 +1001,7 @@ export type VeleroHelmValues = {
    *
    * @default null
    */
-  initContainers?: unknown[] | null;
+  initContainers?: unknown[] | string | null;
   /**
    * SecurityContext to use for the Velero deployment. Optional.
    * Set fsGroup for `AWS IAM Roles for Service Accounts`
@@ -1163,7 +1161,7 @@ export type VeleroHelmValues = {
    */
   deployNodeAgent?: boolean;
   /**
-   * @default {...} (23 keys)
+   * @default {...} (24 keys)
    */
   nodeAgent?: VeleroHelmValuesNodeAgent;
   /**
@@ -1189,6 +1187,7 @@ export type VeleroHelmParameters = {
   "image.imagePullSecrets"?: string;
   nameOverride?: string;
   fullnameOverride?: string;
+  resizePolicy?: string;
   hostAliases?: string;
   "upgradeCRDsJob.extraVolumes"?: string;
   "upgradeCRDsJob.extraVolumeMounts"?: string;
@@ -1271,10 +1270,8 @@ export type VeleroHelmParameters = {
   "configuration.defaultSnapshotMoveData"?: string;
   "configuration.features"?: string;
   "configuration.dataMoverPrepareTimeout"?: string;
-  "configuration.repositoryMaintenanceJob.requests"?: string;
-  "configuration.repositoryMaintenanceJob.limits"?: string;
-  "configuration.repositoryMaintenanceJob.latestJobsCount"?: string;
   "configuration.repositoryMaintenanceJob.repositoryConfigData.name"?: string;
+  "configuration.repositoryMaintenanceJob.repositoryConfigData.global.keepLatestMaintenanceJobs"?: string;
   "configuration.namespace"?: string;
   "configuration.extraArgs"?: string;
   "configuration.extraEnvVars"?: string;
@@ -1300,6 +1297,7 @@ export type VeleroHelmParameters = {
   "nodeAgent.pluginVolumePath"?: string;
   "nodeAgent.priorityClassName"?: string;
   "nodeAgent.runtimeClassName"?: string;
+  "nodeAgent.resizePolicy"?: string;
   "nodeAgent.tolerations"?: string;
   "nodeAgent.useScratchEmptyDir"?: string;
   "nodeAgent.extraVolumes"?: string;

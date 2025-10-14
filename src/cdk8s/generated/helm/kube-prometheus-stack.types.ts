@@ -4181,7 +4181,7 @@ export type KubeprometheusstackHelmValuesPrometheusnodeexporter = {
    */
   service?: KubeprometheusstackHelmValuesPrometheusnodeexporterService;
   /**
-   * @default {"monitor":{"enabled":true,"jobLabel":"jobLabel","interval":"","sampleLimit":0,"targetLimit":0,"labelLimit":0,"labelNameLengthLimit":0,"labelValueLengthLimit":0,"scrapeTimeout":"","proxyUrl":"","metricRelabelings":[],"relabelings":[]}}
+   * @default {"monitor":{"enabled":true,"jobLabel":"jobLabel","interval":"","sampleLimit":0,"targetLimit":0,"labelLimit":0,"labelNameLengthLimit":0,"labelValueLengthLimit":0,"scrapeTimeout":"","proxyUrl":"","metricRelabelings":[],"relabelings":[]},"podMonitor":{"enabled":false,"jobLabel":"jobLabel"}}
    */
   prometheus?: KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheus;
   /**
@@ -4197,7 +4197,7 @@ export type KubeprometheusstackHelmValuesPrometheusnodeexporterPodLabels = {
    */
   [key: string]: unknown;
   /**
-   * Add the 'node-exporter' label to be used by serviceMonitor to match standard common usage in rules and grafana dashboards
+   * Add the 'node-exporter' label to be used by serviceMonitor and podMonitor to match standard common usage in rules and grafana dashboards
    *
    * @default "node-exporter"
    */
@@ -4265,6 +4265,10 @@ export type KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheus = {
    * @default {...} (12 keys)
    */
   monitor?: KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheusMonitor;
+  /**
+   * @default {"enabled":false,"jobLabel":"jobLabel"}
+   */
+  podMonitor?: KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheusPodMonitor;
 };
 
 export type KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheusMonitor = {
@@ -4329,6 +4333,22 @@ export type KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheusMonitor
   proxyUrl?: string;
   metricRelabelings?: unknown[];
   relabelings?: unknown[];
+};
+
+export type KubeprometheusstackHelmValuesPrometheusnodeexporterPrometheusPodMonitor = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
+   * @default false
+   */
+  enabled?: boolean;
+  /**
+   * @default "jobLabel"
+   */
+  jobLabel?: string;
 };
 
 export type KubeprometheusstackHelmValuesPrometheusnodeexporterRbac = {
@@ -5331,7 +5351,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatc
   /**
    * latest tag: https://github.com/kubernetes/ingress-nginx/blob/main/images/kube-webhook-certgen/TAG
    *
-   * @default "v1.6.1"
+   * @default "v1.6.3"
    */
   tag?: string;
   /**
@@ -7613,7 +7633,7 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecImage = {
    */
   repository?: string;
   /**
-   * @default "v3.5.0"
+   * @default "v3.6.0"
    */
   tag?: string;
   /**
@@ -9254,6 +9274,8 @@ export type KubeprometheusstackHelmParameters = {
   "prometheus-node-exporter.prometheus.monitor.proxyUrl"?: string;
   "prometheus-node-exporter.prometheus.monitor.metricRelabelings"?: string;
   "prometheus-node-exporter.prometheus.monitor.relabelings"?: string;
+  "prometheus-node-exporter.prometheus.podMonitor.enabled"?: string;
+  "prometheus-node-exporter.prometheus.podMonitor.jobLabel"?: string;
   "prometheus-node-exporter.rbac.pspEnabled"?: string;
   "prometheusOperator.enabled"?: string;
   "prometheusOperator.fullnameOverride"?: string;

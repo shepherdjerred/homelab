@@ -722,6 +722,7 @@ export type MinecraftHelmValuesMcbackup = {
    * @default "2m"
    */
   initialDelay?: string;
+  backupName?: unknown;
   /**
    * ***set to 0 or smaller, script will run once and exit.  DO NOT SET TO 0 or smaller, this will cause K8s to kill your pod!***
    * backupInterval="1.5d" -> backup every one and a half days (36 hours)
@@ -822,6 +823,7 @@ export type MinecraftHelmValuesMcbackup = {
    * @default "--keep-daily 7 --keep-weekly 5 --keep-monthly 1..."
    */
   pruneResticRetention?: string;
+  resticHostname?: unknown;
   /**
    * At least one of RESTIC_PASSWORD* env variables need to be defined, see https://restic.readthedocs.io/en/latest/030_preparing_a_new_repo.html
    *
@@ -1105,7 +1107,7 @@ export type MinecraftHelmValues = {
   /**
    * PLEASE NOTE! rcon must be enabled above!  It does NOT require a nodePort or loadBalancerIP
    *
-   * @default {...} (26 keys)
+   * @default {...} (28 keys)
    */
   mcbackup?: MinecraftHelmValuesMcbackup;
 };
@@ -1260,6 +1262,7 @@ export type MinecraftHelmParameters = {
   "mcbackup.image.tag"?: string;
   "mcbackup.image.pullPolicy"?: string;
   "mcbackup.initialDelay"?: string;
+  "mcbackup.backupName"?: string;
   "mcbackup.backupInterval"?: string;
   "mcbackup.pauseIfNoPlayers"?: string;
   "mcbackup.pruneBackupsDays"?: string;
@@ -1278,6 +1281,7 @@ export type MinecraftHelmParameters = {
   "mcbackup.resticRepository"?: string;
   "mcbackup.resticAdditionalTags"?: string;
   "mcbackup.pruneResticRetention"?: string;
+  "mcbackup.resticHostname"?: string;
   "mcbackup.envFrom"?: string;
   "mcbackup.resources.requests.memory"?: string;
   "mcbackup.resources.requests.cpu"?: string;

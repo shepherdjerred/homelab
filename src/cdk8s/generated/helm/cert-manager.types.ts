@@ -3,6 +3,17 @@
 export type CertmanagerHelmValuesGlobal = {
   imagePullSecrets?: unknown[];
   /**
+   * Global node selector
+   * The nodeSelector on Pods tells Kubernetes to schedule Pods on the nodes with
+   * matching labels.
+   * For more information, see [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/).
+   * If a component-specific nodeSelector is also set, it will take precedence.
+   * +docs:property
+   *
+   * @default {}
+   */
+  nodeSelector?: CertmanagerHelmValuesGlobalNodeSelector;
+  /**
    * Labels to apply to all resources.
    * Please note that this does not add labels to the resources created dynamically by the controllers.
    * For these resources, you have to add the labels in the template in the cert-manager custom resource:
@@ -23,6 +34,12 @@ export type CertmanagerHelmValuesGlobal = {
    */
   priorityClassName?: string;
   /**
+   * Set all pods to run in a user namespace without host access.
+   * Experimental: may be removed once the Kubernetes User Namespaces feature is GA.
+   * Set to false to run pods in a user namespace without host access.
+   * See [limitations](https://kubernetes.io/docs/concepts/workloads/pods/user-namespaces/#limitations) for details.
+   * +docs:property
+   *
    * @default {"create":true,"aggregateClusterRoles":true}
    */
   rbac?: CertmanagerHelmValuesGlobalRbac;
@@ -56,6 +73,8 @@ export type CertmanagerHelmValuesGlobal = {
    */
   leaderElection?: CertmanagerHelmValuesGlobalLeaderElection;
 };
+
+export type CertmanagerHelmValuesGlobalNodeSelector = object;
 
 export type CertmanagerHelmValuesGlobalCommonLabels = object;
 
@@ -673,7 +692,7 @@ export type CertmanagerHelmValuesWebhook = {
   /**
    * Enables default network policies for webhooks.
    *
-   * @default {"enabled":false,"ingress":[{"from":[{"ipBlock":{"cidr":"0.0.0.0/0"}}]}],"egress":[{"ports":[{"port":80,"protocol":"TCP"},{"port":443,"protocol":"TCP"},{"port":53,"protocol":"TCP"},{"port":53,"protocol":"UDP"},{"port":6443,"protocol":"TCP"}],"to":[{"ipBlock":{"cidr":"0.0.0.0/0"}}]}]}
+   * @default {"enabled":false,"ingress":[{"from":[{"ipBlock":{"cidr":"0.0.0.0/0"}},{"ipBlock":{"cidr":"::/0"}}]}],"egress":[{"ports":[{"port":80,"protocol":"TCP"},{"port":443,"protocol":"TCP"},{"port":53,"protocol":"TCP"},{"port":53,"protocol":"UDP"},{"port":6443,"protocol":"TCP"}],"to":[{"ipBlock":{"cidr":"0.0.0.0/0"}},{"ipBlock":{"cidr":"::/0"}}]}]}
    */
   networkPolicy?: CertmanagerHelmValuesWebhookNetworkPolicy;
   volumes?: unknown[];
@@ -1509,7 +1528,7 @@ export type CertmanagerHelmValues = {
    * This is a YAML-formatted file.
    * Declare variables to be passed into your templates.
    *
-   * @default {...} (7 keys)
+   * @default {...} (8 keys)
    */
   global?: CertmanagerHelmValuesGlobal;
   /**
