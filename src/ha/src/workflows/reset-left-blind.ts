@@ -32,24 +32,17 @@ export function resetLeftBlind({ hass, logger }: TServiceParams) {
     logger.debug(`Full oldState: ${JSON.stringify(oldState, null, 2)}`);
     logger.info(`===========================================`);
 
-    // Check if the blind hasn't reported in more than 2 minutes (device offline)
-    const now = Date.now();
-    const OFFLINE_THRESHOLD_MS = 2 * 60 * 1000; // 2 minutes
+    // Trigger reset when the blind state changes to "unavailable"
+    const isNowUnavailable = newState.state === "unavailable";
+    const wasAvailable = oldState.state !== "unavailable";
 
-    const lastReportedMs = newState.last_reported.valueOf();
-    const timeSinceReport = now - lastReportedMs;
-    const minutesSinceReport = Math.floor(timeSinceReport / 60000);
-    const secondsSinceReport = Math.floor((timeSinceReport % 60000) / 1000);
+    if (isNowUnavailable && wasAvailable) {
+      logger.info(`Blind state changed to unavailable (was: ${oldState.state})`);
 
-    logger.info(`Time since last report: ${minutesSinceReport.toString()}m ${secondsSinceReport.toString()}s`);
-
-    // Only trigger if the device has been offline for more than 2 minutes
-    if (timeSinceReport > OFFLINE_THRESHOLD_MS) {
-      logger.info(`Device has been offline for more than 2 minutes`);
-
+      const now = Date.now();
       const timeSinceLastExecution = now - lastExecutionTime;
 
-      // Check if we're still in the cooldown period
+      // Check if we're still in the cooldown period to avoid thrashing
       if (timeSinceLastExecution < COOLDOWN_MS) {
         const remainingMinutes = Math.ceil((COOLDOWN_MS - timeSinceLastExecution) / 60000).toString();
         logger.info(`Reset Left Blind automation skipped - cooldown active (${remainingMinutes} minutes remaining)`);
@@ -61,11 +54,11 @@ export function resetLeftBlind({ hass, logger }: TServiceParams) {
       await instrumentWorkflow("reset_left_blind", async () => {
         await withTimeout(
           (async () => {
-            logger.info("Reset Left Blind automation triggered - device hasn't reported in over 2 minutes");
+            logger.info("Reset Left Blind automation triggered - device became unavailable");
 
             await hass.call.notify.notify({
               title: "Left Blind Reset",
-              message: "The left blind hasn't reported in over 2 minutes. Attempting to reset...",
+              message: "The left blind became unavailable. Attempting to reset...",
             });
 
             // Turn off the switch
