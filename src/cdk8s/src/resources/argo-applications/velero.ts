@@ -24,8 +24,27 @@ export function createVeleroApp(chart: Chart) {
     rules: [
       {
         apiGroups: ["velero.io"],
-        resources: ["backups", "restores", "schedules", "backupstoragelocations", "volumesnapshotlocations"],
+        resources: [
+          "backups",
+          "restores",
+          "schedules",
+          "backupstoragelocations",
+          "volumesnapshotlocations",
+          "downloadrequests",
+          "deletebackuprequests",
+          "podvolumebackups",
+        ],
         verbs: ["get", "list", "watch", "create", "delete", "patch", "update"],
+      },
+      {
+        apiGroups: [""],
+        resources: ["pods", "pods/log"],
+        verbs: ["get", "list", "watch"],
+      },
+      {
+        apiGroups: ["apps"],
+        resources: ["deployments"],
+        verbs: ["get", "list", "watch"],
       },
     ],
   });

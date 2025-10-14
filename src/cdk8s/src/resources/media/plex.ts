@@ -174,7 +174,12 @@ export function createPlexDeployment(
         app: "plex",
       },
     },
-    ports: [{ port: 32400 }, { port: 9594, name: "metrics" }],
+    ports: [{ port: 32400 }],
+  });
+
+  new Service(chart, "plex-metrics-service", {
+    selector: deployment,
+    ports: [{ port: 9594, name: "metrics" }],
   });
 
   new TailscaleIngress(chart, "plex-tailscale-ingress", {

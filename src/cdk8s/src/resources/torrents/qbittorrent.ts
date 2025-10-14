@@ -117,7 +117,12 @@ export function createQBitTorrentDeployment(
         app: "qbittorrent",
       },
     },
-    ports: [{ port: 8080 }, { port: 8000, name: "metrics" }],
+    ports: [{ port: 8080 }],
+  });
+
+  new Service(chart, "qbittorrent-metrics-service", {
+    selector: deployment,
+    ports: [{ port: 8000, name: "metrics" }],
   });
 
   new TailscaleIngress(chart, "qbittorrent-tailscale-ingress", {
