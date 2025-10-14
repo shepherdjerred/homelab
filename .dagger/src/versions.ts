@@ -5,7 +5,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "alpine/helm": "3.19.0@sha256:a6c449188cf0b3f628cc6da192229a14d165bc8a702137ef750d7f789803721b",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "oven/bun": "1.2.23@sha256:6ebf306367da43ad75c4d5119563e24de9b66372929ad4fa31546be053a16f74",
+  "oven/bun": "1.3.0@sha256:00cccad6e9c66bbacc250851f689168606aaea551ac473e908bbcf00a5645025",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   ubuntu: "noble@sha256:59a458b76b4e8896031cd559576eac7d6cb53a69b38ba819fb26518536368d86",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
