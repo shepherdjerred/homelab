@@ -12,7 +12,6 @@
     "helm-types": "src/cli.ts"
   },
   "scripts": {
-    "build": "bun run src/cli.ts",
     "generate": "bun run src/cli.ts",
     "test": "bun test",
     "test:helm-types": "bun test src/helm-types.test.ts",
