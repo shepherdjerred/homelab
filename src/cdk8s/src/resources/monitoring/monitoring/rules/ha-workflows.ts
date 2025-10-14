@@ -15,7 +15,7 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
         {
           record: "ha_workflow_last_success_timestamp_max",
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'max_over_time(ha_workflow_last_execution_timestamp{status="success"}[7d])',
+            'max without(pod, instance, container, endpoint) (max_over_time(ha_workflow_last_execution_timestamp{status="success"}[7d]))',
           ),
         },
       ],
@@ -34,7 +34,7 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "HA workflow failed",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'increase(ha_workflow_executions_total{status="failure"}[5m]) > 0',
+            'sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{status="failure"}[5m])) > 0',
           ),
           for: "1m",
           labels: { severity: "warning" },
@@ -48,7 +48,7 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "HA workflow timeout",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'increase(ha_workflow_errors_total{error_type="TimeoutError"}[5m]) > 0',
+            'sum without(pod, instance, container, endpoint) (increase(ha_workflow_errors_total{error_type="TimeoutError"}[5m])) > 0',
           ),
           for: "1m",
           labels: { severity: "warning" },
@@ -63,9 +63,9 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             `(
-              rate(ha_workflow_executions_total{status="failure"}[15m])
+              sum without(pod, instance, container, endpoint) (rate(ha_workflow_executions_total{status="failure"}[15m]))
               /
-              rate(ha_workflow_executions_total[15m])
+              sum without(pod, instance, container, endpoint) (rate(ha_workflow_executions_total[15m]))
             ) > 0.5`,
           ),
           for: "10m",
@@ -87,7 +87,7 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "HA workflow slow execution",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "histogram_quantile(0.95, rate(ha_workflow_duration_seconds_bucket[5m])) > 300",
+            "histogram_quantile(0.95, sum without(pod, instance, container, endpoint) (rate(ha_workflow_duration_seconds_bucket[5m]))) > 300",
           ),
           for: "10m",
           labels: { severity: "warning" },
@@ -110,7 +110,9 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "HA Good Morning workflow missing",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `time() - ha_workflow_last_success_timestamp_max{workflow=~"good_morning_.*"} > 90000`,
+            `time() - max without(pod, instance, container, endpoint) (
+              ha_workflow_last_success_timestamp_max{workflow=~"good_morning_.*", status="success"}
+            ) > 90000`,
           ),
           for: "1h",
           labels: { severity: "warning" },
@@ -122,12 +124,14 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "HaVacuumWorkflowMissing",
           annotations: {
             description: escapePrometheusTemplate(
-              'HA Vacuum workflow has not run in the last 25 hours. Expected to run daily at 9am. Last run: {{ $value | humanizeDuration }} ago.',
+              "HA Vacuum workflow has not run in the last 25 hours. Expected to run daily at 9am. Last run: {{ $value | humanizeDuration }} ago.",
             ),
             summary: "HA Vacuum workflow missing",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `time() - ha_workflow_last_success_timestamp_max{workflow="run_vacuum_if_not_home"} > 90000`,
+            `time() - max without(pod, instance, container, endpoint) (
+              ha_workflow_last_success_timestamp_max{workflow="run_vacuum_if_not_home", status="success"}
+            ) > 90000`,
           ),
           for: "1h",
           labels: { severity: "info" },
@@ -147,7 +151,9 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "HA workflow possibly stuck",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("ha_workflows_in_progress > 0"),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "sum without(pod, instance, container, endpoint) (ha_workflows_in_progress) > 0",
+          ),
           for: "30m",
           labels: { severity: "warning" },
         },
@@ -164,7 +170,9 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
             description: "HA automation application is down or not reporting metrics.",
             summary: "HA application down",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("up{job=~'.*ha.*'} == 0"),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "max without(pod, instance, container, endpoint) (up{job=~'.*ha.*'}) == 0",
+          ),
           for: "5m",
           labels: { severity: "critical" },
         },
@@ -176,7 +184,9 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "HA application frequent restarts",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("changes(ha_uptime_seconds[1h]) > 3"),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "sum without(pod, instance, container, endpoint) (changes(ha_uptime_seconds[1h])) > 3",
+          ),
           for: "5m",
           labels: { severity: "warning" },
         },
