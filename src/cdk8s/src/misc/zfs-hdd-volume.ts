@@ -22,9 +22,9 @@ export class ZfsHddVolume extends Construct {
   ) {
     super(scope, id);
 
-    // Check if storage is under 512GB for backup labeling
+    // Check if storage is under 200GB for backup labeling
     // Use native CDK8s Size conversion methods for accurate comparison
-    const shouldBackup = props.storage.toKibibytes() < Size.gibibytes(512).toKibibytes();
+    const shouldBackup = props.storage.toKibibytes() < Size.gibibytes(200).toKibibytes();
 
     const baseProps: PersistentVolumeClaimProps = {
       storage: props.storage,

@@ -1,14 +1,18 @@
 # Roadmap
 
+## WIP
+
+- <https://github.com/esanchezm/prometheus-qbittorrent-exporter>
+- <https://github.com/jsclayton/prometheus-plex-exporter>
+- Prometheus Minecraft exporter
+
 ## Next
 
 - Configure Recyclarr with env vars and config files committed to repo
 - ZFS grafana dashboard
 - <https://github.com/prometheus/blackbox_exporter>
-- <https://github.com/esanchezm/prometheus-qbittorrent-exporter>
-- <https://github.com/jsclayton/prometheus-plex-exporter>
-- Prometheus Minecraft exporter
 - Verify Gomplate syntax
+- Verify Prometheus syntax with promtool
 - Helm is downloaded via Docker rather than mise
 - Get Coder tf to apply automatically
 - Get Pokemon bot running
