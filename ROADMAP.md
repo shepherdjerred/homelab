@@ -8,15 +8,11 @@
 - <https://github.com/esanchezm/prometheus-qbittorrent-exporter>
 - <https://github.com/jsclayton/prometheus-plex-exporter>
 - Prometheus Minecraft exporter
-- CI
-  - Output is still difficult to understand
-  - it's really a mess altogether tbh. Maybe I should get rid of Dagger?
 - Verify Gomplate syntax
 - Helm is downloaded via Docker rather than mise
 - Get Coder tf to apply automatically
 - Get Pokemon bot running
 - Deploy Karma bot
-- Collect Prometheus metrics from Scout for League of Legends
 - `homeassistant_sensor_timestamp_seconds{entity="sensor.granary_smart_camera_feeder_last_feed_time"}`
   - metric does not exist
 - `rate(node_disk_written_bytes_total[5m]) > 1048576`
@@ -24,6 +20,7 @@
 
 ## Done
 
+- Collect Prometheus metrics from Scout for League of Legends
 - <https://github.com/openebs/monitoring>
 - Metrics not working
   - Velero

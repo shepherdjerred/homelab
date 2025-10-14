@@ -2,21 +2,34 @@
   "mcpServers": {
     "grafana": {
       "command": "/workspaces/homelab/.cursor/mcp-env-wrapper.sh",
-      "args": ["go", "run", "github.com/grafana/mcp-grafana/cmd/mcp-grafana@latest"],
+      "args": [
+        "go",
+        "run",
+        "github.com/grafana/mcp-grafana/cmd/mcp-grafana@latest",
+        "--disable-oncall",
+        "--disable-incident",
+        "--disable-admin",
+        "--disable-navigation",
+        "--disable-pyroscope"
+      ],
       "env": {
-        "GRAFANA_URL": "http://prometheus-grafana.prometheus"
+        "GRAFANA_URL": "http://prometheus-grafana.prometheus",
+        "GRAFANA_SERVICE_ACCOUNT_TOKEN": "${env:GRAFANA_SERVICE_ACCOUNT_TOKEN}"
       }
     },
     "pagerduty-mcp": {
       "type": "stdio",
       "command": "/workspaces/homelab/.cursor/mcp-env-wrapper.sh",
-      "args": ["uvx", "pagerduty-mcp", "--enable-write-tools"]
+      "args": ["uvx", "pagerduty-mcp"],
+      "env": {
+        "PAGERDUTY_USER_API_KEY": "${env:PAGERDUTY_API_KEY}"
+      }
     },
     "Home Assistant": {
       "command": "/workspaces/homelab/.cursor/mcp-env-wrapper.sh",
       "args": ["uvx", "mcp-proxy", "http://homeassistant.tailnet-1a49.ts.net/mcp_server/sse"],
       "env": {
-        "API_ACCESS_TOKEN": "${HOME_ASSISTANT_API_ACCESS_TOKEN}"
+        "API_ACCESS_TOKEN": "${env:HOME_ASSISTANT_API_ACCESS_TOKEN}"
       }
     }
   }
