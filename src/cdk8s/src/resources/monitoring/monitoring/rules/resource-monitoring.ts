@@ -19,7 +19,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "Sustained high CPU usage detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            '(100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 5',
+            '(100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 7.5',
           ),
           for: "1d",
           labels: { severity: "warning" },

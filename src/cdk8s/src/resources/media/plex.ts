@@ -5,6 +5,7 @@ import {
   EnvValue,
   type PersistentVolumeClaim,
   Protocol,
+  Secret,
   Service,
   Volume,
 } from "cdk8s-plus-31";
@@ -13,6 +14,8 @@ import { withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
+import { ServiceMonitor } from "../../../generated/imports/monitoring.coreos.com.ts";
+import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 
 export function createPlexDeployment(
   chart: Chart,
@@ -22,6 +25,14 @@ export function createPlexDeployment(
   },
 ) {
   const GID = 1000;
+
+  // TODO: create this
+  // OnePassword item for Plex token
+  const plexSecrets = new OnePasswordItem(chart, "plex-secrets", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/plex-token",
+    },
+  });
 
   const deployment = new Deployment(chart, "plex", {
     replicas: 1,
@@ -139,9 +150,31 @@ export function createPlexDeployment(
     }),
   );
 
+  // Add Prometheus exporter for Plex metrics
+  deployment.addContainer(
+    withCommonProps({
+      name: "plex-exporter",
+      image: `ghcr.io/jsclayton/prometheus-plex-exporter:${versions["jsclayton/prometheus-plex-exporter"]}`,
+      ports: [{ number: 9594, name: "metrics" }],
+      envVariables: {
+        PLEX_SERVER: EnvValue.fromValue("http://localhost:32400"),
+        PLEX_TOKEN: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "plex-token", plexSecrets.name),
+          key: "token",
+        }),
+        PLEX_LOG_LEVEL: EnvValue.fromValue("info"),
+      },
+    }),
+  );
+
   const service = new Service(chart, "plex-service", {
     selector: deployment,
-    ports: [{ port: 32400 }],
+    metadata: {
+      labels: {
+        app: "plex",
+      },
+    },
+    ports: [{ port: 32400 }, { port: 9594, name: "metrics" }],
   });
 
   new TailscaleIngress(chart, "plex-tailscale-ingress", {
@@ -165,4 +198,28 @@ export function createPlexDeployment(
       "backup.velero.io/backup-volumes-excludes": "plex-tv-hdd-volume,plex-movies-hdd-volume",
     }),
   );
+
+  // Create ServiceMonitor for Prometheus to scrape Plex metrics
+  new ServiceMonitor(chart, "plex-service-monitor", {
+    metadata: {
+      name: "plex-service-monitor",
+      labels: {
+        release: "prometheus", // Required for Prometheus operator discovery
+      },
+    },
+    spec: {
+      endpoints: [
+        {
+          port: "metrics",
+          interval: "60s",
+          path: "/metrics",
+        },
+      ],
+      selector: {
+        matchLabels: {
+          app: "plex",
+        },
+      },
+    },
+  });
 }

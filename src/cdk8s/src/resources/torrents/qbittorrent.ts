@@ -14,6 +14,7 @@ import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
+import { ServiceMonitor } from "../../../generated/imports/monitoring.coreos.com.ts";
 
 export function createQBitTorrentDeployment(
   chart: Chart,
@@ -84,6 +85,27 @@ export function createQBitTorrentDeployment(
     }),
   );
 
+  // Add Prometheus exporter for qBittorrent metrics
+  deployment.addContainer(
+    withCommonProps({
+      name: "qbittorrent-exporter",
+      image: `ghcr.io/esanchezm/prometheus-qbittorrent-exporter:${versions["esanchezm/prometheus-qbittorrent-exporter"]}`,
+      ports: [{ number: 8000, name: "metrics" }],
+      envVariables: {
+        QBITTORRENT_HOST: EnvValue.fromValue("localhost"),
+        QBITTORRENT_PORT: EnvValue.fromValue("8080"),
+        QBITTORRENT_USER: EnvValue.fromValue("admin"),
+        // TODO: create this
+        QBITTORRENT_PASS: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "qbittorrent-password", item.name),
+          key: "qbittorrent-password",
+        }),
+        EXPORTER_PORT: EnvValue.fromValue("8000"),
+        EXPORTER_LOG_LEVEL: EnvValue.fromValue("INFO"),
+      },
+    }),
+  );
+
   const service = new Service(chart, "qbittorrent-service", {
     selector: deployment,
     // required to allow TailScale to expose the service
@@ -91,12 +113,39 @@ export function createQBitTorrentDeployment(
       annotations: {
         "metallb.universe.tf/allow-shared-ip": "gluetun",
       },
+      labels: {
+        app: "qbittorrent",
+      },
     },
-    ports: [{ port: 8080 }],
+    ports: [{ port: 8080 }, { port: 8000, name: "metrics" }],
   });
 
   new TailscaleIngress(chart, "qbittorrent-tailscale-ingress", {
     service,
     host: "qbittorrent",
+  });
+
+  // Create ServiceMonitor for Prometheus to scrape qBittorrent metrics
+  new ServiceMonitor(chart, "qbittorrent-service-monitor", {
+    metadata: {
+      name: "qbittorrent-service-monitor",
+      labels: {
+        release: "prometheus", // Required for Prometheus operator discovery
+      },
+    },
+    spec: {
+      endpoints: [
+        {
+          port: "metrics",
+          interval: "60s",
+          path: "/metrics",
+        },
+      ],
+      selector: {
+        matchLabels: {
+          app: "qbittorrent",
+        },
+      },
+    },
   });
 }

@@ -6,6 +6,21 @@ import { escapePrometheusTemplate } from "./shared";
 
 export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
   return [
+    // Recording rules for workflow timestamps
+    // These capture the max timestamp over 7 days, persisting across app restarts
+    {
+      name: "ha-workflow-recordings",
+      interval: "1m",
+      rules: [
+        {
+          record: "ha_workflow_last_success_timestamp_max",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'max_over_time(ha_workflow_last_execution_timestamp{status="success"}[7d])',
+          ),
+        },
+      ],
+    },
+
     // Workflow failure alerts
     {
       name: "ha-workflow-failures",
@@ -85,34 +100,36 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
       name: "ha-workflow-scheduled",
       rules: [
         // Good morning workflows - should run every day
+        // Uses recording rule to survive app restarts
         {
           alert: "HaGoodMorningWorkflowMissing",
           annotations: {
             description: escapePrometheusTemplate(
-              'HA Good Morning workflow "{{ $labels.workflow }}" has not run in the last 25 hours. Expected to run daily around 7-9am.',
+              'HA Good Morning workflow "{{ $labels.workflow }}" has not run in the last 25 hours. Expected to run daily around 7-9am. Last run: {{ $value | humanizeDuration }} ago.',
             ),
             summary: "HA Good Morning workflow missing",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'increase(ha_workflow_executions_total{workflow=~"good_morning_.*",status="success"}[25h]) == 0',
+            `time() - ha_workflow_last_success_timestamp_max{workflow=~"good_morning_.*"} > 90000`,
           ),
-          for: "30m",
+          for: "1h",
           labels: { severity: "warning" },
         },
 
         // Vacuum workflow - should run every day at 9am
+        // Uses recording rule to survive app restarts
         {
           alert: "HaVacuumWorkflowMissing",
           annotations: {
             description: escapePrometheusTemplate(
-              "HA Vacuum workflow has not run in the last 25 hours. Expected to run daily at 9am.",
+              'HA Vacuum workflow has not run in the last 25 hours. Expected to run daily at 9am. Last run: {{ $value | humanizeDuration }} ago.',
             ),
             summary: "HA Vacuum workflow missing",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'increase(ha_workflow_executions_total{workflow="run_vacuum_if_not_home",status="success"}[25h]) == 0',
+            `time() - ha_workflow_last_success_timestamp_max{workflow="run_vacuum_if_not_home"} > 90000`,
           ),
-          for: "30m",
+          for: "1h",
           labels: { severity: "info" },
         },
       ],
@@ -152,16 +169,16 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
           labels: { severity: "critical" },
         },
         {
-          alert: "HaApplicationRestarted",
+          alert: "HaApplicationFrequentRestarts",
           annotations: {
             description: escapePrometheusTemplate(
-              "HA automation application has restarted. Current uptime: {{ $value }}s.",
+              "HA automation application has restarted {{ $value }} times in the last hour. This may indicate instability.",
             ),
-            summary: "HA application restarted",
+            summary: "HA application frequent restarts",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("ha_uptime_seconds < 300"),
-          for: "1m",
-          labels: { severity: "info" },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("changes(ha_uptime_seconds[1h]) > 3"),
+          for: "5m",
+          labels: { severity: "warning" },
         },
       ],
     },
