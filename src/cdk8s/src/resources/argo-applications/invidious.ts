@@ -43,7 +43,7 @@ export function createInvidiousApp(chart: Chart) {
       // external_port: 3000,
       domain: "invidious.tailnet-1a49.ts.net",
       https_only: false,
-      // hmac_key: "CHANGE_ME_IN_PRODUCTION", // TODO: Replace with a secure value
+      hmac_key: "SOMETHING RANDOM", // TODO: Replace with a secure value
     },
     postgresql: {
       enabled: false, // Using postgres-operator instead of bundled PostgreSQL
