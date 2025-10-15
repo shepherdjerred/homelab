@@ -154,7 +154,7 @@ export function createPlexDeployment(
     withCommonProps({
       name: "plex-exporter",
       image: `ghcr.io/jsclayton/prometheus-plex-exporter:${versions["jsclayton/prometheus-plex-exporter"]}`,
-      ports: [{ number: 9594, name: "metrics" }],
+      ports: [{ number: 9000, name: "metrics" }],
       securityContext: {
         ensureNonRoot: true,
         readOnlyRootFilesystem: true,
@@ -184,7 +184,7 @@ export function createPlexDeployment(
 
   new Service(chart, "plex-metrics-service", {
     selector: deployment,
-    ports: [{ port: 9594, name: "metrics" }],
+    ports: [{ port: 9000, name: "metrics" }],
   });
 
   new TailscaleIngress(chart, "plex-tailscale-ingress", {
