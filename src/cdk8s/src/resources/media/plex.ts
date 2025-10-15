@@ -155,6 +155,12 @@ export function createPlexDeployment(
       name: "plex-exporter",
       image: `ghcr.io/jsclayton/prometheus-plex-exporter:${versions["jsclayton/prometheus-plex-exporter"]}`,
       ports: [{ number: 9594, name: "metrics" }],
+      securityContext: {
+        ensureNonRoot: true,
+        readOnlyRootFilesystem: true,
+        user: 65534, // nobody user
+        group: 65534,
+      },
       envVariables: {
         PLEX_SERVER: EnvValue.fromValue("http://localhost:32400"),
         PLEX_TOKEN: EnvValue.fromSecretValue({
