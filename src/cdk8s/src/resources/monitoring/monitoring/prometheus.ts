@@ -8,6 +8,7 @@ import { getZfsMonitoringRuleGroups } from "./rules/zfs";
 import { getSmartctlRuleGroups } from "./rules/smartctl";
 import { getHaWorkflowRuleGroups } from "./rules/ha-workflows";
 import { getGitckupRuleGroups } from "./rules/gitckup";
+import { getQBitTorrentRuleGroups } from "./rules/qbittorrent";
 
 export function createPrometheusMonitoring(chart: Chart) {
   // Create Home Assistant rules
@@ -102,6 +103,18 @@ export function createPrometheusMonitoring(chart: Chart) {
     },
     spec: {
       groups: getGitckupRuleGroups(),
+    },
+  });
+
+  // Create qBittorrent rules
+  new PrometheusRule(chart, "prometheus-qbittorrent-rules", {
+    metadata: {
+      name: "prometheus-qbittorrent-rules",
+      namespace: "torvalds",
+      labels: { release: "prometheus" },
+    },
+    spec: {
+      groups: getQBitTorrentRuleGroups(),
     },
   });
 }

@@ -23,8 +23,21 @@ export function createInvidiousApp(chart: Chart) {
   // Create Tailscale ingress for Invidious
   createIngress(chart, "invidious-ingress", "invidious", "invidious", 3000, ["invidious"], true);
 
+  // The postgres-operator will automatically create a secret with connection credentials
+  // Secret name pattern: {username}.{clustername}.credentials.postgresql.acid.zalan.do
+  // For our setup: kemal.invidious-postgresql.credentials.postgresql.acid.zalan.do
+  // The secret contains keys: username, password, dbname
+
   const invidiousValues: HelmValuesForChart<"invidious"> = {
     config: {
+      // Database configuration for postgres-operator
+      db: {
+        host: "invidious-postgresql", // Service name created by postgres-operator
+        port: 5432,
+        user: "kemal",
+        password: "placeholder", // NOTE: Invidious may or may not read INVIDIOUS_DB_PASSWORD env var at runtime
+        dbname: "invidious",
+      },
       // Additional Invidious configuration
       // check_tables: true,
       // external_port: 3000,
@@ -32,6 +45,18 @@ export function createInvidiousApp(chart: Chart) {
       https_only: false,
       // hmac_key: "CHANGE_ME_IN_PRODUCTION", // TODO: Replace with a secure value
     },
+    // Inject password from postgres-operator secret as environment variable
+    env: [
+      {
+        name: "INVIDIOUS_DB_PASSWORD",
+        valueFrom: {
+          secretKeyRef: {
+            name: "kemal.invidious-postgresql.credentials.postgresql.acid.zalan.do",
+            key: "password",
+          },
+        },
+      },
+    ],
     postgresql: {
       enabled: false, // Using postgres-operator instead of bundled PostgreSQL
     },
