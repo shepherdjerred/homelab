@@ -103,7 +103,7 @@ export function createQBitTorrentDeployment(
         QBITTORRENT_USER: EnvValue.fromValue("admin"),
         QBITTORRENT_PASS: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "qbittorrent-password", qBitTorrentItem.name),
-          key: "qbittorrent-password",
+          key: "password",
         }),
         EXPORTER_PORT: EnvValue.fromValue("8000"),
         EXPORTER_LOG_LEVEL: EnvValue.fromValue("INFO"),
