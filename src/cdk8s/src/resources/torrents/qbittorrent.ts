@@ -97,6 +97,12 @@ export function createQBitTorrentDeployment(
       name: "qbittorrent-exporter",
       image: `ghcr.io/esanchezm/prometheus-qbittorrent-exporter:${versions["esanchezm/prometheus-qbittorrent-exporter"]}`,
       ports: [{ number: 8000, name: "metrics" }],
+      securityContext: {
+        ensureNonRoot: true,
+        readOnlyRootFilesystem: true,
+        user: 65534, // nobody user
+        group: 65534,
+      },
       envVariables: {
         QBITTORRENT_HOST: EnvValue.fromValue("localhost"),
         QBITTORRENT_PORT: EnvValue.fromValue("8080"),
