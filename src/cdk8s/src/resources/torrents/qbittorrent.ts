@@ -96,7 +96,7 @@ export function createQBitTorrentDeployment(
     withCommonProps({
       name: "qbittorrent-exporter",
       image: `ghcr.io/esanchezm/prometheus-qbittorrent-exporter:${versions["esanchezm/prometheus-qbittorrent-exporter"]}`,
-      ports: [{ number: 8000, name: "metrics" }],
+      ports: [{ number: 17871, name: "metrics" }],
       securityContext: {
         ensureNonRoot: true,
         readOnlyRootFilesystem: true,
@@ -111,7 +111,7 @@ export function createQBitTorrentDeployment(
           secret: Secret.fromSecretName(chart, "qbittorrent-password", qBitTorrentItem.name),
           key: "password",
         }),
-        EXPORTER_PORT: EnvValue.fromValue("8000"),
+        EXPORTER_PORT: EnvValue.fromValue("17871"),
         EXPORTER_LOG_LEVEL: EnvValue.fromValue("INFO"),
       },
     }),
@@ -133,7 +133,7 @@ export function createQBitTorrentDeployment(
 
   new Service(chart, "qbittorrent-metrics-service", {
     selector: deployment,
-    ports: [{ port: 8000, name: "metrics" }],
+    ports: [{ port: 17871, name: "metrics" }],
   });
 
   new TailscaleIngress(chart, "qbittorrent-tailscale-ingress", {
