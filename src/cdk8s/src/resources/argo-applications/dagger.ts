@@ -89,10 +89,12 @@ export function createDaggerApp(chart: Chart) {
         helm: {
           // TODO: use types for this
           valuesObject: {
-            persistentVolumeClaim: {
-              enabled: true,
-              storageClassName: dataPvc.claim.storageClassName,
-              accessModes: dataPvc.claim.accessModes,
+            statefulSet: {
+              persistentVolumeClaim: {
+                enabled: true,
+                storageClassName: dataPvc.claim.storageClassName,
+                accessModes: dataPvc.claim.accessModes,
+              },
             },
           },
         },
