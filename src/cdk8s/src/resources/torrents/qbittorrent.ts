@@ -28,7 +28,7 @@ export function createQBitTorrentDeployment(
     },
   });
 
-  const qBitTorrentItem = new OnePasswordItem(chart, "qbittorrent-password", {
+  const qBitTorrentItem = new OnePasswordItem(chart, "qbittorrent-item", {
     spec: {
       itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/2bbw7oe6s5clygljwmeflwtovm",
     },
