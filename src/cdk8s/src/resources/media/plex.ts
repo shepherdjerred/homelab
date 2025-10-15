@@ -184,6 +184,11 @@ export function createPlexDeployment(
 
   new Service(chart, "plex-metrics-service", {
     selector: deployment,
+    metadata: {
+      labels: {
+        app: "plex",
+      },
+    },
     ports: [{ port: 9000, name: "metrics" }],
   });
 

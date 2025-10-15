@@ -133,6 +133,11 @@ export function createQBitTorrentDeployment(
 
   new Service(chart, "qbittorrent-metrics-service", {
     selector: deployment,
+    metadata: {
+      labels: {
+        app: "qbittorrent",
+      },
+    },
     ports: [{ port: 17871, name: "metrics" }],
   });
 
