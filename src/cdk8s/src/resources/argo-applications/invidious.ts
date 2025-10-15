@@ -35,18 +35,20 @@ export function createInvidiousApp(chart: Chart) {
         host: "invidious-postgresql", // Service name created by postgres-operator
         port: 5432,
         user: "kemal",
-        password: "placeholder", // Will be replaced by init container at runtime
+        password: "PLACEHOLDER_PASSWORD", // Will be replaced by PostSync hook
         dbname: "invidious",
       },
       // Additional Invidious configuration
-      // check_tables: true,
-      // external_port: 3000,
+      check_tables: true, // Ensure tables are created/updated on startup
       domain: "invidious.tailnet-1a49.ts.net",
       https_only: false,
       hmac_key: "SOMETHING RANDOM", // TODO: Replace with a secure value
     },
     postgresql: {
       enabled: false, // Using postgres-operator instead of bundled PostgreSQL
+    },
+    sighelper: {
+      enabled: false, // Disabled: inv-sig-helper is deprecated. TODO: Add Invidious companion when available
     },
     service: {
       type: "ClusterIP",
@@ -57,82 +59,112 @@ export function createInvidiousApp(chart: Chart) {
     },
   };
 
-  // Create a Job that will patch the Deployment after it's created by Helm
-  // This job runs after the Helm release and injects the init container for database password
-  const patchScript = `#!/bin/sh
+  // Create a Job that updates the Invidious ConfigMap with the real password
+  // This runs as a PostSync hook after Helm creates the ConfigMap
+  const passwordInjectorScript = `#!/bin/sh
 set -e
 
-echo "Waiting for Invidious deployment to be created..."
-until kubectl get deployment invidious -n invidious 2>/dev/null; do
-  echo "Waiting..."
+echo "Waiting for Invidious ConfigMap to be created..."
+until kubectl get configmap invidious -n invidious 2>/dev/null; do
+  echo "Waiting for ConfigMap..."
   sleep 2
 done
 
-echo "Patching Invidious deployment with init container..."
-kubectl patch deployment invidious -n invidious --type='strategic' -p '
-spec:
-  template:
-    spec:
-      initContainers:
-      - name: inject-db-password
-        image: busybox:latest
-        command: ["/bin/sh", "-c"]
-        args:
-        - |
-          PGPASS=$(cat /pg-secret/password)
-          sed "s/password: placeholder/password: $PGPASS/" /base-config/config.yml > /runtime-config/config.yml
-          echo "Database password injected successfully"
-        volumeMounts:
-        - name: pg-secret
-          mountPath: /pg-secret
-          readOnly: true
-        - name: base-config
-          mountPath: /base-config
-          readOnly: true
-        - name: runtime-config
-          mountPath: /runtime-config
-      volumes:
-      - name: pg-secret
-        secret:
-          secretName: kemal.invidious-postgresql.credentials.postgresql.acid.zalan.do
-      - name: base-config
-        configMap:
-          name: invidious
-      - name: runtime-config
-        emptyDir: {}
-      containers:
-      - name: invidious
-        env:
-        - name: INVIDIOUS_CONFIG_FILE
-          value: /runtime-config/config.yml
-        volumeMounts:
-        - name: runtime-config
-          mountPath: /runtime-config
-          readOnly: true
-'
+echo "Reading password from PostgreSQL secret..."
+PGPASS=$(kubectl get secret kemal.invidious-postgresql.credentials.postgresql.acid.zalan.do -n invidious -o jsonpath='{.data.password}' | base64 -d)
 
-echo "Deployment patched successfully"
+echo "Updating Invidious ConfigMap with real password..."
+kubectl get configmap invidious -n invidious -o yaml | \\
+  sed "s/password: PLACEHOLDER_PASSWORD/password: $PGPASS/" | \\
+  kubectl apply -f -
+
+echo "Restarting Invidious deployment to pick up new password..."
+kubectl rollout restart deployment/invidious -n invidious 2>/dev/null || echo "Deployment not ready yet, password will be used on first start"
+
+echo "Password injection complete!"
 `;
 
-  // Create ConfigMap with the patch script
-  new ApiObject(chart, "invidious-deployment-patcher-configmap", {
+  // Create ConfigMap with the password injector script
+  new ApiObject(chart, "invidious-password-injector-configmap", {
     apiVersion: "v1",
     kind: "ConfigMap",
     metadata: {
-      name: "invidious-deployment-patcher",
+      name: "invidious-password-injector",
       namespace: "invidious",
     },
     data: {
-      "patch.sh": patchScript,
+      "inject-password.sh": passwordInjectorScript,
     },
   });
 
-  // Create a Job to apply the patch
-  new ApiObject(chart, "invidious-deployment-patcher-job", {
+  // Create ServiceAccount for the password injector Job
+  new ApiObject(chart, "invidious-password-injector-sa", {
+    apiVersion: "v1",
+    kind: "ServiceAccount",
+    metadata: {
+      name: "invidious-password-injector",
+      namespace: "invidious",
+    },
+  });
+
+  // Create Role with permissions to read secrets, get/update configmaps, and restart deployments
+  new ApiObject(chart, "invidious-password-injector-role", {
+    apiVersion: "rbac.authorization.k8s.io/v1",
+    kind: "Role",
+    metadata: {
+      name: "invidious-password-injector",
+      namespace: "invidious",
+    },
+    rules: [
+      {
+        apiGroups: [""],
+        resources: ["secrets"],
+        verbs: ["get"],
+        resourceNames: ["kemal.invidious-postgresql.credentials.postgresql.acid.zalan.do"],
+      },
+      {
+        apiGroups: [""],
+        resources: ["configmaps"],
+        verbs: ["get", "update", "patch"],
+        resourceNames: ["invidious"],
+      },
+      {
+        apiGroups: ["apps"],
+        resources: ["deployments"],
+        verbs: ["get", "patch"],
+        resourceNames: ["invidious"],
+      },
+    ],
+  });
+
+  // Create RoleBinding
+  new ApiObject(chart, "invidious-password-injector-rolebinding", {
+    apiVersion: "rbac.authorization.k8s.io/v1",
+    kind: "RoleBinding",
+    metadata: {
+      name: "invidious-password-injector",
+      namespace: "invidious",
+    },
+    roleRef: {
+      apiGroup: "rbac.authorization.k8s.io",
+      kind: "Role",
+      name: "invidious-password-injector",
+    },
+    subjects: [
+      {
+        kind: "ServiceAccount",
+        name: "invidious-password-injector",
+        namespace: "invidious",
+      },
+    ],
+  });
+
+  // Create Job that runs as an ArgoCD PostSync hook
+  new ApiObject(chart, "invidious-password-injector-job", {
     apiVersion: "batch/v1",
     kind: "Job",
     metadata: {
-      name: "invidious-deployment-patcher",
+      name: "invidious-password-injector",
       namespace: "invidious",
       annotations: {
         "argocd.argoproj.io/hook": "PostSync",
@@ -140,19 +172,21 @@ echo "Deployment patched successfully"
       },
     },
     spec: {
+      backoffLimit: 3,
       template: {
         spec: {
-          serviceAccountName: "invidious-patcher",
+          serviceAccountName: "invidious-password-injector",
           restartPolicy: "OnFailure",
           containers: [
             {
-              name: "patcher",
+              name: "password-injector",
               image: "bitnami/kubectl:latest",
-              command: ["/bin/sh", "/scripts/patch.sh"],
+              command: ["/bin/sh", "/scripts/inject-password.sh"],
               volumeMounts: [
                 {
                   name: "script",
                   mountPath: "/scripts",
+                  readOnly: true,
                 },
               ],
             },
@@ -161,7 +195,7 @@ echo "Deployment patched successfully"
             {
               name: "script",
               configMap: {
-                name: "invidious-deployment-patcher",
+                name: "invidious-password-injector",
                 defaultMode: 0o755,
               },
             },
@@ -169,53 +203,6 @@ echo "Deployment patched successfully"
         },
       },
     },
-  });
-
-  // Create ServiceAccount and RBAC for the patcher job
-  new ApiObject(chart, "invidious-patcher-serviceaccount", {
-    apiVersion: "v1",
-    kind: "ServiceAccount",
-    metadata: {
-      name: "invidious-patcher",
-      namespace: "invidious",
-    },
-  });
-
-  new ApiObject(chart, "invidious-patcher-role", {
-    apiVersion: "rbac.authorization.k8s.io/v1",
-    kind: "Role",
-    metadata: {
-      name: "invidious-patcher",
-      namespace: "invidious",
-    },
-    rules: [
-      {
-        apiGroups: ["apps"],
-        resources: ["deployments"],
-        verbs: ["get", "patch"],
-      },
-    ],
-  });
-
-  new ApiObject(chart, "invidious-patcher-rolebinding", {
-    apiVersion: "rbac.authorization.k8s.io/v1",
-    kind: "RoleBinding",
-    metadata: {
-      name: "invidious-patcher",
-      namespace: "invidious",
-    },
-    roleRef: {
-      apiGroup: "rbac.authorization.k8s.io",
-      kind: "Role",
-      name: "invidious-patcher",
-    },
-    subjects: [
-      {
-        kind: "ServiceAccount",
-        name: "invidious-patcher",
-        namespace: "invidious",
-      },
-    ],
   });
 
   return new Application(chart, "invidious-app", {
