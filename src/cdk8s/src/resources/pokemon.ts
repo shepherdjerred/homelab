@@ -18,7 +18,7 @@ export function createPokemonDeployment(chart: Chart) {
   const GID = 1000;
 
   const deployment = new Deployment(chart, "pokemon", {
-    replicas: 0,
+    replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       fsGroup: GID,
