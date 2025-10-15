@@ -28,6 +28,12 @@ export function createQBitTorrentDeployment(
     },
   });
 
+  const qBitTorrentItem = new OnePasswordItem(chart, "qbittorrent-password", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/2bbw7oe6s5clygljwmeflwtovm",
+    },
+  });
+
   const deployment = new Deployment(chart, "qbittorrent", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
@@ -95,9 +101,8 @@ export function createQBitTorrentDeployment(
         QBITTORRENT_HOST: EnvValue.fromValue("localhost"),
         QBITTORRENT_PORT: EnvValue.fromValue("8080"),
         QBITTORRENT_USER: EnvValue.fromValue("admin"),
-        // TODO: create this
         QBITTORRENT_PASS: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "qbittorrent-password", item.name),
+          secret: Secret.fromSecretName(chart, "qbittorrent-password", qBitTorrentItem.name),
           key: "qbittorrent-password",
         }),
         EXPORTER_PORT: EnvValue.fromValue("8000"),

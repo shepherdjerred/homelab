@@ -103,9 +103,10 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "cooperspencer/gickup": "0.10.39@sha256:3d0dabf3180ac8d3cc1939161e8b55947d697e453abeda29bdc42bb0319a9ed1",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "esanchezm/prometheus-qbittorrent-exporter": "v1.5.1",
+  "esanchezm/prometheus-qbittorrent-exporter":
+    "v1.6.0@sha256:b987d19693a5b2fe7314b22009c6302e084ec801fcf96afaf14065b4cdafc842",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "jsclayton/prometheus-plex-exporter": "v0.4.0",
+  "jsclayton/prometheus-plex-exporter": "main@sha256:18ef1b2197efbcb75bd7276380955760995f10a9fbe55106809a6fcff91c2940",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];

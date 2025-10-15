@@ -26,11 +26,10 @@ export function createPlexDeployment(
 ) {
   const GID = 1000;
 
-  // TODO: create this
   // OnePassword item for Plex token
   const plexSecrets = new OnePasswordItem(chart, "plex-secrets", {
     spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/plex-token",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/xov5k65uwjmm3nfhc7udwmvhny",
     },
   });
 
@@ -160,7 +159,7 @@ export function createPlexDeployment(
         PLEX_SERVER: EnvValue.fromValue("http://localhost:32400"),
         PLEX_TOKEN: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "plex-token", plexSecrets.name),
-          key: "token",
+          key: "password",
         }),
         PLEX_LOG_LEVEL: EnvValue.fromValue("info"),
       },
