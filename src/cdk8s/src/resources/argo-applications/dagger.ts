@@ -2,10 +2,10 @@ import { Chart } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
 import versions from "../../versions.ts";
 import { Namespace } from "cdk8s-plus-31";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { Size } from "cdk8s";
 import { KubeRole, KubeRoleBinding } from "../../../generated/imports/k8s.ts";
 import { repositories } from "./actions-runner-controller.ts";
+import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 
 export function createDaggerApp(chart: Chart) {
   new Namespace(chart, "dagger-namespace", {
@@ -71,11 +71,6 @@ export function createDaggerApp(chart: Chart) {
     ],
   });
 
-  // Create a ZFS SSD PVC for Dagger data
-  const dataPvc = new ZfsSsdVolume(chart, "dagger-data", {
-    storage: Size.gibibytes(128),
-  });
-
   new Application(chart, "dagger-app", {
     metadata: {
       name: "dagger",
@@ -93,8 +88,12 @@ export function createDaggerApp(chart: Chart) {
               statefulSet: {
                 persistentVolumeClaim: {
                   enabled: true,
-                  storageClassName: dataPvc.claim.storageClassName,
-                  accessModes: dataPvc.claim.accessModes,
+                  storageClassName: SSD_STORAGE_CLASS,
+                  resoruces: {
+                    requests: {
+                      storage: Size.gibibytes(256).asString(),
+                    },
+                  },
                 },
               },
             },
