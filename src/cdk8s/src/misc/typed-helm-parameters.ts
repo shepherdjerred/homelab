@@ -82,7 +82,6 @@ import type { PromtailHelmValues } from "../../generated/helm/promtail.types";
 import type { TailscaleoperatorHelmValues } from "../../generated/helm/tailscale-operator.types";
 import type { VeleroHelmValues } from "../../generated/helm/velero.types";
 import type { CoderHelmValues } from "../../generated/helm/coder.types";
-import type { InvidiousHelmValues } from "../../generated/helm/invidious.types";
 
 type HelmChartValuesMap = {
   "argo-cd": ArgocdHelmValues;
@@ -101,7 +100,6 @@ type HelmChartValuesMap = {
   "tailscale-operator": TailscaleoperatorHelmValues;
   velero: VeleroHelmValues;
   coder: CoderHelmValues;
-  invidious: InvidiousHelmValues;
 };
 
 export type HelmValuesForChart<TChart extends keyof HelmChartValuesMap> = HelmChartValuesMap[TChart];
