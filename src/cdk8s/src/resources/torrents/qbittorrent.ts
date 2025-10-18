@@ -7,7 +7,7 @@ import {
   Service,
   Volume,
 } from "cdk8s-plus-31";
-import { Chart, Size } from "cdk8s";
+import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../misc/linux-server.ts";
 import { withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
@@ -114,6 +114,14 @@ export function createQBitTorrentDeployment(
         EXPORTER_PORT: EnvValue.fromValue("17871"),
         EXPORTER_LOG_LEVEL: EnvValue.fromValue("INFO"),
       },
+    }),
+  );
+
+  // Exclude large downloads volume from Velero backups
+  // Only backup the config volume, not the 1TB downloads volume
+  ApiObject.of(deployment).addJsonPatch(
+    JsonPatch.add("/spec/template/metadata/annotations", {
+      "backup.velero.io/backup-volumes-excludes": "qbittorrent-hdd-volume",
     }),
   );
 

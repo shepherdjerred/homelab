@@ -1,5 +1,5 @@
 import { Deployment, DeploymentStrategy, EnvValue, type PersistentVolumeClaim, Service, Volume } from "cdk8s-plus-31";
-import { Chart, Size } from "cdk8s";
+import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../misc/linux-server.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
@@ -42,6 +42,14 @@ export function createBazarrDeployment(
           path: "/tv",
         },
       ],
+    }),
+  );
+
+  // Exclude large media volumes from Velero backups
+  // Only backup the config volume, not the 4TB TV and movies volumes
+  ApiObject.of(deployment).addJsonPatch(
+    JsonPatch.add("/spec/template/metadata/annotations", {
+      "backup.velero.io/backup-volumes-excludes": "bazarr-tv-hdd-volume,bazarr-movies-hdd-volume",
     }),
   );
 
