@@ -50,6 +50,7 @@ export function createStarlightKarmaBotDeployment(chart: Chart, stage: Stage) {
       image: image,
       securityContext: {
         readOnlyRootFilesystem: false,
+        ensureNonRoot: false,
       },
       volumeMounts: [
         {
