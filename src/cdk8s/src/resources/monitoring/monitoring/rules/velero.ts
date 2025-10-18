@@ -4,6 +4,74 @@ import { escapePrometheusTemplate } from "./shared";
 
 export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
   return [
+    // Velero backup size monitoring
+    {
+      name: "velero-backup-size",
+      rules: [
+        {
+          // Recording rule to calculate total size of volumes eligible for backup
+          record: "velero:backup_eligible_volume_size_bytes",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            `sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled"}) by (namespace)`,
+          ),
+        },
+        {
+          // Recording rule for total cluster-wide backup size
+          record: "velero:backup_eligible_total_size_bytes",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            `sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled"})`,
+          ),
+        },
+        {
+          alert: "VeleroLargeVolumeAddedToBackup",
+          annotations: {
+            summary: "Large volume added to Velero backups",
+            message: escapePrometheusTemplate(
+              "A PVC larger than 200GB has the velero.io/backup label in namespace {{ $labels.namespace }}: {{ $labels.persistentvolumeclaim }} ({{ $value | humanize1024 }}B). Consider excluding this volume.",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            `kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled"} > 200 * 1024 * 1024 * 1024`,
+          ),
+          for: "5m",
+          labels: {
+            severity: "warning",
+          },
+        },
+        {
+          alert: "VeleroTotalBackupSizeExcessive",
+          annotations: {
+            summary: "Total backup volume size is very large",
+            message: escapePrometheusTemplate(
+              "Total size of volumes eligible for Velero backup is {{ $value | humanize1024 }}B. This may cause long backup times and storage costs. Review excluded volumes.",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            `sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled"}) > 2 * 1024 * 1024 * 1024 * 1024`,
+          ),
+          for: "15m",
+          labels: {
+            severity: "info",
+          },
+        },
+        {
+          alert: "VeleroNamespaceBackupSizeExcessive",
+          annotations: {
+            summary: "Namespace has large backup volume size",
+            message: escapePrometheusTemplate(
+              "Namespace {{ $labels.namespace }} has {{ $value | humanize1024 }}B of volumes eligible for backup. Review if all volumes need backup.",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            `sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled"}) by (namespace) > 500 * 1024 * 1024 * 1024`,
+          ),
+          for: "15m",
+          labels: {
+            severity: "info",
+          },
+        },
+      ],
+    },
     // Velero backup monitoring
     {
       name: "velero-backup",
@@ -143,6 +211,37 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
             severity: "critical",
           },
         },
+        {
+          alert: "VeleroLargeVolumeBackupFailed",
+          annotations: {
+            summary: "Large volume backup attempt failed",
+            message: escapePrometheusTemplate(
+              "Velero backup {{ $labels.schedule }} failed with {{ $value }} volume snapshot errors. This may indicate attempts to backup large volumes that should be excluded.",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            `(rate(velero_volume_snapshot_failure_total[15m]) > 0)
+  and on(schedule) (velero_backup_items_errors > 0)`,
+          ),
+          for: "5m",
+          labels: {
+            severity: "warning",
+          },
+        },
+        {
+          alert: "VeleroBackupDurationExcessive",
+          annotations: {
+            summary: "Velero backup taking too long",
+            message: escapePrometheusTemplate(
+              "Velero backup {{ $labels.schedule }} has exceeded 30 minutes duration. This may indicate large volumes are being backed up that should be excluded.",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("velero_backup_duration_seconds > 1800"),
+          for: "5m",
+          labels: {
+            severity: "info",
+          },
+        },
       ],
     },
     // Velero backup quality monitoring
@@ -181,10 +280,26 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "VeleroBackupItemErrors",
           annotations: {
             summary: "Velero backup has item errors",
-            message: escapePrometheusTemplate("Velero backup has {{ $value }} item errors"),
+            message: escapePrometheusTemplate("Velero backup {{ $labels.schedule }} has {{ $value }} item errors"),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString("velero_backup_items_errors > 0"),
           for: "15m",
+          labels: {
+            severity: "warning",
+          },
+        },
+        {
+          alert: "VeleroHighErrorRate",
+          annotations: {
+            summary: "High percentage of backup item errors",
+            message: escapePrometheusTemplate(
+              "Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} error rate. Check for large volumes or excluded resources causing failures.",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            `(velero_backup_items_errors / velero_backup_items_total) > 0.1`,
+          ),
+          for: "10m",
           labels: {
             severity: "warning",
           },

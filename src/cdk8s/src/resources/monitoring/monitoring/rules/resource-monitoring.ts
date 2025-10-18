@@ -77,14 +77,14 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "MemoryLeakSuspected",
           annotations: {
             description: escapePrometheusTemplate(
-              "Node {{ $labels.instance }} shows potential memory leak: consistent memory growth over 12 hours",
+              "Node {{ $labels.instance }} shows potential memory leak: consistent memory growth over 24 hours",
             ),
             summary: "Potential memory leak detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) - (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes offset 12h) > 4294967296", // 4GB increase
+            "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) - (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes offset 24h) > 8589934592", // 8GB increase over 24h (adjusted for ZFS ARC growth)
           ),
-          for: "1h",
+          for: "2h",
           labels: { severity: "warning" },
         },
       ],
@@ -293,8 +293,8 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High context switches detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_context_switches_total[5m]) > 50000"),
-          for: "15m",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_context_switches_total[5m]) > 100000"), // Increased threshold for containerized workloads (Kubernetes/Docker)
+          for: "30m",
           labels: { severity: "warning" },
         },
         {

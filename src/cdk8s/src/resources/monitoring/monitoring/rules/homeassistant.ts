@@ -125,6 +125,7 @@ export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
           50,
           "Battery low: {{ $value }}% ({{ $labels.entity }}).",
           "Home Assistant battery low",
+          "1h",
         ),
         // Specific Roomba battery alert that only fires when battery is low AND decreasing (not charging)
         {

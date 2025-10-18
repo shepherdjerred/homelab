@@ -230,12 +230,12 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "ZfsArcNoGrow",
           annotations: {
             description: escapePrometheusTemplate(
-              "ZFS ARC on {{ $labels.instance }} is prevented from growing: {{ $value }} - system memory constraint",
+              "ZFS ARC on {{ $labels.instance }} is prevented from growing: {{ $value }} - system memory constraint (this is normal behavior)",
             ),
             summary: "ZFS ARC growth is constrained",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("node_zfs_arc_arc_no_grow > 0"),
-          for: "10m",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("node_zfs_arc_arc_no_grow > 100"), // Increased threshold - only alert if constrained heavily (was > 0)
+          for: "30m",
           labels: { severity: "info" },
         },
         {
