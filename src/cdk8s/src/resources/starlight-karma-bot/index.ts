@@ -14,17 +14,19 @@ export function createStarlightKarmaBotDeployment(chart: Chart, stage: Stage) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const { path, image } = match(stage)
+  const { path, image, applicationId } = match(stage)
     .with("beta", () => {
       return {
         image: `ghcr.io/shepherdjerred/starlight-karma-bot:${versions["shepherdjerred/starlight-karma-bot/beta"]}`,
         path: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/tdxe6cq7ozhv7cesfvnlkl5gh4",
+        applicationId: "1092616671388254248",
       };
     })
     .with("prod", () => {
       return {
         image: `ghcr.io/shepherdjerred/starlight-karma-bot:${versions["shepherdjerred/starlight-karma-bot/prod"]}`,
         path: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/cmp6si6n5syhr4smxew3qfcmfi",
+        applicationId: "716834761418735638",
       };
     })
     .exhaustive();
@@ -57,8 +59,11 @@ export function createStarlightKarmaBotDeployment(chart: Chart, stage: Stage) {
           secret: Secret.fromSecretName(chart, "discord-token-secret", onePasswordItem.name),
           key: "discord-api-token",
         }),
+        APPLICATION_ID: EnvValue.fromValue(applicationId),
+        DATA_DIR: EnvValue.fromValue("/data"),
         ENVIRONMENT: EnvValue.fromValue(stage),
-        DATABASE_URL: EnvValue.fromValue("file:/data/db.sqlite"),
+        PORT: EnvValue.fromValue("8000"),
+        SENTRY_DSN: EnvValue.fromValue("TODO"),
       },
     }),
   );
