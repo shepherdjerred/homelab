@@ -12,6 +12,10 @@ export function createStarlightKarmaBotDeployment(chart: Chart, stage: Stage) {
   const deployment = new Deployment(chart, "starlight-karma-bot-backend", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    securityContext: {
+      fsGroup: 1000,
+      ensureNonRoot: false,
+    },
   });
 
   const { path, image, applicationId } = match(stage)
@@ -45,7 +49,6 @@ export function createStarlightKarmaBotDeployment(chart: Chart, stage: Stage) {
     withCommonProps({
       image: image,
       securityContext: {
-        ensureNonRoot: false,
         readOnlyRootFilesystem: false,
       },
       volumeMounts: [
