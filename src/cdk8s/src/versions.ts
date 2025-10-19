@@ -76,7 +76,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "freshrss/freshrss": "1.27.1@sha256:9a56be99f3927cc8fab4c6bbd5723ae098824792d4d98a84007a95eb64e8f905",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
-  "gha-runner-scale-set-controller": "0.12.1",
+  "gha-runner-scale-set-controller": "0.13.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set": "0.13.0",
   // renovate: datasource=docker registryUrl=https://registry.dagger.io versioning=loose
