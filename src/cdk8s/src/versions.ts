@@ -70,9 +70,9 @@ const versions = {
   // not managed by renovate
   "shepherdjerred/scout-for-lol/prod": "1.0.144",
   // not managed by renovate
-  "shepherdjerred/starlight-karma-bot/beta": "1.0.9",
+  "shepherdjerred/starlight-karma-bot/beta": "1.0.11",
   // not managed by renovate
-  "shepherdjerred/starlight-karma-bot/prod": "1.0.9",
+  "shepherdjerred/starlight-karma-bot/prod": "1.0.11",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "freshrss/freshrss": "1.27.1@sha256:9a56be99f3927cc8fab4c6bbd5723ae098824792d4d98a84007a95eb64e8f905",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
