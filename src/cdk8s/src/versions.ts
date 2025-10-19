@@ -20,7 +20,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "teddit/teddit": "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "itzg/minecraft-server": "2025.10.1-java21@sha256:bf07438096d4cd1b7588cb0e8714d666d1fbb2034ce38acd0d7285ff0648510b",
+  "itzg/minecraft-server": "2025.10.2-java21@sha256:cbfb468b13a957924d24a2f1dd9676fe262566ab97b0aee9070f27b41de69d05",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=loose
   "plexinc/pms-docker":
     "1.42.2.10156-f737b826c@sha256:9c03c26b9479ba9a09935f3367459bfdc8d21545f42ed2a13258983c5be1b252",
