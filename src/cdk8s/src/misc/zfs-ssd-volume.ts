@@ -33,11 +33,10 @@ export class ZfsSsdVolume extends Construct {
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
       metadata: {
         name: id,
-        labels: shouldBackup
-          ? {
-              "velero.io/backup": "enabled",
-            }
-          : undefined,
+        labels: {
+          "velero.io/backup": shouldBackup ? "enabled" : "disabled",
+          "velero.io/exclude-from-backup": shouldBackup ? "false" : "true",
+        },
       },
     };
 
