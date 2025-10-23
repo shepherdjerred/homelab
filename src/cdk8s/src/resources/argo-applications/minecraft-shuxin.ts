@@ -4,14 +4,15 @@ import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
-export function createMinecraftApp(chart: Chart) {
+
+export function createMinecraftShuxinApp(chart: Chart) {
   createIngress(
     chart,
-    "minecraft-bluemap-ingress",
-    "minecraft",
-    "minecraft-minecraft-bluemap",
+    "minecraft-shuxin-bluemap-ingress",
+    "minecraft-shuxin",
+    "minecraft-shuxin-minecraft-bluemap",
     8100,
-    ["minecraft-bluemap"],
+    ["minecraft-shuxin-bluemap"],
     true,
   );
 
@@ -21,20 +22,19 @@ export function createMinecraftApp(chart: Chart) {
     },
     minecraftServer: {
       eula: true,
-      difficulty: "hard",
+      difficulty: "easy",
       version: versions.paper,
       type: "PAPER",
-      motd: "Jerred's Really Cool Minecraft Server",
-      // ops: "RiotShielder",
-      whitelist: ["RiotShielder", "lolopToaster", "gexboy8", "Virmel"].join(","),
+      motd: "Jerred & Shuxin",
+      whitelist: ["RiotShielder", "lolopToaster"].join(","),
       spawnProtection: 0,
       viewDistance: 15,
       memory: "4G",
       overrideServerProperties: true,
       forcegameMode: true,
       serviceType: "NodePort",
-      nodePort: 30001,
-      servicePort: 30001,
+      nodePort: 30002,
+      servicePort: 30002,
       extraPorts: [
         {
           service: {
@@ -59,9 +59,9 @@ export function createMinecraftApp(chart: Chart) {
     },
   };
 
-  return new Application(chart, "minecraft-app", {
+  return new Application(chart, "minecraft-shuxin-app", {
     metadata: {
-      name: "minecraft",
+      name: "minecraft-shuxin",
     },
     spec: {
       project: "default",
@@ -75,7 +75,7 @@ export function createMinecraftApp(chart: Chart) {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "minecraft",
+        namespace: "minecraft-shuxin",
       },
       syncPolicy: {
         automated: {},

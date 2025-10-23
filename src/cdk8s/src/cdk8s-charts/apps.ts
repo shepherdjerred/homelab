@@ -12,7 +12,8 @@ import { createCertManagerApp } from "../resources/argo-applications/cert-manage
 import { createNfdApp } from "../resources/argo-applications/nfd.ts";
 import { createGrafanaApp } from "../resources/argo-applications/grafana.ts";
 import { createChartMuseumApp } from "../resources/argo-applications/chartmuseum.ts";
-import { createMinecraftApp } from "../resources/argo-applications/minecraft.ts";
+import { createMinecraftSjerredApp } from "../resources/argo-applications/minecraft-sjerred.ts";
+import { createMinecraftShuxinApp } from "../resources/argo-applications/minecraft-shuxin.ts";
 import { createLokiApp } from "../resources/argo-applications/loki.ts";
 import { createPromtailApp } from "../resources/argo-applications/promtail.ts";
 import { Namespace } from "cdk8s-plus-31";
@@ -65,7 +66,8 @@ export async function createAppsChart(app: App) {
   createNfdApp(chart);
   createGrafanaApp(chart);
   createChartMuseumApp(chart);
-  createMinecraftApp(chart);
+  createMinecraftSjerredApp(chart);
+  createMinecraftShuxinApp(chart);
   createLokiApp(chart);
   createPromtailApp(chart);
   createActionsRunnerControllerApp(chart);
