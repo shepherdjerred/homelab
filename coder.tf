@@ -81,7 +81,7 @@ data "coder_parameter" "repo" {
 }
 
 data "coder_parameter" "fallback_image" {
-  default      = "codercom/enterprise-base:ubuntu"
+  default      = "ubuntu:jammy"
   description  = "This image runs if the devcontainer fails to build."
   display_name = "Fallback Image"
   mutable      = true
@@ -102,21 +102,6 @@ EOF
   order        = 7
 }
 
-variable "cache_repo_secret_name" {
-  default     = ""
-  description = "Path to a docker config.json containing credentials to the provided cache repo, if required."
-  sensitive   = true
-  type        = string
-}
-
-data "kubernetes_secret" "cache_repo_dockerconfig_secret" {
-  count = var.cache_repo_secret_name == "" ? 0 : 1
-  metadata {
-    name      = var.cache_repo_secret_name
-    namespace = var.namespace
-  }
-}
-
 locals {
   deployment_name            = "coder-${lower(data.coder_workspace.me.id)}"
   devcontainer_builder_image = data.coder_parameter.devcontainer_builder.value
@@ -134,7 +119,6 @@ locals {
     # Use the docker gateway if the access URL is 127.0.0.1
     "ENVBUILDER_INIT_SCRIPT" : replace(coder_agent.main.init_script, "/localhost|127\\.0\\.0\\.1/", "host.docker.internal"),
     "ENVBUILDER_FALLBACK_IMAGE" : data.coder_parameter.fallback_image.value,
-    "ENVBUILDER_DOCKER_CONFIG_BASE64" : base64encode(try(data.kubernetes_secret.cache_repo_dockerconfig_secret[0].data[".dockerconfigjson"], "")),
     "ENVBUILDER_PUSH_IMAGE" : var.cache_repo == "" ? "" : "true"
     # You may need to adjust this if you get an error regarding deleting files when building the workspace.
     # For example, when testing in KinD, it was necessary to set `/product_name` and `/product_uuid` in
@@ -226,7 +210,18 @@ resource "kubernetes_deployment" "main" {
         }
       }
       spec {
-        security_context {}
+        security_context {
+          # Enable user namespaces for rootless DinD
+          fs_group = 1000
+          sysctl {
+            name  = "net.ipv4.ip_unprivileged_port_start"
+            value = "0"
+          }
+          sysctl {
+            name  = "user.max_user_namespaces"
+            value = "15000"
+          }
+        }
 
         container {
           name              = "dev"
@@ -246,6 +241,12 @@ resource "kubernetes_deployment" "main" {
             }
           }
 
+          # Configure Docker to use the DinD sidecar
+          env {
+            name  = "DOCKER_HOST"
+            value = "tcp://localhost:2375"
+          }
+
           resources {
             requests = {
               "cpu"    = "250m"
@@ -259,6 +260,43 @@ resource "kubernetes_deployment" "main" {
           }
         }
 
+        # Docker-in-Docker sidecar container (rootless)
+        container {
+          name  = "dind"
+          image = "docker:dind-rootless"
+          security_context {
+            # No privileged mode needed!
+            run_as_user                = 1000
+            run_as_non_root            = true
+            allow_privilege_escalation = false
+            seccomp_profile {
+              type = "RuntimeDefault"
+            }
+          }
+          env {
+            name  = "DOCKER_TLS_CERTDIR"
+            value = ""
+          }
+          env {
+            name  = "DOCKER_HOST"
+            value = "tcp://0.0.0.0:2375"
+          }
+          resources {
+            requests = {
+              "cpu"    = "500m"
+              "memory" = "1Gi"
+            }
+          }
+          volume_mount {
+            mount_path = "/home/rootless/.local/share/docker"
+            name       = "docker-storage"
+          }
+          volume_mount {
+            mount_path = "/tmp"
+            name       = "tmp"
+          }
+        }
+
         volume {
           name = "workspaces"
           persistent_volume_claim {
@@ -267,24 +305,14 @@ resource "kubernetes_deployment" "main" {
           }
         }
 
-        affinity {
-          // This affinity attempts to spread out all workspace pods evenly across
-          // nodes.
-          pod_anti_affinity {
-            preferred_during_scheduling_ignored_during_execution {
-              weight = 1
-              pod_affinity_term {
-                topology_key = "kubernetes.io/hostname"
-                label_selector {
-                  match_expressions {
-                    key      = "app.kubernetes.io/name"
-                    operator = "In"
-                    values   = ["coder-workspace"]
-                  }
-                }
-              }
-            }
-          }
+        volume {
+          name = "docker-storage"
+          empty_dir {}
+        }
+
+        volume {
+          name = "tmp"
+          empty_dir {}
         }
       }
     }
@@ -300,17 +328,6 @@ resource "coder_agent" "main" {
     # Add any commands that should be executed at workspace startup (e.g install requirements, start a program, etc) here
   EOT
   dir            = "/workspaces"
-
-  # These environment variables allow you to make Git commits right away after creating a
-  # workspace. Note that they take precedence over configuration defined in ~/.gitconfig!
-  # You can remove this block if you'd prefer to configure Git manually or using
-  # dotfiles. (see docs/dotfiles.md)
-  env = {
-    GIT_AUTHOR_NAME     = local.git_author_name
-    GIT_AUTHOR_EMAIL    = local.git_author_email
-    GIT_COMMITTER_NAME  = local.git_author_name
-    GIT_COMMITTER_EMAIL = local.git_author_email
-  }
 
   # The following metadata blocks are optional. They are used to display
   # information about your workspace in the dashboard. You can remove them
@@ -386,14 +403,6 @@ module "cursor" {
 
   agent_id = coder_agent.main.id
   order    = 1
-}
-
-module "dotfiles" {
-  count    = data.coder_workspace.me.start_count
-  source   = "registry.coder.com/coder/dotfiles/coder"
-  version  = "1.2.1"
-  agent_id = coder_agent.main.id
-  default_dotfiles_uri = "https://github.com/shepherdjerred/dotfiles"
 }
 
 resource "coder_metadata" "container_info" {

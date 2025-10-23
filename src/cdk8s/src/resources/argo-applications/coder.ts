@@ -8,10 +8,15 @@ import { createCoderPostgreSQLDatabase } from "../postgres/coder-db.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 
 export function createCoderApp(chart: Chart) {
-  // Create namespace
+  // Create namespace with privileged pod security for rootless DinD workspaces
   new Namespace(chart, "coder-namespace", {
     metadata: {
       name: "coder",
+      labels: {
+        "pod-security.kubernetes.io/enforce": "privileged",
+        "pod-security.kubernetes.io/audit": "privileged",
+        "pod-security.kubernetes.io/warn": "privileged",
+      },
     },
   });
 
