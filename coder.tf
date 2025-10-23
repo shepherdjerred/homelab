@@ -211,16 +211,7 @@ resource "kubernetes_deployment" "main" {
       }
       spec {
         security_context {
-          # Enable user namespaces for rootless DinD
           fs_group = 1000
-          sysctl {
-            name  = "net.ipv4.ip_unprivileged_port_start"
-            value = "0"
-          }
-          sysctl {
-            name  = "user.max_user_namespaces"
-            value = "15000"
-          }
         }
 
         container {
@@ -260,18 +251,12 @@ resource "kubernetes_deployment" "main" {
           }
         }
 
-        # Docker-in-Docker sidecar container (rootless)
+        # Docker-in-Docker sidecar container
         container {
           name  = "dind"
-          image = "docker:dind-rootless"
+          image = "docker:dind"
           security_context {
-            # No privileged mode needed!
-            run_as_user                = 1000
-            run_as_non_root            = true
-            allow_privilege_escalation = false
-            seccomp_profile {
-              type = "RuntimeDefault"
-            }
+            privileged = true
           }
           env {
             name  = "DOCKER_TLS_CERTDIR"
@@ -288,12 +273,8 @@ resource "kubernetes_deployment" "main" {
             }
           }
           volume_mount {
-            mount_path = "/home/rootless/.local/share/docker"
+            mount_path = "/var/lib/docker"
             name       = "docker-storage"
-          }
-          volume_mount {
-            mount_path = "/tmp"
-            name       = "tmp"
           }
         }
 
@@ -307,11 +288,6 @@ resource "kubernetes_deployment" "main" {
 
         volume {
           name = "docker-storage"
-          empty_dir {}
-        }
-
-        volume {
-          name = "tmp"
           empty_dir {}
         }
       }
