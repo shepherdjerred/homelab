@@ -10,7 +10,7 @@ export function createMinecraftShuxinApp(chart: Chart) {
     chart,
     "minecraft-shuxin-bluemap-ingress",
     "minecraft-shuxin",
-    "minecraft-shuxin-minecraft-bluemap",
+    "minecraft-shuxin-bluemap",
     8100,
     ["minecraft-shuxin-bluemap"],
     true,

@@ -10,7 +10,7 @@ export function createMinecraftSjerredApp(chart: Chart) {
     chart,
     "minecraft-sjerred-bluemap-ingress",
     "minecraft-sjerred",
-    "minecraft-sjerred-minecraft-bluemap",
+    "minecraft-sjerred-bluemap",
     8100,
     ["minecraft-sjerred-bluemap"],
     true,
