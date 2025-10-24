@@ -50,7 +50,15 @@ export function createMinecraftShuxinApp(chart: Chart) {
         },
       ],
       modrinth: {
-        projects: ["bluemap"],
+        projects: [
+          "bluemap",
+          "chunky",
+          "decentholograms",
+          "waypoints",
+          "vaultunlocked",
+          "essentialsx",
+          "essentialsx-spawn",
+        ],
         allowedVersionType: "release",
       },
     },
