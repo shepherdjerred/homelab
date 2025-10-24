@@ -55,7 +55,7 @@ export function createMinecraftShuxinApp(chart: Chart) {
           "chunky",
           "decentholograms",
           "waypoints",
-          "vaultunlocked",
+          // "vaultunlocked",
           // "essentialsx",
           // "essentialsx-spawn",
         ],
