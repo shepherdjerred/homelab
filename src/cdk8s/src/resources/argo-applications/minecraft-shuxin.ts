@@ -49,6 +49,7 @@ export function createMinecraftShuxinApp(chart: Chart) {
           },
         },
       ],
+      pluginUrls: ["https://cdn.modrinth.com/data/swbUV1cr/versions/wpE4tHiK/bluemap-5.13-paper.jar"],
     },
     persistence: {
       storageClass: SSD_STORAGE_CLASS,
