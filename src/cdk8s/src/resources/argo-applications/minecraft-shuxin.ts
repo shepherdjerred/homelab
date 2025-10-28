@@ -49,12 +49,13 @@ export function createMinecraftShuxinApp(chart: Chart) {
           },
         },
       ],
-      spigetResources: [
-        1997, // Vault
-        83557, // BlueMap
-        81534, // Chunky
-        90896, // EssentialsX
-        6245, // PlaceholderAPI
+      pluginUrls: [
+        "https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar",
+        "https://github.com/BlueMap-Minecraft/BlueMap/releases/download/v5.13/bluemap-5.13-paper.jar",
+        "https://cdn.modrinth.com/data/fALzjamp/versions/kkEljQ4R/Chunky-Fabric-1.4.51.jar",
+        "https://github.com/EssentialsX/Essentials/releases/download/2.21.2/EssentialsX-2.21.2.jar",
+        "https://github.com/EssentialsX/Essentials/releases/download/2.21.2/EssentialsXSpawn-2.21.2.jar",
+        "https://cdn.modrinth.com/data/lKEzGugV/versions/vkuwyUC6/PlaceholderAPI-2.11.6.jar",
       ],
     },
     persistence: {
