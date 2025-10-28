@@ -111,7 +111,7 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             `time() - max without(pod, instance, container, endpoint) (
-              ha_workflow_last_success_timestamp_max{workflow=~"good_morning_.*", status="success"}
+              ha_workflow_last_success_timestamp_max{workflow=~"good_morning_.*"}
             ) > 90000`,
           ),
           for: "1h",
@@ -130,7 +130,7 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             `time() - max without(pod, instance, container, endpoint) (
-              ha_workflow_last_success_timestamp_max{workflow="run_vacuum_if_not_home", status="success"}
+              ha_workflow_last_success_timestamp_max{workflow="run_vacuum_if_not_home"}
             ) > 90000`,
           ),
           for: "1h",
@@ -175,20 +175,6 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
           ),
           for: "5m",
           labels: { severity: "critical" },
-        },
-        {
-          alert: "HaApplicationFrequentRestarts",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "HA automation application has restarted {{ $value }} times in the last hour. This may indicate instability.",
-            ),
-            summary: "HA application frequent restarts",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "sum without(pod, instance, container, endpoint) (changes(ha_uptime_seconds[1h])) > 3",
-          ),
-          for: "5m",
-          labels: { severity: "warning" },
         },
       ],
     },
