@@ -51,11 +51,11 @@ export function createMinecraftShuxinApp(chart: Chart) {
       ],
       modrinth: {
         projects: [
-          "bluemap@5.13-paper",
-          "chunky@1.4.51",
-          "essentialsx@2.21.2",
-          "essentialsx-spawn@2.21.2",
-          "placeholderapi@2.11.6",
+          "bluemap:5.13-paper",
+          "chunky:1.4.51",
+          "essentialsx:2.21.2",
+          "essentialsx-spawn:2.21.2",
+          "placeholderapi:2.11.6",
         ],
         allowedVersionType: "release",
       },
