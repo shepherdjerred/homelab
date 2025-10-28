@@ -49,17 +49,13 @@ export function createMinecraftShuxinApp(chart: Chart) {
           },
         },
       ],
-      modrinth: {
-        projects: [
-          "bluemap:5.13-paper",
-          "chunky:1.4.51",
-          "essentialsx:2.21.2",
-          "essentialsx-spawn:2.21.2",
-          "placeholderapi:2.11.6",
-        ],
-        allowedVersionType: "release",
-      },
-      spigetResources: [1997],
+      spigetResources: [
+        1997, // Vault
+        83557, // BlueMap
+        81534, // Chunky
+        90896, // EssentialsX
+        6245, // PlaceholderAPI
+      ],
     },
     persistence: {
       storageClass: SSD_STORAGE_CLASS,
