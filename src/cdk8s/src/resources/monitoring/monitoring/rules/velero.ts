@@ -109,7 +109,7 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'increase(velero_backup_success_total{schedule!=""}[30h]) == 0',
+            'increase(velero_backup_success_total{schedule!="",schedule!~".*weekly.*|.*monthly.*|.*quarterly.*"}[30h]) == 0',
           ),
           for: "1h",
           labels: {
