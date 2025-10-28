@@ -68,6 +68,9 @@ export function createMinecraftShuxinApp(chart: Chart) {
         enabled: true,
       },
     },
+    extraEnv: {
+      VERSION_FROM_MODRINTH_PROJECTS: "true",
+    },
   };
 
   return new Application(chart, "minecraft-shuxin-app", {
