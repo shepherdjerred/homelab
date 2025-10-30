@@ -2,6 +2,7 @@ import { Chart } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
 import { Namespace } from "cdk8s-plus-31";
 import { PodMonitor } from "../../../generated/imports/monitoring.coreos.com.ts";
+import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createCoderPostgreSQLDatabase } from "../postgres/coder-db.ts";
@@ -25,6 +26,26 @@ export function createCoderApp(chart: Chart) {
 
   // Create Tailscale ingress for Coder
   createIngress(chart, "coder-ingress", "coder", "coder", 80, ["coder"], true);
+
+  // Create 1Password item for GitHub OAuth credentials
+  // Create an item in 1Password vault "Kubernetes" with:
+  // - Field name "client-id": Your GitHub OAuth App Client ID
+  // - Field name "client-secret": Your GitHub OAuth App Client Secret
+  // To create a GitHub OAuth App:
+  // 1. Go to https://github.com/settings/developers
+  // 2. Click "New OAuth App"
+  // 3. Homepage URL: https://coder.tailnet-1a49.ts.net
+  // 4. Authorization callback URL: https://coder.tailnet-1a49.ts.net/external-auth/primary-github/callback
+  const githubOAuthSecret = new OnePasswordItem(chart, "coder-github-oauth", {
+    metadata: {
+      name: "coder-github-oauth",
+      namespace: "coder",
+    },
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/op63camrorymbnz734lx3pw5pe",
+    },
+  });
+  // The 1Password operator will create a Kubernetes secret with this name
 
   // The postgres-operator will automatically create a secret with connection credentials
   // Secret name pattern: {username}.{clustername}.credentials.postgresql.acid.zalan.do
@@ -105,6 +126,42 @@ export function createCoderApp(chart: Chart) {
         {
           name: "CODER_PROMETHEUS_ENABLE",
           value: "true",
+        },
+        // GitHub External Auth for Git authentication in workspaces
+        // This enables users to authenticate with GitHub to clone private repos
+        {
+          name: "CODER_EXTERNAL_AUTH_0_ID",
+          value: "primary-github",
+        },
+        {
+          name: "CODER_EXTERNAL_AUTH_0_TYPE",
+          value: "github",
+        },
+        {
+          name: "CODER_EXTERNAL_AUTH_0_CLIENT_ID",
+          valueFrom: {
+            secretKeyRef: {
+              name: githubOAuthSecret.name,
+              key: "client-id",
+            },
+          },
+        },
+        {
+          name: "CODER_EXTERNAL_AUTH_0_CLIENT_SECRET",
+          valueFrom: {
+            secretKeyRef: {
+              name: githubOAuthSecret.name,
+              key: "client-secret",
+            },
+          },
+        },
+        {
+          name: "CODER_EXTERNAL_AUTH_0_DISPLAY_NAME",
+          value: "GitHub",
+        },
+        {
+          name: "CODER_EXTERNAL_AUTH_0_DISPLAY_ICON",
+          value: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
         },
       ],
       service: {
