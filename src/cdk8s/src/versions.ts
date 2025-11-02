@@ -80,7 +80,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set": "0.13.0",
   // renovate: datasource=docker registryUrl=https://registry.dagger.io versioning=loose
-  "dagger-helm": "0.19.3",
+  "dagger-helm": "0.19.4",
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
   velero: "11.1.1",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
