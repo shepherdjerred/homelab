@@ -8,6 +8,9 @@
 
 ## Next
 
+- Add sentry to HA
+- Add service to update versions.ts for my personal projects
+- Update HA to save metrics (or maybe use prometheus). send weekly updates on backups, workflows, success rates etc.
 - Configure Recyclarr with env vars and config files committed to repo
 - ZFS grafana dashboard
 - <https://github.com/prometheus/blackbox_exporter>
@@ -15,8 +18,6 @@
 - Verify Prometheus syntax with promtool
 - Helm is downloaded via Docker rather than mise
 - Get Coder tf to apply automatically
-- Get Pokemon bot running
-- Deploy Karma bot
 - `homeassistant_sensor_timestamp_seconds{entity="sensor.granary_smart_camera_feeder_last_feed_time"}`
   - metric does not exist
 - `rate(node_disk_written_bytes_total[5m]) > 1048576`
@@ -24,6 +25,8 @@
 
 ## Done
 
+- Deploy Karma bot
+- Get Pokemon bot running
 - Collect Prometheus metrics from Scout for League of Legends
 - <https://github.com/openebs/monitoring>
 - Metrics not working
