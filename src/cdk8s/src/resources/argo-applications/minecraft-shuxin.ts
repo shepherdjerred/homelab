@@ -22,7 +22,7 @@ export function createMinecraftShuxinApp(chart: Chart) {
     },
     minecraftServer: {
       eula: true,
-      difficulty: "easy",
+      difficulty: "peaceful",
       version: versions.paper,
       type: "PAPER",
       motd: "Jerred & Shuxin",
