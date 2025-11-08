@@ -30,7 +30,7 @@ export function createMinecraftSjerredApp(chart: Chart) {
       whitelist: ["RiotShielder", "lolopToaster", "gexboy8", "Virmel"].join(","),
       spawnProtection: 0,
       viewDistance: 15,
-      memory: "4G",
+      memory: "2G",
       overrideServerProperties: true,
       forcegameMode: true,
       serviceType: "NodePort",

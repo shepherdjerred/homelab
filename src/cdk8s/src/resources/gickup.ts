@@ -38,7 +38,7 @@ export async function createGickupDeployment(chart: Chart) {
   });
 
   const backupVolume = new ZfsHddVolume(chart, "gickup-backup-pvc", {
-    storage: Size.gibibytes(128),
+    storage: Size.gibibytes(256),
   });
 
   // Create 1Password item for GitHub token

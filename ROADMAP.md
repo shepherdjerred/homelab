@@ -2,6 +2,7 @@
 
 ## WIP
 
+- Parse gickup CRON expression
 - <https://github.com/esanchezm/prometheus-qbittorrent-exporter>
 - <https://github.com/jsclayton/prometheus-plex-exporter>
 - Prometheus Minecraft exporter

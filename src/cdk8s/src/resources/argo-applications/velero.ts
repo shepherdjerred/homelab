@@ -6,6 +6,7 @@ import versions from "../../versions.ts";
 import { Namespace } from "cdk8s-plus-31";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 import { KubeClusterRole, KubeClusterRoleBinding } from "../../../generated/imports/k8s.ts";
+import { VELERO_SCHEDULES } from "../velero-schedules.ts";
 export function createVeleroApp(chart: Chart) {
   new Namespace(chart, `velero-namespace`, {
     metadata: {
@@ -78,135 +79,33 @@ export function createVeleroApp(chart: Chart) {
     },
   });
 
-  // Every 6 hours backups - keep for 3 days (12 backups total) - FULL BACKUPS
-  new Schedule(chart, "velero-backup-6hourly", {
-    metadata: {
-      name: "6hourly-backup",
-      namespace: "velero",
-    },
-    spec: {
-      schedule: "15 */6 * * *", // Every 6 hours at minute 15 (12:15, 6:15, 12:15, 18:15)
-      template: {
-        snapshotVolumes: true,
-        labelSelector: {
-          matchLabels: {
-            "velero.io/backup": "enabled",
+  // Create all backup schedules from configuration
+  for (const scheduleConfig of VELERO_SCHEDULES) {
+    new Schedule(chart, scheduleConfig.id, {
+      metadata: {
+        name: scheduleConfig.name,
+        namespace: "velero",
+      },
+      spec: {
+        schedule: scheduleConfig.cronSchedule,
+        template: {
+          snapshotVolumes: true,
+          labelSelector: {
+            matchLabels: {
+              "velero.io/backup": "enabled",
+            },
           },
-        },
-        storageLocation: "default",
-        ttl: "72h", // 3 days retention (12 backups total)
-        metadata: {
-          labels: {
-            "backup-type": "6hourly",
+          storageLocation: "default",
+          ttl: scheduleConfig.ttl,
+          metadata: {
+            labels: {
+              "backup-type": scheduleConfig.backupType,
+            },
           },
         },
       },
-    },
-  });
-
-  // Every 3 days backups - keep 72 backups (216 days ~7 months) - FULL BACKUPS
-  new Schedule(chart, "velero-backup-3daily", {
-    metadata: {
-      name: "3daily-backup",
-      namespace: "velero",
-    },
-    spec: {
-      schedule: "30 2 */3 * *", // Every 3 days at 2:30 AM (avoid hourly conflict)
-      template: {
-        snapshotVolumes: true,
-        labelSelector: {
-          matchLabels: {
-            "velero.io/backup": "enabled",
-          },
-        },
-        storageLocation: "default",
-        ttl: "5184h", // 216 days retention (72 backups * 3 days)
-        metadata: {
-          labels: {
-            "backup-type": "3daily",
-          },
-        },
-      },
-    },
-  });
-
-  // Weekly backups - keep 7 backups (7 weeks ~2 months) - FULL BACKUPS
-  new Schedule(chart, "velero-backup-weekly", {
-    metadata: {
-      name: "weekly-backup",
-      namespace: "velero",
-    },
-    spec: {
-      schedule: "45 3 * * 1", // Every Monday at 3:45 AM (avoid Sunday conflicts)
-      template: {
-        snapshotVolumes: true,
-        labelSelector: {
-          matchLabels: {
-            "velero.io/backup": "enabled",
-          },
-        },
-        storageLocation: "default",
-        ttl: "1176h", // 49 days retention (7 weeks)
-        metadata: {
-          labels: {
-            "backup-type": "weekly",
-          },
-        },
-      },
-    },
-  });
-
-  // Monthly backups - keep 4 backups (4 months) - FULL BACKUPS
-  new Schedule(chart, "velero-backup-monthly", {
-    metadata: {
-      name: "monthly-backup",
-      namespace: "velero",
-    },
-    spec: {
-      schedule: "0 5 2 * *", // 2nd day of month at 5:00 AM (avoid 1st day conflicts)
-      template: {
-        snapshotVolumes: true,
-        labelSelector: {
-          matchLabels: {
-            "velero.io/backup": "enabled",
-          },
-        },
-        storageLocation: "default",
-        ttl: "2880h", // 120 days retention (4 months)
-        metadata: {
-          labels: {
-            "backup-type": "monthly",
-          },
-        },
-      },
-    },
-  });
-
-  // Quarterly backups - keep 1 backup (3 months) - FULL BACKUPS
-  new Schedule(chart, "velero-backup-quarterly", {
-    metadata: {
-      name: "quarterly-backup",
-      namespace: "velero",
-    },
-    spec: {
-      schedule: "30 7 3 */3 *", // 3rd day of every 3rd month at 7:30 AM (avoid 6:15 conflict)
-      template: {
-        snapshotVolumes: true,
-        labelSelector: {
-          matchLabels: {
-            "velero.io/backup": "enabled",
-          },
-        },
-        storageLocation: "default",
-        ttl: "2160h", // 90 days retention (3 months)
-        metadata: {
-          labels: {
-            "backup-type": "quarterly",
-          },
-        },
-      },
-    },
-  });
+    });
+  }
 
   const veleroValues: HelmValuesForChart<"velero"> = {
     // Velero configuration
