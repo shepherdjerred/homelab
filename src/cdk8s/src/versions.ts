@@ -14,7 +14,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
   "prometheus-adapter": "5.1.0",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
-  "tailscale-operator": "1.88.4",
+  "tailscale-operator": "1.90.6",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/redis": "7.2@sha256:76dc61f6ca42748060aa86080ef8393d0c118660db0a1dead26c2b8e94bf601b",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
