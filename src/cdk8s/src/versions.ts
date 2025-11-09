@@ -52,7 +52,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing": "2.0.10@sha256:16f13abb71e0cca9cd57524754f53e57c5deaae5e94bbc7974c41732f72557df",
   // renovate: datasource=github-releases versioning=semver-coerced
-  "dotdc/grafana-dashboards-kubernetes": "v2.8.3",
+  "dotdc/grafana-dashboards-kubernetes": "v3.0.1",
   // renovate: datasource=helm registryUrl=https://chartmuseum.github.io/charts versioning=semver
   chartmuseum: "3.10.4",
   // renovate: datasource=helm registryUrl=https://itzg.github.io/minecraft-server-charts versioning=semver
