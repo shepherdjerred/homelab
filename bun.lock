@@ -56,6 +56,7 @@
         "@digital-alchemy/core": "^25.4.2",
         "@digital-alchemy/hass": "^25.3.2",
         "@digital-alchemy/synapse": "^25.3.1",
+        "@digital-alchemy/type-writer": "^25.10.12",
         "@total-typescript/ts-reset": "^0.6.1",
         "prom-client": "^15.1.3",
         "remeda": "^2.22.5",
@@ -78,6 +79,9 @@
   "trustedDependencies": [
     "husky",
   ],
+  "patchedDependencies": {
+    "@digital-alchemy/type-writer@25.10.12": "patches/@digital-alchemy%2Ftype-writer@25.10.12.patch",
+  },
   "packages": {
     "@babel/code-frame": ["@babel/code-frame@7.27.1", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.27.1", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, "sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg=="],
 
@@ -124,6 +128,8 @@
     "@digital-alchemy/hass": ["@digital-alchemy/hass@25.8.21", "", { "dependencies": { "dayjs": "^1.11.13", "semver": "^7.7.2", "type-fest": "^4.41.0", "uuid": "^11.1.0", "ws": "^8.18.3" }, "peerDependencies": { "@digital-alchemy/core": "^25.5.1" }, "bin": { "mock-assistant": "scripts/mock-assistant.sh" } }, "sha512-QFXOaYDJ5Znli5bi2UEqj5JoSNGkJlIVe2kqqo6RUwYw48DBgzG++Mj7av1QYNAhkBQnH/emJsBdnjIxw8kGiw=="],
 
     "@digital-alchemy/synapse": ["@digital-alchemy/synapse@25.8.21", "", { "dependencies": { "better-sqlite3": "^12.2.0", "drizzle-orm": "^0.44.4", "mysql2": "^3.14.3", "postgres": "^3.4.7" }, "peerDependencies": { "@digital-alchemy/core": "*", "@digital-alchemy/hass": "*", "dayjs": "*", "uuid": "*" } }, "sha512-JfRStbw9PDEqcnOXTgZfUxc9SlfHNQm/rrCEiTpb9sZ6HusxODdoBFR8A97r10kn+PDH91uNLWi8EEHYxgoPUA=="],
+
+    "@digital-alchemy/type-writer": ["@digital-alchemy/type-writer@25.10.12", "", { "dependencies": { "js-yaml": "^4.1.0", "prettier": "^3.6.2", "type-fest": "^4.41.0", "typescript": "^5.9.2" }, "peerDependencies": { "@digital-alchemy/core": "*", "@digital-alchemy/hass": "*" }, "bin": { "type-writer": "scripts/run.sh" } }, "sha512-X1SK2UcDzc+PKE2+fVHWmvs3wESAGPItpTP8eGxyY0ZRYK1nfdMsE6+D0F7sQl6pYDOfpo+cWPwie5Y46Xj6pA=="],
 
     "@dotenvx/dotenvx": ["@dotenvx/dotenvx@1.51.0", "", { "dependencies": { "commander": "^11.1.0", "dotenv": "^17.2.1", "eciesjs": "^0.4.10", "execa": "^5.1.1", "fdir": "^6.2.0", "ignore": "^5.3.0", "object-treeify": "1.1.33", "picomatch": "^4.0.2", "which": "^4.0.0" }, "bin": { "dotenvx": "src/cli/dotenvx.js" } }, "sha512-CbMGzyOYSyFF7d4uaeYwO9gpSBzLTnMmSmTVpCZjvpJFV69qYbjYPpzNnCz1mb2wIvEhjWjRwQWuBzTO0jITww=="],
 
@@ -874,6 +880,8 @@
     "@digital-alchemy/core/chalk": ["chalk@5.6.2", "", {}, "sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA=="],
 
     "@digital-alchemy/hass/type-fest": ["type-fest@4.41.0", "", {}, "sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA=="],
+
+    "@digital-alchemy/type-writer/type-fest": ["type-fest@4.41.0", "", {}, "sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA=="],
 
     "@dotenvx/dotenvx/commander": ["commander@11.1.0", "", {}, "sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ=="],
 

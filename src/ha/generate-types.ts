@@ -14,12 +14,18 @@ const ENTITY_STATE_MAPPINGS = {
 
 /**
  * Generate types using @digital-alchemy/type-writer
+ *
+ * Note: @digital-alchemy/type-writer is patched via `bun patch` to fix a bug
+ * where escapeCommentContent doesn't handle undefined content.
+ * See: patches/@digital-alchemy%2Ftype-writer@25.10.12.patch
  */
 async function generateTypes() {
   console.log("🔄 Generating types with @digital-alchemy/type-writer...");
 
   try {
-    await $`bunx @digital-alchemy/type-writer`;
+    // Use the locally installed and patched version
+    // This ensures the bun patch is applied (bunx creates fresh installs that bypass patches)
+    await $`bun node_modules/@digital-alchemy/type-writer/dist/main.mjs`;
     console.log("✅ Types generated successfully");
   } catch (error) {
     console.error("❌ Failed to generate types:", error);
