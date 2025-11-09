@@ -9,7 +9,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   ubuntu: "noble@sha256:66460d557b25769b102175144d538d88219c077c678a49af4afca6fbfc1b5252",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "curlimages/curl": "8.16.0@sha256:463eaf6072688fe96ac64fa623fe73e1dbe25d8ad6c34404a669ad3ce1f104b6",
+  "curlimages/curl": "8.17.0@sha256:935d9100e9ba842cdb060de42472c7ca90cfe9a7c96e4dacb55e79e560b3ff40",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "alpine/kubectl": "1.34.1@sha256:6c17c1c9ad3d5be45ce805a829d83fb6f63c1a161d498d13b989755586a66459",
   // renovate: datasource=github-releases versioning=semver
