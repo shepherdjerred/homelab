@@ -10,7 +10,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
   "node-feature-discovery": "0.18.1",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
-  "kube-prometheus-stack": "78.3.2",
+  "kube-prometheus-stack": "78.5.0",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
   "prometheus-adapter": "5.1.0",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
