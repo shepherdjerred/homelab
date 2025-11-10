@@ -1,6 +1,7 @@
 import { PrometheusRuleSpecGroups } from "../../../../../generated/imports/monitoring.coreos.com";
 import { PrometheusRuleSpecGroupsRulesExpr } from "../../../../../generated/imports/monitoring.coreos.com";
 import { escapePrometheusTemplate } from "./shared";
+import { VELERO_SCHEDULES } from "../../../velero-schedules.ts";
 
 export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
   return [
@@ -100,22 +101,23 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
             severity: "critical",
           },
         },
-        {
-          alert: "VeleroNoNewBackup",
+        // Dynamically generate "no new backup" alerts from schedule configuration
+        ...VELERO_SCHEDULES.map((scheduleConfig) => ({
+          alert: `VeleroNoNew${scheduleConfig.backupType.charAt(0).toUpperCase() + scheduleConfig.backupType.slice(1)}Backup`,
           annotations: {
-            summary: "No new successful Velero backup",
+            summary: `No new successful ${scheduleConfig.backupType} Velero backup`,
             message: escapePrometheusTemplate(
-              "Velero backup {{ $labels.schedule }} has not had any successful backups in the last 30h",
+              `Velero backup {{ $labels.schedule }} has not had any successful backups in the last ${scheduleConfig.monitoring.noBackupWindow}`,
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'increase(velero_backup_success_total{schedule!="",schedule!~".*weekly.*|.*monthly.*|.*quarterly.*"}[30h]) == 0',
+            `increase(velero_backup_success_total{schedule!="",schedule=~"${scheduleConfig.monitoring.schedulePattern}"}[${scheduleConfig.monitoring.noBackupWindow}]) == 0`,
           ),
-          for: "1h",
+          for: scheduleConfig.monitoring.alertFor,
           labels: {
-            severity: "critical",
+            severity: scheduleConfig.monitoring.severity,
           },
-        },
+        })),
         {
           alert: "VeleroBackupPartialFailures",
           annotations: {

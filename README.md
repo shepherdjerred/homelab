@@ -47,7 +47,7 @@ some things I'm proud of:
 1. Create `secrets.yaml`
 2. Create the configuration file:
 
-```bash
+```bash {"interpreter":""}
 talosctl gen config \
   --with-secrets secrets.yaml \
   --config-patch-control-plane @patches/scheduling.yaml \
@@ -60,6 +60,7 @@ talosctl gen config \
 ```
 
 1. Configure `endpoints` in `talosconfig`
+   - Example: `endpoints: ["192.168.1.81"]`
    - This allows commands to be run without the `--endpoints` argument
 
 2. Move the talosconfig:
@@ -96,7 +97,7 @@ talosctl upgrade-k8s
 1. Bootstrap the Kubernetes cluster:
 
 ```bash
-talosctl bootstrap --nodes 192.168.1.8    talosctl bootstrap --nodes 192.168.1.811
+talosctl bootstrap --nodes 192.168.1.81
 
 ```
 

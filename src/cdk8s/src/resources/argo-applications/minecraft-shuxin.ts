@@ -29,7 +29,7 @@ export function createMinecraftShuxinApp(chart: Chart) {
       whitelist: ["RiotShielder", "vietnamesechovy"].join(","),
       spawnProtection: 0,
       viewDistance: 15,
-      memory: "4G",
+      memory: "2G",
       overrideServerProperties: true,
       forcegameMode: true,
       serviceType: "NodePort",

@@ -78,6 +78,8 @@ function buildHaContainer(source: Directory): Container {
       // Copy workspace root files for proper dependency resolution
       .withFile("package.json", source.file("package.json"))
       .withFile("bun.lock", source.file("bun.lock"))
+      // Copy patches directory for bun patch support
+      .withDirectory("patches", source.directory("patches"))
       // Copy minimal workspace files needed for dependency resolution
       .withFile("src/ha/package.json", haSource.file("package.json"))
       .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))

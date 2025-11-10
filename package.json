@@ -24,7 +24,7 @@
     "@total-typescript/ts-reset": "^0.6.1",
     "@types/bun": "^1.2.18",
     "eslint": "^9.30.1",
-    "eslint-plugin-unicorn": "^61.0.2",
+    "eslint-plugin-unicorn": "^62.0.0",
     "jiti": "^2.6.0",
     "markdownlint-cli2": "^0.18.0",
     "prettier": "3.6.2",
@@ -63,5 +63,8 @@
       "bash -c 'cd src/helm-types && bun run typecheck'",
       "bash -c 'cd src/helm-types && bun run test'"
     ]
+  },
+  "patchedDependencies": {
+    "@digital-alchemy/type-writer@25.10.12": "patches/@digital-alchemy%2Ftype-writer@25.10.12.patch"
   }
 }

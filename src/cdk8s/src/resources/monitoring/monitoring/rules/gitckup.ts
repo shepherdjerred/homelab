@@ -13,10 +13,12 @@ export function getGitckupRuleGroups(): PrometheusRuleSpecGroups[] {
           annotations: {
             summary: "Gitckup backup job has failed",
             message: escapePrometheusTemplate(
-              "Gitckup backup job has failed. {{ $value }} jobs started but not completed.",
+              "Gitckup backup job has failed. {{ $value }} more jobs started than completed in the last 25 hours.",
             ),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("gickup_jobs_started > gickup_jobs_complete"),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "increase(gickup_jobs_started[25h]) > increase(gickup_jobs_complete[25h])",
+          ),
           for: "15m",
           labels: {
             severity: "warning",
