@@ -4,6 +4,7 @@ import { welcomeHome } from "./workflows/welcome-home.ts";
 import { runVacuumIfNotHome } from "./workflows/run-vacuum-if-not-home.ts";
 import { leavingHome } from "./workflows/leaving-home.ts";
 import { resetLeftBlind } from "./workflows/reset-left-blind.ts";
+import { climateControl } from "./workflows/climate-control.ts";
 import { startMetricsServer } from "./metrics-server.ts";
 
 import { LIB_HASS } from "@digital-alchemy/hass";
@@ -22,6 +23,7 @@ const app = CreateApplication({
     runVacuumIfNotHome,
     leavingHome,
     resetLeftBlind,
+    climateControl,
   },
 });
 

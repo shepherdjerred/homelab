@@ -7,6 +7,8 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
   const bedroomScene = hass.refBy.id("scene.bedroom_dimmed");
   const bedroomMediaPlayer = hass.refBy.id("media_player.bedroom");
   const bedroomLight = hass.refBy.id("light.bedroom");
+  const bedroomHeater = hass.refBy.id("climate.bedroom_thermostat");
+  const livingRoomClimate = hass.refBy.id("climate.living_room");
 
   hass.socket.onEvent({
     context,
@@ -33,6 +35,21 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
               title: "Good Night",
               message: "Good Night! Sleep well.",
             });
+
+            // Set climate to bedtime mode - comfortable for falling asleep
+            logger.debug("Setting climate to bedtime mode");
+            await bedroomHeater.set_temperature({
+              hvac_mode: "heat",
+              temperature: 22,
+            });
+            try {
+              await livingRoomClimate.set_temperature({
+                hvac_mode: "heat",
+                temperature: 20,
+              });
+            } catch {
+              logger.debug("Living room climate not available, skipping");
+            }
 
             if (bedroomLight.state === "on") {
               logger.debug("Turning on bedroom scene");

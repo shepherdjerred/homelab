@@ -8,6 +8,8 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
   const roomba = hass.refBy.id("vacuum.roomba");
   const entrywayLight = hass.refBy.id("switch.entryway_overhead_lights");
   const livingRoomScene = hass.refBy.id("scene.living_room_main_bright");
+  const bedroomHeater = hass.refBy.id("climate.bedroom_thermostat");
+  const livingRoomClimate = hass.refBy.id("climate.living_room");
 
   personJerred.onUpdate(
     async (
@@ -24,6 +26,21 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
                 title: "Welcome Home",
                 message: "Welcome back! Hope you had a great time.",
               });
+
+              // Set climate to comfortable home temperature (23°C)
+              logger.debug("Setting climate to home comfort mode");
+              await bedroomHeater.set_temperature({
+                hvac_mode: "heat",
+                temperature: 23,
+              });
+              try {
+                await livingRoomClimate.set_temperature({
+                  hvac_mode: "heat",
+                  temperature: 23,
+                });
+              } catch {
+                logger.debug("Living room climate not available, skipping");
+              }
 
               logger.debug("Turning on entryway light");
               await entrywayLight.turn_on();

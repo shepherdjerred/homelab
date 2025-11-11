@@ -25,6 +25,7 @@ import { createDaggerApp } from "../resources/argo-applications/dagger.ts";
 import { createVeleroApp } from "../resources/argo-applications/velero.ts";
 import { createPostgresOperatorApp } from "../resources/argo-applications/postgres-operator.ts";
 import { createCoderApp } from "../resources/argo-applications/coder.ts";
+import { createScoutDashboardConfigMap } from "../resources/grafana/scout-dashboard.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -77,4 +78,7 @@ export async function createAppsChart(app: App) {
   createVeleroApp(chart);
   createPostgresOperatorApp(chart);
   createCoderApp(chart);
+
+  // Create Scout for LoL Grafana dashboard
+  createScoutDashboardConfigMap(chart);
 }

@@ -18,6 +18,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   const bedroomBrightScene = hass.refBy.id("scene.bedroom_bright");
   const extraMediaPlayers = [hass.refBy.id("media_player.main_bathroom"), hass.refBy.id("media_player.entryway")];
   const bedroomHeater = hass.refBy.id("climate.bedroom_thermostat");
+  const livingRoomClimate = hass.refBy.id("climate.living_room");
   const entrywayLight = hass.refBy.id("switch.entryway_overhead_lights");
   const mainBathroomLight = hass.refBy.id("switch.main_bathroom_lights");
   const personJerred = hass.refBy.id("person.jerred");
@@ -64,7 +65,21 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   async function runWakeUp() {
     await withTimeout(
       runParallel([
-        () => bedroomHeater.turn_off(),
+        () =>
+          bedroomHeater.set_temperature({
+            hvac_mode: "heat",
+            temperature: 23,
+          }),
+        async () => {
+          try {
+            await livingRoomClimate.set_temperature({
+              hvac_mode: "heat",
+              temperature: 23,
+            });
+          } catch {
+            logger.debug("Living room climate not available, skipping");
+          }
+        },
         () =>
           runIf(personJerred.state === "home", () =>
             runParallel([

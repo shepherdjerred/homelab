@@ -22,7 +22,12 @@
     },
     "Home Assistant": {
       "command": "uvx",
-      "args": ["mcp-proxy", "http://homeassistant.tailnet-1a49.ts.net/mcp_server/sse"]
+      "args": [
+        "mcp-proxy",
+        "--transport=streamablehttp",
+        "--stateless",
+        "https://homeassistant.tailnet-1a49.ts.net/api/mcp"
+      ]
     }
   }
 }
