@@ -51,7 +51,11 @@
     "src/cdk8s/**/*.{ts,tsx}": [
       "bash -c 'cd src/cdk8s && bunx eslint --cache --fix'",
       "bash -c 'cd src/cdk8s && bun run typecheck'",
-      "bash -c 'cd src/cdk8s && bun run test'"
+      "bash -c 'cd src/cdk8s && bun run test'",
+      "bash -c './scripts/lint-helm.sh'"
+    ],
+    "src/cdk8s/helm/**/*": [
+      "bash -c './scripts/lint-helm.sh'"
     ],
     ".dagger/**/*.{ts,tsx}": [
       "bash -c 'cd .dagger && bunx eslint --cache --fix'",

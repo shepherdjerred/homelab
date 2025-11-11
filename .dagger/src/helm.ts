@@ -22,12 +22,11 @@ function getHelmContainer(source: Directory, repoRoot: Directory, version: strin
       .withMountedCache("/root/.cache/helm", dag.cacheVolume("helm-cache"))
       .withMountedDirectory("/workspace", source)
       .withWorkdir("/workspace")
-      // Update Chart.yaml version and appVersion
-      .withExec([
-        "sh",
-        "-c",
-        `sed -i 's/^version:.*$/version: ${version}/' Chart.yaml && sed -i 's/^appVersion:.*$/appVersion: ${version}/' Chart.yaml`,
-      ])
+      // Update Chart.yaml version and appVersion using shared script
+      // This ensures CI and pre-commit use identical logic
+      .withFile("/usr/local/bin/helm-set-version.sh", repoRoot.file("scripts/helm-set-version.sh"))
+      .withExec(["chmod", "+x", "/usr/local/bin/helm-set-version.sh"])
+      .withExec(["helm-set-version.sh", "Chart.yaml", version])
       // Create templates directory and copy CDK8s manifests
       .withExec(["mkdir", "-p", "templates"])
       .withDirectory("templates", cdk8sManifests)
