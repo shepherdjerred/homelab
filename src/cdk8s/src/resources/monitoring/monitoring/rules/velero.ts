@@ -83,7 +83,9 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "Velero backup has failed",
             message: escapePrometheusTemplate("Velero backup {{ $labels.schedule }} has failed"),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString('velero_backup_last_status{schedule!=""} != 1'),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'max(velero_backup_last_status{schedule!=""}) by (schedule) != 1',
+          ),
           for: "15m",
           labels: {
             severity: "warning",
@@ -95,7 +97,9 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "Velero backup has been failing for extended period",
             message: escapePrometheusTemplate("Velero backup {{ $labels.schedule }} has been failing for the last 12h"),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString('velero_backup_last_status{schedule!=""} != 1'),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'max(velero_backup_last_status{schedule!=""}) by (schedule) != 1',
+          ),
           for: "12h",
           labels: {
             severity: "critical",
@@ -111,7 +115,7 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `increase(velero_backup_success_total{schedule!="",schedule=~"${scheduleConfig.monitoring.schedulePattern}"}[${scheduleConfig.monitoring.noBackupWindow}]) == 0`,
+            `max(increase(velero_backup_success_total{schedule!="",schedule=~"${scheduleConfig.monitoring.schedulePattern}"}[${scheduleConfig.monitoring.noBackupWindow}])) by (schedule) == 0`,
           ),
           for: scheduleConfig.monitoring.alertFor,
           labels: {
@@ -127,8 +131,8 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `rate(velero_backup_partial_failure_total{schedule!=""}[25m])
-  / rate(velero_backup_attempt_total{schedule!=""}[25m]) > 0.5`,
+            `sum(rate(velero_backup_partial_failure_total{schedule!=""}[25m])) by (schedule)
+  / sum(rate(velero_backup_attempt_total{schedule!=""}[25m])) by (schedule) > 0.5`,
           ),
           for: "15m",
           labels: {
@@ -222,8 +226,8 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `(rate(velero_volume_snapshot_failure_total[15m]) > 0)
-  and on(schedule) (velero_backup_items_errors > 0)`,
+            `(sum(rate(velero_volume_snapshot_failure_total[15m])) by (schedule) > 0)
+  and on(schedule) (max(velero_backup_items_errors) by (schedule) > 0)`,
           ),
           for: "5m",
           labels: {
@@ -238,7 +242,9 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
               "Velero backup {{ $labels.schedule }} has exceeded 30 minutes duration. This may indicate large volumes are being backed up that should be excluded.",
             ),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("velero_backup_duration_seconds > 1800"),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "max(velero_backup_duration_seconds) by (schedule) > 1800",
+          ),
           for: "5m",
           labels: {
             severity: "info",
@@ -284,7 +290,7 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "Velero backup has item errors",
             message: escapePrometheusTemplate("Velero backup {{ $labels.schedule }} has {{ $value }} item errors"),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("velero_backup_items_errors > 0"),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("max(velero_backup_items_errors) by (schedule) > 0"),
           for: "15m",
           labels: {
             severity: "warning",
@@ -299,7 +305,7 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `(velero_backup_items_errors / velero_backup_items_total) > 0.1`,
+            `(max(velero_backup_items_errors) by (schedule) / max(velero_backup_items_total) by (schedule)) > 0.1`,
           ),
           for: "10m",
           labels: {
