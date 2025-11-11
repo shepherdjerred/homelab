@@ -18,7 +18,6 @@
     "diff": "KUBECTL_EXTERNAL_DIFF=delta DELTA_PAGER=bat BAT_PAGER=/opt/homebrew/bin/less kubectl diff -f dist/torvalds.k8s.yaml"
   },
   "dependencies": {
-    "@homelab/helm-types": "workspace:*",
     "cdk8s": "^2.69.60",
     "cdk8s-plus-31": "^2.2.4",
     "constructs": "^10.4.2",
@@ -26,7 +25,9 @@
     "lodash": "^4.17.21",
     "remeda": "^2.22.5",
     "ts-pattern": "^5.7.1",
-    "zod": "^4.1.11"
+    "zod": "^4.1.11",
+    "@homelab/helm-types": "workspace:*",
+    "@grafana/grafana-foundation-sdk": "~next-cogv0.0.x.1759917807"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.17",

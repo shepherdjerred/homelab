@@ -20,6 +20,60 @@ provider "kubernetes" {
 }
 provider "envbuilder" {}
 
+# Home Assistant MCP token
+# Token stored in the standard "password" field of the 1Password item
+# Only created if MCP secrets are enabled for this workspace
+resource "kubernetes_manifest" "onepassword_item_homeassistant" {
+  count = data.coder_parameter.enable_mcp_secrets.value == "true" ? 1 : 0
+  manifest = {
+    apiVersion = "onepassword.com/v1"
+    kind       = "OnePasswordItem"
+    metadata = {
+      name      = "coder-${lower(data.coder_workspace.me.id)}-homeassistant-mcp"
+      namespace = var.namespace
+    }
+    spec = {
+      itemPath = "vaults/v64ocnykdqju4ui6j6pua56xw4/items/x634rhbmhjbawuu4bv3ey5o53q"
+    }
+  }
+}
+
+# PagerDuty MCP token
+# Token stored in the standard "password" field of the 1Password item
+# Only created if MCP secrets are enabled for this workspace
+resource "kubernetes_manifest" "onepassword_item_pagerduty" {
+  count = data.coder_parameter.enable_mcp_secrets.value == "true" ? 1 : 0
+  manifest = {
+    apiVersion = "onepassword.com/v1"
+    kind       = "OnePasswordItem"
+    metadata = {
+      name      = "coder-${lower(data.coder_workspace.me.id)}-pagerduty-mcp"
+      namespace = var.namespace
+    }
+    spec = {
+      itemPath = "vaults/v64ocnykdqju4ui6j6pua56xw4/items/yio3tx4wkvysvy5umdrqh7fe2e"
+    }
+  }
+}
+
+# Grafana MCP token
+# Token stored in the standard "password" field of the 1Password item
+# Only created if MCP secrets are enabled for this workspace
+resource "kubernetes_manifest" "onepassword_item_grafana" {
+  count = data.coder_parameter.enable_mcp_secrets.value == "true" ? 1 : 0
+  manifest = {
+    apiVersion = "onepassword.com/v1"
+    kind       = "OnePasswordItem"
+    metadata = {
+      name      = "coder-${lower(data.coder_workspace.me.id)}-grafana-mcp"
+      namespace = var.namespace
+    }
+    spec = {
+      itemPath = "vaults/v64ocnykdqju4ui6j6pua56xw4/items/w5y6wldczvojkh3yxe5zadkpvi"
+    }
+  }
+}
+
 data "coder_provisioner" "me" {}
 data "coder_workspace" "me" {}
 data "coder_workspace_owner" "me" {}
@@ -69,6 +123,17 @@ data "coder_parameter" "workspaces_volume_size" {
     max = 128
   }
   order = 3
+}
+
+data "coder_parameter" "enable_mcp_secrets" {
+  name         = "enable_mcp_secrets"
+  display_name = "Enable MCP Server Secrets"
+  description  = "Mount secrets from 1Password for MCP servers (Home Assistant, PagerDuty, Grafana). Required for AI assistant features."
+  default      = "true"
+  type         = "bool"
+  icon         = "/icon/key.svg"
+  mutable      = true
+  order        = 2
 }
 
 data "coder_parameter" "repo" {
@@ -238,6 +303,35 @@ resource "kubernetes_deployment" "main" {
             value = "tcp://localhost:2375"
           }
 
+          # Mount 1Password secrets for MCP servers as environment variables (if enabled)
+          # Each 1Password item stores the token in the "password" field
+          # Map each secret's password field to the appropriate environment variable name
+          dynamic "env" {
+            for_each = data.coder_parameter.enable_mcp_secrets.value == "true" ? [
+              {
+                name        = "HOME_ASSISTANT_API_ACCESS_TOKEN"
+                secret_name = kubernetes_manifest.onepassword_item_homeassistant[0].manifest.metadata.name
+              },
+              {
+                name        = "PAGERDUTY_API_KEY"
+                secret_name = kubernetes_manifest.onepassword_item_pagerduty[0].manifest.metadata.name
+              },
+              {
+                name        = "GRAFANA_SERVICE_ACCOUNT_TOKEN"
+                secret_name = kubernetes_manifest.onepassword_item_grafana[0].manifest.metadata.name
+              }
+            ] : []
+            content {
+              name = env.value.name
+              value_from {
+                secret_key_ref {
+                  name = env.value.secret_name
+                  key  = "password"
+                }
+              }
+            }
+          }
+
           resources {
             requests = {
               "cpu"    = "250m"
@@ -254,7 +348,7 @@ resource "kubernetes_deployment" "main" {
         # Docker-in-Docker sidecar container
         container {
           name  = "dind"
-          image = "docker:dind@sha256:2a232a42256f70d78e3cc5d2b5d6b3276710a0de0596c145f627ecfae90282ac"
+          image = "docker:dind"
           security_context {
             privileged = true
           }

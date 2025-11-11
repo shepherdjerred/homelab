@@ -6,6 +6,7 @@
 - <https://github.com/esanchezm/prometheus-qbittorrent-exporter>
 - <https://github.com/jsclayton/prometheus-plex-exporter>
 - Prometheus Minecraft exporter
+- <https://developer.1password.com/docs/ci-cd/github-actions/?workflow-type=connect>
 
 ## Next
 
@@ -16,8 +17,6 @@
 - Verify Prometheus syntax with promtool
 - Helm is downloaded via Docker rather than mise
 - Get Coder tf to apply automatically
-- Get Pokemon bot running
-- Deploy Karma bot
 - `homeassistant_sensor_timestamp_seconds{entity="sensor.granary_smart_camera_feeder_last_feed_time"}`
   - metric does not exist
 - `rate(node_disk_written_bytes_total[5m]) > 1048576`
@@ -26,6 +25,8 @@
 ## Done
 
 - Collect Prometheus metrics from Scout for League of Legends
+- Get Pokemon bot running
+- Deploy Karma bot
 - <https://github.com/openebs/monitoring>
 - Metrics not working
   - Velero

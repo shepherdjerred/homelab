@@ -1,8 +1,9 @@
 {
   "name": "homelab",
-  "engineVersion": "v0.19.0",
+  "engineVersion": "v0.19.4",
   "sdk": {
     "source": "typescript"
   },
-  "source": ".dagger"
+  "source": ".dagger",
+  "disableDefaultFunctionCaching": true
 }

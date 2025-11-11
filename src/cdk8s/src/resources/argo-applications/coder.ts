@@ -57,6 +57,22 @@ export function createCoderApp(chart: Chart) {
   // from these components and write it to a shared volume that Coder reads on startup.
   const coderValues: HelmValuesForChart<"coder"> = {
     coder: {
+      // Grant the Coder service account permission to read CRDs
+      // Required for workspace Terraform to create OnePasswordItem resources
+      serviceAccount: {
+        extraRules: [
+          {
+            apiGroups: ["apiextensions.k8s.io"],
+            resources: ["customresourcedefinitions"],
+            verbs: ["get", "list"],
+          },
+          {
+            apiGroups: ["onepassword.com"],
+            resources: ["onepassworditems"],
+            verbs: ["create", "get", "list", "delete", "patch", "update"],
+          },
+        ],
+      },
       // Init container to build the PostgreSQL connection URL from postgres-operator secret
       initContainers: [
         {
