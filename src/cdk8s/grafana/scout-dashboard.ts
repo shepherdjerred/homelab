@@ -12,7 +12,7 @@ export function createScoutDashboard() {
   // Create Prometheus datasource reference
   const prometheusDatasource = {
     type: "prometheus",
-    uid: "prometheus",
+    uid: "Prometheus",
   };
 
   // Create environment variable for filtering
