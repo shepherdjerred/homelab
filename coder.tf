@@ -309,11 +309,11 @@ resource "kubernetes_deployment" "main" {
           dynamic "env" {
             for_each = data.coder_parameter.enable_mcp_secrets.value == "true" ? [
               {
-                name        = "HOME_ASSISTANT_API_ACCESS_TOKEN"
+                name        = "API_ACCESS_TOKEN"
                 secret_name = kubernetes_manifest.onepassword_item_homeassistant[0].manifest.metadata.name
               },
               {
-                name        = "PAGERDUTY_API_KEY"
+                name        = "PAGERDUTY_USER_API_KEY"
                 secret_name = kubernetes_manifest.onepassword_item_pagerduty[0].manifest.metadata.name
               },
               {
