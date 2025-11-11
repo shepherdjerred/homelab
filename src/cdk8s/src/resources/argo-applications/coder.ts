@@ -3,6 +3,7 @@ import { Application } from "../../../generated/imports/argoproj.io.ts";
 import { Namespace } from "cdk8s-plus-31";
 import { PodMonitor } from "../../../generated/imports/monitoring.coreos.com.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
+import { KubeClusterRole, KubeClusterRoleBinding } from "../../../generated/imports/k8s.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createCoderPostgreSQLDatabase } from "../postgres/coder-db.ts";
@@ -45,27 +46,47 @@ export function createCoderApp(chart: Chart) {
       itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/op63camrorymbnz734lx3pw5pe",
     },
   });
-  // The 1Password operator will create a Kubernetes secret with this name
+  // Create ClusterRole for CRD read permissions
+  // CRDs are cluster-scoped resources, so they require ClusterRole (not Role)
+  // Required for workspace Terraform to validate OnePasswordItem CRD
+  new KubeClusterRole(chart, "coder-crd-reader", {
+    metadata: {
+      name: "coder-crd-reader",
+    },
+    rules: [
+      {
+        apiGroups: ["apiextensions.k8s.io"],
+        resources: ["customresourcedefinitions"],
+        verbs: ["get", "list"],
+      },
+    ],
+  });
 
-  // The postgres-operator will automatically create a secret with connection credentials
-  // Secret name pattern: {username}.{clustername}.credentials.postgresql.acid.zalan.do
-  // For our setup: coder.coder-postgresql.credentials.postgresql.acid.zalan.do
-  // The secret contains keys: username, password, dbname
+  // Bind the ClusterRole to the Coder service account
+  new KubeClusterRoleBinding(chart, "coder-crd-reader-binding", {
+    metadata: {
+      name: "coder-crd-reader-binding",
+    },
+    roleRef: {
+      apiGroup: "rbac.authorization.k8s.io",
+      kind: "ClusterRole",
+      name: "coder-crd-reader",
+    },
+    subjects: [
+      {
+        kind: "ServiceAccount",
+        name: "coder",
+        namespace: "coder",
+      },
+    ],
+  });
 
-  // Note: The Zalando postgres-operator does not provide a connection URL in its secrets,
-  // only username, password, and dbname fields. We use an init container to build the URL
-  // from these components and write it to a shared volume that Coder reads on startup.
   const coderValues: HelmValuesForChart<"coder"> = {
     coder: {
-      // Grant the Coder service account permission to read CRDs
-      // Required for workspace Terraform to create OnePasswordItem resources
+      // Grant the Coder service account permission to manage OnePasswordItems
+      // These are namespace-scoped resources, so namespace-scoped Role is sufficient
       serviceAccount: {
         extraRules: [
-          {
-            apiGroups: ["apiextensions.k8s.io"],
-            resources: ["customresourcedefinitions"],
-            verbs: ["get", "list"],
-          },
           {
             apiGroups: ["onepassword.com"],
             resources: ["onepassworditems"],
