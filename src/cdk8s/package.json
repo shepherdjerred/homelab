@@ -27,7 +27,7 @@
     "ts-pattern": "^5.7.1",
     "zod": "^4.1.11",
     "@homelab/helm-types": "workspace:*",
-    "@grafana/grafana-foundation-sdk": "~next-cogv0.0.x.1759917807"
+    "@grafana/grafana-foundation-sdk": "11.6.0-cogv0.0.x.1759917919"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.17",
