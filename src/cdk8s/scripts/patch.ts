@@ -71,6 +71,34 @@ const grafanaReplacements = [
     pattern: "__GRAFANA_TPL_START__job_name__GRAFANA_TPL_END__",
     sedPattern: 's/__GRAFANA_TPL_START__job_name__GRAFANA_TPL_END__/{{ print "{{" }}job_name{{ print "}}" }}/g',
   },
+  {
+    pattern: "__GRAFANA_TPL_START__device__GRAFANA_TPL_END__",
+    sedPattern: 's/__GRAFANA_TPL_START__device__GRAFANA_TPL_END__/{{ print "{{" }}device{{ print "}}" }}/g',
+  },
+  {
+    pattern: "__GRAFANA_TPL_START__model_name__GRAFANA_TPL_END__",
+    sedPattern: 's/__GRAFANA_TPL_START__model_name__GRAFANA_TPL_END__/{{ print "{{" }}model_name{{ print "}}" }}/g',
+  },
+  {
+    pattern: "__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__",
+    sedPattern: 's/__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__/{{ print "{{" }}instance{{ print "}}" }}/g',
+  },
+  {
+    pattern: "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
+    sedPattern: 's/__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__/{{ print "{{" }}schedule{{ print "}}" }}/g',
+  },
+  {
+    pattern: "__GRAFANA_TPL_START__namespace__GRAFANA_TPL_END__",
+    sedPattern: 's/__GRAFANA_TPL_START__namespace__GRAFANA_TPL_END__/{{ print "{{" }}namespace{{ print "}}" }}/g',
+  },
+  {
+    pattern: "__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__",
+    sedPattern: 's/__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__/{{ print "{{" }}workflow{{ print "}}" }}/g',
+  },
+  {
+    pattern: "__GRAFANA_TPL_START__error_type__GRAFANA_TPL_END__",
+    sedPattern: 's/__GRAFANA_TPL_START__error_type__GRAFANA_TPL_END__/{{ print "{{" }}error_type{{ print "}}" }}/g',
+  },
 ];
 
 for (const replacement of grafanaReplacements) {
