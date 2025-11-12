@@ -24,6 +24,20 @@ export function createScoutDashboard() {
     .includeAll(true)
     .allValue(".*");
 
+  // Create server variable for optional filtering
+  const serverVariable = new dashboard.QueryVariableBuilder("server")
+    .label("Server")
+    .query('label_values(discord_guilds{environment=~"$environment"}, instance)')
+    .datasource(prometheusDatasource)
+    .multi(true)
+    .includeAll(true)
+    .allValue(".*");
+
+  // Helper function to build filter expression
+  const buildFilter = () => {
+    return 'environment=~"$environment",instance=~"$server"';
+  };
+
   // Build the main dashboard
   const builder = new dashboard.DashboardBuilder("Scout for LoL - Usage & Performance")
     .uid("scout-for-lol-dashboard")
@@ -32,7 +46,8 @@ export function createScoutDashboard() {
     .refresh("30s")
     .timezone("browser")
     .editable()
-    .withVariable(environmentVariable);
+    .withVariable(environmentVariable)
+    .withVariable(serverVariable);
 
   // Row 1: Overview Stats
   builder.withRow(new dashboard.RowBuilder("Overview"));
@@ -44,7 +59,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('discord_guilds{environment=~"$environment"}')
+          .expr(`sum by (environment) (discord_guilds{${buildFilter()}})`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("short")
@@ -60,7 +75,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('discord_users{environment=~"$environment"}')
+          .expr(`sum by (environment) (discord_users{${buildFilter()}})`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("short")
@@ -76,7 +91,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('players_tracked_total{environment=~"$environment"}')
+          .expr(`sum by (environment) (players_tracked_total{${buildFilter()}})`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("short")
@@ -92,7 +107,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('accounts_tracked_total{environment=~"$environment"}')
+          .expr(`sum by (environment) (accounts_tracked_total{${buildFilter()}})`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("short")
@@ -108,7 +123,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('servers_with_data_total{environment=~"$environment"}')
+          .expr(`sum by (environment) (servers_with_data_total{${buildFilter()}})`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("short")
@@ -121,11 +136,11 @@ export function createScoutDashboard() {
   builder.withPanel(
     new stat.PanelBuilder()
       .title("Connection Status")
-      .description("1 = Connected, 0 = Disconnected")
+      .description("1 = Connected, 0 = Disconnected (min across servers)")
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('discord_connection_status{environment=~"$environment"}')
+          .expr(`min by (environment) (discord_connection_status{${buildFilter()}})`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("short")
@@ -150,7 +165,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('discord_latency_ms{environment=~"$environment"}')
+          .expr(`avg by (environment) (discord_latency_ms{${buildFilter()}})`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("ms")
@@ -167,7 +182,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('rate(discord_commands_total{environment=~"$environment"}[5m])')
+          .expr(`sum by (environment) (rate(discord_commands_total{${buildFilter()}}[5m]))`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("reqps")
@@ -186,7 +201,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('application_uptime_seconds{environment=~"$environment"}')
+          .expr(`max by (environment) (application_uptime_seconds{${buildFilter()}})`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("s")
@@ -202,7 +217,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('competitions_active_total{environment=~"$environment"}')
+          .expr(`sum by (environment) (competitions_active_total{${buildFilter()}})`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("short")
@@ -218,7 +233,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('subscriptions_total{environment=~"$environment"}')
+          .expr(`sum by (environment) (subscriptions_total{${buildFilter()}})`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("short")
@@ -234,7 +249,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('avg_accounts_per_player{environment=~"$environment"}')
+          .expr(`avg by (environment) (avg_accounts_per_player{${buildFilter()}})`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("short")
@@ -253,9 +268,11 @@ export function createScoutDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(
-            'histogram_quantile(0.95, sum(rate(cron_job_duration_seconds_bucket{environment=~"$environment"}[5m])) by (job_name, le))',
+            `histogram_quantile(0.95, sum(rate(cron_job_duration_seconds_bucket{${buildFilter()}}[5m])) by (environment, job_name, le))`,
           )
-          .legendFormat("__GRAFANA_TPL_START__job_name__GRAFANA_TPL_END__"),
+          .legendFormat(
+            "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__job_name__GRAFANA_TPL_END__",
+          ),
       )
       .unit("s")
       .lineWidth(2)
@@ -271,8 +288,12 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('rate(cron_job_executions_total{status="success",environment=~"$environment"}[5m])')
-          .legendFormat("__GRAFANA_TPL_START__job_name__GRAFANA_TPL_END__"),
+          .expr(
+            `sum by (environment, job_name) (rate(cron_job_executions_total{status="success",${buildFilter()}}[5m]))`,
+          )
+          .legendFormat(
+            "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__job_name__GRAFANA_TPL_END__",
+          ),
       )
       .unit("reqps")
       .lineWidth(2)
@@ -291,7 +312,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('rate(riot_api_requests_total{environment=~"$environment"}[5m])')
+          .expr(`sum by (environment) (rate(riot_api_requests_total{${buildFilter()}}[5m]))`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("reqps")
@@ -308,7 +329,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('rate(database_queries_total{environment=~"$environment"}[5m])')
+          .expr(`sum by (environment) (rate(database_queries_total{${buildFilter()}}[5m]))`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("reqps")
@@ -325,7 +346,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('rate(reports_generated_total{environment=~"$environment"}[5m]) * 60')
+          .expr(`sum by (environment) (rate(reports_generated_total{${buildFilter()}}[5m])) * 60`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("short")
@@ -342,7 +363,7 @@ export function createScoutDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr('rate(riot_api_rate_limit_errors_total{environment=~"$environment"}[5m])')
+          .expr(`sum by (environment) (rate(riot_api_rate_limit_errors_total{${buildFilter()}}[5m]))`)
           .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
       )
       .unit("reqps")
