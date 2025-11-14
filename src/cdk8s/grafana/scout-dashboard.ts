@@ -49,87 +49,83 @@ export function createScoutDashboard() {
     .withVariable(environmentVariable)
     .withVariable(serverVariable);
 
+  const createStatPanel = (
+    title: string,
+    query: string,
+    gridPos: {
+      x: number;
+      y: number;
+      w: number;
+      h: number;
+    },
+    unit = "short",
+    graphMode = common.BigValueGraphMode.Area,
+  ) => {
+    return new stat.PanelBuilder()
+      .title(title)
+      .datasource(prometheusDatasource)
+      .withTarget(
+        new prometheus.DataqueryBuilder()
+          .expr(query)
+          .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
+      )
+      .unit(unit)
+      .colorMode(common.BigValueColorMode.Value)
+      .graphMode(graphMode)
+      .gridPos(gridPos);
+  };
+
   // Row 1: Overview Stats
   builder.withRow(new dashboard.RowBuilder("Overview"));
 
   // Guild Count
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Discord Guilds")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`sum by (environment) (discord_guilds{${buildFilter()}})`)
-          .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .gridPos({ x: 0, y: 1, w: 4, h: 4 }),
+    createStatPanel("Discord Guilds", `sum by (environment) (discord_guilds{${buildFilter()}})`, {
+      x: 0,
+      y: 1,
+      w: 4,
+      h: 4,
+    }),
   );
 
   // User Count
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Discord Users")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`sum by (environment) (discord_users{${buildFilter()}})`)
-          .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .gridPos({ x: 4, y: 1, w: 4, h: 4 }),
+    createStatPanel("Discord Users", `sum by (environment) (discord_users{${buildFilter()}})`, {
+      x: 4,
+      y: 1,
+      w: 4,
+      h: 4,
+    }),
   );
 
   // Players Tracked
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Players Tracked")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`sum by (environment) (players_tracked_total{${buildFilter()}})`)
-          .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .gridPos({ x: 8, y: 1, w: 4, h: 4 }),
+    createStatPanel("Players Tracked", `sum by (environment) (players_tracked_total{${buildFilter()}})`, {
+      x: 8,
+      y: 1,
+      w: 4,
+      h: 4,
+    }),
   );
 
   // Accounts Tracked
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Accounts Tracked")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`sum by (environment) (accounts_tracked_total{${buildFilter()}})`)
-          .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .gridPos({ x: 12, y: 1, w: 4, h: 4 }),
+    createStatPanel("Accounts Tracked", `sum by (environment) (accounts_tracked_total{${buildFilter()}})`, {
+      x: 12,
+      y: 1,
+      w: 4,
+      h: 4,
+    }),
   );
 
   // Servers with Data
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Servers with Data")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`sum by (environment) (servers_with_data_total{${buildFilter()}})`)
-          .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .gridPos({ x: 16, y: 1, w: 4, h: 4 }),
+    createStatPanel("Servers with Data", `sum by (environment) (servers_with_data_total{${buildFilter()}})`, {
+      x: 16,
+      y: 1,
+      w: 4,
+      h: 4,
+    }),
   );
 
   // Connection Status
@@ -196,67 +192,43 @@ export function createScoutDashboard() {
 
   // Uptime
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Uptime")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`max by (environment) (application_uptime_seconds{${buildFilter()}})`)
-          .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
-      )
-      .unit("s")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .gridPos({ x: 0, y: 13, w: 6, h: 4 }),
+    createStatPanel(
+      "Uptime",
+      `max by (environment) (application_uptime_seconds{${buildFilter()}})`,
+      { x: 0, y: 13, w: 6, h: 4 },
+      "s",
+    ),
   );
 
   // Active Competitions
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Active Competitions")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`sum by (environment) (competitions_active_total{${buildFilter()}})`)
-          .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .gridPos({ x: 6, y: 13, w: 6, h: 4 }),
+    createStatPanel("Active Competitions", `sum by (environment) (competitions_active_total{${buildFilter()}})`, {
+      x: 6,
+      y: 13,
+      w: 6,
+      h: 4,
+    }),
   );
 
   // Total Subscriptions
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Active Subscriptions")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`sum by (environment) (subscriptions_total{${buildFilter()}})`)
-          .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .gridPos({ x: 12, y: 13, w: 6, h: 4 }),
+    createStatPanel("Active Subscriptions", `sum by (environment) (subscriptions_total{${buildFilter()}})`, {
+      x: 12,
+      y: 13,
+      w: 6,
+      h: 4,
+    }),
   );
 
   // Average Accounts per Player
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Avg Accounts/Player")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`avg by (environment) (avg_accounts_per_player{${buildFilter()}})`)
-          .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
-      )
-      .unit("short")
-      .decimals(2)
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.None)
-      .gridPos({ x: 18, y: 13, w: 6, h: 4 }),
+    createStatPanel(
+      "Avg Accounts/Player",
+      `avg by (environment) (avg_accounts_per_player{${buildFilter()}})`,
+      { x: 18, y: 13, w: 6, h: 4 },
+      "short",
+      common.BigValueGraphMode.None,
+    ).decimals(2),
   );
 
   // Cron Job Performance
@@ -268,7 +240,7 @@ export function createScoutDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(
-            `histogram_quantile(0.95, sum(rate(cron_job_duration_seconds_bucket{${buildFilter()}}[5m])) by (environment, job_name, le))`,
+            `sum(rate(cron_job_duration_seconds_sum{${buildFilter()}}[5m])) by (environment, job_name) / sum(rate(cron_job_duration_seconds_count{${buildFilter()}}[5m])) by (environment, job_name)`,
           )
           .legendFormat(
             "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__job_name__GRAFANA_TPL_END__",
