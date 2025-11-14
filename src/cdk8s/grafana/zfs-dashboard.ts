@@ -4,6 +4,8 @@ import * as timeseries from "@grafana/grafana-foundation-sdk/timeseries";
 import * as stat from "@grafana/grafana-foundation-sdk/stat";
 import * as prometheus from "@grafana/grafana-foundation-sdk/prometheus";
 
+// TODO: grafana is not creating this one
+
 /**
  * Creates a Grafana dashboard for ZFS monitoring
  * Tracks ARC, L2ARC, memory, performance, and health metrics

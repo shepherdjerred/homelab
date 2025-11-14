@@ -7,6 +7,9 @@
 - <https://github.com/jsclayton/prometheus-plex-exporter>
 - Prometheus Minecraft exporter
 - <https://developer.1password.com/docs/ci-cd/github-actions/?workflow-type=connect>
+- Fix Grafana dashboards
+- Smartctl doesn't seem to be working
+- Setup alerts for missing metrics for alerts
 
 ## Next
 
@@ -19,6 +22,7 @@
 - Get Coder tf to apply automatically
 - `homeassistant_sensor_timestamp_seconds{entity="sensor.granary_smart_camera_feeder_last_feed_time"}`
   - metric does not exist
+
 - `rate(node_disk_written_bytes_total[5m]) > 1048576`
   - metric on the edge of alerting. should have another alarm for writes per day
 
@@ -31,6 +35,7 @@
 - Metrics not working
   - Velero
   - ArgoCD
+
 - Type validation for Helm
 - Track Talos version in repository
 - Music isn't working
