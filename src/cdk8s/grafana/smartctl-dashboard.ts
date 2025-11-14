@@ -208,7 +208,7 @@ export function createSmartctlDashboard() {
           .expr(`smartmon_temperature_celsius_value{${buildFilter()}}`)
           // Use a static legend here to avoid complex templating that breaks Helm linting
           // (the dynamic disk/model legend is nice-to-have but not essential)
-          .legendFormat("Device temperature"),
+          .legendFormat("__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__"),
       )
       .unit("celsius")
       .decimals(1)
@@ -316,8 +316,12 @@ export function createSmartctlDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr(`smartmon_reallocated_sector_ct_raw_value{${buildFilter()}}`)
-          .legendFormat("Disk (model)"),
+          .expr(
+            `smartmon_reallocated_sector_ct_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
+          )
+          .legendFormat(
+            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
+          ),
       )
       .unit("short")
       .lineWidth(2)
@@ -340,8 +344,12 @@ export function createSmartctlDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr(`smartmon_current_pending_sector_raw_value{${buildFilter()}}`)
-          .legendFormat("Disk (model)"),
+          .expr(
+            `smartmon_current_pending_sector_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
+          )
+          .legendFormat(
+            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
+          ),
       )
       .unit("short")
       .lineWidth(2)
@@ -364,8 +372,12 @@ export function createSmartctlDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr(`smartmon_offline_uncorrectable_raw_value{${buildFilter()}}`)
-          .legendFormat("Disk (model)"),
+          .expr(
+            `smartmon_offline_uncorrectable_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
+          )
+          .legendFormat(
+            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
+          ),
       )
       .unit("short")
       .lineWidth(2)
@@ -390,8 +402,12 @@ export function createSmartctlDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr(`smartmon_udma_crc_error_count_raw_value{${buildFilter()}}`)
-          .legendFormat("Disk (model)"),
+          .expr(
+            `smartmon_udma_crc_error_count_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
+          )
+          .legendFormat(
+            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
+          ),
       )
       .unit("short")
       .lineWidth(2)
@@ -413,8 +429,12 @@ export function createSmartctlDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr(`smartmon_raw_read_error_rate_raw_value{${buildFilter()}}`)
-          .legendFormat("Disk (model)"),
+          .expr(
+            `smartmon_raw_read_error_rate_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
+          )
+          .legendFormat(
+            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
+          ),
       )
       .unit("short")
       .lineWidth(2)
@@ -433,8 +453,12 @@ export function createSmartctlDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr(`smartmon_power_on_hours_raw_value{${buildFilter()}}`)
-          .legendFormat("Disk (model)"),
+          .expr(
+            `smartmon_power_on_hours_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
+          )
+          .legendFormat(
+            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
+          ),
       )
       .unit("h")
       .lineWidth(2)
@@ -450,8 +474,12 @@ export function createSmartctlDashboard() {
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr(`smartmon_power_cycle_count_raw_value{${buildFilter()}}`)
-          .legendFormat("Disk (model)"),
+          .expr(
+            `smartmon_power_cycle_count_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
+          )
+          .legendFormat(
+            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
+          ),
       )
       .unit("short")
       .lineWidth(2)
