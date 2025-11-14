@@ -206,9 +206,9 @@ export function createSmartctlDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`smartmon_temperature_celsius_value{${buildFilter()}}`)
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ (__GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__)",
-          ),
+          // Use a static legend here to avoid complex templating that breaks Helm linting
+          // (the dynamic disk/model legend is nice-to-have but not essential)
+          .legendFormat("Device temperature"),
       )
       .unit("celsius")
       .decimals(1)
@@ -317,9 +317,7 @@ export function createSmartctlDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`smartmon_reallocated_sector_ct_raw_value{${buildFilter()}}`)
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ (__GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__)",
-          ),
+          .legendFormat("Disk (model)"),
       )
       .unit("short")
       .lineWidth(2)
@@ -343,9 +341,7 @@ export function createSmartctlDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`smartmon_current_pending_sector_raw_value{${buildFilter()}}`)
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ (__GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__)",
-          ),
+          .legendFormat("Disk (model)"),
       )
       .unit("short")
       .lineWidth(2)
@@ -369,9 +365,7 @@ export function createSmartctlDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`smartmon_offline_uncorrectable_raw_value{${buildFilter()}}`)
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ (__GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__)",
-          ),
+          .legendFormat("Disk (model)"),
       )
       .unit("short")
       .lineWidth(2)
@@ -397,9 +391,7 @@ export function createSmartctlDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`smartmon_udma_crc_error_count_raw_value{${buildFilter()}}`)
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ (__GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__)",
-          ),
+          .legendFormat("Disk (model)"),
       )
       .unit("short")
       .lineWidth(2)
@@ -422,9 +414,7 @@ export function createSmartctlDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`smartmon_raw_read_error_rate_raw_value{${buildFilter()}}`)
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ (__GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__)",
-          ),
+          .legendFormat("Disk (model)"),
       )
       .unit("short")
       .lineWidth(2)
@@ -444,9 +434,7 @@ export function createSmartctlDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`smartmon_power_on_hours_raw_value{${buildFilter()}}`)
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ (__GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__)",
-          ),
+          .legendFormat("Disk (model)"),
       )
       .unit("h")
       .lineWidth(2)
@@ -463,9 +451,7 @@ export function createSmartctlDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`smartmon_power_cycle_count_raw_value{${buildFilter()}}`)
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ (__GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__)",
-          ),
+          .legendFormat("Disk (model)"),
       )
       .unit("short")
       .lineWidth(2)
@@ -477,149 +463,6 @@ export function createSmartctlDashboard() {
         ]),
       )
       .gridPos({ x: 12, y: 29, w: 12, h: 8 }),
-  );
-
-  // Row 6: Device Details Table
-  builder.withRow(new dashboard.RowBuilder("Device Details"));
-
-  // Device Health Status Table
-  builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Device Health Summary")
-      .description("Current health status for all devices")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`smartmon_device_smart_healthy{${buildFilter()}}`)
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
-          ),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.None)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "red" },
-          { value: 1, color: "green" },
-        ]),
-      )
-      .gridPos({ x: 0, y: 37, w: 6, h: 4 }),
-  );
-
-  // Current Temperature Summary
-  builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Temperature Summary")
-      .description("Current temperature by device")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`smartmon_temperature_celsius_value{${buildFilter()}}`)
-          .legendFormat("__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__"),
-      )
-      .unit("celsius")
-      .decimals(1)
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.None)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "blue" },
-          { value: 40, color: "green" },
-          { value: 60, color: "yellow" },
-          { value: 70, color: "red" },
-        ]),
-      )
-      .gridPos({ x: 6, y: 37, w: 6, h: 4 }),
-  );
-
-  // Reallocated Sectors Summary
-  builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Reallocated Sectors Summary")
-      .description("Reallocated sectors by device")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`smartmon_reallocated_sector_ct_raw_value{${buildFilter()}}`)
-          .legendFormat("__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.None)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "green" },
-          { value: 1, color: "yellow" },
-          { value: 10, color: "red" },
-        ]),
-      )
-      .gridPos({ x: 12, y: 37, w: 6, h: 4 }),
-  );
-
-  // Pending Sectors Summary
-  builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Pending Sectors Summary")
-      .description("Pending sectors by device")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`smartmon_current_pending_sector_raw_value{${buildFilter()}}`)
-          .legendFormat("__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.None)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "green" },
-          { value: 1, color: "yellow" },
-          { value: 5, color: "red" },
-        ]),
-      )
-      .gridPos({ x: 18, y: 37, w: 6, h: 4 }),
-  );
-
-  // Row 7: Additional Metrics
-  builder.withRow(new dashboard.RowBuilder("Additional Metrics"));
-
-  // Load Cycle Count
-  builder.withPanel(
-    new timeseries.PanelBuilder()
-      .title("Load Cycle Count")
-      .description("Load/unload cycle count (for HDDs)")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`smartmon_load_cycle_count_raw_value{${buildFilter()}}`)
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ (__GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__)",
-          ),
-      )
-      .unit("short")
-      .lineWidth(2)
-      .fillOpacity(10)
-      .gridPos({ x: 0, y: 41, w: 12, h: 8 }),
-  );
-
-  // Start/Stop Count
-  builder.withPanel(
-    new timeseries.PanelBuilder()
-      .title("Start/Stop Count")
-      .description("Number of start/stop cycles")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`smartmon_start_stop_count_raw_value{${buildFilter()}}`)
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ (__GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__)",
-          ),
-      )
-      .unit("short")
-      .lineWidth(2)
-      .fillOpacity(10)
-      .gridPos({ x: 12, y: 41, w: 12, h: 8 }),
   );
 
   return builder.build();
