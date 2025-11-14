@@ -108,6 +108,35 @@ parse_smartctl_scsi_attributes() {
   [ -n "$grown_defects" ] && echo "grown_defects_count_raw_value{${labels},smart_id=\"-1\"} ${grown_defects}"
 }
 
+parse_smartctl_nvme_attributes() {
+  local disk="$1"
+  local disk_type="$2"
+  local labels="disk=\"${disk}\",type=\"${disk_type}\""
+  local temp_cel="" percent_used="" power_cycle="" power_on="" unsafe_shutdowns="" media_errors=""
+  while read -r line; do
+    # Extract key and value, value is the numeric part at the start
+    key="$(echo "${line}" | cut -f1 -d: | sed 's/^ \+//g' | tr ' ' '_')"
+    value="$(echo "${line}" | cut -f2- -d: | sed 's/^ \+//g' | awk '{print $1}' | tr -d ',')"
+
+    case "${key}" in
+    Temperature) temp_cel="${value}" ;;
+    Percentage_Used) percent_used="${value//%}" ;;
+    Power_Cycles) power_cycle="${value}" ;;
+    Power_On_Hours) power_on="${value}" ;;
+    Unsafe_Shutdowns) unsafe_shutdowns="${value}" ;;
+    Media_and_Data_Integrity_Errors) media_errors="${value}" ;;
+    esac
+  done
+  # Map NVMe metrics to standard SMART attribute names for dashboard compatibility
+  [ -n "$temp_cel" ] && echo "temperature_celsius_value{${labels},smart_id=\"194\"} ${temp_cel}"
+  # The dashboard doesn't have a direct 'percentage used' panel, but this metric is valuable
+  [ -n "$percent_used" ] && echo "percentage_used_raw_value{${labels},smart_id=\"N/A\"} ${percent_used}"
+  [ -n "$power_cycle" ] && echo "power_cycle_count_raw_value{${labels},smart_id=\"12\"} ${power_cycle}"
+  [ -n "$power_on" ] && echo "power_on_hours_raw_value{${labels},smart_id=\"9\"} ${power_on}"
+  [ -n "$unsafe_shutdowns" ] && echo "unsafe_shutdown_count_raw_value{${labels},smart_id=\"174\"} ${unsafe_shutdowns}"
+  [ -n "$media_errors" ] && echo "offline_uncorrectable_raw_value{${labels},smart_id=\"198\"} ${media_errors}"
+}
+
 parse_smartctl_info() {
   local -i smart_available=0 smart_enabled=0 smart_healthy=
   local disk="$1" disk_type="$2"
@@ -167,40 +196,46 @@ format_output() {
     awk -F'{' "${output_format_awk}"
 }
 
-smartctl_version="$(smartctl -V | awk 'NR==1 && $1 == "smartctl" {print $2}')"
+main() {
+  smartctl_version="$(smartctl -V | awk 'NR==1 && $1 == "smartctl" {print $2}')"
 
-echo "smartctl_version{version=\"${smartctl_version}\"} 1" | format_output
+  echo "smartctl_version{version=\"${smartctl_version}\"} 1" | format_output
 
-# Exit if "smartctl" version is lower 6
-if [[ ${smartctl_version%.*} -lt 6 ]]; then
-  exit 0
-fi
+  # Exit if "smartctl" version is lower 6
+  if [[ ${smartctl_version%.*} -lt 6 ]]; then
+    exit 0
+  fi
 
-device_list="$(smartctl --scan-open | awk '/^\/dev/{print $1 "|" $3}')"
+  device_list="$(smartctl --scan-open | awk '/^\/dev/{print $1 "|" $3}')"
 
-for device in ${device_list}; do
-  disk="$(echo "${device}" | cut -f1 -d'|')"
-  type="$(echo "${device}" | cut -f2 -d'|')"
-  active=1
-  echo "smartctl_run{disk=\"${disk}\",type=\"${type}\"}" "$(TZ=UTC date '+%s')"
-  # Check if the device is in a low-power mode
-  smartctl -n standby -d "${type}" "${disk}" > /dev/null || active=0
-  echo "device_active{disk=\"${disk}\",type=\"${type}\"}" "${active}"
-  # Skip further metrics to prevent the disk from spinning up
-  test ${active} -eq 0 && continue
-  # Get the SMART information and health
-  smartctl -i -H -d "${type}" "${disk}" | parse_smartctl_info "${disk}" "${type}"
-  # Get the SMART attributes
-  case ${type} in
-  sat) smartctl -A -d "${type}" "${disk}" | parse_smartctl_attributes "${disk}" "${type}" ;;
-  sat+megaraid*) smartctl -A -d "${type}" "${disk}" | parse_smartctl_attributes "${disk}" "${type}" ;;
-  scsi) smartctl -A -d "${type}" "${disk}" | parse_smartctl_scsi_attributes "${disk}" "${type}" ;;
-  megaraid*) smartctl -A -d "${type}" "${disk}" | parse_smartctl_scsi_attributes "${disk}" "${type}" ;;
-  nvme*) smartctl -A -d "${type}" "${disk}" | parse_smartctl_scsi_attributes "${disk}" "${type}" ;;
-  usbprolific) smartctl -A -d "${type}" "${disk}" | parse_smartctl_attributes "${disk}" "${type}" ;;
-  *)
+  for device in ${device_list}; do
+    disk="$(echo "${device}" | cut -f1 -d'|')"
+    type="$(echo "${device}" | cut -f2 -d'|')"
+    active=1
+    echo "smartctl_run{disk=\"${disk}\",type=\"${type}\"}" "$(TZ=UTC date '+%s')"
+    # Check if the device is in a low-power mode
+    smartctl -n standby -d "${type}" "${disk}" > /dev/null || active=0
+    echo "device_active{disk=\"${disk}\",type=\"${type}\"}" "${active}"
+    # Skip further metrics to prevent the disk from spinning up
+    test ${active} -eq 0 && continue
+    # Get the SMART information and health
+    smartctl -i -H -d "${type}" "${disk}" | parse_smartctl_info "${disk}" "${type}"
+    # Get the SMART attributes
+    case ${type} in
+    sat) smartctl -A -d "${type}" "${disk}" | parse_smartctl_attributes "${disk}" "${type}" ;;
+    sat+megaraid*) smartctl -A -d "${type}" "${disk}" | parse_smartctl_attributes "${disk}" "${type}" ;;
+    scsi) smartctl -A -d "${type}" "${disk}" | parse_smartctl_scsi_attributes "${disk}" "${type}" ;;
+    megaraid*) smartctl -A -d "${type}" "${disk}" | parse_smartctl_scsi_attributes "${disk}" "${type}" ;;
+    nvme*) smartctl -A -d "${type}" "${disk}" | parse_smartctl_nvme_attributes "${disk}" "${type}" ;;
+    usbprolific) smartctl -A -d "${type}" "${disk}" | parse_smartctl_attributes "${disk}" "${type}" ;;
+    *)
       (>&2 echo "disk type is not sat, scsi, nvme or megaraid but ${type}")
-    exit
-    ;;
-  esac
-done | format_output
+      exit
+      ;;
+    esac
+  done | format_output
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main
+fi

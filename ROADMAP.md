@@ -8,7 +8,6 @@
 - Prometheus Minecraft exporter
 - <https://developer.1password.com/docs/ci-cd/github-actions/?workflow-type=connect>
 - Fix Grafana dashboards
-- Smartctl doesn't seem to be working
 - Setup alerts for missing metrics for alerts
 
 ## Next
@@ -28,6 +27,7 @@
 
 ## Done
 
+- Smartctl doesn't seem to be working
 - Collect Prometheus metrics from Scout for League of Legends
 - Get Pokemon bot running
 - Deploy Karma bot
