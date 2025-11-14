@@ -52,6 +52,7 @@ export function createScoutDashboard() {
   const createStatPanel = (
     title: string,
     query: string,
+    legend: string,
     gridPos: {
       x: number;
       y: number;
@@ -64,11 +65,7 @@ export function createScoutDashboard() {
     return new stat.PanelBuilder()
       .title(title)
       .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(query)
-          .legendFormat("__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__"),
-      )
+      .withTarget(new prometheus.DataqueryBuilder().expr(query).legendFormat(legend))
       .unit(unit)
       .colorMode(common.BigValueColorMode.Value)
       .graphMode(graphMode)
@@ -80,52 +77,52 @@ export function createScoutDashboard() {
 
   // Guild Count
   builder.withPanel(
-    createStatPanel("Discord Guilds", `sum by (environment) (discord_guilds{${buildFilter()}})`, {
-      x: 0,
-      y: 1,
-      w: 4,
-      h: 4,
-    }),
+    createStatPanel(
+      "Discord Guilds",
+      `sum by (environment) (discord_guilds{${buildFilter()}})`,
+      "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__",
+      { x: 0, y: 1, w: 4, h: 4 },
+    ),
   );
 
   // User Count
   builder.withPanel(
-    createStatPanel("Discord Users", `sum by (environment) (discord_users{${buildFilter()}})`, {
-      x: 4,
-      y: 1,
-      w: 4,
-      h: 4,
-    }),
+    createStatPanel(
+      "Discord Users",
+      `sum by (environment) (discord_users{${buildFilter()}})`,
+      "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__",
+      { x: 4, y: 1, w: 4, h: 4 },
+    ),
   );
 
   // Players Tracked
   builder.withPanel(
-    createStatPanel("Players Tracked", `sum by (environment) (players_tracked_total{${buildFilter()}})`, {
-      x: 8,
-      y: 1,
-      w: 4,
-      h: 4,
-    }),
+    createStatPanel(
+      "Players Tracked",
+      `sum by (environment) (players_tracked_total{${buildFilter()}})`,
+      "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__",
+      { x: 8, y: 1, w: 4, h: 4 },
+    ),
   );
 
   // Accounts Tracked
   builder.withPanel(
-    createStatPanel("Accounts Tracked", `sum by (environment) (accounts_tracked_total{${buildFilter()}})`, {
-      x: 12,
-      y: 1,
-      w: 4,
-      h: 4,
-    }),
+    createStatPanel(
+      "Accounts Tracked",
+      `sum by (environment) (accounts_tracked_total{${buildFilter()}})`,
+      "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__",
+      { x: 12, y: 1, w: 4, h: 4 },
+    ),
   );
 
   // Servers with Data
   builder.withPanel(
-    createStatPanel("Servers with Data", `sum by (environment) (servers_with_data_total{${buildFilter()}})`, {
-      x: 16,
-      y: 1,
-      w: 4,
-      h: 4,
-    }),
+    createStatPanel(
+      "Servers with Data",
+      `sum by (environment) (servers_with_data_total{${buildFilter()}})`,
+      "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__",
+      { x: 16, y: 1, w: 4, h: 4 },
+    ),
   );
 
   // Connection Status
@@ -195,6 +192,7 @@ export function createScoutDashboard() {
     createStatPanel(
       "Uptime",
       `max by (environment) (application_uptime_seconds{${buildFilter()}})`,
+      "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__",
       { x: 0, y: 13, w: 6, h: 4 },
       "s",
     ),
@@ -202,22 +200,22 @@ export function createScoutDashboard() {
 
   // Active Competitions
   builder.withPanel(
-    createStatPanel("Active Competitions", `sum by (environment) (competitions_active_total{${buildFilter()}})`, {
-      x: 6,
-      y: 13,
-      w: 6,
-      h: 4,
-    }),
+    createStatPanel(
+      "Active Competitions",
+      `sum by (environment) (competitions_active_total{${buildFilter()}})`,
+      "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__",
+      { x: 6, y: 13, w: 6, h: 4 },
+    ),
   );
 
   // Total Subscriptions
   builder.withPanel(
-    createStatPanel("Active Subscriptions", `sum by (environment) (subscriptions_total{${buildFilter()}})`, {
-      x: 12,
-      y: 13,
-      w: 6,
-      h: 4,
-    }),
+    createStatPanel(
+      "Active Subscriptions",
+      `sum by (environment) (subscriptions_total{${buildFilter()}})`,
+      "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__",
+      { x: 12, y: 13, w: 6, h: 4 },
+    ),
   );
 
   // Average Accounts per Player
@@ -225,6 +223,7 @@ export function createScoutDashboard() {
     createStatPanel(
       "Avg Accounts/Player",
       `avg by (environment) (avg_accounts_per_player{${buildFilter()}})`,
+      "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__",
       { x: 18, y: 13, w: 6, h: 4 },
       "short",
       common.BigValueGraphMode.None,

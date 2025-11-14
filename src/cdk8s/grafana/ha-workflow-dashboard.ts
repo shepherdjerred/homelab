@@ -39,112 +39,116 @@ export function createHaWorkflowDashboard() {
     .editable()
     .withVariable(workflowVariable);
 
+  const createStatPanel = (
+    title: string,
+    description: string,
+    query: string,
+    legend: string,
+    gridPos: dashboard.GridPos,
+    unit: string,
+    decimals?: number,
+    graphMode: common.BigValueGraphMode = common.BigValueGraphMode.Area,
+  ) => {
+    const panel = new stat.PanelBuilder()
+      .title(title)
+      .description(description)
+      .datasource(prometheusDatasource)
+      .withTarget(new prometheus.DataqueryBuilder().expr(query).legendFormat(legend))
+      .unit(unit)
+      .colorMode(common.BigValueColorMode.Value)
+      .graphMode(graphMode)
+      .gridPos(gridPos);
+
+    if (decimals !== undefined) {
+      panel.decimals(decimals);
+    }
+
+    return panel;
+  };
+
   // Row 1: Overview Stats
   builder.withRow(new dashboard.RowBuilder("Overview"));
 
   // Total Executions (24h)
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Total Executions (24h)")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{${buildFilter()}}[24h]))`,
-          )
-          .legendFormat("Total"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .gridPos({ x: 0, y: 1, w: 6, h: 4 }),
+    createStatPanel(
+      "Total Executions (24h)",
+      "Total workflow executions in the last 24 hours",
+      `sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{${buildFilter()}}[24h]))`,
+      "Total",
+      { x: 0, y: 1, w: 6, h: 4 },
+      "short",
+    ),
   );
 
   // Success Rate
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Success Rate (24h)")
-      .description("Percentage of successful executions")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `(sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{status="success",${buildFilter()}}[24h])) / sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{${buildFilter()}}[24h]))) * 100`,
-          )
-          .legendFormat("Success Rate"),
-      )
-      .unit("percent")
-      .decimals(1)
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "red" },
-          { value: 95, color: "yellow" },
-          { value: 99, color: "green" },
-        ]),
-      )
-      .gridPos({ x: 6, y: 1, w: 6, h: 4 }),
+    createStatPanel(
+      "Success Rate (24h)",
+      "Percentage of successful executions",
+      `(sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{status="success",${buildFilter()}}[24h])) / sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{${buildFilter()}}[24h]))) * 100`,
+      "Success Rate",
+      { x: 6, y: 1, w: 6, h: 4 },
+      "percent",
+      1,
+    ).thresholds(
+      new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
+        { value: 0, color: "red" },
+        { value: 95, color: "yellow" },
+        { value: 99, color: "green" },
+      ]),
+    ),
   );
 
   // Workflows In Progress
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Workflows In Progress")
-      .description("Currently running workflows")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`sum without(pod, instance, container, endpoint) (ha_workflows_in_progress{${buildFilter()}})`)
-          .legendFormat("In Progress"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.None)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "green" },
-          { value: 1, color: "yellow" },
-          { value: 5, color: "red" },
-        ]),
-      )
-      .gridPos({ x: 12, y: 1, w: 6, h: 4 }),
+    createStatPanel(
+      "Workflows In Progress",
+      "Currently running workflows",
+      `sum without(pod, instance, container, endpoint) (ha_workflows_in_progress{${buildFilter()}})`,
+      "In Progress",
+      { x: 12, y: 1, w: 6, h: 4 },
+      "short",
+      undefined,
+      common.BigValueGraphMode.None,
+    ).thresholds(
+      new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
+        { value: 0, color: "green" },
+        { value: 1, color: "yellow" },
+        { value: 5, color: "red" },
+      ]),
+    ),
   );
 
   // Application Uptime
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Application Uptime")
-      .description("Time since last restart")
-      .datasource(prometheusDatasource)
-      .withTarget(new prometheus.DataqueryBuilder().expr(`max(ha_uptime_seconds)`).legendFormat("Uptime"))
-      .unit("s")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .gridPos({ x: 18, y: 1, w: 3, h: 4 }),
+    createStatPanel(
+      "Application Uptime",
+      "Time since last restart",
+      `max(ha_uptime_seconds)`,
+      "Uptime",
+      { x: 18, y: 1, w: 3, h: 4 },
+      "s",
+    ),
   );
 
   // Application Health
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Application Health")
-      .description("1 = Up, 0 = Down")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`max without(pod, instance, container, endpoint) (up{job=~".*ha.*"})`)
-          .legendFormat("HA Service"),
-      )
-      .unit("short")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.None)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "red" },
-          { value: 1, color: "green" },
-        ]),
-      )
-      .gridPos({ x: 21, y: 1, w: 3, h: 4 }),
+    createStatPanel(
+      "Application Health",
+      "1 = Up, 0 = Down",
+      `max without(pod, instance, container, endpoint) (up{job=~".*ha.*"})`,
+      "HA Service",
+      { x: 21, y: 1, w: 3, h: 4 },
+      "short",
+      undefined,
+      common.BigValueGraphMode.None,
+    ).thresholds(
+      new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
+        { value: 0, color: "red" },
+        { value: 1, color: "green" },
+      ]),
+    ),
   );
 
   // Row 2: Execution Metrics
@@ -363,56 +367,40 @@ export function createHaWorkflowDashboard() {
 
   // Good Morning Workflows Status
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Good Morning Workflows Status")
-      .description("Time since last execution (hours)")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `(time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{workflow=~"good_morning_.*"})) / 3600`,
-          )
-          .legendFormat("__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__"),
-      )
-      .unit("h")
-      .decimals(1)
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "green" },
-          { value: 24, color: "yellow" },
-          { value: 48, color: "red" },
-        ]),
-      )
-      .gridPos({ x: 12, y: 37, w: 6, h: 4 }),
+    createStatPanel(
+      "Good Morning Workflows Status",
+      "Time since last execution (hours)",
+      `(time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{workflow=~"good_morning_.*"})) / 3600`,
+      "__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__",
+      { x: 12, y: 37, w: 6, h: 4 },
+      "h",
+      1,
+    ).thresholds(
+      new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
+        { value: 0, color: "green" },
+        { value: 24, color: "yellow" },
+        { value: 48, color: "red" },
+      ]),
+    ),
   );
 
   // Vacuum Workflow Status
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Vacuum Workflow Status")
-      .description("Time since last execution (hours)")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `(time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{workflow="run_vacuum_if_not_home"})) / 3600`,
-          )
-          .legendFormat("Hours Since Last Run"),
-      )
-      .unit("h")
-      .decimals(1)
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "green" },
-          { value: 24, color: "yellow" },
-          { value: 48, color: "red" },
-        ]),
-      )
-      .gridPos({ x: 18, y: 37, w: 6, h: 4 }),
+    createStatPanel(
+      "Vacuum Workflow Status",
+      "Time since last execution (hours)",
+      `(time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{workflow="run_vacuum_if_not_home"})) / 3600`,
+      "Hours Since Last Run",
+      { x: 18, y: 37, w: 6, h: 4 },
+      "h",
+      1,
+    ).thresholds(
+      new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
+        { value: 0, color: "green" },
+        { value: 24, color: "yellow" },
+        { value: 48, color: "red" },
+      ]),
+    ),
   );
 
   // Row 6: Workflow Health Details

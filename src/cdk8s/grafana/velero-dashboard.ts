@@ -91,6 +91,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
     title: string,
     description: string,
     expr: string,
+    legend: string,
     gridPos: dashboard.GridPos,
     unit?: string,
     graphMode?: common.BigValueGraphMode,
@@ -100,9 +101,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       .title(title)
       .description(description)
       .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder().expr(expr).legendFormat("__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__"),
-      )
+      .withTarget(new prometheus.DataqueryBuilder().expr(expr).legendFormat(legend))
       .gridPos(gridPos);
 
     if (unit) {
@@ -129,6 +128,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Backup Success Rate",
       "Percentage of successful backups per schedule",
       `(sum by (schedule) (increase(velero_backup_success_total{${buildScheduleFilter()}}[7d])) / sum by (schedule) (increase(velero_backup_attempt_total{${buildScheduleFilter()}}[7d]))) * 100`,
+      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
       { x: 0, y: 9, w: 6, h: 4 },
       "percent",
       common.BigValueGraphMode.Area,
@@ -148,6 +148,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Total Backup Attempts (7d)",
       "Total backup attempts in the last 7 days",
       `sum by (schedule) (increase(velero_backup_attempt_total{${buildScheduleFilter()}}[7d]))`,
+      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
       { x: 6, y: 9, w: 6, h: 4 },
     ),
   );
@@ -158,6 +159,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Successful Backups (7d)",
       "Total successful backups in the last 7 days",
       `sum by (schedule) (increase(velero_backup_success_total{${buildScheduleFilter()}}[7d]))`,
+      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
       { x: 12, y: 9, w: 6, h: 4 },
     ),
   );
@@ -168,6 +170,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Failed Backups (7d)",
       "Total failed backups in the last 7 days",
       `sum by (schedule) (increase(velero_backup_failure_total{${buildScheduleFilter()}}[7d]))`,
+      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
       { x: 18, y: 9, w: 6, h: 4 },
     ).thresholds(
       new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
@@ -187,6 +190,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Last Successful Backup",
       "Time since last successful backup per schedule",
       `time() - velero_backup_last_successful_timestamp{${buildScheduleFilter()}}`,
+      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
       { x: 0, y: 13, w: 6, h: 4 },
       "dtdurations",
       common.BigValueGraphMode.None,
@@ -199,6 +203,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Total Backup Items",
       "Total items backed up per schedule",
       `velero_backup_items_total{${buildScheduleFilter()}}`,
+      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
       { x: 6, y: 13, w: 6, h: 4 },
     ),
   );
@@ -209,6 +214,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Backup Item Errors",
       "Number of items with errors per schedule",
       `velero_backup_items_errors{${buildScheduleFilter()}}`,
+      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
       { x: 12, y: 13, w: 6, h: 4 },
     ).thresholds(
       new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
@@ -225,6 +231,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Current Backup Status",
       "1 = Success in last hour, 0 = No success",
       `(sum by (schedule) (increase(velero_backup_success_total{${buildScheduleFilter()}}[1h])) > 0)`,
+      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
       { x: 18, y: 13, w: 6, h: 4 },
     ).thresholds(
       new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
@@ -336,6 +343,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Total Backup Eligible Storage",
       "Total size of PVCs marked for backup",
       `sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled",${buildNamespaceFilter()}})`,
+      "Total",
       { x: 0, y: 37, w: 6, h: 4 },
       "bytes",
     ),
@@ -343,20 +351,14 @@ This usually means that Prometheus is not successfully scraping metrics from the
 
   // Backup Eligible Storage by Namespace
   builder.withPanel(
-    new stat.PanelBuilder()
-      .title("Backup Eligible Storage by Namespace")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `sum by (namespace) (kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled",${buildNamespaceFilter()}})`,
-          )
-          .legendFormat("__GRAFANA_TPL_START__namespace__GRAFANA_TPL_END__"),
-      )
-      .unit("bytes")
-      .colorMode(common.BigValueColorMode.Value)
-      .graphMode(common.BigValueGraphMode.Area)
-      .gridPos({ x: 6, y: 37, w: 6, h: 4 }),
+    createStatPanel(
+      "Backup Eligible Storage by Namespace",
+      "Total size of PVCs marked for backup by namespace",
+      `sum by (namespace) (kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled",${buildNamespaceFilter()}})`,
+      "__GRAFANA_TPL_START__namespace__GRAFANA_TPL_END__",
+      { x: 6, y: 37, w: 6, h: 4 },
+      "bytes",
+    ),
   );
 
   // Total Storage (All PVCs)
@@ -365,6 +367,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Total Storage (All PVCs)",
       "Total size of all PVCs in cluster",
       `sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{${buildNamespaceFilter()}})`,
+      "Total",
       { x: 12, y: 37, w: 6, h: 4 },
       "bytes",
     ),
@@ -376,6 +379,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Backup Coverage",
       "Percentage of storage covered by backups",
       `(sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled",${buildNamespaceFilter()}}) / sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{${buildNamespaceFilter()}})) * 100`,
+      "Coverage",
       { x: 18, y: 37, w: 6, h: 4 },
       "percent",
       common.BigValueGraphMode.None,
@@ -448,6 +452,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Storage Not Backed Up",
       "Total size of PVCs without velero.io/backup label",
       `sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup!="enabled",${buildNamespaceFilter()}})`,
+      "Not Backed Up",
       { x: 0, y: 49, w: 6, h: 4 },
       "bytes",
     ),
@@ -459,6 +464,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Storage Backed Up",
       "Total size of PVCs with velero.io/backup=enabled label",
       `sum(kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled",${buildNamespaceFilter()}})`,
+      "Backed Up",
       { x: 6, y: 49, w: 6, h: 4 },
       "bytes",
     ),
@@ -470,6 +476,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "PVCs Not Backed Up",
       "Count of PVCs without backup label",
       `count(kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup!="enabled",${buildNamespaceFilter()}})`,
+      "Count",
       { x: 12, y: 49, w: 6, h: 4 },
       "short",
       common.BigValueGraphMode.None,
@@ -482,6 +489,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "PVCs Backed Up",
       "Count of PVCs with backup label",
       `count(kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled",${buildNamespaceFilter()}})`,
+      "Count",
       { x: 18, y: 49, w: 6, h: 4 },
       "short",
       common.BigValueGraphMode.None,
