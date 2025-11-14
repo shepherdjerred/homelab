@@ -100,11 +100,11 @@ export function createSmartctlDashboard() {
   builder.withPanel(
     new stat.PanelBuilder()
       .title("Unhealthy Devices")
-      .description("Devices failing SMART health check")
+      .description("Devices failing SMART health check. 0 means no failing devices detected.")
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr(`count(smartmon_device_smart_healthy{${buildFilter()}} == 0)`)
+          .expr(`count(smartmon_device_smart_healthy{${buildFilter()}} == 0) or vector(0)`)
           .legendFormat("Unhealthy"),
       )
       .unit("short")
@@ -150,11 +150,11 @@ export function createSmartctlDashboard() {
   builder.withPanel(
     new stat.PanelBuilder()
       .title("Devices with Reallocated Sectors")
-      .description("Count of devices with sector reallocation")
+      .description("Count of devices with sector reallocation. 0 means no issues detected.")
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr(`count(smartmon_reallocated_sector_ct_raw_value{${buildFilter()}} > 0)`)
+          .expr(`count(smartmon_reallocated_sector_ct_raw_value{${buildFilter()}} > 0) or vector(0)`)
           .legendFormat("With Reallocated"),
       )
       .unit("short")
@@ -174,11 +174,11 @@ export function createSmartctlDashboard() {
   builder.withPanel(
     new stat.PanelBuilder()
       .title("Devices with Pending Sectors")
-      .description("Count of devices with pending sector reallocation")
+      .description("Count of devices with pending sector reallocation. 0 means no issues detected.")
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
-          .expr(`count(smartmon_current_pending_sector_raw_value{${buildFilter()}} > 0)`)
+          .expr(`count(smartmon_current_pending_sector_raw_value{${buildFilter()}} > 0) or vector(0)`)
           .legendFormat("With Pending"),
       )
       .unit("short")
