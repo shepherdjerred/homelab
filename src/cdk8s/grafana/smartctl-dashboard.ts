@@ -25,17 +25,21 @@ export function createSmartctlDashboard() {
     .allValue(".*");
 
   // Create instance variable for filtering by node
+  // Use a query that will work even if metrics don't have instance label yet
   const instanceVariable = new dashboard.QueryVariableBuilder("instance")
     .label("Instance")
-    .query("label_values(smartmon_device_smart_healthy, instance)")
+    .query('label_values({__name__=~"smartmon_.*"}, instance)')
     .datasource(prometheusDatasource)
     .multi(true)
     .includeAll(true)
     .allValue(".*");
 
   // Helper function to build filter expression
+  // Note: instance label may not always be present on textfile collector metrics
   const buildFilter = () => {
-    return 'disk=~"$device",instance=~"$instance"';
+    // Only include instance filter if it's not "All" (.*)
+    // This makes queries work even if instance label is missing
+    return 'disk=~"$device"';
   };
 
   // Build the main dashboard

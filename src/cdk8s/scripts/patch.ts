@@ -2,6 +2,8 @@
 
 import { spawn } from "node:child_process";
 import { platform } from "node:os";
+import { readFileSync, writeFileSync } from "node:fs";
+import { applyGrafanaReplacements, getGrafanaReplacements } from "./patch-utils.ts";
 
 const runCommand = async (command: string, args: string[]) => {
   return new Promise<string>((resolve, reject) => {
@@ -62,51 +64,41 @@ console.log("\n🎨 Applying Grafana template variable patches...");
 // Note: This is needed because Grafana dashboards are JSON-stringified, which escapes quotes.
 // Unlike Prometheus rules (which are YAML and can use escapeGoTemplate directly),
 // Grafana templates need post-processing after JSON serialization.
-const grafanaReplacements = [
-  {
-    pattern: "__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__",
-    sedPattern: 's/__GRAFANA_TPL_START__environment__GRAFANA_TPL_END__/{{ print "{{" }}environment{{ print "}}" }}/g',
-  },
-  {
-    pattern: "__GRAFANA_TPL_START__job_name__GRAFANA_TPL_END__",
-    sedPattern: 's/__GRAFANA_TPL_START__job_name__GRAFANA_TPL_END__/{{ print "{{" }}job_name{{ print "}}" }}/g',
-  },
-  {
-    pattern: "__GRAFANA_TPL_START__device__GRAFANA_TPL_END__",
-    sedPattern: 's/__GRAFANA_TPL_START__device__GRAFANA_TPL_END__/{{ print "{{" }}device{{ print "}}" }}/g',
-  },
-  {
-    pattern: "__GRAFANA_TPL_START__model_name__GRAFANA_TPL_END__",
-    sedPattern: 's/__GRAFANA_TPL_START__model_name__GRAFANA_TPL_END__/{{ print "{{" }}model_name{{ print "}}" }}/g',
-  },
-  {
-    pattern: "__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__",
-    sedPattern: 's/__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__/{{ print "{{" }}instance{{ print "}}" }}/g',
-  },
-  {
-    pattern: "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
-    sedPattern: 's/__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__/{{ print "{{" }}schedule{{ print "}}" }}/g',
-  },
-  {
-    pattern: "__GRAFANA_TPL_START__namespace__GRAFANA_TPL_END__",
-    sedPattern: 's/__GRAFANA_TPL_START__namespace__GRAFANA_TPL_END__/{{ print "{{" }}namespace{{ print "}}" }}/g',
-  },
-  {
-    pattern: "__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__",
-    sedPattern: 's/__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__/{{ print "{{" }}workflow{{ print "}}" }}/g',
-  },
-  {
-    pattern: "__GRAFANA_TPL_START__error_type__GRAFANA_TPL_END__",
-    sedPattern: 's/__GRAFANA_TPL_START__error_type__GRAFANA_TPL_END__/{{ print "{{" }}error_type{{ print "}}" }}/g',
-  },
-];
 
-for (const replacement of grafanaReplacements) {
+// Read the file, do replacements, and write it back
+// This handles multiline JSON strings in YAML better than sed
+try {
+  let fileContent = readFileSync(appsFile, "utf-8");
+
+  // Count total replacements before applying
+  const placeholderRegex = /__GRAFANA_TPL_START__\w+__GRAFANA_TPL_END__/g;
+  const matches = [...fileContent.matchAll(placeholderRegex)];
+  const totalReplacements = matches.length;
+
+  if (totalReplacements > 0) {
+    // Apply all replacements using regex (handles any variable name automatically)
+    fileContent = applyGrafanaReplacements(fileContent);
+    console.log(`✓ Applied ${String(totalReplacements)} Grafana template replacement(s)`);
+    writeFileSync(appsFile, fileContent, "utf-8");
+  } else {
+    console.log("ℹ No Grafana template placeholders found to replace");
+  }
+} catch (error) {
+  console.error(`✗ Failed to process Grafana templates:`, error);
+  // Fallback to sed for compatibility - generate replacements dynamically
   try {
-    await runCommand(sedCommand, ["-i", replacement.sedPattern, appsFile]);
-    console.log(`✓ Processed Grafana template: ${replacement.pattern}`);
-  } catch (error) {
-    console.error(`✗ Failed to process Grafana template ${replacement.pattern}:`, error);
+    const fileContent = readFileSync(appsFile, "utf-8");
+    const replacements = getGrafanaReplacements(fileContent);
+    for (const replacement of replacements) {
+      try {
+        await runCommand(sedCommand, ["-i", replacement.sedPattern, appsFile]);
+        console.log(`✓ Processed Grafana template: ${replacement.pattern} (sed fallback)`);
+      } catch (sedError) {
+        console.error(`✗ Failed to process Grafana template ${replacement.pattern}:`, sedError);
+      }
+    }
+  } catch (fallbackError) {
+    console.error(`✗ Sed fallback also failed:`, fallbackError);
   }
 }
 

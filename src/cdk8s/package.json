@@ -8,7 +8,6 @@
     "typecheck": "bunx tsc --noEmit",
     "test": "bun test && bun run test:gpu-resources",
     "test:gpu-resources": "bun run scripts/test-gpu-resources.ts",
-    "test:shared": "bun test src/monitoring/rules/shared.test.ts",
     "clear": "rm -rf dist/",
     "build-app": "bun run src/app.ts",
     "patch": "bun run scripts/patch.ts",
