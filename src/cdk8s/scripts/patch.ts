@@ -1,26 +1,24 @@
 #!/usr/bin/env bun
 
-import { spawn } from "node:child_process";
-import { platform } from "node:os";
-import { readFileSync, writeFileSync } from "node:fs";
 import { applyGrafanaReplacements, getGrafanaReplacements } from "./patch-utils.ts";
 
 const runCommand = async (command: string, args: string[]) => {
-  return new Promise<string>((resolve, reject) => {
-    const proc = spawn(command, args, {
-      stdio: ["inherit", "pipe", "inherit"],
-    });
-    let output = "";
-    proc.stdout.on("data", (data: Buffer) => (output += data.toString()));
-    proc.on("close", (code) => {
-      if (code === 0) resolve(output);
-      else reject(new Error(`Command failed with code ${code?.toString() ?? "unknown"}`));
-    });
+  const proc = Bun.spawn([command, ...args], {
+    stdout: "pipe",
+    stderr: "inherit",
   });
+
+  const output = await new Response(proc.stdout).text();
+  const exitCode = await proc.exited;
+
+  if (exitCode === 0) {
+    return output;
+  }
+  throw new Error(`Command failed with code ${String(exitCode)}`);
 };
 
 // on macOS use gsed, on Linux use sed
-const sedCommand = platform() === "darwin" ? "gsed" : "sed";
+const sedCommand = Bun.env["OSTYPE"]?.includes("darwin") ? "gsed" : "sed";
 
 const torvaldsFile = "dist/torvalds.k8s.yaml";
 const appsFile = "dist/apps.k8s.yaml";
@@ -68,7 +66,7 @@ console.log("\n🎨 Applying Grafana template variable patches...");
 // Read the file, do replacements, and write it back
 // This handles multiline JSON strings in YAML better than sed
 try {
-  let fileContent = readFileSync(appsFile, "utf-8");
+  let fileContent = await Bun.file(appsFile).text();
 
   // Count total replacements before applying
   const placeholderRegex = /__GRAFANA_TPL_START__\w+__GRAFANA_TPL_END__/g;
@@ -79,7 +77,7 @@ try {
     // Apply all replacements using regex (handles any variable name automatically)
     fileContent = applyGrafanaReplacements(fileContent);
     console.log(`✓ Applied ${String(totalReplacements)} Grafana template replacement(s)`);
-    writeFileSync(appsFile, fileContent, "utf-8");
+    await Bun.write(appsFile, fileContent);
   } else {
     console.log("ℹ No Grafana template placeholders found to replace");
   }
@@ -87,7 +85,7 @@ try {
   console.error(`✗ Failed to process Grafana templates:`, error);
   // Fallback to sed for compatibility - generate replacements dynamically
   try {
-    const fileContent = readFileSync(appsFile, "utf-8");
+    const fileContent = await Bun.file(appsFile).text();
     const replacements = getGrafanaReplacements(fileContent);
     for (const replacement of replacements) {
       try {

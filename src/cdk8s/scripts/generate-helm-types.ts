@@ -5,7 +5,7 @@
  * This script is specific to the cdk8s project and uses the helm-types library.
  */
 
-import { join } from "node:path";
+// Using string concatenation instead of node:path
 import {
   fetchHelmChart,
   convertToTypeScriptInterface,
@@ -149,7 +149,7 @@ export type ${capitalizeFirst(chart.name).replace(/-/g, "")}HelmParameters = {
 };
 `;
 
-    const filePath = join(OUTPUT_DIR, `${chart.name}.types.ts`);
+    const filePath = `${OUTPUT_DIR}/${chart.name}.types.ts`;
     await Bun.write(filePath, code);
     return;
   }
@@ -166,7 +166,7 @@ export type ${capitalizeFirst(chart.name).replace(/-/g, "")}HelmParameters = {
   );
   const code: string = generateTypeScriptCode(tsInterface, chart.name);
 
-  const filePath = join(OUTPUT_DIR, `${chart.name}.types.ts`);
+  const filePath = `${OUTPUT_DIR}/${chart.name}.types.ts`;
   await Bun.write(filePath, code);
 }
 
@@ -185,7 +185,7 @@ async function generateIndexFile(generatedFiles: string[]) {
     content += `export * from "./${moduleName}.types.ts";\n`;
   }
 
-  const indexPath = join(OUTPUT_DIR, "index.ts");
+  const indexPath = `${OUTPUT_DIR}/index.ts`;
   await Bun.write(indexPath, content);
 }
 

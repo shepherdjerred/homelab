@@ -5,7 +5,7 @@ import { registry } from "./metrics.ts";
  * Starts an HTTP server to expose Prometheus metrics
  */
 export function startMetricsServer({ logger }: TServiceParams) {
-  const port = Number.parseInt(process.env["METRICS_PORT"] ?? "9090", 10);
+  const port = Number.parseInt(Bun.env["METRICS_PORT"] ?? "9090", 10);
 
   const server = Bun.serve({
     port,

@@ -42,6 +42,7 @@
   "lint-staged": {
     "*": "bunx prettier --ignore-unknown --write",
     "*.md": "bunx markdownlint-cli2 --fix",
+    "*.{ts,tsx,js,jsx}": "bun run scripts/check-suppressions.ts",
     ".github/workflows/*.{yml,yaml}": "actionlint",
     "src/ha/**/*.{ts,tsx}": [
       "bash -c 'cd src/ha && bun run typecheck'",

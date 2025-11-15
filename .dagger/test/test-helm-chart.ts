@@ -1,8 +1,6 @@
 #!/usr/bin/env -S bun
 
 import { $ } from "bun";
-import { readdir, readFile } from "fs/promises";
-import { join } from "path";
 
 /**
  * Test script to validate the Helm chart by:
@@ -33,13 +31,14 @@ async function main() {
 
     // Step 3: Verify the export directory exists and contains expected files
     console.log("🔍 Verifying exported files...");
-    const files = await readdir(EXPORT_DIR);
-    console.log("Exported files:", files);
+    const lsResult = await $`ls -1 ${EXPORT_DIR}`;
+    const exportFiles = lsResult.text().trim().split("\n").filter((f) => f.length > 0);
+    console.log("Exported files:", exportFiles);
 
     // Check for required files
     const requiredFiles = [CHART_FILE, "Chart.yaml", "values.yaml"];
     for (const file of requiredFiles) {
-      if (!files.includes(file)) {
+      if (!exportFiles.includes(file)) {
         throw new Error(`Missing required file: ${file}`);
       }
     }
@@ -51,7 +50,7 @@ async function main() {
 
     // Step 5: Verify Chart.yaml has correct version
     console.log("🏷️  Verifying Chart.yaml version...");
-    const chartYaml = await readFile(join(EXPORT_DIR, CHART_NAME, "Chart.yaml"), "utf-8");
+    const chartYaml = await Bun.file(`${EXPORT_DIR}/${CHART_NAME}/Chart.yaml`).text();
     if (!chartYaml.includes(`version: ${TEST_VERSION}`)) {
       throw new Error(`Chart.yaml does not contain expected version: ${TEST_VERSION}`);
     }
@@ -62,8 +61,9 @@ async function main() {
 
     // Step 6: Check templates directory exists
     console.log("📁 Verifying templates directory...");
-    const chartDir = join(EXPORT_DIR, CHART_NAME);
-    const chartContents = await readdir(chartDir);
+    const chartDir = `${EXPORT_DIR}/${CHART_NAME}`;
+    const chartLsResult = await $`ls -1 ${chartDir}`;
+    const chartContents = chartLsResult.text().trim().split("\n").filter((f) => f.length > 0);
 
     if (!chartContents.includes("templates")) {
       throw new Error("Templates directory not found in chart");
@@ -72,8 +72,9 @@ async function main() {
 
     // Step 7: Verify CDK8s templates are present
     console.log("🎯 Verifying CDK8s templates...");
-    const templatesDir = join(chartDir, "templates");
-    const templates = await readdir(templatesDir);
+    const templatesDir = `${chartDir}/templates`;
+    const templatesLsResult = await $`ls -1 ${templatesDir}`;
+    const templates = templatesLsResult.text().trim().split("\n").filter((f) => f.length > 0);
     console.log("Found templates:", templates);
 
     const expectedTemplates = ["apps.k8s.yaml", "project.k8s.yaml", "torvalds.k8s.yaml"];
@@ -89,7 +90,7 @@ async function main() {
     console.log("🔬 Validating template contents...");
 
     // Check torvalds.k8s.yaml for expected resources
-    const torvaldsTemplate = await readFile(join(templatesDir, "torvalds.k8s.yaml"), "utf-8");
+    const torvaldsTemplate = await Bun.file(`${templatesDir}/torvalds.k8s.yaml`).text();
 
     // Verify it contains Kubernetes resources
     const expectedResourceTypes = ["apiVersion:", "kind: PersistentVolumeClaim", "kind: Deployment", "kind: Service"];
@@ -112,7 +113,7 @@ async function main() {
 
     // Step 9: Check apps.k8s.yaml for ArgoCD applications
     console.log("🎯 Validating ArgoCD applications...");
-    const appsTemplate = await readFile(join(templatesDir, "apps.k8s.yaml"), "utf-8");
+    const appsTemplate = await Bun.file(`${templatesDir}/apps.k8s.yaml`).text();
 
     if (!appsTemplate.includes("kind: Application") || !appsTemplate.includes("argoproj.io")) {
       throw new Error("apps.k8s.yaml does not contain expected ArgoCD applications");
@@ -121,7 +122,7 @@ async function main() {
 
     // Step 10: Verify the chart can be linted (if helm is available)
     console.log("🔍 Testing Helm lint (if available)...");
-    const helmLintResult = await $`helm lint ${join(chartDir)}`.nothrow();
+    const helmLintResult = await $`helm lint ${chartDir}`.nothrow();
 
     if (helmLintResult.exitCode === 0) {
       console.log("✅ Helm chart passes lint validation");

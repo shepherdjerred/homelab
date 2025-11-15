@@ -1,6 +1,5 @@
 #!/usr/bin/env -S bun
 
-import { readFile } from "fs/promises";
 import { z } from "zod";
 import cdk8sVersions from "../../src/cdk8s/src/versions";
 import daggerVersions from "../src/versions";
@@ -24,7 +23,8 @@ const RenovateConfigSchema = z.object({
 });
 
 async function getRenovateRegexes(): Promise<RegExp[]> {
-  const renovateConfig = RenovateConfigSchema.parse(JSON.parse(await readFile("renovate.json", "utf-8")));
+  const renovateContent = await Bun.file("renovate.json").text();
+  const renovateConfig = RenovateConfigSchema.parse(JSON.parse(renovateContent));
   const customManagers = renovateConfig.customManagers ?? [];
 
   for (const manager of customManagers) {
@@ -52,7 +52,7 @@ type VersionEntry = {
 };
 
 async function parseVersionsFile(filePath: string, renovateRegexes: RegExp[]): Promise<VersionEntry[]> {
-  const content = await readFile(filePath, "utf-8");
+  const content = await Bun.file(filePath).text();
   const lines = content.split("\n");
   const entries: VersionEntry[] = [];
 

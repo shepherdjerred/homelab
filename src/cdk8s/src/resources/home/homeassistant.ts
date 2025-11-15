@@ -1,6 +1,5 @@
 import { ConfigMap, Deployment, DeploymentStrategy, Protocol, Service, Volume } from "cdk8s-plus-31";
 import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
-import { readdirSync, statSync } from "fs";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
@@ -17,10 +16,6 @@ export function createHomeAssistantDeployment(chart: Chart) {
   });
 
   const volume = Volume.fromPersistentVolumeClaim(chart, "homeassistant-volume", claim.claim);
-
-  const files = readdirSync("config/homeassistant")
-    .filter((entry) => statSync(`config/homeassistant/${entry}`).isFile())
-    .map((entry) => entry);
 
   const config = new ConfigMap(chart, "ha-cm");
   config.addDirectory("config/homeassistant");
@@ -50,13 +45,10 @@ export function createHomeAssistantDeployment(chart: Chart) {
           path: "/config",
           volume,
         },
-        ...files.map((file) => {
-          return {
-            path: `/config/${file}`,
-            subPath: file,
-            volume: configVolume,
-          };
-        }),
+        {
+          path: "/config",
+          volume: configVolume,
+        },
       ],
     }),
   );

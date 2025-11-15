@@ -47,6 +47,7 @@
       "devDependencies": {
         "@types/lodash": "^4.17.17",
         "type-fest": "^5.0.0",
+        "yaml": "^2.8.1",
       },
     },
     "src/ha": {

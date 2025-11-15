@@ -1,8 +1,6 @@
 #!/usr/bin/env bun
 
 import { $ } from "bun";
-import { readFileSync, writeFileSync } from "fs";
-import { join } from "path";
 
 /**
  * Entity state mappings - defines which entities should have their state
@@ -36,16 +34,17 @@ async function generateTypes() {
 /**
  * Add TypeScript disable comments to generated files
  */
-function addTsDisableComments() {
+async function addTsDisableComments() {
   console.log("🔄 Adding TypeScript disable comments to generated files...");
 
   const generatedFiles = ["src/hass/registry.mts", "src/hass/services.mts", "src/hass/mappings.mts"];
 
   for (const filePath of generatedFiles) {
-    const fullPath = join(process.cwd(), filePath);
+    const home = Bun.env["HOME"] ?? "/root";
+    const fullPath = `${home}/workspaces/homelab/${filePath}`;
 
     try {
-      let content = readFileSync(fullPath, "utf-8");
+      let content = await Bun.file(fullPath).text();
 
       // Check if TypeScript disable comments are already present
       if (!content.includes("@ts-nocheck")) {
@@ -68,7 +67,7 @@ function addTsDisableComments() {
         lines.splice(insertIndex, 0, ...tsDisableComments);
         content = lines.join("\n");
 
-        writeFileSync(fullPath, content, "utf-8");
+        await Bun.write(fullPath, content);
         console.log(`✅ Added TypeScript disable comments to ${filePath}`);
       } else {
         console.log(`✅ TypeScript disable comments already present in ${filePath}`);
@@ -82,13 +81,14 @@ function addTsDisableComments() {
 /**
  * Post-process registry.mts to convert state strings to unions
  */
-function postProcessRegistry() {
+async function postProcessRegistry() {
   console.log("🔄 Post-processing registry.mts...");
 
-  const registryPath = join(process.cwd(), "src/hass/registry.mts");
+  const home = Bun.env["HOME"] ?? "/root";
+  const registryPath = `${home}/workspaces/homelab/src/hass/registry.mts`;
 
   try {
-    let content = readFileSync(registryPath, "utf-8");
+    let content = await Bun.file(registryPath).text();
 
     // Process each entity in the mapping
     for (const [entityId, states] of Object.entries(ENTITY_STATE_MAPPINGS)) {
@@ -108,7 +108,7 @@ function postProcessRegistry() {
     }
 
     // Write the updated content back to the file
-    writeFileSync(registryPath, content, "utf-8");
+    await Bun.write(registryPath, content);
     console.log("✅ Registry post-processing completed");
   } catch (error) {
     console.error("❌ Failed to post-process registry:", error);
@@ -119,13 +119,14 @@ function postProcessRegistry() {
 /**
  * Validate that the post-processing worked correctly
  */
-function validateProcessing() {
+async function validateProcessing() {
   console.log("🔄 Validating post-processing...");
 
-  const registryPath = join(process.cwd(), "src/hass/registry.mts");
+  const home = Bun.env["HOME"] ?? "/root";
+  const registryPath = `${home}/workspaces/homelab/src/hass/registry.mts`;
 
   try {
-    const content = readFileSync(registryPath, "utf-8");
+    const content = await Bun.file(registryPath).text();
 
     let allValid = true;
 
@@ -166,13 +167,13 @@ async function main() {
   await generateTypes();
 
   // Step 2: Add TypeScript disable comments to generated files
-  addTsDisableComments();
+  await addTsDisableComments();
 
   // Step 3: Post-process registry
-  postProcessRegistry();
+  await postProcessRegistry();
 
   // Step 4: Validate processing
-  validateProcessing();
+  await validateProcessing();
 
   console.log("🎉 Type generation and post-processing completed successfully!");
 }

@@ -1,9 +1,8 @@
 import { describe, test, expect, beforeEach, afterEach } from "bun:test";
-import { join } from "node:path";
 
 describe("CLI", () => {
-  const CLI_PATH = join(import.meta.dir, "cli.ts");
-  const TEST_OUTPUT = join(import.meta.dir, "..", "temp", "test-output.ts");
+  const CLI_PATH = `${import.meta.dir}/cli.ts`;
+  const TEST_OUTPUT = `${import.meta.dir}/../temp/test-output.ts`;
 
   beforeEach(async () => {
     // Clean up any existing test output

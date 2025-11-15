@@ -4,7 +4,6 @@
  *
  * Generate TypeScript types from Helm charts
  */
-import { parseArgs } from "node:util";
 import { z } from "zod";
 import { fetchHelmChart, convertToTypeScriptInterface, generateTypeScriptCode } from "./helm-types.ts";
 import type { ChartInfo } from "./helm-types.ts";
@@ -52,21 +51,75 @@ EXAMPLES:
     --output argocd.types.ts
 `;
 
+type CliArgs = {
+  name?: string;
+  chart?: string;
+  repo?: string;
+  version?: string;
+  output?: string;
+  interface?: string;
+  help?: boolean;
+};
+
+/**
+ * Simple argument parser for Bun CLI
+ */
+function parseCliArgs(args: string[]): CliArgs {
+  const result: CliArgs = {};
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (!arg) continue;
+
+    if (arg === "--help" || arg === "-h") {
+      result.help = true;
+    } else if (arg === "--name" || arg === "-n") {
+      const value = args[i + 1];
+      if (value) {
+        result.name = value;
+        i += 1;
+      }
+    } else if (arg === "--chart" || arg === "-c") {
+      const value = args[i + 1];
+      if (value) {
+        result.chart = value;
+        i += 1;
+      }
+    } else if (arg === "--repo" || arg === "-r") {
+      const value = args[i + 1];
+      if (value) {
+        result.repo = value;
+        i += 1;
+      }
+    } else if (arg === "--version" || arg === "-v") {
+      const value = args[i + 1];
+      if (value) {
+        result.version = value;
+        i += 1;
+      }
+    } else if (arg === "--output" || arg === "-o") {
+      const value = args[i + 1];
+      if (value) {
+        result.output = value;
+        i += 1;
+      }
+    } else if (arg === "--interface" || arg === "-i") {
+      const value = args[i + 1];
+      if (value) {
+        result.interface = value;
+        i += 1;
+      }
+    } else if (arg.startsWith("-")) {
+      throw new Error(`Unknown argument: ${arg}`);
+    }
+  }
+
+  return result;
+}
+
 async function main() {
   try {
-    const { values: args } = parseArgs({
-      args: process.argv.slice(2),
-      options: {
-        name: { type: "string", short: "n" },
-        chart: { type: "string", short: "c" },
-        repo: { type: "string", short: "r" },
-        version: { type: "string", short: "v" },
-        output: { type: "string", short: "o" },
-        interface: { type: "string", short: "i" },
-        help: { type: "boolean", short: "h" },
-      },
-      strict: true,
-    });
+    const args = parseCliArgs(Bun.argv.slice(2));
 
     // Show help
     if (args.help) {
@@ -91,7 +144,7 @@ async function main() {
     };
 
     // Generate interface name from chart name if not provided
-    const interfaceName = args.interface ?? `${toPascalCase(chartInfo.name)}HelmValues`;
+    const interfaceName = args.interface ?? `${toPascalCase(args.name)}HelmValues`;
 
     console.error(`Fetching chart: ${chartInfo.chartName}@${chartInfo.version}`);
     console.error(`Repository: ${chartInfo.repoUrl}`);
@@ -104,10 +157,10 @@ async function main() {
     console.error(`Converting to TypeScript interface: ${interfaceName}`);
 
     // Convert to TypeScript interface
-    const tsInterface = convertToTypeScriptInterface(values, interfaceName, schema, yamlComments, "", chartInfo.name);
+    const tsInterface = convertToTypeScriptInterface(values, interfaceName, schema, yamlComments, "", args.name);
 
     // Generate TypeScript code
-    const code = generateTypeScriptCode(tsInterface, chartInfo.name);
+    const code = generateTypeScriptCode(tsInterface, args.name);
 
     // Write to file or stdout
     if (args.output) {

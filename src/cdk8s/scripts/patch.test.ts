@@ -1,7 +1,4 @@
 import { describe, test, expect, beforeEach, afterEach } from "bun:test";
-import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from "node:fs";
-import { join } from "node:path";
-import { tmpdir } from "node:os";
 import { applyGrafanaReplacements, getGrafanaReplacements } from "./patch-utils.ts";
 
 describe("Grafana template replacement", () => {
@@ -164,37 +161,42 @@ describe("File-based replacement (integration test)", () => {
   let testDir: string;
   let testFile: string;
 
-  beforeEach(() => {
-    testDir = join(tmpdir(), `patch-test-${String(Date.now())}`);
-    mkdirSync(testDir, { recursive: true });
-    testFile = join(testDir, "test-apps.k8s.yaml");
+  beforeEach(async () => {
+    testDir = `${Bun.env["TMPDIR"] ?? "/tmp"}/patch-test-${String(Date.now())}`;
+    const testDirPath = testDir;
+    // Create temp directory
+    await Bun.$`mkdir -p ${testDirPath}`.quiet();
+    testFile = `${testDirPath}/test-apps.k8s.yaml`;
   });
 
-  afterEach(() => {
-    if (existsSync(testDir)) {
-      rmSync(testDir, { recursive: true, force: true });
+  afterEach(async () => {
+    // Clean up temp directory
+    try {
+      await Bun.$`rm -rf ${testDir}`.quiet();
+    } catch {
+      // Ignore cleanup errors
     }
   });
 
-  test("should replace placeholders in file content", () => {
+  test("should replace placeholders in file content", async () => {
     const content = `data:
   smartctl.json: |
     {
       "legendFormat": "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__"
     }`;
 
-    writeFileSync(testFile, content, "utf-8");
+    await Bun.write(testFile, content);
 
-    let fileContent = readFileSync(testFile, "utf-8");
+    let fileContent = await Bun.file(testFile).text();
     fileContent = applyGrafanaReplacements(fileContent);
-    writeFileSync(testFile, fileContent, "utf-8");
+    await Bun.write(testFile, fileContent);
 
-    const result = readFileSync(testFile, "utf-8");
+    const result = await Bun.file(testFile).text();
     expect(result).toContain('{{ print "{{" }}disk{{ print "}}" }}');
     expect(result).not.toContain("__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__");
   });
 
-  test("should handle large file with multiple replacements", () => {
+  test("should handle large file with multiple replacements", async () => {
     const content = Array(100)
       .fill(0)
       .map(
@@ -203,13 +205,13 @@ describe("File-based replacement (integration test)", () => {
       )
       .join("\n");
 
-    writeFileSync(testFile, content, "utf-8");
+    await Bun.write(testFile, content);
 
-    let fileContent = readFileSync(testFile, "utf-8");
+    let fileContent = await Bun.file(testFile).text();
     fileContent = applyGrafanaReplacements(fileContent);
-    writeFileSync(testFile, fileContent, "utf-8");
+    await Bun.write(testFile, fileContent);
 
-    const result = readFileSync(testFile, "utf-8");
+    const result = await Bun.file(testFile).text();
     const diskMatches = result.match(/{{ print "{{" }}disk{{ print "}}" }}/g);
     const deviceModelMatches = result.match(/{{ print "{{" }}device_model{{ print "}}" }}/g);
 

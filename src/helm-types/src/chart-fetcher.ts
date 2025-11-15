@@ -1,4 +1,4 @@
-import { join } from "node:path";
+// Using Bun.$ for path operations instead of node:path
 import { parse as yamlParse } from "yaml";
 import type { ChartInfo, JSONSchemaProperty } from "./types.js";
 import { HelmValueSchema, RecordSchema, ErrorSchema } from "./schemas.js";
@@ -10,7 +10,7 @@ import { parseYAMLComments } from "./yaml-comments.js";
  */
 async function loadJSONSchema(chartPath: string): Promise<JSONSchemaProperty | null> {
   try {
-    const schemaPath = join(chartPath, "values.schema.json");
+    const schemaPath = `${chartPath}/values.schema.json`;
     const schemaContent = await Bun.file(schemaPath).text();
     const parsed: unknown = JSON.parse(schemaContent);
     // Validate that parsed is an object
@@ -62,7 +62,8 @@ async function runCommand(command: string, args: string[]): Promise<string> {
 export async function fetchHelmChart(
   chart: ChartInfo,
 ): Promise<{ values: HelmValue; schema: JSONSchemaProperty | null; yamlComments: Map<string, string> }> {
-  const tempDir = join(process.cwd(), "temp", `helm-${chart.name}`);
+  const pwd = Bun.env["PWD"] ?? process.cwd();
+  const tempDir = `${pwd}/temp/helm-${chart.name}`;
   const repoName = `temp-repo-${chart.name}-${String(Date.now())}`;
 
   try {
@@ -90,7 +91,7 @@ export async function fetchHelmChart(
     ]);
 
     // Read values.yaml
-    const valuesPath = join(tempDir, chart.chartName, "values.yaml");
+    const valuesPath = `${tempDir}/${chart.chartName}/values.yaml`;
     console.log(`  📖 Reading values.yaml from ${valuesPath}`);
 
     try {
@@ -122,7 +123,7 @@ export async function fetchHelmChart(
       const parseResult = HelmValueSchema.safeParse(recordParseResult.data);
 
       // Try to load JSON schema
-      const chartPath = join(tempDir, chart.chartName);
+      const chartPath = `${tempDir}/${chart.chartName}`;
       const schema = await loadJSONSchema(chartPath);
 
       if (parseResult.success) {

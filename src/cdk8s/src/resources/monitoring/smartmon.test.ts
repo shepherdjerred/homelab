@@ -1,9 +1,7 @@
 import { describe, it, expect } from "bun:test";
-import { execSync } from "child_process";
-import { resolve } from "path";
 
 describe("smartmon.sh script", () => {
-  const scriptPath = resolve(__dirname, "smartmon.sh");
+  const scriptPath = `${import.meta.dir}/smartmon.sh`;
 
   const nvmeOutput = `
 SMART/Health Information (NVMe Log 0x02, NSID 0xffffffff)
@@ -36,12 +34,18 @@ ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_
 194 Temperature_Celsius     0x0022   038   047   000    Old_age   Always       -       38
   `;
 
-  it("should correctly parse NVMe drive attributes", () => {
+  it("should correctly parse NVMe drive attributes", async () => {
     // We need to call the specific parsing function.
     // This requires refactoring the script to allow calling functions directly
     // or sourcing it and calling the functions. For now, let's prepare the test case.
     const command = `bash -c "source ${scriptPath}; parse_smartctl_nvme_attributes /dev/nvme0 nvme"`;
-    const result = execSync(command, { input: nvmeOutput, env: { ...process.env, scriptPath } }).toString();
+    const proc = Bun.spawn(["bash", "-c", command], {
+      stdout: "pipe",
+      stdin: "pipe",
+    });
+    proc.stdin.write(nvmeOutput);
+    await proc.stdin.end();
+    const result = await new Response(proc.stdout).text();
 
     expect(result).toContain('temperature_celsius_value{disk="/dev/nvme0",type="nvme",smart_id="194"} 46');
     expect(result).toContain('percentage_used_raw_value{disk="/dev/nvme0",type="nvme",smart_id="N/A"} 10');
@@ -51,9 +55,15 @@ ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE      UPDATED  WHEN_
     expect(result).toContain('offline_uncorrectable_raw_value{disk="/dev/nvme0",type="nvme",smart_id="198"} 0');
   });
 
-  it("should correctly parse SATA drive attributes", () => {
+  it("should correctly parse SATA drive attributes", async () => {
     const command = `bash -c "source ${scriptPath}; parse_smartctl_attributes /dev/sda sat"`;
-    const result = execSync(command, { input: satOutput, env: { ...process.env, scriptPath } }).toString();
+    const proc = Bun.spawn(["bash", "-c", command], {
+      stdout: "pipe",
+      stdin: "pipe",
+    });
+    proc.stdin.write(satOutput);
+    await proc.stdin.end();
+    const result = await new Response(proc.stdout).text();
 
     expect(result).toContain('raw_read_error_rate_raw_value{disk="/dev/sda",type="sat",smart_id="1"} 6.416638e+07');
     expect(result).toContain('power_on_hours_raw_value{disk="/dev/sda",type="sat",smart_id="9"} 6.129000e+04');

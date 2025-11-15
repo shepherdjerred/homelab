@@ -1,6 +1,5 @@
 import { Chart } from "cdk8s";
 import { ConfigMap, DaemonSet, Volume, ServiceAccount } from "cdk8s-plus-31";
-import { resolve } from "path";
 
 export async function createSmartctlMonitoring(chart: Chart) {
   // Create ServiceAccount for the DaemonSet
@@ -12,7 +11,7 @@ export async function createSmartctlMonitoring(chart: Chart) {
   });
 
   // Load the official smartmon.sh script using Bun.file
-  const scriptPath = resolve(__dirname, "smartmon.sh");
+  const scriptPath = `${import.meta.dir}/smartmon.sh`;
   const scriptContent = await Bun.file(scriptPath).text();
   const smartmonScript = new ConfigMap(chart, "smartmon-script", {
     metadata: {
