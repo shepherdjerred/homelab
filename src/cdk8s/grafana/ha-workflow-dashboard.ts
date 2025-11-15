@@ -77,6 +77,7 @@ export function createHaWorkflowDashboard() {
       "Total workflow executions in the last 24 hours",
       `sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{${buildFilter()}}[24h]))`,
       "{{workflow}}",
+      // TODO: make these taller bc we have lots of workflows
       { x: 0, y: 1, w: 6, h: 4 },
       "short",
     ),
@@ -133,98 +134,34 @@ export function createHaWorkflowDashboard() {
     ),
   );
 
-  // Application Health
-  builder.withPanel(
-    createStatPanel(
-      "Application Health",
-      "1 = Up, 0 = Down",
-      `max without(pod, instance, container, endpoint) (up{job=~".*ha.*"})`,
-      "HA Service",
-      { x: 21, y: 1, w: 3, h: 4 },
-      "short",
-      undefined,
-      common.BigValueGraphMode.None,
-    ).thresholds(
-      new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-        { value: 0, color: "red" },
-        { value: 1, color: "green" },
-      ]),
-    ),
-  );
-
   // Row 2: Execution Metrics
   builder.withRow(new dashboard.RowBuilder("Execution Metrics"));
 
-  // Execution Rate by Status
+  // Total Failures per Workflow
   builder.withPanel(
     new timeseries.PanelBuilder()
-      .title("Execution Rate by Status")
-      .description("Workflow executions per minute")
+      .title("Total Failures per Workflow")
+      .description("Number of failed executions per workflow (1 hour rolling window)")
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(
-            `sum without(pod, instance, container, endpoint) (rate(ha_workflow_executions_total{status="success",${buildFilter()}}[5m])) * 60`,
+            `sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{status="failure",${buildFilter()}}[1h]))`,
           )
-          .legendFormat("Success"),
+          .legendFormat("{{workflow}}"),
       )
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `sum without(pod, instance, container, endpoint) (rate(ha_workflow_executions_total{status="failure",${buildFilter()}}[5m])) * 60`,
-          )
-          .legendFormat("Failure"),
-      )
-      .unit("ops/min")
-      .lineWidth(2)
-      .fillOpacity(10)
-      .gridPos({ x: 0, y: 5, w: 12, h: 8 }),
-  );
-
-  // Failure Rate
-  builder.withPanel(
-    new timeseries.PanelBuilder()
-      .title("Failure Rate")
-      .description("Percentage of failed executions")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `(sum without(pod, instance, container, endpoint) (rate(ha_workflow_executions_total{status="failure",${buildFilter()}}[15m])) / sum without(pod, instance, container, endpoint) (rate(ha_workflow_executions_total{${buildFilter()}}[15m]))) * 100`,
-          )
-          .legendFormat("Failure Rate"),
-      )
-      .unit("percent")
-      .decimals(1)
+      .unit("short")
+      .decimals(0)
       .lineWidth(2)
       .fillOpacity(10)
       .thresholds(
         new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
           { value: 0, color: "green" },
-          { value: 10, color: "yellow" },
-          { value: 50, color: "red" },
+          { value: 1, color: "yellow" },
+          { value: 5, color: "red" },
         ]),
       )
       .gridPos({ x: 12, y: 5, w: 12, h: 8 }),
-  );
-
-  // Execution Rate by Workflow
-  builder.withPanel(
-    new timeseries.PanelBuilder()
-      .title("Execution Rate by Workflow")
-      .description("Executions per minute per workflow")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `sum without(pod, instance, container, endpoint) (rate(ha_workflow_executions_total{status="success",${buildFilter()}}[5m])) * 60`,
-          )
-          .legendFormat("{{workflow}}"),
-      )
-      .unit("ops/min")
-      .lineWidth(2)
-      .fillOpacity(10)
-      .gridPos({ x: 0, y: 13, w: 24, h: 8 }),
   );
 
   // Row 3: Performance Metrics
@@ -311,95 +248,24 @@ export function createHaWorkflowDashboard() {
       .gridPos({ x: 0, y: 29, w: 12, h: 8 }),
   );
 
-  // Timeout Errors
-  builder.withPanel(
-    new timeseries.PanelBuilder()
-      .title("Timeout Errors")
-      .description("Timeout errors per minute")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `sum without(pod, instance, container, endpoint) (rate(ha_workflow_errors_total{error_type="TimeoutError",${buildFilter()}}[5m])) * 60`,
-          )
-          .legendFormat("Timeout Errors"),
-      )
-      .unit("ops/min")
-      .lineWidth(2)
-      .fillOpacity(10)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "green" },
-          { value: 0.1, color: "yellow" },
-          { value: 1, color: "red" },
-        ]),
-      )
-      .gridPos({ x: 12, y: 29, w: 12, h: 8 }),
-  );
-
   // Row 5: Scheduled Workflows
   builder.withRow(new dashboard.RowBuilder("Scheduled Workflows"));
 
   // Last Execution Timestamp
   builder.withPanel(
-    new timeseries.PanelBuilder()
-      .title("Last Successful Execution")
-      .description("Time since last successful execution (seconds ago)")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{${buildFilter()}})`,
-          )
-          .legendFormat("{{workflow}}"),
-      )
-      .unit("s")
-      .lineWidth(2)
-      .fillOpacity(10)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "green" },
-          { value: 86400, color: "yellow" }, // 24 hours
-          { value: 172800, color: "red" }, // 48 hours
-        ]),
-      )
-      .gridPos({ x: 0, y: 37, w: 12, h: 8 }),
-  );
-
-  // Good Morning Workflows Status
-  builder.withPanel(
     createStatPanel(
-      "Good Morning Workflows Status",
-      "Time since last execution (hours)",
-      `(time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{workflow=~"good_morning_.*"})) / 3600`,
+      "Last Successful Execution",
+      "Time since last successful execution (seconds ago)",
+      `time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{${buildFilter()}})`,
       "{{workflow}}",
-      { x: 12, y: 37, w: 6, h: 4 },
-      "h",
-      1,
+      { x: 0, y: 37, w: 12, h: 8 },
+      "s",
+      0,
     ).thresholds(
       new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
         { value: 0, color: "green" },
-        { value: 24, color: "yellow" },
-        { value: 48, color: "red" },
-      ]),
-    ),
-  );
-
-  // Vacuum Workflow Status
-  builder.withPanel(
-    createStatPanel(
-      "Vacuum Workflow Status",
-      "Time since last execution (hours)",
-      `(time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{workflow="run_vacuum_if_not_home"})) / 3600`,
-      "Hours Since Last Run",
-      { x: 18, y: 37, w: 6, h: 4 },
-      "h",
-      1,
-    ).thresholds(
-      new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-        { value: 0, color: "green" },
-        { value: 24, color: "yellow" },
-        { value: 48, color: "red" },
+        { value: 86400, color: "yellow" }, // 24 hours
+        { value: 172800, color: "red" }, // 48 hours
       ]),
     ),
   );
@@ -407,16 +273,16 @@ export function createHaWorkflowDashboard() {
   // Row 6: Workflow Health Details
   builder.withRow(new dashboard.RowBuilder("Workflow Health Details"));
 
-  // Total Executions by Workflow (24h)
+  // Total Executions by Workflow
   builder.withPanel(
     new timeseries.PanelBuilder()
-      .title("Total Executions by Workflow (24h)")
-      .description("Cumulative executions over 24 hours")
+      .title("Total Executions by Workflow")
+      .description("Cumulative successful executions since last application restart")
       .datasource(prometheusDatasource)
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(
-            `sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{status="success",${buildFilter()}}[24h]))`,
+            `sum without(pod, instance, container, endpoint) (ha_workflow_executions_total{status="success",${buildFilter()}})`,
           )
           .legendFormat("{{workflow}}"),
       )
@@ -426,28 +292,23 @@ export function createHaWorkflowDashboard() {
       .gridPos({ x: 0, y: 45, w: 12, h: 8 }),
   );
 
-  // Stuck Workflows Detection
+  // Workflows Currently In Progress
   builder.withPanel(
-    new timeseries.PanelBuilder()
-      .title("Stuck Workflows Detection")
-      .description("Workflows running longer than 30 minutes")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`sum without(pod, instance, container, endpoint) (ha_workflows_in_progress{${buildFilter()}})`)
-          .legendFormat("{{workflow}}"),
-      )
-      .unit("short")
-      .lineWidth(2)
-      .fillOpacity(10)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "green" },
-          { value: 1, color: "yellow" },
-          { value: 5, color: "red" },
-        ]),
-      )
-      .gridPos({ x: 12, y: 45, w: 12, h: 8 }),
+    createStatPanel(
+      "Workflows In Progress",
+      "Currently executing workflows (may indicate stuck workflows if persistently non-zero)",
+      `sum without(pod, instance, container, endpoint) (ha_workflows_in_progress{${buildFilter()}})`,
+      "{{workflow}}",
+      { x: 12, y: 45, w: 12, h: 8 },
+      "short",
+      0,
+    ).thresholds(
+      new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
+        { value: 0, color: "green" },
+        { value: 1, color: "yellow" },
+        { value: 5, color: "red" },
+      ]),
+    ),
   );
 
   return builder.build();
