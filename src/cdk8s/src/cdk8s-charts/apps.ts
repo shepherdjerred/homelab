@@ -25,10 +25,7 @@ import { createDaggerApp } from "../resources/argo-applications/dagger.ts";
 import { createVeleroApp } from "../resources/argo-applications/velero.ts";
 import { createPostgresOperatorApp } from "../resources/argo-applications/postgres-operator.ts";
 import { createCoderApp } from "../resources/argo-applications/coder.ts";
-import { createScoutDashboardConfigMap } from "../resources/grafana/scout-dashboard.ts";
-import { createVeleroDashboardConfigMap } from "../resources/grafana/velero-dashboard.ts";
-import { createHaWorkflowDashboardConfigMap } from "../resources/grafana/ha-workflow-dashboard.ts";
-import { createSmartctlDashboardConfigMap } from "../resources/grafana/smartctl-dashboard.ts";
+import { createAllGrafanaDashboards } from "../resources/grafana/index.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -82,9 +79,6 @@ export async function createAppsChart(app: App) {
   createPostgresOperatorApp(chart);
   createCoderApp(chart);
 
-  // Create Grafana dashboards
-  createScoutDashboardConfigMap(chart);
-  createVeleroDashboardConfigMap(chart);
-  createHaWorkflowDashboardConfigMap(chart);
-  createSmartctlDashboardConfigMap(chart);
+  // Create all Grafana dashboards (gitckup, ha-workflow, scout, smartctl, velero, zfs)
+  createAllGrafanaDashboards(chart);
 }
