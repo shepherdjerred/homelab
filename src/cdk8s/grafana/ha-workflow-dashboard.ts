@@ -77,7 +77,7 @@ export function createHaWorkflowDashboard() {
       "Total workflow executions in the last 24 hours",
       `sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{${buildFilter()}}[24h]))`,
       "{{workflow}}",
-      { x: 0, y: 1, w: 6, h: 4 },
+      { x: 0, y: 1, w: 12, h: 4 },
       "short",
     ),
   );
@@ -89,7 +89,7 @@ export function createHaWorkflowDashboard() {
       "Percentage of successful executions",
       `(sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{status="success",${buildFilter()}}[24h])) / sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{${buildFilter()}}[24h]))) * 100`,
       "{{workflow}}",
-      { x: 6, y: 1, w: 6, h: 4 },
+      { x: 12, y: 1, w: 12, h: 4 },
       "percent",
       1,
     ).thresholds(
@@ -108,7 +108,7 @@ export function createHaWorkflowDashboard() {
       "Currently running workflows",
       `sum without(pod, instance, container, endpoint) (ha_workflows_in_progress{${buildFilter()}})`,
       "{{workflow}}",
-      { x: 12, y: 1, w: 6, h: 4 },
+      { x: 0, y: 5, w: 12, h: 4 },
       "short",
       undefined,
       common.BigValueGraphMode.None,
@@ -128,7 +128,7 @@ export function createHaWorkflowDashboard() {
       "Time since last restart",
       `max(ha_uptime_seconds)`,
       "Uptime",
-      { x: 18, y: 1, w: 6, h: 4 },
+      { x: 12, y: 5, w: 12, h: 4 },
       "s",
     ),
   );
@@ -160,94 +160,10 @@ export function createHaWorkflowDashboard() {
           { value: 5, color: "red" },
         ]),
       )
-      .gridPos({ x: 0, y: 5, w: 24, h: 8 }),
+      .gridPos({ x: 0, y: 9, w: 24, h: 8 }),
   );
 
-  // Row 3: Performance Metrics
-  builder.withRow(new dashboard.RowBuilder("Performance Metrics"));
-
-  // Execution Duration (Percentiles)
-  builder.withPanel(
-    new timeseries.PanelBuilder()
-      .title("Execution Duration (Percentiles)")
-      .description("P50, P95, P99 execution duration")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `histogram_quantile(0.50, sum without(pod, instance, container, endpoint) (rate(ha_workflow_duration_seconds_bucket{${buildFilter()}}[5m])))`,
-          )
-          .legendFormat("P50"),
-      )
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `histogram_quantile(0.95, sum without(pod, instance, container, endpoint) (rate(ha_workflow_duration_seconds_bucket{${buildFilter()}}[5m])))`,
-          )
-          .legendFormat("P95"),
-      )
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `histogram_quantile(0.99, sum without(pod, instance, container, endpoint) (rate(ha_workflow_duration_seconds_bucket{${buildFilter()}}[5m])))`,
-          )
-          .legendFormat("P99"),
-      )
-      .unit("s")
-      .lineWidth(2)
-      .fillOpacity(10)
-      .thresholds(
-        new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
-          { value: 0, color: "green" },
-          { value: 60, color: "yellow" },
-          { value: 300, color: "red" },
-        ]),
-      )
-      .gridPos({ x: 0, y: 13, w: 12, h: 8 }),
-  );
-
-  // Average Execution Duration by Workflow
-  builder.withPanel(
-    new timeseries.PanelBuilder()
-      .title("Average Execution Duration by Workflow")
-      .description("Mean execution time per workflow")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `sum without(pod, instance, container, endpoint) (rate(ha_workflow_duration_seconds_sum{${buildFilter()}}[5m])) / sum without(pod, instance, container, endpoint) (rate(ha_workflow_duration_seconds_count{${buildFilter()}}[5m]))`,
-          )
-          .legendFormat("{{workflow}}"),
-      )
-      .unit("s")
-      .lineWidth(2)
-      .fillOpacity(10)
-      .gridPos({ x: 12, y: 13, w: 12, h: 8 }),
-  );
-
-  // Row 4: Error Tracking
-  builder.withRow(new dashboard.RowBuilder("Error Tracking"));
-
-  // Error Rate by Type
-  builder.withPanel(
-    new timeseries.PanelBuilder()
-      .title("Error Rate by Type")
-      .description("Errors per minute by error type")
-      .datasource(prometheusDatasource)
-      .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(
-            `sum without(pod, instance, container, endpoint) (rate(ha_workflow_errors_total{${buildFilter()}}[5m])) * 60`,
-          )
-          .legendFormat("{{error_type}}"),
-      )
-      .unit("ops/min")
-      .lineWidth(2)
-      .fillOpacity(10)
-      .gridPos({ x: 0, y: 21, w: 24, h: 8 }),
-  );
-
-  // Row 5: Scheduled Workflows
+  // Row 3: Scheduled Workflows
   builder.withRow(new dashboard.RowBuilder("Scheduled Workflows"));
 
   // Last Execution Timestamp
@@ -257,7 +173,7 @@ export function createHaWorkflowDashboard() {
       "Time since last successful execution (seconds ago)",
       `time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{${buildFilter()}})`,
       "{{workflow}}",
-      { x: 0, y: 29, w: 24, h: 8 },
+      { x: 0, y: 17, w: 24, h: 8 },
       "s",
       0,
     ).thresholds(
@@ -269,7 +185,7 @@ export function createHaWorkflowDashboard() {
     ),
   );
 
-  // Row 6: Workflow Health Details
+  // Row 4: Workflow Health Details
   builder.withRow(new dashboard.RowBuilder("Workflow Health Details"));
 
   // Total Executions by Workflow
@@ -288,7 +204,8 @@ export function createHaWorkflowDashboard() {
       .unit("short")
       .lineWidth(2)
       .fillOpacity(10)
-      .gridPos({ x: 0, y: 37, w: 12, h: 8 }),
+      .gridPos({ x: 0, y: 25, w: 12, h: 8 })
+      .scaleDistribution(new common.ScaleDistributionConfigBuilder().type(common.ScaleDistribution.Log)),
   );
 
   // Workflows Currently In Progress
@@ -298,7 +215,7 @@ export function createHaWorkflowDashboard() {
       "Currently executing workflows (may indicate stuck workflows if persistently non-zero)",
       `sum without(pod, instance, container, endpoint) (ha_workflows_in_progress{${buildFilter()}})`,
       "{{workflow}}",
-      { x: 12, y: 37, w: 12, h: 8 },
+      { x: 12, y: 25, w: 12, h: 8 },
       "short",
       0,
     ).thresholds(
