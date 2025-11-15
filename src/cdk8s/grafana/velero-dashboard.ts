@@ -3,6 +3,7 @@ import * as common from "@grafana/grafana-foundation-sdk/common";
 import * as timeseries from "@grafana/grafana-foundation-sdk/timeseries";
 import * as stat from "@grafana/grafana-foundation-sdk/stat";
 import * as prometheus from "@grafana/grafana-foundation-sdk/prometheus";
+import { exportDashboardWithHelmEscaping } from "./dashboard-export.ts";
 import * as text from "@grafana/grafana-foundation-sdk/text";
 
 /**
@@ -128,7 +129,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Backup Success Rate",
       "Percentage of successful backups per schedule",
       `(sum by (schedule) (increase(velero_backup_success_total{${buildScheduleFilter()}}[7d])) / sum by (schedule) (increase(velero_backup_attempt_total{${buildScheduleFilter()}}[7d]))) * 100`,
-      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
+      "{{schedule}}",
       { x: 0, y: 9, w: 6, h: 4 },
       "percent",
       common.BigValueGraphMode.Area,
@@ -148,7 +149,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Total Backup Attempts (7d)",
       "Total backup attempts in the last 7 days",
       `sum by (schedule) (increase(velero_backup_attempt_total{${buildScheduleFilter()}}[7d]))`,
-      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
+      "{{schedule}}",
       { x: 6, y: 9, w: 6, h: 4 },
     ),
   );
@@ -159,7 +160,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Successful Backups (7d)",
       "Total successful backups in the last 7 days",
       `sum by (schedule) (increase(velero_backup_success_total{${buildScheduleFilter()}}[7d]))`,
-      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
+      "{{schedule}}",
       { x: 12, y: 9, w: 6, h: 4 },
     ),
   );
@@ -170,7 +171,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Failed Backups (7d)",
       "Total failed backups in the last 7 days",
       `sum by (schedule) (increase(velero_backup_failure_total{${buildScheduleFilter()}}[7d]))`,
-      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
+      "{{schedule}}",
       { x: 18, y: 9, w: 6, h: 4 },
     ).thresholds(
       new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
@@ -190,7 +191,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Last Successful Backup",
       "Time since last successful backup per schedule",
       `time() - velero_backup_last_successful_timestamp{${buildScheduleFilter()}}`,
-      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
+      "{{schedule}}",
       { x: 0, y: 13, w: 6, h: 4 },
       "dtdurations",
       common.BigValueGraphMode.None,
@@ -203,7 +204,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Total Backup Items",
       "Total items backed up per schedule",
       `velero_backup_items_total{${buildScheduleFilter()}}`,
-      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
+      "{{schedule}}",
       { x: 6, y: 13, w: 6, h: 4 },
     ),
   );
@@ -214,7 +215,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Backup Item Errors",
       "Number of items with errors per schedule",
       `velero_backup_items_errors{${buildScheduleFilter()}}`,
-      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
+      "{{schedule}}",
       { x: 12, y: 13, w: 6, h: 4 },
     ).thresholds(
       new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
@@ -231,7 +232,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Current Backup Status",
       "1 = Success in last hour, 0 = No success",
       `(sum by (schedule) (increase(velero_backup_success_total{${buildScheduleFilter()}}[1h])) > 0)`,
-      "__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__",
+      "{{schedule}}",
       { x: 18, y: 13, w: 6, h: 4 },
     ).thresholds(
       new dashboard.ThresholdsConfigBuilder().mode(dashboard.ThresholdsMode.Absolute).steps([
@@ -255,7 +256,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
           .expr(
             `sum(rate(velero_backup_duration_seconds_sum{${buildScheduleFilter()}}[5m])) by (schedule) / sum(rate(velero_backup_duration_seconds_count{${buildScheduleFilter()}}[5m])) by (schedule)`,
           )
-          .legendFormat("__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__"),
+          .legendFormat("{{schedule}}"),
       )
       .unit("s")
       .lineWidth(2)
@@ -274,7 +275,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
           .expr(
             `(sum by (schedule) (rate(velero_backup_success_total{${buildScheduleFilter()}}[5m])) / sum by (schedule) (rate(velero_backup_attempt_total{${buildScheduleFilter()}}[5m]))) * 100`,
           )
-          .legendFormat("__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__"),
+          .legendFormat("{{schedule}}"),
       )
       .unit("percent")
       .decimals(1)
@@ -299,7 +300,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`sum by (schedule) (rate(velero_backup_attempt_total{${buildScheduleFilter()}}[5m])) * 3600`)
-          .legendFormat("__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__"),
+          .legendFormat("{{schedule}}"),
       )
       .unit("ops/hr")
       .lineWidth(2)
@@ -318,7 +319,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
           .expr(
             `(sum by (schedule) (velero_backup_items_errors{${buildScheduleFilter()}}) / sum by (schedule) (velero_backup_items_total{${buildScheduleFilter()}})) * 100`,
           )
-          .legendFormat("__GRAFANA_TPL_START__schedule__GRAFANA_TPL_END__"),
+          .legendFormat("{{schedule}}"),
       )
       .unit("percent")
       .decimals(2)
@@ -355,7 +356,7 @@ This usually means that Prometheus is not successfully scraping metrics from the
       "Backup Eligible Storage by Namespace",
       "Total size of PVCs marked for backup by namespace",
       `sum by (namespace) (kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled",${buildNamespaceFilter()}})`,
-      "__GRAFANA_TPL_START__namespace__GRAFANA_TPL_END__",
+      "{{namespace}}",
       { x: 6, y: 37, w: 6, h: 4 },
       "bytes",
     ),
@@ -428,14 +429,14 @@ This usually means that Prometheus is not successfully scraping metrics from the
           .expr(
             `sum by (namespace) (kube_persistentvolumeclaim_resource_requests_storage_bytes{label_velero_io_backup="enabled",${buildNamespaceFilter()}})`,
           )
-          .legendFormat("__GRAFANA_TPL_START__namespace__GRAFANA_TPL_END__ (Backup Eligible)"),
+          .legendFormat("{{namespace}} (Backup Eligible)"),
       )
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(
             `sum by (namespace) (kube_persistentvolumeclaim_resource_requests_storage_bytes{${buildNamespaceFilter()}})`,
           )
-          .legendFormat("__GRAFANA_TPL_START__namespace__GRAFANA_TPL_END__ (All)"),
+          .legendFormat("{{namespace}} (All)"),
       )
       .unit("bytes")
       .lineWidth(2)
@@ -558,5 +559,5 @@ This usually means that Prometheus is not successfully scraping metrics from the
  */
 export function exportVeleroDashboardJson(): string {
   const dashboard = createVeleroDashboard();
-  return JSON.stringify(dashboard, null, 2);
+  return exportDashboardWithHelmEscaping(dashboard);
 }

@@ -3,6 +3,7 @@ import * as common from "@grafana/grafana-foundation-sdk/common";
 import * as timeseries from "@grafana/grafana-foundation-sdk/timeseries";
 import * as stat from "@grafana/grafana-foundation-sdk/stat";
 import * as prometheus from "@grafana/grafana-foundation-sdk/prometheus";
+import { exportDashboardWithHelmEscaping } from "./dashboard-export.ts";
 
 // TODO: grafana is not creating this one
 
@@ -391,5 +392,5 @@ export function createGitckupDashboard() {
  */
 export function exportGitckupDashboardJson(): string {
   const dashboard = createGitckupDashboard();
-  return JSON.stringify(dashboard, null, 2);
+  return exportDashboardWithHelmEscaping(dashboard);
 }

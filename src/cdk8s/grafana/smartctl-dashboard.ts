@@ -3,6 +3,7 @@ import * as common from "@grafana/grafana-foundation-sdk/common";
 import * as timeseries from "@grafana/grafana-foundation-sdk/timeseries";
 import * as stat from "@grafana/grafana-foundation-sdk/stat";
 import * as prometheus from "@grafana/grafana-foundation-sdk/prometheus";
+import { exportDashboardWithHelmEscaping } from "./dashboard-export.ts";
 
 /**
  * Creates a Grafana dashboard for SMART monitoring
@@ -208,7 +209,7 @@ export function createSmartctlDashboard() {
           .expr(`smartmon_temperature_celsius_value{${buildFilter()}}`)
           // Use a static legend here to avoid complex templating that breaks Helm linting
           // (the dynamic disk/model legend is nice-to-have but not essential)
-          .legendFormat("__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__"),
+          .legendFormat("{{disk}}"),
       )
       .unit("celsius")
       .decimals(1)
@@ -319,9 +320,7 @@ export function createSmartctlDashboard() {
           .expr(
             `smartmon_reallocated_sector_ct_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
           )
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
-          ),
+          .legendFormat("{{disk}} - {{device_model}}"),
       )
       .unit("short")
       .lineWidth(2)
@@ -347,9 +346,7 @@ export function createSmartctlDashboard() {
           .expr(
             `smartmon_current_pending_sector_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
           )
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
-          ),
+          .legendFormat("{{disk}} - {{device_model}}"),
       )
       .unit("short")
       .lineWidth(2)
@@ -375,9 +372,7 @@ export function createSmartctlDashboard() {
           .expr(
             `smartmon_offline_uncorrectable_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
           )
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
-          ),
+          .legendFormat("{{disk}} - {{device_model}}"),
       )
       .unit("short")
       .lineWidth(2)
@@ -405,9 +400,7 @@ export function createSmartctlDashboard() {
           .expr(
             `smartmon_udma_crc_error_count_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
           )
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
-          ),
+          .legendFormat("{{disk}} - {{device_model}}"),
       )
       .unit("short")
       .lineWidth(2)
@@ -432,9 +425,7 @@ export function createSmartctlDashboard() {
           .expr(
             `smartmon_raw_read_error_rate_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
           )
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
-          ),
+          .legendFormat("{{disk}} - {{device_model}}"),
       )
       .unit("short")
       .lineWidth(2)
@@ -456,9 +447,7 @@ export function createSmartctlDashboard() {
           .expr(
             `smartmon_power_on_hours_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
           )
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
-          ),
+          .legendFormat("{{disk}} - {{device_model}}"),
       )
       .unit("h")
       .lineWidth(2)
@@ -477,9 +466,7 @@ export function createSmartctlDashboard() {
           .expr(
             `smartmon_power_cycle_count_raw_value{${buildFilter()}} * on(disk) group_left(device_model) smartmon_device_info{${buildFilter()}}`,
           )
-          .legendFormat(
-            "__GRAFANA_TPL_START__disk__GRAFANA_TPL_END__ - __GRAFANA_TPL_START__device_model__GRAFANA_TPL_END__",
-          ),
+          .legendFormat("{{disk}} - {{device_model}}"),
       )
       .unit("short")
       .lineWidth(2)
@@ -501,5 +488,5 @@ export function createSmartctlDashboard() {
  */
 export function exportSmartctlDashboardJson(): string {
   const dashboard = createSmartctlDashboard();
-  return JSON.stringify(dashboard, null, 2);
+  return exportDashboardWithHelmEscaping(dashboard);
 }

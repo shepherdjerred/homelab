@@ -3,6 +3,7 @@ import * as common from "@grafana/grafana-foundation-sdk/common";
 import * as timeseries from "@grafana/grafana-foundation-sdk/timeseries";
 import * as stat from "@grafana/grafana-foundation-sdk/stat";
 import * as prometheus from "@grafana/grafana-foundation-sdk/prometheus";
+import { exportDashboardWithHelmEscaping } from "./dashboard-export.ts";
 
 /**
  * Creates a Grafana dashboard for HA workflow monitoring
@@ -218,7 +219,7 @@ export function createHaWorkflowDashboard() {
           .expr(
             `sum without(pod, instance, container, endpoint) (rate(ha_workflow_executions_total{status="success",${buildFilter()}}[5m])) * 60`,
           )
-          .legendFormat("__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__"),
+          .legendFormat("{{workflow}}"),
       )
       .unit("ops/min")
       .lineWidth(2)
@@ -280,7 +281,7 @@ export function createHaWorkflowDashboard() {
           .expr(
             `sum without(pod, instance, container, endpoint) (rate(ha_workflow_duration_seconds_sum{${buildFilter()}}[5m])) / sum without(pod, instance, container, endpoint) (rate(ha_workflow_duration_seconds_count{${buildFilter()}}[5m]))`,
           )
-          .legendFormat("__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__"),
+          .legendFormat("{{workflow}}"),
       )
       .unit("s")
       .lineWidth(2)
@@ -302,7 +303,7 @@ export function createHaWorkflowDashboard() {
           .expr(
             `sum without(pod, instance, container, endpoint) (rate(ha_workflow_errors_total{${buildFilter()}}[5m])) * 60`,
           )
-          .legendFormat("__GRAFANA_TPL_START__error_type__GRAFANA_TPL_END__"),
+          .legendFormat("{{error_type}}"),
       )
       .unit("ops/min")
       .lineWidth(2)
@@ -350,7 +351,7 @@ export function createHaWorkflowDashboard() {
           .expr(
             `time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{${buildFilter()}})`,
           )
-          .legendFormat("__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__"),
+          .legendFormat("{{workflow}}"),
       )
       .unit("s")
       .lineWidth(2)
@@ -371,7 +372,7 @@ export function createHaWorkflowDashboard() {
       "Good Morning Workflows Status",
       "Time since last execution (hours)",
       `(time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{workflow=~"good_morning_.*"})) / 3600`,
-      "__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__",
+      "{{workflow}}",
       { x: 12, y: 37, w: 6, h: 4 },
       "h",
       1,
@@ -417,7 +418,7 @@ export function createHaWorkflowDashboard() {
           .expr(
             `sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{status="success",${buildFilter()}}[24h]))`,
           )
-          .legendFormat("__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__"),
+          .legendFormat("{{workflow}}"),
       )
       .unit("short")
       .lineWidth(2)
@@ -434,7 +435,7 @@ export function createHaWorkflowDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`sum without(pod, instance, container, endpoint) (ha_workflows_in_progress{${buildFilter()}})`)
-          .legendFormat("__GRAFANA_TPL_START__workflow__GRAFANA_TPL_END__"),
+          .legendFormat("{{workflow}}"),
       )
       .unit("short")
       .lineWidth(2)
@@ -457,5 +458,5 @@ export function createHaWorkflowDashboard() {
  */
 export function exportHaWorkflowDashboardJson(): string {
   const dashboard = createHaWorkflowDashboard();
-  return JSON.stringify(dashboard, null, 2);
+  return exportDashboardWithHelmEscaping(dashboard);
 }

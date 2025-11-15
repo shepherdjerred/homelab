@@ -3,6 +3,7 @@ import * as common from "@grafana/grafana-foundation-sdk/common";
 import * as timeseries from "@grafana/grafana-foundation-sdk/timeseries";
 import * as stat from "@grafana/grafana-foundation-sdk/stat";
 import * as prometheus from "@grafana/grafana-foundation-sdk/prometheus";
+import { exportDashboardWithHelmEscaping } from "./dashboard-export.ts";
 
 // TODO: grafana is not creating this one
 
@@ -55,7 +56,7 @@ export function createZfsDashboard() {
           .expr(
             `(rate(node_zfs_arc_hits{${buildFilter()}}[5m]) / (rate(node_zfs_arc_hits{${buildFilter()}}[5m]) + rate(node_zfs_arc_demand_data_misses{${buildFilter()}}[5m]) + rate(node_zfs_arc_demand_metadata_misses{${buildFilter()}}[5m]))) * 100`,
           )
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+          .legendFormat("{{instance}}"),
       )
       .unit("percent")
       .decimals(1)
@@ -96,7 +97,7 @@ export function createZfsDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`(node_zfs_arc_c{${buildFilter()}} / node_zfs_arc_c_max{${buildFilter()}}) * 100`)
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+          .legendFormat("{{instance}}"),
       )
       .unit("percent")
       .decimals(1)
@@ -121,7 +122,7 @@ export function createZfsDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`(node_zfs_arc_arc_meta_used{${buildFilter()}} / node_zfs_arc_c{${buildFilter()}}) * 100`)
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+          .legendFormat("{{instance}}"),
       )
       .unit("percent")
       .decimals(1)
@@ -246,7 +247,7 @@ export function createZfsDashboard() {
           .expr(
             `(rate(node_zfs_arc_l2_hits{${buildFilter()}}[5m]) / (rate(node_zfs_arc_l2_hits{${buildFilter()}}[5m]) + rate(node_zfs_arc_l2_misses{${buildFilter()}}[5m]))) * 100`,
           )
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+          .legendFormat("{{instance}}"),
       )
       .unit("percent")
       .decimals(1)
@@ -268,9 +269,7 @@ export function createZfsDashboard() {
       .description("Current L2ARC size")
       .datasource(prometheusDatasource)
       .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`node_zfs_arc_l2_size{${buildFilter()}}`)
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+        new prometheus.DataqueryBuilder().expr(`node_zfs_arc_l2_size{${buildFilter()}}`).legendFormat("{{instance}}"),
       )
       .unit("bytes")
       .colorMode(common.BigValueColorMode.Value)
@@ -391,7 +390,7 @@ export function createZfsDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`node_zfs_arc_arc_sys_free{${buildFilter()}}`)
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+          .legendFormat("{{instance}}"),
       )
       .unit("bytes")
       .colorMode(common.BigValueColorMode.Value)
@@ -415,7 +414,7 @@ export function createZfsDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`rate(node_zfs_arc_memory_throttle_count{${buildFilter()}}[5m])`)
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+          .legendFormat("{{instance}}"),
       )
       .unit("ops")
       .colorMode(common.BigValueColorMode.Value)
@@ -439,7 +438,7 @@ export function createZfsDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`node_zfs_arc_arc_need_free{${buildFilter()}}`)
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+          .legendFormat("{{instance}}"),
       )
       .unit("bytes")
       .colorMode(common.BigValueColorMode.Value)
@@ -462,7 +461,7 @@ export function createZfsDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`rate(node_zfs_abd_scatter_page_alloc_retry{${buildFilter()}}[5m])`)
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+          .legendFormat("{{instance}}"),
       )
       .unit("ops")
       .colorMode(common.BigValueColorMode.Value)
@@ -637,7 +636,7 @@ export function createZfsDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`node_zfs_arc_dnode_size{${buildFilter()}}`)
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+          .legendFormat("{{instance}}"),
       )
       .unit("bytes")
       .colorMode(common.BigValueColorMode.Value)
@@ -659,9 +658,7 @@ export function createZfsDashboard() {
       .description("ZFS data buffer size")
       .datasource(prometheusDatasource)
       .withTarget(
-        new prometheus.DataqueryBuilder()
-          .expr(`node_zfs_arc_dbuf_size{${buildFilter()}}`)
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+        new prometheus.DataqueryBuilder().expr(`node_zfs_arc_dbuf_size{${buildFilter()}}`).legendFormat("{{instance}}"),
       )
       .unit("bytes")
       .colorMode(common.BigValueColorMode.Value)
@@ -685,7 +682,7 @@ export function createZfsDashboard() {
       .withTarget(
         new prometheus.DataqueryBuilder()
           .expr(`node_zfs_arc_bonus_size{${buildFilter()}}`)
-          .legendFormat("__GRAFANA_TPL_START__instance__GRAFANA_TPL_END__"),
+          .legendFormat("{{instance}}"),
       )
       .unit("bytes")
       .colorMode(common.BigValueColorMode.Value)
@@ -856,5 +853,5 @@ export function createZfsDashboard() {
  */
 export function exportZfsDashboardJson(): string {
   const dashboard = createZfsDashboard();
-  return JSON.stringify(dashboard, null, 2);
+  return exportDashboardWithHelmEscaping(dashboard);
 }
