@@ -40,11 +40,8 @@ async function addTsDisableComments() {
   const generatedFiles = ["src/hass/registry.mts", "src/hass/services.mts", "src/hass/mappings.mts"];
 
   for (const filePath of generatedFiles) {
-    const home = Bun.env["HOME"] ?? "/root";
-    const fullPath = `${home}/workspaces/homelab/${filePath}`;
-
     try {
-      let content = await Bun.file(fullPath).text();
+      let content = await Bun.file(filePath).text();
 
       // Check if TypeScript disable comments are already present
       if (!content.includes("@ts-nocheck")) {
@@ -67,7 +64,7 @@ async function addTsDisableComments() {
         lines.splice(insertIndex, 0, ...tsDisableComments);
         content = lines.join("\n");
 
-        await Bun.write(fullPath, content);
+        await Bun.write(filePath, content);
         console.log(`✅ Added TypeScript disable comments to ${filePath}`);
       } else {
         console.log(`✅ TypeScript disable comments already present in ${filePath}`);
@@ -84,8 +81,7 @@ async function addTsDisableComments() {
 async function postProcessRegistry() {
   console.log("🔄 Post-processing registry.mts...");
 
-  const home = Bun.env["HOME"] ?? "/root";
-  const registryPath = `${home}/workspaces/homelab/src/hass/registry.mts`;
+  const registryPath = "src/hass/registry.mts";
 
   try {
     let content = await Bun.file(registryPath).text();
@@ -122,8 +118,7 @@ async function postProcessRegistry() {
 async function validateProcessing() {
   console.log("🔄 Validating post-processing...");
 
-  const home = Bun.env["HOME"] ?? "/root";
-  const registryPath = `${home}/workspaces/homelab/src/hass/registry.mts`;
+  const registryPath = "src/hass/registry.mts";
 
   try {
     const content = await Bun.file(registryPath).text();
