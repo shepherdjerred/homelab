@@ -33,7 +33,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/prowlarr": "2.1.5@sha256:643220338204525524db787ff38a607261597f49d1f550694acdb3e908e2b43e",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver-coerced
-  "qdm12/gluetun": "v3.40@sha256:2b42bfa046757145a5155acece417b65b4443c8033fb88661a8e9dcf7fda5a00",
+  "qdm12/gluetun": "v3.40.1@sha256:dc38bac12b40bb935e477f0dbd88adf174001c84b144c86648b25ff5f14ef54a",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/qbittorrent": "4.6.7@sha256:55f15d44396315551f87294a176efae733b16e283f38980308e46073950257c6",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
