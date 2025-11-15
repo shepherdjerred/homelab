@@ -77,7 +77,6 @@ export function createHaWorkflowDashboard() {
       "Total workflow executions in the last 24 hours",
       `sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{${buildFilter()}}[24h]))`,
       "{{workflow}}",
-      // TODO: make these taller bc we have lots of workflows
       { x: 0, y: 1, w: 6, h: 4 },
       "short",
     ),
@@ -129,7 +128,7 @@ export function createHaWorkflowDashboard() {
       "Time since last restart",
       `max(ha_uptime_seconds)`,
       "Uptime",
-      { x: 18, y: 1, w: 3, h: 4 },
+      { x: 18, y: 1, w: 6, h: 4 },
       "s",
     ),
   );
@@ -161,7 +160,7 @@ export function createHaWorkflowDashboard() {
           { value: 5, color: "red" },
         ]),
       )
-      .gridPos({ x: 12, y: 5, w: 12, h: 8 }),
+      .gridPos({ x: 0, y: 5, w: 24, h: 8 }),
   );
 
   // Row 3: Performance Metrics
@@ -204,7 +203,7 @@ export function createHaWorkflowDashboard() {
           { value: 300, color: "red" },
         ]),
       )
-      .gridPos({ x: 0, y: 21, w: 12, h: 8 }),
+      .gridPos({ x: 0, y: 13, w: 12, h: 8 }),
   );
 
   // Average Execution Duration by Workflow
@@ -223,7 +222,7 @@ export function createHaWorkflowDashboard() {
       .unit("s")
       .lineWidth(2)
       .fillOpacity(10)
-      .gridPos({ x: 12, y: 21, w: 12, h: 8 }),
+      .gridPos({ x: 12, y: 13, w: 12, h: 8 }),
   );
 
   // Row 4: Error Tracking
@@ -245,7 +244,7 @@ export function createHaWorkflowDashboard() {
       .unit("ops/min")
       .lineWidth(2)
       .fillOpacity(10)
-      .gridPos({ x: 0, y: 29, w: 12, h: 8 }),
+      .gridPos({ x: 0, y: 21, w: 24, h: 8 }),
   );
 
   // Row 5: Scheduled Workflows
@@ -258,7 +257,7 @@ export function createHaWorkflowDashboard() {
       "Time since last successful execution (seconds ago)",
       `time() - max without(pod, instance, container, endpoint) (ha_workflow_last_success_timestamp_max{${buildFilter()}})`,
       "{{workflow}}",
-      { x: 0, y: 37, w: 12, h: 8 },
+      { x: 0, y: 29, w: 24, h: 8 },
       "s",
       0,
     ).thresholds(
@@ -289,7 +288,7 @@ export function createHaWorkflowDashboard() {
       .unit("short")
       .lineWidth(2)
       .fillOpacity(10)
-      .gridPos({ x: 0, y: 45, w: 12, h: 8 }),
+      .gridPos({ x: 0, y: 37, w: 12, h: 8 }),
   );
 
   // Workflows Currently In Progress
@@ -299,7 +298,7 @@ export function createHaWorkflowDashboard() {
       "Currently executing workflows (may indicate stuck workflows if persistently non-zero)",
       `sum without(pod, instance, container, endpoint) (ha_workflows_in_progress{${buildFilter()}})`,
       "{{workflow}}",
-      { x: 12, y: 45, w: 12, h: 8 },
+      { x: 12, y: 37, w: 12, h: 8 },
       "short",
       0,
     ).thresholds(
