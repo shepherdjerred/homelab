@@ -10,10 +10,23 @@ async function testGpuResources() {
   console.log("🧪 Testing Intel GPU resource allocation...");
 
   try {
+    // Build first
+    console.log("🔨 Building YAML files...");
+    const buildProcess = Bun.spawn(["bun", "run", "build"], {
+      cwd: process.cwd(),
+      stdio: ["inherit", "inherit", "inherit"],
+    });
+    const buildStatus = await buildProcess.exited;
+    if (buildStatus !== 0) {
+      console.error(`❌ Build failed with exit code ${buildStatus.toString()}`);
+      process.exit(1);
+    }
+    console.log("✅ Build completed\n");
+
     const file = Bun.file(YAML_FILE);
     // Check if file exists using Bun API
     if (!(await file.exists())) {
-      console.error(`❌ File ${YAML_FILE} does not exist. Run 'bun run build' first.`);
+      console.error(`❌ File ${YAML_FILE} does not exist after build.`);
       process.exit(1);
     }
     const content = await file.text();

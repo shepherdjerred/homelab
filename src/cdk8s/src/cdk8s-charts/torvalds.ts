@@ -59,7 +59,7 @@ export async function createTorvaldsChart(app: App) {
     movies: moviesVolume.claim,
     downloads: downloadsVolume.claim,
   });
-  createHomeAssistantDeployment(chart);
+  await createHomeAssistantDeployment(chart);
   createOverseerrDeployment(chart);
   createQBitTorrentDeployment(chart, {
     downloads: downloadsVolume.claim,

@@ -4,8 +4,9 @@ import { ROOT_GID, ROOT_UID, withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
+import { Glob } from "bun";
 
-export function createHomeAssistantDeployment(chart: Chart) {
+export async function createHomeAssistantDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "homeassistant", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
@@ -16,6 +17,15 @@ export function createHomeAssistantDeployment(chart: Chart) {
   });
 
   const volume = Volume.fromPersistentVolumeClaim(chart, "homeassistant-volume", claim.claim);
+
+  const glob = new Glob("config/homeassistant/*");
+  const files: string[] = [];
+  for await (const entry of glob.scan("config/homeassistant")) {
+    const name = entry.split("/").pop() ?? entry;
+    if (name) {
+      files.push(name);
+    }
+  }
 
   const config = new ConfigMap(chart, "ha-cm");
   config.addDirectory(`${import.meta.dir}/../../../config/homeassistant`);
@@ -45,6 +55,13 @@ export function createHomeAssistantDeployment(chart: Chart) {
           path: "/config",
           volume,
         },
+        ...files.map((file) => {
+          return {
+            path: `/config/${file}`,
+            subPath: file,
+            volume: configVolume,
+          };
+        }),
         {
           path: "/config",
           volume: configVolume,
