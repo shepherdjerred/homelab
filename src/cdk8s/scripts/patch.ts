@@ -15,8 +15,8 @@ const runCommand = async (command: string, args: string[]) => {
   throw new Error(`Command failed with code ${String(exitCode)}`);
 };
 
-// on macOS use gsed, on Linux use sed
-const sedCommand = Bun.env["OSTYPE"]?.includes("darwin") ? "gsed" : "sed";
+// Use gsed if available (macOS with GNU sed installed), otherwise use sed
+const sedCommand = Bun.which("gsed") ? "gsed" : "sed";
 
 const torvaldsFile = "dist/torvalds.k8s.yaml";
 

@@ -18,7 +18,7 @@ export async function createHomeAssistantDeployment(chart: Chart) {
 
   const volume = Volume.fromPersistentVolumeClaim(chart, "homeassistant-volume", claim.claim);
 
-  const glob = new Glob("config/homeassistant/*");
+  const glob = new Glob("../../config/homeassistant/*");
   const files: string[] = [];
   for await (const entry of glob.scan("config/homeassistant")) {
     const name = entry.split("/").pop() ?? entry;
@@ -26,6 +26,8 @@ export async function createHomeAssistantDeployment(chart: Chart) {
       files.push(name);
     }
   }
+
+  console.log(files);
 
   const config = new ConfigMap(chart, "ha-cm");
   config.addDirectory(`${import.meta.dir}/../../../config/homeassistant`);
@@ -62,10 +64,6 @@ export async function createHomeAssistantDeployment(chart: Chart) {
             volume: configVolume,
           };
         }),
-        {
-          path: "/config",
-          volume: configVolume,
-        },
       ],
     }),
   );

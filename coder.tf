@@ -129,9 +129,9 @@ data "coder_parameter" "enable_mcp_secrets" {
   name         = "enable_mcp_secrets"
   display_name = "Enable MCP Server Secrets"
   description  = "Mount secrets from 1Password for MCP servers (Home Assistant, PagerDuty, Grafana). Required for AI assistant features."
-  default      = "true"
+  default      = "false"
   type         = "bool"
-  icon         = "/icon/key.svg"
+  icon         = "/icon/claude.svg"
   mutable      = true
   order        = 2
 }
