@@ -26,22 +26,23 @@ const appsFile = "dist/apps.k8s.yaml";
 console.log("🔧 Applying Intel GPU resource patches...");
 
 // Define patterns to replace with their sed expressions
+// Note: Patterns include optional leading whitespace since the YAML is indented
 const gpuReplacements = [
   {
     pattern: "gpu.intel.com/i915: null",
-    sedPattern: "s/gpu\\.intel\\.com\\/i915: null/gpu.intel.com\\/i915: 1/g",
+    sedPattern: "s/\\(^[[:space:]]*\\)gpu\\.intel\\.com\\/i915: null/\\1gpu.intel.com\\/i915: 1/g",
   },
   {
     pattern: "gpu.intel.com/i915: 0",
-    sedPattern: "s/gpu\\.intel\\.com\\/i915: 0$/gpu.intel.com\\/i915: 1/g",
+    sedPattern: "s/\\(^[[:space:]]*\\)gpu\\.intel\\.com\\/i915: 0$/\\1gpu.intel.com\\/i915: 1/g",
   },
   {
     pattern: "gpu.intel.com/i915: '0'",
-    sedPattern: "s/gpu\\.intel\\.com\\/i915: '0'/gpu.intel.com\\/i915: 1/g",
+    sedPattern: "s/\\(^[[:space:]]*\\)gpu\\.intel\\.com\\/i915: '0'/\\1gpu.intel.com\\/i915: 1/g",
   },
   {
     pattern: 'gpu.intel.com/i915: "0"',
-    sedPattern: 's/gpu\\.intel\\.com\\/i915: "0"/gpu.intel.com\\/i915: 1/g',
+    sedPattern: 's/\\(^[[:space:]]*\\)gpu\\.intel\\.com\\/i915: "0"/\\1gpu.intel.com\\/i915: 1/g',
   },
 ];
 

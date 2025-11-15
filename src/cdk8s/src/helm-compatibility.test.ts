@@ -1,12 +1,8 @@
 import { describe, it, expect, beforeAll } from "bun:test";
-import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
+import { parse as parseYaml } from "yaml";
 import { z } from "zod";
 import { App } from "cdk8s";
-import { createTorvaldsChart } from "./cdk8s-charts/torvalds.ts";
-import { createProjectChart } from "./cdk8s-charts/project.ts";
-import { createAppsChart } from "./cdk8s-charts/apps.ts";
-import { createScoutChart } from "./cdk8s-charts/scout.ts";
-import { createStarlightKarmaBotChart } from "./cdk8s-charts/starlight-karma-bot.ts";
+import { setupCharts } from "./setup-charts.ts";
 
 /**
  * Helm Compatibility Tests
@@ -37,60 +33,38 @@ type K8sResource = z.infer<typeof K8sResourceSchema>;
 const HELM_RESERVED_ANNOTATIONS = ["meta.helm.sh/", "helm.sh/"];
 
 /**
- * Synthesizes all CDK8s charts and returns the YAML content for each chart
+ * Synthesizes all CDK8s charts and returns the YAML content
  */
-async function synthesizeApp(): Promise<Map<string, string>> {
-  // @ts-expect-error - yamlOutputType is not in the type definition but exists at runtime
-  const app = new App({ outdir: ".test-synth", yamlOutputType: "string" });
-
-  createProjectChart(app);
-  await createAppsChart(app);
-  await createTorvaldsChart(app);
-  createScoutChart(app, "beta");
-  createScoutChart(app, "prod");
-  createStarlightKarmaBotChart(app, "beta");
-  createStarlightKarmaBotChart(app, "prod");
-
-  // Get YAML for each chart
-  const manifestMap = new Map<string, string>();
-  for (const chart of app.charts) {
-    const chartName = chart.node.id;
-    const resources = chart.toJson();
-
-    // Convert resources to YAML
-    const yamlDocs = resources.map((resource) => stringifyYaml(resource)).join("---\n");
-    manifestMap.set(chartName, yamlDocs);
-  }
-
-  return manifestMap;
+async function synthesizeApp(): Promise<string> {
+  const app = new App({ outdir: ".test-synth" });
+  await setupCharts(app);
+  return app.synthYaml();
 }
 
 describe("Helm Compatibility Tests", () => {
-  let manifestMap: Map<string, string>;
+  let yamlContent: string;
   let allResources: { file: string; resource: K8sResource }[];
 
   beforeAll(async () => {
     // Synthesize all manifests in-memory
-    manifestMap = await synthesizeApp();
+    yamlContent = await synthesizeApp();
 
-    // Parse all resources from all manifests
+    // Parse all resources from the YAML content
     allResources = [];
-    for (const [chartName, content] of manifestMap.entries()) {
-      const documents = content
-        .split(/^---$/m)
-        .map((doc) => doc.trim())
-        .filter((doc) => doc.length > 0);
+    const documents = yamlContent
+      .split(/^---$/m)
+      .map((doc) => doc.trim())
+      .filter((doc) => doc.length > 0);
 
-      for (const doc of documents) {
-        try {
-          const parsed = parseYaml(doc) as unknown;
-          const result = K8sResourceSchema.safeParse(parsed);
-          if (result.success) {
-            allResources.push({ file: `${chartName}.k8s.yaml`, resource: result.data });
-          }
-        } catch {
-          // Skip invalid YAML documents
+    for (const doc of documents) {
+      try {
+        const parsed = parseYaml(doc) as unknown;
+        const result = K8sResourceSchema.safeParse(parsed);
+        if (result.success) {
+          allResources.push({ file: "manifests.k8s.yaml", resource: result.data });
         }
+      } catch {
+        // Skip invalid YAML documents
       }
     }
   });
@@ -221,66 +195,64 @@ describe("Helm Compatibility Tests", () => {
         reason: string;
       }[] = [];
 
-      for (const [chartName, content] of manifestMap.entries()) {
-        const lines = content.split("\n");
-        const fileName = `${chartName}.k8s.yaml`;
+      const lines = yamlContent.split("\n");
+      const fileName = "manifests.k8s.yaml";
 
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i];
-          if (!line) continue;
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (!line) continue;
 
-          // Skip comments
-          if (line.trim().startsWith("#")) {
-            continue;
-          }
+        // Skip comments
+        if (line.trim().startsWith("#")) {
+          continue;
+        }
 
-          // Check for unescaped Helm template syntax
-          // {{ "{{" }} and {{ "}}" }} are properly escaped and should be allowed
-          // These are used to preserve literal {{ }} in the final output (e.g., for Prometheus alerts)
+        // Check for unescaped Helm template syntax
+        // {{ "{{" }} and {{ "}}" }} are properly escaped and should be allowed
+        // These are used to preserve literal {{ }} in the final output (e.g., for Prometheus alerts)
 
-          // Pattern to find {{ }} that are NOT escaped
-          // Escaped patterns look like: {{ "{{" }} or {{ "}}" }}
-          const hasTemplateStart = line.includes("{{");
-          const hasTemplateEnd = line.includes("}}");
+        // Pattern to find {{ }} that are NOT escaped
+        // Escaped patterns look like: {{ "{{" }} or {{ "}}" }}
+        const hasTemplateStart = line.includes("{{");
+        const hasTemplateEnd = line.includes("}}");
 
-          if (hasTemplateStart && hasTemplateEnd) {
-            // If we have {{ }} but it's not the escaped form, it's a violation
-            // We need to check for unescaped patterns like:
-            // - {{ .Values.something }}
-            // - {{ template "name" }}
-            // - {{ range .Items }}
-            // But NOT:
-            // - {{ "{{" }} $value {{ "}}" }} (this is escaped and OK)
+        if (hasTemplateStart && hasTemplateEnd) {
+          // If we have {{ }} but it's not the escaped form, it's a violation
+          // We need to check for unescaped patterns like:
+          // - {{ .Values.something }}
+          // - {{ template "name" }}
+          // - {{ range .Items }}
+          // But NOT:
+          // - {{ "{{" }} $value {{ "}}" }} (this is escaped and OK)
 
-            // Simple heuristic: if line contains {{ but NOT {{ " then it might be unescaped
-            // This catches {{ .Values and {{ template but allows {{ "{{" }}
-            if (
-              /\{\{(?!\s*"[{"}]")/.test(line) || // Matches {{ not followed by "{{" or "}}"
-              /[^"]\}\}/.test(line.replaceAll('}}" }}', "")) // Matches }} not part of }}" }}
-            ) {
-              // Additional check: the escaped pattern should have the quotes
-              // If we see {{ something }} where something is not a string literal with {{ or }}
-              // then it's likely unescaped
-              const suspiciousPatterns = [
-                /\{\{\s*\.\w+/, // {{ .Values, {{ .Release, etc.
-                /\{\{\s*template\s+/, // {{ template
-                /\{\{\s*include\s+/, // {{ include
-                /\{\{\s*range\s+/, // {{ range
-                /\{\{\s*if\s+/, // {{ if
-                /\{\{\s*with\s+/, // {{ with
-                /\{\{\s*define\s+/, // {{ define
-              ];
+          // Simple heuristic: if line contains {{ but NOT {{ " then it might be unescaped
+          // This catches {{ .Values and {{ template but allows {{ "{{" }}
+          if (
+            /\{\{(?!\s*"[{"}]")/.test(line) || // Matches {{ not followed by "{{" or "}}"
+            /[^"]\}\}/.test(line.replaceAll('}}" }}', "")) // Matches }} not part of }}" }}
+          ) {
+            // Additional check: the escaped pattern should have the quotes
+            // If we see {{ something }} where something is not a string literal with {{ or }}
+            // then it's likely unescaped
+            const suspiciousPatterns = [
+              /\{\{\s*\.\w+/, // {{ .Values, {{ .Release, etc.
+              /\{\{\s*template\s+/, // {{ template
+              /\{\{\s*include\s+/, // {{ include
+              /\{\{\s*range\s+/, // {{ range
+              /\{\{\s*if\s+/, // {{ if
+              /\{\{\s*with\s+/, // {{ with
+              /\{\{\s*define\s+/, // {{ define
+            ];
 
-              for (const pattern of suspiciousPatterns) {
-                if (pattern.test(line)) {
-                  violations.push({
-                    file: fileName,
-                    lineNumber: i + 1,
-                    line: line.trim(),
-                    reason: "Contains unescaped Helm template syntax",
-                  });
-                  break;
-                }
+            for (const pattern of suspiciousPatterns) {
+              if (pattern.test(line)) {
+                violations.push({
+                  file: fileName,
+                  lineNumber: i + 1,
+                  line: line.trim(),
+                  reason: "Contains unescaped Helm template syntax",
+                });
+                break;
               }
             }
           }
@@ -293,31 +265,18 @@ describe("Helm Compatibility Tests", () => {
     it("should properly escape template syntax for Prometheus alerts", () => {
       // This test verifies that Prometheus alert templates are properly escaped
       // Prometheus uses Go templates with {{ }}, which must be escaped in Helm charts
-      const properEscaping: {
-        file: string;
-        escapedCount: number;
-      }[] = [];
-
-      for (const [chartName, content] of manifestMap.entries()) {
-        // Count properly escaped template syntax
-        // {{ "{{" }} is the correct way to output a literal {{ in Helm
-        const escapedStartCount = (content.match(/\{\{ "\{\{" \}\}/g) ?? []).length;
-        const escapedEndCount = (content.match(/\{\{ "\}\}" \}\}/g) ?? []).length;
-
-        if (escapedStartCount > 0 || escapedEndCount > 0) {
-          properEscaping.push({
-            file: `${chartName}.k8s.yaml`,
-            escapedCount: escapedStartCount + escapedEndCount,
-          });
-        }
-      }
+      // Count properly escaped template syntax
+      // {{ "{{" }} is the correct way to output a literal {{ in Helm
+      const escapedStartCount = (yamlContent.match(/\{\{ "\{\{" \}\}/g) ?? []).length;
+      const escapedEndCount = (yamlContent.match(/\{\{ "\}\}" \}\}/g) ?? []).length;
+      const escapedCount = escapedStartCount + escapedEndCount;
 
       // This is informational - we expect to see proper escaping in files with Prometheus rules
-      if (properEscaping.length > 0) {
+      if (escapedCount > 0) {
         console.log(
           [
             "✓ Found properly escaped template syntax (for Prometheus/Grafana templates):",
-            ...properEscaping.map((e) => `  - ${e.file}: ${String(e.escapedCount)} escaped template markers`),
+            `  - manifests.k8s.yaml: ${String(escapedCount)} escaped template markers`,
           ].join("\n"),
         );
       }
@@ -362,24 +321,21 @@ describe("Helm Compatibility Tests", () => {
         error: string;
       }[] = [];
 
-      for (const [chartName, content] of manifestMap.entries()) {
-        const fileName = `${chartName}.k8s.yaml`;
-        const documents = content
-          .split(/^---$/m)
-          .map((doc) => doc.trim())
-          .filter((doc) => doc.length > 0);
+      const documents = yamlContent
+        .split(/^---$/m)
+        .map((doc) => doc.trim())
+        .filter((doc) => doc.length > 0);
 
-        for (const [index, document] of documents.entries()) {
-          try {
-            parseYaml(document);
-          } catch (error) {
-            const errorCheck = z.instanceof(Error).safeParse(error);
-            const errorMessage = errorCheck.success ? errorCheck.data.message : String(error);
-            violations.push({
-              file: `${fileName} (document ${String(index + 1)})`,
-              error: errorMessage,
-            });
-          }
+      for (const [index, document] of documents.entries()) {
+        try {
+          parseYaml(document);
+        } catch (error) {
+          const errorCheck = z.instanceof(Error).safeParse(error);
+          const errorMessage = errorCheck.success ? errorCheck.data.message : String(error);
+          violations.push({
+            file: `manifests.k8s.yaml (document ${String(index + 1)})`,
+            error: errorMessage,
+          });
         }
       }
 

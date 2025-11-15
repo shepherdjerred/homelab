@@ -18,7 +18,7 @@ export function createHomeAssistantDeployment(chart: Chart) {
   const volume = Volume.fromPersistentVolumeClaim(chart, "homeassistant-volume", claim.claim);
 
   const config = new ConfigMap(chart, "ha-cm");
-  config.addDirectory("config/homeassistant");
+  config.addDirectory(`${import.meta.dir}/../../../config/homeassistant`);
   const configVolume = Volume.fromConfigMap(chart, "ha-cm-volume", config);
 
   deployment.addContainer(
