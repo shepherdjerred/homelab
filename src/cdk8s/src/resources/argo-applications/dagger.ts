@@ -85,15 +85,24 @@ export function createDaggerApp(chart: Chart) {
           // TODO: use types for this
           valuesObject: {
             engine: {
+              // Use StatefulSet instead of DaemonSet to enable PVC support
+              kind: "StatefulSet",
               statefulSet: {
                 persistentVolumeClaim: {
                   enabled: true,
                   storageClassName: SSD_STORAGE_CLASS,
-                  resoruces: {
+                  accessModes: ["ReadWriteOnce"],
+                  resources: {
                     requests: {
                       storage: Size.gibibytes(256).asString(),
                     },
                   },
+                },
+              },
+              // Disable hostPath when using PVC
+              hostPath: {
+                dataVolume: {
+                  enabled: false,
                 },
               },
             },
