@@ -27,8 +27,6 @@ export async function createHomeAssistantDeployment(chart: Chart) {
     }
   }
 
-  console.log(files);
-
   const config = new ConfigMap(chart, "ha-cm");
   config.addDirectory(`${import.meta.dir}/../../../config/homeassistant`);
   const configVolume = Volume.fromConfigMap(chart, "ha-cm-volume", config);
