@@ -93,6 +93,10 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
           secret: Secret.fromSecretName(chart, "openai-api-key-secret", onePasswordItem.name),
           key: "open-api-key",
         }),
+        GEMINI_API_KEY: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "gemini-api-key-secret", onePasswordItem.name),
+          key: "gemini-api-key",
+        }),
       },
     }),
   );
