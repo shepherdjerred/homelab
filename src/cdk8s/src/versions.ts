@@ -37,7 +37,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/qbittorrent": "4.6.7@sha256:55f15d44396315551f87294a176efae733b16e283f38980308e46073950257c6",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "linuxserver/radarr": "6.0.4@sha256:e26fbfd3782520c0bb820666f041ca056acfe187a8b95214ee1f47512cc05a29",
+  "linuxserver/radarr": "6.0.4@sha256:06ac318ecb95a34c7b229568dcb4271f02cb5007bb189a0dd67a2032864187ca",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/sonarr": "4.0.16@sha256:2fc9c36769a3f50ab529e7ccc37687d118ab42199b01588573f03b3393cc3223",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
