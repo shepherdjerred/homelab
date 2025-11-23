@@ -1,1 +1,1 @@
-FROM ghcr.io/shepherdjerred/dotfiles@sha256:822ba757e5d94f472288f18d3fac47951ed7e7c66871ecf63501fc0ac780a693
+FROM ghcr.io/shepherdjerred/dotfiles@sha256:56530176704159c17bd8bdcd1cf9d3a0a8717a9e5811fc4199c1a33f307eeb5a
