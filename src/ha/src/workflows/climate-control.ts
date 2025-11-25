@@ -18,8 +18,8 @@ import { z } from "zod";
 // Winter temperature setpoints (in Celsius)
 const WINTER_TEMP_HOME_COMFORT = 23; // When home and awake
 const WINTER_TEMP_AWAY = 18; // Energy saving when away
-const WINTER_TEMP_BEDTIME = 22; // Comfortable for falling asleep
-const WINTER_TEMP_DEEP_SLEEP = 21; // Cooler during deep sleep
+const WINTER_TEMP_BEDTIME = 21; // Comfortable for falling asleep
+const WINTER_TEMP_DEEP_SLEEP = 20; // Cooler during deep sleep
 const WINTER_TEMP_PRE_WAKE = 24; // Warm before waking
 const WINTER_TEMP_LIVING_ROOM_SLEEP = 20; // Living room during sleep hours
 
@@ -149,10 +149,10 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
 
   /**
    * Bedtime prep - Set comfortable sleeping temperature
-   * Runs at 10:00 PM every night
+   * Runs at 9:30 PM every night
    */
   scheduler.cron({
-    schedule: "0 22 * * *",
+    schedule: "30 21 * * *",
     exec: () =>
       instrumentWorkflow("climate_bedtime_prep", async () => {
         await withTimeout(
