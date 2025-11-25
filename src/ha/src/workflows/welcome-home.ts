@@ -1,6 +1,6 @@
 import type { TServiceParams } from "@digital-alchemy/core";
 import type { ENTITY_STATE } from "@digital-alchemy/hass";
-import { shouldStopCleaning, withTimeout } from "../util.ts";
+import { shouldStopCleaning, withTimeout, wait } from "../util.ts";
 import { instrumentWorkflow } from "../metrics.ts";
 
 export function welcomeHome({ hass, logger }: TServiceParams) {
@@ -10,6 +10,7 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
   const livingRoomScene = hass.refBy.id("scene.living_room_main_bright");
   const bedroomHeater = hass.refBy.id("climate.bedroom_thermostat");
   const livingRoomClimate = hass.refBy.id("climate.living_room");
+  const entrywayMediaPlayer = hass.refBy.id("media_player.entryway");
 
   personJerred.onUpdate(
     async (
@@ -47,6 +48,23 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
 
               logger.debug("Setting living room scene to bright");
               await livingRoomScene.turn_on();
+
+              // Play music when arriving home
+              try {
+                logger.debug("Playing music on entryway media player");
+                await entrywayMediaPlayer.unjoin();
+                await wait({ amount: 2, unit: "s" });
+                await entrywayMediaPlayer.volume_set({ volume_level: 0.3 });
+                await entrywayMediaPlayer.play_media({
+                  media: {
+                    media_content_id: "FV:2/5",
+                    media_content_type: "favorite_item_id",
+                  },
+                });
+                logger.debug("Music started successfully");
+              } catch (error) {
+                logger.debug(`Failed to play music: ${error instanceof Error ? error.message : String(error)}`);
+              }
 
               if (shouldStopCleaning(roomba.state)) {
                 logger.debug("Commanding Roomba to return to base");
