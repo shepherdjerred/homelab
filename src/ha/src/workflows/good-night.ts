@@ -40,7 +40,7 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
             logger.debug("Setting climate to bedtime mode");
             await bedroomHeater.set_temperature({
               hvac_mode: "heat",
-              temperature: 22,
+              temperature: 21,
             });
             try {
               await livingRoomClimate.set_temperature({
