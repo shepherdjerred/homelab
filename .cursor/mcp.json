@@ -28,6 +28,10 @@
         "--stateless",
         "https://homeassistant.tailnet-1a49.ts.net/api/mcp"
       ]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"]
     }
   }
 }
