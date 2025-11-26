@@ -74,6 +74,24 @@ resource "kubernetes_manifest" "onepassword_item_grafana" {
   }
 }
 
+# GitHub MCP token
+# Token stored in the standard "password" field of the 1Password item
+# Only created if MCP secrets are enabled for this workspace
+resource "kubernetes_manifest" "onepassword_item_github" {
+  count = data.coder_parameter.enable_mcp_secrets.value == "true" ? 1 : 0
+  manifest = {
+    apiVersion = "onepassword.com/v1"
+    kind       = "OnePasswordItem"
+    metadata = {
+      name      = "coder-${lower(data.coder_workspace.me.id)}-github-mcp"
+      namespace = var.namespace
+    }
+    spec = {
+      itemPath = "vaults/v64ocnykdqju4ui6j6pua56xw4/items/GITHUB_ITEM_ID_HERE"
+    }
+  }
+}
+
 data "coder_provisioner" "me" {}
 data "coder_workspace" "me" {}
 data "coder_workspace_owner" "me" {}
@@ -128,7 +146,7 @@ data "coder_parameter" "workspaces_volume_size" {
 data "coder_parameter" "enable_mcp_secrets" {
   name         = "enable_mcp_secrets"
   display_name = "Enable MCP Server Secrets"
-  description  = "Mount secrets from 1Password for MCP servers (Home Assistant, PagerDuty, Grafana). Required for AI assistant features."
+  description  = "Mount secrets from 1Password for MCP servers (Home Assistant, PagerDuty, Grafana, GitHub). Required for AI assistant features."
   default      = "false"
   type         = "bool"
   icon         = "/icon/claude.svg"
@@ -319,6 +337,10 @@ resource "kubernetes_deployment" "main" {
               {
                 name        = "GRAFANA_SERVICE_ACCOUNT_TOKEN"
                 secret_name = kubernetes_manifest.onepassword_item_grafana[0].manifest.metadata.name
+              },
+              {
+                name        = "GITHUB_PERSONAL_ACCESS_TOKEN"
+                secret_name = kubernetes_manifest.onepassword_item_github[0].manifest.metadata.name
               }
             ] : []
             content {
