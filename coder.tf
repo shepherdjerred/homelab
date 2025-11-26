@@ -87,7 +87,7 @@ resource "kubernetes_manifest" "onepassword_item_github" {
       namespace = var.namespace
     }
     spec = {
-      itemPath = "vaults/v64ocnykdqju4ui6j6pua56xw4/items/GITHUB_ITEM_ID_HERE"
+      itemPath = "vaults/v64ocnykdqju4ui6j6pua56xw4/items/kjzy27cw4ialemerahutnxis3a"
     }
   }
 }
