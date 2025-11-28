@@ -94,7 +94,7 @@ export function createDaggerApp(chart: Chart) {
                   accessModes: ["ReadWriteOnce"],
                   resources: {
                     requests: {
-                      storage: Size.gibibytes(256).asString(),
+                      storage: Size.tebibytes(1).asString(),
                     },
                   },
                 },
