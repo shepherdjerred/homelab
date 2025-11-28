@@ -1,8 +1,26 @@
 import { func, argument, Directory, object, Secret, dag, File } from "@dagger.io/dagger";
 import { z } from "zod";
-import { buildHa, typeCheckHa, lintHa, buildAndExportHaImage } from "./ha";
+import {
+  buildHa,
+  typeCheckHa,
+  lintHa,
+  buildAndExportHaImage,
+  prepareHaContainer,
+  typeCheckHaWithContainer,
+  lintHaWithContainer,
+} from "./ha";
 import { getMiseRuntimeContainer, getSystemContainer, withMiseTools } from "./base";
-import { typeCheckCdk8s, buildK8sManifests, testCdk8s, lintCdk8s } from "./cdk8s";
+import {
+  typeCheckCdk8s,
+  buildK8sManifests,
+  testCdk8s,
+  lintCdk8s,
+  prepareCdk8sContainer,
+  typeCheckCdk8sWithContainer,
+  lintCdk8sWithContainer,
+  buildK8sManifestsWithContainer,
+  testCdk8sWithContainer,
+} from "./cdk8s";
 import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
@@ -130,6 +148,12 @@ export class Homelab {
       updatedSource = this.updateHaVersion(source, chartVersion);
     }
 
+    // Prepare shared containers once - this is a major optimization
+    // All HA operations (lint, typecheck, build) share the same prepared container
+    // All CDK8s operations share the same prepared container
+    const haContainerPromise = prepareHaContainer(updatedSource, hassBaseUrl, hassToken);
+    const cdk8sContainer = prepareCdk8sContainer(updatedSource);
+
     // Renovate regex test (run async)
     const renovateTestPromise = this.testRenovateRegex(updatedSource)
       .then((msg) => ({
@@ -152,8 +176,8 @@ export class Homelab {
         message: `Helm Test: FAILED\n${String(e)}`,
       }));
 
-    // CDK8s test (run async)
-    const cdk8sTestPromise = testCdk8s(updatedSource)
+    // CDK8s test - uses shared container
+    const cdk8sTestPromise = testCdk8sWithContainer(cdk8sContainer)
       .then((msg) => ({
         status: "passed" as const,
         message: `CDK8s Test: PASSED\n${msg}`,
@@ -163,8 +187,8 @@ export class Homelab {
         message: `CDK8s Test: FAILED\n${String(e)}`,
       }));
 
-    // Linting checks (run async)
-    const cdk8sLintPromise = lintCdk8s(updatedSource)
+    // CDK8s linting - uses shared container
+    const cdk8sLintPromise = lintCdk8sWithContainer(cdk8sContainer)
       .then((msg) => ({
         status: "passed" as const,
         message: `CDK8s Lint: PASSED\n${msg}`,
@@ -174,7 +198,9 @@ export class Homelab {
         message: `CDK8s Lint: FAILED\n${String(e)}`,
       }));
 
-    const haLintPromise = lintHa(updatedSource, hassBaseUrl, hassToken)
+    // HA linting - uses shared container
+    const haLintPromise = haContainerPromise
+      .then((container) => lintHaWithContainer(container))
       .then((msg) => ({
         status: "passed" as const,
         message: `HA Lint: PASSED\n${msg}`,
@@ -184,8 +210,8 @@ export class Homelab {
         message: `HA Lint: FAILED\n${String(e)}`,
       }));
 
-    // Type checking (run async)
-    const cdk8sTypeCheckPromise = typeCheckCdk8s(updatedSource)
+    // CDK8s type checking - uses shared container
+    const cdk8sTypeCheckPromise = typeCheckCdk8sWithContainer(cdk8sContainer)
       .then((msg) => ({
         status: "passed" as const,
         message: `CDK8s TypeCheck: PASSED\n${msg}`,
@@ -195,7 +221,9 @@ export class Homelab {
         message: `CDK8s TypeCheck: FAILED\n${String(e)}`,
       }));
 
-    const haTypeCheckPromise = typeCheckHa(updatedSource, hassBaseUrl, hassToken)
+    // HA type checking - uses shared container
+    const haTypeCheckPromise = haContainerPromise
+      .then((container) => typeCheckHaWithContainer(container))
       .then((msg) => ({
         status: "passed" as const,
         message: `HA TypeCheck: PASSED\n${msg}`,
@@ -205,8 +233,8 @@ export class Homelab {
         message: `HA TypeCheck: FAILED\n${String(e)}`,
       }));
 
-    // Start builds in parallel
-    const cdk8sBuildPromise = Promise.resolve(buildK8sManifests(updatedSource))
+    // CDK8s build - uses shared container
+    const cdk8sBuildPromise = Promise.resolve(buildK8sManifestsWithContainer(cdk8sContainer))
       .then(() => ({
         status: "passed" as const,
         message: "CDK8s Build: PASSED",
@@ -270,30 +298,34 @@ export class Homelab {
       haTypeCheckPromise,
     ]);
 
-    // Publish HA image if prod
+    // Publish HA image if prod - push versioned and latest tags in parallel
     let haPublishResult: StepResult = {
       status: "skipped",
       message: "[SKIPPED] Not prod",
     };
     if (env === Stage.Prod) {
-      // Push versioned tag
-      haPublishResult = await this.internalPublishHaImage(
-        updatedSource,
-        `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
-        ghcrUsername,
-        ghcrPassword,
-        env,
-      );
-      // Push latest tag
-      const haPublishLatestResult = await this.internalPublishHaImage(
-        updatedSource,
-        `ghcr.io/shepherdjerred/homelab:latest`,
-        ghcrUsername,
-        ghcrPassword,
-        env,
-      );
+      // Push both tags in parallel for faster publishing
+      const [versionedResult, latestResult] = await Promise.all([
+        this.internalPublishHaImage(
+          updatedSource,
+          `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
+          ghcrUsername,
+          ghcrPassword,
+          env,
+        ),
+        this.internalPublishHaImage(
+          updatedSource,
+          `ghcr.io/shepherdjerred/homelab:latest`,
+          ghcrUsername,
+          ghcrPassword,
+          env,
+        ),
+      ]);
       // Combine results
-      haPublishResult.message += `\nAlso pushed as latest:\n${haPublishLatestResult.message}`;
+      haPublishResult = {
+        status: versionedResult.status === "passed" && latestResult.status === "passed" ? "passed" : "failed",
+        message: `Versioned tag: ${versionedResult.message}\nLatest tag: ${latestResult.message}`,
+      };
     }
     // Publish Helm chart if prod
     let helmPublishResult: StepResult = {
