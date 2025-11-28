@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(dagger call:*)",
+      "Bash(DAGGER_LOG=debug dagger call:*)",
+      "Bash(mise run ci:*)",
+      "Bash(bun run:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

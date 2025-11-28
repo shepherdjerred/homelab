@@ -1,6 +1,6 @@
 {
   "name": "homelab",
-  "engineVersion": "v0.19.4",
+  "engineVersion": "v0.19.6",
   "sdk": {
     "source": "typescript"
   },
