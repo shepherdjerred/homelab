@@ -3,16 +3,17 @@ import { getWorkspaceContainer, getMiseRuntimeContainer } from "./base";
 import type { StepResult } from ".";
 import versions from "./versions";
 
-export function buildHa(source: Directory): Directory {
-  return getWorkspaceContainer(source, "src/ha").withExec(["bun", "run", "build"]).directory("/workspace/src/ha");
-}
-
 /**
  * Prepares the HA container by generating hass.d.ts if needed.
  * If src/ha/src/hass/ exists, skips generation and uses existing files.
  * Otherwise, requires HA credentials to generate types.
+ * This is the shared container setup for all HA operations.
  */
-async function prepareHaContainer(source: Directory, hassBaseUrl?: Secret, hassToken?: Secret): Promise<Container> {
+export async function prepareHaContainer(
+  source: Directory,
+  hassBaseUrl?: Secret,
+  hassToken?: Secret,
+): Promise<Container> {
   let container = getWorkspaceContainer(source, "src/ha");
 
   // Check if hass directory already exists
@@ -45,15 +46,39 @@ async function prepareHaContainer(source: Directory, hassBaseUrl?: Secret, hassT
   return container;
 }
 
+export function buildHa(source: Directory): Directory {
+  return getWorkspaceContainer(source, "src/ha").withExec(["bun", "run", "build"]).directory("/workspace/src/ha");
+}
+
+/**
+ * Builds the HA app using a pre-prepared container.
+ * Use this when you already have a prepared container from prepareHaContainer().
+ */
+export function buildHaWithContainer(container: Container): Directory {
+  return container.withExec(["bun", "run", "build"]).directory("/workspace/src/ha");
+}
+
 export async function typeCheckHa(source: Directory, hassBaseUrl?: Secret, hassToken?: Secret): Promise<string> {
   const container = await prepareHaContainer(source, hassBaseUrl, hassToken);
+  return container.withExec(["bun", "run", "typecheck"]).stdout();
+}
 
+/**
+ * Runs type check using a pre-prepared container.
+ */
+export function typeCheckHaWithContainer(container: Container): Promise<string> {
   return container.withExec(["bun", "run", "typecheck"]).stdout();
 }
 
 export async function lintHa(source: Directory, hassBaseUrl?: Secret, hassToken?: Secret): Promise<string> {
   const container = await prepareHaContainer(source, hassBaseUrl, hassToken);
+  return container.withExec(["bun", "run", "lint"]).stdout();
+}
 
+/**
+ * Runs lint using a pre-prepared container.
+ */
+export function lintHaWithContainer(container: Container): Promise<string> {
   return container.withExec(["bun", "run", "lint"]).stdout();
 }
 

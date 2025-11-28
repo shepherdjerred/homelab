@@ -139,15 +139,12 @@ export function withMiseTools(baseContainer: Container): Container {
       expand: true,
     });
 
-  // Use a cache-busting env var to force mise tool setup to run every time.
-  // This is necessary because cache volumes are separate from Dagger's operation cache,
-  // so a cached withExec might not actually populate the cache volume.
+  // Install mise tools. The tool versions are part of the cache volume key (toolVersionKey),
+  // so this will be cached as long as versions don't change.
   // The mise commands are idempotent and fast when tools are already installed.
-  return containerWithMise
-    .withEnvVariable("MISE_CACHE_BUST", new Date().toISOString())
-    .withExec([
-      "sh",
-      "-c",
-      `mise trust && mise install bun@${versions.bun} python@${versions.python} node@${versions.node} && mise use -g bun@${versions.bun} python@${versions.python} node@${versions.node} && mise reshim`,
-    ]);
+  return containerWithMise.withExec([
+    "sh",
+    "-c",
+    `mise trust && mise install bun@${versions.bun} python@${versions.python} node@${versions.node} && mise use -g bun@${versions.bun} python@${versions.python} node@${versions.node} && mise reshim`,
+  ]);
 }
