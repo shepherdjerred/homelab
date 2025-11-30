@@ -39,7 +39,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/radarr": "6.0.4@sha256:06ac318ecb95a34c7b229568dcb4271f02cb5007bb189a0dd67a2032864187ca",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "linuxserver/sonarr": "4.0.16@sha256:2fc9c36769a3f50ab529e7ccc37687d118ab42199b01588573f03b3393cc3223",
+  "linuxserver/sonarr": "4.0.16@sha256:60e5edcac39172294ad22d55d1b08c2c0a9fe658cad2f2c4d742ae017d7874de",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "timothyjmiller/cloudflare-ddns": "latest@sha256:2187e122660d6a2d451ef7c53fd4805c133133f4f47552256352c1e2a7f49ee2",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
