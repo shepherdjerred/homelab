@@ -419,7 +419,7 @@ resource "kubernetes_deployment" "main" {
         # Docker-in-Docker sidecar container
         container {
           name  = "dind"
-          image = "docker:dind@sha256:d003717ad7a27d359dd2f5f6aa6ca691f5f58671e8d1ff0277d07e5635bb8332"
+          image = "docker:dind@sha256:c9699f4fc7365e8daad3eb48ce3b62dc118b2a5267f7be7bcd3c4e4b2f1cfb4c"
           security_context {
             privileged = true
           }
