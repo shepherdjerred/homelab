@@ -103,6 +103,7 @@ data "coder_parameter" "repo" {
   name         = "repo"
   order        = 5
   type         = "string"
+  default = "https://github.com/shepherdjerred/scout-for-lol"
 }
 
 data "coder_parameter" "fallback_image" {
@@ -255,7 +256,15 @@ locals {
     # Use the docker gateway if the access URL is 127.0.0.1
     "ENVBUILDER_INIT_SCRIPT" : replace(coder_agent.main.init_script, "/localhost|127\\.0\\.0\\.1/", "host.docker.internal"),
     "ENVBUILDER_FALLBACK_IMAGE" : data.coder_parameter.fallback_image.value,
-    "ENVBUILDER_PUSH_IMAGE" : var.cache_repo == "" ? "" : "true"
+    "ENVBUILDER_PUSH_IMAGE" : var.cache_repo == "" ? "" : "true",
+    # Force the built container to run as user 1000 (non-root) without modifying devcontainer.json
+    # The setup script ensures a user with UID 1000 exists and sets it as the target user
+    "ENVBUILDER_SETUP_SCRIPT" : <<-SCRIPT
+      if ! id -u 1000 >/dev/null 2>&1; then
+        useradd -m -u 1000 -s /bin/bash coder || true
+      fi
+      echo "TARGET_USER=1000" >> $ENVBUILDER_ENV
+    SCRIPT
   }
 
   # MCP configuration for Claude Code
