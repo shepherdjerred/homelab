@@ -137,14 +137,19 @@ export function withMiseTools(baseContainer: Container): Container {
     // Set PATH so mise shims are available
     .withEnvVariable("PATH", "/root/.local/share/mise/shims:/root/.local/bin:${PATH}", {
       expand: true,
-    });
+    })
+    // Install mise tools. The tool versions are part of the cache volume key (toolVersionKey),
+    // so this will be cached as long as versions don't change.
+    // The mise commands are idempotent and fast when tools are already installed.
+    .withExec([
+      "sh",
+      "-c",
+      `mise trust && mise install bun@${versions.bun} python@${versions.python} node@${versions.node} && mise use -g bun@${versions.bun} python@${versions.python} node@${versions.node}`,
+    ]);
 
-  // Install mise tools. The tool versions are part of the cache volume key (toolVersionKey),
-  // so this will be cached as long as versions don't change.
-  // The mise commands are idempotent and fast when tools are already installed.
-  return containerWithMise.withExec([
-    "sh",
-    "-c",
-    `mise trust && mise install bun@${versions.bun} python@${versions.python} node@${versions.node} && mise use -g bun@${versions.bun} python@${versions.python} node@${versions.node} && mise reshim`,
-  ]);
+  // Reshim must run every time (even when tools are cached) to create symlinks
+  // Add a cache-busting timestamp to ensure this runs on each invocation
+  return containerWithMise
+    .withEnvVariable("MISE_RESHIM_TIMESTAMP", new Date().toISOString())
+    .withExec(["sh", "-c", "mise reshim"]);
 }

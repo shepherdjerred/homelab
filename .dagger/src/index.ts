@@ -9,7 +9,7 @@ import {
   typeCheckHaWithContainer,
   lintHaWithContainer,
 } from "./ha";
-import { getMiseRuntimeContainer, getSystemContainer, withMiseTools } from "./base";
+import { getMiseRuntimeContainer } from "./base";
 import {
   typeCheckCdk8s,
   buildK8sManifests,
@@ -417,9 +417,23 @@ export class Homelab {
     })
     source: Directory,
   ): Promise<string> {
-    const container = withMiseTools(getSystemContainer())
+    const container = getMiseRuntimeContainer()
       .withWorkdir("/workspace")
-      // Only copy the files needed for the test
+      // Copy package.json and bun.lock for dependency installation
+      .withFile("package.json", source.file("package.json"))
+      .withFile("bun.lock", source.file("bun.lock"))
+      // Copy patches directory for bun patch support
+      .withDirectory("patches", source.directory("patches"))
+      // Copy workspace package.json files for monorepo support
+      .withFile("src/ha/package.json", source.file("src/ha/package.json"))
+      .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
+      .withFile("src/helm-types/package.json", source.file("src/helm-types/package.json"))
+      // Copy .dagger/package.json (Dagger excludes .dagger by default, but we can copy specific files)
+      .withFile(".dagger/package.json", source.file(".dagger/package.json"))
+      // Install dependencies (includes zod from workspace packages)
+      .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache-default"))
+      .withExec(["bun", "install", "--frozen-lockfile"])
+      // Now copy the files needed for the test
       .withFile("renovate.json", source.file("renovate.json"))
       .withFile("src/cdk8s/src/versions.ts", source.file("src/cdk8s/src/versions.ts"))
       .withFile(".dagger/src/versions.ts", source.file(".dagger/src/versions.ts"))

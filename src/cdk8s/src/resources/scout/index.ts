@@ -89,14 +89,6 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
         ),
         ENVIRONMENT: EnvValue.fromValue(stage),
         DATABASE_URL: EnvValue.fromValue("file:/data/db.sqlite"),
-        OPENAI_API_KEY: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "openai-api-key-secret", onePasswordItem.name),
-          key: "open-api-key",
-        }),
-        GEMINI_API_KEY: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "gemini-api-key-secret", onePasswordItem.name),
-          key: "gemini-api-key",
-        }),
       },
     }),
   );

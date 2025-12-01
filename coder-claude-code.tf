@@ -383,6 +383,8 @@ resource "kubernetes_deployment" "main" {
           name              = "dev"
           image             = var.cache_repo == "" ? local.devcontainer_builder_image : envbuilder_cached_image.cached.0.image
           image_pull_policy = "Always"
+          # Envbuilder runs as root to build containers
+          # The built devcontainer should configure security in devcontainer.json
           security_context {}
 
           # Set the environment using cached_image.cached.0.env if the cache repo is enabled.
