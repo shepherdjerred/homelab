@@ -106,50 +106,39 @@ export function getKubectlContainer(): Container {
 
 /**
  * Returns a container with mise (development tools) installed and cached.
- * Uses improved caching for tool installation.
+ * Optimized for maximum caching efficiency.
  * @param baseContainer The base container to build upon.
  * @returns A configured Container with mise and tools ready.
  */
 export function withMiseTools(baseContainer: Container): Container {
-  // Create a unique cache key based on tool versions to ensure cache invalidation
-  // when versions change, while still benefiting from caching for unchanged versions
+  // Cache key based on tool versions - cache invalidates when versions change
   const toolVersionKey = `mise-tools-bun${versions.bun}-python${versions.python}-node${versions.node}`;
 
-  // Install mise and set up the base container (these steps can be cached)
-  const containerWithMise = baseContainer
-    .withExec(["install", "-dm", "755", "/etc/apt/keyrings"])
-    .withExec([
-      "sh",
-      "-c",
-      "wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor > /etc/apt/keyrings/mise-archive-keyring.gpg",
-    ])
-    .withExec([
-      "sh",
-      "-c",
-      `echo 'deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg] https://mise.jdx.dev/deb stable main' > /etc/apt/sources.list.d/mise.list`,
-    ])
-    .withExec(["apt-get", "update"])
-    .withExec(["apt-get", "install", "-y", "mise"])
-    // Cache mise tools with version-specific key
-    .withMountedCache("/root/.local/share/mise", dag.cacheVolume(toolVersionKey))
-    // Cache pip packages
-    .withMountedCache("/root/.cache/pip", dag.cacheVolume(`pip-cache`))
-    // Set PATH so mise shims are available
-    .withEnvVariable("PATH", "/root/.local/share/mise/shims:/root/.local/bin:${PATH}", {
-      expand: true,
-    })
-    // Install mise tools. The tool versions are part of the cache volume key (toolVersionKey),
-    // so this will be cached as long as versions don't change.
-    // The mise commands are idempotent and fast when tools are already installed.
-    .withExec([
-      "sh",
-      "-c",
-      `mise trust && mise install bun@${versions.bun} python@${versions.python} node@${versions.node} && mise use -g bun@${versions.bun} python@${versions.python} node@${versions.node}`,
-    ]);
-
-  // Reshim must run every time (even when tools are cached) to create symlinks
-  // Add a cache-busting timestamp to ensure this runs on each invocation
-  return containerWithMise
-    .withEnvVariable("MISE_RESHIM_TIMESTAMP", new Date().toISOString())
-    .withExec(["sh", "-c", "mise reshim"]);
+  return (
+    baseContainer
+      // Install mise via apt (combine operations for fewer layers)
+      .withExec(["install", "-dm", "755", "/etc/apt/keyrings"])
+      .withExec([
+        "sh",
+        "-c",
+        "wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor > /etc/apt/keyrings/mise-archive-keyring.gpg && " +
+          "echo 'deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg] https://mise.jdx.dev/deb stable main' > /etc/apt/sources.list.d/mise.list && " +
+          "apt-get update && apt-get install -y mise",
+      ])
+      // Cache mise tools with version-specific key
+      .withMountedCache("/root/.local/share/mise", dag.cacheVolume(toolVersionKey))
+      // Cache pip packages
+      .withMountedCache("/root/.cache/pip", dag.cacheVolume("pip-cache"))
+      // Set PATH so mise shims are available
+      .withEnvVariable("PATH", "/root/.local/share/mise/shims:/root/.local/bin:${PATH}", {
+        expand: true,
+      })
+      // Install tools and create shims in a single cached operation
+      // The version-specific cache key ensures this only runs when versions change
+      .withExec([
+        "sh",
+        "-c",
+        `mise trust --yes && mise install bun@${versions.bun} python@${versions.python} node@${versions.node} && mise use -g bun@${versions.bun} python@${versions.python} node@${versions.node} && mise reshim`,
+      ])
+  );
 }

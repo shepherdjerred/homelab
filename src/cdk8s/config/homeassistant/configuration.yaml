@@ -20,7 +20,7 @@ homekit:
         - input_select
         - vacuum
       exclude_entities:
-        - binary_sensor.iphone_focus
+        - binary_sensor.jerred_iphone_focus
         - binary_sensor.ipad_focus
         - binary_sensor.roomba_bin_full
       exclude_entity_globs:
@@ -31,12 +31,17 @@ homekit:
         - sensor.current_bill*
         - sensor.typical_monthly*
         - sensor.electricity_maps*
+        - sensor.refrigerator*
+        - binary_sensor.refrigerator*
   - name: HA2
     advertise_ip: 192.168.1.81
     port: 21064
     filter:
       include_domains:
         - light
+      exclude_entities:
+        - light.living_room_main
+        - light.office
 
 http:
   use_x_forwarded_for: true
