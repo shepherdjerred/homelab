@@ -24,9 +24,24 @@ export type MinecraftHelmValuesResources = {
    * @default {"memory":"512Mi","cpu":"500m"}
    */
   requests?: MinecraftHelmValuesResourcesRequests;
+  /**
+   * Kubernetes resource limits (memory, cpu, etc.)
+   */
+  limits?: MinecraftHelmValuesResourcesLimits;
 };
 
 export type MinecraftHelmValuesResourcesRequests = {
+  /**
+   * @default "512Mi"
+   */
+  memory?: string;
+  /**
+   * @default "500m"
+   */
+  cpu?: string;
+};
+
+export type MinecraftHelmValuesResourcesLimits = {
   /**
    * @default "512Mi"
    */
@@ -878,9 +893,24 @@ export type MinecraftHelmValuesMcbackupResources = {
    * @default {"memory":"512Mi","cpu":"500m"}
    */
   requests?: MinecraftHelmValuesMcbackupResourcesRequests;
+  /**
+   * Kubernetes resource limits (memory, cpu, etc.)
+   */
+  limits?: MinecraftHelmValuesMcbackupResourcesLimits;
 };
 
 export type MinecraftHelmValuesMcbackupResourcesRequests = {
+  /**
+   * @default "512Mi"
+   */
+  memory?: string;
+  /**
+   * @default "500m"
+   */
+  cpu?: string;
+};
+
+export type MinecraftHelmValuesMcbackupResourcesLimits = {
   /**
    * @default "512Mi"
    */
@@ -1122,6 +1152,8 @@ export type MinecraftHelmParameters = {
   fullnameOverride?: string;
   "resources.requests.memory"?: string;
   "resources.requests.cpu"?: string;
+  "resources.limits.memory"?: string;
+  "resources.limits.cpu"?: string;
   "lifecycle.postStart"?: string;
   "lifecycle.preStop"?: string;
   workloadAsStatefulSet?: string;
@@ -1285,6 +1317,8 @@ export type MinecraftHelmParameters = {
   "mcbackup.envFrom"?: string;
   "mcbackup.resources.requests.memory"?: string;
   "mcbackup.resources.requests.cpu"?: string;
+  "mcbackup.resources.limits.memory"?: string;
+  "mcbackup.resources.limits.cpu"?: string;
   "mcbackup.persistence.backupDir.enabled"?: string;
   "mcbackup.persistence.backupDir.Size"?: string;
   "mcbackup.persistence.backupDir.accessModes"?: string;

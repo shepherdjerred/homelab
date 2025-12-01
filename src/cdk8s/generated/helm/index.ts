@@ -12,6 +12,7 @@ export * from "./chartmuseum.types.ts";
 export * from "./minecraft.types.ts";
 export * from "./loki.types.ts";
 export * from "./promtail.types.ts";
+export * from "./tempo.types.ts";
 export * from "./openebs.types.ts";
 export * from "./velero.types.ts";
 export * from "./postgres-operator.types.ts";

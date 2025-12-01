@@ -10,7 +10,7 @@ export type KubeprometheusstackHelmValuesCrds = {
   /**
    * The CRD upgrade job mitigates the limitation of helm not being able to upgrade CRDs.
    * The job will apply the CRDs to the cluster before the operator is deployed, using helm hooks.
-   * It deploy a corresponding clusterrole, clusterrolebinding and serviceaccount to apply the CRDs.
+   * It deploys a corresponding clusterrole, clusterrolebinding and serviceaccount to apply the CRDs.
    * This feature is in preview, off by default and may change in the future.
    *
    * @default {...} (18 keys)
@@ -344,7 +344,7 @@ export type KubeprometheusstackHelmValuesDefaultRules = {
    */
   additionalRuleGroupLabels?: KubeprometheusstackHelmValuesDefaultRulesAdditionalRuleGroupLabels;
   /**
-   * Additional annotations for specific PrometheusRule alerts groups
+   * Additional annotations for specific PrometheusRule alert groups
    *
    * @default {...} (32 keys)
    */
@@ -947,7 +947,7 @@ export type KubeprometheusstackHelmValuesGlobal = {
    */
   rbac?: KubeprometheusstackHelmValuesGlobalRbac;
   /**
-   * Global image registry to use if it needs to be overridden for some specific use cases (e.g local registries, custom images, ...)
+   * Global image registry to use if it needs to be overridden for some specific use cases (e.g. local registries, custom images, ...)
    *
    * @default ""
    */
@@ -1053,7 +1053,7 @@ export type KubeprometheusstackHelmValuesAlertmanager = {
    */
   additionalLabels?: KubeprometheusstackHelmValuesAlertmanagerAdditionalLabels;
   /**
-   * Api that prometheus will use to communicate with alertmanager. Possible values are v1, v2
+   * API that Prometheus will use to communicate with alertmanager. Possible values are v1, v2
    *
    * @default "v2"
    */
@@ -1094,7 +1094,7 @@ export type KubeprometheusstackHelmValuesAlertmanager = {
   config?: KubeprometheusstackHelmValuesAlertmanagerConfig;
   /**
    * Alertmanager configuration directives (as string type, preferred over the config hash map)
-   * stringConfig will be used only, if tplConfig is true
+   * stringConfig will be used only if tplConfig is true
    * ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
    * https://prometheus.io/webtools/alerting/routing-tree-editor/
    *
@@ -2166,7 +2166,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecImage = {
    */
   repository?: string;
   /**
-   * @default "v0.28.1"
+   * @default "v0.29.0"
    */
   tag?: string;
   /**
@@ -2326,13 +2326,17 @@ export type KubeprometheusstackHelmValuesGrafana = {
    */
   defaultDashboardsInterval?: string;
   /**
+   * Administrator credentials when not using an existing secret (see below)
+   *
    * @default "admin"
    */
   adminUser?: string;
   /**
-   * @default "prom-operator"
+   * Use an existing secret for the admin user.
+   *
+   * @default {"existingSecret":"","userKey":"admin-user","passwordKey":"admin-password"}
    */
-  adminPassword?: string;
+  admin?: KubeprometheusstackHelmValuesGrafanaAdmin;
   /**
    * @default {"pspEnabled":false}
    */
@@ -2429,6 +2433,28 @@ export type KubeprometheusstackHelmValuesGrafanaOperatorMatchLabels = {
    * This is common for config maps, custom settings, and extensible configurations.
    */
   [key: string]: unknown;
+};
+
+export type KubeprometheusstackHelmValuesGrafanaAdmin = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
+   * Name of the secret. Can be templated.
+   *
+   * @default ""
+   */
+  existingSecret?: string;
+  /**
+   * @default "admin-user"
+   */
+  userKey?: string;
+  /**
+   * @default "admin-password"
+   */
+  passwordKey?: string;
 };
 
 export type KubeprometheusstackHelmValuesGrafanaRbac = {
@@ -2979,6 +3005,13 @@ export type KubeprometheusstackHelmValuesKubelet = {
    */
   namespace?: string;
   /**
+   * Overrides the job selector in Grafana dashboards and Prometheus rules
+   * For k3s clusters, change to k3s-server
+   *
+   * @default ""
+   */
+  jobNameOverride?: string;
+  /**
    * @default {...} (30 keys)
    */
   serviceMonitor?: KubeprometheusstackHelmValuesKubeletServiceMonitor;
@@ -3219,6 +3252,13 @@ export type KubeprometheusstackHelmValuesKubeControllerManager = {
    * @default true
    */
   enabled?: boolean;
+  /**
+   * Overrides the job selector in Grafana dashboards and Prometheus rules
+   * For k3s clusters, change to k3s-server
+   *
+   * @default ""
+   */
+  jobNameOverride?: string;
   endpoints?: unknown[];
   /**
    * - 10.141.4.22
@@ -3736,6 +3776,13 @@ export type KubeprometheusstackHelmValuesKubeScheduler = {
    * @default true
    */
   enabled?: boolean;
+  /**
+   * Overrides the job selector in Grafana dashboards and Prometheus rules
+   * For k3s clusters, change to k3s-server
+   *
+   * @default ""
+   */
+  jobNameOverride?: string;
   endpoints?: unknown[];
   /**
    * - 10.141.4.22
@@ -3857,6 +3904,13 @@ export type KubeprometheusstackHelmValuesKubeProxy = {
    * @default true
    */
   enabled?: boolean;
+  /**
+   * Overrides the job selector in Grafana dashboards and Prometheus rules
+   * For k3s clusters, change to k3s-server
+   *
+   * @default ""
+   */
+  jobNameOverride?: string;
   endpoints?: unknown[];
   /**
    * - 10.141.4.22
@@ -3991,14 +4045,8 @@ export type KubeprometheusstackHelmValuesKubeStateMetrics = {
 
 export type KubeprometheusstackHelmValuesKubestatemetrics = {
   /**
-   * @default ""
-   */
-  namespaceOverride?: string;
-  /**
-   * @default {"create":true}
-   */
-  rbac?: KubeprometheusstackHelmValuesKubestatemetricsRbac;
-  /**
+   * set to true to add the release label so scraping of the servicemonitor with kube-prometheus-stack works out of the box
+   *
    * @default true
    */
   releaseLabel?: boolean;
@@ -4010,25 +4058,14 @@ export type KubeprometheusstackHelmValuesKubestatemetrics = {
    */
   prometheusScrape?: boolean;
   /**
-   * @default {"monitor":{"enabled":true,"interval":"","sampleLimit":0,"targetLimit":0,"labelLimit":0,"labelNameLengthLimit":0,"labelValueLengthLimit":0,"scrapeTimeout":"","proxyUrl":"","honorLabels":true,"metricRelabelings":[],"relabelings":[]}}
+   * @default {"monitor":{"enabled":true,"http":{"honorLabels":true},"metrics":{"honorLabels":true}}}
    */
   prometheus?: KubeprometheusstackHelmValuesKubestatemetricsPrometheus;
-  /**
-   * @default {"enabled":false}
-   */
-  selfMonitor?: KubeprometheusstackHelmValuesKubestatemetricsSelfMonitor;
-};
-
-export type KubeprometheusstackHelmValuesKubestatemetricsRbac = {
-  /**
-   * @default true
-   */
-  create?: boolean;
 };
 
 export type KubeprometheusstackHelmValuesKubestatemetricsPrometheus = {
   /**
-   * @default {...} (12 keys)
+   * @default {"enabled":true,"http":{"honorLabels":true},"metrics":{"honorLabels":true}}
    */
   monitor?: KubeprometheusstackHelmValuesKubestatemetricsPrometheusMonitor;
 };
@@ -4042,66 +4079,35 @@ export type KubeprometheusstackHelmValuesKubestatemetricsPrometheusMonitor = {
    */
   enabled?: boolean;
   /**
-   * Scrape interval. If not set, the Prometheus default scrape interval is used.
+   * kube-state-metrics endpoint
    *
-   * @default ""
+   * @default {"honorLabels":true}
    */
-  interval?: string;
+  http?: KubeprometheusstackHelmValuesKubestatemetricsPrometheusMonitorHttp;
   /**
-   * SampleLimit defines per-scrape limit on number of scraped samples that will be accepted.
+   * selfMonitor endpoint
    *
-   * @default 0
+   * @default {"honorLabels":true}
    */
-  sampleLimit?: number;
-  /**
-   * TargetLimit defines a limit on the number of scraped targets that will be accepted.
-   *
-   * @default 0
-   */
-  targetLimit?: number;
-  /**
-   * Per-scrape limit on number of labels that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-   *
-   * @default 0
-   */
-  labelLimit?: number;
-  /**
-   * Per-scrape limit on length of labels name that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-   *
-   * @default 0
-   */
-  labelNameLengthLimit?: number;
-  /**
-   * Per-scrape limit on length of labels value that will be accepted for a sample. Only valid in Prometheus versions 2.27.0 and newer.
-   *
-   * @default 0
-   */
-  labelValueLengthLimit?: number;
-  /**
-   * Scrape Timeout. If not set, the Prometheus default scrape timeout is used.
-   *
-   * @default ""
-   */
-  scrapeTimeout?: string;
-  /**
-   * @default ""
-   */
-  proxyUrl?: string;
+  metrics?: KubeprometheusstackHelmValuesKubestatemetricsPrometheusMonitorMetrics;
+};
+
+export type KubeprometheusstackHelmValuesKubestatemetricsPrometheusMonitorHttp = {
   /**
    * Keep labels from scraped data, overriding server-side labels
    *
    * @default true
    */
   honorLabels?: boolean;
-  metricRelabelings?: unknown[];
-  relabelings?: unknown[];
 };
 
-export type KubeprometheusstackHelmValuesKubestatemetricsSelfMonitor = {
+export type KubeprometheusstackHelmValuesKubestatemetricsPrometheusMonitorMetrics = {
   /**
-   * @default false
+   * Keep labels from scraped data, overriding server-side labels
+   *
+   * @default true
    */
-  enabled?: boolean;
+  honorLabels?: boolean;
 };
 
 export type KubeprometheusstackHelmValuesNodeExporter = {
@@ -5351,7 +5357,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatc
   /**
    * latest tag: https://github.com/kubernetes/ingress-nginx/blob/main/images/kube-webhook-certgen/TAG
    *
-   * @default "v1.6.3"
+   * @default "v1.6.4"
    */
   tag?: string;
   /**
@@ -5951,7 +5957,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorThanosImage = {
    */
   repository?: string;
   /**
-   * @default "v0.39.2"
+   * @default "v0.40.1"
    */
   tag?: string;
   /**
@@ -7633,7 +7639,7 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecImage = {
    */
   repository?: string;
   /**
-   * @default "v3.6.0"
+   * @default "v3.7.3"
    */
   tag?: string;
   /**
@@ -8372,7 +8378,7 @@ export type KubeprometheusstackHelmValuesThanosRulerThanosRulerSpecImage = {
    */
   repository?: string;
   /**
-   * @default "v0.39.2"
+   * @default "v0.40.1"
    */
   tag?: string;
   /**
@@ -8594,7 +8600,7 @@ export type KubeprometheusstackHelmValues = {
    */
   crds?: KubeprometheusstackHelmValuesCrds;
   /**
-   * custom Rules to override "for" and "severity" in defaultRules
+   * Custom rules to override "for" and "severity" in defaultRules
    *
    * @default {}
    */
@@ -8654,13 +8660,13 @@ export type KubeprometheusstackHelmValues = {
   /**
    * Component scraping the kubelet and kubelet-hosted cAdvisor
    *
-   * @default {"enabled":true,"namespace":"kube-system","serviceMonitor":{"enabled":true,"kubelet":true,"attachMetadata":{"node":false},"interval":"","honorLabels":true,"honorTimestamps":true,"trackTimestampsStaleness":true,"sampleLimit":0,"targetLimit":0,"labelLimit":0,"labelNameLengthLimit":0,"labelValueLengthLimit":0,"proxyUrl":"","https":true,"insecureSkipVerify":true,"probes":true,"resource":false,"resourcePath":"/metrics/resource/v1alpha1","resourceInterval":"10s","cAdvisor":true,"cAdvisorInterval":"10s","cAdvisorMetricRelabelings":[{"sourceLabels":["__name__"],"action":"drop","regex":"container_cpu_(cfs_throttled_seconds_total|load_average_10s|system_seconds_total|user_seconds_total)"},{"sourceLabels":["__name__"],"action":"drop","regex":"container_fs_(io_current|io_time_seconds_total|io_time_weighted_seconds_total|reads_merged_total|sector_reads_total|sector_writes_total|writes_merged_total)"},{"sourceLabels":["__name__"],"action":"drop","regex":"container_memory_(mapped_file|swap)"},{"sourceLabels":["__name__"],"action":"drop","regex":"container_(file_descriptors|tasks_state|threads_max)"},{"sourceLabels":["__name__","scope"],"action":"drop","regex":"container_memory_failures_total;hierarchy"},{"sourceLabels":["__name__","interface"],"action":"drop","regex":"container_network_.*;(cali|cilium|cni|lxc|nodelocaldns|tunl).*"},{"sourceLabels":["__name__"],"action":"drop","regex":"container_spec.*"},{"sourceLabels":["id","pod"],"action":"drop","regex":".+;"}],"probesMetricRelabelings":[],"cAdvisorRelabelings":[{"action":"replace","sourceLabels":["__metrics_path__"],"targetLabel":"metrics_path"}],"probesRelabelings":[{"action":"replace","sourceLabels":["__metrics_path__"],"targetLabel":"metrics_path"}],"resourceRelabelings":[{"action":"replace","sourceLabels":["__metrics_path__"],"targetLabel":"metrics_path"}],"metricRelabelings":[{"action":"drop","sourceLabels":["__name__","le"],"regex":"(csi_operations|storage_operation_duration)_seconds_bucket;(0.25|2.5|15|25|120|600)(\\.0)?"}],"relabelings":[{"action":"replace","sourceLabels":["__metrics_path__"],"targetLabel":"metrics_path"}],"additionalLabels":{},"targetLabels":[]}}
+   * @default {...} (4 keys)
    */
   kubelet?: KubeprometheusstackHelmValuesKubelet;
   /**
    * Component scraping the kube controller manager
    *
-   * @default {...} (4 keys)
+   * @default {...} (5 keys)
    */
   kubeControllerManager?: KubeprometheusstackHelmValuesKubeControllerManager;
   /**
@@ -8684,13 +8690,13 @@ export type KubeprometheusstackHelmValues = {
   /**
    * Component scraping kube scheduler
    *
-   * @default {...} (4 keys)
+   * @default {...} (5 keys)
    */
   kubeScheduler?: KubeprometheusstackHelmValuesKubeScheduler;
   /**
    * Component scraping kube proxy
    *
-   * @default {...} (4 keys)
+   * @default {...} (5 keys)
    */
   kubeProxy?: KubeprometheusstackHelmValuesKubeProxy;
   /**
@@ -8702,7 +8708,7 @@ export type KubeprometheusstackHelmValues = {
   /**
    * Configuration for kube-state-metrics subchart
    *
-   * @default {...} (6 keys)
+   * @default {"releaseLabel":true,"prometheusScrape":false,"prometheus":{"monitor":{"enabled":true,"http":{"honorLabels":true},"metrics":{"honorLabels":true}}}}
    */
   "kube-state-metrics"?: KubeprometheusstackHelmValuesKubestatemetrics;
   /**
@@ -8985,7 +8991,9 @@ export type KubeprometheusstackHelmParameters = {
   "grafana.defaultDashboardsEditable"?: string;
   "grafana.defaultDashboardsInterval"?: string;
   "grafana.adminUser"?: string;
-  "grafana.adminPassword"?: string;
+  "grafana.admin.existingSecret"?: string;
+  "grafana.admin.userKey"?: string;
+  "grafana.admin.passwordKey"?: string;
   "grafana.rbac.pspEnabled"?: string;
   "grafana.ingress.enabled"?: string;
   "grafana.ingress.hosts"?: string;
@@ -9051,6 +9059,7 @@ export type KubeprometheusstackHelmParameters = {
   "kubeApiServer.serviceMonitor.targetLabels"?: string;
   "kubelet.enabled"?: string;
   "kubelet.namespace"?: string;
+  "kubelet.jobNameOverride"?: string;
   "kubelet.serviceMonitor.enabled"?: string;
   "kubelet.serviceMonitor.kubelet"?: string;
   "kubelet.serviceMonitor.attachMetadata.node"?: string;
@@ -9093,6 +9102,7 @@ export type KubeprometheusstackHelmParameters = {
   "kubelet.serviceMonitor.relabelings.targetLabel"?: string;
   "kubelet.serviceMonitor.targetLabels"?: string;
   "kubeControllerManager.enabled"?: string;
+  "kubeControllerManager.jobNameOverride"?: string;
   "kubeControllerManager.endpoints"?: string;
   "kubeControllerManager.service.enabled"?: string;
   "kubeControllerManager.service.port"?: string;
@@ -9185,6 +9195,7 @@ export type KubeprometheusstackHelmParameters = {
   "kubeEtcd.serviceMonitor.relabelings"?: string;
   "kubeEtcd.serviceMonitor.targetLabels"?: string;
   "kubeScheduler.enabled"?: string;
+  "kubeScheduler.jobNameOverride"?: string;
   "kubeScheduler.endpoints"?: string;
   "kubeScheduler.service.enabled"?: string;
   "kubeScheduler.service.port"?: string;
@@ -9209,6 +9220,7 @@ export type KubeprometheusstackHelmParameters = {
   "kubeScheduler.serviceMonitor.relabelings"?: string;
   "kubeScheduler.serviceMonitor.targetLabels"?: string;
   "kubeProxy.enabled"?: string;
+  "kubeProxy.jobNameOverride"?: string;
   "kubeProxy.endpoints"?: string;
   "kubeProxy.service.enabled"?: string;
   "kubeProxy.service.port"?: string;
@@ -9231,23 +9243,11 @@ export type KubeprometheusstackHelmParameters = {
   "kubeProxy.serviceMonitor.relabelings"?: string;
   "kubeProxy.serviceMonitor.targetLabels"?: string;
   "kubeStateMetrics.enabled"?: string;
-  "kube-state-metrics.namespaceOverride"?: string;
-  "kube-state-metrics.rbac.create"?: string;
   "kube-state-metrics.releaseLabel"?: string;
   "kube-state-metrics.prometheusScrape"?: string;
   "kube-state-metrics.prometheus.monitor.enabled"?: string;
-  "kube-state-metrics.prometheus.monitor.interval"?: string;
-  "kube-state-metrics.prometheus.monitor.sampleLimit"?: string;
-  "kube-state-metrics.prometheus.monitor.targetLimit"?: string;
-  "kube-state-metrics.prometheus.monitor.labelLimit"?: string;
-  "kube-state-metrics.prometheus.monitor.labelNameLengthLimit"?: string;
-  "kube-state-metrics.prometheus.monitor.labelValueLengthLimit"?: string;
-  "kube-state-metrics.prometheus.monitor.scrapeTimeout"?: string;
-  "kube-state-metrics.prometheus.monitor.proxyUrl"?: string;
-  "kube-state-metrics.prometheus.monitor.honorLabels"?: string;
-  "kube-state-metrics.prometheus.monitor.metricRelabelings"?: string;
-  "kube-state-metrics.prometheus.monitor.relabelings"?: string;
-  "kube-state-metrics.selfMonitor.enabled"?: string;
+  "kube-state-metrics.prometheus.monitor.http.honorLabels"?: string;
+  "kube-state-metrics.prometheus.monitor.metrics.honorLabels"?: string;
   "nodeExporter.enabled"?: string;
   "nodeExporter.operatingSystems.linux.enabled"?: string;
   "nodeExporter.operatingSystems.aix.enabled"?: string;

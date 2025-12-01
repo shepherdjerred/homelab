@@ -303,18 +303,19 @@ export type ArgocdHelmValuesConfigs = {
    * General Argo CD configuration. Any values you put under `.configs.cm` are passed to argocd-cm ConfigMap.
    * Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
    *
-   * @default {...} (19 keys)
+   * @default {...} (18 keys)
    */
   cm?: ArgocdHelmValuesConfigsCm;
   /**
    * Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cmd-params-cm.yaml
+   * You can customize parameters by adding parameters here.
+   * (e.g.)
+   * Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
    *
-   * @default {...} (23 keys)
+   * @default {"create":true,"annotations":{}}
    */
   params?: ArgocdHelmValuesConfigsParams;
   /**
-   * Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
-   *
    * @default {...} (6 keys)
    */
   rbac?: ArgocdHelmValuesConfigsRbac;
@@ -421,13 +422,6 @@ export type ArgocdHelmValuesConfigsCm = {
    * @default false
    */
   "application.sync.impersonation.enabled"?: boolean;
-  /**
-   * Enable logs RBAC enforcement
-   * Ref: https://argo-cd.readthedocs.io/en/latest/operator-manual/upgrading/2.3-2.4/#enable-logs-rbac-enforcement
-   *
-   * @default false
-   */
-  "server.rbac.log.enforce.enable"?: boolean;
   /**
    * Enable exec feature in Argo UI
    * Ref: https://argo-cd.readthedocs.io/en/latest/operator-manual/rbac/#exec-resource
@@ -561,145 +555,6 @@ export type ArgocdHelmValuesConfigsParams = {
    * @default {}
    */
   annotations?: ArgocdHelmValuesConfigsParamsAnnotations;
-  /**
-   * Generic parameters
-   * Open-Telemetry collector address: (e.g. "otel-collector:4317")
-   *
-   * @default ""
-   */
-  "otlp.address"?: string;
-  /**
-   * Controller Properties
-   * Number of application status processors
-   *
-   * @default 20
-   */
-  "controller.status.processors"?: number;
-  /**
-   * Number of application operation processors
-   *
-   * @default 10
-   */
-  "controller.operation.processors"?: number;
-  /**
-   * Specifies timeout between application self heal attempts
-   *
-   * @default 5
-   */
-  "controller.self.heal.timeout.seconds"?: number;
-  /**
-   * Repo server RPC call timeout seconds.
-   *
-   * @default 60
-   */
-  "controller.repo.server.timeout.seconds"?: number;
-  /**
-   * Specifies the timeout after which a sync would be terminated. 0 means no timeout
-   *
-   * @default 0
-   */
-  "controller.sync.timeout.seconds"?: number;
-  /**
-   * Server properties
-   * Run server without TLS
-   * NOTE: This value should be set when you generate params by other means as it changes ports used by ingress template.
-   *
-   * @default false
-   */
-  "server.insecure"?: boolean;
-  /**
-   * Value for base href in index.html. Used if Argo CD is running behind reverse proxy under subpath different from /
-   *
-   * @default "/"
-   */
-  "server.basehref"?: string;
-  /**
-   * Used if Argo CD is running behind reverse proxy under subpath different from /
-   *
-   * @default ""
-   */
-  "server.rootpath"?: string;
-  /**
-   * Directory path that contains additional static assets
-   *
-   * @default "/shared/app"
-   */
-  "server.staticassets"?: string;
-  /**
-   * Disable Argo CD RBAC for user authentication
-   *
-   * @default false
-   */
-  "server.disable.auth"?: boolean;
-  /**
-   * Enable GZIP compression
-   *
-   * @default true
-   */
-  "server.enable.gzip"?: boolean;
-  /**
-   * Enable proxy extension feature. (proxy extension is in Alpha phase)
-   *
-   * @default false
-   */
-  "server.enable.proxy.extension"?: boolean;
-  /**
-   * Enable the hydrator feature (hydrator is in Alpha phase)
-   *
-   * @default false
-   */
-  "hydrator.enabled"?: boolean;
-  /**
-   * Set X-Frame-Options header in HTTP responses to value. To disable, set to "".
-   *
-   * @default "sameorigin"
-   */
-  "server.x.frame.options"?: string;
-  /**
-   * Repo-server properties
-   * Limit on number of concurrent manifests generate requests. Any value less the 1 means no limit.
-   *
-   * @default 0
-   */
-  "reposerver.parallelism.limit"?: number;
-  /**
-   * ApplicationSet Properties
-   * Modify how application is synced between the generator and the cluster. One of: `sync`, `create-only`, `create-update`, `create-delete`
-   *
-   * @default "sync"
-   */
-  "applicationsetcontroller.policy"?: string;
-  /**
-   * Enables use of the Progressive Syncs capability
-   *
-   * @default false
-   */
-  "applicationsetcontroller.enable.progressive.syncs"?: boolean;
-  /**
-   * A list of glob patterns specifying where to look for ApplicationSet resources. (e.g. `"argocd,argocd-appsets-*"`)
-   * For more information: https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Appset-Any-Namespace/
-   *
-   * @default ""
-   */
-  "applicationsetcontroller.namespaces"?: string;
-  /**
-   * Enables [Applications in any namespace]
-   * List of additional namespaces where applications may be created in and reconciled from.
-   * The namespace where Argo CD is installed to will always be allowed.
-   * Set comma-separated list. (e.g. app-team-one, app-team-two)
-   *
-   * @default ""
-   */
-  "application.namespaces"?: string;
-  /**
-   * JQ Path expression timeout
-   * By default, the evaluation of a JQPathExpression is limited to one second.
-   * If you encounter a "JQ patch execution timed out" error message due to a complex JQPathExpression
-   * that requires more time to evaluate, you can extend the timeout period.
-   *
-   * @default "1s"
-   */
-  "controller.ignore.normalizer.jq.timeout"?: string;
 };
 
 export type ArgocdHelmValuesConfigsParamsAnnotations = {
@@ -2493,7 +2348,7 @@ export type ArgocdHelmValuesRedis = {
   /**
    * Redis image
    *
-   * @default {"repository":"ecr-public.aws.com/docker/library/redis","tag":"7.2.11-alpine","imagePullPolicy":""}
+   * @default {"repository":"ecr-public.aws.com/docker/library/redis","tag":"8.2.2-alpine","imagePullPolicy":""}
    */
   image?: ArgocdHelmValuesRedisImage;
   /**
@@ -2700,7 +2555,7 @@ export type ArgocdHelmValuesRedisImage = {
    * Redis tag
    * Do not upgrade to >= 7.4.0, otherwise you are no longer using an open source version of Redis
    *
-   * @default "7.2.11-alpine"
+   * @default "8.2.2-alpine"
    */
   tag?: string;
   /**
@@ -2722,7 +2577,7 @@ export type ArgocdHelmValuesRedisExporter = {
   /**
    * Prometheus redis-exporter image
    *
-   * @default {"repository":"ghcr.io/oliver006/redis_exporter","tag":"v1.78.0","imagePullPolicy":""}
+   * @default {"repository":"ghcr.io/oliver006/redis_exporter","tag":"v1.80.0","imagePullPolicy":""}
    */
   image?: ArgocdHelmValuesRedisExporterImage;
   /**
@@ -2760,7 +2615,7 @@ export type ArgocdHelmValuesRedisExporterImage = {
   /**
    * Tag to use for the redis-exporter
    *
-   * @default "v1.78.0"
+   * @default "v1.80.0"
    */
   tag?: string;
   /**
@@ -3268,7 +3123,7 @@ export type ArgocdHelmValuesRedisha = {
   /**
    * Redis image
    *
-   * @default {"repository":"ecr-public.aws.com/docker/library/redis","tag":"7.2.11-alpine"}
+   * @default {"repository":"ecr-public.aws.com/docker/library/redis","tag":"8.2.2-alpine"}
    */
   image?: ArgocdHelmValuesRedishaImage;
   /**
@@ -3351,7 +3206,7 @@ export type ArgocdHelmValuesRedishaImage = {
    * Redis tag
    * Do not upgrade to >= 7.4.0, otherwise you are no longer using an open source version of Redis
    *
-   * @default "7.2.11-alpine"
+   * @default "8.2.2-alpine"
    */
   tag?: string;
 };
@@ -3597,7 +3452,14 @@ export type ArgocdHelmValuesRedisSecretInit = {
    * @default {"repository":"","tag":"","imagePullPolicy":""}
    */
   image?: ArgocdHelmValuesRedisSecretInitImage;
+  extraArgs?: unknown[];
   imagePullSecrets?: unknown[];
+  /**
+   * Runtime class name for the Redis secret-init Job
+   *
+   * @default ""
+   */
+  runtimeClassName?: string;
   /**
    * Annotations to be added to the Redis secret-init Job
    *
@@ -4913,7 +4775,7 @@ export type ArgocdHelmValuesServerIngress = {
    * Applies only when `serv.ingress.controller` is set to `aws`
    * Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#aws-application-load-balancers-albs-and-classic-elb-http-mode
    *
-   * @default {"backendProtocolVersion":"GRPC","serviceType":"NodePort"}
+   * @default {"backendProtocolVersion":"GRPC","serviceType":"NodePort","serviceAnnotations":{}}
    */
   aws?: ArgocdHelmValuesServerIngressAws;
   /**
@@ -4960,7 +4822,16 @@ export type ArgocdHelmValuesServerIngressAws = {
    * @default "NodePort"
    */
   serviceType?: string;
+  /**
+   * Annotations for the AWS ALB gRPC service
+   * Allows adding custom annotations to the gRPC service for integrations like DataDog, Prometheus, etc.
+   *
+   * @default {}
+   */
+  serviceAnnotations?: ArgocdHelmValuesServerIngressAwsServiceAnnotations;
 };
+
+export type ArgocdHelmValuesServerIngressAwsServiceAnnotations = object;
 
 export type ArgocdHelmValuesServerIngressGke = {
   /**
@@ -8235,7 +8106,7 @@ export type ArgocdHelmValues = {
    */
   externalRedis?: ArgocdHelmValuesExternalRedis;
   /**
-   * @default {...} (15 keys)
+   * @default {...} (17 keys)
    */
   redisSecretInit?: ArgocdHelmValuesRedisSecretInit;
   /**
@@ -8304,7 +8175,6 @@ export type ArgocdHelmParameters = {
   "configs.cm.create"?: string;
   "configs.cm.application.instanceLabelKey"?: string;
   "configs.cm.application.sync.impersonation.enabled"?: string;
-  "configs.cm.server.rbac.log.enforce.enable"?: string;
   "configs.cm.exec.enabled"?: string;
   "configs.cm.admin.enabled"?: string;
   "configs.cm.timeout.reconciliation"?: string;
@@ -8320,27 +8190,6 @@ export type ArgocdHelmParameters = {
   "configs.cm.resource.customizations.ignoreResourceUpdates.Endpoints"?: string;
   "configs.cm.resource.exclusions"?: string;
   "configs.params.create"?: string;
-  "configs.params.otlp.address"?: string;
-  "configs.params.controller.status.processors"?: string;
-  "configs.params.controller.operation.processors"?: string;
-  "configs.params.controller.self.heal.timeout.seconds"?: string;
-  "configs.params.controller.repo.server.timeout.seconds"?: string;
-  "configs.params.controller.sync.timeout.seconds"?: string;
-  "configs.params.server.insecure"?: string;
-  "configs.params.server.basehref"?: string;
-  "configs.params.server.rootpath"?: string;
-  "configs.params.server.staticassets"?: string;
-  "configs.params.server.disable.auth"?: string;
-  "configs.params.server.enable.gzip"?: string;
-  "configs.params.server.enable.proxy.extension"?: string;
-  "configs.params.hydrator.enabled"?: string;
-  "configs.params.server.x.frame.options"?: string;
-  "configs.params.reposerver.parallelism.limit"?: string;
-  "configs.params.applicationsetcontroller.policy"?: string;
-  "configs.params.applicationsetcontroller.enable.progressive.syncs"?: string;
-  "configs.params.applicationsetcontroller.namespaces"?: string;
-  "configs.params.application.namespaces"?: string;
-  "configs.params.controller.ignore.normalizer.jq.timeout"?: string;
   "configs.rbac.create"?: string;
   "configs.rbac.policy.default"?: string;
   "configs.rbac.policy.csv"?: string;
@@ -8623,7 +8472,9 @@ export type ArgocdHelmParameters = {
   "redisSecretInit.image.repository"?: string;
   "redisSecretInit.image.tag"?: string;
   "redisSecretInit.image.imagePullPolicy"?: string;
+  "redisSecretInit.extraArgs"?: string;
   "redisSecretInit.imagePullSecrets"?: string;
+  "redisSecretInit.runtimeClassName"?: string;
   "redisSecretInit.containerSecurityContext.allowPrivilegeEscalation"?: string;
   "redisSecretInit.containerSecurityContext.capabilities.drop"?: string;
   "redisSecretInit.containerSecurityContext.readOnlyRootFilesystem"?: string;

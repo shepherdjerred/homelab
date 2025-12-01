@@ -262,7 +262,7 @@ export async function createPrometheusApp(chart: Chart) {
     prometheus: {
       prometheusSpec: {
         externalUrl: "https://prometheus.tailnet-1a49.ts.net",
-        retention: "365d", // Keep data for 1 year
+        retention: "180d", // Keep data for 6 months
         retentionSize: "120GB", // Safety limit - delete old data if storage exceeds this
         storageSpec: {
           volumeClaimTemplate: {

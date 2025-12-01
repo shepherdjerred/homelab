@@ -33,10 +33,7 @@ async function loadJSONSchema(chartPath: string): Promise<JSONSchemaProperty | n
  */
 async function runCommand(command: string, args: string[]): Promise<string> {
   try {
-    // Use full path for helm command
-    const commandPath = command === "helm" ? "/home/linuxbrew/.linuxbrew/bin/helm" : command;
-
-    const proc = Bun.spawn([commandPath, ...args], {
+    const proc = Bun.spawn([command, ...args], {
       stdout: "pipe",
       stderr: "inherit",
     });

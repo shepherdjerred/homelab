@@ -1,4 +1,26 @@
 /**
+ * Well-known Kubernetes resource patterns.
+ * When a property matches these patterns, we augment the type with standard K8s fields.
+ */
+export const K8S_RESOURCE_SPEC_PATTERN = {
+  /**
+   * Property names that indicate a Kubernetes resource spec (requests/limits pattern)
+   */
+  resourceSpecNames: ["resources"],
+  /**
+   * Required sibling properties for a valid resource spec
+   */
+  resourceSpecFields: ["requests", "limits"] as const,
+};
+
+/**
+ * Check if a property name indicates a Kubernetes resource spec.
+ */
+export function isK8sResourceSpec(propertyName: string): boolean {
+  return K8S_RESOURCE_SPEC_PATTERN.resourceSpecNames.includes(propertyName.toLowerCase());
+}
+
+/**
  * Configuration for types that should allow arbitrary additional properties.
  * Maps chart names to array of key paths that should be extensible.
  *
@@ -41,7 +63,7 @@ export const EXTENSIBLE_TYPE_PATTERNS: Record<string, string[]> = {
   "prometheus-adapter": [
     "rules", // Allows resource, custom, external and other rule configurations
   ],
-  "velero": [
+  velero: [
     "kubectl.image", // Allows image configuration
   ],
 };

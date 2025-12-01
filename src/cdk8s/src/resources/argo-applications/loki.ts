@@ -12,7 +12,7 @@ export function createLokiApp(chart: Chart) {
     singleBinary: {
       persistence: {
         storageClass: SSD_STORAGE_CLASS,
-        size: Size.gibibytes(32).asString(),
+        size: Size.gibibytes(64).asString(),
       },
     },
     loki: {
@@ -21,13 +21,16 @@ export function createLokiApp(chart: Chart) {
       },
       auth_enabled: false,
       limits_config: {
-        retention_period: "90d",
+        retention_period: "30d",
+      },
+      storage: {
+        type: "filesystem",
       },
       schemaConfig: {
         configs: [
           {
             from: "2025-01-01",
-            object_store: "s3",
+            object_store: "filesystem",
             store: "tsdb",
             schema: "v13",
             index: {
@@ -38,19 +41,8 @@ export function createLokiApp(chart: Chart) {
         ],
       },
     },
-    compactor: {
-      enabled: true,
-      retention_enabled: true,
-      working_directory: "/var/loki/compactor",
-      compaction_interval: "10m",
-      retention_delete_delay: "2h",
-    },
     minio: {
-      enabled: true,
-      persistence: {
-        storageClass: SSD_STORAGE_CLASS,
-        size: Size.gibibytes(64).asString(),
-      },
+      enabled: false,
     },
   };
 

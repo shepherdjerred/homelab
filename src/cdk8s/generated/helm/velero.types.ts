@@ -234,9 +234,10 @@ export type VeleroHelmValuesMetrics = {
    */
   serviceMonitor?: VeleroHelmValuesMetricsServiceMonitor;
   /**
-   * ServiceMonitor namespace. Default to Velero namespace.
-   * ServiceMonitor connection scheme. Defaults to HTTP.
-   * ServiceMonitor connection tlsConfig. Defaults to {}.
+   * metrics.nodeAgentPodMonitor.relabelings [array] Prometheus relabeling rules
+   * PodMonitor namespace. Default to Velero namespace.
+   * PodMonitor connection scheme. Defaults to HTTP.
+   * PodMonitor connection tlsConfig. Defaults to {}.
    *
    * @default {...} (4 keys)
    */

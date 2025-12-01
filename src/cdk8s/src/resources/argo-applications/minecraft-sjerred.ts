@@ -20,6 +20,14 @@ export function createMinecraftSjerredApp(chart: Chart) {
     image: {
       tag: versions["itzg/minecraft-server"],
     },
+    resources: {
+      requests: {
+        memory: "1Gi",
+      },
+      limits: {
+        memory: "1536Mi", // 1G heap + 512M overhead
+      },
+    },
     minecraftServer: {
       eula: true,
       difficulty: "hard",
@@ -30,7 +38,7 @@ export function createMinecraftSjerredApp(chart: Chart) {
       whitelist: ["RiotShielder", "lolopToaster", "gexboy8", "Virmel"].join(","),
       spawnProtection: 0,
       viewDistance: 15,
-      memory: "2G",
+      memory: "1G",
       overrideServerProperties: true,
       forcegameMode: true,
       serviceType: "NodePort",

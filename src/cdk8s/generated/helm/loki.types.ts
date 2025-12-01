@@ -1,6 +1,7 @@
 // Generated TypeScript types for loki Helm chart
 
 export type LokiHelmValuesGlobal = {
+  imageRegistry?: unknown;
   /**
    * @default {"registry":null}
    */
@@ -45,7 +46,7 @@ export type LokiHelmValuesLoki = {
   /**
    * Configures the readiness probe for all of the Loki pods
    *
-   * @default {"httpGet":{"path":"/ready","port":"http-metrics"},"initialDelaySeconds":30,"timeoutSeconds":1}
+   * @default {...} (6 keys)
    */
   readinessProbe?: LokiHelmValuesLokiReadinessProbe;
   /**
@@ -365,9 +366,21 @@ export type LokiHelmValuesLokiReadinessProbe = {
    */
   httpGet?: LokiHelmValuesLokiReadinessProbeHttpGet;
   /**
-   * @default 30
+   * @default 10
+   */
+  periodSeconds?: number;
+  /**
+   * @default 15
    */
   initialDelaySeconds?: number;
+  /**
+   * @default 1
+   */
+  successThreshold?: number;
+  /**
+   * @default 3
+   */
+  failureThreshold?: number;
   /**
    * @default 1
    */
@@ -403,7 +416,7 @@ export type LokiHelmValuesLokiImage = {
   /**
    * Overrides the image tag whose default is the chart's appVersion
    *
-   * @default "3.5.5"
+   * @default "3.5.7"
    */
   tag?: string;
   digest?: unknown;
@@ -1121,9 +1134,9 @@ export type LokiHelmValuesEnterprise = {
    */
   enabled?: boolean;
   /**
-   * Default verion of GEL to deploy
+   * Default version of GEL to deploy
    *
-   * @default "3.5.2"
+   * @default "3.5.4"
    */
   version?: string;
   cluster_name?: unknown;
@@ -1218,7 +1231,7 @@ export type LokiHelmValuesEnterpriseImage = {
   /**
    * Docker image tag
    *
-   * @default "3.5.5"
+   * @default "3.5.4"
    */
   tag?: string;
   digest?: unknown;
@@ -1381,7 +1394,7 @@ export type LokiHelmValuesTest = {
    * Used to directly query the metrics endpoint of the canary for testing, this approach avoids needing prometheus for testing.
    * This in a newer approach to using prometheusAddress such that tests do not have a dependency on prometheus
    *
-   * @default "http://loki-canary:3500/metrics"
+   * @default "http://{{ include "loki-canary.fullname" $ }}.{..."
    */
   canaryServiceAddress?: string;
   /**
@@ -1552,6 +1565,12 @@ export type LokiHelmValuesLokiCanary = {
    */
   image?: LokiHelmValuesLokiCanaryImage;
   /**
+   * Readiness probe
+   *
+   * @default {"httpGet":{"path":"/metrics","port":"http-metrics"},"initialDelaySeconds":15,"timeoutSeconds":1}
+   */
+  readinessProbe?: LokiHelmValuesLokiCanaryReadinessProbe;
+  /**
    * Update strategy for the `loki-canary` Daemonset pods
    *
    * @default {"type":"RollingUpdate","rollingUpdate":{"maxUnavailable":1}}
@@ -1635,6 +1654,32 @@ export type LokiHelmValuesLokiCanaryImage = {
    * @default "IfNotPresent"
    */
   pullPolicy?: string;
+};
+
+export type LokiHelmValuesLokiCanaryReadinessProbe = {
+  /**
+   * @default {"path":"/metrics","port":"http-metrics"}
+   */
+  httpGet?: LokiHelmValuesLokiCanaryReadinessProbeHttpGet;
+  /**
+   * @default 15
+   */
+  initialDelaySeconds?: number;
+  /**
+   * @default 1
+   */
+  timeoutSeconds?: number;
+};
+
+export type LokiHelmValuesLokiCanaryReadinessProbeHttpGet = {
+  /**
+   * @default "/metrics"
+   */
+  path?: string;
+  /**
+   * @default "http-metrics"
+   */
+  port?: string;
 };
 
 export type LokiHelmValuesLokiCanaryUpdateStrategy = {
@@ -3117,6 +3162,7 @@ export type LokiHelmValuesSingleBinary = {
    * @default {"podAntiAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":[{"labelSelector":{"matchLabels":{"app.kubernetes.io/component":"single-binary","app.kubernetes.io/name":"{{ include \"loki.name\" . }}","app.kubernetes.io/instance":"{{ .Release.Name }}"}},"topologyKey":"kubernetes.io/hostname"}]}}
    */
   affinity?: LokiHelmValuesSingleBinaryAffinity;
+  topologySpreadConstraints?: unknown[];
   /**
    * DNS config for single binary pods
    *
@@ -3131,7 +3177,7 @@ export type LokiHelmValuesSingleBinary = {
   nodeSelector?: LokiHelmValuesSingleBinaryNodeSelector;
   tolerations?: unknown[];
   /**
-   * @default {...} (10 keys)
+   * @default {...} (11 keys)
    */
   persistence?: LokiHelmValuesSingleBinaryPersistence;
 };
@@ -3297,6 +3343,14 @@ export type LokiHelmValuesSingleBinaryPersistence = {
    * @default true
    */
   enableStatefulSetAutoDeletePVC?: boolean;
+  /**
+   * Enable StatefulSetRecreation for changes to PVC size.
+   * This means that the StatefulSet will be deleted, recreated (with the same name) and rolled when a change to the
+   * PVC size is detected. That way the PVC can be resized without manual intervention.
+   *
+   * @default false
+   */
+  enableStatefulSetRecreationForSizeChange?: boolean;
   /**
    * Enable persistent disk
    *
@@ -5596,6 +5650,12 @@ export type LokiHelmValuesQueryFrontend = {
    * @default {"grpc":""}
    */
   appProtocol?: LokiHelmValuesQueryFrontendAppProtocol;
+  /**
+   * Enable load balancer port for query-frontend
+   *
+   * @default {"enabled":true}
+   */
+  loadBalancer?: LokiHelmValuesQueryFrontendLoadBalancer;
 };
 
 export type LokiHelmValuesQueryFrontendAutoscaling = {
@@ -5727,6 +5787,13 @@ export type LokiHelmValuesQueryFrontendAppProtocol = {
    * @default ""
    */
   grpc?: string;
+};
+
+export type LokiHelmValuesQueryFrontendLoadBalancer = {
+  /**
+   * @default true
+   */
+  enabled?: boolean;
 };
 
 export type LokiHelmValuesQueryScheduler = {
@@ -5982,6 +6049,12 @@ export type LokiHelmValuesIndexGateway = {
    */
   terminationGracePeriodSeconds?: number;
   /**
+   * Lifecycle for the index-gateway container
+   *
+   * @default {}
+   */
+  lifecycle?: LokiHelmValuesIndexGatewayLifecycle;
+  /**
    * Affinity for index-gateway pods.
    * The value will be passed through tpl.
    *
@@ -6034,6 +6107,8 @@ export type LokiHelmValuesIndexGatewayServiceLabels = object;
 export type LokiHelmValuesIndexGatewayServiceAnnotations = object;
 
 export type LokiHelmValuesIndexGatewayResources = object;
+
+export type LokiHelmValuesIndexGatewayLifecycle = object;
 
 export type LokiHelmValuesIndexGatewayAffinity = {
   /**
@@ -6282,7 +6357,7 @@ export type LokiHelmValuesCompactor = {
    */
   appProtocol?: LokiHelmValuesCompactorAppProtocol;
   /**
-   * @default {...} (7 keys)
+   * @default {...} (5 keys)
    */
   persistence?: LokiHelmValuesCompactorPersistence;
   /**
@@ -6459,13 +6534,6 @@ export type LokiHelmValuesCompactorPersistence = {
    * @default false
    */
   enabled?: boolean;
-  /**
-   * Size of persistent disk
-   *
-   * @default "10Gi"
-   */
-  size?: string;
-  storageClass?: unknown;
   claims?: LokiHelmValuesCompactorPersistenceClaimsElement[];
   /**
    * @default false
@@ -8090,6 +8158,12 @@ export type LokiHelmValuesMemcached = {
    * @default {...} (5 keys)
    */
   livenessProbe?: LokiHelmValuesMemcachedLivenessProbe;
+  /**
+   * Startup probe for memcached pods
+   *
+   * @default {}
+   */
+  startupProbe?: LokiHelmValuesMemcachedStartupProbe;
 };
 
 export type LokiHelmValuesMemcachedImage = {
@@ -8211,6 +8285,8 @@ export type LokiHelmValuesMemcachedLivenessProbeTcpSocket = {
   port?: string;
 };
 
+export type LokiHelmValuesMemcachedStartupProbe = object;
+
 export type LokiHelmValuesMemcachedExporter = {
   /**
    * Whether memcached metrics should be exported
@@ -8253,6 +8329,12 @@ export type LokiHelmValuesMemcachedExporter = {
    * @default {...} (5 keys)
    */
   readinessProbe?: LokiHelmValuesMemcachedExporterReadinessProbe;
+  /**
+   * Startup probe for memcached exporter
+   *
+   * @default {}
+   */
+  startupProbe?: LokiHelmValuesMemcachedExporterStartupProbe;
 };
 
 export type LokiHelmValuesMemcachedExporterImage = {
@@ -8373,6 +8455,8 @@ export type LokiHelmValuesMemcachedExporterReadinessProbeHttpGet = {
    */
   port?: string;
 };
+
+export type LokiHelmValuesMemcachedExporterStartupProbe = object;
 
 export type LokiHelmValuesResultsCache = {
   /**
@@ -9397,9 +9481,24 @@ export type LokiHelmValuesMinioResources = {
    * @default {"cpu":"100m","memory":"128Mi"}
    */
   requests?: LokiHelmValuesMinioResourcesRequests;
+  /**
+   * Kubernetes resource limits (memory, cpu, etc.)
+   */
+  limits?: LokiHelmValuesMinioResourcesLimits;
 };
 
 export type LokiHelmValuesMinioResourcesRequests = {
+  /**
+   * @default "100m"
+   */
+  cpu?: string;
+  /**
+   * @default "128Mi"
+   */
+  memory?: string;
+};
+
+export type LokiHelmValuesMinioResourcesLimits = {
   /**
    * @default "100m"
    */
@@ -9591,7 +9690,7 @@ export type LokiHelmValuesMonitoring = {
   /**
    * Recording rules for monitoring Loki, required for some dashboards
    *
-   * @default {...} (8 keys)
+   * @default {...} (10 keys)
    */
   rules?: LokiHelmValuesMonitoringRules;
   /**
@@ -9672,6 +9771,10 @@ export type LokiHelmValuesMonitoringRules = {
    * @default {}
    */
   disabled?: LokiHelmValuesMonitoringRulesDisabled;
+  /**
+   * @default {...} (5 keys)
+   */
+  configs?: LokiHelmValuesMonitoringRulesConfigs;
   namespace?: unknown;
   /**
    * Additional annotations for the rules PrometheusRule resource
@@ -9686,6 +9789,12 @@ export type LokiHelmValuesMonitoringRules = {
    */
   labels?: LokiHelmValuesMonitoringRulesLabels;
   /**
+   * Additional annotations for PrometheusRule alerts
+   *
+   * @default {}
+   */
+  additionalRuleAnnotations?: LokiHelmValuesMonitoringRulesAdditionalRuleAnnotations;
+  /**
    * Additional labels for PrometheusRule alerts
    *
    * @default {}
@@ -9695,6 +9804,133 @@ export type LokiHelmValuesMonitoringRules = {
 };
 
 export type LokiHelmValuesMonitoringRulesDisabled = object;
+
+export type LokiHelmValuesMonitoringRulesConfigs = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
+   * @default {...} (5 keys)
+   */
+  LokiRequestErrors?: LokiHelmValuesMonitoringRulesConfigsLokiRequestErrors;
+  /**
+   * @default {...} (4 keys)
+   */
+  LokiRequestPanics?: LokiHelmValuesMonitoringRulesConfigsLokiRequestPanics;
+  /**
+   * @default {...} (4 keys)
+   */
+  LokiRequestLatency?: LokiHelmValuesMonitoringRulesConfigsLokiRequestLatency;
+  /**
+   * @default {"enabled":true,"for":"5m","severity":"warning"}
+   */
+  LokiTooManyCompactorsRunning?: LokiHelmValuesMonitoringRulesConfigsLokiTooManyCompactorsRunning;
+  /**
+   * @default {...} (5 keys)
+   */
+  LokiCanaryLatency?: LokiHelmValuesMonitoringRulesConfigsLokiCanaryLatency;
+};
+
+export type LokiHelmValuesMonitoringRulesConfigsLokiRequestErrors = {
+  /**
+   * @default true
+   */
+  enabled?: boolean;
+  /**
+   * @default "15m"
+   */
+  for?: string;
+  /**
+   * @default "2m"
+   */
+  lookbackPeriod?: string;
+  /**
+   * @default "critical"
+   */
+  severity?: string;
+  /**
+   * @default 10
+   */
+  threshold?: number;
+};
+
+export type LokiHelmValuesMonitoringRulesConfigsLokiRequestPanics = {
+  /**
+   * @default true
+   */
+  enabled?: boolean;
+  /**
+   * @default "10m"
+   */
+  lookbackPeriod?: string;
+  /**
+   * @default "critical"
+   */
+  severity?: string;
+  /**
+   * @default 0
+   */
+  threshold?: number;
+};
+
+export type LokiHelmValuesMonitoringRulesConfigsLokiRequestLatency = {
+  /**
+   * @default true
+   */
+  enabled?: boolean;
+  /**
+   * @default "15m"
+   */
+  for?: string;
+  /**
+   * @default "critical"
+   */
+  severity?: string;
+  /**
+   * @default 1
+   */
+  threshold?: number;
+};
+
+export type LokiHelmValuesMonitoringRulesConfigsLokiTooManyCompactorsRunning = {
+  /**
+   * @default true
+   */
+  enabled?: boolean;
+  /**
+   * @default "5m"
+   */
+  for?: string;
+  /**
+   * @default "warning"
+   */
+  severity?: string;
+};
+
+export type LokiHelmValuesMonitoringRulesConfigsLokiCanaryLatency = {
+  /**
+   * @default true
+   */
+  enabled?: boolean;
+  /**
+   * @default "15m"
+   */
+  for?: string;
+  /**
+   * @default "5m"
+   */
+  lookbackPeriod?: string;
+  /**
+   * @default "warning"
+   */
+  severity?: string;
+  /**
+   * @default 5
+   */
+  threshold?: number;
+};
 
 export type LokiHelmValuesMonitoringRulesAnnotations = {
   /**
@@ -9711,6 +9947,8 @@ export type LokiHelmValuesMonitoringRulesLabels = {
    */
   [key: string]: unknown;
 };
+
+export type LokiHelmValuesMonitoringRulesAdditionalRuleAnnotations = object;
 
 export type LokiHelmValuesMonitoringRulesAdditionalRuleLabels = object;
 
@@ -10192,7 +10430,7 @@ export type LokiHelmValuesTableManagerNodeSelector = object;
 export type LokiHelmValues = {
   kubeVersionOverride?: unknown;
   /**
-   * @default {...} (10 keys)
+   * @default {...} (11 keys)
    */
   global?: LokiHelmValuesGlobal;
   nameOverride?: unknown;
@@ -10235,7 +10473,7 @@ export type LokiHelmValues = {
    * The Loki canary pushes logs to and queries from this loki installation to test
    * that it's working correctly
    *
-   * @default {...} (23 keys)
+   * @default {...} (24 keys)
    */
   lokiCanary?: LokiHelmValuesLokiCanary;
   /**
@@ -10306,7 +10544,7 @@ export type LokiHelmValues = {
    * For small Loki installations up to a few 10's of GB per day, or for testing and development.
    * Configuration for the single binary node(s)
    *
-   * @default {...} (25 keys)
+   * @default {...} (26 keys)
    */
   singleBinary?: LokiHelmValuesSingleBinary;
   /**
@@ -10352,7 +10590,7 @@ export type LokiHelmValues = {
   /**
    * Configuration for the query-frontend
    *
-   * @default {...} (27 keys)
+   * @default {...} (28 keys)
    */
   queryFrontend?: LokiHelmValuesQueryFrontend;
   /**
@@ -10364,7 +10602,7 @@ export type LokiHelmValues = {
   /**
    * Configuration for the index-gateway
    *
-   * @default {...} (29 keys)
+   * @default {...} (30 keys)
    */
   indexGateway?: LokiHelmValuesIndexGateway;
   /**
@@ -10410,11 +10648,11 @@ export type LokiHelmValues = {
   /**
    * You can use a self hosted memcached by setting enabled to false and providing addresses.
    *
-   * @default {...} (7 keys)
+   * @default {...} (8 keys)
    */
   memcached?: LokiHelmValuesMemcached;
   /**
-   * @default {...} (7 keys)
+   * @default {...} (8 keys)
    */
   memcachedExporter?: LokiHelmValuesMemcachedExporter;
   /**
@@ -10463,6 +10701,7 @@ export type LokiHelmValues = {
 
 export type LokiHelmParameters = {
   kubeVersionOverride?: string;
+  "global.imageRegistry"?: string;
   "global.image.registry"?: string;
   "global.priorityClassName"?: string;
   "global.clusterDomain"?: string;
@@ -10481,7 +10720,10 @@ export type LokiHelmParameters = {
   deploymentMode?: string;
   "loki.readinessProbe.httpGet.path"?: string;
   "loki.readinessProbe.httpGet.port"?: string;
+  "loki.readinessProbe.periodSeconds"?: string;
   "loki.readinessProbe.initialDelaySeconds"?: string;
+  "loki.readinessProbe.successThreshold"?: string;
+  "loki.readinessProbe.failureThreshold"?: string;
   "loki.readinessProbe.timeoutSeconds"?: string;
   "loki.image.registry"?: string;
   "loki.image.repository"?: string;
@@ -10662,6 +10904,10 @@ export type LokiHelmParameters = {
   "lokiCanary.image.tag"?: string;
   "lokiCanary.image.digest"?: string;
   "lokiCanary.image.pullPolicy"?: string;
+  "lokiCanary.readinessProbe.httpGet.path"?: string;
+  "lokiCanary.readinessProbe.httpGet.port"?: string;
+  "lokiCanary.readinessProbe.initialDelaySeconds"?: string;
+  "lokiCanary.readinessProbe.timeoutSeconds"?: string;
   "lokiCanary.updateStrategy.type"?: string;
   "lokiCanary.updateStrategy.rollingUpdate.maxUnavailable"?: string;
   "lokiCanary.replicas"?: string;
@@ -10836,10 +11082,12 @@ export type LokiHelmParameters = {
   "singleBinary.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/name"?: string;
   "singleBinary.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchLabels.app.kubernetes.io/instance"?: string;
   "singleBinary.affinity.podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.topologyKey"?: string;
+  "singleBinary.topologySpreadConstraints"?: string;
   "singleBinary.tolerations"?: string;
   "singleBinary.persistence.whenScaled"?: string;
   "singleBinary.persistence.whenDeleted"?: string;
   "singleBinary.persistence.enableStatefulSetAutoDeletePVC"?: string;
+  "singleBinary.persistence.enableStatefulSetRecreationForSizeChange"?: string;
   "singleBinary.persistence.enabled"?: string;
   "singleBinary.persistence.accessModes"?: string;
   "singleBinary.persistence.size"?: string;
@@ -11117,6 +11365,7 @@ export type LokiHelmParameters = {
   "queryFrontend.topologySpreadConstraints"?: string;
   "queryFrontend.tolerations"?: string;
   "queryFrontend.appProtocol.grpc"?: string;
+  "queryFrontend.loadBalancer.enabled"?: string;
   "queryScheduler.replicas"?: string;
   "queryScheduler.hostAliases"?: string;
   "queryScheduler.hostUsers"?: string;
@@ -11198,8 +11447,6 @@ export type LokiHelmParameters = {
   "compactor.tolerations"?: string;
   "compactor.appProtocol.grpc"?: string;
   "compactor.persistence.enabled"?: string;
-  "compactor.persistence.size"?: string;
-  "compactor.persistence.storageClass"?: string;
   "compactor.persistence.claims.name"?: string;
   "compactor.persistence.claims.accessModes"?: string;
   "compactor.persistence.claims.size"?: string;
@@ -11563,6 +11810,8 @@ export type LokiHelmParameters = {
   "minio.persistence.size"?: string;
   "minio.resources.requests.cpu"?: string;
   "minio.resources.requests.memory"?: string;
+  "minio.resources.limits.cpu"?: string;
+  "minio.resources.limits.memory"?: string;
   "minio.address"?: string;
   extraObjects?: string;
   "sidecar.image.repository"?: string;
@@ -11591,6 +11840,27 @@ export type LokiHelmParameters = {
   "monitoring.dashboards.labels.grafana_dashboard"?: string;
   "monitoring.rules.enabled"?: string;
   "monitoring.rules.alerting"?: string;
+  "monitoring.rules.configs.LokiRequestErrors.enabled"?: string;
+  "monitoring.rules.configs.LokiRequestErrors.for"?: string;
+  "monitoring.rules.configs.LokiRequestErrors.lookbackPeriod"?: string;
+  "monitoring.rules.configs.LokiRequestErrors.severity"?: string;
+  "monitoring.rules.configs.LokiRequestErrors.threshold"?: string;
+  "monitoring.rules.configs.LokiRequestPanics.enabled"?: string;
+  "monitoring.rules.configs.LokiRequestPanics.lookbackPeriod"?: string;
+  "monitoring.rules.configs.LokiRequestPanics.severity"?: string;
+  "monitoring.rules.configs.LokiRequestPanics.threshold"?: string;
+  "monitoring.rules.configs.LokiRequestLatency.enabled"?: string;
+  "monitoring.rules.configs.LokiRequestLatency.for"?: string;
+  "monitoring.rules.configs.LokiRequestLatency.severity"?: string;
+  "monitoring.rules.configs.LokiRequestLatency.threshold"?: string;
+  "monitoring.rules.configs.LokiTooManyCompactorsRunning.enabled"?: string;
+  "monitoring.rules.configs.LokiTooManyCompactorsRunning.for"?: string;
+  "monitoring.rules.configs.LokiTooManyCompactorsRunning.severity"?: string;
+  "monitoring.rules.configs.LokiCanaryLatency.enabled"?: string;
+  "monitoring.rules.configs.LokiCanaryLatency.for"?: string;
+  "monitoring.rules.configs.LokiCanaryLatency.lookbackPeriod"?: string;
+  "monitoring.rules.configs.LokiCanaryLatency.severity"?: string;
+  "monitoring.rules.configs.LokiCanaryLatency.threshold"?: string;
   "monitoring.rules.namespace"?: string;
   "monitoring.rules.additionalGroups"?: string;
   "monitoring.serviceMonitor.enabled"?: string;

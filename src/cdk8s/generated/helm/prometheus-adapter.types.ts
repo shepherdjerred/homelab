@@ -534,6 +534,12 @@ export type PrometheusadapterHelmValues = {
    */
   certManager?: PrometheusadapterHelmValuesCertManager;
   extraManifests?: unknown[];
+  /**
+   * Optional: set revisionHistoryLimit for the Deployment
+   *
+   * @default 10
+   */
+  revisionHistoryLimit?: number;
 };
 
 export type PrometheusadapterHelmParameters = {
@@ -609,4 +615,5 @@ export type PrometheusadapterHelmParameters = {
   "certManager.caCertRevisionHistoryLimit"?: string;
   "certManager.certRevisionHistoryLimit"?: string;
   extraManifests?: string;
+  revisionHistoryLimit?: string;
 };
