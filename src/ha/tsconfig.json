@@ -3,5 +3,5 @@
   "compilerOptions": {
     "jsx": "react-jsx"
   },
-  "exclude": ["node_modules", "eslint.config.ts"]
+  "exclude": ["node_modules"]
 }
