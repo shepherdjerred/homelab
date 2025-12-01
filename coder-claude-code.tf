@@ -154,13 +154,13 @@ data "coder_parameter" "permission_mode" {
   name         = "permission_mode"
   display_name = "Permission Mode"
   description  = "Controls how Claude Code handles tool permissions."
-  default      = "auto-edit-file"
+  default      = "default"
   type         = "string"
   icon         = "/icon/claude.svg"
   mutable      = true
   option {
-    name  = "Default (auto-edit-file)"
-    value = "auto-edit-file"
+    name  = "Default (default)"
+    value = "default"
   }
   option {
     name  = "Plan Mode"

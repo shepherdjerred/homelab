@@ -130,6 +130,22 @@ export async function createPrometheusApp(chart: Chart) {
           url: "http://loki-gateway.loki",
           version: 1,
         },
+        {
+          name: "tempo",
+          editable: false,
+          type: "tempo",
+          url: "http://tempo.tempo.svc:3100",
+          version: 1,
+          jsonData: {
+            tracesToLogsV2: {
+              datasourceUid: "loki",
+              spanStartTimeShift: "-1h",
+              spanEndTimeShift: "1h",
+              filterByTraceID: true,
+              filterBySpanID: false,
+            },
+          },
+        },
       ],
     },
     alertmanager: {

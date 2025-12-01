@@ -105,6 +105,21 @@ export function createDaggerApp(chart: Chart) {
                   enabled: false,
                 },
               },
+              // OpenTelemetry configuration to export traces to Grafana Tempo
+              env: [
+                {
+                  name: "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT",
+                  value: "http://tempo.tempo.svc:4318/v1/traces",
+                },
+                {
+                  name: "OTEL_EXPORTER_OTLP_PROTOCOL",
+                  value: "http/protobuf",
+                },
+                {
+                  name: "OTEL_SERVICE_NAME",
+                  value: "dagger-ci",
+                },
+              ],
             },
           },
         },

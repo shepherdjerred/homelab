@@ -17,6 +17,7 @@ import { createMinecraftShuxinApp } from "../resources/argo-applications/minecra
 import { createMinecraftTsmcApp } from "../resources/argo-applications/minecraft-tsmc.ts";
 import { createLokiApp } from "../resources/argo-applications/loki.ts";
 import { createPromtailApp } from "../resources/argo-applications/promtail.ts";
+import { createTempoApp } from "../resources/argo-applications/tempo.ts";
 import { Namespace } from "cdk8s-plus-31";
 import { createStorageClasses } from "../misc/storage-classes.ts";
 import { createOpenEBSApp } from "../resources/argo-applications/openebs.ts";
@@ -73,6 +74,7 @@ export async function createAppsChart(app: App) {
   createMinecraftTsmcApp(chart);
   createLokiApp(chart);
   createPromtailApp(chart);
+  createTempoApp(chart);
   createActionsRunnerControllerApp(chart);
   createDaggerApp(chart);
   createVeleroApp(chart);

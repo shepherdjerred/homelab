@@ -63,6 +63,8 @@ const versions = {
   loki: "6.46.0",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   promtail: "6.17.1",
+  // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
+  tempo: "1.24.1",
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
   openebs: "4.3.3",
   // not managed by renovate
