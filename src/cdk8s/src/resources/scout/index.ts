@@ -43,6 +43,50 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
     storage: Size.gibibytes(8),
   });
 
+  const baseEnvVariables = {
+    APPLICATION_ID: EnvValue.fromValue(applicationId),
+    AWS_ACCESS_KEY_ID: EnvValue.fromSecretValue({
+      secret: Secret.fromSecretName(chart, "aws-access-key-id", onePasswordItem.name),
+      key: "r2-access-key-id",
+    }),
+    AWS_SECRET_ACCESS_KEY: EnvValue.fromSecretValue({
+      secret: Secret.fromSecretName(chart, "aws-access-key-secret", onePasswordItem.name),
+      key: "r2-secret-access-key",
+    }),
+    AWS_ENDPOINT_URL: EnvValue.fromValue("https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com"),
+    AWS_REGION: EnvValue.fromValue("auto"),
+    DISCORD_TOKEN: EnvValue.fromSecretValue({
+      secret: Secret.fromSecretName(chart, "discord-token-secret", onePasswordItem.name),
+      key: "discord-api-token",
+    }),
+    RIOT_API_TOKEN: EnvValue.fromSecretValue({
+      secret: Secret.fromSecretName(chart, "riot-api-key-secret", onePasswordItem.name),
+      key: "riot-api-key",
+    }),
+    S3_BUCKET_NAME: EnvValue.fromValue(s3BucketName),
+    SENTRY_DSN: EnvValue.fromValue(
+      "https://01aed04320da7d9b8ff25226bc5f3097@o92742.ingest.us.sentry.io/4508388740825088",
+    ),
+    ENVIRONMENT: EnvValue.fromValue(stage),
+    DATABASE_URL: EnvValue.fromValue("file:/data/db.sqlite"),
+  };
+
+  // Add AI secrets only for beta stage
+  const envVariables =
+    stage === "beta"
+      ? {
+          ...baseEnvVariables,
+          OPENAI_API_KEY: EnvValue.fromSecretValue({
+            secret: Secret.fromSecretName(chart, "openai-api-key-secret", onePasswordItem.name),
+            key: "open-api-key",
+          }),
+          GEMINI_API_KEY: EnvValue.fromSecretValue({
+            secret: Secret.fromSecretName(chart, "gemini-api-key-secret", onePasswordItem.name),
+            key: "gemini-api-key",
+          }),
+        }
+      : baseEnvVariables;
+
   deployment.addContainer(
     withCommonProps({
       image: image,
@@ -63,33 +107,7 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
           volume: Volume.fromPersistentVolumeClaim(chart, "scout-volume", localPathVolume.claim),
         },
       ],
-      envVariables: {
-        APPLICATION_ID: EnvValue.fromValue(applicationId),
-        AWS_ACCESS_KEY_ID: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "aws-access-key-id", onePasswordItem.name),
-          key: "r2-access-key-id",
-        }),
-        AWS_SECRET_ACCESS_KEY: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "aws-access-key-secret", onePasswordItem.name),
-          key: "r2-secret-access-key",
-        }),
-        AWS_ENDPOINT_URL: EnvValue.fromValue("https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com"),
-        AWS_REGION: EnvValue.fromValue("auto"),
-        DISCORD_TOKEN: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "discord-token-secret", onePasswordItem.name),
-          key: "discord-api-token",
-        }),
-        RIOT_API_TOKEN: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "riot-api-key-secret", onePasswordItem.name),
-          key: "riot-api-key",
-        }),
-        S3_BUCKET_NAME: EnvValue.fromValue(s3BucketName),
-        SENTRY_DSN: EnvValue.fromValue(
-          "https://01aed04320da7d9b8ff25226bc5f3097@o92742.ingest.us.sentry.io/4508388740825088",
-        ),
-        ENVIRONMENT: EnvValue.fromValue(stage),
-        DATABASE_URL: EnvValue.fromValue("file:/data/db.sqlite"),
-      },
+      envVariables,
     }),
   );
 
