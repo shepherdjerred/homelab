@@ -11,6 +11,11 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
   const bedroomHeater = hass.refBy.id("climate.bedroom_thermostat");
   const livingRoomClimate = hass.refBy.id("climate.living_room");
 
+  const christmasScenes = [
+    hass.refBy.id("scene.christmas_tree_silent_night"),
+    hass.refBy.id("scene.christmas_tree_under_the_tree"),
+  ];
+
   personJerred.onUpdate(
     async (
       newState: ENTITY_STATE<"person.jerred"> | undefined,
@@ -47,6 +52,14 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
 
               logger.debug("Setting living room scene to bright");
               await livingRoomScene.turn_on();
+
+              const randomScene = christmasScenes[Math.floor(Math.random() * christmasScenes.length)];
+              if (randomScene) {
+                logger.debug("Turning on random Christmas tree scene");
+                await randomScene.turn_on();
+              } else {
+                throw new Error("No Christmas tree scene found");
+              }
 
               if (shouldStopCleaning(roomba.state)) {
                 logger.debug("Commanding Roomba to return to base");
