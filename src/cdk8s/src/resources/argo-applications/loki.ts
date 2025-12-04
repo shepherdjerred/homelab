@@ -72,7 +72,7 @@ export function createLokiApp(chart: Chart) {
       },
       syncPolicy: {
         automated: {},
-        syncOptions: ["CreateNamespace=true"],
+        syncOptions: ["CreateNamespace=true", "Replace=true"],
       },
     },
   });
