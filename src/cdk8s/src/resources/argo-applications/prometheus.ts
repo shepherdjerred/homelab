@@ -117,8 +117,10 @@ export async function createPrometheusApp(chart: Chart) {
       // Use Recreate strategy for single-replica deployment to avoid PVC deadlock
       // during rollouts. This ensures the old pod is terminated before the new one
       // starts, preventing volume contention on RWO (ReadWriteOnce) PVCs.
+      // Note: Recreate strategy forbids rollingUpdate configuration
       deploymentStrategy: {
         type: "Recreate",
+        rollingUpdate: null,
       },
       sidecar: {
         datasources: {
