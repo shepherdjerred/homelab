@@ -10,11 +10,16 @@ export function createLokiApp(chart: Chart) {
   const lokiValues: HelmValuesForChart<"loki"> = {
     deploymentMode: "SingleBinary",
     singleBinary: {
+      replicas: 1,
       persistence: {
         storageClass: SSD_STORAGE_CLASS,
         size: Size.gibibytes(64).asString(),
       },
     },
+    // Disable scalable targets - they require object storage
+    read: { replicas: 0 },
+    write: { replicas: 0 },
+    backend: { replicas: 0 },
     loki: {
       commonConfig: {
         replication_factor: 1,
