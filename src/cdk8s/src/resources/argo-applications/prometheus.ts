@@ -119,7 +119,6 @@ export async function createPrometheusApp(chart: Chart) {
       // starts, preventing volume contention on RWO (ReadWriteOnce) PVCs.
       deploymentStrategy: {
         type: "Recreate",
-        rollingUpdate: {},
       },
       sidecar: {
         datasources: {
