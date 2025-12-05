@@ -82,20 +82,6 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
       name: "zfs-l2arc-monitoring",
       rules: [
         {
-          alert: "ZfsL2ArcHitRateLow",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS L2ARC hit rate on {{ $labels.instance }} is low: {{ $value | humanizePercentage }} (should be >20%)",
-            ),
-            summary: "ZFS L2ARC hit rate is low - consider L2ARC tuning",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "(rate(node_zfs_arc_l2_hits[5m]) / (rate(node_zfs_arc_l2_hits[5m]) + rate(node_zfs_arc_l2_misses[5m]))) * 100 < 20",
-          ),
-          for: "20m",
-          labels: { severity: "info" },
-        },
-        {
           alert: "ZfsL2ArcIOErrors",
           annotations: {
             description: escapePrometheusTemplate(
@@ -130,20 +116,6 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString("increase(node_zfs_arc_l2_cksum_bad[1h]) > 0"),
           for: "5m",
           labels: { severity: "critical" },
-        },
-        {
-          alert: "ZfsL2ArcSizeUnusual",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS L2ARC size on {{ $labels.instance }} is unusually low: {{ $value | humanize }} bytes - may indicate L2ARC device issues",
-            ),
-            summary: "ZFS L2ARC size is unusually low",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_l2_size < 1073741824 and node_zfs_arc_l2_size > 0", // Less than 1GB but not zero
-          ),
-          for: "30m",
-          labels: { severity: "warning" },
         },
       ],
     },
@@ -226,18 +198,6 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
     {
       name: "zfs-health-monitoring",
       rules: [
-        {
-          alert: "ZfsArcNoGrow",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS ARC on {{ $labels.instance }} is prevented from growing: {{ $value }} - system memory constraint (this is normal behavior)",
-            ),
-            summary: "ZFS ARC growth is constrained",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("node_zfs_arc_arc_no_grow > 100"), // Increased threshold - only alert if constrained heavily (was > 0)
-          for: "30m",
-          labels: { severity: "info" },
-        },
         {
           alert: "ZfsL2ArcRebuildErrors",
           annotations: {
@@ -337,7 +297,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "High ZFS anonymous data usage",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_anon_data > 2147483648", // 2GB
+            "node_zfs_arc_anon_data > 8589934592", // 8GB
           ),
           for: "15m",
           labels: { severity: "warning" },
@@ -393,20 +353,6 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
       name: "zfs-abd-advanced",
       rules: [
         {
-          alert: "ZfsAbdLinearVsScatterImbalance",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS ABD on {{ $labels.instance }} has linear vs scatter imbalance - may indicate memory fragmentation",
-            ),
-            summary: "ZFS ABD linear/scatter allocation imbalance",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "(node_zfs_abd_linear_cnt / (node_zfs_abd_linear_cnt + node_zfs_abd_scatter_cnt)) > 0.9 or (node_zfs_abd_linear_cnt / (node_zfs_abd_linear_cnt + node_zfs_abd_scatter_cnt)) < 0.1",
-          ),
-          for: "20m",
-          labels: { severity: "info" },
-        },
-        {
           alert: "ZfsAbdSgTableRetries",
           annotations: {
             description: escapePrometheusTemplate(
@@ -434,24 +380,10 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "High ZFS dnode usage",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_dnode_size > 1073741824", // 1GB
+            "node_zfs_arc_dnode_size > 4294967296", // 4GB
           ),
           for: "15m",
           labels: { severity: "warning" },
-        },
-        {
-          alert: "ZfsBonusSizeHigh",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS bonus buffer size on {{ $labels.instance }} is high: {{ $value | humanize }} bytes",
-            ),
-            summary: "High ZFS bonus buffer usage",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_bonus_size > 536870912", // 512MB
-          ),
-          for: "20m",
-          labels: { severity: "info" },
         },
         {
           alert: "ZfsDbufSizeHigh",
@@ -462,7 +394,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "High ZFS data buffer usage",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_dbuf_size > 2147483648", // 2GB
+            "node_zfs_arc_dbuf_size > 8589934592", // 8GB
           ),
           for: "15m",
           labels: { severity: "warning" },
@@ -475,30 +407,6 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
       name: "zfs-async-operations",
       rules: [
         {
-          alert: "ZfsAsyncUpgradeSyncHigh",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS async upgrade sync operations on {{ $labels.instance }}: {{ $value }}/s - may indicate upgrade activity",
-            ),
-            summary: "High ZFS async upgrade sync activity",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_async_upgrade_sync[5m]) > 10"),
-          for: "10m",
-          labels: { severity: "info" },
-        },
-        {
-          alert: "ZfsArcPruneActivity",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS ARC prune activity on {{ $labels.instance }}: {{ $value }}/s - memory pressure response",
-            ),
-            summary: "ZFS ARC pruning activity detected",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_arc_prune[5m]) > 5"),
-          for: "10m",
-          labels: { severity: "info" },
-        },
-        {
           alert: "ZfsLoanedBytesHigh",
           annotations: {
             description: escapePrometheusTemplate(
@@ -507,7 +415,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "High ZFS loaned bytes detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_arc_loaned_bytes > 1073741824", // 1GB
+            "node_zfs_arc_arc_loaned_bytes > 4294967296", // 4GB
           ),
           for: "30m",
           labels: { severity: "warning" },
