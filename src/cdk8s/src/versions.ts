@@ -66,7 +66,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   tempo: "1.24.1",
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
-  openebs: "4.3.3",
+  openebs: "4.4.0",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/beta": "1.0.807",
   // not managed by renovate
