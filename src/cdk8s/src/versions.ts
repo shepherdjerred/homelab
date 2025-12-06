@@ -84,7 +84,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://registry.dagger.io versioning=loose
   "dagger-helm": "0.19.8",
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
-  velero: "11.1.1",
+  velero: "11.2.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "velero/velero-plugin-for-aws": "v1.13.1@sha256:472d0e486d5d5c23c782b1b123530c7df8645784523ec36ca661a326d47885ff",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
