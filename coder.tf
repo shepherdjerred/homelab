@@ -491,7 +491,7 @@ resource "coder_agent" "main" {
 module "cursor" {
   count    = data.coder_workspace.me.start_count
   source   = "registry.coder.com/coder/cursor/coder"
-  version  = "1.3.2"
+  version  = "1.4.0"
 
   agent_id = coder_agent.main.id
   order    = 1
