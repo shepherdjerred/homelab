@@ -27,6 +27,7 @@ import { createVeleroApp } from "../resources/argo-applications/velero.ts";
 import { createPostgresOperatorApp } from "../resources/argo-applications/postgres-operator.ts";
 import { createCoderApp } from "../resources/argo-applications/coder.ts";
 import { createAllGrafanaDashboards } from "../resources/grafana/index.ts";
+import { createDependencySummaryCronJob } from "../resources/home/dependency-summary.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -83,4 +84,7 @@ export async function createAppsChart(app: App) {
 
   // Create all Grafana dashboards (gitckup, ha-workflow, scout, smartctl, velero, zfs)
   createAllGrafanaDashboards(chart);
+
+  // Weekly dependency summary email
+  createDependencySummaryCronJob(chart);
 }
