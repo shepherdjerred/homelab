@@ -199,6 +199,9 @@ export async function createPrometheusApp(chart: Chart) {
         templates: ["/etc/alertmanager/config/*.tmpl"],
         receivers: [
           {
+            name: "null",
+          },
+          {
             name: "pagerduty",
             // https://prometheus.io/docs/alerting/latest/configuration/#pagerduty_config
             // Type assertion needed due to incomplete Helm chart types
@@ -240,7 +243,7 @@ export async function createPrometheusApp(chart: Chart) {
           receiver: "pagerduty",
           routes: [
             {
-              receiver: "pagerduty",
+              receiver: "null",
               matchers: ['alertname = "Watchdog"'],
             },
           ],
