@@ -109,8 +109,6 @@ const versions = {
     "v1.6.0@sha256:b987d19693a5b2fe7314b22009c6302e084ec801fcf96afaf14065b4cdafc842",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "jsclayton/prometheus-plex-exporter": "main@sha256:18ef1b2197efbcb75bd7276380955760995f10a9fbe55106809a6fcff91c2940",
-  // renovate: datasource=helm registryUrl=https://small-hack.github.io/peertube-helm-chart versioning=semver
-  peertube: "0.8.0",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
   redis: "24.0.4",
 };
