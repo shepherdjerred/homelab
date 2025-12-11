@@ -138,7 +138,7 @@ export async function createPrometheusApp(chart: Chart) {
           name: "tempo",
           editable: false,
           type: "tempo",
-          url: "http://tempo.tempo.svc:3100",
+          url: "http://tempo.tempo.svc:3200",
           version: 1,
           jsonData: {
             tracesToLogsV2: {
