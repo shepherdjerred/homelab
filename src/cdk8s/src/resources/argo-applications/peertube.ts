@@ -27,7 +27,7 @@ export function createPeertubeApp(chart: Chart) {
   createPeertubePostgreSQLDatabase(chart);
 
   // Create Redis for PeerTube
-  const redis = new Redis(chart, "peertube-redis");
+  const redis = new Redis(chart, "peertube-redis", { namespace });
 
   // Create ZFS storage for videos
   const videoStorage = new ZfsSsdVolume(chart, "peertube-videos", {
@@ -38,50 +38,39 @@ export function createPeertubeApp(chart: Chart) {
   createIngress(chart, "peertube-ingress", namespace, "peertube", 9000, [hostname], true);
 
   const peertubeValues = {
-    // Use external PostgreSQL from postgres-operator
+    // Disable bundled PostgreSQL - we use postgres-operator
     postgresql: {
       enabled: false,
     },
-    // Use external Redis
-    redis: {
+    // Disable bundled Valkey - we use external Redis
+    valkey: {
       enabled: false,
     },
+    // External PostgreSQL from postgres-operator
+    externalDatabase: {
+      enabled: true,
+      hostname: "peertube-postgresql",
+      database: "peertube",
+      username: "peertube",
+      existingSecret: "peertube.peertube-postgresql.credentials.postgresql.acid.zalan.do",
+      existingSecretKeys: {
+        password: "password",
+      },
+    },
+    // External Redis
+    externalValkey: {
+      enabled: true,
+      hostname: redis.serviceName,
+    },
     // PeerTube configuration
-    config: {
+    peertube: {
       webserver: {
         hostname: `${hostname}.tailnet-1a49.ts.net`,
         https: true,
         port: 443,
       },
-      database: {
-        hostname: "peertube-postgresql",
-        port: 5432,
-        name: "peertube",
-        username: "peertube",
-        // Password will be set via environment variable from secret
-      },
-      redis: {
-        hostname: redis.service.name,
-        port: 6379,
-      },
-      storage: {
-        videos: "/data/videos/",
-        redundancy: "/data/redundancy/",
-        streaming_playlists: "/data/streaming-playlists/",
-      },
+      secret: "", // Will be auto-generated or can be set via existingSecret
     },
-    // Environment variables for secrets
-    extraEnv: [
-      {
-        name: "PEERTUBE_DB_PASSWORD",
-        valueFrom: {
-          secretKeyRef: {
-            name: "peertube.peertube-postgresql.credentials.postgresql.acid.zalan.do",
-            key: "password",
-          },
-        },
-      },
-    ],
     // Persistence configuration
     persistence: {
       enabled: true,
@@ -112,7 +101,7 @@ export function createPeertubeApp(chart: Chart) {
     spec: {
       project: "default",
       source: {
-        repoUrl: "https://chocobozzz.github.io/peertube-helm-chart",
+        repoUrl: "https://small-hack.github.io/peertube-helm-chart",
         chart: "peertube",
         targetRevision: versions.peertube,
         helm: {

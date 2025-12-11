@@ -49,6 +49,14 @@ export type CoderHelmValuesCoder = {
    */
   podLabels?: CoderHelmValuesCoderPodLabels;
   /**
+   * coder.priorityClassName -- The priority class name to assign to the Coder pod. See:
+   * https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
+   * The PriorityClass must exist in the cluster prior to deploying Coder with this set.
+   *
+   * @default ""
+   */
+  priorityClassName?: string;
+  /**
    * coder.serviceAccount -- Configuration for the automatically created service
    * account. Creation of the service account cannot be disabled.
    *
@@ -574,7 +582,7 @@ export type CoderHelmValues = {
   /**
    * coder -- Primary configuration for `coder server`.
    *
-   * @default {...} (30 keys)
+   * @default {...} (31 keys)
    */
   coder?: CoderHelmValuesCoder;
   /**
@@ -596,6 +604,7 @@ export type CoderHelmParameters = {
   "coder.image.pullPolicy"?: string;
   "coder.image.pullSecrets"?: string;
   "coder.initContainers"?: string;
+  "coder.priorityClassName"?: string;
   "coder.serviceAccount.workspacePerms"?: string;
   "coder.serviceAccount.enableDeployments"?: string;
   "coder.serviceAccount.extraRules"?: string;

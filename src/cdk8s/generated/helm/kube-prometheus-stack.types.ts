@@ -5357,7 +5357,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatc
   /**
    * latest tag: https://github.com/kubernetes/ingress-nginx/blob/main/images/kube-webhook-certgen/TAG
    *
-   * @default "v1.6.4"
+   * @default "v1.6.5"
    */
   tag?: string;
   /**
@@ -5994,7 +5994,7 @@ export type KubeprometheusstackHelmValuesPrometheus = {
   /**
    * Configure network policy for the prometheus
    *
-   * @default {"enabled":false,"flavor":"kubernetes"}
+   * @default {"enabled":false,"flavor":"kubernetes","namespace":null}
    */
   networkPolicy?: KubeprometheusstackHelmValuesPrometheusNetworkPolicy;
   /**
@@ -6120,6 +6120,7 @@ export type KubeprometheusstackHelmValuesPrometheusNetworkPolicy = {
    * @default "kubernetes"
    */
   flavor?: string;
+  namespace?: unknown;
 };
 
 export type KubeprometheusstackHelmValuesPrometheusServiceAccount = {
@@ -7639,7 +7640,7 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecImage = {
    */
   repository?: string;
   /**
-   * @default "v3.7.3"
+   * @default "v3.8.0"
    */
   tag?: string;
   /**
@@ -9459,6 +9460,7 @@ export type KubeprometheusstackHelmParameters = {
   "prometheus.agentMode"?: string;
   "prometheus.networkPolicy.enabled"?: string;
   "prometheus.networkPolicy.flavor"?: string;
+  "prometheus.networkPolicy.namespace"?: string;
   "prometheus.serviceAccount.create"?: string;
   "prometheus.serviceAccount.name"?: string;
   "prometheus.serviceAccount.automountServiceAccountToken"?: string;

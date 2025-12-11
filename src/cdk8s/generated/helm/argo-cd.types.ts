@@ -2577,7 +2577,7 @@ export type ArgocdHelmValuesRedisExporter = {
   /**
    * Prometheus redis-exporter image
    *
-   * @default {"repository":"ghcr.io/oliver006/redis_exporter","tag":"v1.80.0","imagePullPolicy":""}
+   * @default {"repository":"ghcr.io/oliver006/redis_exporter","tag":"v1.80.1","imagePullPolicy":""}
    */
   image?: ArgocdHelmValuesRedisExporterImage;
   /**
@@ -2615,7 +2615,7 @@ export type ArgocdHelmValuesRedisExporterImage = {
   /**
    * Tag to use for the redis-exporter
    *
-   * @default "v1.80.0"
+   * @default "v1.80.1"
    */
   tag?: string;
   /**
@@ -4013,7 +4013,7 @@ export type ArgocdHelmValuesServerExtensions = {
   /**
    * Argo CD extension installer image
    *
-   * @default {"repository":"quay.io/argoprojlabs/argocd-extension-installer","tag":"v0.0.8","imagePullPolicy":""}
+   * @default {"repository":"quay.io/argoprojlabs/argocd-extension-installer","tag":"v0.0.9","imagePullPolicy":""}
    */
   image?: ArgocdHelmValuesServerExtensionsImage;
   extensionList?: unknown[];
@@ -4041,7 +4041,7 @@ export type ArgocdHelmValuesServerExtensionsImage = {
   /**
    * Tag to use for extension installer image
    *
-   * @default "v0.0.8"
+   * @default "v0.0.9"
    */
   tag?: string;
   /**

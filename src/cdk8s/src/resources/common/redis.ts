@@ -1,35 +1,69 @@
 import { Construct } from "constructs";
-import { Deployment, DeploymentStrategy } from "cdk8s-plus-31";
-import { Service } from "cdk8s-plus-31";
-import { withCommonProps } from "../../misc/common.ts";
+import { Application } from "../../../generated/imports/argoproj.io.ts";
 import versions from "../../versions.ts";
+import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
+
+export type RedisProps = {
+  /**
+   * The namespace to deploy Redis into.
+   */
+  namespace: string;
+};
 
 export class Redis extends Construct {
-  public readonly service: Service;
-  public readonly deployment: Deployment;
+  /**
+   * The service name to connect to Redis (e.g., for use in REDIS_HOST env vars).
+   */
+  public readonly serviceName: string;
 
-  constructor(scope: Construct, id: string) {
+  /**
+   * The ArgoCD Application resource.
+   */
+  public readonly application: Application;
+
+  constructor(scope: Construct, id: string, props: RedisProps) {
     super(scope, id);
 
-    const UID = 999;
-    const GID = 999;
+    const releaseName = id;
 
-    this.deployment = new Deployment(scope, `${id}-deployment`, {
-      replicas: 1,
-      strategy: DeploymentStrategy.recreate(),
-    });
+    // Bitnami Redis service name format in standalone mode
+    this.serviceName = `${releaseName}-redis-master`;
 
-    this.deployment.addContainer(
-      withCommonProps({
-        image: `redis:${versions["library/redis"]}`,
-        portNumber: 6379,
-        securityContext: {
-          user: UID,
-          group: GID,
+    const redisValues: HelmValuesForChart<"redis"> = {
+      architecture: "standalone",
+      auth: {
+        enabled: false,
+      },
+      master: {
+        persistence: {
+          enabled: false,
         },
-      }),
-    );
+      },
+    };
 
-    this.service = this.deployment.exposeViaService();
+    this.application = new Application(scope, `${id}-app`, {
+      metadata: {
+        name: id,
+      },
+      spec: {
+        project: "default",
+        source: {
+          repoUrl: "https://charts.bitnami.com/bitnami",
+          targetRevision: versions.redis,
+          chart: "redis",
+          helm: {
+            releaseName: releaseName,
+            valuesObject: redisValues,
+          },
+        },
+        destination: {
+          server: "https://kubernetes.default.svc",
+          namespace: props.namespace,
+        },
+        syncPolicy: {
+          automated: {},
+        },
+      },
+    });
   }
 }

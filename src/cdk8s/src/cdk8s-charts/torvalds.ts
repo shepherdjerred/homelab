@@ -17,7 +17,6 @@ import { createFreshRssDeployment } from "../resources/freshrss.ts";
 import { createPokemonDeployment } from "../resources/pokemon.ts";
 import { createHaDeployment } from "../resources/home/ha.ts";
 import { ZfsHddVolume } from "../misc/zfs-hdd-volume.ts";
-import { KubeNamespace } from "../../generated/imports/k8s.ts";
 import { createRecyclarrDeployment } from "../resources/torrents/recyclarr.ts";
 import { createGrafanaPostgreSQLDatabase } from "../resources/postgres/grafana-db.ts";
 import { createGickupDeployment } from "../resources/gickup.ts";
@@ -26,12 +25,6 @@ export async function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
     namespace: "torvalds",
     disableResourceNameHashes: true,
-  });
-
-  new KubeNamespace(chart, "argocd", {
-    metadata: {
-      name: "argocd",
-    },
   });
 
   const tvVolume = new ZfsHddVolume(chart, "plex-tv-hdd-pvc", {
