@@ -1,6 +1,6 @@
 import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
-import { Namespace } from "cdk8s-plus-31";
+import { Namespace, Secret } from "cdk8s-plus-31";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createPeertubePostgreSQLDatabase } from "../postgres/peertube-db.ts";
@@ -28,6 +28,20 @@ export function createPeertubeApp(chart: Chart) {
 
   // Create Redis for PeerTube
   const redis = new Redis(chart, "peertube-redis", { namespace });
+
+  // Create dummy SMTP secret (the chart requires SMTP secret keys even if SMTP is not configured)
+  const smtpSecret = new Secret(chart, "peertube-smtp-secret", {
+    metadata: {
+      name: "peertube-smtp",
+      namespace: namespace,
+    },
+    stringData: {
+      host: "",
+      port: "",
+      username: "",
+      password: "",
+    },
+  });
 
   // Create ZFS storage for videos
   const videoStorage = new ZfsSsdVolume(chart, "peertube-videos", {
@@ -70,6 +84,16 @@ export function createPeertubeApp(chart: Chart) {
         port: 443,
       },
       secret: "", // Will be auto-generated or can be set via existingSecret
+      // SMTP configuration - the chart requires these keys even if SMTP is not used
+      smtp: {
+        existingSecret: smtpSecret.name,
+        existingSecretKeys: {
+          host: "host",
+          port: "port",
+          username: "username",
+          password: "password",
+        },
+      },
     },
     // Persistence configuration
     persistence: {
