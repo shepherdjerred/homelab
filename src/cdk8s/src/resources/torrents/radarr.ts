@@ -1,4 +1,4 @@
-import { Deployment, DeploymentStrategy, type PersistentVolumeClaim, Service, Volume } from "cdk8s-plus-31";
+import { Cpu, Deployment, DeploymentStrategy, type PersistentVolumeClaim, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { LINUXSERVER_GID, withCommonLinuxServerProps } from "../../misc/linux-server.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
@@ -42,6 +42,16 @@ export function createRadarrDeployment(
           path: "/movies",
         },
       ],
+      resources: {
+        cpu: {
+          request: Cpu.millis(50),
+          limit: Cpu.millis(1000),
+        },
+        memory: {
+          request: Size.mebibytes(256),
+          limit: Size.mebibytes(768),
+        },
+      },
     }),
   );
 

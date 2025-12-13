@@ -241,6 +241,18 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
   });
   const fastmailSecret = Secret.fromSecretName(chart, "fastmail-secret", fastmailItem.name);
 
+  // Postal secrets (Rails secret key, etc.)
+  // Expected fields: rails_secret_key
+  const postalSecretsItem = new OnePasswordItem(chart, "postal-secrets", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/postal-secrets",
+    },
+  });
+  const postalSecrets = Secret.fromSecretName(chart, "postal-secrets-ref", postalSecretsItem.name);
+
+  // Reference the MariaDB credentials secret
+  const mariadbSecret = Secret.fromSecretName(chart, "mariadb-secret", props.mariadb.secretItem.name);
+
   // ConfigMap with patched smtp_sender.rb to fix SMTP relay bug in Postal 3.1.1
   const smtpSenderPatch = new ConfigMap(chart, "postal-smtp-sender-patch", {
     data: {
@@ -256,7 +268,10 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     MAIN_DB_HOST: EnvValue.fromValue(props.mariadb.serviceName),
     MAIN_DB_PORT: EnvValue.fromValue("3306"),
     MAIN_DB_USERNAME: EnvValue.fromValue(props.mariadb.username),
-    MAIN_DB_PASSWORD: EnvValue.fromValue(props.mariadb.password),
+    MAIN_DB_PASSWORD: EnvValue.fromSecretValue({
+      secret: mariadbSecret,
+      key: "mariadb-password",
+    }),
     MAIN_DB_DATABASE: EnvValue.fromValue(props.mariadb.databaseName),
 
     // Message database configuration (for mail server message storage)
@@ -264,7 +279,10 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     MESSAGE_DB_HOST: EnvValue.fromValue(props.mariadb.serviceName),
     MESSAGE_DB_PORT: EnvValue.fromValue("3306"),
     MESSAGE_DB_USERNAME: EnvValue.fromValue(props.mariadb.username),
-    MESSAGE_DB_PASSWORD: EnvValue.fromValue(props.mariadb.password),
+    MESSAGE_DB_PASSWORD: EnvValue.fromSecretValue({
+      secret: mariadbSecret,
+      key: "mariadb-password",
+    }),
 
     // Web server configuration
     POSTAL_WEB_HOSTNAME: EnvValue.fromValue("postal.tailnet-1a49.ts.net"),
@@ -273,9 +291,11 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     // SMTP server hostname (for outbound mail identification)
     POSTAL_SMTP_HOSTNAME: EnvValue.fromValue("postal.tailnet-1a49.ts.net"),
 
-    // Rails secret key for session encryption (generate a secure random value)
-    // TODO: Move to 1Password secret
-    RAILS_SECRET_KEY: EnvValue.fromValue("change-me-to-a-secure-random-string-at-least-64-chars-long-for-production"),
+    // Rails secret key for session encryption
+    RAILS_SECRET_KEY: EnvValue.fromSecretValue({
+      secret: postalSecrets,
+      key: "rails_secret_key",
+    }),
 
     // Logging configuration
     LOGGING_ENABLED: EnvValue.fromValue("true"),
@@ -443,7 +463,7 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
   workerDeployment.addContainer(
     withCommonProps({
       name: "postfix-relay",
-      image: "boky/postfix:latest",
+      image: `docker.io/boky/postfix:${versions["boky/postfix"]}`,
       ports: [
         {
           name: "smtp",

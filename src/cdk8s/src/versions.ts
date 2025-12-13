@@ -127,6 +127,12 @@ const versions = {
   "library/mariadb": "11.8@sha256:1cac8492bd78b1ec693238dc600be173397efd7b55eabc725abc281dc855b482",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/rabbitmq": "3.13-management@sha256:e582c0bc7766f3342496d8485efb5a1df782b5ce3886ad017e2eaae442311f69",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "boky/postfix": "latest@sha256:f3f247fd42528b969e2603ac120d5a5b5db7dfe61f4505c49d438b9ba1822999",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "library/busybox": "latest@sha256:870e815c3a50dd0f6b40efddb319c72c32c3ee340b5a3e8945904232ccd12f44",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "library/alpine": "latest@sha256:a107a3c031732299dd9dd607bb13787834db2de38cfa13f1993b7105e4814c60",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];

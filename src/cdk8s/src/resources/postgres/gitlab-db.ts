@@ -46,7 +46,9 @@ export function createGitlabPostgreSQLDatabase(chart: Chart) {
       },
       users: {
         gitlab: [
-          PostgresqlSpecUsers.SUPERUSER, // GitLab needs superuser for database migrations
+          // On PostgreSQL 13+, GitLab's required extensions (pg_trgm, btree_gist, plpgsql)
+          // are "trusted" and can be installed with just CREATEDB privilege.
+          // SUPERUSER is not required for normal operation.
           PostgresqlSpecUsers.CREATEDB,
         ],
       },

@@ -2,6 +2,7 @@ import { Chart } from "cdk8s";
 import { ConfigMap, DaemonSet, Volume, ServiceAccount } from "cdk8s-plus-31";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import versions from "../../versions.ts";
 
 const CURRENT_FILENAME = fileURLToPath(import.meta.url);
 const CURRENT_DIRNAME = dirname(CURRENT_FILENAME);
@@ -49,7 +50,7 @@ export async function createZfsZpoolMonitoring(chart: Chart) {
   // Configure the container
   const container = zfsZpoolDaemonSet.addContainer({
     name: "zfs-zpool-collector",
-    image: "alpine:latest",
+    image: `docker.io/alpine:${versions["library/alpine"]}`,
     command: ["/bin/sh"],
     args: [
       "-c",

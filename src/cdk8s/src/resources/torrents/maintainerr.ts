@@ -1,4 +1,4 @@
-import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
+import { Cpu, Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { LINUXSERVER_GID, withCommonLinuxServerProps } from "../../misc/linux-server.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
@@ -28,6 +28,16 @@ export function createMaintainerrDeployment(chart: Chart) {
           volume: Volume.fromPersistentVolumeClaim(chart, "maintainerr-volume", localPathVolume.claim),
         },
       ],
+      resources: {
+        cpu: {
+          request: Cpu.millis(50),
+          limit: Cpu.millis(1000),
+        },
+        memory: {
+          request: Size.mebibytes(256),
+          limit: Size.mebibytes(512),
+        },
+      },
     }),
   );
 

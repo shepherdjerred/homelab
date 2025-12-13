@@ -1,5 +1,6 @@
 import { Chart } from "cdk8s";
 import { ConfigMap, DaemonSet, Volume, ServiceAccount } from "cdk8s-plus-31";
+import versions from "../../versions.ts";
 
 export async function createSmartctlMonitoring(chart: Chart) {
   // Create ServiceAccount for the DaemonSet
@@ -43,7 +44,7 @@ export async function createSmartctlMonitoring(chart: Chart) {
   // Configure the container
   const container = smartctlDaemonSet.addContainer({
     name: "smartctl-collector",
-    image: "alpine:latest",
+    image: `docker.io/alpine:${versions["library/alpine"]}`,
     command: ["/bin/sh"],
     args: [
       "-c",
