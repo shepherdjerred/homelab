@@ -91,7 +91,8 @@ export function parseImageString(imageStr: string): ImageRef | null {
   // - docker.io/grafana/grafana:12.3.0
   // - grafana/grafana@sha256:abc123
 
-  const digestMatch = imageStr.match(/^(.+)@(sha256:[a-f0-9]+)$/);
+  const digestRegex = /^(.+)@(sha256:[a-f0-9]+)$/;
+  const digestMatch = digestRegex.exec(imageStr);
   if (digestMatch) {
     const [, imagePart, digest] = digestMatch;
     const parsed = parseImageWithoutDigest(imagePart ?? "");
@@ -100,7 +101,8 @@ export function parseImageString(imageStr: string): ImageRef | null {
     }
   }
 
-  const tagMatch = imageStr.match(/^(.+):([^:]+)$/);
+  const tagRegex = /^(.+):([^:]+)$/;
+  const tagMatch = tagRegex.exec(imageStr);
   if (tagMatch) {
     const [, imagePart, tag] = tagMatch;
     const parsed = parseImageWithoutDigest(imagePart ?? "");
@@ -220,12 +222,14 @@ export type FullDependencyDiff = {
   };
   // AppVersion changes (subset of chart updates where appVersion changed)
   appVersions: {
-    updated: Array<{
-      chartName: string;
-      oldAppVersion: string;
-      newAppVersion: string;
-    }>;
+    updated: AppVersionUpdate[];
   };
+};
+
+export type AppVersionUpdate = {
+  chartName: string;
+  oldAppVersion: string;
+  newAppVersion: string;
 };
 
 // ============================================================================

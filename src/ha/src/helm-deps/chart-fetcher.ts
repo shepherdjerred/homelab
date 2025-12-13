@@ -82,7 +82,7 @@ export async function fetchChartMetadata(
 async function pullChart(chartName: string, registryUrl: string, version: string): Promise<string> {
   const pwd = Bun.env["PWD"] ?? process.cwd();
   const tempDir = `${pwd}/temp/helm-deps-${chartName.replace(/[^a-zA-Z0-9]/g, "-")}-${version}`;
-  const repoName = `temp-repo-${chartName.replace(/[^a-zA-Z0-9]/g, "-")}-${Date.now()}`;
+  const repoName = `temp-repo-${chartName.replace(/[^a-zA-Z0-9]/g, "-")}-${String(Date.now())}`;
 
   try {
     // Ensure temp directory exists

@@ -48,11 +48,12 @@ export async function compareChartVersions(
   );
 
   // AppVersion changes
-  const appVersionChanges: Array<{
+  type AppVersionChange = {
     chartName: string;
     oldAppVersion: string;
     newAppVersion: string;
-  }> = [];
+  };
+  const appVersionChanges: AppVersionChange[] = [];
 
   if (
     oldMeta.chartYaml.appVersion &&
@@ -85,11 +86,15 @@ export async function compareChartVersions(
 /**
  * Diff sub-chart dependencies between two versions
  */
+type ChartDep = { name: string; version: string; repository?: string };
+type LockDep = { name: string; version: string; repository: string };
+type ChartLockData = { dependencies?: LockDep[] } | null;
+
 function diffSubCharts(
-  oldDeps: Array<{ name: string; version: string; repository?: string }>,
-  oldLock: { dependencies?: Array<{ name: string; version: string; repository: string }> } | null,
-  newDeps: Array<{ name: string; version: string; repository?: string }>,
-  newLock: { dependencies?: Array<{ name: string; version: string; repository: string }> } | null,
+  oldDeps: ChartDep[],
+  oldLock: ChartLockData,
+  newDeps: ChartDep[],
+  newLock: ChartLockData,
   parentChart: string,
 ): {
   added: ResolvedChart[];

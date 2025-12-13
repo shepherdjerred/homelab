@@ -1,6 +1,48 @@
 import { parseAllDocuments } from "yaml";
+import { z } from "zod";
 import type { ImageRef } from "./types.js";
 import { parseImageString } from "./types.js";
+
+// Zod schemas for K8s manifest parsing
+const ContainerSchema = z.looseObject({
+  image: z.string().optional(),
+});
+
+const ContainersArraySchema = z.array(ContainerSchema);
+
+const PodSpecSchema = z.looseObject({
+  containers: ContainersArraySchema.optional(),
+  initContainers: ContainersArraySchema.optional(),
+  ephemeralContainers: ContainersArraySchema.optional(),
+});
+
+const PodTemplateSpecSchema = z.looseObject({
+  spec: PodSpecSchema.optional(),
+});
+
+const JobSpecSchema = z.looseObject({
+  template: PodTemplateSpecSchema.optional(),
+});
+
+const CronJobSpecSchema = z.looseObject({
+  jobTemplate: z.looseObject({
+    spec: JobSpecSchema.optional(),
+  }).optional(),
+});
+
+const PrometheusCRDSpecSchema = z.looseObject({
+  image: z.string().optional(),
+  thanos: z.looseObject({
+    image: z.string().optional(),
+  }).optional(),
+  configReloaderImage: z.string().optional(),
+  containers: ContainersArraySchema.optional(),
+});
+
+const K8sManifestSchema = z.looseObject({
+  kind: z.string().optional(),
+  spec: z.record(z.string(), z.unknown()).optional(),
+});
 
 /**
  * Extract all container images from a Helm chart by rendering templates
@@ -28,7 +70,7 @@ async function renderHelmTemplate(
   version: string,
   values?: Record<string, unknown>,
 ): Promise<unknown[]> {
-  const repoName = `temp-${chartName.replace(/[^a-zA-Z0-9]/g, "-")}-${Date.now()}`;
+  const repoName = `temp-${chartName.replace(/[^a-zA-Z0-9]/g, "-")}-${String(Date.now())}`;
 
   try {
     // Add the helm repo
@@ -102,13 +144,10 @@ function extractImagesFromManifests(manifests: unknown[]): ImageRef[] {
   const images: ImageRef[] = [];
 
   for (const manifest of manifests) {
-    if (!manifest || typeof manifest !== "object") continue;
+    const parsed = K8sManifestSchema.safeParse(manifest);
+    if (!parsed.success) continue;
 
-    const obj = manifest as Record<string, unknown>;
-
-    // Extract from standard workload resources
-    const kind = obj["kind"] as string | undefined;
-    const spec = obj["spec"] as Record<string, unknown> | undefined;
+    const { kind, spec } = parsed.data;
 
     if (spec) {
       switch (kind) {
@@ -116,33 +155,46 @@ function extractImagesFromManifests(manifests: unknown[]): ImageRef[] {
         case "StatefulSet":
         case "DaemonSet":
         case "ReplicaSet":
-          extractFromPodTemplateSpec(spec["template"], images);
-          break;
-
-        case "Job":
-          extractFromPodTemplateSpec(spec["template"], images);
-          break;
-
-        case "CronJob": {
-          const jobTemplate = spec["jobTemplate"] as Record<string, unknown> | undefined;
-          if (jobTemplate?.["spec"]) {
-            const jobSpec = jobTemplate["spec"] as Record<string, unknown>;
-            extractFromPodTemplateSpec(jobSpec["template"], images);
+        case "Job": {
+          const templateParsed = PodTemplateSpecSchema.safeParse(spec["template"]);
+          if (templateParsed.success) {
+            extractFromPodSpec(templateParsed.data.spec, images);
           }
           break;
         }
 
-        case "Pod":
-          extractFromPodSpec(spec, images);
+        case "CronJob": {
+          const cronJobParsed = CronJobSpecSchema.safeParse(spec);
+          if (cronJobParsed.success) {
+            const jobSpec = cronJobParsed.data.jobTemplate?.spec;
+            if (jobSpec) {
+              const templateParsed = PodTemplateSpecSchema.safeParse(jobSpec.template);
+              if (templateParsed.success) {
+                extractFromPodSpec(templateParsed.data.spec, images);
+              }
+            }
+          }
           break;
+        }
+
+        case "Pod": {
+          const podSpecParsed = PodSpecSchema.safeParse(spec);
+          if (podSpecParsed.success) {
+            extractFromPodSpec(podSpecParsed.data, images);
+          }
+          break;
+        }
 
         // CRD-specific patterns
         case "Prometheus":
         case "Alertmanager":
-        case "ThanosRuler":
-          // Prometheus Operator CRDs have image directly in spec
-          extractCRDImage(spec, images);
+        case "ThanosRuler": {
+          const crdParsed = PrometheusCRDSpecSchema.safeParse(spec);
+          if (crdParsed.success) {
+            extractCRDImage(crdParsed.data, images);
+          }
           break;
+        }
 
         default:
           // Try generic extraction for unknown types
@@ -155,104 +207,93 @@ function extractImagesFromManifests(manifests: unknown[]): ImageRef[] {
 }
 
 /**
- * Extract images from a PodTemplateSpec
+ * Extract images from a PodSpec (using Zod-validated data)
  */
-function extractFromPodTemplateSpec(template: unknown, images: ImageRef[]): void {
-  if (!template || typeof template !== "object") return;
+function extractFromPodSpec(podSpec: z.infer<typeof PodSpecSchema> | undefined, images: ImageRef[]): void {
+  if (!podSpec) return;
 
-  const templateObj = template as Record<string, unknown>;
-  const spec = templateObj["spec"] as Record<string, unknown> | undefined;
-
-  if (spec) {
-    extractFromPodSpec(spec, images);
-  }
-}
-
-/**
- * Extract images from a PodSpec
- */
-function extractFromPodSpec(podSpec: Record<string, unknown>, images: ImageRef[]): void {
   // Main containers
-  const containers = podSpec["containers"] as unknown[] | undefined;
-  if (Array.isArray(containers)) {
-    for (const container of containers) {
-      extractContainerImage(container, images);
+  if (podSpec.containers) {
+    for (const container of podSpec.containers) {
+      if (container.image) {
+        const parsed = parseImageString(container.image);
+        if (parsed) {
+          images.push(parsed);
+        }
+      }
     }
   }
 
   // Init containers
-  const initContainers = podSpec["initContainers"] as unknown[] | undefined;
-  if (Array.isArray(initContainers)) {
-    for (const container of initContainers) {
-      extractContainerImage(container, images);
+  if (podSpec.initContainers) {
+    for (const container of podSpec.initContainers) {
+      if (container.image) {
+        const parsed = parseImageString(container.image);
+        if (parsed) {
+          images.push(parsed);
+        }
+      }
     }
   }
 
   // Ephemeral containers
-  const ephemeralContainers = podSpec["ephemeralContainers"] as unknown[] | undefined;
-  if (Array.isArray(ephemeralContainers)) {
-    for (const container of ephemeralContainers) {
-      extractContainerImage(container, images);
+  if (podSpec.ephemeralContainers) {
+    for (const container of podSpec.ephemeralContainers) {
+      if (container.image) {
+        const parsed = parseImageString(container.image);
+        if (parsed) {
+          images.push(parsed);
+        }
+      }
     }
   }
 }
 
 /**
- * Extract image from a container spec
+ * Extract image from Prometheus Operator CRDs (using Zod-validated data)
  */
-function extractContainerImage(container: unknown, images: ImageRef[]): void {
-  if (!container || typeof container !== "object") return;
-
-  const containerObj = container as Record<string, unknown>;
-  const imageStr = containerObj["image"] as string | undefined;
-
-  if (imageStr) {
-    const parsed = parseImageString(imageStr);
-    if (parsed) {
-      images.push(parsed);
-    }
-  }
-}
-
-/**
- * Extract image from Prometheus Operator CRDs
- */
-function extractCRDImage(spec: Record<string, unknown>, images: ImageRef[]): void {
+function extractCRDImage(spec: z.infer<typeof PrometheusCRDSpecSchema>, images: ImageRef[]): void {
   // Direct image field (Prometheus, Alertmanager)
-  const image = spec["image"] as string | undefined;
-  if (image) {
-    const parsed = parseImageString(image);
+  if (spec.image) {
+    const parsed = parseImageString(spec.image);
     if (parsed) {
       images.push(parsed);
     }
   }
 
   // Thanos sidecar
-  const thanos = spec["thanos"] as Record<string, unknown> | undefined;
-  if (thanos?.["image"]) {
-    const parsed = parseImageString(thanos["image"] as string);
+  if (spec.thanos?.image) {
+    const parsed = parseImageString(spec.thanos.image);
     if (parsed) {
       images.push(parsed);
     }
   }
 
   // Config reloader
-  const configReloader = spec["configReloaderImage"] as string | undefined;
-  if (configReloader) {
-    const parsed = parseImageString(configReloader);
+  if (spec.configReloaderImage) {
+    const parsed = parseImageString(spec.configReloaderImage);
     if (parsed) {
       images.push(parsed);
     }
   }
 
   // Containers array (some CRDs have this)
-  const containers = spec["containers"] as unknown[] | undefined;
-  if (Array.isArray(containers)) {
-    for (const container of containers) {
-      extractContainerImage(container, images);
+  if (spec.containers) {
+    for (const container of spec.containers) {
+      if (container.image) {
+        const parsed = parseImageString(container.image);
+        if (parsed) {
+          images.push(parsed);
+        }
+      }
     }
   }
 }
+
+// Schema for recursive image extraction
+const RecursiveImageSchema = z.looseObject({
+  image: z.string().optional(),
+});
 
 /**
  * Recursively extract images from any object structure
@@ -262,20 +303,24 @@ function extractImagesRecursively(obj: unknown, images: ImageRef[], depth = 0): 
   // Prevent infinite recursion
   if (depth > 10) return;
 
-  if (!obj || typeof obj !== "object") return;
-
-  if (Array.isArray(obj)) {
-    for (const item of obj) {
+  // Try to parse as array
+  const arrayResult = z.array(z.unknown()).safeParse(obj);
+  if (arrayResult.success) {
+    for (const item of arrayResult.data) {
       extractImagesRecursively(item, images, depth + 1);
     }
     return;
   }
 
-  const record = obj as Record<string, unknown>;
+  // Try to parse as object with optional image field
+  const objResult = RecursiveImageSchema.safeParse(obj);
+  if (!objResult.success) return;
+
+  const record = objResult.data;
 
   // Check for image field
-  if (typeof record["image"] === "string") {
-    const parsed = parseImageString(record["image"]);
+  if (record.image) {
+    const parsed = parseImageString(record.image);
     if (parsed) {
       images.push(parsed);
     }
@@ -283,7 +328,7 @@ function extractImagesRecursively(obj: unknown, images: ImageRef[], depth = 0): 
 
   // Recurse into nested objects
   for (const value of Object.values(record)) {
-    if (value && typeof value === "object") {
+    if (value !== null && value !== undefined) {
       extractImagesRecursively(value, images, depth + 1);
     }
   }
@@ -308,18 +353,20 @@ function deduplicateImages(images: ImageRef[]): ImageRef[] {
 /**
  * Diff two sets of images to find changes
  */
+type ImageUpdateResult = {
+  repository: string;
+  registry?: string;
+  oldTag: string;
+  newTag: string;
+};
+
 export function diffImages(
   oldImages: ImageRef[],
   newImages: ImageRef[],
 ): {
   added: ImageRef[];
   removed: ImageRef[];
-  updated: Array<{
-    repository: string;
-    registry?: string;
-    oldTag: string;
-    newTag: string;
-  }>;
+  updated: ImageUpdateResult[];
 } {
   const oldMap = new Map<string, ImageRef>();
   const newMap = new Map<string, ImageRef>();
@@ -337,12 +384,7 @@ export function diffImages(
 
   const added: ImageRef[] = [];
   const removed: ImageRef[] = [];
-  const updated: Array<{
-    repository: string;
-    registry?: string;
-    oldTag: string;
-    newTag: string;
-  }> = [];
+  const updated: ImageUpdateResult[] = [];
 
   // Find added and updated
   for (const [key, newImg] of newMap) {

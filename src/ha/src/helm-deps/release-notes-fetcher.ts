@@ -1,5 +1,35 @@
 import { OpenAI } from "openai";
+import { z } from "zod";
 import type { ReleaseNote } from "./types.js";
+
+// Zod schemas for API responses
+const ArtifactHubChangeSchema = z.object({
+  version: z.string(),
+  changes: z.string(),
+});
+
+const ArtifactHubResponseSchema = z.object({
+  version: z.string().optional(),
+  changes: z.array(ArtifactHubChangeSchema).optional(),
+  repository: z.object({
+    url: z.string().optional(),
+  }).optional(),
+});
+
+const GitHubReleaseSchema = z.object({
+  tag_name: z.string().optional(),
+  body: z.string().optional(),
+  html_url: z.string().optional(),
+  published_at: z.string().optional(),
+});
+
+const GitHubCompareResponseSchema = z.object({
+  commits: z.array(z.object({
+    commit: z.object({
+      message: z.string().optional(),
+    }).optional(),
+  })).optional(),
+});
 
 /**
  * Image repository to GitHub repository mapping
@@ -45,13 +75,15 @@ export const IMAGE_TO_GITHUB: Record<string, string> = {
  * 3. CHANGELOG.md
  * 4. Git tag comparison + LLM extraction
  */
+type ReleaseNoteFetcher = () => Promise<ReleaseNote[]>;
+
 export async function fetchReleaseNotesBetween(
   repo: string,
   oldVersion: string,
   newVersion: string,
 ): Promise<ReleaseNote[]> {
   // Try sources in order of preference
-  const sources: Array<() => Promise<ReleaseNote[]>> = [
+  const sources: ReleaseNoteFetcher[] = [
     () => fetchFromGitHubReleases(repo, oldVersion, newVersion),
     () => fetchFromChangelog(repo, oldVersion, newVersion),
     () => fetchFromGitCompare(repo, oldVersion, newVersion),
@@ -90,17 +122,18 @@ export async function fetchFromArtifactHub(
       return [];
     }
 
-    const data = (await response.json()) as {
-      version?: string;
-      changes?: Array<{ version: string; changes: string }>;
-      repository?: { url?: string };
-    };
+    const rawData: unknown = await response.json();
+    const parsed = ArtifactHubResponseSchema.safeParse(rawData);
+
+    if (!parsed.success) {
+      return [];
+    }
 
     // ArtifactHub may have a changes array
-    if (data.changes) {
+    if (parsed.data.changes) {
       const notes: ReleaseNote[] = [];
 
-      for (const change of data.changes) {
+      for (const change of parsed.data.changes) {
         if (isVersionInRange(change.version, oldVersion, newVersion)) {
           notes.push({
             version: change.version,
@@ -159,7 +192,7 @@ async function fetchFromGitHubReleases(
 
   while (hasMore && page <= 10) {
     // Limit to 10 pages
-    const url = `https://api.github.com/repos/${owner}/${repoName}/releases?per_page=100&page=${page}`;
+    const url = `https://api.github.com/repos/${owner}/${repoName}/releases?per_page=100&page=${String(page)}`;
 
     try {
       const response = await fetch(url, { headers });
@@ -168,19 +201,15 @@ async function fetchFromGitHubReleases(
         break;
       }
 
-      const releases = (await response.json()) as Array<{
-        tag_name?: string;
-        body?: string;
-        html_url?: string;
-        published_at?: string;
-      }>;
+      const rawData: unknown = await response.json();
+      const parsed = z.array(GitHubReleaseSchema).safeParse(rawData);
 
-      if (releases.length === 0) {
+      if (!parsed.success || parsed.data.length === 0) {
         hasMore = false;
         break;
       }
 
-      for (const release of releases) {
+      for (const release of parsed.data) {
         const tag = release.tag_name;
         if (!tag) continue;
 
@@ -274,7 +303,8 @@ function parseChangelog(content: string, oldVersion: string, newVersion: string)
   ];
 
   // Find all version headers and their positions
-  const versionPositions: Array<{ version: string; start: number }> = [];
+  type VersionPosition = { version: string; start: number };
+  const versionPositions: VersionPosition[] = [];
 
   for (const pattern of headerPatterns) {
     let match;
@@ -363,23 +393,22 @@ async function fetchFromGitCompare(
           continue;
         }
 
-        const data = (await response.json()) as {
-          commits?: Array<{
-            commit?: {
-              message?: string;
-            };
-          }>;
-        };
+        const rawData: unknown = await response.json();
+        const parsed = GitHubCompareResponseSchema.safeParse(rawData);
 
-        if (!data.commits || data.commits.length === 0) {
+        if (!parsed.success || !parsed.data.commits || parsed.data.commits.length === 0) {
           continue;
         }
 
         // Extract commit messages
-        const commitMessages = data.commits
-          .map((c) => c.commit?.message)
-          .filter((m): m is string => !!m)
-          .join("\n---\n");
+        const messages: string[] = [];
+        for (const c of parsed.data.commits) {
+          const msgResult = z.string().safeParse(c.commit?.message);
+          if (msgResult.success) {
+            messages.push(msgResult.data);
+          }
+        }
+        const commitMessages = messages.join("\n---\n");
 
         // Use LLM to extract meaningful release notes from commits
         const extracted = await extractWithLLM(commitMessages, oldVersion, newVersion);
@@ -441,7 +470,8 @@ ${content.slice(0, 10000)}`;
       temperature: 0.3,
     });
 
-    const body = response.choices[0]?.message?.content;
+    const choice = response.choices[0];
+    const body = choice?.message.content;
     if (body && body.length > 20) {
       return [
         {
@@ -492,7 +522,8 @@ function normalizeVersion(version: string): string {
   let normalized = version.replace(/^v/, "");
 
   // Handle chart-name-version format (e.g., "grafana-10.3.0")
-  const chartVersionMatch = normalized.match(/^[a-zA-Z-]+-(\d+\.\d+\.\d+.*)$/);
+  const chartVersionRegex = /^[a-zA-Z-]+-(\d+\.\d+\.\d+.*)$/;
+  const chartVersionMatch = chartVersionRegex.exec(normalized);
   if (chartVersionMatch?.[1]) {
     normalized = chartVersionMatch[1];
   }

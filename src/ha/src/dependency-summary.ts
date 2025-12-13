@@ -20,6 +20,11 @@ import {
   getGitHubRepoForImage,
   type FullDependencyDiff,
 } from "./helm-deps/index.js";
+import {
+  HELM_CHART_GITHUB_REPOS,
+  HELM_CHART_APP_REPOS,
+  DOCKER_IMAGE_GITHUB_REPOS,
+} from "./repo-mappings.js";
 
 // Schema for parsed dependency info from renovate comments
 const DependencyInfoSchema = z.object({
@@ -48,6 +53,15 @@ const ArtifactHubSchema = z.object({
     })
     .optional(),
 });
+
+// Schema for GitHub release response
+const GitHubReleaseSchema = z.object({
+  body: z.string().optional(),
+  html_url: z.string().optional(),
+  tag_name: z.string().optional(),
+});
+
+const GitHubReleasesArraySchema = z.array(GitHubReleaseSchema);
 
 // Schema for release notes
 type ReleaseNotes = {
@@ -407,68 +421,6 @@ async function fetchDockerReleaseNotes(dep: DependencyInfo): Promise<ReleaseNote
   return null;
 }
 
-// Map of Helm charts to their GitHub repos for chart release notes
-const HELM_CHART_GITHUB_REPOS: Record<string, string> = {
-  "argo-cd": "argoproj/argo-helm",
-  "cert-manager": "cert-manager/cert-manager",
-  coder: "coder/coder",
-  velero: "vmware-tanzu/helm-charts",
-  "kube-prometheus-stack": "prometheus-community/helm-charts",
-  openebs: "openebs/openebs",
-  "tailscale-operator": "tailscale/tailscale",
-  loki: "grafana/helm-charts",
-  promtail: "grafana/helm-charts",
-  tempo: "grafana/helm-charts",
-  chartmuseum: "helm/chartmuseum",
-  minecraft: "itzg/minecraft-server-charts",
-  "node-feature-discovery": "kubernetes-sigs/node-feature-discovery",
-  "prometheus-adapter": "kubernetes-sigs/prometheus-adapter",
-  "postgres-operator": "zalando/postgres-operator",
-  connect: "1Password/connect-helm-charts",
-  "intel-device-plugins-operator": "intel/helm-charts",
-};
-
-// Map of Helm charts to underlying app GitHub repos (for app version release notes)
-const HELM_CHART_APP_REPOS: Record<string, string> = {
-  "argo-cd": "argoproj/argo-cd",
-  "cert-manager": "cert-manager/cert-manager",
-  coder: "coder/coder",
-  velero: "vmware-tanzu/velero",
-  "kube-prometheus-stack": "prometheus/prometheus", // Main app
-  openebs: "openebs/openebs",
-  "tailscale-operator": "tailscale/tailscale",
-  loki: "grafana/loki",
-  promtail: "grafana/loki",
-  tempo: "grafana/tempo",
-  chartmuseum: "helm/chartmuseum",
-  minecraft: "itzg/docker-minecraft-server",
-  "node-feature-discovery": "kubernetes-sigs/node-feature-discovery",
-  "prometheus-adapter": "kubernetes-sigs/prometheus-adapter",
-  "postgres-operator": "zalando/postgres-operator",
-  connect: "1Password/connect",
-  "intel-device-plugins-operator": "intel/intel-device-plugins-for-kubernetes",
-};
-
-// Map of Docker images to their GitHub repos
-const DOCKER_IMAGE_GITHUB_REPOS: Record<string, string> = {
-  "home-assistant/home-assistant": "home-assistant/core",
-  "linuxserver/bazarr": "morpheus65535/bazarr",
-  "linuxserver/sonarr": "Sonarr/Sonarr",
-  "linuxserver/radarr": "Radarr/Radarr",
-  "linuxserver/prowlarr": "Prowlarr/Prowlarr",
-  "linuxserver/syncthing": "syncthing/syncthing",
-  "linuxserver/overseerr": "sct/overseerr",
-  "linuxserver/tautulli": "Tautulli/Tautulli",
-  "linuxserver/qbittorrent": "qbittorrent/qBittorrent",
-  "jorenn92/maintainerr": "jorenn92/maintainerr",
-  "qdm12/gluetun": "qdm12/gluetun",
-  "cooperspencer/gickup": "cooperspencer/gickup",
-  recyclarr: "recyclarr/recyclarr",
-  "freshrss/freshrss": "FreshRSS/FreshRSS",
-  "dagger-helm": "dagger/dagger",
-  "tailscale/golink": "tailscale/golink",
-};
-
 async function fetchHelmReleaseNotes(dep: DependencyInfo): Promise<ReleaseNotes[]> {
   const results: ReleaseNotes[] = [];
 
@@ -478,7 +430,7 @@ async function fetchHelmReleaseNotes(dep: DependencyInfo): Promise<ReleaseNotes[
     const [owner, repo] = chartRepo.split("/");
     if (owner && repo) {
       // Try chart-specific tag formats
-      const chartTags = [`${dep.name}-${dep.newVersion}`, `${dep.newVersion}`, `v${dep.newVersion}`];
+      const chartTags = [`${dep.name}-${dep.newVersion}`, dep.newVersion, `v${dep.newVersion}`];
 
       for (const tag of chartTags) {
         const releases = await fetchGitHubReleases(owner, repo, tag);
@@ -615,7 +567,7 @@ async function fetchHelmReleaseNotes(dep: DependencyInfo): Promise<ReleaseNotes[
         }
       }
 
-      console.log(`  Found ${transitiveDiff.images.updated.length} image updates, ${transitiveDiff.charts.updated.length} sub-chart updates`);
+      console.log(`  Found ${String(transitiveDiff.images.updated.length)} image updates, ${String(transitiveDiff.charts.updated.length)} sub-chart updates`);
     } catch (error) {
       console.warn(`  Failed to fetch transitive deps for ${dep.name}: ${String(error)}`);
     }
@@ -662,11 +614,12 @@ async function fetchGitHubReleases(
       const response = await fetch(url, { headers });
 
       if (response.ok) {
-        const data = (await response.json()) as { body?: string; html_url?: string };
-        if (data.body && data.body.length > 50) {
+        const rawData: unknown = await response.json();
+        const parsed = GitHubReleaseSchema.safeParse(rawData);
+        if (parsed.success && parsed.data.body && parsed.data.body.length > 50) {
           return {
-            body: data.body,
-            url: data.html_url ?? `https://github.com/${owner}/${repo}/releases/tag/${tag}`,
+            body: parsed.data.body,
+            url: parsed.data.html_url ?? `https://github.com/${owner}/${repo}/releases/tag/${tag}`,
           };
         }
       }
@@ -681,22 +634,21 @@ async function fetchGitHubReleases(
     const response = await fetch(url, { headers });
 
     if (response.ok) {
-      const releases = (await response.json()) as Array<{
-        tag_name?: string;
-        body?: string;
-        html_url?: string;
-      }>;
+      const rawData: unknown = await response.json();
+      const parsed = GitHubReleasesArraySchema.safeParse(rawData);
 
-      // Find release containing our version
-      const matchingRelease = releases.find(
-        (r) => r.tag_name?.includes(version) || r.tag_name?.includes(version.replace(/^v/, "")),
-      );
+      if (parsed.success) {
+        // Find release containing our version
+        const matchingRelease = parsed.data.find(
+          (r) => r.tag_name?.includes(version) ?? r.tag_name?.includes(version.replace(/^v/, "")),
+        );
 
-      if (matchingRelease?.body && matchingRelease.body.length > 50) {
-        return {
-          body: matchingRelease.body,
-          url: matchingRelease.html_url ?? `https://github.com/${owner}/${repo}/releases`,
-        };
+        if (matchingRelease?.body && matchingRelease.body.length > 50) {
+          return {
+            body: matchingRelease.body,
+            url: matchingRelease.html_url ?? `https://github.com/${owner}/${repo}/releases`,
+          };
+        }
       }
     }
   } catch {

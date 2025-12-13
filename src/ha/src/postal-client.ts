@@ -1,31 +1,25 @@
 import { z } from "zod";
 
-// Postal API request schema for sending messages
-const PostalSendMessageSchema = z.object({
-  to: z.array(z.string()),
-  cc: z.array(z.string()).optional(),
-  bcc: z.array(z.string()).optional(),
-  from: z.string(),
-  sender: z.string().optional(),
-  subject: z.string(),
-  tag: z.string().optional(),
-  reply_to: z.string().optional(),
-  plain_body: z.string().optional(),
-  html_body: z.string().optional(),
-  attachments: z
-    .array(
-      z.object({
-        name: z.string(),
-        content_type: z.string(),
-        data: z.string(), // Base64 encoded
-      }),
-    )
-    .optional(),
-  headers: z.record(z.string(), z.string()).optional(),
-  bounce: z.boolean().optional(),
-});
-
-type PostalSendMessage = z.infer<typeof PostalSendMessageSchema>;
+// Postal API request type for sending messages
+type PostalSendMessage = {
+  to: string[];
+  cc?: string[];
+  bcc?: string[];
+  from: string;
+  sender?: string;
+  subject: string;
+  tag?: string;
+  reply_to?: string;
+  plain_body?: string;
+  html_body?: string;
+  attachments?: {
+    name: string;
+    content_type: string;
+    data: string; // Base64 encoded
+  }[];
+  headers?: Record<string, string>;
+  bounce?: boolean;
+};
 
 // Postal API response schema
 const PostalResponseSchema = z.object({
@@ -76,7 +70,13 @@ export class PostalClient {
     from?: string;
     tag?: string;
   }): Promise<PostalResponse> {
-    const recipients = Array.isArray(params.to) ? params.to : [params.to];
+    const recipientsParsed = z.array(z.string()).safeParse(params.to);
+    const singleRecipientParsed = z.string().safeParse(params.to);
+    const recipients = recipientsParsed.success
+      ? recipientsParsed.data
+      : singleRecipientParsed.success
+        ? [singleRecipientParsed.data]
+        : [];
 
     const payload: PostalSendMessage = {
       to: recipients,
@@ -104,7 +104,7 @@ export class PostalClient {
     }
 
     if (parsed.data.status === "error") {
-      throw new Error(`Postal API error: ${parsed.data.error}`);
+      throw new Error(`Postal API error: ${parsed.data.error ?? "Unknown error"}`);
     }
 
     return parsed.data;
