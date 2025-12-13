@@ -11,7 +11,6 @@ import { createProwlarrDeployment } from "../resources/torrents/prowlarr.ts";
 import { createQBitTorrentDeployment } from "../resources/torrents/qbittorrent.ts";
 import { createRadarrDeployment } from "../resources/torrents/radarr.ts";
 import { createSonarrDeployment } from "../resources/torrents/sonarr.ts";
-import { createDdnsDeployment } from "../resources/ddns.ts";
 import { createMaintainerrDeployment } from "../resources/torrents/maintainerr.ts";
 import { createFreshRssDeployment } from "../resources/freshrss.ts";
 import { createPokemonDeployment } from "../resources/pokemon.ts";
@@ -69,7 +68,6 @@ export async function createTorvaldsChart(app: App) {
   createSyncthingDeployment(chart);
   createGolinkDeployment(chart);
   createProwlarrDeployment(chart);
-  createDdnsDeployment(chart);
   createMaintainerrDeployment(chart);
   createFreshRssDeployment(chart);
   createPokemonDeployment(chart);

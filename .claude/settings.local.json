@@ -10,7 +10,11 @@
       "Bash(ls:*)",
       "Bash(docker pull:*)",
       "Bash(docker manifest:*)",
-      "Bash(bun -e:*)"
+      "Bash(bun -e:*)",
+      "Bash(git diff:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(./scripts/lint-helm.sh:*)"
     ],
     "deny": [],
     "ask": []

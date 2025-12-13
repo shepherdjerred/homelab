@@ -4,47 +4,106 @@ import { buildK8sManifests } from "./cdk8s";
 import versions from "./versions";
 
 /**
- * Creates a container with Helm chart built and packaged.
- * Common setup used by all helm functions.
- * @param source The Helm chart source directory.
+ * List of all Helm charts to build and publish.
+ * Each chart name corresponds to a CDK8s chart that outputs {name}.k8s.yaml
+ */
+export const HELM_CHARTS = ["torvalds", "ddns"] as const;
+export type HelmChartName = (typeof HELM_CHARTS)[number];
+
+/**
+ * Creates a container with a single Helm chart built and packaged.
+ * @param chartDir The Helm chart source directory (containing Chart.yaml).
+ * @param chartName The name of the chart (must match CDK8s output file name).
+ * @param cdk8sManifests The directory containing all CDK8s manifest files.
  * @param repoRoot The repository root directory.
  * @param version The version to set in Chart.yaml and appVersion.
  * @returns Container with the chart built and packaged.
  */
-function getHelmContainer(source: Directory, repoRoot: Directory, version: string): Container {
-  const cdk8sManifests = buildK8sManifests(repoRoot);
-
+function getHelmContainerForChart(
+  chartDir: Directory,
+  chartName: string,
+  cdk8sManifests: Directory,
+  repoRoot: Directory,
+  version: string,
+): Container {
   return (
     dag
       .container()
       .from(`alpine/helm:${versions["alpine/helm"]}`)
       // Cache Helm registry data and repositories
       .withMountedCache("/root/.cache/helm", dag.cacheVolume("helm-cache"))
-      .withMountedDirectory("/workspace", source)
+      .withMountedDirectory("/workspace", chartDir)
       .withWorkdir("/workspace")
       // Update Chart.yaml version and appVersion using shared script
-      // This ensures CI and pre-commit use identical logic
       .withFile("/usr/local/bin/helm-set-version.sh", repoRoot.file("scripts/helm-set-version.sh"))
       .withExec(["chmod", "+x", "/usr/local/bin/helm-set-version.sh"])
       .withExec(["helm-set-version.sh", "Chart.yaml", version])
-      // Create templates directory and copy CDK8s manifests
+      // Create templates directory and copy only this chart's manifest
       .withExec(["mkdir", "-p", "templates"])
-      .withDirectory("templates", cdk8sManifests)
+      .withFile(`templates/${chartName}.k8s.yaml`, cdk8sManifests.file(`${chartName}.k8s.yaml`))
       // Package the chart
       .withExec(["helm", "package", "."])
   );
 }
 
 /**
+ * Build a single Helm chart from a chart directory.
+ * @param chartDir The Helm chart source directory (containing Chart.yaml).
+ * @param chartName The name of the chart (must match CDK8s output file name).
+ * @param cdk8sManifests The directory containing all CDK8s manifest files.
+ * @param repoRoot The repository root directory.
+ * @param version The full semver version (e.g. "1.0.0-123").
+ * @returns The packaged chart file (.tgz).
+ */
+export function buildChart(
+  chartDir: Directory,
+  chartName: string,
+  cdk8sManifests: Directory,
+  repoRoot: Directory,
+  version: string,
+): Directory {
+  const container = getHelmContainerForChart(chartDir, chartName, cdk8sManifests, repoRoot, version);
+
+  return container
+    .withExec(["mkdir", "-p", "dist"])
+    .withExec(["sh", "-c", `cp ${chartName}-*.tgz dist/`])
+    .directory("/workspace/dist");
+}
+
+/**
+ * Build all Helm charts defined in HELM_CHARTS.
+ * @param helmChartsDir The directory containing all chart subdirectories.
+ * @param repoRoot The repository root directory.
+ * @param version The full semver version (e.g. "1.0.0-123").
+ * @returns A directory containing all packaged charts.
+ */
+export function buildAllCharts(helmChartsDir: Directory, repoRoot: Directory, version: string): Directory {
+  const cdk8sManifests = buildK8sManifests(repoRoot);
+  let outputDir = dag.directory();
+
+  for (const chartName of HELM_CHARTS) {
+    const chartDir = helmChartsDir.directory(chartName);
+    const chartDist = buildChart(chartDir, chartName, cdk8sManifests, repoRoot, version);
+    outputDir = outputDir.withDirectory(chartName, chartDist);
+  }
+
+  return outputDir;
+}
+
+/**
  * Build the Helm chart, update version/appVersion, and export artifacts.
- * Uses caching for improved build performance.
- * @param source The Helm chart source directory (should be src/cdk8s/helm).
+ * Uses the new per-chart directory structure (src/cdk8s/helm/{chartName}/).
+ * @param source The Helm charts root directory (should be src/cdk8s/helm).
  * @param repoRoot The repository root directory.
  * @param version The full semver version (e.g. "1.0.0-123") - used as-is in Chart.yaml.
  * @returns The dist directory with packaged chart and YAMLs.
  */
 export function build(source: Directory, repoRoot: Directory, version: string): Directory {
-  const container = getHelmContainer(source, repoRoot, version);
+  const cdk8sManifests = buildK8sManifests(repoRoot);
+
+  // Build only the torvalds chart (primary chart, for backwards compatibility)
+  const torvaldsChartDir = source.directory("torvalds");
+  const container = getHelmContainerForChart(torvaldsChartDir, "torvalds", cdk8sManifests, repoRoot, version);
 
   // Export all YAMLs and the packaged chart to dist/
   return container
@@ -55,9 +114,93 @@ export function build(source: Directory, repoRoot: Directory, version: string): 
 }
 
 /**
+ * Publish a single pre-built Helm chart to a ChartMuseum repo.
+ * @param chartName The name of the chart.
+ * @param chartDist The directory containing the packaged chart (.tgz file).
+ * @param version The full semver version (e.g. "1.0.0-123").
+ * @param repo The ChartMuseum repo URL.
+ * @param chartMuseumUsername The ChartMuseum username.
+ * @param chartMuseumPassword The ChartMuseum password (secret).
+ * @returns The curl output from the publish step.
+ */
+export async function publishChart(
+  chartName: string,
+  chartDist: Directory,
+  version: string,
+  repo = "https://chartmuseum.tailnet-1a49.ts.net",
+  chartMuseumUsername: string,
+  chartMuseumPassword: Secret,
+): Promise<string> {
+  const chartFile = `${chartName}-${version}.tgz`;
+  const container = dag
+    .container()
+    .from(`alpine/helm:${versions["alpine/helm"]}`)
+    .withMountedDirectory("/workspace", chartDist)
+    .withWorkdir("/workspace")
+    .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
+    .withSecretVariable("CHARTMUSEUM_PASSWORD", chartMuseumPassword)
+    .withExec([
+      "sh",
+      "-c",
+      `curl -f -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts`,
+    ]);
+
+  try {
+    return await container.stdout();
+  } catch (err: unknown) {
+    const ErrorSchema = z.object({
+      stderr: z.string().optional(),
+      message: z.string().optional(),
+    });
+
+    const result = ErrorSchema.safeParse(err);
+    if (result.success) {
+      const { stderr = "", message = "" } = result.data;
+      if (stderr.includes("409") || message.includes("409")) {
+        return "409 Conflict: Chart already exists, treating as success.";
+      }
+    }
+    throw err;
+  }
+}
+
+/**
+ * Publish all Helm charts to ChartMuseum.
+ * @param allChartsDist The directory containing all chart subdirectories (from buildAllCharts).
+ * @param version The full semver version (e.g. "1.0.0-123").
+ * @param repo The ChartMuseum repo URL.
+ * @param chartMuseumUsername The ChartMuseum username.
+ * @param chartMuseumPassword The ChartMuseum password (secret).
+ * @returns Object mapping chart names to their publish results.
+ */
+export async function publishAllCharts(
+  allChartsDist: Directory,
+  version: string,
+  repo = "https://chartmuseum.tailnet-1a49.ts.net",
+  chartMuseumUsername: string,
+  chartMuseumPassword: Secret,
+): Promise<Record<string, string>> {
+  const results: Record<string, string> = {};
+
+  for (const chartName of HELM_CHARTS) {
+    const chartDist = allChartsDist.directory(chartName);
+    results[chartName] = await publishChart(
+      chartName,
+      chartDist,
+      version,
+      repo,
+      chartMuseumUsername,
+      chartMuseumPassword,
+    );
+  }
+
+  return results;
+}
+
+/**
  * Publish the packaged Helm chart to a ChartMuseum repo.
- * Uses caching for improved performance.
- * @param source The Helm chart source directory (should be src/cdk8s/helm).
+ * Uses the new per-chart directory structure (src/cdk8s/helm/{chartName}/).
+ * @param source The Helm charts root directory (should be src/cdk8s/helm).
  * @param repoRoot The repository root directory.
  * @param version The full semver version (e.g. "1.0.0-123") - used as-is in Chart.yaml.
  * @param repo The ChartMuseum repo URL.
@@ -73,8 +216,12 @@ export async function publish(
   chartMuseumUsername: string,
   chartMuseumPassword: Secret,
 ): Promise<string> {
+  const cdk8sManifests = buildK8sManifests(repoRoot);
+
+  // Build and publish only the torvalds chart (for backwards compatibility)
+  const torvaldsChartDir = source.directory("torvalds");
   const chartFile = `torvalds-${version}.tgz`;
-  const container = getHelmContainer(source, repoRoot, version)
+  const container = getHelmContainerForChart(torvaldsChartDir, "torvalds", cdk8sManifests, repoRoot, version)
     .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
     .withSecretVariable("CHARTMUSEUM_PASSWORD", chartMuseumPassword)
     .withExec([
