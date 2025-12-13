@@ -1,5 +1,4 @@
 import { App, Chart, Size } from "cdk8s";
-import { Namespace } from "cdk8s-plus-31";
 import { createTedditDeployment } from "../resources/frontends/teddit.ts";
 import { createGolinkDeployment } from "../resources/golink.ts";
 import { createHomeAssistantDeployment } from "../resources/home/homeassistant.ts";
@@ -24,7 +23,6 @@ import { createGickupDeployment } from "../resources/gickup.ts";
 import { Redis } from "../resources/common/redis.ts";
 import { createPeerTubePostgreSQLDatabase } from "../resources/postgres/peertube-db.ts";
 import { createPeerTubeDeployment } from "../resources/media/peertube.ts";
-import { RabbitMQ } from "../resources/common/rabbitmq.ts";
 import { PostalMariaDB } from "../resources/postgres/postal-mariadb.ts";
 import { createPostalDeployment } from "../resources/mail/postal.ts";
 
@@ -87,27 +85,14 @@ export async function createTorvaldsChart(app: App) {
   createPeerTubePostgreSQLDatabase(chart);
   createPeerTubeDeployment(chart, { redis: peertubeRedis });
 
-  // Postal
-  new Namespace(chart, "postal-namespace", {
-    metadata: {
-      name: "postal",
-      labels: {
-        "pod-security.kubernetes.io/audit": "restricted",
-      },
-    },
-  });
+  // Postal (all components in torvalds namespace)
+  // Note: Postal v3 removed RabbitMQ dependency
   const postalMariadb = new PostalMariaDB(chart, "postal-mariadb", {
-    namespace: "postal",
+    namespace: "torvalds",
     storageClass: "zfs-ssd",
     storageSize: "32Gi",
   });
-  const postalRabbitmq = new RabbitMQ(chart, "postal-rabbitmq", {
-    namespace: "postal",
-    storageClass: "zfs-ssd",
-    storageSize: "8Gi",
-  });
   createPostalDeployment(chart, {
     mariadb: postalMariadb,
-    rabbitmq: postalRabbitmq,
   });
 }

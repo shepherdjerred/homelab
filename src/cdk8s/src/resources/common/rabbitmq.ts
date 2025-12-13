@@ -33,8 +33,8 @@ export class RabbitMQ extends Construct {
 
     const releaseName = id;
 
-    // groundhog2k chart uses: <releaseName>-rabbitmq
-    this.serviceName = `${releaseName}-rabbitmq`;
+    // groundhog2k chart uses release name as service name
+    this.serviceName = releaseName;
 
     // Parse the official rabbitmq image version (format: "tag@sha256:...")
     const rabbitmqImage = versions["library/rabbitmq"];

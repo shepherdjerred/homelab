@@ -22,7 +22,7 @@ export function createPeerTubeDeployment(chart: Chart, props: CreatePeerTubeDepl
   // - admin_email: The admin email for the first user
   const peertubeSecrets = new OnePasswordItem(chart, "peertube-secrets", {
     spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/peertube", // Update this path as needed
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/vhjn6hzked4zmmdq7l2nqnxn3a",
     },
   });
 

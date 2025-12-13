@@ -4,7 +4,6 @@ import { withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
-import type { RabbitMQ } from "../common/rabbitmq.ts";
 import type { PostalMariaDB } from "../../resources/postgres/postal-mariadb.ts";
 
 export type PostalDeploymentProps = {
@@ -12,10 +11,6 @@ export type PostalDeploymentProps = {
    * MariaDB instance for Postal
    */
   mariadb: PostalMariaDB;
-  /**
-   * RabbitMQ instance for Postal
-   */
-  rabbitmq: RabbitMQ;
 };
 
 export function createPostalDeployment(chart: Chart, props: PostalDeploymentProps) {
@@ -27,33 +22,42 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     storage: Size.gibibytes(32),
   });
 
-  // Environment variables for Postal v3+ configuration
-  // See: https://postalserver.io/config-v2
+  // Environment variables for Postal v3+
+  // See: https://github.com/postalserver/postal/blob/main/doc/config/environment-variables.md
+  // Note: Postal v3 removed RabbitMQ dependency
   const commonEnv = {
-    // Database configuration (MariaDB/MySQL)
-    POSTAL_DATABASE_HOST: EnvValue.fromValue(props.mariadb.serviceName),
-    POSTAL_DATABASE_PORT: EnvValue.fromValue("3306"),
-    POSTAL_DATABASE_USERNAME: EnvValue.fromValue(props.mariadb.username),
-    POSTAL_DATABASE_PASSWORD: EnvValue.fromValue(props.mariadb.password),
-    POSTAL_DATABASE_NAME: EnvValue.fromValue(props.mariadb.databaseName),
+    // Main database configuration (for Postal core data)
+    MAIN_DB_HOST: EnvValue.fromValue(props.mariadb.serviceName),
+    MAIN_DB_PORT: EnvValue.fromValue("3306"),
+    MAIN_DB_USERNAME: EnvValue.fromValue(props.mariadb.username),
+    MAIN_DB_PASSWORD: EnvValue.fromValue(props.mariadb.password),
+    MAIN_DB_DATABASE: EnvValue.fromValue(props.mariadb.databaseName),
 
-    // RabbitMQ configuration
-    POSTAL_RABBITMQ_HOST: EnvValue.fromValue(props.rabbitmq.serviceName),
-    POSTAL_RABBITMQ_PORT: EnvValue.fromValue("5672"),
-    POSTAL_RABBITMQ_USERNAME: EnvValue.fromValue("postal"),
-    POSTAL_RABBITMQ_PASSWORD: EnvValue.fromValue("postal"),
-    POSTAL_RABBITMQ_VHOST: EnvValue.fromValue("/"),
+    // Message database configuration (for mail server message storage)
+    // Uses same MariaDB instance but separate databases per mail server
+    MESSAGE_DB_HOST: EnvValue.fromValue(props.mariadb.serviceName),
+    MESSAGE_DB_PORT: EnvValue.fromValue("3306"),
+    MESSAGE_DB_USERNAME: EnvValue.fromValue(props.mariadb.username),
+    MESSAGE_DB_PASSWORD: EnvValue.fromValue(props.mariadb.password),
 
     // Web server configuration
+    POSTAL_WEB_HOSTNAME: EnvValue.fromValue("postal.tailnet-1a49.ts.net"),
     POSTAL_WEB_PROTOCOL: EnvValue.fromValue("https"),
-    POSTAL_WEB_HOST: EnvValue.fromValue("postal.tailnet-1a49.ts.net"),
 
-    // SMTP configuration
-    POSTAL_SMTP_PORT: EnvValue.fromValue("25"),
+    // SMTP server hostname (for outbound mail identification)
+    POSTAL_SMTP_HOSTNAME: EnvValue.fromValue("postal.tailnet-1a49.ts.net"),
 
-    // Logging
-    POSTAL_LOGGING_STDOUT: EnvValue.fromValue("true"),
-    POSTAL_LOGGING_LEVEL: EnvValue.fromValue("info"),
+    // Rails secret key for session encryption (generate a secure random value)
+    // TODO: Move to 1Password secret
+    RAILS_SECRET_KEY: EnvValue.fromValue("change-me-to-a-secure-random-string-at-least-64-chars-long-for-production"),
+
+    // Logging configuration
+    LOGGING_ENABLED: EnvValue.fromValue("true"),
+    LOGGING_HIGHLIGHTING_ENABLED: EnvValue.fromValue("false"),
+
+    // Wait for MariaDB to be ready before starting
+    WAIT_FOR_TARGETS: EnvValue.fromValue(`${props.mariadb.serviceName}:3306`),
+    WAIT_FOR_TIMEOUT: EnvValue.fromValue("60"),
   };
 
   // Create deployment for Postal Web UI
@@ -70,7 +74,7 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
       name: "postal-web",
       image: `ghcr.io/postalserver/postal:${versions["postalserver/postal"]}`,
       command: ["/bin/bash"],
-      args: ["-c", "postal initialize && postal start-web-server"],
+      args: ["-c", "postal initialize && postal web-server"],
       ports: [
         {
           name: "web",
@@ -118,7 +122,7 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
       name: "postal-smtp",
       image: `ghcr.io/postalserver/postal:${versions["postalserver/postal"]}`,
       command: ["/bin/bash"],
-      args: ["-c", "postal start-smtp-server"],
+      args: ["-c", "postal smtp-server"],
       ports: [
         {
           name: "smtp",
@@ -166,7 +170,7 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
       name: "postal-worker",
       image: `ghcr.io/postalserver/postal:${versions["postalserver/postal"]}`,
       command: ["/bin/bash"],
-      args: ["-c", "postal start-worker"],
+      args: ["-c", "postal worker"],
       envVariables: commonEnv,
       securityContext: {
         user: UID,
@@ -235,11 +239,11 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
  *
  * 1. Access Postal Web UI via Tailscale: https://postal.tailnet-xxxx.ts.net
  *
- * 2. Initialize Postal (run once):
- *    kubectl exec -it <postal-web-pod> -n postal -- postal initialize
+ * 2. Initialize Postal (run once - handled automatically by web container):
+ *    The web container runs `postal initialize` before starting the web server.
  *
  * 3. Create initial admin user:
- *    kubectl exec -it <postal-web-pod> -n postal -- postal make-user
+ *    kubectl exec -it <postal-web-pod> -n torvalds -- postal make-user
  *
  * 4. Create organization:
  *    Log into the web UI and create your first organization
@@ -247,7 +251,7 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
  * 5. Create mail server:
  *    Create a mail server within your organization
  *
- * 6. Configure DNS records (see documentation at top of file):
+ * 6. Configure DNS records:
  *    - A record: mail.yourdomain.com -> your-cluster-ip
  *    - MX record: @ 10 mail.yourdomain.com
  *    - SPF record: v=spf1 ip4:YOUR_IP ~all

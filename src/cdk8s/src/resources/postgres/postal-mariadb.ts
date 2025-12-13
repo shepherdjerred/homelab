@@ -48,8 +48,8 @@ export class PostalMariaDB extends Construct {
 
     const releaseName = id;
 
-    // Bitnami MariaDB service name format
-    this.serviceName = `${releaseName}-mariadb`;
+    // Bitnami MariaDB service name is just the release name
+    this.serviceName = releaseName;
 
     const mariadbValues: Record<string, unknown> = {
       auth: {
