@@ -4,7 +4,8 @@
  *
  * Required environment variables:
  * - OPENAI_API_KEY: OpenAI API key for GPT-5.1
- * - RESEND_API_KEY: Resend API key for sending emails
+ * - POSTAL_HOST: Postal server hostname (e.g., postal.tailnet-1a49.ts.net)
+ * - POSTAL_API_KEY: Postal server API key
  * - RECIPIENT_EMAIL: Email address to send the summary to
  * - SENDER_EMAIL: (optional) Email address to send from (default: updates@homelab.local)
  */
@@ -12,6 +13,13 @@
 import simpleGit from "simple-git";
 import OpenAI from "openai";
 import { z } from "zod";
+import { createPostalClientFromEnv } from "./postal-client.js";
+import {
+  getFullDependencyChanges,
+  fetchReleaseNotesBetween,
+  getGitHubRepoForImage,
+  type FullDependencyDiff,
+} from "./helm-deps/index.js";
 
 // Schema for parsed dependency info from renovate comments
 const DependencyInfoSchema = z.object({
@@ -547,8 +555,77 @@ async function fetchHelmReleaseNotes(dep: DependencyInfo): Promise<ReleaseNotes[
     }
   }
 
+  // 4. NEW: Fetch transitive dependency release notes
+  if (dep.registryUrl) {
+    try {
+      console.log(`  Fetching transitive dependencies for ${dep.name}...`);
+      const transitiveDiff = await getFullDependencyChanges(
+        dep.name,
+        dep.registryUrl,
+        dep.oldVersion,
+        dep.newVersion,
+      );
+
+      // Store the diff for later formatting
+      transitiveDepsDiffs.set(dep.name, transitiveDiff);
+
+      // Fetch release notes for image updates
+      for (const imageUpdate of transitiveDiff.images.updated) {
+        const githubRepo = getGitHubRepoForImage(imageUpdate.repository);
+        if (githubRepo) {
+          console.log(`    Fetching release notes for ${imageUpdate.repository} (${imageUpdate.oldTag} -> ${imageUpdate.newTag})...`);
+          const notes = await fetchReleaseNotesBetween(
+            githubRepo,
+            imageUpdate.oldTag,
+            imageUpdate.newTag,
+          );
+
+          for (const note of notes) {
+            results.push({
+              dependency: `${dep.name} → ${imageUpdate.repository}`,
+              version: note.version,
+              notes: note.body,
+              url: note.url,
+              source: "app", // Transitive image dependency
+            });
+          }
+        }
+      }
+
+      // Fetch release notes for sub-chart updates
+      for (const chartUpdate of transitiveDiff.charts.updated) {
+        const subChartRepo = HELM_CHART_GITHUB_REPOS[chartUpdate.name] ?? HELM_CHART_APP_REPOS[chartUpdate.name];
+        if (subChartRepo) {
+          console.log(`    Fetching release notes for sub-chart ${chartUpdate.name} (${chartUpdate.oldVersion} -> ${chartUpdate.newVersion})...`);
+          const notes = await fetchReleaseNotesBetween(
+            subChartRepo,
+            chartUpdate.oldVersion,
+            chartUpdate.newVersion,
+          );
+
+          for (const note of notes) {
+            results.push({
+              dependency: `${dep.name} → ${chartUpdate.name}`,
+              version: note.version,
+              notes: note.body,
+              url: note.url,
+              source: "helm-chart",
+            });
+          }
+        }
+      }
+
+      console.log(`  Found ${transitiveDiff.images.updated.length} image updates, ${transitiveDiff.charts.updated.length} sub-chart updates`);
+    } catch (error) {
+      console.warn(`  Failed to fetch transitive deps for ${dep.name}: ${String(error)}`);
+    }
+  }
+
   return results;
 }
+
+// Store transitive dependency diffs for email formatting
+const transitiveDepsDiffs = new Map<string, FullDependencyDiff>();
 
 function getGitHubHeaders(): Record<string, string> {
   const headers: Record<string, string> = {
@@ -717,6 +794,9 @@ function formatEmailHtml(changes: DependencyInfo[], llmSummary: string, failedFe
   `
       : "";
 
+  // Format transitive dependencies section
+  const transitiveDepsHtml = formatTransitiveDepsHtml();
+
   return `
 <!DOCTYPE html>
 <html>
@@ -725,19 +805,23 @@ function formatEmailHtml(changes: DependencyInfo[], llmSummary: string, failedFe
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; }
     h1 { color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px; }
     h2 { color: #1e40af; margin-top: 30px; }
+    h3 { color: #3b82f6; margin-top: 20px; }
     table { border-collapse: collapse; width: 100%; margin: 20px 0; }
     th { background-color: #2563eb; color: white; padding: 12px 8px; text-align: left; }
     td { padding: 8px; border: 1px solid #ddd; }
     tr:nth-child(even) { background-color: #f8fafc; }
     .summary { background-color: #f0f9ff; border-left: 4px solid #2563eb; padding: 15px; margin: 20px 0; }
+    .transitive { background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; margin: 20px 0; }
+    .transitive-section { margin-left: 20px; }
     .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 0.9em; }
+    .dep-chain { color: #6b7280; font-size: 0.9em; }
   </style>
 </head>
 <body>
   <h1>Weekly Dependency Update Summary</h1>
   <p>Generated on ${new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
 
-  <h2>Updated Dependencies (${String(changes.length)})</h2>
+  <h2>Direct Dependency Updates (${String(changes.length)})</h2>
   <table>
     <thead>
       <tr>
@@ -752,6 +836,8 @@ function formatEmailHtml(changes: DependencyInfo[], llmSummary: string, failedFe
     </tbody>
   </table>
 
+  ${transitiveDepsHtml}
+
   ${failedHtml}
 
   <h2>AI Summary</h2>
@@ -765,6 +851,102 @@ function formatEmailHtml(changes: DependencyInfo[], llmSummary: string, failedFe
   </div>
 </body>
 </html>`;
+}
+
+function formatTransitiveDepsHtml(): string {
+  if (transitiveDepsDiffs.size === 0) {
+    return "";
+  }
+
+  const sections: string[] = [];
+
+  for (const [chartName, diff] of transitiveDepsDiffs) {
+    const hasChanges =
+      diff.images.updated.length > 0 ||
+      diff.charts.updated.length > 0 ||
+      diff.appVersions.updated.length > 0;
+
+    if (!hasChanges) continue;
+
+    let sectionHtml = `<h3>${chartName} - Transitive Updates</h3><div class="transitive-section">`;
+
+    // Sub-chart updates
+    if (diff.charts.updated.length > 0) {
+      sectionHtml += `
+      <h4>Sub-chart Updates</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Chart</th>
+            <th>Old Version</th>
+            <th>New Version</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${diff.charts.updated.map(c => `
+            <tr>
+              <td style="padding: 8px; border: 1px solid #ddd;">${c.name}</td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${c.oldVersion}</td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${c.newVersion}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>`;
+    }
+
+    // Image updates
+    if (diff.images.updated.length > 0) {
+      sectionHtml += `
+      <h4>Container Image Updates</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Old Tag</th>
+            <th>New Tag</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${diff.images.updated.map(img => {
+            const registry = img.registry ? `${img.registry}/` : "";
+            return `
+            <tr>
+              <td style="padding: 8px; border: 1px solid #ddd;">${registry}${img.repository}</td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${img.oldTag}</td>
+              <td style="padding: 8px; border: 1px solid #ddd;">${img.newTag}</td>
+            </tr>
+          `;
+          }).join("")}
+        </tbody>
+      </table>`;
+    }
+
+    // AppVersion updates
+    if (diff.appVersions.updated.length > 0) {
+      sectionHtml += `
+      <h4>AppVersion Updates</h4>
+      <ul>
+        ${diff.appVersions.updated.map(a =>
+          `<li><strong>${a.chartName}</strong>: ${a.oldAppVersion} → ${a.newAppVersion}</li>`
+        ).join("\n")}
+      </ul>`;
+    }
+
+    sectionHtml += "</div>";
+    sections.push(sectionHtml);
+  }
+
+  if (sections.length === 0) {
+    return "";
+  }
+
+  return `
+  <h2>Transitive Dependency Updates</h2>
+  <div class="transitive">
+    <p>The following indirect dependencies were also updated as part of the direct dependency changes above.</p>
+  </div>
+  ${sections.join("\n")}
+  `;
 }
 
 async function sendEmail(subject: string, htmlContent: string): Promise<void> {
@@ -836,14 +1018,8 @@ async function sendEmail(subject: string, htmlContent: string): Promise<void> {
     return;
   }
 
-  const apiKey = Bun.env["RESEND_API_KEY"];
   const recipientEmail = Bun.env["RECIPIENT_EMAIL"];
   const senderEmail = Bun.env["SENDER_EMAIL"] ?? "updates@homelab.local";
-
-  if (!apiKey) {
-    console.error("RESEND_API_KEY not set, cannot send email");
-    throw new Error("RESEND_API_KEY not set");
-  }
 
   if (!recipientEmail) {
     console.error("RECIPIENT_EMAIL not set, cannot send email");
@@ -851,26 +1027,16 @@ async function sendEmail(subject: string, htmlContent: string): Promise<void> {
   }
 
   try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: senderEmail,
-        to: recipientEmail,
-        subject,
-        html: htmlContent,
-      }),
+    const postal = createPostalClientFromEnv();
+    await postal.sendEmail({
+      to: recipientEmail,
+      from: senderEmail,
+      subject,
+      htmlBody: htmlContent,
+      tag: "dependency-summary",
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Resend API error: ${String(response.status)} - ${errorText}`);
-    }
-
-    console.log("Email sent successfully via Resend");
+    console.log("Email sent successfully via Postal");
   } catch (error) {
     console.error(`Failed to send email: ${String(error)}`);
     throw error;
