@@ -45,7 +45,9 @@ export function createWindmillPostgreSQLDatabase(chart: Chart) {
       },
       users: {
         windmill: [
-          PostgresqlSpecUsers.SUPERUSER, // Windmill needs superuser for database migrations
+          // Windmill works without SUPERUSER. It uses RLS policies on supported databases.
+          // CREATEDB privilege is sufficient for normal operation.
+          PostgresqlSpecUsers.CREATEDB,
         ],
       },
       databases: {
