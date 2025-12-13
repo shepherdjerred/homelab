@@ -119,8 +119,8 @@ const versions = {
   gitlab: "9.6.2",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
   mariadb: "24.0.1",
-  // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
-  rabbitmq: "16.0.11",
+  // renovate: datasource=helm registryUrl=https://groundhog2k.github.io/helm-charts/ versioning=semver
+  "groundhog2k/rabbitmq": "2.2.2",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "postalserver/postal": "3.1.1@sha256:3ed74702cb18b0c2d4467eeb870f12ee133d4fea32abd53e1c912c8e871cee0e",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
