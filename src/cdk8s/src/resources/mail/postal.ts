@@ -1,8 +1,9 @@
-import { Cpu, Deployment, DeploymentStrategy, EnvValue, Protocol, Service, Volume } from "cdk8s-plus-31";
+import { Cpu, Deployment, DeploymentStrategy, EnvValue, Protocol, Secret, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
+import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 import type { PostalMariaDB } from "../../resources/postgres/postal-mariadb.ts";
 
@@ -21,6 +22,14 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
   const postalVolume = new ZfsSsdVolume(chart, "postal-pvc", {
     storage: Size.gibibytes(32),
   });
+
+  // Fastmail SMTP credentials for the relay sidecar
+  const fastmailItem = new OnePasswordItem(chart, "fastmail-smtp-credentials", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/y2xpkfyirxjlcq7oluqxoyxxce",
+    },
+  });
+  const fastmailSecret = Secret.fromSecretName(chart, "fastmail-secret", fastmailItem.name);
 
   // Environment variables for Postal v3+
   // See: https://github.com/postalserver/postal/blob/main/doc/config/environment-variables.md
@@ -82,7 +91,11 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
           protocol: Protocol.TCP,
         },
       ],
-      envVariables: commonEnv,
+      envVariables: {
+        ...commonEnv,
+        // Bind to all interfaces so the service can reach the container
+        BIND_ADDRESS: EnvValue.fromValue("0.0.0.0"),
+      },
       securityContext: {
         user: UID,
         group: GID,
@@ -171,7 +184,11 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
       image: `ghcr.io/postalserver/postal:${versions["postalserver/postal"]}`,
       command: ["/bin/bash"],
       args: ["-c", "postal worker"],
-      envVariables: commonEnv,
+      envVariables: {
+        ...commonEnv,
+        // Use the local Postfix sidecar as SMTP relay (port 25 blocked externally)
+        POSTAL_SMTP_RELAYS: EnvValue.fromValue("smtp://127.0.0.1:2525"),
+      },
       securityContext: {
         user: UID,
         group: GID,
@@ -192,6 +209,57 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
         memory: {
           request: Size.mebibytes(512),
           limit: Size.gibibytes(2),
+        },
+      },
+    }),
+  );
+
+  // Postfix sidecar for authenticated SMTP relay to Fastmail
+  // This bypasses port 25 blocking by relaying through Fastmail on port 587
+  workerDeployment.addContainer(
+    withCommonProps({
+      name: "postfix-relay",
+      image: "boky/postfix:latest",
+      ports: [
+        {
+          name: "smtp",
+          number: 2525,
+          protocol: Protocol.TCP,
+        },
+      ],
+      envVariables: {
+        // Relay configuration
+        RELAYHOST: EnvValue.fromValue("[smtp.fastmail.com]:587"),
+        RELAYHOST_USERNAME: EnvValue.fromSecretValue({
+          secret: fastmailSecret,
+          key: "SMTP_USERNAME",
+        }),
+        RELAYHOST_PASSWORD: EnvValue.fromSecretValue({
+          secret: fastmailSecret,
+          key: "SMTP_PASSWORD",
+        }),
+        // Allow any sender domain (Postal handles domain validation)
+        ALLOWED_SENDER_DOMAINS: EnvValue.fromValue("*"),
+        // TLS configuration
+        POSTFIX_smtp_tls_security_level: EnvValue.fromValue("encrypt"),
+        // Listen on non-privileged port
+        POSTFIX_myhostname: EnvValue.fromValue("postal.tailnet-1a49.ts.net"),
+        // Override default port 25 to 2525
+        POSTFIX_inet_interfaces: EnvValue.fromValue("127.0.0.1"),
+        POSTFIX_smtpd_port: EnvValue.fromValue("2525"),
+      },
+      securityContext: {
+        ensureNonRoot: false, // Postfix needs root to start
+        readOnlyRootFilesystem: false,
+      },
+      resources: {
+        cpu: {
+          request: Cpu.millis(50),
+          limit: Cpu.millis(500),
+        },
+        memory: {
+          request: Size.mebibytes(64),
+          limit: Size.mebibytes(256),
         },
       },
     }),

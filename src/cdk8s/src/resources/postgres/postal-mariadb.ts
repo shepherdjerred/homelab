@@ -58,6 +58,13 @@ export class PostalMariaDB extends Construct {
         password: this.password,
         database: this.databaseName,
       },
+      // Grant postal user ability to create/manage message databases (postal-server-*)
+      initdbScripts: {
+        "grant-privileges.sql": `
+          GRANT ALL PRIVILEGES ON \`postal-%\`.* TO '${this.username}'@'%';
+          FLUSH PRIVILEGES;
+        `,
+      },
       primary: {
         persistence: {
           enabled: true,
