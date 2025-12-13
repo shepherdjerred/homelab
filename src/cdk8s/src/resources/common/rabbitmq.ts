@@ -36,7 +36,24 @@ export class RabbitMQ extends Construct {
     // Bitnami RabbitMQ service name format
     this.serviceName = `${releaseName}-rabbitmq`;
 
+    // Parse the official rabbitmq image version (format: "tag@sha256:...")
+    const rabbitmqImage = versions["library/rabbitmq"];
+    const [imageTag, imageDigest] = rabbitmqImage.split("@");
+
     const rabbitmqValues: Record<string, unknown> = {
+      // Allow non-Bitnami images (required since we're using official rabbitmq image)
+      global: {
+        security: {
+          allowInsecureImages: true,
+        },
+      },
+      // Use official RabbitMQ image instead of Bitnami (Bitnami images are often purged from Docker Hub)
+      image: {
+        registry: "docker.io",
+        repository: "library/rabbitmq",
+        tag: imageTag,
+        digest: imageDigest,
+      },
       auth: {
         username: "postal",
         password: "postal", // TODO: Consider using 1Password for production

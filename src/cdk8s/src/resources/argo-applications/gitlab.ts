@@ -164,6 +164,13 @@ export function createGitlabApp(chart: Chart) {
     redis: {
       install: true,
       architecture: "standalone",
+      master: {
+        persistence: {
+          enabled: true,
+          storageClass: "zfs-ssd",
+          size: "8Gi",
+        },
+      },
     },
     // Registry configuration
     registry: {
