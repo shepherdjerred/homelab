@@ -47,10 +47,17 @@ export class RabbitMQ extends Construct {
         repository: "rabbitmq",
         tag: imageTag,
       },
-      auth: {
-        username: "postal",
-        password: "postal", // TODO: Consider using 1Password for production
-        erlangCookie: "postalcookiesecretvalue1234567890", // Required for clustering, must be at least 20 chars
+      // groundhog2k chart uses 'authentication' not 'auth'
+      authentication: {
+        user: {
+          value: "postal",
+        },
+        password: {
+          value: "postal", // TODO: Consider using 1Password for production
+        },
+        erlangCookie: {
+          value: "postalcookiesecretvalue1234567890", // Required for clustering, must be at least 20 chars
+        },
       },
       storage: {
         persistentVolumeClaimName: null,
