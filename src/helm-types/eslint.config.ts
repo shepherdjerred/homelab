@@ -4,7 +4,9 @@ import rootConfig from "../../eslint.config.ts";
 export default defineConfig(...rootConfig, {
   languageOptions: {
     parserOptions: {
-      projectService: true,
+      projectService: {
+        allowDefaultProject: ["eslint.config.ts"],
+      },
       tsconfigRootDir: import.meta.dirname,
     },
   },

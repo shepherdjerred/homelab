@@ -23,7 +23,7 @@ export function createChartMuseumApp(chart: Chart) {
       enabled: true,
       storageClass: HDD_STORAGE_CLASS,
       size: Size.gibibytes(8).asString(),
-    }, // Type assertion for persistence config
+    },
     env: {
       open: {
         DISABLE_API: false,

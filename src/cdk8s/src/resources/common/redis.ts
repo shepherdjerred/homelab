@@ -44,6 +44,7 @@ export class Redis extends Construct {
     this.application = new Application(scope, `${id}-app`, {
       metadata: {
         name: id,
+        namespace: "argocd",
       },
       spec: {
         project: "default",

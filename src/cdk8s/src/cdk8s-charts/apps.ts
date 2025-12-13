@@ -26,6 +26,8 @@ import { createDaggerApp } from "../resources/argo-applications/dagger.ts";
 import { createVeleroApp } from "../resources/argo-applications/velero.ts";
 import { createPostgresOperatorApp } from "../resources/argo-applications/postgres-operator.ts";
 import { createCoderApp } from "../resources/argo-applications/coder.ts";
+import { createWindmillApp } from "../resources/argo-applications/windmill.ts";
+import { createGitlabApp } from "../resources/argo-applications/gitlab.ts";
 import { createAllGrafanaDashboards } from "../resources/grafana/index.ts";
 
 export async function createAppsChart(app: App) {
@@ -80,6 +82,8 @@ export async function createAppsChart(app: App) {
   createVeleroApp(chart);
   createPostgresOperatorApp(chart);
   createCoderApp(chart);
+  createWindmillApp(chart);
+  createGitlabApp(chart);
   // Create all Grafana dashboards (gitckup, ha-workflow, scout, smartctl, velero, zfs)
   createAllGrafanaDashboards(chart);
 }
