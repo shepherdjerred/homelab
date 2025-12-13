@@ -16,12 +16,10 @@ export async function prepareHaContainer(
 ): Promise<Container> {
   let container = getWorkspaceContainer(source, "src/ha");
 
-  // Check if hass directory already exists
-  const hassDir = source.directory("src/ha/src/hass");
-  const hasExistingTypes = await hassDir
-    .entries()
-    .then((entries) => entries.length > 0)
-    .catch(() => false);
+  // Check if hass directory already exists by looking at the parent directory entries
+  const haSourceDir = source.directory("src/ha/src");
+  const entries = await haSourceDir.entries();
+  const hasExistingTypes = entries.includes("hass");
 
   if (hasExistingTypes) {
     console.log("✅ Using existing @hass/ types from src/ha/src/hass/");
