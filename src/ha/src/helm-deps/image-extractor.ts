@@ -25,16 +25,20 @@ const JobSpecSchema = z.looseObject({
 });
 
 const CronJobSpecSchema = z.looseObject({
-  jobTemplate: z.looseObject({
-    spec: JobSpecSchema.optional(),
-  }).optional(),
+  jobTemplate: z
+    .looseObject({
+      spec: JobSpecSchema.optional(),
+    })
+    .optional(),
 });
 
 const PrometheusCRDSpecSchema = z.looseObject({
   image: z.string().optional(),
-  thanos: z.looseObject({
-    image: z.string().optional(),
-  }).optional(),
+  thanos: z
+    .looseObject({
+      image: z.string().optional(),
+    })
+    .optional(),
   configReloaderImage: z.string().optional(),
   containers: ContainersArraySchema.optional(),
 });
@@ -88,13 +92,7 @@ async function renderHelmTemplate(
     await updateProc.exited;
 
     // Build helm template command
-    const templateArgs = [
-      "template",
-      "release-name",
-      `${repoName}/${chartName}`,
-      "--version",
-      version,
-    ];
+    const templateArgs = ["template", "release-name", `${repoName}/${chartName}`, "--version", version];
 
     // Add values if provided
     if (values) {

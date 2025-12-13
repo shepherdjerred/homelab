@@ -1,8 +1,4 @@
-import type {
-  FullDependencyDiff,
-  ChartUpdate,
-  ResolvedChart,
-} from "./types.js";
+import type { FullDependencyDiff, ChartUpdate, ResolvedChart } from "./types.js";
 import { extractAllImages, diffImages } from "./image-extractor.js";
 import { fetchChartMetadata } from "./chart-fetcher.js";
 import { resolveRepositoryUrl } from "./types.js";
@@ -186,15 +182,7 @@ export async function getFullDependencyChanges(
 ): Promise<FullDependencyDiff> {
   const visited = new Set<string>();
 
-  return await getChangesRecursive(
-    chartName,
-    registryUrl,
-    oldVersion,
-    newVersion,
-    0,
-    maxDepth,
-    visited,
-  );
+  return await getChangesRecursive(chartName, registryUrl, oldVersion, newVersion, 0, maxDepth, visited);
 }
 
 async function getChangesRecursive(

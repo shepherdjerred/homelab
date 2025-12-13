@@ -20,11 +20,7 @@ import {
   getGitHubRepoForImage,
   type FullDependencyDiff,
 } from "./helm-deps/index.js";
-import {
-  HELM_CHART_GITHUB_REPOS,
-  HELM_CHART_APP_REPOS,
-  DOCKER_IMAGE_GITHUB_REPOS,
-} from "./repo-mappings.js";
+import { HELM_CHART_GITHUB_REPOS, HELM_CHART_APP_REPOS, DOCKER_IMAGE_GITHUB_REPOS } from "./repo-mappings.js";
 
 // Schema for parsed dependency info from renovate comments
 const DependencyInfoSchema = z.object({
@@ -511,12 +507,7 @@ async function fetchHelmReleaseNotes(dep: DependencyInfo): Promise<ReleaseNotes[
   if (dep.registryUrl) {
     try {
       console.log(`  Fetching transitive dependencies for ${dep.name}...`);
-      const transitiveDiff = await getFullDependencyChanges(
-        dep.name,
-        dep.registryUrl,
-        dep.oldVersion,
-        dep.newVersion,
-      );
+      const transitiveDiff = await getFullDependencyChanges(dep.name, dep.registryUrl, dep.oldVersion, dep.newVersion);
 
       // Store the diff for later formatting
       transitiveDepsDiffs.set(dep.name, transitiveDiff);
@@ -525,12 +516,10 @@ async function fetchHelmReleaseNotes(dep: DependencyInfo): Promise<ReleaseNotes[
       for (const imageUpdate of transitiveDiff.images.updated) {
         const githubRepo = getGitHubRepoForImage(imageUpdate.repository);
         if (githubRepo) {
-          console.log(`    Fetching release notes for ${imageUpdate.repository} (${imageUpdate.oldTag} -> ${imageUpdate.newTag})...`);
-          const notes = await fetchReleaseNotesBetween(
-            githubRepo,
-            imageUpdate.oldTag,
-            imageUpdate.newTag,
+          console.log(
+            `    Fetching release notes for ${imageUpdate.repository} (${imageUpdate.oldTag} -> ${imageUpdate.newTag})...`,
           );
+          const notes = await fetchReleaseNotesBetween(githubRepo, imageUpdate.oldTag, imageUpdate.newTag);
 
           for (const note of notes) {
             results.push({
@@ -548,12 +537,10 @@ async function fetchHelmReleaseNotes(dep: DependencyInfo): Promise<ReleaseNotes[
       for (const chartUpdate of transitiveDiff.charts.updated) {
         const subChartRepo = HELM_CHART_GITHUB_REPOS[chartUpdate.name] ?? HELM_CHART_APP_REPOS[chartUpdate.name];
         if (subChartRepo) {
-          console.log(`    Fetching release notes for sub-chart ${chartUpdate.name} (${chartUpdate.oldVersion} -> ${chartUpdate.newVersion})...`);
-          const notes = await fetchReleaseNotesBetween(
-            subChartRepo,
-            chartUpdate.oldVersion,
-            chartUpdate.newVersion,
+          console.log(
+            `    Fetching release notes for sub-chart ${chartUpdate.name} (${chartUpdate.oldVersion} -> ${chartUpdate.newVersion})...`,
           );
+          const notes = await fetchReleaseNotesBetween(subChartRepo, chartUpdate.oldVersion, chartUpdate.newVersion);
 
           for (const note of notes) {
             results.push({
@@ -567,7 +554,9 @@ async function fetchHelmReleaseNotes(dep: DependencyInfo): Promise<ReleaseNotes[
         }
       }
 
-      console.log(`  Found ${String(transitiveDiff.images.updated.length)} image updates, ${String(transitiveDiff.charts.updated.length)} sub-chart updates`);
+      console.log(
+        `  Found ${String(transitiveDiff.images.updated.length)} image updates, ${String(transitiveDiff.charts.updated.length)} sub-chart updates`,
+      );
     } catch (error) {
       console.warn(`  Failed to fetch transitive deps for ${dep.name}: ${String(error)}`);
     }
@@ -814,9 +803,7 @@ function formatTransitiveDepsHtml(): string {
 
   for (const [chartName, diff] of transitiveDepsDiffs) {
     const hasChanges =
-      diff.images.updated.length > 0 ||
-      diff.charts.updated.length > 0 ||
-      diff.appVersions.updated.length > 0;
+      diff.images.updated.length > 0 || diff.charts.updated.length > 0 || diff.appVersions.updated.length > 0;
 
     if (!hasChanges) continue;
 
@@ -835,13 +822,17 @@ function formatTransitiveDepsHtml(): string {
           </tr>
         </thead>
         <tbody>
-          ${diff.charts.updated.map(c => `
+          ${diff.charts.updated
+            .map(
+              (c) => `
             <tr>
               <td style="padding: 8px; border: 1px solid #ddd;">${c.name}</td>
               <td style="padding: 8px; border: 1px solid #ddd;">${c.oldVersion}</td>
               <td style="padding: 8px; border: 1px solid #ddd;">${c.newVersion}</td>
             </tr>
-          `).join("")}
+          `,
+            )
+            .join("")}
         </tbody>
       </table>`;
     }
@@ -859,16 +850,18 @@ function formatTransitiveDepsHtml(): string {
           </tr>
         </thead>
         <tbody>
-          ${diff.images.updated.map(img => {
-            const registry = img.registry ? `${img.registry}/` : "";
-            return `
+          ${diff.images.updated
+            .map((img) => {
+              const registry = img.registry ? `${img.registry}/` : "";
+              return `
             <tr>
               <td style="padding: 8px; border: 1px solid #ddd;">${registry}${img.repository}</td>
               <td style="padding: 8px; border: 1px solid #ddd;">${img.oldTag}</td>
               <td style="padding: 8px; border: 1px solid #ddd;">${img.newTag}</td>
             </tr>
           `;
-          }).join("")}
+            })
+            .join("")}
         </tbody>
       </table>`;
     }
@@ -878,9 +871,9 @@ function formatTransitiveDepsHtml(): string {
       sectionHtml += `
       <h4>AppVersion Updates</h4>
       <ul>
-        ${diff.appVersions.updated.map(a =>
-          `<li><strong>${a.chartName}</strong>: ${a.oldAppVersion} → ${a.newAppVersion}</li>`
-        ).join("\n")}
+        ${diff.appVersions.updated
+          .map((a) => `<li><strong>${a.chartName}</strong>: ${a.oldAppVersion} → ${a.newAppVersion}</li>`)
+          .join("\n")}
       </ul>`;
     }
 

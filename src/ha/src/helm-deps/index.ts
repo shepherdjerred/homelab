@@ -28,7 +28,13 @@ export {
 } from "./types.js";
 
 // Chart fetcher
-export { fetchChartYaml, fetchChartLock, fetchChartMetadata, clearChartCache, getPinnedVersion } from "./chart-fetcher.js";
+export {
+  fetchChartYaml,
+  fetchChartLock,
+  fetchChartMetadata,
+  clearChartCache,
+  getPinnedVersion,
+} from "./chart-fetcher.js";
 
 // Image extractor
 export { extractAllImages, diffImages } from "./image-extractor.js";

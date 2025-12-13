@@ -11,9 +11,11 @@ const ArtifactHubChangeSchema = z.object({
 const ArtifactHubResponseSchema = z.object({
   version: z.string().optional(),
   changes: z.array(ArtifactHubChangeSchema).optional(),
-  repository: z.object({
-    url: z.string().optional(),
-  }).optional(),
+  repository: z
+    .object({
+      url: z.string().optional(),
+    })
+    .optional(),
 });
 
 const GitHubReleaseSchema = z.object({
@@ -24,11 +26,17 @@ const GitHubReleaseSchema = z.object({
 });
 
 const GitHubCompareResponseSchema = z.object({
-  commits: z.array(z.object({
-    commit: z.object({
-      message: z.string().optional(),
-    }).optional(),
-  })).optional(),
+  commits: z
+    .array(
+      z.object({
+        commit: z
+          .object({
+            message: z.string().optional(),
+          })
+          .optional(),
+      }),
+    )
+    .optional(),
 });
 
 /**
@@ -173,11 +181,7 @@ function getGitHubHeaders(): Record<string, string> {
 /**
  * Fetch all releases in a version range from GitHub Releases
  */
-async function fetchFromGitHubReleases(
-  repo: string,
-  oldVersion: string,
-  newVersion: string,
-): Promise<ReleaseNote[]> {
+async function fetchFromGitHubReleases(repo: string, oldVersion: string, newVersion: string): Promise<ReleaseNote[]> {
   const [owner, repoName] = repo.split("/");
   if (!owner || !repoName) {
     return [];
@@ -252,11 +256,7 @@ async function fetchFromGitHubReleases(
 /**
  * Fetch and parse CHANGELOG.md from GitHub
  */
-async function fetchFromChangelog(
-  repo: string,
-  oldVersion: string,
-  newVersion: string,
-): Promise<ReleaseNote[]> {
+async function fetchFromChangelog(repo: string, oldVersion: string, newVersion: string): Promise<ReleaseNote[]> {
   const [owner, repoName] = repo.split("/");
   if (!owner || !repoName) {
     return [];
@@ -361,11 +361,7 @@ function parseChangelog(content: string, oldVersion: string, newVersion: string)
 /**
  * Fetch commit messages between two versions using GitHub compare API
  */
-async function fetchFromGitCompare(
-  repo: string,
-  oldVersion: string,
-  newVersion: string,
-): Promise<ReleaseNote[]> {
+async function fetchFromGitCompare(repo: string, oldVersion: string, newVersion: string): Promise<ReleaseNote[]> {
   const [owner, repoName] = repo.split("/");
   if (!owner || !repoName) {
     return [];
@@ -428,11 +424,7 @@ async function fetchFromGitCompare(
 /**
  * Use LLM to extract release notes from unstructured content
  */
-async function extractWithLLM(
-  content: string,
-  oldVersion: string,
-  newVersion: string,
-): Promise<ReleaseNote[]> {
+async function extractWithLLM(content: string, oldVersion: string, newVersion: string): Promise<ReleaseNote[]> {
   const apiKey = Bun.env["OPENAI_API_KEY"];
   if (!apiKey) {
     // Return raw commits as fallback
@@ -502,8 +494,7 @@ function isVersionInRange(version: string, oldVersion: string, newVersion: strin
   const normalizedNew = normalizeVersion(newVersion);
 
   return (
-    compareVersions(normalizedVersion, normalizedOld) > 0 &&
-    compareVersions(normalizedVersion, normalizedNew) <= 0
+    compareVersions(normalizedVersion, normalizedOld) > 0 && compareVersions(normalizedVersion, normalizedNew) <= 0
   );
 }
 

@@ -11,11 +11,7 @@ const lockCache = new Map<string, ChartLock | null>();
 /**
  * Fetch Chart.yaml for a Helm chart
  */
-export async function fetchChartYaml(
-  chartName: string,
-  registryUrl: string,
-  version: string,
-): Promise<ChartYaml> {
+export async function fetchChartYaml(chartName: string, registryUrl: string, version: string): Promise<ChartYaml> {
   const cacheKey = `${registryUrl}/${chartName}@${version}`;
 
   const cached = chartCache.get(cacheKey);
@@ -116,16 +112,7 @@ async function pullChart(chartName: string, registryUrl: string, version: string
 
     // Pull the chart
     const pullProc = Bun.spawn(
-      [
-        "helm",
-        "pull",
-        `${repoName}/${chartName}`,
-        "--version",
-        version,
-        "--destination",
-        tempDir,
-        "--untar",
-      ],
+      ["helm", "pull", `${repoName}/${chartName}`, "--version", version, "--destination", tempDir, "--untar"],
       {
         stdout: "pipe",
         stderr: "pipe",
@@ -211,10 +198,7 @@ export function clearChartCache(): void {
 /**
  * Get the pinned version for a dependency from Chart.lock
  */
-export function getPinnedVersion(
-  chartLock: ChartLock | null,
-  depName: string,
-): string | null {
+export function getPinnedVersion(chartLock: ChartLock | null, depName: string): string | null {
   if (!chartLock?.dependencies) {
     return null;
   }
