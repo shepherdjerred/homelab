@@ -67,6 +67,13 @@ export const EXTENSIBLE_TYPE_PATTERNS: Record<string, string[]> = {
   velero: [
     "kubectl.image", // Allows image configuration
   ],
+  gitlab: [
+    "", // Root level - GitLab has many subcharts not in default values (registry, etc.)
+    "gitlab", // GitLab subcharts (webservice, sidekiq, gitaly, gitlab-shell, toolbox, etc.)
+    "redis", // Bitnami Redis subchart with master/replica config
+    "global.psql", // External PostgreSQL configuration
+    "global.appConfig", // Application configuration
+  ],
 };
 
 /**

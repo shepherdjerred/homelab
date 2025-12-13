@@ -17,21 +17,19 @@ import { createFreshRssDeployment } from "../resources/freshrss.ts";
 import { createPokemonDeployment } from "../resources/pokemon.ts";
 import { createHaDeployment } from "../resources/home/ha.ts";
 import { ZfsHddVolume } from "../misc/zfs-hdd-volume.ts";
-import { KubeNamespace } from "../../generated/imports/k8s.ts";
 import { createRecyclarrDeployment } from "../resources/torrents/recyclarr.ts";
 import { createGrafanaPostgreSQLDatabase } from "../resources/postgres/grafana-db.ts";
 import { createGickupDeployment } from "../resources/gickup.ts";
+import { Redis } from "../resources/common/redis.ts";
+import { createPeerTubePostgreSQLDatabase } from "../resources/postgres/peertube-db.ts";
+import { createPeerTubeDeployment } from "../resources/media/peertube.ts";
+import { PostalMariaDB } from "../resources/postgres/postal-mariadb.ts";
+import { createPostalDeployment } from "../resources/mail/postal.ts";
 
 export async function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
     namespace: "torvalds",
     disableResourceNameHashes: true,
-  });
-
-  new KubeNamespace(chart, "argocd", {
-    metadata: {
-      name: "argocd",
-    },
   });
 
   const tvVolume = new ZfsHddVolume(chart, "plex-tv-hdd-pvc", {
@@ -79,4 +77,22 @@ export async function createTorvaldsChart(app: App) {
   createRecyclarrDeployment(chart);
   createGrafanaPostgreSQLDatabase(chart);
   await createGickupDeployment(chart);
+
+  // PeerTube
+  const peertubeRedis = new Redis(chart, "peertube-redis", {
+    namespace: "torvalds",
+  });
+  createPeerTubePostgreSQLDatabase(chart);
+  createPeerTubeDeployment(chart, { redis: peertubeRedis });
+
+  // Postal (all components in torvalds namespace)
+  // Note: Postal v3 removed RabbitMQ dependency
+  const postalMariadb = new PostalMariaDB(chart, "postal-mariadb", {
+    namespace: "torvalds",
+    storageClass: "zfs-ssd",
+    storageSize: "32Gi",
+  });
+  createPostalDeployment(chart, {
+    mariadb: postalMariadb,
+  });
 }

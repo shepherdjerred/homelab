@@ -106,6 +106,7 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
           },
         },
         // Dynamically generate "no new backup" alerts from schedule configuration
+        // Only alerts if the schedule has had at least one successful backup (prevents false positives for new schedules)
         ...VELERO_SCHEDULES.map((scheduleConfig) => ({
           alert: `VeleroNoNew${scheduleConfig.backupType.charAt(0).toUpperCase() + scheduleConfig.backupType.slice(1)}Backup`,
           annotations: {
@@ -115,7 +116,8 @@ export function getVeleroRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `max(increase(velero_backup_success_total{schedule!="",schedule=~"${scheduleConfig.monitoring.schedulePattern}"}[${scheduleConfig.monitoring.noBackupWindow}])) by (schedule) == 0`,
+            `(max(increase(velero_backup_success_total{schedule!="",schedule=~"${scheduleConfig.monitoring.schedulePattern}"}[${scheduleConfig.monitoring.noBackupWindow}])) by (schedule) == 0)
+and on(schedule) (max(velero_backup_success_total{schedule!="",schedule=~"${scheduleConfig.monitoring.schedulePattern}"}) by (schedule) > 0)`,
           ),
           for: scheduleConfig.monitoring.alertFor,
           labels: {

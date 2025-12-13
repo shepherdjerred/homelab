@@ -10,13 +10,11 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
   "node-feature-discovery": "0.18.3",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
-  "kube-prometheus-stack": "79.12.0",
+  "kube-prometheus-stack": "80.2.0",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
   "prometheus-adapter": "5.2.0",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
   "tailscale-operator": "1.90.9",
-  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
-  "library/redis": "7.2@sha256:5a12cb25b33b791f017419b386bb0e4e02566970fc8f23adf7f61d9291194b9c",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "teddit/teddit": "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
@@ -68,7 +66,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
   openebs: "4.4.0",
   // not managed by renovate
-  "shepherdjerred/scout-for-lol/beta": "1.0.839",
+  "shepherdjerred/scout-for-lol/beta": "1.0.861",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/prod": "1.0.802",
   // not managed by renovate
@@ -77,6 +75,8 @@ const versions = {
   "shepherdjerred/starlight-karma-bot/prod": "1.0.13",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "freshrss/freshrss": "1.27.1@sha256:9a56be99f3927cc8fab4c6bbd5723ae098824792d4d98a84007a95eb64e8f905",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "chocobozzz/peertube": "v7.2.3-bookworm@sha256:f43ada42981e7af304bdab58ec97117a33c45f0b00b7fc46c7d394a116cdaf4c",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set-controller": "0.13.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
@@ -111,6 +111,22 @@ const versions = {
     "v1.6.0@sha256:b987d19693a5b2fe7314b22009c6302e084ec801fcf96afaf14065b4cdafc842",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "jsclayton/prometheus-plex-exporter": "main@sha256:18ef1b2197efbcb75bd7276380955760995f10a9fbe55106809a6fcff91c2940",
+  // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
+  redis: "24.0.4",
+  // renovate: datasource=helm registryUrl=https://windmill-labs.github.io/windmill-helm-charts/ versioning=semver
+  windmill: "3.0.65",
+  // renovate: datasource=helm registryUrl=https://charts.gitlab.io/ versioning=semver
+  gitlab: "9.6.2",
+  // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
+  mariadb: "24.0.1",
+  // renovate: datasource=helm registryUrl=https://groundhog2k.github.io/helm-charts/ versioning=semver
+  "groundhog2k/rabbitmq": "2.2.2",
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
+  "postalserver/postal": "3.1.1@sha256:3ed74702cb18b0c2d4467eeb870f12ee133d4fea32abd53e1c912c8e871cee0e",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
+  "library/mariadb": "11.8@sha256:1cac8492bd78b1ec693238dc600be173397efd7b55eabc725abc281dc855b482",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
+  "library/rabbitmq": "3.13-management@sha256:e582c0bc7766f3342496d8485efb5a1df782b5ce3886ad017e2eaae442311f69",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];

@@ -142,6 +142,34 @@ export type OpenebsHelmValuesLvmlocalpvCrdsCsiVolumeSnapshots = {
   enabled?: boolean;
 };
 
+export type OpenebsHelmValuesRawfilelocalpv = {
+  /**
+   * @default {"csi":{"volumeSnapshots":{"enabled":false}}}
+   */
+  crds?: OpenebsHelmValuesRawfilelocalpvCrds;
+};
+
+export type OpenebsHelmValuesRawfilelocalpvCrds = {
+  /**
+   * @default {"volumeSnapshots":{"enabled":false}}
+   */
+  csi?: OpenebsHelmValuesRawfilelocalpvCrdsCsi;
+};
+
+export type OpenebsHelmValuesRawfilelocalpvCrdsCsi = {
+  /**
+   * @default {"enabled":false}
+   */
+  volumeSnapshots?: OpenebsHelmValuesRawfilelocalpvCrdsCsiVolumeSnapshots;
+};
+
+export type OpenebsHelmValuesRawfilelocalpvCrdsCsiVolumeSnapshots = {
+  /**
+   * @default false
+   */
+  enabled?: boolean;
+};
+
 export type OpenebsHelmValuesMayastor = {
   /**
    * @default {"node":{"initContainers":{"enabled":true}}}
@@ -228,21 +256,50 @@ export type OpenebsHelmValuesMayastorAlloy = {
 };
 
 export type OpenebsHelmValuesPreUpgradeHook = {
+  /**
+   * Enable/Disable openebs pre-upgrade hook
+   *
+   * @default true
+   */
+  enabled?: boolean;
   tolerations?: unknown[];
   imagePullSecrets?: unknown[];
   /**
    * Labels to be added to the pod hook job
    *
-   * @default {}
+   * @default {"openebs.io/logging":"true"}
    */
   podLabels?: OpenebsHelmValuesPreUpgradeHookPodLabels;
+  /**
+   * This helps in debugging by leaving the Job/Pod instances lying around
+   *
+   * @default {"helm.sh/hook-delete-policy":"hook-succeeded,before-hook-creation"}
+   */
+  annotations?: OpenebsHelmValuesPreUpgradeHookAnnotations;
   /**
    * @default {...} (4 keys)
    */
   image?: OpenebsHelmValuesPreUpgradeHookImage;
 };
 
-export type OpenebsHelmValuesPreUpgradeHookPodLabels = object;
+export type OpenebsHelmValuesPreUpgradeHookPodLabels = {
+  /**
+   * @default "true"
+   */
+  "openebs.io/logging"?: boolean;
+};
+
+export type OpenebsHelmValuesPreUpgradeHookAnnotations = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
+   * @default "hook-succeeded,before-hook-creation"
+   */
+  "helm.sh/hook-delete-policy"?: string;
+};
 
 export type OpenebsHelmValuesPreUpgradeHookImage = {
   /**
@@ -273,7 +330,7 @@ export type OpenebsHelmValuesPreUpgradeHookImage = {
 
 export type OpenebsHelmValuesEngines = {
   /**
-   * @default {"lvm":{"enabled":true},"zfs":{"enabled":true}}
+   * @default {"lvm":{"enabled":true},"zfs":{"enabled":true},"rawfile":{"enabled":false}}
    */
   local?: OpenebsHelmValuesEnginesLocal;
   /**
@@ -291,6 +348,10 @@ export type OpenebsHelmValuesEnginesLocal = {
    * @default {"enabled":true}
    */
   zfs?: OpenebsHelmValuesEnginesLocalZfs;
+  /**
+   * @default {"enabled":false}
+   */
+  rawfile?: OpenebsHelmValuesEnginesLocalRawfile;
 };
 
 export type OpenebsHelmValuesEnginesLocalLvm = {
@@ -303,6 +364,15 @@ export type OpenebsHelmValuesEnginesLocalLvm = {
 export type OpenebsHelmValuesEnginesLocalZfs = {
   /**
    * @default true
+   */
+  enabled?: boolean;
+};
+
+export type OpenebsHelmValuesEnginesLocalRawfile = {
+  /**
+   * Disabled by default since rawfile is not marked as stable yet.
+   *
+   * @default false
    */
   enabled?: boolean;
 };
@@ -416,6 +486,10 @@ export type OpenebsHelmValuesLoki = {
    * @default {"replicas":0}
    */
   bloomGateway?: OpenebsHelmValuesLokiBloomGateway;
+  /**
+   * @default {"image":{"repository":"docker.io/kiwigrid/k8s-sidecar"}}
+   */
+  sidecar?: OpenebsHelmValuesLokiSidecar;
 };
 
 export type OpenebsHelmValuesLokiLocalpvScConfig = {
@@ -834,6 +908,20 @@ export type OpenebsHelmValuesLokiBloomGateway = {
   replicas?: number;
 };
 
+export type OpenebsHelmValuesLokiSidecar = {
+  /**
+   * @default {"repository":"docker.io/kiwigrid/k8s-sidecar"}
+   */
+  image?: OpenebsHelmValuesLokiSidecarImage;
+};
+
+export type OpenebsHelmValuesLokiSidecarImage = {
+  /**
+   * @default "docker.io/kiwigrid/k8s-sidecar"
+   */
+  repository?: string;
+};
+
 export type OpenebsHelmValuesAlloy = {
   /**
    * @default true
@@ -935,23 +1023,29 @@ export type OpenebsHelmValues = {
    */
   "lvm-localpv"?: OpenebsHelmValuesLvmlocalpv;
   /**
+   * Refer to https://github.com/openebs/rawfile-localpv/blob/v0.11.0/deploy/helm/rawfile-localpv/values.yaml for complete set of values.
+   *
+   * @default {"crds":{"csi":{"volumeSnapshots":{"enabled":false}}}}
+   */
+  "rawfile-localpv"?: OpenebsHelmValuesRawfilelocalpv;
+  /**
    * Refer to https://github.com/openebs/mayastor-extensions/blob/v2.8.0/chart/values.yaml for complete set of values.
    *
    * @default {...} (6 keys)
    */
   mayastor?: OpenebsHelmValuesMayastor;
   /**
-   * Configuration options for pre-upgrade helm hook job.
+   * This runs only for upgrades from openebs v3 to v4. Uses the localpv-provisioner deployment to decide if it's v3 or v4.
    *
-   * @default {...} (4 keys)
+   * @default {...} (6 keys)
    */
   preUpgradeHook?: OpenebsHelmValuesPreUpgradeHook;
   /**
-   * @default {"local":{"lvm":{"enabled":true},"zfs":{"enabled":true}},"replicated":{"mayastor":{"enabled":true}}}
+   * @default {"local":{"lvm":{"enabled":true},"zfs":{"enabled":true},"rawfile":{"enabled":false}},"replicated":{"mayastor":{"enabled":true}}}
    */
   engines?: OpenebsHelmValuesEngines;
   /**
-   * @default {...} (23 keys)
+   * @default {...} (24 keys)
    */
   loki?: OpenebsHelmValuesLoki;
   /**
@@ -968,20 +1062,25 @@ export type OpenebsHelmParameters = {
   "zfs-localpv.crds.csi.volumeSnapshots.enabled"?: string;
   "lvm-localpv.crds.lvmLocalPv.enabled"?: string;
   "lvm-localpv.crds.csi.volumeSnapshots.enabled"?: string;
+  "rawfile-localpv.crds.csi.volumeSnapshots.enabled"?: string;
   "mayastor.csi.node.initContainers.enabled"?: string;
   "mayastor.etcd.clusterDomain"?: string;
   "mayastor.localpv-provisioner.enabled"?: string;
   "mayastor.crds.enabled"?: string;
   "mayastor.loki.enabled"?: string;
   "mayastor.alloy.enabled"?: string;
+  "preUpgradeHook.enabled"?: string;
   "preUpgradeHook.tolerations"?: string;
   "preUpgradeHook.imagePullSecrets"?: string;
+  "preUpgradeHook.podLabels.openebs.io/logging"?: string;
+  "preUpgradeHook.annotations.helm.sh/hook-delete-policy"?: string;
   "preUpgradeHook.image.registry"?: string;
   "preUpgradeHook.image.repo"?: string;
   "preUpgradeHook.image.tag"?: string;
   "preUpgradeHook.image.pullPolicy"?: string;
   "engines.local.lvm.enabled"?: string;
   "engines.local.zfs.enabled"?: string;
+  "engines.local.rawfile.enabled"?: string;
   "engines.replicated.mayastor.enabled"?: string;
   "loki.enabled"?: string;
   "loki.localpvScConfig.enabled"?: string;
@@ -1039,6 +1138,7 @@ export type OpenebsHelmParameters = {
   "loki.indexGateway.replicas"?: string;
   "loki.bloomCompactor.replicas"?: string;
   "loki.bloomGateway.replicas"?: string;
+  "loki.sidecar.image.repository"?: string;
   "alloy.enabled"?: string;
   "alloy.logging_config.debugging"?: string;
   "alloy.logging_config.labels.openebs.io/logging"?: string;

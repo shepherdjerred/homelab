@@ -17,3 +17,6 @@ export * from "./openebs.types.ts";
 export * from "./velero.types.ts";
 export * from "./postgres-operator.types.ts";
 export * from "./coder.types.ts";
+export * from "./redis.types.ts";
+export * from "./windmill.types.ts";
+export * from "./gitlab.types.ts";

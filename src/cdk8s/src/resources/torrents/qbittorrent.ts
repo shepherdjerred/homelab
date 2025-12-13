@@ -1,4 +1,5 @@
 import {
+  Cpu,
   Deployment,
   DeploymentStrategy,
   EnvValue,
@@ -78,6 +79,16 @@ export function createQBitTorrentDeployment(
       name: "qbittorrent",
       image: `ghcr.io/linuxserver/qbittorrent:${versions["linuxserver/qbittorrent"]}`,
       portNumber: 8080,
+      resources: {
+        memory: {
+          request: Size.gibibytes(1),
+          limit: Size.gibibytes(4),
+        },
+        cpu: {
+          request: Cpu.millis(100),
+          limit: Cpu.millis(2000),
+        },
+      },
       volumeMounts: [
         {
           path: "/config",

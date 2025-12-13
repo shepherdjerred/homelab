@@ -101,16 +101,17 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
       rules: [
         // Good morning workflows - should run every day
         // Uses recording rule to survive app restarts
+        // Aggregates across all good_morning_* workflows to produce a single alert
         {
           alert: "HaGoodMorningWorkflowMissing",
           annotations: {
             description: escapePrometheusTemplate(
-              'HA Good Morning workflow "{{ $labels.workflow }}" has not run in the last 25 hours. Expected to run daily around 7-9am. Last run: {{ $value | humanizeDuration }} ago.',
+              "HA Good Morning workflows have not run in the last 25 hours. Expected to run daily around 7-9am. Last run: {{ $value | humanizeDuration }} ago.",
             ),
             summary: "HA Good Morning workflow missing",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `time() - max without(pod, instance, container, endpoint) (
+            `time() - max without(pod, instance, container, endpoint, workflow) (
               ha_workflow_last_success_timestamp_max{workflow=~"good_morning_.*"}
             ) > 90000`,
           ),

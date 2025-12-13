@@ -422,5 +422,92 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
         },
       ],
     },
+
+    // ZFS Pool Health monitoring (from zfs_zpool.sh collector)
+    {
+      name: "zfs-pool-health",
+      rules: [
+        {
+          alert: "ZfsPoolDegraded",
+          annotations: {
+            description: escapePrometheusTemplate(
+              "ZFS pool {{ $labels.zpool_name }} is DEGRADED - one or more drives may be faulted or missing. Immediate attention required.",
+            ),
+            summary: escapePrometheusTemplate(
+              "ZFS pool {{ $labels.zpool_name }} is degraded",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'zfs_zpool{health="DEGRADED"} == 1',
+          ),
+          for: "0m",
+          labels: { severity: "critical", category: "storage" },
+        },
+        {
+          alert: "ZfsPoolFaulted",
+          annotations: {
+            description: escapePrometheusTemplate(
+              "ZFS pool {{ $labels.zpool_name }} is FAULTED - data may be at risk! Immediate action required.",
+            ),
+            summary: escapePrometheusTemplate(
+              "ZFS pool {{ $labels.zpool_name }} is faulted - DATA AT RISK",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'zfs_zpool{health="FAULTED"} == 1',
+          ),
+          for: "0m",
+          labels: { severity: "critical", category: "storage" },
+        },
+        {
+          alert: "ZfsPoolCapacityHigh",
+          annotations: {
+            description: escapePrometheusTemplate(
+              "ZFS pool {{ $labels.zpool_name }} is {{ $value | humanizePercentage }} full. Consider expanding or cleaning up.",
+            ),
+            summary: escapePrometheusTemplate(
+              "ZFS pool {{ $labels.zpool_name }} capacity over 80%",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "(1 - (zfs_zpool_free_bytes / zfs_zpool_size_bytes)) > 0.80",
+          ),
+          for: "30m",
+          labels: { severity: "warning", category: "storage" },
+        },
+        {
+          alert: "ZfsPoolCapacityCritical",
+          annotations: {
+            description: escapePrometheusTemplate(
+              "ZFS pool {{ $labels.zpool_name }} is {{ $value | humanizePercentage }} full. Performance degradation likely. Expand or clean up immediately.",
+            ),
+            summary: escapePrometheusTemplate(
+              "ZFS pool {{ $labels.zpool_name }} capacity over 90%",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "(1 - (zfs_zpool_free_bytes / zfs_zpool_size_bytes)) > 0.90",
+          ),
+          for: "10m",
+          labels: { severity: "critical", category: "storage" },
+        },
+        {
+          alert: "ZfsPoolFragmentationHigh",
+          annotations: {
+            description: escapePrometheusTemplate(
+              "ZFS pool {{ $labels.zpool_name }} fragmentation is {{ $value }}%. High fragmentation can impact performance.",
+            ),
+            summary: escapePrometheusTemplate(
+              "ZFS pool {{ $labels.zpool_name }} fragmentation over 50%",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "zfs_zpool_fragmentation > 50",
+          ),
+          for: "1h",
+          labels: { severity: "warning", category: "storage" },
+        },
+      ],
+    },
   ];
 }

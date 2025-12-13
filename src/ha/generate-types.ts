@@ -23,7 +23,14 @@ async function generateTypes() {
   try {
     // Use the locally installed and patched version
     // This ensures the bun patch is applied (bunx creates fresh installs that bypass patches)
-    await $`bun node_modules/@digital-alchemy/type-writer/dist/main.mjs`;
+    // Use import.meta.resolve to find the package location, then construct the path to main.mjs
+    // This works regardless of node_modules structure (hoisted, workspace, or .bun cache)
+    const pkgUrl = import.meta.resolve("@digital-alchemy/type-writer");
+    // Convert file:// URL to filesystem path
+    const pkgPath = new URL(pkgUrl).pathname;
+    const typeWriterDir = pkgPath.replace(/\/dist\/index\.mjs$/, "");
+    const mainPath = `${typeWriterDir}/dist/main.mjs`;
+    await $`bun ${mainPath}`;
     console.log("✅ Types generated successfully");
   } catch (error) {
     console.error("❌ Failed to generate types:", error);

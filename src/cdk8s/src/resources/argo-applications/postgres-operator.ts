@@ -64,6 +64,18 @@ export function createPostgresOperatorApp(chart: Chart) {
         automated: {},
         syncOptions: ["CreateNamespace=true"],
       },
+      ignoreDifferences: [
+        {
+          group: "apiextensions.k8s.io",
+          kind: "CustomResourceDefinition",
+          jsonPointers: ["/status"],
+        },
+        {
+          group: "acid.zalan.do",
+          kind: "OperatorConfiguration",
+          jsonPointers: ["/status"],
+        },
+      ],
     },
   });
 }

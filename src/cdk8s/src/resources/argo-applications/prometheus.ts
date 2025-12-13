@@ -138,7 +138,7 @@ export async function createPrometheusApp(chart: Chart) {
           name: "tempo",
           editable: false,
           type: "tempo",
-          url: "http://tempo.tempo.svc:3100",
+          url: "http://tempo.tempo.svc:3200",
           version: 1,
           jsonData: {
             tracesToLogsV2: {
@@ -199,9 +199,11 @@ export async function createPrometheusApp(chart: Chart) {
         templates: ["/etc/alertmanager/config/*.tmpl"],
         receivers: [
           {
+            name: "null",
+          },
+          {
             name: "pagerduty",
             // https://prometheus.io/docs/alerting/latest/configuration/#pagerduty_config
-            // Type assertion needed due to incomplete Helm chart types
             pagerduty_configs: [
               {
                 routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
@@ -240,7 +242,7 @@ export async function createPrometheusApp(chart: Chart) {
           receiver: "pagerduty",
           routes: [
             {
-              receiver: "pagerduty",
+              receiver: "null",
               matchers: ['alertname = "Watchdog"'],
             },
           ],
@@ -249,10 +251,10 @@ export async function createPrometheusApp(chart: Chart) {
     },
     // Configure node_exporter to enable textfile collector for all monitoring services
     // Collects metrics from: SMART, OS info, NTPD, NVMe, ZFS snapshots, ZFS zpools
-    // NOTE: this is _not_ a real property?
+
     "prometheus-node-exporter": {
       extraArgs: ["--collector.textfile.directory=/host/var/lib/node_exporter/textfile_collector"],
-      // Type assertion needed due to incomplete Helm chart types
+
       extraHostVolumeMounts: [
         {
           name: "textfile-collector",

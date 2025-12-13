@@ -6,7 +6,8 @@ import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
 
 export function createTedditDeployment(chart: Chart) {
-  const redis = new Redis(chart, "teddis-redis");
+  const namespace = chart.namespace ?? "default";
+  const redis = new Redis(chart, "teddit-redis", { namespace });
 
   const UID = 1000;
   const GID = 1000;
@@ -24,7 +25,7 @@ export function createTedditDeployment(chart: Chart) {
     withCommonProps({
       image: `teddit/teddit:${versions["teddit/teddit"]}`,
       envVariables: {
-        REDIS_HOST: EnvValue.fromValue(redis.service.name),
+        REDIS_HOST: EnvValue.fromValue(redis.serviceName),
         DOMAIN: EnvValue.fromValue("teddit.tailnet-1a49.ts.net"),
       },
       securityContext: {
