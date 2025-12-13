@@ -74,20 +74,16 @@ export class PostalMariaDB extends Construct {
             memory: "4Gi",
           },
         },
-        // MariaDB configuration optimized for mail server
-        configuration: `
-[mysqld]
+        // Extra MariaDB configuration for mail server
+        // Note: Using extraConfiguration to append to defaults (keeps bind-address=0.0.0.0)
+        extraConfiguration: `
 max_connections = 200
-innodb_buffer_pool_size = 2G
-innodb_log_file_size = 512M
+innodb_buffer_pool_size = 1G
 innodb_flush_log_at_trx_commit = 2
-innodb_flush_method = O_DIRECT
-query_cache_size = 0
-query_cache_type = 0
 max_allowed_packet = 64M
 character-set-server = utf8mb4
 collation-server = utf8mb4_unicode_ci
-        `,
+`,
       },
       // Enable metrics for monitoring
       metrics: {
