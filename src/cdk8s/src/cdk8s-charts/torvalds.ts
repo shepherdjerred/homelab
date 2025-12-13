@@ -81,13 +81,8 @@ export async function createTorvaldsChart(app: App) {
   await createGickupDeployment(chart);
 
   // PeerTube
-  new Namespace(chart, "peertube-namespace", {
-    metadata: {
-      name: "peertube",
-    },
-  });
   const peertubeRedis = new Redis(chart, "peertube-redis", {
-    namespace: "peertube",
+    namespace: "torvalds",
   });
   createPeerTubePostgreSQLDatabase(chart);
   createPeerTubeDeployment(chart, { redis: peertubeRedis });

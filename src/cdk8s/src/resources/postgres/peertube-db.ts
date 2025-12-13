@@ -13,7 +13,7 @@ export function createPeerTubePostgreSQLDatabase(chart: Chart) {
   return new Postgresql(chart, "peertube-postgresql", {
     metadata: {
       name: "peertube-postgresql",
-      namespace: "peertube", // PeerTube namespace
+      namespace: "torvalds",
     },
     spec: {
       numberOfInstances: 1, // Single node setup for homelab

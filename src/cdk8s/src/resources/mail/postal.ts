@@ -1,4 +1,4 @@
-import { ConfigMap, Cpu, Deployment, DeploymentStrategy, EnvValue, Protocol, Service, Volume } from "cdk8s-plus-31";
+import { Cpu, Deployment, DeploymentStrategy, EnvValue, Protocol, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
@@ -27,80 +27,33 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     storage: Size.gibibytes(32),
   });
 
-  // Create ConfigMap for Postal configuration
-  // Note: Postal uses a postal.yml configuration file
-  const configMap = new ConfigMap(chart, "postal-config");
-
-  // Postal configuration
-  // See: https://docs.postalserver.io/getting-started/configuration
-  const postalConfig = `
-# Postal Configuration File
-# This is a basic configuration. Adjust as needed for your environment.
-
-# Web server configuration
-web:
-  host: 0.0.0.0
-  port: 5000
-  protocol: http
-
-# Main server configuration
-main_server:
-  # Use the external hostname here after setting up Tailscale ingress
-  # This will be accessible at https://postal.tailnet-xxxx.ts.net
-  protocol: https
-  hostname: postal.tailnet-1a49.ts.net
-  use_ip_pools: false
-
-# Database configuration
-database:
-  host: ${props.mariadb.serviceName}
-  username: ${props.mariadb.username}
-  password: ${props.mariadb.password}
-  database: ${props.mariadb.databaseName}
-
-# RabbitMQ configuration
-rabbitmq:
-  host: ${props.rabbitmq.serviceName}
-  username: postal
-  password: postal
-  vhost: /
-
-# SMTP Server configuration
-smtp_server:
-  port: 25
-  tls_enabled: false
-  # Note: For production, consider enabling TLS
-
-# DNS configuration
-dns:
-  # Configure your DNS records after deployment
-  # Instructions will be provided in the Postal web UI
-  mx_records: []
-
-# Logging
-logging:
-  stdout: true
-  level: info
-
-# General settings
-general:
-  # Use internal IPs in cluster
-  use_local_ns_for_domains: false
-`;
-
-  configMap.addData("postal.yml", postalConfig);
-
-  // Environment variables shared across all Postal containers
+  // Environment variables for Postal v3+ configuration
+  // See: https://postalserver.io/config-v2
   const commonEnv = {
-    POSTAL_CONFIG_FILE: EnvValue.fromValue("/config/postal.yml"),
-    POSTAL_MYSQL_HOST: EnvValue.fromValue(props.mariadb.serviceName),
-    POSTAL_MYSQL_USERNAME: EnvValue.fromValue(props.mariadb.username),
-    POSTAL_MYSQL_PASSWORD: EnvValue.fromValue(props.mariadb.password),
-    POSTAL_MYSQL_DATABASE: EnvValue.fromValue(props.mariadb.databaseName),
+    // Database configuration (MariaDB/MySQL)
+    POSTAL_DATABASE_HOST: EnvValue.fromValue(props.mariadb.serviceName),
+    POSTAL_DATABASE_PORT: EnvValue.fromValue("3306"),
+    POSTAL_DATABASE_USERNAME: EnvValue.fromValue(props.mariadb.username),
+    POSTAL_DATABASE_PASSWORD: EnvValue.fromValue(props.mariadb.password),
+    POSTAL_DATABASE_NAME: EnvValue.fromValue(props.mariadb.databaseName),
+
+    // RabbitMQ configuration
     POSTAL_RABBITMQ_HOST: EnvValue.fromValue(props.rabbitmq.serviceName),
+    POSTAL_RABBITMQ_PORT: EnvValue.fromValue("5672"),
     POSTAL_RABBITMQ_USERNAME: EnvValue.fromValue("postal"),
     POSTAL_RABBITMQ_PASSWORD: EnvValue.fromValue("postal"),
     POSTAL_RABBITMQ_VHOST: EnvValue.fromValue("/"),
+
+    // Web server configuration
+    POSTAL_WEB_PROTOCOL: EnvValue.fromValue("https"),
+    POSTAL_WEB_HOST: EnvValue.fromValue("postal.tailnet-1a49.ts.net"),
+
+    // SMTP configuration
+    POSTAL_SMTP_PORT: EnvValue.fromValue("25"),
+
+    // Logging
+    POSTAL_LOGGING_STDOUT: EnvValue.fromValue("true"),
+    POSTAL_LOGGING_LEVEL: EnvValue.fromValue("info"),
   };
 
   // Create deployment for Postal Web UI
@@ -133,10 +86,6 @@ general:
         readOnlyRootFilesystem: false,
       },
       volumeMounts: [
-        {
-          path: "/config",
-          volume: Volume.fromConfigMap(chart, "postal-config-volume", configMap),
-        },
         {
           path: "/opt/postal/data",
           volume: Volume.fromPersistentVolumeClaim(chart, "postal-data-volume", postalVolume.claim),
@@ -186,10 +135,6 @@ general:
       },
       volumeMounts: [
         {
-          path: "/config",
-          volume: Volume.fromConfigMap(chart, "postal-config-volume-smtp", configMap),
-        },
-        {
           path: "/opt/postal/data",
           volume: Volume.fromPersistentVolumeClaim(chart, "postal-data-volume-smtp", postalVolume.claim),
         },
@@ -230,10 +175,6 @@ general:
         readOnlyRootFilesystem: false,
       },
       volumeMounts: [
-        {
-          path: "/config",
-          volume: Volume.fromConfigMap(chart, "postal-config-volume-worker", configMap),
-        },
         {
           path: "/opt/postal/data",
           volume: Volume.fromPersistentVolumeClaim(chart, "postal-data-volume-worker", postalVolume.claim),
@@ -286,7 +227,6 @@ general:
     workerDeployment,
     webService,
     smtpService,
-    configMap,
   };
 }
 

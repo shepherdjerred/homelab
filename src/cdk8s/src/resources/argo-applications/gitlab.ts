@@ -26,6 +26,10 @@ export function createGitlabApp(chart: Chart) {
   createIngress(chart, "gitlab-ingress", "gitlab", "gitlab-webservice-default", 8181, ["gitlab"], true);
 
   const gitlabValues: HelmValuesForChart<"gitlab"> = {
+    // Skip upgrade check for fresh installations
+    upgradeCheck: {
+      enabled: false,
+    },
     global: {
       // Domain configuration for Tailscale access
       hosts: {
