@@ -1,5 +1,6 @@
 import { Directory, dag, type Secret, Container, type File } from "@dagger.io/dagger";
 import { getWorkspaceContainer, getMiseRuntimeContainer } from "./base";
+import { execOrThrow } from "./errors";
 import type { StepResult } from ".";
 import versions from "./versions";
 
@@ -60,26 +61,26 @@ export function buildHaWithContainer(container: Container): Directory {
 
 export async function typeCheckHa(source: Directory, hassBaseUrl?: Secret, hassToken?: Secret): Promise<string> {
   const container = await prepareHaContainer(source, hassBaseUrl, hassToken);
-  return container.withExec(["bun", "run", "typecheck"]).stdout();
+  return execOrThrow(container, ["bun", "run", "typecheck"]);
 }
 
 /**
  * Runs type check using a pre-prepared container.
  */
 export function typeCheckHaWithContainer(container: Container): Promise<string> {
-  return container.withExec(["bun", "run", "typecheck"]).stdout();
+  return execOrThrow(container, ["bun", "run", "typecheck"]);
 }
 
 export async function lintHa(source: Directory, hassBaseUrl?: Secret, hassToken?: Secret): Promise<string> {
   const container = await prepareHaContainer(source, hassBaseUrl, hassToken);
-  return container.withExec(["bun", "run", "lint"]).stdout();
+  return execOrThrow(container, ["bun", "run", "lint"]);
 }
 
 /**
  * Runs lint using a pre-prepared container.
  */
 export function lintHaWithContainer(container: Container): Promise<string> {
-  return container.withExec(["bun", "run", "lint"]).stdout();
+  return execOrThrow(container, ["bun", "run", "lint"]);
 }
 
 /**

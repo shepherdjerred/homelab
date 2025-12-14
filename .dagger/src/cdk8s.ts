@@ -1,6 +1,7 @@
 #!/usr/bin/env -S bun
 import { Container, Directory, dag } from "@dagger.io/dagger";
 import { getWorkspaceContainer } from "./base";
+import { execOrThrow } from "./errors";
 
 /**
  * Creates a prepared CDK8s container with workspace dependencies installed.
@@ -16,14 +17,14 @@ export function prepareCdk8sContainer(source: Directory): Container {
 
 export async function typeCheckCdk8s(source: Directory): Promise<string> {
   const container = prepareCdk8sContainer(source);
-  return container.withExec(["bun", "run", "typecheck"]).stdout();
+  return execOrThrow(container, ["bun", "run", "typecheck"]);
 }
 
 /**
  * Runs type check using a pre-prepared container.
  */
 export function typeCheckCdk8sWithContainer(container: Container): Promise<string> {
-  return container.withExec(["bun", "run", "typecheck"]).stdout();
+  return execOrThrow(container, ["bun", "run", "typecheck"]);
 }
 
 export function buildK8sManifests(source: Directory): Directory {
@@ -42,20 +43,19 @@ export function buildK8sManifestsWithContainer(container: Container): Directory 
 
 export async function lintCdk8s(source: Directory): Promise<string> {
   const container = prepareCdk8sContainer(source);
-  return container.withExec(["bun", "run", "lint"]).stdout();
+  return execOrThrow(container, ["bun", "run", "lint"]);
 }
 
 /**
  * Runs lint using a pre-prepared container.
  */
 export function lintCdk8sWithContainer(container: Container): Promise<string> {
-  return container.withExec(["bun", "run", "lint"]).stdout();
+  return execOrThrow(container, ["bun", "run", "lint"]);
 }
 
 export async function testCdk8s(source: Directory): Promise<string> {
   const container = prepareCdk8sContainer(source);
-  // Run just the test - the caller should ensure build has happened if needed
-  return container.withExec(["bun", "run", "test:gpu-resources"]).stdout();
+  return execOrThrow(container, ["bun", "run", "test:gpu-resources"]);
 }
 
 /**
@@ -63,5 +63,5 @@ export async function testCdk8s(source: Directory): Promise<string> {
  * Expects the container to already have the build artifacts.
  */
 export function testCdk8sWithContainer(container: Container): Promise<string> {
-  return container.withExec(["bun", "run", "test:gpu-resources"]).stdout();
+  return execOrThrow(container, ["bun", "run", "test:gpu-resources"]);
 }
