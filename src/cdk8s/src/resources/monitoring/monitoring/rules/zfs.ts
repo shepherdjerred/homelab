@@ -38,18 +38,8 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           for: "10m",
           labels: { severity: "critical" },
         },
-        {
-          alert: "ZfsArcSizeNearLimit",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS ARC on {{ $labels.instance }} is near its maximum size: {{ $value | humanizePercentage }} of maximum capacity",
-            ),
-            summary: "ZFS ARC size approaching maximum limit",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("(node_zfs_arc_c / node_zfs_arc_c_max) > 0.95"),
-          for: "10m",
-          labels: { severity: "warning" },
-        },
+        // Removed ZfsArcSizeNearLimit alert - ARC filling to capacity is normal/expected behavior
+        // ZFS ARC is designed to use available memory as cache and releases it when needed
         {
           alert: "ZfsArcMetadataHigh",
           annotations: {
@@ -371,20 +361,8 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
     {
       name: "zfs-buffer-monitoring",
       rules: [
-        {
-          alert: "ZfsDnodeSizeHigh",
-          annotations: {
-            description: escapePrometheusTemplate(
-              "ZFS dnode size on {{ $labels.instance }} is high: {{ $value | humanize }} bytes - may indicate metadata bloat",
-            ),
-            summary: "High ZFS dnode usage",
-          },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "node_zfs_arc_dnode_size > 4294967296", // 4GB
-          ),
-          for: "15m",
-          labels: { severity: "warning" },
-        },
+        // Removed ZfsDnodeSizeHigh alert - high dnode usage is normal with many files
+        // This is informational, not actionable. ZFS manages this automatically.
         {
           alert: "ZfsDbufSizeHigh",
           annotations: {
@@ -433,13 +411,9 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             description: escapePrometheusTemplate(
               "ZFS pool {{ $labels.zpool_name }} is DEGRADED - one or more drives may be faulted or missing. Immediate attention required.",
             ),
-            summary: escapePrometheusTemplate(
-              "ZFS pool {{ $labels.zpool_name }} is degraded",
-            ),
+            summary: escapePrometheusTemplate("ZFS pool {{ $labels.zpool_name }} is degraded"),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'zfs_zpool{health="DEGRADED"} == 1',
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString('zfs_zpool{health="DEGRADED"} == 1'),
           for: "0m",
           labels: { severity: "critical", category: "storage" },
         },
@@ -449,13 +423,9 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             description: escapePrometheusTemplate(
               "ZFS pool {{ $labels.zpool_name }} is FAULTED - data may be at risk! Immediate action required.",
             ),
-            summary: escapePrometheusTemplate(
-              "ZFS pool {{ $labels.zpool_name }} is faulted - DATA AT RISK",
-            ),
+            summary: escapePrometheusTemplate("ZFS pool {{ $labels.zpool_name }} is faulted - DATA AT RISK"),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'zfs_zpool{health="FAULTED"} == 1',
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString('zfs_zpool{health="FAULTED"} == 1'),
           for: "0m",
           labels: { severity: "critical", category: "storage" },
         },
@@ -465,9 +435,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             description: escapePrometheusTemplate(
               "ZFS pool {{ $labels.zpool_name }} is {{ $value | humanizePercentage }} full. Consider expanding or cleaning up.",
             ),
-            summary: escapePrometheusTemplate(
-              "ZFS pool {{ $labels.zpool_name }} capacity over 80%",
-            ),
+            summary: escapePrometheusTemplate("ZFS pool {{ $labels.zpool_name }} capacity over 80%"),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             "(1 - (zfs_zpool_free_bytes / zfs_zpool_size_bytes)) > 0.80",
@@ -481,9 +449,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             description: escapePrometheusTemplate(
               "ZFS pool {{ $labels.zpool_name }} is {{ $value | humanizePercentage }} full. Performance degradation likely. Expand or clean up immediately.",
             ),
-            summary: escapePrometheusTemplate(
-              "ZFS pool {{ $labels.zpool_name }} capacity over 90%",
-            ),
+            summary: escapePrometheusTemplate("ZFS pool {{ $labels.zpool_name }} capacity over 90%"),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             "(1 - (zfs_zpool_free_bytes / zfs_zpool_size_bytes)) > 0.90",
@@ -497,13 +463,9 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             description: escapePrometheusTemplate(
               "ZFS pool {{ $labels.zpool_name }} fragmentation is {{ $value }}%. High fragmentation can impact performance.",
             ),
-            summary: escapePrometheusTemplate(
-              "ZFS pool {{ $labels.zpool_name }} fragmentation over 50%",
-            ),
+            summary: escapePrometheusTemplate("ZFS pool {{ $labels.zpool_name }} fragmentation over 50%"),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "zfs_zpool_fragmentation > 50",
-          ),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("zfs_zpool_fragmentation > 50"),
           for: "1h",
           labels: { severity: "warning", category: "storage" },
         },

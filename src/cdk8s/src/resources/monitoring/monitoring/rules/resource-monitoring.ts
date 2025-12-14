@@ -260,7 +260,8 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High system temperature detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("node_hwmon_temp_celsius > 75"),
+          // Raised threshold from 75°C to 85°C to reduce noise - 75°C is normal for many components under load
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("node_hwmon_temp_celsius > 85"),
           for: "15m",
           labels: { severity: "warning" },
         },

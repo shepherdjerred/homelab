@@ -206,6 +206,7 @@ export async function createPrometheusApp(chart: Chart) {
             // https://prometheus.io/docs/alerting/latest/configuration/#pagerduty_config
             pagerduty_configs: [
               {
+                send_resolved: true,
                 routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
                 // Use utility function to escape templates for Alertmanager processing
                 description: escapeAlertmanagerTemplate("{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"),
