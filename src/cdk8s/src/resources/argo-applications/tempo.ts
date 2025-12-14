@@ -28,6 +28,16 @@ export function createTempoApp(chart: Chart) {
       },
       // Retention configuration
       retention: "168h", // 7 days of traces
+      // Dagger traces can get very large; Tempo defaults to 5MB and will refuse
+      // traces that exceed it with TRACE_TOO_LARGE. Increase the limit so we
+      // ingest complete Dagger pipelines.
+      overrides: {
+        defaults: {
+          global: {
+            max_bytes_per_trace: 50_000_000, // 50MB
+          },
+        },
+      },
     },
     // Persistence configuration
     persistence: {
