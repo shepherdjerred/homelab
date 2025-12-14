@@ -205,7 +205,7 @@ kubectl exec pod/shell -n maintenance -- \
 
 ```bash {"interpreter":"/opt/homebrew/bin/bash"}
 VERSION=v1.11.5
-IMAGE=factory.talos.dev/metal-installer-secureboot/1612e3d9548d23f80819529fecb71683b235380f86f9e37adb0070736752423a:$VERSION
+IMAGE=factory.talos.dev/metal-installer-secureboot/a0f205c1e29abaf83e16257c04c83267b5a54feac3861eedc1080edab9827fc3:$VERSION
 talosctl upgrade --nodes 192.168.1.81 \
   --image $IMAGE
 ```
