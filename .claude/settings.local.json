@@ -10,7 +10,14 @@
       "Bash(ls:*)",
       "Bash(docker pull:*)",
       "Bash(docker manifest:*)",
-      "Bash(bun -e:*)"
+      "Bash(bun -e:*)",
+      "mcp__pagerduty-mcp__get_user_data",
+      "mcp__pagerduty-mcp__list_incidents",
+      "mcp__pagerduty-mcp__get_incident",
+      "mcp__grafana__list_datasources",
+      "mcp__grafana__query_prometheus",
+      "mcp__grafana__list_alert_rules",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []
