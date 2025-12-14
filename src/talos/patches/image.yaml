@@ -4,6 +4,21 @@ machine:
     image: factory.talos.dev/metal-installer-secureboot/1612e3d9548d23f80819529fecb71683b235380f86f9e37adb0070736752423a:v1.11.2
     disk: /dev/nvme0n1
     wipe: true
+    extraKernelArgs:
+      # Power saving for NAS workload
+      - cpufreq.default_governor=powersave
+      - intel_pstate=passive
+  sysfs:
+    # Intel RAPL power limits for i9-14900K stability
+    # PL1 (long-term): 125W per Intel baseline recommendation
+    devices.virtual.powercap.intel-rapl.intel-rapl:0.constraint_0_power_limit_uw: "125000000"
+    # PL2 (short-term): 253W per Intel baseline recommendation
+    devices.virtual.powercap.intel-rapl.intel-rapl:0.constraint_1_power_limit_uw: "253000000"
+    # ZFS ARC tuning for 128GB RAM system
+    # Max ARC size: 16GB (leaves plenty for system/apps)
+    module.zfs.parameters.zfs_arc_max: "17179869184"
+    # Min ARC size: 4GB
+    module.zfs.parameters.zfs_arc_min: "4294967296"
   network:
     hostname: torvalds
   kernel:
