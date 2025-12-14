@@ -1,9 +1,18 @@
 machine:
   install:
     # https://factory.talos.dev/
-    image: factory.talos.dev/metal-installer-secureboot/1612e3d9548d23f80819529fecb71683b235380f86f9e37adb0070736752423a:v1.11.2
+    # Image ID generated from image.yaml schematic - includes extraKernelArgs for SecureBoot
+    image: factory.talos.dev/metal-installer-secureboot/a0f205c1e29abaf83e16257c04c83267b5a54feac3861eedc1080edab9827fc3:v1.11.2
     disk: /dev/nvme0n1
     wipe: true
+  sysfs:
+    # RAPL power limits (PL1=125W, PL2=253W) must be set in BIOS
+    # Talos kernel has CONFIG_POWERCAP disabled, so sysfs control not available
+    # ZFS ARC tuning for 128GB RAM system
+    # Max ARC size: 16GB (leaves plenty for system/apps)
+    module.zfs.parameters.zfs_arc_max: "17179869184"
+    # Min ARC size: 4GB
+    module.zfs.parameters.zfs_arc_min: "4294967296"
   network:
     hostname: torvalds
   kernel:

@@ -1,5 +1,5 @@
 import { func, argument, Directory, object, Secret, dag, File } from "@dagger.io/dagger";
-import { z } from "zod";
+import { formatDaggerError } from "./errors";
 import {
   buildHa,
   typeCheckHa,
@@ -65,14 +65,17 @@ export class Homelab {
     const cdk8sLint = lintCdk8s(source);
     const cdk8sTest = testCdk8s(source);
     const results = await Promise.allSettled([haTypeCheck, haLint, cdk8sTypeCheck, cdk8sLint, cdk8sTest]);
+    const names = ["HA TypeCheck", "HA Lint", "CDK8s TypeCheck", "CDK8s Lint", "CDK8s Test"];
     const summary = results
       .map((result, index) => {
-        const names = ["HA TypeCheck", "HA Lint", "CDK8s TypeCheck", "CDK8s Lint", "CDK8s Test"];
-        const name = names[index];
-        if (name === undefined) return "Unknown";
-        return `${name}: ${result.status === "fulfilled" ? "PASSED" : "FAILED"}`;
+        const name = names[index] ?? "Unknown";
+        if (result.status === "fulfilled") {
+          return `${name}: PASSED`;
+        }
+        const errorDetails = formatDaggerError(result.reason);
+        return `${name}: FAILED\n${errorDetails}`;
       })
-      .join("\n");
+      .join("\n\n");
     return `Pipeline Results:\n${summary}`;
   }
 
@@ -162,7 +165,7 @@ export class Homelab {
       }))
       .catch((e: unknown) => ({
         status: "failed" as const,
-        message: `Renovate Test: FAILED\n${String(e)}`,
+        message: `Renovate Test: FAILED\n${formatDaggerError(e)}`,
       }));
 
     // Helm test (run async)
@@ -173,7 +176,7 @@ export class Homelab {
       }))
       .catch((e: unknown) => ({
         status: "failed" as const,
-        message: `Helm Test: FAILED\n${String(e)}`,
+        message: `Helm Test: FAILED\n${formatDaggerError(e)}`,
       }));
 
     // CDK8s test - uses shared container
@@ -184,7 +187,7 @@ export class Homelab {
       }))
       .catch((e: unknown) => ({
         status: "failed" as const,
-        message: `CDK8s Test: FAILED\n${String(e)}`,
+        message: `CDK8s Test: FAILED\n${formatDaggerError(e)}`,
       }));
 
     // CDK8s linting - uses shared container
@@ -195,7 +198,7 @@ export class Homelab {
       }))
       .catch((e: unknown) => ({
         status: "failed" as const,
-        message: `CDK8s Lint: FAILED\n${String(e)}`,
+        message: `CDK8s Lint: FAILED\n${formatDaggerError(e)}`,
       }));
 
     // HA linting - uses shared container
@@ -207,7 +210,7 @@ export class Homelab {
       }))
       .catch((e: unknown) => ({
         status: "failed" as const,
-        message: `HA Lint: FAILED\n${String(e)}`,
+        message: `HA Lint: FAILED\n${formatDaggerError(e)}`,
       }));
 
     // CDK8s type checking - uses shared container
@@ -218,7 +221,7 @@ export class Homelab {
       }))
       .catch((e: unknown) => ({
         status: "failed" as const,
-        message: `CDK8s TypeCheck: FAILED\n${String(e)}`,
+        message: `CDK8s TypeCheck: FAILED\n${formatDaggerError(e)}`,
       }));
 
     // HA type checking - uses shared container
@@ -230,7 +233,7 @@ export class Homelab {
       }))
       .catch((e: unknown) => ({
         status: "failed" as const,
-        message: `HA TypeCheck: FAILED\n${String(e)}`,
+        message: `HA TypeCheck: FAILED\n${formatDaggerError(e)}`,
       }));
 
     // CDK8s build - uses shared container
@@ -241,14 +244,14 @@ export class Homelab {
       }))
       .catch((e: unknown) => ({
         status: "failed" as const,
-        message: `CDK8s Build: FAILED\n${String(e)}`,
+        message: `CDK8s Build: FAILED\n${formatDaggerError(e)}`,
       }));
 
     const haBuildPromise = Promise.resolve(buildHa(updatedSource))
       .then(() => ({ status: "passed" as const, message: "HA Build: PASSED" }))
       .catch((e: unknown) => ({
         status: "failed" as const,
-        message: `HA Build: FAILED\n${String(e)}`,
+        message: `HA Build: FAILED\n${formatDaggerError(e)}`,
       }));
 
     // Always build Helm chart (for both dev and prod)
@@ -267,7 +270,7 @@ export class Homelab {
       } catch (e: unknown) {
         return {
           status: "failed" as const,
-          message: `Helm Build: FAILED\n${String(e)}`,
+          message: `Helm Build: FAILED\n${formatDaggerError(e)}`,
           dist: undefined,
         };
       }
@@ -742,7 +745,7 @@ export class Homelab {
     } catch (e: unknown) {
       return {
         status: "failed",
-        message: `Helm Chart Publish: FAILED\n${String(e)}`,
+        message: `Helm Chart Publish: FAILED\n${formatDaggerError(e)}`,
       };
     }
   }
@@ -788,25 +791,17 @@ export class Homelab {
 
       return { status: "passed", message: result };
     } catch (err: unknown) {
-      // Define Zod schema for error objects with stderr/message
-      const ErrorSchema = z.object({
-        stderr: z.string().optional(),
-        message: z.string().optional(),
-      });
-
-      const result = ErrorSchema.safeParse(err);
-      if (result.success) {
-        const { stderr = "", message = "" } = result.data;
-        if (stderr.includes("409") || message.includes("409")) {
-          return {
-            status: "passed",
-            message: "409 Conflict: Chart already exists, treating as success.",
-          };
-        }
+      // Check for 409 Conflict (chart already exists) - treat as success
+      const errorMessage = formatDaggerError(err);
+      if (errorMessage.includes("409")) {
+        return {
+          status: "passed",
+          message: "409 Conflict: Chart already exists, treating as success.",
+        };
       }
       return {
         status: "failed",
-        message: `Helm Chart Publish: FAILED\n${String(err)}`,
+        message: `Helm Chart Publish: FAILED\n${errorMessage}`,
       };
     }
   }

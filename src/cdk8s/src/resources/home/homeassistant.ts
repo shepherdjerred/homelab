@@ -1,4 +1,4 @@
-import { ConfigMap, Deployment, DeploymentStrategy, Protocol, Service, Volume } from "cdk8s-plus-31";
+import { ConfigMap, Cpu, Deployment, DeploymentStrategy, Protocol, Service, Volume } from "cdk8s-plus-31";
 import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
@@ -63,6 +63,16 @@ export async function createHomeAssistantDeployment(chart: Chart) {
           };
         }),
       ],
+      resources: {
+        cpu: {
+          request: Cpu.millis(100),
+          limit: Cpu.millis(2000),
+        },
+        memory: {
+          request: Size.mebibytes(512),
+          limit: Size.gibibytes(2),
+        },
+      },
     }),
   );
 

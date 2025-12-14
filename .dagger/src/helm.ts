@@ -1,6 +1,6 @@
 import { dag, Directory, Secret, Container } from "@dagger.io/dagger";
-import { z } from "zod";
 import { buildK8sManifests } from "./cdk8s";
+import { formatDaggerError } from "./errors";
 import versions from "./versions";
 
 /**
@@ -233,18 +233,10 @@ export async function publish(
   try {
     return await container.stdout();
   } catch (err: unknown) {
-    // Define Zod schema for error objects with stderr/message
-    const ErrorSchema = z.object({
-      stderr: z.string().optional(),
-      message: z.string().optional(),
-    });
-
-    const result = ErrorSchema.safeParse(err);
-    if (result.success) {
-      const { stderr = "", message = "" } = result.data;
-      if (stderr.includes("409") || message.includes("409")) {
-        return "409 Conflict: Chart already exists, treating as success.";
-      }
+    // Check for 409 Conflict (chart already exists) - treat as success
+    const errorMessage = formatDaggerError(err);
+    if (errorMessage.includes("409")) {
+      return "409 Conflict: Chart already exists, treating as success.";
     }
     throw err;
   }

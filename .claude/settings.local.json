@@ -14,7 +14,18 @@
       "Bash(git diff:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(./scripts/lint-helm.sh:*)"
+      "Bash(./scripts/lint-helm.sh:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh run view:*)",
+      "Bash(dagger functions:*)",
+      "Bash(gh run rerun:*)",
+      "Bash(gh run list:*)",
+      "WebFetch(domain:dagger.cloud)",
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []

@@ -98,7 +98,7 @@ export function createCoderApp(chart: Chart) {
       initContainers: [
         {
           name: "build-db-url",
-          image: "busybox:latest",
+          image: `docker.io/busybox:${versions["library/busybox"]}`,
           command: ["/bin/sh", "-c"],
           args: [
             `

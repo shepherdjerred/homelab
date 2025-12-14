@@ -1,4 +1,4 @@
-import { Deployment, DeploymentStrategy, EnvValue, Secret, Service, Volume } from "cdk8s-plus-31";
+import { Cpu, Deployment, DeploymentStrategy, EnvValue, Secret, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
@@ -36,7 +36,7 @@ export function createPeerTubeDeployment(chart: Chart, props: CreatePeerTubeDepl
 
   // Create volumes for PeerTube
   const configVolume = new ZfsSsdVolume(chart, "peertube-config", {
-    storage: Size.gibibytes(32),
+    storage: Size.gibibytes(1),
   });
 
   const dataVolume = new ZfsHddVolume(chart, "peertube-data", {
@@ -92,12 +92,12 @@ export function createPeerTubeDeployment(chart: Chart, props: CreatePeerTubeDepl
         PEERTUBE_REDIS_PORT: EnvValue.fromValue("6379"),
         PEERTUBE_REDIS_AUTH: EnvValue.fromValue(""), // No auth enabled
 
-        // SMTP configuration (optional - can be configured later through web UI)
-        PEERTUBE_SMTP_HOSTNAME: EnvValue.fromValue(""),
+        // SMTP configuration via Postal mail server
+        PEERTUBE_SMTP_HOSTNAME: EnvValue.fromValue("postal-smtp-service"),
         PEERTUBE_SMTP_PORT: EnvValue.fromValue("25"),
         PEERTUBE_SMTP_FROM: EnvValue.fromValue("noreply@peertube.tailnet-1a49.ts.net"),
         PEERTUBE_SMTP_TLS: EnvValue.fromValue("false"),
-        PEERTUBE_SMTP_DISABLE_STARTTLS: EnvValue.fromValue("false"),
+        PEERTUBE_SMTP_DISABLE_STARTTLS: EnvValue.fromValue("true"),
 
         // Admin configuration
         PEERTUBE_ADMIN_EMAIL: EnvValue.fromSecretValue({
@@ -121,6 +121,16 @@ export function createPeerTubeDeployment(chart: Chart, props: CreatePeerTubeDepl
           volume: Volume.fromPersistentVolumeClaim(chart, "peertube-data-volume", dataVolume.claim),
         },
       ],
+      resources: {
+        cpu: {
+          request: Cpu.millis(500),
+          limit: Cpu.millis(4000),
+        },
+        memory: {
+          request: Size.gibibytes(1),
+          limit: Size.gibibytes(4),
+        },
+      },
     }),
   );
 

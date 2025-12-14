@@ -48,7 +48,10 @@ export function createPeerTubePostgreSQLDatabase(chart: Chart) {
       },
       users: {
         peertube: [
-          PostgresqlSpecUsers.SUPERUSER, // PeerTube needs superuser for extensions
+          // On PostgreSQL 13+, PeerTube's required extensions (pg_trgm, unaccent)
+          // are "trusted" and can be installed with just CREATEDB privilege.
+          // SUPERUSER is not required for normal operation.
+          PostgresqlSpecUsers.CREATEDB,
         ],
       },
       databases: {

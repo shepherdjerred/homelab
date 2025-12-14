@@ -1,5 +1,6 @@
 import { Construct } from "constructs";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
+import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 
 export type PostalMariaDBProps = {
@@ -29,6 +30,12 @@ export class PostalMariaDB extends Construct {
   public readonly application: Application;
 
   /**
+   * The 1Password item containing MariaDB credentials.
+   * Expected fields: root_password, username, password
+   */
+  public readonly secretItem: OnePasswordItem;
+
+  /**
    * Database name for Postal.
    */
   public readonly databaseName = "postal";
@@ -38,11 +45,6 @@ export class PostalMariaDB extends Construct {
    */
   public readonly username = "postal";
 
-  /**
-   * Password for Postal database access (TODO: use 1Password in production).
-   */
-  public readonly password = "postal";
-
   constructor(scope: Construct, id: string, props: PostalMariaDBProps) {
     super(scope, id);
 
@@ -51,11 +53,21 @@ export class PostalMariaDB extends Construct {
     // Bitnami MariaDB service name is just the release name
     this.serviceName = releaseName;
 
+    // 1Password item for MariaDB credentials
+    // Expected fields: root_password, password (for postal user)
+    this.secretItem = new OnePasswordItem(scope, `${id}-credentials`, {
+      metadata: {
+        name: `${id}-credentials`,
+        namespace: props.namespace,
+      },
+      spec: {
+        itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/postal-mariadb-credentials",
+      },
+    });
+
     const mariadbValues: Record<string, unknown> = {
       auth: {
-        rootPassword: "postalroot", // TODO: Consider using 1Password for production
-        username: this.username,
-        password: this.password,
+        existingSecret: this.secretItem.name,
         database: this.databaseName,
       },
       // Grant postal user ability to create/manage message databases (postal-server-*)

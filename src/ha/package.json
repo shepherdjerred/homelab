@@ -21,8 +21,10 @@
     "@digital-alchemy/synapse": "^25.3.1",
     "@digital-alchemy/type-writer": "^25.10.12",
     "@total-typescript/ts-reset": "^0.6.1",
+    "openai": "^6.10.0",
     "prom-client": "^15.1.3",
     "remeda": "^2.22.5",
+    "simple-git": "^3.30.0",
     "ts-pattern": "^5.7.1",
     "zod": "^4.1.11"
   },

@@ -1,5 +1,6 @@
 import { Directory, dag, type Secret, Container, type File } from "@dagger.io/dagger";
 import { getWorkspaceContainer, getMiseRuntimeContainer } from "./base";
+import { execOrThrow } from "./errors";
 import type { StepResult } from ".";
 import versions from "./versions";
 
@@ -16,12 +17,10 @@ export async function prepareHaContainer(
 ): Promise<Container> {
   let container = getWorkspaceContainer(source, "src/ha");
 
-  // Check if hass directory already exists
-  const hassDir = source.directory("src/ha/src/hass");
-  const hasExistingTypes = await hassDir
-    .entries()
-    .then((entries) => entries.length > 0)
-    .catch(() => false);
+  // Check if hass directory already exists by looking at the parent directory entries
+  const haSourceDir = source.directory("src/ha/src");
+  const entries = await haSourceDir.entries();
+  const hasExistingTypes = entries.includes("hass");
 
   if (hasExistingTypes) {
     console.log("✅ Using existing @hass/ types from src/ha/src/hass/");
@@ -60,26 +59,26 @@ export function buildHaWithContainer(container: Container): Directory {
 
 export async function typeCheckHa(source: Directory, hassBaseUrl?: Secret, hassToken?: Secret): Promise<string> {
   const container = await prepareHaContainer(source, hassBaseUrl, hassToken);
-  return container.withExec(["bun", "run", "typecheck"]).stdout();
+  return execOrThrow(container, ["bun", "run", "typecheck"]);
 }
 
 /**
  * Runs type check using a pre-prepared container.
  */
 export function typeCheckHaWithContainer(container: Container): Promise<string> {
-  return container.withExec(["bun", "run", "typecheck"]).stdout();
+  return execOrThrow(container, ["bun", "run", "typecheck"]);
 }
 
 export async function lintHa(source: Directory, hassBaseUrl?: Secret, hassToken?: Secret): Promise<string> {
   const container = await prepareHaContainer(source, hassBaseUrl, hassToken);
-  return container.withExec(["bun", "run", "lint"]).stdout();
+  return execOrThrow(container, ["bun", "run", "lint"]);
 }
 
 /**
  * Runs lint using a pre-prepared container.
  */
 export function lintHaWithContainer(container: Container): Promise<string> {
-  return container.withExec(["bun", "run", "lint"]).stdout();
+  return execOrThrow(container, ["bun", "run", "lint"]);
 }
 
 /**

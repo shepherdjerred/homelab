@@ -30,6 +30,7 @@ import { createWindmillApp } from "../resources/argo-applications/windmill.ts";
 import { createGitlabApp } from "../resources/argo-applications/gitlab.ts";
 import { createAllGrafanaDashboards } from "../resources/grafana/index.ts";
 import { createDdnsApp } from "../resources/argo-applications/ddns.ts";
+import { createDependencySummaryCronJob } from "../resources/home/dependency-summary.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -90,4 +91,7 @@ export async function createAppsChart(app: App) {
 
   // Per-service ArgoCD apps (migrated from torvalds)
   createDdnsApp(chart);
+
+  // Weekly dependency summary email
+  createDependencySummaryCronJob(chart);
 }
