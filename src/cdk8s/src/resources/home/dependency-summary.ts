@@ -73,11 +73,20 @@ export function createDependencySummaryCronJob(chart: Chart) {
                       },
                     },
                     {
-                      name: "RESEND_API_KEY",
+                      name: "POSTAL_HOST",
                       valueFrom: {
                         secretKeyRef: {
                           name: secretItem.name,
-                          key: "resend_api_key",
+                          key: "postal_host",
+                        },
+                      },
+                    },
+                    {
+                      name: "POSTAL_API_KEY",
+                      valueFrom: {
+                        secretKeyRef: {
+                          name: secretItem.name,
+                          key: "postal_api_key",
                         },
                       },
                     },
