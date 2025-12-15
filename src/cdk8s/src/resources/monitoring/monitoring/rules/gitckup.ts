@@ -17,7 +17,7 @@ export function getGitckupRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "increase(gickup_jobs_started[25h]) > increase(gickup_jobs_complete[25h])",
+            "sum(increase(gickup_jobs_started[25h])) > sum(increase(gickup_jobs_complete[25h]))",
           ),
           for: "15m",
           labels: {
@@ -32,7 +32,7 @@ export function getGitckupRuleGroups(): PrometheusRuleSpecGroups[] {
               "Gitckup backup job has not completed successfully in the last 25 hours. Expected to run daily at 2 AM.",
             ),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("increase(gickup_jobs_complete[25h]) == 0"),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("sum(increase(gickup_jobs_complete[25h])) == 0"),
           for: "30m",
           labels: {
             severity: "critical",
