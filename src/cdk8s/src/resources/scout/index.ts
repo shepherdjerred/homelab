@@ -84,6 +84,14 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
             secret: Secret.fromSecretName(chart, "gemini-api-key-secret", onePasswordItem.name),
             key: "gemini-api-key",
           }),
+          ELEVENLABS_API_KEY: EnvValue.fromSecretValue({
+            secret: Secret.fromSecretName(chart, "elevenlabs-api-key-secret", onePasswordItem.name),
+            key: "elevenlabs-api-key",
+          }),
+          ELEVENLABS_VOICE_ID: EnvValue.fromSecretValue({
+            secret: Secret.fromSecretName(chart, "elevenlabs-voice-id-secret", onePasswordItem.name),
+            key: "elevenlabs-voice-id",
+          }),
         }
       : baseEnvVariables;
 
