@@ -129,6 +129,7 @@ export async function createPrometheusApp(chart: Chart) {
       additionalDataSources: [
         {
           name: "loki",
+          uid: "loki",
           editable: false,
           type: "loki",
           url: "http://loki-gateway.loki",
@@ -136,6 +137,7 @@ export async function createPrometheusApp(chart: Chart) {
         },
         {
           name: "tempo",
+          uid: "tempo",
           editable: false,
           type: "tempo",
           url: "http://tempo.tempo.svc:3200",
@@ -145,8 +147,13 @@ export async function createPrometheusApp(chart: Chart) {
               datasourceUid: "loki",
               spanStartTimeShift: "-1h",
               spanEndTimeShift: "1h",
-              filterByTraceID: true,
+              // Correlate traces -> logs via OTEL trace id.
+              // Dagger engine emits logfmt containing `traceID=<hex32>`, and
+              // promtail already ships these logs to Loki.
+              filterByTraceID: false,
               filterBySpanID: false,
+              customQuery: true,
+              query: '{namespace=~"dagger|arc-runners"} | logfmt | traceID=`$${__trace.traceId}`',
             },
           },
         },
