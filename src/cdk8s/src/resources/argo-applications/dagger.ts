@@ -105,7 +105,7 @@ export function createDaggerApp(chart: Chart) {
                   enabled: false,
                 },
               },
-              // OpenTelemetry configuration to export traces to Grafana Tempo
+              // OpenTelemetry configuration to export traces to Tempo and logs to Loki
               env: [
                 {
                   name: "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT",
@@ -118,6 +118,14 @@ export function createDaggerApp(chart: Chart) {
                 {
                   name: "OTEL_SERVICE_NAME",
                   value: "dagger-ci",
+                },
+                {
+                  name: "OTEL_LOGS_EXPORTER",
+                  value: "otlp",
+                },
+                {
+                  name: "OTEL_EXPORTER_OTLP_LOGS_ENDPOINT",
+                  value: "http://loki.loki.svc:3100/otlp/v1/logs",
                 },
               ],
             },

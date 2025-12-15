@@ -27,6 +27,7 @@ export function createLokiApp(chart: Chart) {
       auth_enabled: false,
       limits_config: {
         retention_period: "30d",
+        allow_structured_metadata: true, // Required for OTLP ingestion
       },
       storage: {
         type: "filesystem",
