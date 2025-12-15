@@ -13,7 +13,7 @@ export function createDependencySummaryCronJob(chart: Chart) {
   // 1Password secret for API keys
   const secretItem = new OnePasswordItem(chart, "dependency-summary-secrets", {
     spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/dependency-summary",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/zuz7msnwhrkmjsxxgmxxv2mnkm",
     },
     metadata: {
       name: "dependency-summary-secrets",
@@ -74,12 +74,7 @@ export function createDependencySummaryCronJob(chart: Chart) {
                     },
                     {
                       name: "POSTAL_HOST",
-                      valueFrom: {
-                        secretKeyRef: {
-                          name: secretItem.name,
-                          key: "postal_host",
-                        },
-                      },
+                      value: "http://postal-web-service.torvalds.svc.cluster.local:5000",
                     },
                     {
                       name: "POSTAL_API_KEY",
@@ -92,21 +87,11 @@ export function createDependencySummaryCronJob(chart: Chart) {
                     },
                     {
                       name: "RECIPIENT_EMAIL",
-                      valueFrom: {
-                        secretKeyRef: {
-                          name: secretItem.name,
-                          key: "recipient_email",
-                        },
-                      },
+                      value: "dependencies@sjer.red",
                     },
                     {
                       name: "SENDER_EMAIL",
-                      valueFrom: {
-                        secretKeyRef: {
-                          name: secretItem.name,
-                          key: "sender_email",
-                        },
-                      },
+                      value: "dependencies@sjer.red",
                     },
                   ],
                   resources: {
