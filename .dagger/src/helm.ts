@@ -1,4 +1,5 @@
 import { dag, Directory, Secret, Container } from "@dagger.io/dagger";
+import { z } from "zod";
 import { buildK8sManifests } from "./cdk8s";
 import { formatDaggerError } from "./errors";
 import versions from "./versions";
@@ -72,17 +73,17 @@ export function buildChart(
 
 /**
  * Build all Helm charts defined in HELM_CHARTS.
- * @param helmChartsDir The directory containing all chart subdirectories.
  * @param repoRoot The repository root directory.
  * @param version The full semver version (e.g. "1.0.0-123").
  * @returns A directory containing all packaged charts.
  */
-export function buildAllCharts(helmChartsDir: Directory, repoRoot: Directory, version: string): Directory {
+export function buildAllCharts(repoRoot: Directory, version: string): Directory {
   const cdk8sManifests = buildK8sManifests(repoRoot);
   let outputDir = dag.directory();
 
   for (const chartName of HELM_CHARTS) {
-    const chartDir = helmChartsDir.directory(chartName);
+    // Use full path from repo root to avoid nested .directory() issues
+    const chartDir = repoRoot.directory(`src/cdk8s/helm/${chartName}`);
     const chartDist = buildChart(chartDir, chartName, cdk8sManifests, repoRoot, version);
     outputDir = outputDir.withDirectory(chartName, chartDist);
   }
@@ -91,18 +92,18 @@ export function buildAllCharts(helmChartsDir: Directory, repoRoot: Directory, ve
 }
 
 /**
- * Build the Helm chart, update version/appVersion, and export artifacts.
+ * Build the torvalds Helm chart, update version/appVersion, and export artifacts.
  * Uses the new per-chart directory structure (src/cdk8s/helm/{chartName}/).
- * @param source The Helm charts root directory (should be src/cdk8s/helm).
  * @param repoRoot The repository root directory.
  * @param version The full semver version (e.g. "1.0.0-123") - used as-is in Chart.yaml.
  * @returns The dist directory with packaged chart and YAMLs.
  */
-export function build(source: Directory, repoRoot: Directory, version: string): Directory {
+export function build(repoRoot: Directory, version: string): Directory {
   const cdk8sManifests = buildK8sManifests(repoRoot);
 
   // Build only the torvalds chart (primary chart, for backwards compatibility)
-  const torvaldsChartDir = source.directory("torvalds");
+  // Use full path from repo root to avoid nested .directory() issues
+  const torvaldsChartDir = repoRoot.directory("src/cdk8s/helm/torvalds");
   const container = getHelmContainerForChart(torvaldsChartDir, "torvalds", cdk8sManifests, repoRoot, version);
 
   // Export all YAMLs and the packaged chart to dist/
@@ -198,9 +199,8 @@ export async function publishAllCharts(
 }
 
 /**
- * Publish the packaged Helm chart to a ChartMuseum repo.
+ * Publish the packaged torvalds Helm chart to a ChartMuseum repo.
  * Uses the new per-chart directory structure (src/cdk8s/helm/{chartName}/).
- * @param source The Helm charts root directory (should be src/cdk8s/helm).
  * @param repoRoot The repository root directory.
  * @param version The full semver version (e.g. "1.0.0-123") - used as-is in Chart.yaml.
  * @param repo The ChartMuseum repo URL.
@@ -209,7 +209,6 @@ export async function publishAllCharts(
  * @returns The curl output from the publish step.
  */
 export async function publish(
-  source: Directory,
   repoRoot: Directory,
   version: string,
   repo = "https://chartmuseum.tailnet-1a49.ts.net",
@@ -219,7 +218,8 @@ export async function publish(
   const cdk8sManifests = buildK8sManifests(repoRoot);
 
   // Build and publish only the torvalds chart (for backwards compatibility)
-  const torvaldsChartDir = source.directory("torvalds");
+  // Use full path from repo root to avoid nested .directory() issues
+  const torvaldsChartDir = repoRoot.directory("src/cdk8s/helm/torvalds");
   const chartFile = `torvalds-${version}.tgz`;
   const container = getHelmContainerForChart(torvaldsChartDir, "torvalds", cdk8sManifests, repoRoot, version)
     .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
