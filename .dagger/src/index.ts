@@ -8,6 +8,7 @@ import {
   prepareHaContainer,
   typeCheckHaWithContainer,
   lintHaWithContainer,
+  buildHaWithContainer,
 } from "./ha";
 import { getMiseRuntimeContainer } from "./base";
 import {
@@ -247,7 +248,9 @@ export class Homelab {
         message: `CDK8s Build: FAILED\n${formatDaggerError(e)}`,
       }));
 
-    const haBuildPromise = Promise.resolve(buildHa(updatedSource))
+    // HA build - uses shared container to ensure types are generated
+    const haBuildPromise = haContainerPromise
+      .then((container) => buildHaWithContainer(container))
       .then(() => ({ status: "passed" as const, message: "HA Build: PASSED" }))
       .catch((e: unknown) => ({
         status: "failed" as const,
