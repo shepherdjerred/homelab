@@ -166,7 +166,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "High disk write activity detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_disk_written_bytes_total[5m]) > 52428800", // 50MB/s
+            'max by (instance, device) (rate(node_disk_written_bytes_total[5m])) > 52428800 and on (instance, device) node_disk_info{rotational="0"}', // 50MB/s, SSD only
           ),
           for: "30m",
           labels: { severity: "warning" },
@@ -175,14 +175,14 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "SustainedDiskWriteActivity",
           annotations: {
             description: escapePrometheusTemplate(
-              "Device {{ $labels.device }} on {{ $labels.instance }} has sustained write activity: {{ $value | humanize }} bytes/s for over 1 day (SSD wear concern)",
+              "Device {{ $labels.device }} on {{ $labels.instance }} wrote {{ $value | humanize }} bytes in the last 24 hours (SSD wear concern)",
             ),
             summary: "Sustained disk write activity detected - SSD wear concern",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "rate(node_disk_written_bytes_total[5m]) > 1048576", // 1MB/s
+            'increase(max by (instance, device) (node_disk_written_bytes_total)[24h:5m]) > 1024^4 and on (instance, device) node_disk_info{rotational="0"}', // > 1 TiB/day, SSD only
           ),
-          for: "1d",
+          for: "1h",
           labels: { severity: "warning" },
         },
         {
@@ -260,7 +260,8 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High system temperature detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("node_hwmon_temp_celsius > 75"),
+          // Raised threshold from 75°C to 85°C to reduce noise - 75°C is normal for many components under load
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("node_hwmon_temp_celsius > 85"),
           for: "15m",
           labels: { severity: "warning" },
         },

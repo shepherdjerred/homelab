@@ -31,7 +31,7 @@ export class PostalMariaDB extends Construct {
 
   /**
    * The 1Password item containing MariaDB credentials.
-   * Expected fields: root_password, username, password
+   * Expected fields: mariadb-root-password, mariadb-password
    */
   public readonly secretItem: OnePasswordItem;
 
@@ -54,14 +54,14 @@ export class PostalMariaDB extends Construct {
     this.serviceName = releaseName;
 
     // 1Password item for MariaDB credentials
-    // Expected fields: root_password, password (for postal user)
+    // Expected fields: mariadb-root-password, mariadb-password
     this.secretItem = new OnePasswordItem(scope, `${id}-credentials`, {
       metadata: {
         name: `${id}-credentials`,
         namespace: props.namespace,
       },
       spec: {
-        itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/postal-mariadb-credentials",
+        itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/zlz4hlpcgk74nhqysgrre5wv4i",
       },
     });
 
@@ -69,6 +69,7 @@ export class PostalMariaDB extends Construct {
       auth: {
         existingSecret: this.secretItem.name,
         database: this.databaseName,
+        username: this.username,
       },
       // Grant postal user ability to create/manage message databases (postal-server-*)
       initdbScripts: {

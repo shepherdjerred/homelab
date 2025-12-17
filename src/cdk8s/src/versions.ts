@@ -25,7 +25,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/tautulli": "2.16.0@sha256:4d764be0f66532f6820a82aa365e530414f50f462410ce0949edd3fc22ccb9d5",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "linuxserver/bazarr": "1.5.3@sha256:ec11e988e8e13411c994a4d9f43ed9b97409aa92c1da54d9f23926c3da7c2032",
+  "linuxserver/bazarr": "1.5.3@sha256:4aa1e82d1e96ae712095d881b7e3840e6db6ca862c335be5b00001f31156650b",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/overseerr": "1.34.0@sha256:feddc11664639721d4e220d161ce5eb8fd2483d2e252e3e119570abcce3c7474",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
@@ -35,18 +35,21 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/qbittorrent": "4.6.7@sha256:55f15d44396315551f87294a176efae733b16e283f38980308e46073950257c6",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "linuxserver/radarr": "6.0.4@sha256:06ac318ecb95a34c7b229568dcb4271f02cb5007bb189a0dd67a2032864187ca",
+  "linuxserver/radarr": "6.0.4@sha256:6c0948b42c149e36bb3dbc0b64d36c77b2d3c9dccf1b424c4f72af1e57ba0c21",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/sonarr": "4.0.16@sha256:60e5edcac39172294ad22d55d1b08c2c0a9fe658cad2f2c4d742ae017d7874de",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "timothyjmiller/cloudflare-ddns": "latest@sha256:2187e122660d6a2d451ef7c53fd4805c133133f4f47552256352c1e2a7f49ee2",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
-  "tailscale/golink": "main@sha256:19d7a4e8f85616965ac2aab50f8b74ee0cc2cfca0c548949f0e4d10660a5d74a",
+  "tailscale/golink": "main@sha256:0cec4dc64169686c9ee86d3b0ded97b5c3dfd618a65dda3a0deb769c0d18f5fb",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "home-assistant/home-assistant": "2025.12.1@sha256:4e5e81917192e3fa730948964b19d6e03ff3b9c2694894bc6d6b76769e642055",
   // Custom homelab HA image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/homelab": "latest",
+  // Custom dependency-summary image - updated by CI pipeline
+  // not managed by renovate
+  "shepherdjerred/dependency-summary": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing": "2.0.12@sha256:33edb52c86194a4660a998cd9ad533677cbf635171a424a668a270c0cecd9a05",
   // renovate: datasource=github-releases versioning=semver-coerced
@@ -66,7 +69,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
   openebs: "4.4.0",
   // not managed by renovate
-  "shepherdjerred/scout-for-lol/beta": "1.0.890",
+  "shepherdjerred/scout-for-lol/beta": "1.0.932",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/prod": "1.0.802",
   // not managed by renovate
@@ -76,7 +79,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "freshrss/freshrss": "1.27.1@sha256:9a56be99f3927cc8fab4c6bbd5723ae098824792d4d98a84007a95eb64e8f905",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "chocobozzz/peertube": "v7.2.3-bookworm@sha256:f43ada42981e7af304bdab58ec97117a33c45f0b00b7fc46c7d394a116cdaf4c",
+  "chocobozzz/peertube": "v7.2.3-bookworm@sha256:562547f62d138fccbfc8c81b47e2f5556df6c8bdb58730f3df8b5cab84613db1",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set-controller": "0.13.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver

@@ -25,6 +25,7 @@ import {
 import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
+import { buildAndPushDependencySummaryImage } from "./dependency-summary";
 import { build as helmBuildFn, publish as helmPublishFn, buildAllCharts } from "./helm";
 import { Stage } from "./stage";
 import versions from "./versions";
@@ -110,6 +111,35 @@ export class Homelab {
   }
 
   /**
+   * Update the versions.ts file with the dependency-summary image version for production builds
+   * @param source The source directory
+   * @param version The version to set for the dependency-summary image
+   * @returns The updated source directory
+   */
+  @func()
+  updateDependencySummaryVersion(
+    @argument({
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
+      defaultPath: ".",
+    })
+    source: Directory,
+    @argument() version: string,
+  ): Directory {
+    return dag
+      .container()
+      .from(`alpine:${versions.alpine}`)
+      .withMountedDirectory("/workspace", source)
+      .withWorkdir("/workspace")
+      .withExec([
+        "sed",
+        "-i",
+        `s/"shepherdjerred\\/dependency-summary": "[^"]*"/"shepherdjerred\\/dependency-summary": "${version}"/`,
+        "src/cdk8s/src/versions.ts",
+      ])
+      .directory("/workspace");
+  }
+
+  /**
    * Runs kube-linter, ArgoCD sync, builds for CDK8s and HA, publishes the HA image (if prod), and publishes the Helm chart (if prod) as part of the CI pipeline.
    * @param source The source directory for kube-linter, and builds.
    * @param argocdToken The ArgoCD API token for authentication (as a Dagger Secret).
@@ -146,10 +176,11 @@ export class Homelab {
     hassToken?: Secret,
     @argument() env: Stage = Stage.Dev,
   ): Promise<string> {
-    // Update HA version in versions.ts if prod
+    // Update image versions in versions.ts if prod
     let updatedSource = source;
     if (env === Stage.Prod) {
       updatedSource = this.updateHaVersion(source, chartVersion);
+      updatedSource = this.updateDependencySummaryVersion(updatedSource, chartVersion);
     }
 
     // Prepare shared containers once - this is a major optimization
@@ -329,6 +360,34 @@ export class Homelab {
         message: `Versioned tag: ${versionedResult.message}\nLatest tag: ${latestResult.message}`,
       };
     }
+
+    // Publish dependency-summary image if prod - push versioned and latest tags in parallel
+    let depSummaryPublishResult: StepResult = {
+      status: "skipped",
+      message: "[SKIPPED] Not prod",
+    };
+    if (env === Stage.Prod) {
+      const [versionedResult, latestResult] = await Promise.all([
+        this.internalPublishDependencySummaryImage(
+          updatedSource,
+          `ghcr.io/shepherdjerred/dependency-summary:${chartVersion}`,
+          ghcrUsername,
+          ghcrPassword,
+          env,
+        ),
+        this.internalPublishDependencySummaryImage(
+          updatedSource,
+          `ghcr.io/shepherdjerred/dependency-summary:latest`,
+          ghcrUsername,
+          ghcrPassword,
+          env,
+        ),
+      ]);
+      depSummaryPublishResult = {
+        status: versionedResult.status === "passed" && latestResult.status === "passed" ? "passed" : "failed",
+        message: `Versioned tag: ${versionedResult.message}\nLatest tag: ${latestResult.message}`,
+      };
+    }
     // Publish Helm chart if prod
     let helmPublishResult: StepResult = {
       status: "skipped",
@@ -368,6 +427,7 @@ export class Homelab {
       haBuildResult.message,
       helmBuildResult.message,
       `HA Image Publish result:\n${haPublishResult.message}`,
+      `Dependency Summary Image Publish result:\n${depSummaryPublishResult.message}`,
       `Helm Chart Publish result:\n${helmPublishResult.message}`,
     ].join("\n\n");
     // Fail if any critical step failed
@@ -383,7 +443,10 @@ export class Homelab {
       cdk8sBuildResult.status === "failed" ||
       haBuildResult.status === "failed" ||
       helmBuildResult.status === "failed" ||
-      (env === Stage.Prod && (haPublishResult.status === "failed" || helmPublishResult.status === "failed"))
+      (env === Stage.Prod &&
+        (haPublishResult.status === "failed" ||
+          depSummaryPublishResult.status === "failed" ||
+          helmPublishResult.status === "failed"))
     ) {
       throw new Error(summary);
     }
@@ -689,6 +752,18 @@ export class Homelab {
     const isDryRun = env !== Stage.Prod;
 
     return buildAndPushHaImage(source, imageName, ghcrUsername, ghcrPassword, isDryRun);
+  }
+
+  async internalPublishDependencySummaryImage(
+    source: Directory,
+    imageName: string,
+    ghcrUsername: string,
+    ghcrPassword: Secret,
+    @argument() env: Stage = Stage.Dev,
+  ): Promise<StepResult> {
+    const isDryRun = env !== Stage.Prod;
+
+    return buildAndPushDependencySummaryImage(source, imageName, ghcrUsername, ghcrPassword, isDryRun);
   }
 
   /**

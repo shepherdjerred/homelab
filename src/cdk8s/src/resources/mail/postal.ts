@@ -245,7 +245,7 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
   // Expected fields: rails_secret_key
   const postalSecretsItem = new OnePasswordItem(chart, "postal-secrets", {
     spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/postal-secrets",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/n3tfwq24v3rstfedrloupgzaqe",
     },
   });
   const postalSecrets = Secret.fromSecretName(chart, "postal-secrets-ref", postalSecretsItem.name);

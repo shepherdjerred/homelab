@@ -370,45 +370,33 @@ async function fetchDockerReleaseNotes(dep: DependencyInfo): Promise<ReleaseNote
   // Look up the GitHub repo for this Docker image
   const githubRepo = DOCKER_IMAGE_GITHUB_REPOS[dep.name];
 
+  // Build list of repos to try (mapped repo first, then fallback patterns)
+  const reposToTry: string[] = [];
+
   if (githubRepo) {
-    const [owner, repo] = githubRepo.split("/");
-    if (owner && repo) {
-      const releases = await fetchGitHubReleases(owner, repo, dep.newVersion);
-      if (releases) {
-        return {
-          dependency: dep.name,
-          version: dep.newVersion,
-          notes: releases.body,
-          url: releases.url,
-          source: "docker",
-        };
-      }
-    }
+    reposToTry.push(githubRepo);
   }
 
   // Try common GitHub repo patterns as fallback
   const [org, image] = dep.name.split("/");
-  if (!org || !image) {
-    return null;
+  if (org && image) {
+    reposToTry.push(
+      `${org}/${image}`,
+      `${org}/docker-${image}`,
+      `${image}/${image}`, // e.g., syncthing/syncthing
+    );
   }
 
-  const possibleRepos: string[] = [
-    `${org}/${image}`,
-    `${org}/docker-${image}`,
-    `${image}/${image}`, // e.g., syncthing/syncthing
-  ];
+  // Use the full fallback chain (GitHub Releases → CHANGELOG.md → Git Compare + LLM)
+  for (const repoPath of reposToTry) {
+    const notes = await fetchReleaseNotesBetween(repoPath, dep.oldVersion, dep.newVersion);
 
-  for (const repoPath of possibleRepos) {
-    const [repoOwner, repoName] = repoPath.split("/");
-    if (!repoOwner || !repoName) continue;
-
-    const releases = await fetchGitHubReleases(repoOwner, repoName, dep.newVersion);
-    if (releases) {
+    if (notes.length > 0) {
       return {
         dependency: dep.name,
         version: dep.newVersion,
-        notes: releases.body,
-        url: releases.url,
+        notes: notes.map((n) => n.body).join("\n\n---\n\n"),
+        url: notes[0]?.url,
         source: "docker",
       };
     }

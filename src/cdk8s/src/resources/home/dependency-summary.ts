@@ -1,6 +1,7 @@
 import { Chart } from "cdk8s";
 import { KubeCronJob, KubeNamespace, Quantity } from "../../../generated/imports/k8s.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
+import versions from "../../versions.ts";
 
 export function createDependencySummaryCronJob(chart: Chart) {
   // Create namespace for dependency summary
@@ -13,7 +14,7 @@ export function createDependencySummaryCronJob(chart: Chart) {
   // 1Password secret for API keys
   const secretItem = new OnePasswordItem(chart, "dependency-summary-secrets", {
     spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/dependency-summary",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/zuz7msnwhrkmjsxxgmxxv2mnkm",
     },
     metadata: {
       name: "dependency-summary-secrets",
@@ -43,25 +44,7 @@ export function createDependencySummaryCronJob(chart: Chart) {
               containers: [
                 {
                   name: "dependency-summary",
-                  image: "oven/bun:1",
-                  command: ["sh", "-c"],
-                  args: [
-                    `
-                    set -e
-                    # Install git
-                    apt-get update && apt-get install -y git
-
-                    # Clone the repo
-                    git clone --depth 100 https://github.com/shepherdjerred/homelab.git /tmp/homelab
-                    cd /tmp/homelab/src/ha
-
-                    # Install dependencies
-                    bun install
-
-                    # Run the dependency summary script
-                    bun run src/dependency-summary.ts
-                    `.trim(),
-                  ],
+                  image: `ghcr.io/shepherdjerred/dependency-summary:${versions["shepherdjerred/dependency-summary"]}`,
                   env: [
                     {
                       name: "OPENAI_API_KEY",
@@ -74,12 +57,7 @@ export function createDependencySummaryCronJob(chart: Chart) {
                     },
                     {
                       name: "POSTAL_HOST",
-                      valueFrom: {
-                        secretKeyRef: {
-                          name: secretItem.name,
-                          key: "postal_host",
-                        },
-                      },
+                      value: "http://torvalds-postal-web-service.torvalds.svc.cluster.local:5000",
                     },
                     {
                       name: "POSTAL_API_KEY",
@@ -92,21 +70,11 @@ export function createDependencySummaryCronJob(chart: Chart) {
                     },
                     {
                       name: "RECIPIENT_EMAIL",
-                      valueFrom: {
-                        secretKeyRef: {
-                          name: secretItem.name,
-                          key: "recipient_email",
-                        },
-                      },
+                      value: "dependencies@sjer.red",
                     },
                     {
                       name: "SENDER_EMAIL",
-                      valueFrom: {
-                        secretKeyRef: {
-                          name: secretItem.name,
-                          key: "sender_email",
-                        },
-                      },
+                      value: "dependencies@sjer.red",
                     },
                   ],
                   resources: {

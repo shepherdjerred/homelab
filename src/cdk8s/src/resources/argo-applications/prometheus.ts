@@ -140,15 +140,9 @@ export async function createPrometheusApp(chart: Chart) {
           type: "tempo",
           url: "http://tempo.tempo.svc:3200",
           version: 1,
-          jsonData: {
-            tracesToLogsV2: {
-              datasourceUid: "loki",
-              spanStartTimeShift: "-1h",
-              spanEndTimeShift: "1h",
-              filterByTraceID: true,
-              filterBySpanID: false,
-            },
-          },
+          // TODO: tracesToLogsV2 must be configured manually in Grafana UI.
+          // See: docs/tempo-loki-correlation.md
+          // Blocked by: https://github.com/grafana/grafana/issues/110740
         },
       ],
     },
@@ -206,6 +200,7 @@ export async function createPrometheusApp(chart: Chart) {
             // https://prometheus.io/docs/alerting/latest/configuration/#pagerduty_config
             pagerduty_configs: [
               {
+                send_resolved: true,
                 routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
                 // Use utility function to escape templates for Alertmanager processing
                 description: escapeAlertmanagerTemplate("{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"),
