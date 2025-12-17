@@ -63,4 +63,5 @@ export const DOCKER_IMAGE_GITHUB_REPOS: Record<string, string> = {
   "freshrss/freshrss": "FreshRSS/FreshRSS",
   "dagger-helm": "dagger/dagger",
   "tailscale/golink": "tailscale/golink",
+  "chocobozzz/peertube": "Chocobozzz/PeerTube",
 };

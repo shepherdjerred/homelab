@@ -1,6 +1,7 @@
 import { Chart } from "cdk8s";
 import { KubeCronJob, KubeNamespace, Quantity } from "../../../generated/imports/k8s.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
+import versions from "../../versions.ts";
 
 export function createDependencySummaryCronJob(chart: Chart) {
   // Create namespace for dependency summary
@@ -43,25 +44,7 @@ export function createDependencySummaryCronJob(chart: Chart) {
               containers: [
                 {
                   name: "dependency-summary",
-                  image: "oven/bun:1",
-                  command: ["sh", "-c"],
-                  args: [
-                    `
-                    set -e
-                    # Install git
-                    apt-get update && apt-get install -y git
-
-                    # Clone the repo
-                    git clone --depth 100 https://github.com/shepherdjerred/homelab.git /tmp/homelab
-                    cd /tmp/homelab/src/ha
-
-                    # Install dependencies
-                    bun install
-
-                    # Run the dependency summary script
-                    bun run src/dependency-summary.ts
-                    `.trim(),
-                  ],
+                  image: `ghcr.io/shepherdjerred/dependency-summary:${versions["shepherdjerred/dependency-summary"]}`,
                   env: [
                     {
                       name: "OPENAI_API_KEY",
@@ -74,7 +57,7 @@ export function createDependencySummaryCronJob(chart: Chart) {
                     },
                     {
                       name: "POSTAL_HOST",
-                      value: "http://postal-web-service.torvalds.svc.cluster.local:5000",
+                      value: "http://torvalds-postal-web-service.torvalds.svc.cluster.local:5000",
                     },
                     {
                       name: "POSTAL_API_KEY",

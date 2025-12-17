@@ -47,6 +47,9 @@ const versions = {
   // Custom homelab HA image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/homelab": "latest",
+  // Custom dependency-summary image - updated by CI pipeline
+  // not managed by renovate
+  "shepherdjerred/dependency-summary": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing": "2.0.12@sha256:33edb52c86194a4660a998cd9ad533677cbf635171a424a668a270c0cecd9a05",
   // renovate: datasource=github-releases versioning=semver-coerced
