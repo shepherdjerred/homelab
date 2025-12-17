@@ -455,7 +455,7 @@ export class Homelab {
     })
     source: Directory,
   ): Promise<string> {
-    const testVersion = "test-0.1.0";
+    const testVersion = "0.1.0-test";
 
     // Build all charts with test version
     const helmDist = buildAllCharts(source, testVersion);

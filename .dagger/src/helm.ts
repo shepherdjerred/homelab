@@ -33,7 +33,9 @@ function getHelmContainerForChart(
       .from(`alpine/helm:${versions["alpine/helm"]}`)
       // Cache Helm registry data and repositories
       .withMountedCache("/root/.cache/helm", dag.cacheVolume("helm-cache"))
-      .withMountedDirectory("/workspace", chartDir)
+      // Use withDirectory instead of withMountedDirectory to avoid path resolution
+      // issues when composing directories with withFile later
+      .withDirectory("/workspace", chartDir)
       .withWorkdir("/workspace")
       // Update Chart.yaml version and appVersion using shared script
       .withFile("/usr/local/bin/helm-set-version.sh", repoRoot.file("scripts/helm-set-version.sh"))
