@@ -25,6 +25,7 @@ import { createPeerTubePostgreSQLDatabase } from "../resources/postgres/peertube
 import { createPeerTubeDeployment } from "../resources/media/peertube.ts";
 import { PostalMariaDB } from "../resources/postgres/postal-mariadb.ts";
 import { createPostalDeployment } from "../resources/mail/postal.ts";
+import { createGolinkSyncJob } from "../resources/golink-sync.ts";
 
 export async function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
@@ -68,6 +69,7 @@ export async function createTorvaldsChart(app: App) {
   });
   createSyncthingDeployment(chart);
   createGolinkDeployment(chart);
+  createGolinkSyncJob(chart);
   createProwlarrDeployment(chart);
   createDdnsDeployment(chart);
   createMaintainerrDeployment(chart);

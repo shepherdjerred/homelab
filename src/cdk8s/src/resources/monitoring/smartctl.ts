@@ -1,5 +1,5 @@
-import { Chart } from "cdk8s";
-import { ConfigMap, DaemonSet, Volume, ServiceAccount } from "cdk8s-plus-31";
+import { Chart, Duration } from "cdk8s";
+import { ConfigMap, DaemonSet, Volume, ServiceAccount, Probe } from "cdk8s-plus-31";
 import versions from "../../versions.ts";
 
 export async function createSmartctlMonitoring(chart: Chart) {
@@ -49,8 +49,8 @@ export async function createSmartctlMonitoring(chart: Chart) {
     args: [
       "-c",
       `
-      # Install smartmontools and bash
-      apk add --no-cache smartmontools bash
+      # Install smartmontools and bash - exit on failure to trigger pod restart
+      apk add --no-cache smartmontools bash || exit 1
 
       # Create textfile collector directory
       mkdir -p /host/var/lib/node_exporter/textfile_collector
@@ -69,6 +69,14 @@ export async function createSmartctlMonitoring(chart: Chart) {
       done
       `,
     ],
+    liveness: Probe.fromCommand(
+      ["sh", "-c", "! grep -q 'collection failed' /host/var/lib/node_exporter/textfile_collector/smartmon.prom"],
+      {
+        initialDelaySeconds: Duration.seconds(60),
+        periodSeconds: Duration.seconds(300),
+        failureThreshold: 3,
+      },
+    ),
     securityContext: {
       privileged: true, // Required to access raw disk devices
       allowPrivilegeEscalation: true, // Required when privileged is true

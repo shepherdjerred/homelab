@@ -1,5 +1,5 @@
-import { Chart } from "cdk8s";
-import { ConfigMap, DaemonSet, Volume, ServiceAccount } from "cdk8s-plus-31";
+import { Chart, Duration } from "cdk8s";
+import { ConfigMap, DaemonSet, Volume, ServiceAccount, Probe } from "cdk8s-plus-31";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import versions from "../../versions.ts";
@@ -55,8 +55,8 @@ export async function createZfsZpoolMonitoring(chart: Chart) {
     args: [
       "-c",
       `
-      # Install dependencies
-      apk add --no-cache zfs bash
+      # Install dependencies - exit on failure to trigger pod restart
+      apk add --no-cache zfs bash || exit 1
 
       # Create textfile collector directory
       mkdir -p /host/var/lib/node_exporter/textfile_collector
@@ -75,6 +75,14 @@ export async function createZfsZpoolMonitoring(chart: Chart) {
       done
       `,
     ],
+    liveness: Probe.fromCommand(
+      ["sh", "-c", "! grep -q 'collection failed' /host/var/lib/node_exporter/textfile_collector/zfs_zpool.prom"],
+      {
+        initialDelaySeconds: Duration.seconds(120),
+        periodSeconds: Duration.seconds(600),
+        failureThreshold: 3,
+      },
+    ),
     securityContext: {
       privileged: true, // Required to access ZFS
       allowPrivilegeEscalation: true,
