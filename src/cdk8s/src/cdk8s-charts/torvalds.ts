@@ -1,5 +1,5 @@
 import { App, Chart, Size } from "cdk8s";
-import { createTedditDeployment } from "../resources/frontends/teddit.ts";
+import { createRedlibDeployment } from "../resources/frontends/redlib.ts";
 import { createGolinkDeployment } from "../resources/golink.ts";
 import { createHomeAssistantDeployment } from "../resources/home/homeassistant.ts";
 import { createPlexDeployment } from "../resources/media/plex.ts";
@@ -48,7 +48,7 @@ export async function createTorvaldsChart(app: App) {
     movies: moviesVolume.claim,
   });
   createTautulliDeployment(chart);
-  createTedditDeployment(chart);
+  createRedlibDeployment(chart);
   createPlexDeployment(chart, {
     tv: tvVolume.claim,
     movies: moviesVolume.claim,

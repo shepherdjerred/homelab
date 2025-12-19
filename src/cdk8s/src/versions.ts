@@ -15,8 +15,8 @@ const versions = {
   "prometheus-adapter": "5.2.0",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
   "tailscale-operator": "1.90.9",
-  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "teddit/teddit": "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
+  // renovate: datasource=docker registryUrl=https://quay.io versioning=docker
+  "redlib/redlib": "latest@sha256:dffb6c5a22f889d47d8e28e33411db0fb6c5694599f72cf740c912c12f5fc1c6",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "itzg/minecraft-server": "2025.10.5-java21@sha256:0062e45ec8aa8bdbeeb6b4ad0e15df804c4525f0e208b66d899ab677230ee0e9",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=loose
