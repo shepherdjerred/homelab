@@ -139,8 +139,8 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "mccloud/bazarr-openai-whisperbridge":
     "latest@sha256:e6d60d008e70c3f6daaa39225db480d698c9be2c57c5857c53caae9798b1f232",
-  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
-  "bitnami/kubectl": "1.33.0@sha256:c6b9e508ea2bc5f5db3e2a1eb9e12d1c94ccc3ed0803b38ac1cc6bce06aff2ab",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "library/debian": "bookworm-slim@sha256:e899040a73d36e2b36fa33216943539d9957cba8172b858097c2cabcdb20a3e2",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];

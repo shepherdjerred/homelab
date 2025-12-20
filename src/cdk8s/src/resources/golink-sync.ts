@@ -70,6 +70,13 @@ export function createGolinkSyncJob(chart: Chart) {
   const syncScript = `
 set -e
 
+# Install kubectl and dependencies
+echo "Installing dependencies..."
+apt-get update -qq && apt-get install -y -qq curl jq > /dev/null
+curl -sLO "https://dl.k8s.io/release/v1.33.0/bin/linux/amd64/kubectl"
+chmod +x kubectl && mv kubectl /usr/local/bin/
+echo "kubectl installed: $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
+
 GOLINK_URL="${golinkUrl}"
 TAILNET_DOMAIN="${tailnetDomain}"
 
@@ -211,7 +218,7 @@ echo "=== Sync complete ==="
           containers: [
             {
               name: "golink-sync",
-              image: `docker.io/bitnami/kubectl:${versions["bitnami/kubectl"]}`,
+              image: `docker.io/library/debian:${versions["library/debian"]}`,
               command: ["/bin/bash", "-c", syncScript],
               resources: {
                 requests: {
