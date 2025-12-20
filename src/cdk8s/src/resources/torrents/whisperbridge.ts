@@ -1,6 +1,6 @@
 import { Cpu, Deployment, DeploymentStrategy, EnvValue, Secret, Service } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
-import { withCommonProps } from "../../misc/common.ts";
+import { withCommonProps, ROOT_UID, ROOT_GID } from "../../misc/common.ts";
 import versions from "../../versions.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 
@@ -21,6 +21,12 @@ export function createWhisperbridgeDeployment(chart: Chart) {
     withCommonProps({
       image: `mccloud/bazarr-openai-whisperbridge:${versions["mccloud/bazarr-openai-whisperbridge"]}`,
       portNumber: 9000,
+      securityContext: {
+        user: ROOT_UID,
+        group: ROOT_GID,
+        ensureNonRoot: false,
+        readOnlyRootFilesystem: false,
+      },
       envVariables: {
         OPENAI_API_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "groq-api-key", groqSecrets.name),
