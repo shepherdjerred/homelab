@@ -27,7 +27,7 @@ export class Redis extends Construct {
     const releaseName = id;
 
     // Bitnami Redis service name format in standalone mode
-    this.serviceName = `${releaseName}-redis-master`;
+    this.serviceName = `${releaseName}-master`;
 
     const redisValues: HelmValuesForChart<"redis"> = {
       architecture: "standalone",
