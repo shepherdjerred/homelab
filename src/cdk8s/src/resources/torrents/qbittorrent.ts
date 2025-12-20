@@ -58,7 +58,7 @@ export function createQBitTorrentDeployment(
       },
       envVariables: {
         DOT: EnvValue.fromValue("off"),
-        VPN_INTERFACE: EnvValue.fromValue("tun0"),
+        VPN_INTERFACE: EnvValue.fromValue("wg0"),
         UPDATER_PERIOD: EnvValue.fromValue("24h"),
         VPN_SERVICE_PROVIDER: EnvValue.fromValue("airvpn"),
         VPN_TYPE: EnvValue.fromValue("wireguard"),
