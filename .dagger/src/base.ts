@@ -111,9 +111,6 @@ export function getKubectlContainer(): Container {
  * @returns A configured Container with mise and tools ready.
  */
 export function withMiseTools(baseContainer: Container): Container {
-  // Cache key based on tool versions - cache invalidates when versions change
-  const toolVersionKey = `mise-tools-bun${versions.bun}-python${versions.python}-node${versions.node}`;
-
   return (
     baseContainer
       // Install mise via apt (combine operations for fewer layers)
@@ -125,16 +122,12 @@ export function withMiseTools(baseContainer: Container): Container {
           "echo 'deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg] https://mise.jdx.dev/deb stable main' > /etc/apt/sources.list.d/mise.list && " +
           "apt-get update && apt-get install -y mise",
       ])
-      // Cache mise tools with version-specific key
-      .withMountedCache("/root/.local/share/mise", dag.cacheVolume(toolVersionKey))
-      // Cache pip packages
-      .withMountedCache("/root/.cache/pip", dag.cacheVolume("pip-cache"))
       // Set PATH so mise shims are available
       .withEnvVariable("PATH", "/root/.local/share/mise/shims:/root/.local/bin:${PATH}", {
         expand: true,
       })
-      // Install tools and create shims in a single cached operation
-      // The version-specific cache key ensures this only runs when versions change
+      // Install tools directly (no cache mount - tools must be in the final image)
+      // Note: This runs every build but ensures tools are baked into the image
       .withExec([
         "sh",
         "-c",
