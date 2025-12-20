@@ -55,7 +55,7 @@ export async function createNtpdMetricsMonitoring(chart: Chart) {
       "-c",
       `
       # Install dependencies - exit on failure to trigger pod restart
-      apk add --no-cache ntp-utils || exit 1
+      apk add --no-cache ntp || exit 1
       pip install prometheus_client || exit 1
 
       # Create textfile collector directory

@@ -22,6 +22,8 @@ export function createRedlibDeployment(chart: Chart) {
       },
       securityContext: {
         readOnlyRootFilesystem: true,
+        user: 1000,
+        group: 1000,
       },
       portNumber: 8080,
     }),

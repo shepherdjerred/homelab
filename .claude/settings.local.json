@@ -18,7 +18,12 @@
       "mcp__grafana__query_prometheus",
       "mcp__grafana__list_alert_rules",
       "Bash(git checkout:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(kubectl get:*)",
+      "Bash(kubectl describe:*)",
+      "Bash(docker inspect:*)",
+      "Bash(kubectl logs:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []
