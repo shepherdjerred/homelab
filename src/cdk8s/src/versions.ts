@@ -136,6 +136,9 @@ const versions = {
   "library/busybox": "latest@sha256:870e815c3a50dd0f6b40efddb319c72c32c3ee340b5a3e8945904232ccd12f44",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "library/alpine": "latest@sha256:a107a3c031732299dd9dd607bb13787834db2de38cfa13f1993b7105e4814c60",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "mccloud/bazarr-openai-whisperbridge":
+    "latest@sha256:e6d60d008e70c3f6daaa39225db480d698c9be2c57c5857c53caae9798b1f232",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "bitnami/kubectl": "1.33.0@sha256:c6b9e508ea2bc5f5db3e2a1eb9e12d1c94ccc3ed0803b38ac1cc6bce06aff2ab",
 };

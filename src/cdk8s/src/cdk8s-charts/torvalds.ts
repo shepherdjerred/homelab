@@ -18,6 +18,7 @@ import { createPokemonDeployment } from "../resources/pokemon.ts";
 import { createHaDeployment } from "../resources/home/ha.ts";
 import { ZfsHddVolume } from "../misc/zfs-hdd-volume.ts";
 import { createRecyclarrDeployment } from "../resources/torrents/recyclarr.ts";
+import { createWhisperbridgeDeployment } from "../resources/torrents/whisperbridge.ts";
 import { createGrafanaPostgreSQLDatabase } from "../resources/postgres/grafana-db.ts";
 import { createGickupDeployment } from "../resources/gickup.ts";
 import { Redis } from "../resources/common/redis.ts";
@@ -77,6 +78,7 @@ export async function createTorvaldsChart(app: App) {
   createPokemonDeployment(chart);
   createHaDeployment(chart);
   createRecyclarrDeployment(chart);
+  createWhisperbridgeDeployment(chart);
   createGrafanaPostgreSQLDatabase(chart);
   await createGickupDeployment(chart);
 
