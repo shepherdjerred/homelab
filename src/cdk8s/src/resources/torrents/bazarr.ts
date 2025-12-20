@@ -56,8 +56,8 @@ export function createBazarrDeployment(
           limit: Cpu.millis(1000),
         },
         memory: {
-          request: Size.mebibytes(256),
-          limit: Size.mebibytes(768),
+          request: Size.mebibytes(512),
+          limit: Size.gibibytes(2),
         },
       },
     }),
