@@ -7,7 +7,6 @@ import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import { createPrometheusMonitoring } from "../monitoring/monitoring/prometheus.ts";
 import { createSmartctlMonitoring } from "../monitoring/smartctl.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
-import { createNtpdMetricsMonitoring } from "../monitoring/ntpd-metrics.ts";
 import { createNvmeMetricsMonitoring } from "../monitoring/nvme-metrics.ts";
 import { createZfsSnapshotsMonitoring } from "../monitoring/zfs-snapshots.ts";
 import { createZfsZpoolMonitoring } from "../monitoring/zfs-zpool.ts";
@@ -57,7 +56,6 @@ export async function createPrometheusApp(chart: Chart) {
 
   createPrometheusMonitoring(chart);
   await createSmartctlMonitoring(chart);
-  await createNtpdMetricsMonitoring(chart);
   await createNvmeMetricsMonitoring(chart);
   await createZfsSnapshotsMonitoring(chart);
   await createZfsZpoolMonitoring(chart);
