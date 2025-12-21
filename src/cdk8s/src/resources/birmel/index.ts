@@ -1,9 +1,10 @@
-import { Deployment, DeploymentStrategy, EnvValue, Secret, Volume } from "cdk8s-plus-31";
+import { Deployment, DeploymentStrategy, EnvValue, Secret, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { TailscaleIngress } from "../../misc/tailscale.ts";
 
 export function createBirmelDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "birmel", {
@@ -32,6 +33,7 @@ export function createBirmelDeployment(chart: Chart) {
         readOnlyRootFilesystem: false,
         ensureNonRoot: false,
       },
+      ports: [{ number: 4111, name: "studio" }],
       volumeMounts: [
         {
           path: "/app/data",
@@ -39,6 +41,7 @@ export function createBirmelDeployment(chart: Chart) {
         },
       ],
       envVariables: {
+        // Discord credentials
         DISCORD_TOKEN: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "birmel-discord-token-secret", onePasswordItem.name),
           key: "discord-api-token",
@@ -47,19 +50,46 @@ export function createBirmelDeployment(chart: Chart) {
           secret: Secret.fromSecretName(chart, "birmel-discord-client-id-secret", onePasswordItem.name),
           key: "discord-client-id",
         }),
-        ANTHROPIC_API_KEY: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "birmel-anthropic-api-key-secret", onePasswordItem.name),
-          key: "anthropic-api-key",
-        }),
+
+        // OpenAI configuration
         OPENAI_API_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "birmel-openai-api-key-secret", onePasswordItem.name),
           key: "openai-api-key",
         }),
-        DATABASE_PATH: EnvValue.fromValue("/app/data/birmel.db"),
+        OPENAI_MODEL: EnvValue.fromValue("gpt-5-mini"),
+        OPENAI_CLASSIFIER_MODEL: EnvValue.fromValue("gpt-5-nano"),
+
+        // Database paths
+        OPS_DATABASE_URL: EnvValue.fromValue("file:/app/data/birmel-ops.db"),
+        MASTRA_MEMORY_DB_PATH: EnvValue.fromValue("file:/app/data/mastra-memory.db"),
+
+        // Mastra Studio configuration
+        MASTRA_STUDIO_ENABLED: EnvValue.fromValue("true"),
+        MASTRA_STUDIO_PORT: EnvValue.fromValue("4111"),
+        MASTRA_STUDIO_HOST: EnvValue.fromValue("0.0.0.0"),
+
+        // Telemetry configuration
+        TELEMETRY_ENABLED: EnvValue.fromValue("true"),
+        TELEMETRY_SERVICE_NAME: EnvValue.fromValue("birmel"),
+        OTLP_ENDPOINT: EnvValue.fromValue("http://tempo.monitoring.svc.cluster.local:4318"),
+
+        // General configuration
         LOG_LEVEL: EnvValue.fromValue("info"),
         VOICE_ENABLED: EnvValue.fromValue("true"),
         DAILY_POSTS_ENABLED: EnvValue.fromValue("true"),
       },
     }),
   );
+
+  // Service for Mastra Studio
+  const studioService = new Service(chart, "birmel-studio-service", {
+    selector: deployment,
+    ports: [{ port: 4111, name: "studio" }],
+  });
+
+  // TailscaleIngress for internal access to Studio (no funnel)
+  new TailscaleIngress(chart, "birmel-studio-ingress", {
+    service: studioService,
+    host: "birmel-studio",
+  });
 }
