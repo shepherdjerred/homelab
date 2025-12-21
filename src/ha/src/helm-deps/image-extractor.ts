@@ -3,6 +3,50 @@ import { z } from "zod";
 import type { ImageRef } from "./types.js";
 import { parseImageString } from "./types.js";
 
+/**
+ * Default values for charts that have required fields with no defaults.
+ * These minimal values allow helm template to render without errors.
+ */
+const CHART_DEFAULT_VALUES: Record<string, Record<string, unknown>> = {
+  loki: {
+    loki: {
+      storage: {
+        bucketNames: {
+          chunks: "chunks",
+          ruler: "ruler",
+          admin: "admin",
+        },
+        type: "filesystem",
+      },
+    },
+  },
+  gitlab: {
+    global: {
+      hosts: {
+        domain: "example.com",
+      },
+    },
+    "certmanager-issuer": {
+      email: "admin@example.com",
+    },
+  },
+  "kube-prometheus-stack": {
+    // Usually works without extra values, but add common ones
+    prometheus: {
+      prometheusSpec: {
+        retention: "10d",
+      },
+    },
+  },
+};
+
+/**
+ * Get default values for a chart if it has required fields
+ */
+function getDefaultValuesForChart(chartName: string): Record<string, unknown> | null {
+  return CHART_DEFAULT_VALUES[chartName] ?? null;
+}
+
 // Zod schemas for K8s manifest parsing
 const ContainerSchema = z.looseObject({
   image: z.string().optional(),
@@ -92,12 +136,27 @@ async function renderHelmTemplate(
     await updateProc.exited;
 
     // Build helm template command
-    const templateArgs = ["template", "release-name", `${repoName}/${chartName}`, "--version", version];
+    // Use --dry-run and --no-hooks to avoid failures from missing CRDs/resources
+    const templateArgs = [
+      "template",
+      "release-name",
+      `${repoName}/${chartName}`,
+      "--version",
+      version,
+      "--dry-run",
+      "--no-hooks",
+    ];
 
     // Add values if provided
     if (values) {
       const valuesJson = JSON.stringify(values);
       templateArgs.push("--set-json", valuesJson);
+    }
+
+    // Add default values for charts with required fields
+    const defaultValues = getDefaultValuesForChart(chartName);
+    if (defaultValues) {
+      templateArgs.push("--set-json", JSON.stringify(defaultValues));
     }
 
     // Run helm template

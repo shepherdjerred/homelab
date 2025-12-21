@@ -56,6 +56,15 @@ export function createDependencySummaryCronJob(chart: Chart) {
                       },
                     },
                     {
+                      name: "GITHUB_TOKEN",
+                      valueFrom: {
+                        secretKeyRef: {
+                          name: secretItem.name,
+                          key: "github_token",
+                        },
+                      },
+                    },
+                    {
                       name: "POSTAL_HOST",
                       value: "http://torvalds-postal-web-service.torvalds.svc.cluster.local:5000",
                     },
