@@ -27,6 +27,7 @@ import { createPeerTubeDeployment } from "../resources/media/peertube.ts";
 import { PostalMariaDB } from "../resources/postgres/postal-mariadb.ts";
 import { createPostalDeployment } from "../resources/mail/postal.ts";
 import { createGolinkSyncJob } from "../resources/golink-sync.ts";
+import { createBirmelDeployment } from "../resources/birmel/index.ts";
 
 export async function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
@@ -99,4 +100,7 @@ export async function createTorvaldsChart(app: App) {
   createPostalDeployment(chart, {
     mariadb: postalMariadb,
   });
+
+  // Birmel Discord bot
+  createBirmelDeployment(chart);
 }
