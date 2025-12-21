@@ -13,7 +13,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "alpine/kubectl": "1.35.0@sha256:5a4914e2ac580778f4b8b2f092259be16568c24445de07e7ba4aa1e2faf91461",
   // renovate: datasource=github-releases versioning=semver
-  "stackrox/kube-linter": "v0.7.6",
+  "stackrox/kube-linter": "v0.8.1",
   // renovate: datasource=python-version versioning=semver
   python: "3.14.1",
   // renovate: datasource=node-version versioning=semver
