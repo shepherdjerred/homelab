@@ -17,6 +17,20 @@ jobs:
         with:
           bun-version: latest
 
+      - uses: 1password/load-secrets-action/configure@v2
+        with:
+          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
+      - uses: 1password/load-secrets-action@v2
+        with:
+          export-env: true
+        env:
+          DAGGER_CLOUD_TOKEN: op://GitHub Actions/Secrets/add more/DAGGER_CLOUD_TOKEN
+          ARGOCD_TOKEN: op://GitHub Actions/Secrets/add more/ARGOCD_TOKEN
+          HASS_TOKEN: op://GitHub Actions/Secrets/add more/HASS_TOKEN
+          HASS_BASE_URL: op://GitHub Actions/Secrets/add more/HASS_BASE_URL
+          CHARTMUSEUM_PASSWORD: op://GitHub Actions/Secrets/add more/CHARTMUSEUM_PASSWORD
+
       - name: Extract kubectl version
         id: kubectl-version
         run: |
@@ -47,36 +61,26 @@ jobs:
       - name: Extract Dagger version
         id: dagger-version
         run: |
-          # Get the Dagger version from the running dagger-dagger-helm-engine pod
           DAGGER_IMAGE=$(kubectl get pod --selector=name=dagger-dagger-helm-engine --namespace=dagger -o jsonpath='{.items[0].spec.containers[0].image}')
-          # Extract version from image tag (e.g., "registry.dagger.io/engine:v0.18.12" -> "0.18.12")
           DAGGER_VERSION="${DAGGER_IMAGE##*:v}"
-          echo "Detected Dagger version: $DAGGER_VERSION"
           echo "version=$DAGGER_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Install Dagger CLI
         run: |
-          curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION="${{ steps.dagger-version.outputs.version }}" BIN_DIR="$HOME/.local/bin" sh
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          curl -fsSL https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION="${{ steps.dagger-version.outputs.version }}" BIN_DIR="$HOME/.local/bin" sh
 
       - name: Get Dagger Engine Pod Name
         run: |
           DAGGER_ENGINE_POD_NAME="$(kubectl get pod --selector=name=dagger-dagger-helm-engine --namespace=dagger --output=jsonpath='{.items[0].metadata.name}')"
-          echo "DAGGER_ENGINE_POD_NAME=$DAGGER_ENGINE_POD_NAME" >> "$GITHUB_ENV"
+          echo "_EXPERIMENTAL_DAGGER_RUNNER_HOST=kube-pod://$DAGGER_ENGINE_POD_NAME?namespace=dagger" >> "$GITHUB_ENV"
 
       - name: Run Dagger CI pipeline (prod)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
-          ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
           GHCR_USERNAME: ${{ github.actor }}
           GHCR_PASSWORD: ${{ github.token }}
-          HASS_BASE_URL: ${{ secrets.HASS_BASE_URL }}
-          HASS_TOKEN: ${{ secrets.HASS_TOKEN }}
           CHART_VERSION: ${{ github.run_number }}
           CHARTMUSEUM_USERNAME: sjerred
-          CHARTMUSEUM_PASSWORD: ${{ secrets.CHARTMUSEUM_PASSWORD }}
-          DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
-          _EXPERIMENTAL_DAGGER_RUNNER_HOST: kube-pod://${{ env.DAGGER_ENGINE_POD_NAME }}?namespace=dagger
         run: |
           dagger call ci \
             --source=. \
@@ -92,11 +96,6 @@ jobs:
 
       - name: Run Dagger CI pipeline (dev)
         if: github.event_name == 'pull_request' || github.ref != 'refs/heads/main'
-        env:
-          DAGGER_CLOUD_TOKEN: ${{ secrets.DAGGER_CLOUD_TOKEN }}
-          HASS_BASE_URL: ${{ secrets.HASS_BASE_URL }}
-          HASS_TOKEN: ${{ secrets.HASS_TOKEN }}
-          _EXPERIMENTAL_DAGGER_RUNNER_HOST: kube-pod://${{ env.DAGGER_ENGINE_POD_NAME }}?namespace=dagger
         run: |
           dagger call ci \
             --source=. \
