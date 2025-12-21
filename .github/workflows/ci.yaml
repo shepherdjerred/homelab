@@ -19,17 +19,18 @@ jobs:
 
       - uses: 1password/load-secrets-action/configure@v2
         with:
-          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          connect-host: http://onepassword-connect.1password.svc.cluster.local:8080
+          connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
 
       - uses: 1password/load-secrets-action@v2
         with:
           export-env: true
         env:
-          DAGGER_CLOUD_TOKEN: op://GitHub Actions/Secrets/add more/DAGGER_CLOUD_TOKEN
-          ARGOCD_TOKEN: op://GitHub Actions/Secrets/add more/ARGOCD_TOKEN
-          HASS_TOKEN: op://GitHub Actions/Secrets/add more/HASS_TOKEN
-          HASS_BASE_URL: op://GitHub Actions/Secrets/add more/HASS_BASE_URL
-          CHARTMUSEUM_PASSWORD: op://GitHub Actions/Secrets/add more/CHARTMUSEUM_PASSWORD
+          DAGGER_CLOUD_TOKEN: op://v64ocnykdqju4ui6j6pua56xw4/kjzy27cw4ialemerahutnxis3a/DAGGER_CLOUD_TOKEN
+          ARGOCD_TOKEN: op://v64ocnykdqju4ui6j6pua56xw4/kjzy27cw4ialemerahutnxis3a/ARGOCD_TOKEN
+          HASS_TOKEN: op://v64ocnykdqju4ui6j6pua56xw4/kjzy27cw4ialemerahutnxis3a/HASS_TOKEN
+          HASS_BASE_URL: op://v64ocnykdqju4ui6j6pua56xw4/kjzy27cw4ialemerahutnxis3a/HASS_BASE_URL
+          CHARTMUSEUM_PASSWORD: op://v64ocnykdqju4ui6j6pua56xw4/kjzy27cw4ialemerahutnxis3a/CHARTMUSEUM_PASSWORD
 
       - name: Extract kubectl version
         id: kubectl-version
