@@ -218,7 +218,7 @@ export function createOpenHandsDeployment(chart: Chart) {
   new TailscaleIngress(chart, "openhands-tailscale-ingress", {
     service,
     host: "openhands",
-    funnel: true,
+    funnel: false,
     metadata: {
       namespace: NAMESPACE,
     },
