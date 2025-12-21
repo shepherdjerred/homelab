@@ -25,7 +25,7 @@ export function createOpenHandsDeployment(chart: Chart) {
   // 1Password secret for Anthropic API key
   const anthropicSecret = new OnePasswordItem(chart, "openhands-anthropic-secret", {
     spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/openhands-anthropic",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/6eyxyiwsg7aqdfktuvwaifwjle",
     },
     metadata: {
       name: "openhands-anthropic",
@@ -146,7 +146,11 @@ export function createOpenHandsDeployment(chart: Chart) {
         LLM_MODEL: EnvValue.fromValue("anthropic/claude-sonnet-4-20250514"),
         LLM_API_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "openhands-anthropic-k8s-secret", anthropicSecret.name),
-          key: "api-key",
+          key: "anthropic-api-key",
+        }),
+        OPENAI_API_KEY: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "openhands-openai-k8s-secret", anthropicSecret.name),
+          key: "openai-api-key",
         }),
       },
       resources: {
