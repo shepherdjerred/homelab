@@ -26,11 +26,11 @@ jobs:
         with:
           export-env: true
         env:
-          DAGGER_CLOUD_TOKEN: op://v64ocnykdqju4ui6j6pua56xw4/kjzy27cw4ialemerahutnxis3a/DAGGER_CLOUD_TOKEN
-          ARGOCD_TOKEN: op://v64ocnykdqju4ui6j6pua56xw4/kjzy27cw4ialemerahutnxis3a/ARGOCD_TOKEN
-          HASS_TOKEN: op://v64ocnykdqju4ui6j6pua56xw4/kjzy27cw4ialemerahutnxis3a/HASS_TOKEN
-          HASS_BASE_URL: op://v64ocnykdqju4ui6j6pua56xw4/kjzy27cw4ialemerahutnxis3a/HASS_BASE_URL
-          CHARTMUSEUM_PASSWORD: op://v64ocnykdqju4ui6j6pua56xw4/kjzy27cw4ialemerahutnxis3a/CHARTMUSEUM_PASSWORD
+          DAGGER_CLOUD_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/DAGGER_CLOUD_TOKEN
+          ARGOCD_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/ARGOCD_TOKEN
+          HASS_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/HASS_TOKEN
+          HASS_BASE_URL: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/HASS_BASE_URL
+          CHARTMUSEUM_PASSWORD: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/CHARTMUSEUM_PASSWORD
 
       - name: Extract kubectl version
         id: kubectl-version
