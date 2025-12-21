@@ -574,7 +574,7 @@ resource "coder_agent" "main" {
 # Claude Code module for AI-powered coding
 module "claude-code" {
   source   = "registry.coder.com/coder/claude-code/coder"
-  version  = "4.2.3"
+  version  = "4.2.8"
   agent_id = coder_agent.main.id
   workdir  = "/workspaces"
 
