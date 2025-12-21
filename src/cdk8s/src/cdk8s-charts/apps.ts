@@ -30,6 +30,7 @@ import { createWindmillApp } from "../resources/argo-applications/windmill.ts";
 import { createGitlabApp } from "../resources/argo-applications/gitlab.ts";
 import { createAllGrafanaDashboards } from "../resources/grafana/index.ts";
 import { createDependencySummaryCronJob } from "../resources/home/dependency-summary.ts";
+import { createOpenHandsDeployment } from "../resources/openhands.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -90,4 +91,7 @@ export async function createAppsChart(app: App) {
 
   // Weekly dependency summary email
   createDependencySummaryCronJob(chart);
+
+  // OpenHands AI coding assistant with Docker-in-Docker sidecar
+  createOpenHandsDeployment(chart);
 }
