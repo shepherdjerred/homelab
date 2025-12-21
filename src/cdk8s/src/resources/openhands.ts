@@ -215,5 +215,8 @@ export function createOpenHandsDeployment(chart: Chart) {
     service,
     host: "openhands",
     funnel: true,
+    metadata: {
+      namespace: NAMESPACE,
+    },
   });
 }
