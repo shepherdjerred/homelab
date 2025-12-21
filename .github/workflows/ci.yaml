@@ -19,17 +19,17 @@ jobs:
 
       - uses: 1password/load-secrets-action/configure@v2
         with:
-          service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          connect-host: http://onepassword-connect.1password.svc.cluster.local:8080
+          connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
 
       - uses: 1password/load-secrets-action@v2
         with:
           export-env: true
         env:
-          DAGGER_CLOUD_TOKEN: op://GitHub Actions/Secrets/add more/DAGGER_CLOUD_TOKEN
-          ARGOCD_TOKEN: op://GitHub Actions/Secrets/add more/ARGOCD_TOKEN
-          HASS_TOKEN: op://GitHub Actions/Secrets/add more/HASS_TOKEN
-          HASS_BASE_URL: op://GitHub Actions/Secrets/add more/HASS_BASE_URL
-          CHARTMUSEUM_PASSWORD: op://GitHub Actions/Secrets/add more/CHARTMUSEUM_PASSWORD
+          DAGGER_CLOUD_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/DAGGER_CLOUD_TOKEN
+          ARGOCD_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/ARGOCD_TOKEN
+          HASS_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/HASS_TOKEN
+          CHARTMUSEUM_PASSWORD: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/CHARTMUSEUM_PASSWORD
 
       - name: Extract kubectl version
         id: kubectl-version
@@ -81,6 +81,7 @@ jobs:
           GHCR_PASSWORD: ${{ github.token }}
           CHART_VERSION: ${{ github.run_number }}
           CHARTMUSEUM_USERNAME: sjerred
+          HASS_BASE_URL: https://homeassistant.tailnet-1a49.ts.net
         run: |
           dagger call ci \
             --source=. \
@@ -96,6 +97,8 @@ jobs:
 
       - name: Run Dagger CI pipeline (dev)
         if: github.event_name == 'pull_request' || github.ref != 'refs/heads/main'
+        env:
+          HASS_BASE_URL: https://homeassistant.tailnet-1a49.ts.net
         run: |
           dagger call ci \
             --source=. \
