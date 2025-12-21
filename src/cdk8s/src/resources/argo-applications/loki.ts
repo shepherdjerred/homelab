@@ -25,6 +25,9 @@ export function createLokiApp(chart: Chart) {
         replication_factor: 1,
       },
       auth_enabled: false,
+      pattern_ingester: {
+        enabled: true,
+      },
       limits_config: {
         retention_period: "30d",
         allow_structured_metadata: true, // Required for OTLP ingestion
