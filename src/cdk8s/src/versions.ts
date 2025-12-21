@@ -41,7 +41,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "timothyjmiller/cloudflare-ddns": "latest@sha256:2187e122660d6a2d451ef7c53fd4805c133133f4f47552256352c1e2a7f49ee2",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
-  "tailscale/golink": "main@sha256:0cec4dc64169686c9ee86d3b0ded97b5c3dfd618a65dda3a0deb769c0d18f5fb",
+  "tailscale/golink": "main@sha256:ba5303fefc041cf9f11f960a90c3e16ca922dad8140ef43f704670f5c55f581b",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "home-assistant/home-assistant": "2025.12.1@sha256:4e5e81917192e3fa730948964b19d6e03ff3b9c2694894bc6d6b76769e642055",
   // Custom homelab HA image - updated by CI pipeline
