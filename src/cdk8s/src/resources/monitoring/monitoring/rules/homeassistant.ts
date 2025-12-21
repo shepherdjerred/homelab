@@ -29,11 +29,11 @@ export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
         {
           alert: "LitterRobotNotCyclingRecently",
           annotations: {
-            description: 'Litter Robot has not cycled in the last 6 hours ({{ "{{" }} $value {{ "}}" }} cycles).',
+            description: 'Litter Robot has not cycled in the last 12 hours ({{ "{{" }} $value {{ "}}" }} cycles).',
             summary: "Litter Robot not cycling",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'increase(homeassistant_sensor_unit_cycles{entity="sensor.litter_robot_4_total_cycles"}[6h]) == 0',
+            'increase(homeassistant_sensor_unit_cycles{entity="sensor.litter_robot_4_total_cycles"}[12h]) == 0', // Extended from 6h to account for overnight
           ),
           for: "30m",
           labels: { severity: "warning" },
@@ -76,6 +76,7 @@ export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
           0,
           "Granary feeder desiccant is overdue: {{ $value }} days remaining ({{ $labels.entity }}).",
           "Granary feeder desiccant remaining days",
+          "24h", // Alert once per day instead of every 10m to reduce noise
         ),
         {
           alert: "GranaryFeederNotDispensing",
@@ -122,7 +123,7 @@ export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
           "HomeAssistantBatteryLow",
           'min by (entity) (homeassistant_sensor_battery_percent{entity!="sensor.roomba_battery"})',
           "<",
-          50,
+          30, // Lowered from 50 to reduce noise - 30% is still actionable
           "Battery low: {{ $value }}% ({{ $labels.entity }}).",
           "Home Assistant battery low",
           "1h",
