@@ -137,7 +137,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "library/busybox": "latest@sha256:870e815c3a50dd0f6b40efddb319c72c32c3ee340b5a3e8945904232ccd12f44",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "library/alpine": "latest@sha256:a107a3c031732299dd9dd607bb13787834db2de38cfa13f1993b7105e4814c60",
+  "library/alpine": "latest@sha256:1882fa4569e0c591ea092d3766c4893e19b8901a8e649de7067188aba3cc0679",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "mccloud/bazarr-openai-whisperbridge":
     "latest@sha256:e6d60d008e70c3f6daaa39225db480d698c9be2c57c5857c53caae9798b1f232",
