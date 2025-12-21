@@ -6,7 +6,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
   "cert-manager": "v1.19.1",
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
-  "intel-device-plugins-operator": "0.34.0",
+  "intel-device-plugins-operator": "0.34.1",
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
   "node-feature-discovery": "0.18.3",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
