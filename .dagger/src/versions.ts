@@ -1,7 +1,7 @@
 const versions = {
   // Dagger CI/CD Docker Images
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  alpine: "3.23.0@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375",
+  alpine: "3.23.2@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "alpine/helm": "4.0.1@sha256:4677d32ca3ed7181b100c2cb8a75faf4ed46f3a65933309084e8df204a5fa78e",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
