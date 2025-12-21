@@ -81,7 +81,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "freshrss/freshrss": "1.27.1@sha256:9a56be99f3927cc8fab4c6bbd5723ae098824792d4d98a84007a95eb64e8f905",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "chocobozzz/peertube": "v7.2.3-bookworm@sha256:562547f62d138fccbfc8c81b47e2f5556df6c8bdb58730f3df8b5cab84613db1",
+  "chocobozzz/peertube": "v7.3.0-bookworm@sha256:011b0ec43d921bd60a3aa01fc7995e42cf15275925f16bee6f17a6c896ca5060",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set-controller": "0.13.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
