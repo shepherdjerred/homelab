@@ -18,12 +18,16 @@ import versions from "../versions.ts";
  * 4. Deletes stale golinks that point to *.tailnet-1a49.ts.net but no longer have an ingress
  *
  * The job runs as an ArgoCD PostSync hook, so it executes after each successful sync.
+ *
+ * A Tailscale sidecar provides network access to the tailnet, allowing the job
+ * to reach golink at go.tailnet-xxx.ts.net via an HTTP proxy.
  */
 export function createGolinkSyncJob(chart: Chart) {
   const namespace = "torvalds";
   const name = "golink-sync";
   const tailnetDomain = "tailnet-1a49.ts.net";
   const golinkUrl = `https://go.${tailnetDomain}`;
+  const tailscaleImage = `tailscale/tailscale:v${versions["tailscale-operator"]}`;
 
   // ServiceAccount for the sync job
   const serviceAccount = new KubeServiceAccount(chart, "golink-sync-sa", {
@@ -66,9 +70,16 @@ export function createGolinkSyncJob(chart: Chart) {
     ],
   });
 
-  // The sync script
+  // The sync script - uses Tailscale HTTP proxy on localhost:1055
   const syncScript = `
 set -e
+
+# Signal completion to sidecar on exit
+cleanup() {
+  echo "Signaling completion to sidecar..."
+  touch /shared/done
+}
+trap cleanup EXIT
 
 # Install kubectl and dependencies
 echo "Installing dependencies..."
@@ -76,6 +87,24 @@ apt-get update -qq && apt-get install -y -qq curl jq > /dev/null
 curl -sLO "https://dl.k8s.io/release/v1.33.0/bin/linux/amd64/kubectl"
 chmod +x kubectl && mv kubectl /usr/local/bin/
 echo "kubectl installed: $(kubectl version --client --short 2>/dev/null || kubectl version --client)"
+
+# Wait for Tailscale proxy to be ready
+echo "Waiting for Tailscale proxy..."
+for i in $(seq 1 30); do
+  if curl -s --max-time 2 --proxy http://localhost:1055 https://go.${tailnetDomain}/ > /dev/null 2>&1; then
+    echo "Tailscale proxy is ready"
+    break
+  fi
+  if [ $i -eq 30 ]; then
+    echo "ERROR: Tailscale proxy not ready after 30 seconds"
+    exit 1
+  fi
+  sleep 1
+done
+
+# Use Tailscale HTTP proxy for all curl commands to tailnet
+export https_proxy=http://localhost:1055
+export HTTPS_PROXY=http://localhost:1055
 
 GOLINK_URL="${golinkUrl}"
 TAILNET_DOMAIN="${tailnetDomain}"
@@ -194,6 +223,33 @@ echo ""
 echo "=== Sync complete ==="
 `;
 
+  // Tailscale sidecar script - provides HTTP proxy and exits when main container signals done
+  const tailscaleSidecarScript = `
+#!/bin/sh
+set -e
+
+echo "Starting Tailscale sidecar..."
+
+# Start containerboot in background
+/usr/local/bin/containerboot &
+CONTAINERBOOT_PID=$!
+
+# Wait for done signal from main container
+echo "Waiting for main container to complete..."
+while [ ! -f /shared/done ]; do
+  # Check if containerboot is still running
+  if ! kill -0 $CONTAINERBOOT_PID 2>/dev/null; then
+    echo "ERROR: containerboot exited unexpectedly"
+    exit 1
+  fi
+  sleep 1
+done
+
+echo "Main container completed, shutting down Tailscale..."
+kill $CONTAINERBOOT_PID 2>/dev/null || true
+exit 0
+`;
+
   // Create the Job with ArgoCD PostSync hook annotation
   new KubeJob(chart, "golink-sync-job", {
     metadata: {
@@ -215,11 +271,29 @@ echo "=== Sync complete ==="
         spec: {
           serviceAccountName: serviceAccount.name,
           restartPolicy: "Never",
+          // Shared volume for signaling between containers
+          volumes: [
+            {
+              name: "shared",
+              emptyDir: {},
+            },
+            {
+              name: "tailscale-state",
+              emptyDir: {},
+            },
+          ],
           containers: [
+            // Main sync container
             {
               name: "golink-sync",
               image: `docker.io/library/debian:${versions["library/debian"]}`,
               command: ["/bin/bash", "-c", syncScript],
+              volumeMounts: [
+                {
+                  name: "shared",
+                  mountPath: "/shared",
+                },
+              ],
               resources: {
                 requests: {
                   cpu: Quantity.fromString("50m"),
@@ -230,6 +304,58 @@ echo "=== Sync complete ==="
                   memory: Quantity.fromString("128Mi"),
                 },
               },
+            },
+            // Tailscale sidecar - provides HTTP proxy to tailnet
+            {
+              name: "tailscale",
+              image: tailscaleImage,
+              command: ["/bin/sh", "-c", tailscaleSidecarScript],
+              env: [
+                {
+                  name: "TS_AUTHKEY",
+                  valueFrom: {
+                    secretKeyRef: {
+                      name: "tailscale-auth-key",
+                      key: "credential",
+                    },
+                  },
+                },
+                // Run in userspace mode (no kernel networking needed)
+                { name: "TS_USERSPACE", value: "true" },
+                // Accept Tailscale DNS for resolving go.tailnet-xxx.ts.net
+                { name: "TS_ACCEPT_DNS", value: "true" },
+                // Provide HTTP proxy on port 1055 for main container
+                { name: "TS_OUTBOUND_HTTP_PROXY_LISTEN", value: ":1055" },
+                // Only authenticate once
+                { name: "TS_AUTH_ONCE", value: "true" },
+                // Disable Kubernetes secret storage mode
+                { name: "TS_KUBE_SECRET", value: "" },
+                // Use ephemeral state (no persistence needed for short-lived job)
+                { name: "TS_STATE_DIR", value: "/tmp/tailscale" },
+                // Unique hostname for this job instance
+                { name: "TS_HOSTNAME", value: "golink-sync-job" },
+              ],
+              volumeMounts: [
+                {
+                  name: "shared",
+                  mountPath: "/shared",
+                },
+                {
+                  name: "tailscale-state",
+                  mountPath: "/tmp/tailscale",
+                },
+              ],
+              resources: {
+                requests: {
+                  cpu: Quantity.fromString("10m"),
+                  memory: Quantity.fromString("32Mi"),
+                },
+                limits: {
+                  cpu: Quantity.fromString("100m"),
+                  memory: Quantity.fromString("128Mi"),
+                },
+              },
+              // Run as root for state directory permissions (short-lived ephemeral job)
             },
           ],
         },
