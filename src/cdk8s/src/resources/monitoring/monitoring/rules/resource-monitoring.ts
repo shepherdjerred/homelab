@@ -294,7 +294,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             ),
             summary: "High context switches detected",
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_context_switches_total[5m]) > 100000"), // Increased threshold for containerized workloads (Kubernetes/Docker)
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_context_switches_total[5m]) > 500000"), // Increased from 100k - Kubernetes hosts normally have high context switches
           for: "30m",
           labels: { severity: "warning" },
         },

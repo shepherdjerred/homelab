@@ -62,6 +62,15 @@ export async function createPrometheusApp(chart: Chart) {
 
   // Note: Some configurations bypass type checking due to incomplete generated types
   const prometheusValues: HelmValuesForChart<"kube-prometheus-stack"> = {
+    // Tune default alert rules that are too sensitive for homelab
+    customRules: {
+      // CPUThrottlingHigh default is 25% for 15m - too sensitive for homelab workloads
+      // Many containers have low CPU limits and throttle briefly under load
+      CPUThrottlingHigh: {
+        for: "30m",
+        severity: "info",
+      },
+    },
     kubeProxy: {
       // disable components that fail
       // https://github.com/prometheus-operator/kube-prometheus/issues/718
