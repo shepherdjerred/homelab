@@ -93,7 +93,7 @@ export function createPeerTubeDeployment(chart: Chart, props: CreatePeerTubeDepl
         PEERTUBE_REDIS_AUTH: EnvValue.fromValue(""), // No auth enabled
 
         // SMTP configuration via Postal mail server
-        PEERTUBE_SMTP_HOSTNAME: EnvValue.fromValue("postal-smtp-service"),
+        PEERTUBE_SMTP_HOSTNAME: EnvValue.fromValue("torvalds-postal-smtp-service"),
         PEERTUBE_SMTP_PORT: EnvValue.fromValue("25"),
         PEERTUBE_SMTP_FROM: EnvValue.fromValue("noreply@peertube.tailnet-1a49.ts.net"),
         PEERTUBE_SMTP_TLS: EnvValue.fromValue("false"),

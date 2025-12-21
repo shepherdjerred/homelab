@@ -141,6 +141,10 @@ const versions = {
     "latest@sha256:e6d60d008e70c3f6daaa39225db480d698c9be2c57c5857c53caae9798b1f232",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "library/debian": "bookworm-slim@sha256:e899040a73d36e2b36fa33216943539d9957cba8172b858097c2cabcdb20a3e2",
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
+  "all-hands-ai/openhands": "main@sha256:0dcd216f296cace3321e911dfb143d3b13d680aead5b542881dc4c419cc1a676",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "library/docker": "27-dind@sha256:aa3df78ecf320f5fafdce71c659f1629e96e9de0968305fe1de670e0ca9176ce",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];
