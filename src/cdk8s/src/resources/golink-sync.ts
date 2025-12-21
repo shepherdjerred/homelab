@@ -210,9 +210,19 @@ while IFS= read -r line; do
 
       if [ -z "$expected" ]; then
         echo "Deleting stale: go/$short -> $long"
-        curl -sL -X POST "$GOLINK_URL/.delete/$short" \\
-          -H "Sec-Golink: 1" 2>/dev/null || echo "  Failed to delete"
-        deleted=$((deleted + 1))
+        # Fetch the detail page to get the XSRF token (required for deletion)
+        detail_page=$(curl -sL "$GOLINK_URL/.detail/$short" -H "Sec-Golink: 1" 2>/dev/null)
+        xsrf_token=$(echo "$detail_page" | grep -oP 'name="xsrf" value="\\K[^"]+' || true)
+
+        if [ -n "$xsrf_token" ]; then
+          curl -sL -X POST "$GOLINK_URL/.delete/$short" \\
+            -H "Sec-Golink: 1" \\
+            -H "Content-Type: application/x-www-form-urlencoded" \\
+            -d "xsrf=$xsrf_token" 2>/dev/null || echo "  Failed to delete"
+          deleted=$((deleted + 1))
+        else
+          echo "  Could not get XSRF token for $short"
+        fi
       fi
     fi
   fi
@@ -265,8 +275,8 @@ exit 0
     spec: {
       // Don't retry on failure
       backoffLimit: 1,
-      // Clean up after 1 hour
-      ttlSecondsAfterFinished: 3600,
+      // Clean up after 1 minute
+      ttlSecondsAfterFinished: 60,
       template: {
         spec: {
           serviceAccountName: serviceAccount.name,
