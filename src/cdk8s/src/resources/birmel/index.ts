@@ -17,12 +17,7 @@ export function createBirmelDeployment(chart: Chart) {
 
   const onePasswordItem = new OnePasswordItem(chart, "birmel-1p", {
     spec: {
-      // TODO: Create 1Password item for birmel with these fields:
-      // - discord-api-token
-      // - discord-client-id
-      // - anthropic-api-key
-      // - openai-api-key
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/birmel",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/w5c27dzybxor3j6dzl7lub2soe",
     },
   });
 
