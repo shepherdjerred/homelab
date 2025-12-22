@@ -15,6 +15,8 @@ const versions = {
   "prometheus-adapter": "5.2.0",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
   "tailscale-operator": "1.92.4",
+  // renovate: datasource=helm registryUrl=https://adyanth.github.io/cloudflare-operator/ versioning=semver
+  "cloudflare-operator": "0.21.6",
   // renovate: datasource=docker registryUrl=https://quay.io versioning=docker
   "redlib/redlib": "latest@sha256:dffb6c5a22f889d47d8e28e33411db0fb6c5694599f72cf740c912c12f5fc1c6",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
@@ -40,6 +42,8 @@ const versions = {
   "linuxserver/sonarr": "4.0.16@sha256:8b9f2138ec50fc9e521960868f79d2ad0d529bc610aef19031ea8ff80b54c5e0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "timothyjmiller/cloudflare-ddns": "latest@sha256:2187e122660d6a2d451ef7c53fd4805c133133f4f47552256352c1e2a7f49ee2",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
+  "cloudflare/cloudflared": "2024.12.2@sha256:84dbf6658c57c92dce8ccacd17dd051a10bb96960ed565635503051de42ea211",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "tailscale/golink": "main@sha256:ba5303fefc041cf9f11f960a90c3e16ca922dad8140ef43f704670f5c55f581b",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
@@ -50,6 +54,24 @@ const versions = {
   // Custom dependency-summary image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/dependency-summary": "latest",
+  // Custom sjer.red image - updated by CI pipeline
+  // not managed by renovate
+  "shepherdjerred/sjer.red": "latest",
+  // Custom scout-for-lol-frontend image - updated by CI pipeline
+  // not managed by renovate
+  "shepherdjerred/scout-for-lol-frontend": "latest",
+  // Custom webring-docs image - updated by CI pipeline
+  // not managed by renovate
+  "shepherdjerred/webring-docs": "latest",
+  // Custom dpp-docs image - updated by CI pipeline
+  // not managed by renovate
+  "shepherdjerred/dpp-docs": "latest",
+  // Custom better-skill-capped image - updated by CI pipeline
+  // not managed by renovate
+  "shepherdjerred/better-skill-capped": "latest",
+  // Custom better-skill-capped-fetcher image - updated by CI pipeline
+  // not managed by renovate
+  "shepherdjerred/better-skill-capped-fetcher": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing": "2.0.12@sha256:b2dbc42f95154986ae3578256f3fa9612fa7e930184d823aa56192b478fa0b8a",
   // renovate: datasource=github-releases versioning=semver-coerced
