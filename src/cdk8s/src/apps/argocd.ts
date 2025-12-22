@@ -83,12 +83,12 @@ export function createArgoCdApp(chart: Chart) {
         "timeout.reconciliation": "60s",
         "statusbadge.enabled": true,
         // TODO: rename
-        "accounts.jenkins": "apiKey",
-        "accounts.jenkins.enabled": true,
+        "accounts.gha": "apiKey",
+        "accounts.gha.enabled": true,
       },
       rbac: {
         // TODO: scope this to only syncing
-        "policy.csv": "g, jenkins, role:admin",
+        "policy.csv": "g, gha, role:admin",
       },
     },
   };

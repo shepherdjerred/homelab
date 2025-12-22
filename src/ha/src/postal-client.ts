@@ -46,7 +46,7 @@ const PostalResponseSchema = z.object({
 type PostalResponse = z.infer<typeof PostalResponseSchema>;
 
 export type PostalClientConfig = {
-  host: string; // e.g., "postal.tailnet-1a49.ts.net"
+  host: string; // e.g., "postal.tailnet-1a49.ts.net" or "http://postal-service:5000"
   apiKey: string; // Server API key from Postal web UI
   defaultFrom?: string;
 };
@@ -57,7 +57,9 @@ export class PostalClient {
   private defaultFrom: string;
 
   constructor(config: PostalClientConfig) {
-    this.baseUrl = `https://${config.host}`;
+    // Handle both full URLs (http://...) and bare hostnames
+    this.baseUrl =
+      config.host.startsWith("http://") || config.host.startsWith("https://") ? config.host : `https://${config.host}`;
     this.apiKey = config.apiKey;
     this.defaultFrom = config.defaultFrom ?? "updates@homelab.local";
   }

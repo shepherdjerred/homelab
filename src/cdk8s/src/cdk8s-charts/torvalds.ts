@@ -1,5 +1,5 @@
 import { App, Chart, Size } from "cdk8s";
-import { createTedditDeployment } from "../resources/frontends/teddit.ts";
+import { createRedlibDeployment } from "../resources/frontends/redlib.ts";
 import { createGolinkDeployment } from "../resources/golink.ts";
 import { createHomeAssistantDeployment } from "../resources/home/homeassistant.ts";
 import { createPlexDeployment } from "../resources/media/plex.ts";
@@ -17,6 +17,7 @@ import { createPokemonDeployment } from "../resources/pokemon.ts";
 import { createHaDeployment } from "../resources/home/ha.ts";
 import { ZfsHddVolume } from "../misc/zfs-hdd-volume.ts";
 import { createRecyclarrDeployment } from "../resources/torrents/recyclarr.ts";
+import { createWhisperbridgeDeployment } from "../resources/torrents/whisperbridge.ts";
 import { createGrafanaPostgreSQLDatabase } from "../resources/postgres/grafana-db.ts";
 import { createGickupDeployment } from "../resources/gickup.ts";
 import { Redis } from "../resources/common/redis.ts";
@@ -24,6 +25,8 @@ import { createPeerTubePostgreSQLDatabase } from "../resources/postgres/peertube
 import { createPeerTubeDeployment } from "../resources/media/peertube.ts";
 import { PostalMariaDB } from "../resources/postgres/postal-mariadb.ts";
 import { createPostalDeployment } from "../resources/mail/postal.ts";
+import { createGolinkSyncJob } from "../resources/golink-sync.ts";
+import { createBirmelDeployment } from "../resources/birmel/index.ts";
 
 export async function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
@@ -47,7 +50,7 @@ export async function createTorvaldsChart(app: App) {
     movies: moviesVolume.claim,
   });
   createTautulliDeployment(chart);
-  createTedditDeployment(chart);
+  createRedlibDeployment(chart);
   createPlexDeployment(chart, {
     tv: tvVolume.claim,
     movies: moviesVolume.claim,
@@ -67,12 +70,14 @@ export async function createTorvaldsChart(app: App) {
   });
   createSyncthingDeployment(chart);
   createGolinkDeployment(chart);
+  createGolinkSyncJob(chart);
   createProwlarrDeployment(chart);
   createMaintainerrDeployment(chart);
   createFreshRssDeployment(chart);
   createPokemonDeployment(chart);
   createHaDeployment(chart);
   createRecyclarrDeployment(chart);
+  createWhisperbridgeDeployment(chart);
   createGrafanaPostgreSQLDatabase(chart);
   await createGickupDeployment(chart);
 
@@ -93,4 +98,7 @@ export async function createTorvaldsChart(app: App) {
   createPostalDeployment(chart, {
     mariadb: postalMariadb,
   });
+
+  // Birmel Discord bot
+  createBirmelDeployment(chart);
 }

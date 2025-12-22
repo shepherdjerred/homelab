@@ -1,35 +1,35 @@
 const versions = {
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
-  connect: "2.0.5",
+  connect: "2.1.1",
   // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
-  "argo-cd": "9.1.6",
+  "argo-cd": "9.1.9",
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
-  "cert-manager": "v1.19.1",
+  "cert-manager": "v1.19.2",
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
-  "intel-device-plugins-operator": "0.34.0",
+  "intel-device-plugins-operator": "0.34.1",
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts versioning=semver
   "node-feature-discovery": "0.18.3",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
-  "kube-prometheus-stack": "80.2.0",
+  "kube-prometheus-stack": "80.6.0",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
   "prometheus-adapter": "5.2.0",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
-  "tailscale-operator": "1.90.9",
-  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "teddit/teddit": "latest@sha256:00a5c4f558592d5ef7be7c918cc8965296745a24a54c9bb215884baa31df0fea",
+  "tailscale-operator": "1.92.4",
+  // renovate: datasource=docker registryUrl=https://quay.io versioning=docker
+  "redlib/redlib": "latest@sha256:dffb6c5a22f889d47d8e28e33411db0fb6c5694599f72cf740c912c12f5fc1c6",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "itzg/minecraft-server": "2025.10.5-java21@sha256:0062e45ec8aa8bdbeeb6b4ad0e15df804c4525f0e208b66d899ab677230ee0e9",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=loose
   "plexinc/pms-docker":
     "1.42.2.10156-f737b826c@sha256:9c03c26b9479ba9a09935f3367459bfdc8d21545f42ed2a13258983c5be1b252",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
-  "linuxserver/tautulli": "2.16.0@sha256:4d764be0f66532f6820a82aa365e530414f50f462410ce0949edd3fc22ccb9d5",
+  "linuxserver/tautulli": "2.16.0@sha256:cb2226d9ab37f084d67a396e3c79059ca7d0fa7e1b2e6f1a473472af2afa7b12",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "linuxserver/bazarr": "1.5.3@sha256:4aa1e82d1e96ae712095d881b7e3840e6db6ca862c335be5b00001f31156650b",
+  "linuxserver/bazarr": "1.5.3@sha256:648f694532a3a53d8cf78bc888919ef538659bad41af4c680b0427ad1047d171",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
-  "linuxserver/overseerr": "1.34.0@sha256:feddc11664639721d4e220d161ce5eb8fd2483d2e252e3e119570abcce3c7474",
+  "linuxserver/overseerr": "1.34.0@sha256:f6a782e44742a02bdb6032d32ebb4e9615e261140f879be897b28cdb40ff800e",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "linuxserver/prowlarr": "2.3.0@sha256:475853535de3de8441b87c1457c30f2e695f4831228b12b6b7274e9da409d874",
+  "linuxserver/prowlarr": "2.3.0@sha256:67a8aaedcfd6989f3030b937a6a07007310b1dfc7ee8df16d2cbfa48d1c1158c",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver-coerced
   "qdm12/gluetun": "v3.40.3@sha256:ef4a44819a60469682c7b5e69183e6401171891feaa60186652d292c59e41b30",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
@@ -37,13 +37,13 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/radarr": "6.0.4@sha256:6c0948b42c149e36bb3dbc0b64d36c77b2d3c9dccf1b424c4f72af1e57ba0c21",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "linuxserver/sonarr": "4.0.16@sha256:60e5edcac39172294ad22d55d1b08c2c0a9fe658cad2f2c4d742ae017d7874de",
+  "linuxserver/sonarr": "4.0.16@sha256:8b9f2138ec50fc9e521960868f79d2ad0d529bc610aef19031ea8ff80b54c5e0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "timothyjmiller/cloudflare-ddns": "latest@sha256:2187e122660d6a2d451ef7c53fd4805c133133f4f47552256352c1e2a7f49ee2",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
-  "tailscale/golink": "main@sha256:0cec4dc64169686c9ee86d3b0ded97b5c3dfd618a65dda3a0deb769c0d18f5fb",
+  "tailscale/golink": "main@sha256:ba5303fefc041cf9f11f960a90c3e16ca922dad8140ef43f704670f5c55f581b",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
-  "home-assistant/home-assistant": "2025.12.1@sha256:4e5e81917192e3fa730948964b19d6e03ff3b9c2694894bc6d6b76769e642055",
+  "home-assistant/home-assistant": "2025.12.4@sha256:75ef6851d2e48d366764cdb6b569b7ad8be77dcc8e0d1b9aa508ac90e42d4c58",
   // Custom homelab HA image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/homelab": "latest",
@@ -51,7 +51,7 @@ const versions = {
   // not managed by renovate
   "shepherdjerred/dependency-summary": "latest",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "linuxserver/syncthing": "2.0.12@sha256:33edb52c86194a4660a998cd9ad533677cbf635171a424a668a270c0cecd9a05",
+  "linuxserver/syncthing": "2.0.12@sha256:b2dbc42f95154986ae3578256f3fa9612fa7e930184d823aa56192b478fa0b8a",
   // renovate: datasource=github-releases versioning=semver-coerced
   "dotdc/grafana-dashboards-kubernetes": "v3.0.1",
   // renovate: datasource=helm registryUrl=https://chartmuseum.github.io/charts versioning=semver
@@ -61,7 +61,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "jorenn92/maintainerr": "2.19.0@sha256:bee84707edaf589cda3d18b6813cbfe3a137b52786210c3a28190e10910c1240",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
-  loki: "6.46.0",
+  loki: "6.49.0",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
   promtail: "6.17.1",
   // renovate: datasource=helm registryUrl=https://grafana.github.io/helm-charts versioning=semver
@@ -69,17 +69,19 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
   openebs: "4.4.0",
   // not managed by renovate
-  "shepherdjerred/scout-for-lol/beta": "1.0.932",
+  "shepherdjerred/scout-for-lol/beta": "1.0.12",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/prod": "1.0.802",
   // not managed by renovate
   "shepherdjerred/starlight-karma-bot/beta": "1.0.14",
   // not managed by renovate
   "shepherdjerred/starlight-karma-bot/prod": "1.0.13",
+  // not managed by renovate
+  "shepherdjerred/birmel": "0.0.1",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "freshrss/freshrss": "1.27.1@sha256:9a56be99f3927cc8fab4c6bbd5723ae098824792d4d98a84007a95eb64e8f905",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "chocobozzz/peertube": "v7.2.3-bookworm@sha256:562547f62d138fccbfc8c81b47e2f5556df6c8bdb58730f3df8b5cab84613db1",
+  "chocobozzz/peertube": "v7.3.0-bookworm@sha256:011b0ec43d921bd60a3aa01fc7995e42cf15275925f16bee6f17a6c896ca5060",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set-controller": "0.13.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
@@ -104,9 +106,9 @@ const versions = {
   // renovate: datasource=github-releases versioning=semver
   "siderolabs/talos": "1.11.5",
   // renovate: datasource=helm registryUrl=https://opensource.zalando.com/postgres-operator/charts/postgres-operator versioning=semver
-  "postgres-operator": "1.14.0",
+  "postgres-operator": "1.15.1",
   // renovate: datasource=helm registryUrl=https://helm.coder.com/v2 versioning=semver
-  coder: "2.29.0",
+  coder: "2.29.1",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "cooperspencer/gickup": "0.10.39@sha256:3d0dabf3180ac8d3cc1939161e8b55947d697e453abeda29bdc42bb0319a9ed1",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
@@ -115,11 +117,11 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "jsclayton/prometheus-plex-exporter": "main@sha256:18ef1b2197efbcb75bd7276380955760995f10a9fbe55106809a6fcff91c2940",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
-  redis: "24.0.4",
+  redis: "24.1.0",
   // renovate: datasource=helm registryUrl=https://windmill-labs.github.io/windmill-helm-charts/ versioning=semver
-  windmill: "3.0.65",
+  windmill: "3.0.69",
   // renovate: datasource=helm registryUrl=https://charts.gitlab.io/ versioning=semver
-  gitlab: "9.6.2",
+  gitlab: "9.7.0",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
   mariadb: "24.0.1",
   // renovate: datasource=helm registryUrl=https://groundhog2k.github.io/helm-charts/ versioning=semver
@@ -135,7 +137,16 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "library/busybox": "latest@sha256:870e815c3a50dd0f6b40efddb319c72c32c3ee340b5a3e8945904232ccd12f44",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "library/alpine": "latest@sha256:a107a3c031732299dd9dd607bb13787834db2de38cfa13f1993b7105e4814c60",
+  "library/alpine": "latest@sha256:1882fa4569e0c591ea092d3766c4893e19b8901a8e649de7067188aba3cc0679",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "mccloud/bazarr-openai-whisperbridge":
+    "latest@sha256:e6d60d008e70c3f6daaa39225db480d698c9be2c57c5857c53caae9798b1f232",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "library/debian": "bookworm-slim@sha256:e899040a73d36e2b36fa33216943539d9957cba8172b858097c2cabcdb20a3e2",
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
+  "all-hands-ai/openhands": "main@sha256:0dcd216f296cace3321e911dfb143d3b13d680aead5b542881dc4c419cc1a676",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "library/docker": "28-dind@sha256:2a232a42256f70d78e3cc5d2b5d6b3276710a0de0596c145f627ecfae90282ac",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];
