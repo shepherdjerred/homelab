@@ -68,10 +68,19 @@ export function createBirmelDeployment(chart: Chart) {
         MASTRA_STUDIO_PORT: EnvValue.fromValue("4111"),
         MASTRA_STUDIO_HOST: EnvValue.fromValue("0.0.0.0"),
 
-        // Telemetry configuration
+        // Telemetry configuration (OpenTelemetry)
         TELEMETRY_ENABLED: EnvValue.fromValue("true"),
         TELEMETRY_SERVICE_NAME: EnvValue.fromValue("birmel"),
         OTLP_ENDPOINT: EnvValue.fromValue("http://tempo.monitoring.svc.cluster.local:4318"),
+
+        // Sentry configuration
+        SENTRY_ENABLED: EnvValue.fromValue("true"),
+        SENTRY_DSN: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "birmel-sentry-dsn-secret", onePasswordItem.name),
+          key: "sentry-dsn",
+        }),
+        SENTRY_ENVIRONMENT: EnvValue.fromValue("production"),
+        SENTRY_RELEASE: EnvValue.fromValue(versions["shepherdjerred/birmel"]),
 
         // General configuration
         LOG_LEVEL: EnvValue.fromValue("info"),
