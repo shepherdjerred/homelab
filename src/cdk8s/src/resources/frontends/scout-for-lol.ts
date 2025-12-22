@@ -24,5 +24,12 @@ export function createScoutForLolFrontendDeployment(chart: Chart) {
   new Service(chart, "scout-for-lol-frontend-service", {
     selector: deployment,
     ports: [{ port: 80 }],
+    metadata: {
+      annotations: {
+        "cloudflare-operator.io/content": "scout-for-lol-frontend-service",
+        "cloudflare-operator.io/tunnel": "homelab-tunnel",
+        "cloudflare-operator.io/hostname": "scout-for-lol.com",
+      },
+    },
   });
 }

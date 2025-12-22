@@ -24,5 +24,12 @@ export function createDppDocsDeployment(chart: Chart) {
   new Service(chart, "dpp-docs-service", {
     selector: deployment,
     ports: [{ port: 80 }],
+    metadata: {
+      annotations: {
+        "cloudflare-operator.io/content": "dpp-docs-service",
+        "cloudflare-operator.io/tunnel": "homelab-tunnel",
+        "cloudflare-operator.io/hostname": "discord-plays-pokemon.com",
+      },
+    },
   });
 }

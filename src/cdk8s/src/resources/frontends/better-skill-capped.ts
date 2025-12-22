@@ -59,6 +59,13 @@ export function createBetterSkillCappedDeployment(chart: Chart) {
   new Service(chart, "better-skill-capped-service", {
     selector: deployment,
     ports: [{ port: 80 }],
+    metadata: {
+      annotations: {
+        "cloudflare-operator.io/content": "better-skill-capped-service",
+        "cloudflare-operator.io/tunnel": "homelab-tunnel",
+        "cloudflare-operator.io/hostname": "better-skill-capped.com",
+      },
+    },
   });
 
   // Fetcher CronJob - runs every 15 minutes to fetch and update the manifest

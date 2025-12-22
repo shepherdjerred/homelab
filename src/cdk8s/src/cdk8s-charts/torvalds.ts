@@ -33,7 +33,7 @@ import { PostalMariaDB } from "../resources/postgres/postal-mariadb.ts";
 import { createPostalDeployment } from "../resources/mail/postal.ts";
 import { createGolinkSyncJob } from "../resources/golink-sync.ts";
 import { createBirmelDeployment } from "../resources/birmel/index.ts";
-import { createCloudflareTunnelDeployment } from "../resources/cloudflare-tunnel.ts";
+import { createCloudflareTunnelCRD } from "../resources/cloudflare-tunnel.ts";
 
 export async function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
@@ -111,7 +111,7 @@ export async function createTorvaldsChart(app: App) {
   createBirmelDeployment(chart);
 
   // Cloudflare Tunnel for public site access
-  createCloudflareTunnelDeployment(chart);
+  createCloudflareTunnelCRD(chart);
 
   // Public static sites (via Cloudflare Tunnel)
   createSjerRedDeployment(chart);

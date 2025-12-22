@@ -24,5 +24,12 @@ export function createSjerRedDeployment(chart: Chart) {
   new Service(chart, "sjer-red-service", {
     selector: deployment,
     ports: [{ port: 80 }],
+    metadata: {
+      annotations: {
+        "cloudflare-operator.io/content": "sjer-red-service",
+        "cloudflare-operator.io/tunnel": "homelab-tunnel",
+        "cloudflare-operator.io/hostname": "sjer.red",
+      },
+    },
   });
 }

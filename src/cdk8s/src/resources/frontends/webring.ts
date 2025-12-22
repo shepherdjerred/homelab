@@ -24,5 +24,12 @@ export function createWebringDocsDeployment(chart: Chart) {
   new Service(chart, "webring-docs-service", {
     selector: deployment,
     ports: [{ port: 80 }],
+    metadata: {
+      annotations: {
+        "cloudflare-operator.io/content": "webring-docs-service",
+        "cloudflare-operator.io/tunnel": "homelab-tunnel",
+        "cloudflare-operator.io/hostname": "webring.sjer.red",
+      },
+    },
   });
 }
