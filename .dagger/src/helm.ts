@@ -1,6 +1,5 @@
 import { dag, Directory, Secret, Container } from "@dagger.io/dagger";
 import { buildK8sManifests } from "./cdk8s";
-import { formatDaggerError } from "./errors";
 import versions from "./versions";
 
 /**
@@ -74,23 +73,27 @@ export async function publish(
   chartMuseumPassword: Secret,
 ): Promise<string> {
   const chartFile = `torvalds-${version}.tgz`;
+  // Use -w to append HTTP status code, write to file, then read it back
+  // This avoids calling .stdout() which triggers a Dagger SDK bug
   const container = getHelmContainer(source, repoRoot, version)
     .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
     .withSecretVariable("CHARTMUSEUM_PASSWORD", chartMuseumPassword)
     .withExec([
       "sh",
       "-c",
-      `curl -f -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts`,
+      `curl -s -w '\\n%{http_code}' -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts > /tmp/result.txt 2>&1`,
     ]);
 
-  try {
-    return await container.stdout();
-  } catch (err: unknown) {
-    // Check for 409 Conflict (chart already exists) - treat as success
-    const errorMessage = formatDaggerError(err);
-    if (errorMessage.includes("409")) {
-      return "409 Conflict: Chart already exists, treating as success.";
-    }
-    throw err;
+  const result = await container.file("/tmp/result.txt").contents();
+  const lines = result.trim().split("\n");
+  const httpCode = lines.pop() ?? "";
+  const body = lines.join("\n");
+
+  if (httpCode === "201" || httpCode === "200") {
+    return body || "Chart published successfully";
+  } else if (httpCode === "409") {
+    return "409 Conflict: Chart already exists, treating as success.";
+  } else {
+    throw new Error(`Helm Chart Publish failed with HTTP ${httpCode}: ${body}`);
   }
 }

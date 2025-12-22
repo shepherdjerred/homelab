@@ -850,7 +850,9 @@ export class Homelab {
     }
     try {
       const chartFile = `torvalds-${version}.tgz`;
-      const result = await dag
+      // Use -w to append HTTP status code, write to file, then read it back
+      // This avoids calling .stdout() which triggers a Dagger SDK bug
+      const container = dag
         .container()
         .from(`alpine/helm:${versions["alpine/helm"]}`)
         .withMountedDirectory("/workspace", builtDist)
@@ -860,20 +862,23 @@ export class Homelab {
         .withExec([
           "sh",
           "-c",
-          `curl -f -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts`,
-        ])
-        .stdout();
+          `curl -s -w '\\n%{http_code}' -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts > /tmp/result.txt 2>&1`,
+        ]);
 
-      return { status: "passed", message: result };
-    } catch (err: unknown) {
-      // Check for 409 Conflict (chart already exists) - treat as success
-      const errorMessage = formatDaggerError(err);
-      if (errorMessage.includes("409")) {
-        return {
-          status: "passed",
-          message: "409 Conflict: Chart already exists, treating as success.",
-        };
+      const result = await container.file("/tmp/result.txt").contents();
+      const lines = result.trim().split("\n");
+      const httpCode = lines.pop() ?? "";
+      const body = lines.join("\n");
+
+      if (httpCode === "201" || httpCode === "200") {
+        return { status: "passed", message: body || "Chart published successfully" };
+      } else if (httpCode === "409") {
+        return { status: "passed", message: "409 Conflict: Chart already exists, treating as success." };
+      } else {
+        return { status: "failed", message: `Helm Chart Publish: FAILED\nHTTP ${httpCode}: ${body}` };
       }
+    } catch (err: unknown) {
+      const errorMessage = formatDaggerError(err);
       return {
         status: "failed",
         message: `Helm Chart Publish: FAILED\n${errorMessage}`,
