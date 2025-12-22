@@ -79,10 +79,10 @@ jobs:
         env:
           GHCR_USERNAME: ${{ github.actor }}
           GHCR_PASSWORD: ${{ github.token }}
-          CHART_VERSION: ${{ github.run_number + 2246 }}
           CHARTMUSEUM_USERNAME: sjerred
           HASS_BASE_URL: https://homeassistant.tailnet-1a49.ts.net
         run: |
+          CHART_VERSION=$(( ${{ github.run_number }} + 2246 ))
           dagger call ci \
             --source=. \
             --argocd-token env://ARGOCD_TOKEN \
