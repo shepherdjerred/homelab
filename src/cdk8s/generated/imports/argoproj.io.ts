@@ -348,6 +348,13 @@ export interface ApplicationOperationRetry {
    * @schema ApplicationOperationRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * Refresh indicates if the latest revision should be used on retry instead of the initial one (default: false)
+   *
+   * @schema ApplicationOperationRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -363,6 +370,7 @@ export function toJson_ApplicationOperationRetry(
   const result = {
     backoff: toJson_ApplicationOperationRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -1810,14 +1818,16 @@ export function toJson_ApplicationSpecSourceHydratorHydrateTo(
 export interface ApplicationSpecSourceHydratorSyncSource {
   /**
    * Path is a directory path within the git repository where hydrated manifests should be committed to and synced
-   * from. If hydrateTo is set, this is just the path from which hydrated manifests will be synced.
+   * from. The Path should never point to the root of the repo. If hydrateTo is set, this is just the path from which
+   * hydrated manifests will be synced.
    *
    * @schema ApplicationSpecSourceHydratorSyncSource#path
    */
   readonly path: string;
 
   /**
-   * TargetBranch is the branch to which hydrated manifests should be committed
+   * TargetBranch is the branch from which hydrated manifests will be synced.
+   * If HydrateTo is not set, this is also the branch to which hydrated manifests are committed.
    *
    * @schema ApplicationSpecSourceHydratorSyncSource#targetBranch
    */
@@ -2382,6 +2392,13 @@ export interface ApplicationSpecSyncPolicyRetry {
    * @schema ApplicationSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * Refresh indicates if the latest revision should be used on retry instead of the initial one (default: false)
+   *
+   * @schema ApplicationSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -2397,6 +2414,7 @@ export function toJson_ApplicationSpecSyncPolicyRetry(
   const result = {
     backoff: toJson_ApplicationSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -5624,6 +5642,11 @@ export function toJson_ApplicationSetSpecPreservedFields(
  */
 export interface ApplicationSetSpecStrategy {
   /**
+   * @schema ApplicationSetSpecStrategy#deletionOrder
+   */
+  readonly deletionOrder?: string;
+
+  /**
    * @schema ApplicationSetSpecStrategy#rollingSync
    */
   readonly rollingSync?: ApplicationSetSpecStrategyRollingSync;
@@ -5645,6 +5668,7 @@ export function toJson_ApplicationSetSpecStrategy(
     return undefined;
   }
   const result = {
+    deletionOrder: obj.deletionOrder,
     rollingSync: toJson_ApplicationSetSpecStrategyRollingSync(obj.rollingSync),
     type: obj.type,
   };
@@ -6093,6 +6117,11 @@ export interface ApplicationSetSpecGeneratorsPullRequest {
   readonly bitbucketServer?: ApplicationSetSpecGeneratorsPullRequestBitbucketServer;
 
   /**
+   * @schema ApplicationSetSpecGeneratorsPullRequest#continueOnRepoNotFoundError
+   */
+  readonly continueOnRepoNotFoundError?: boolean;
+
+  /**
    * @schema ApplicationSetSpecGeneratorsPullRequest#filters
    */
   readonly filters?: ApplicationSetSpecGeneratorsPullRequestFilters[];
@@ -6142,6 +6171,7 @@ export function toJson_ApplicationSetSpecGeneratorsPullRequest(
     azuredevops: toJson_ApplicationSetSpecGeneratorsPullRequestAzuredevops(obj.azuredevops),
     bitbucket: toJson_ApplicationSetSpecGeneratorsPullRequestBitbucket(obj.bitbucket),
     bitbucketServer: toJson_ApplicationSetSpecGeneratorsPullRequestBitbucketServer(obj.bitbucketServer),
+    continueOnRepoNotFoundError: obj.continueOnRepoNotFoundError,
     filters: obj.filters?.map((y) => toJson_ApplicationSetSpecGeneratorsPullRequestFilters(y)),
     gitea: toJson_ApplicationSetSpecGeneratorsPullRequestGitea(obj.gitea),
     github: toJson_ApplicationSetSpecGeneratorsPullRequestGithub(obj.github),
@@ -7266,6 +7296,11 @@ export interface ApplicationSetSpecGeneratorsPullRequestFilters {
    * @schema ApplicationSetSpecGeneratorsPullRequestFilters#targetBranchMatch
    */
   readonly targetBranchMatch?: string;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsPullRequestFilters#titleMatch
+   */
+  readonly titleMatch?: string;
 }
 
 /**
@@ -7281,6 +7316,7 @@ export function toJson_ApplicationSetSpecGeneratorsPullRequestFilters(
   const result = {
     branchMatch: obj.branchMatch,
     targetBranchMatch: obj.targetBranchMatch,
+    titleMatch: obj.titleMatch,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -9367,6 +9403,11 @@ export interface ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequest {
   readonly bitbucketServer?: ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestBitbucketServer;
 
   /**
+   * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequest#continueOnRepoNotFoundError
+   */
+  readonly continueOnRepoNotFoundError?: boolean;
+
+  /**
    * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequest#filters
    */
   readonly filters?: ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestFilters[];
@@ -9416,6 +9457,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequest(
     azuredevops: toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestAzuredevops(obj.azuredevops),
     bitbucket: toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestBitbucket(obj.bitbucket),
     bitbucketServer: toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestBitbucketServer(obj.bitbucketServer),
+    continueOnRepoNotFoundError: obj.continueOnRepoNotFoundError,
     filters: obj.filters?.map((y) => toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestFilters(y)),
     gitea: toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestGitea(obj.gitea),
     github: toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestGithub(obj.github),
@@ -10004,6 +10046,11 @@ export interface ApplicationSetSpecGeneratorsMergeGeneratorsPullRequest {
   readonly bitbucketServer?: ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestBitbucketServer;
 
   /**
+   * @schema ApplicationSetSpecGeneratorsMergeGeneratorsPullRequest#continueOnRepoNotFoundError
+   */
+  readonly continueOnRepoNotFoundError?: boolean;
+
+  /**
    * @schema ApplicationSetSpecGeneratorsMergeGeneratorsPullRequest#filters
    */
   readonly filters?: ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestFilters[];
@@ -10053,6 +10100,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPullRequest(
     azuredevops: toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestAzuredevops(obj.azuredevops),
     bitbucket: toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestBitbucket(obj.bitbucket),
     bitbucketServer: toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestBitbucketServer(obj.bitbucketServer),
+    continueOnRepoNotFoundError: obj.continueOnRepoNotFoundError,
     filters: obj.filters?.map((y) => toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestFilters(y)),
     gitea: toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestGitea(obj.gitea),
     github: toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestGithub(obj.github),
@@ -12333,6 +12381,11 @@ export interface ApplicationSetSpecTemplateSpecSyncPolicyRetry {
    * @schema ApplicationSetSpecTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -12348,6 +12401,7 @@ export function toJson_ApplicationSetSpecTemplateSpecSyncPolicyRetry(
   const result = {
     backoff: toJson_ApplicationSetSpecTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -14485,6 +14539,11 @@ export interface ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestFilters 
    * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestFilters#targetBranchMatch
    */
   readonly targetBranchMatch?: string;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestFilters#titleMatch
+   */
+  readonly titleMatch?: string;
 }
 
 /**
@@ -14500,6 +14559,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestFi
   const result = {
     branchMatch: obj.branchMatch,
     targetBranchMatch: obj.targetBranchMatch,
+    titleMatch: obj.titleMatch,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -16196,6 +16256,11 @@ export interface ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestFilters {
    * @schema ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestFilters#targetBranchMatch
    */
   readonly targetBranchMatch?: string;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestFilters#titleMatch
+   */
+  readonly titleMatch?: string;
 }
 
 /**
@@ -16211,6 +16276,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestFil
   const result = {
     branchMatch: obj.branchMatch,
     targetBranchMatch: obj.targetBranchMatch,
+    titleMatch: obj.titleMatch,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -20208,6 +20274,11 @@ export interface ApplicationSetSpecGeneratorsClusterDecisionResourceTemplateSpec
    * @schema ApplicationSetSpecGeneratorsClusterDecisionResourceTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsClusterDecisionResourceTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -20223,6 +20294,7 @@ export function toJson_ApplicationSetSpecGeneratorsClusterDecisionResourceTempla
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsClusterDecisionResourceTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -21114,6 +21186,11 @@ export interface ApplicationSetSpecGeneratorsClustersTemplateSpecSyncPolicyRetry
    * @schema ApplicationSetSpecGeneratorsClustersTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsClustersTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -21129,6 +21206,7 @@ export function toJson_ApplicationSetSpecGeneratorsClustersTemplateSpecSyncPolic
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsClustersTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -22010,6 +22088,11 @@ export interface ApplicationSetSpecGeneratorsGitTemplateSpecSyncPolicyRetry {
    * @schema ApplicationSetSpecGeneratorsGitTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsGitTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -22025,6 +22108,7 @@ export function toJson_ApplicationSetSpecGeneratorsGitTemplateSpecSyncPolicyRetr
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsGitTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -22908,6 +22992,11 @@ export interface ApplicationSetSpecGeneratorsListTemplateSpecSyncPolicyRetry {
    * @schema ApplicationSetSpecGeneratorsListTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsListTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -22923,6 +23012,7 @@ export function toJson_ApplicationSetSpecGeneratorsListTemplateSpecSyncPolicyRet
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsListTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -25543,6 +25633,11 @@ export interface ApplicationSetSpecGeneratorsMatrixTemplateSpecSyncPolicyRetry {
    * @schema ApplicationSetSpecGeneratorsMatrixTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMatrixTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -25558,6 +25653,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixTemplateSpecSyncPolicyR
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsMatrixTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -28171,6 +28267,11 @@ export interface ApplicationSetSpecGeneratorsMergeTemplateSpecSyncPolicyRetry {
    * @schema ApplicationSetSpecGeneratorsMergeTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMergeTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -28186,6 +28287,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeTemplateSpecSyncPolicyRe
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsMergeTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -29075,6 +29177,11 @@ export interface ApplicationSetSpecGeneratorsPluginTemplateSpecSyncPolicyRetry {
    * @schema ApplicationSetSpecGeneratorsPluginTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsPluginTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -29090,6 +29197,7 @@ export function toJson_ApplicationSetSpecGeneratorsPluginTemplateSpecSyncPolicyR
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsPluginTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -29985,6 +30093,11 @@ export interface ApplicationSetSpecGeneratorsPullRequestTemplateSpecSyncPolicyRe
    * @schema ApplicationSetSpecGeneratorsPullRequestTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsPullRequestTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -30000,6 +30113,7 @@ export function toJson_ApplicationSetSpecGeneratorsPullRequestTemplateSpecSyncPo
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsPullRequestTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -30895,6 +31009,11 @@ export interface ApplicationSetSpecGeneratorsScmProviderTemplateSpecSyncPolicyRe
    * @schema ApplicationSetSpecGeneratorsScmProviderTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsScmProviderTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -30910,6 +31029,7 @@ export function toJson_ApplicationSetSpecGeneratorsScmProviderTemplateSpecSyncPo
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsScmProviderTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -44870,6 +44990,11 @@ export interface ApplicationSetSpecGeneratorsMatrixGeneratorsClusterDecisionReso
    * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsClusterDecisionResourceTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsClusterDecisionResourceTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -44888,6 +45013,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsClusterDecisi
         obj.backoff,
       ),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -45787,6 +45913,11 @@ export interface ApplicationSetSpecGeneratorsMatrixGeneratorsClustersTemplateSpe
    * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsClustersTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsClustersTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -45802,6 +45933,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsClustersTempl
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsClustersTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -46697,6 +46829,11 @@ export interface ApplicationSetSpecGeneratorsMatrixGeneratorsGitTemplateSpecSync
    * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsGitTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsGitTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -46712,6 +46849,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsGitTemplateSp
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsGitTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -47607,6 +47745,11 @@ export interface ApplicationSetSpecGeneratorsMatrixGeneratorsListTemplateSpecSyn
    * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsListTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsListTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -47622,6 +47765,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsListTemplateS
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsListTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -48517,6 +48661,11 @@ export interface ApplicationSetSpecGeneratorsMatrixGeneratorsPluginTemplateSpecS
    * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsPluginTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsPluginTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -48532,6 +48681,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPluginTemplat
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPluginTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -49437,6 +49587,11 @@ export interface ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestTemplate
    * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -49454,6 +49609,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsPullRequestTe
       obj.backoff,
     ),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -50359,6 +50515,11 @@ export interface ApplicationSetSpecGeneratorsMatrixGeneratorsScmProviderTemplate
    * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsScmProviderTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMatrixGeneratorsScmProviderTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -50376,6 +50537,7 @@ export function toJson_ApplicationSetSpecGeneratorsMatrixGeneratorsScmProviderTe
       obj.backoff,
     ),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -51603,6 +51765,11 @@ export interface ApplicationSetSpecGeneratorsMergeGeneratorsClusterDecisionResou
    * @schema ApplicationSetSpecGeneratorsMergeGeneratorsClusterDecisionResourceTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMergeGeneratorsClusterDecisionResourceTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -51621,6 +51788,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsClusterDecisio
         obj.backoff,
       ),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -52516,6 +52684,11 @@ export interface ApplicationSetSpecGeneratorsMergeGeneratorsClustersTemplateSpec
    * @schema ApplicationSetSpecGeneratorsMergeGeneratorsClustersTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMergeGeneratorsClustersTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -52531,6 +52704,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsClustersTempla
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsMergeGeneratorsClustersTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -53426,6 +53600,11 @@ export interface ApplicationSetSpecGeneratorsMergeGeneratorsGitTemplateSpecSyncP
    * @schema ApplicationSetSpecGeneratorsMergeGeneratorsGitTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMergeGeneratorsGitTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -53441,6 +53620,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsGitTemplateSpe
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsMergeGeneratorsGitTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -54336,6 +54516,11 @@ export interface ApplicationSetSpecGeneratorsMergeGeneratorsListTemplateSpecSync
    * @schema ApplicationSetSpecGeneratorsMergeGeneratorsListTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMergeGeneratorsListTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -54351,6 +54536,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsListTemplateSp
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsMergeGeneratorsListTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -55246,6 +55432,11 @@ export interface ApplicationSetSpecGeneratorsMergeGeneratorsPluginTemplateSpecSy
    * @schema ApplicationSetSpecGeneratorsMergeGeneratorsPluginTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMergeGeneratorsPluginTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -55261,6 +55452,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPluginTemplate
   const result = {
     backoff: toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPluginTemplateSpecSyncPolicyRetryBackoff(obj.backoff),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -56164,6 +56356,11 @@ export interface ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestTemplateS
    * @schema ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -56181,6 +56378,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsPullRequestTem
       obj.backoff,
     ),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -57084,6 +57282,11 @@ export interface ApplicationSetSpecGeneratorsMergeGeneratorsScmProviderTemplateS
    * @schema ApplicationSetSpecGeneratorsMergeGeneratorsScmProviderTemplateSpecSyncPolicyRetry#limit
    */
   readonly limit?: number;
+
+  /**
+   * @schema ApplicationSetSpecGeneratorsMergeGeneratorsScmProviderTemplateSpecSyncPolicyRetry#refresh
+   */
+  readonly refresh?: boolean;
 }
 
 /**
@@ -57101,6 +57304,7 @@ export function toJson_ApplicationSetSpecGeneratorsMergeGeneratorsScmProviderTem
       obj.backoff,
     ),
     limit: obj.limit,
+    refresh: obj.refresh,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});

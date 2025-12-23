@@ -179,13 +179,7 @@ export function toJson_NodeFeatureSpecFeatures(
       obj.attributes === undefined
         ? undefined
         : Object.entries(obj.attributes).reduce(
-            (r, i) =>
-              i[1] === undefined
-                ? r
-                : {
-                    ...r,
-                    [i[0]]: toJson_NodeFeatureSpecFeaturesAttributes(i[1]),
-                  },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: toJson_NodeFeatureSpecFeaturesAttributes(i[1]) }),
             {},
           ),
     flags:
@@ -199,13 +193,7 @@ export function toJson_NodeFeatureSpecFeatures(
       obj.instances === undefined
         ? undefined
         : Object.entries(obj.instances).reduce(
-            (r, i) =>
-              i[1] === undefined
-                ? r
-                : {
-                    ...r,
-                    [i[0]]: toJson_NodeFeatureSpecFeaturesInstances(i[1]),
-                  },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: toJson_NodeFeatureSpecFeaturesInstances(i[1]) }),
             {},
           ),
   };
@@ -497,6 +485,23 @@ export interface NodeFeatureGroupSpecFeatureGroupRules {
    * @schema NodeFeatureGroupSpecFeatureGroupRules#name
    */
   readonly name: string;
+
+  /**
+   * Vars is the variables to store if the rule matches. Variables can be
+   * referenced from other rules enabling more complex rule hierarchies.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRules#vars
+   */
+  readonly vars?: { [key: string]: string };
+
+  /**
+   * VarsTemplate specifies a template to expand for dynamically generating
+   * multiple variables. Data (after template expansion) must be keys with an
+   * optional value (<key>[=<value>]) separated by newlines.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRules#varsTemplate
+   */
+  readonly varsTemplate?: string;
 }
 
 /**
@@ -513,6 +518,11 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRules(
     matchAny: obj.matchAny?.map((y) => toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAny(y)),
     matchFeatures: obj.matchFeatures?.map((y) => toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures(y)),
     name: obj.name,
+    vars:
+      obj.vars === undefined
+        ? undefined
+        : Object.entries(obj.vars).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
+    varsTemplate: obj.varsTemplate,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -572,9 +582,7 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures {
    *
    * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures#matchExpressions
    */
-  readonly matchExpressions?: {
-    [key: string]: NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions;
-  };
+  readonly matchExpressions?: { [key: string]: NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions };
 
   /**
    * MatchName in an expression that is matched against the name of each
@@ -604,10 +612,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeatures(
             (r, i) =>
               i[1] === undefined
                 ? r
-                : {
-                    ...r,
-                    [i[0]]: toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions(i[1]),
-                  },
+                : { ...r, [i[0]]: toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions(i[1]) },
             {},
           ),
     matchName: toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName(obj.matchName),
@@ -699,6 +704,14 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressi
   readonly op: NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressionsOp;
 
   /**
+   * Type defines the value type for specific operators.
+   * The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressions#type
+   */
+  readonly type?: string;
+
+  /**
    * Value is the list of values that the operand evaluates the input
    * against. Value should be empty if the operator is Exists, DoesNotExist,
    * IsTrue or IsFalse. Value should contain exactly one element if the
@@ -722,6 +735,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchEx
   }
   const result = {
     op: obj.op,
+    type: obj.type,
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
@@ -742,6 +756,14 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName {
    * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName#op
    */
   readonly op: NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchNameOp;
+
+  /**
+   * Type defines the value type for specific operators.
+   * The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchName#type
+   */
+  readonly type?: string;
 
   /**
    * Value is the list of values that the operand evaluates the input
@@ -767,6 +789,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchNa
   }
   const result = {
     op: obj.op,
+    type: obj.type,
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
@@ -788,6 +811,14 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatch
    * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions#op
    */
   readonly op: NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressionsOp;
+
+  /**
+   * Type defines the value type for specific operators.
+   * The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpressions#type
+   */
+  readonly type?: string;
 
   /**
    * Value is the list of values that the operand evaluates the input
@@ -813,6 +844,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeature
   }
   const result = {
     op: obj.op,
+    type: obj.type,
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
@@ -833,6 +865,14 @@ export interface NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatch
    * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName#op
    */
   readonly op: NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchNameOp;
+
+  /**
+   * Type defines the value type for specific operators.
+   * The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
+   *
+   * @schema NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchName#type
+   */
+  readonly type?: string;
 
   /**
    * Value is the list of values that the operand evaluates the input
@@ -858,6 +898,7 @@ export function toJson_NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeature
   }
   const result = {
     op: obj.op,
+    type: obj.type,
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
@@ -883,10 +924,16 @@ export enum NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchExpressionsOp
   DOES_NOT_EXIST = "DoesNotExist",
   /** Gt */
   GT = "Gt",
+  /** Ge */
+  GE = "Ge",
   /** Lt */
   LT = "Lt",
+  /** Le */
+  LE = "Le",
   /** GtLt */
   GT_LT = "GtLt",
+  /** GeLe */
+  GE_LE = "GeLe",
   /** IsTrue */
   IS_TRUE = "IsTrue",
   /** IsFalse */
@@ -911,10 +958,16 @@ export enum NodeFeatureGroupSpecFeatureGroupRulesMatchFeaturesMatchNameOp {
   DOES_NOT_EXIST = "DoesNotExist",
   /** Gt */
   GT = "Gt",
+  /** Ge */
+  GE = "Ge",
   /** Lt */
   LT = "Lt",
+  /** Le */
+  LE = "Le",
   /** GtLt */
   GT_LT = "GtLt",
+  /** GeLe */
+  GE_LE = "GeLe",
   /** IsTrue */
   IS_TRUE = "IsTrue",
   /** IsFalse */
@@ -939,10 +992,16 @@ export enum NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchExpre
   DOES_NOT_EXIST = "DoesNotExist",
   /** Gt */
   GT = "Gt",
+  /** Ge */
+  GE = "Ge",
   /** Lt */
   LT = "Lt",
+  /** Le */
+  LE = "Le",
   /** GtLt */
   GT_LT = "GtLt",
+  /** GeLe */
+  GE_LE = "GeLe",
   /** IsTrue */
   IS_TRUE = "IsTrue",
   /** IsFalse */
@@ -967,10 +1026,16 @@ export enum NodeFeatureGroupSpecFeatureGroupRulesMatchAnyMatchFeaturesMatchNameO
   DOES_NOT_EXIST = "DoesNotExist",
   /** Gt */
   GT = "Gt",
+  /** Ge */
+  GE = "Ge",
   /** Lt */
   LT = "Lt",
+  /** Le */
+  LE = "Le",
   /** GtLt */
   GT_LT = "GtLt",
+  /** GeLe */
+  GE_LE = "GeLe",
   /** IsTrue */
   IS_TRUE = "IsTrue",
   /** IsFalse */
@@ -1275,9 +1340,7 @@ export interface NodeFeatureRuleSpecRulesMatchFeatures {
    *
    * @schema NodeFeatureRuleSpecRulesMatchFeatures#matchExpressions
    */
-  readonly matchExpressions?: {
-    [key: string]: NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions;
-  };
+  readonly matchExpressions?: { [key: string]: NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions };
 
   /**
    * MatchName in an expression that is matched against the name of each
@@ -1307,10 +1370,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeatures(
             (r, i) =>
               i[1] === undefined
                 ? r
-                : {
-                    ...r,
-                    [i[0]]: toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions(i[1]),
-                  },
+                : { ...r, [i[0]]: toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions(i[1]) },
             {},
           ),
     matchName: toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchName(obj.matchName),
@@ -1401,9 +1461,7 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeatures {
    *
    * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeatures#matchExpressions
    */
-  readonly matchExpressions?: {
-    [key: string]: NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions;
-  };
+  readonly matchExpressions?: { [key: string]: NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions };
 
   /**
    * MatchName in an expression that is matched against the name of each
@@ -1433,10 +1491,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeatures(
             (r, i) =>
               i[1] === undefined
                 ? r
-                : {
-                    ...r,
-                    [i[0]]: toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions(i[1]),
-                  },
+                : { ...r, [i[0]]: toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions(i[1]) },
             {},
           ),
     matchName: toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName(obj.matchName),
@@ -1462,6 +1517,14 @@ export interface NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions {
   readonly op: NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressionsOp;
 
   /**
+   * Type defines the value type for specific operators.
+   * The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
+   *
+   * @schema NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions#type
+   */
+  readonly type?: string;
+
+  /**
    * Value is the list of values that the operand evaluates the input
    * against. Value should be empty if the operator is Exists, DoesNotExist,
    * IsTrue or IsFalse. Value should contain exactly one element if the
@@ -1485,6 +1548,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressions(
   }
   const result = {
     op: obj.op,
+    type: obj.type,
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
@@ -1505,6 +1569,14 @@ export interface NodeFeatureRuleSpecRulesMatchFeaturesMatchName {
    * @schema NodeFeatureRuleSpecRulesMatchFeaturesMatchName#op
    */
   readonly op: NodeFeatureRuleSpecRulesMatchFeaturesMatchNameOp;
+
+  /**
+   * Type defines the value type for specific operators.
+   * The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
+   *
+   * @schema NodeFeatureRuleSpecRulesMatchFeaturesMatchName#type
+   */
+  readonly type?: string;
 
   /**
    * Value is the list of values that the operand evaluates the input
@@ -1530,6 +1602,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchFeaturesMatchName(
   }
   const result = {
     op: obj.op,
+    type: obj.type,
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
@@ -1551,6 +1624,14 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions {
    * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions#op
    */
   readonly op: NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressionsOp;
+
+  /**
+   * Type defines the value type for specific operators.
+   * The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
+   *
+   * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressions#type
+   */
+  readonly type?: string;
 
   /**
    * Value is the list of values that the operand evaluates the input
@@ -1576,6 +1657,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpress
   }
   const result = {
     op: obj.op,
+    type: obj.type,
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
@@ -1596,6 +1678,14 @@ export interface NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName {
    * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName#op
    */
   readonly op: NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchNameOp;
+
+  /**
+   * Type defines the value type for specific operators.
+   * The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
+   *
+   * @schema NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName#type
+   */
+  readonly type?: string;
 
   /**
    * Value is the list of values that the operand evaluates the input
@@ -1621,6 +1711,7 @@ export function toJson_NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchName(
   }
   const result = {
     op: obj.op,
+    type: obj.type,
     value: obj.value?.map((y) => y),
   };
   // filter undefined values
@@ -1646,10 +1737,16 @@ export enum NodeFeatureRuleSpecRulesMatchFeaturesMatchExpressionsOp {
   DOES_NOT_EXIST = "DoesNotExist",
   /** Gt */
   GT = "Gt",
+  /** Ge */
+  GE = "Ge",
   /** Lt */
   LT = "Lt",
+  /** Le */
+  LE = "Le",
   /** GtLt */
   GT_LT = "GtLt",
+  /** GeLe */
+  GE_LE = "GeLe",
   /** IsTrue */
   IS_TRUE = "IsTrue",
   /** IsFalse */
@@ -1674,10 +1771,16 @@ export enum NodeFeatureRuleSpecRulesMatchFeaturesMatchNameOp {
   DOES_NOT_EXIST = "DoesNotExist",
   /** Gt */
   GT = "Gt",
+  /** Ge */
+  GE = "Ge",
   /** Lt */
   LT = "Lt",
+  /** Le */
+  LE = "Le",
   /** GtLt */
   GT_LT = "GtLt",
+  /** GeLe */
+  GE_LE = "GeLe",
   /** IsTrue */
   IS_TRUE = "IsTrue",
   /** IsFalse */
@@ -1702,10 +1805,16 @@ export enum NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchExpressionsOp {
   DOES_NOT_EXIST = "DoesNotExist",
   /** Gt */
   GT = "Gt",
+  /** Ge */
+  GE = "Ge",
   /** Lt */
   LT = "Lt",
+  /** Le */
+  LE = "Le",
   /** GtLt */
   GT_LT = "GtLt",
+  /** GeLe */
+  GE_LE = "GeLe",
   /** IsTrue */
   IS_TRUE = "IsTrue",
   /** IsFalse */
@@ -1730,10 +1839,16 @@ export enum NodeFeatureRuleSpecRulesMatchAnyMatchFeaturesMatchNameOp {
   DOES_NOT_EXIST = "DoesNotExist",
   /** Gt */
   GT = "Gt",
+  /** Ge */
+  GE = "Ge",
   /** Lt */
   LT = "Lt",
+  /** Le */
+  LE = "Le",
   /** GtLt */
   GT_LT = "GtLt",
+  /** GeLe */
+  GE_LE = "GeLe",
   /** IsTrue */
   IS_TRUE = "IsTrue",
   /** IsFalse */

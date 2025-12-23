@@ -212,21 +212,25 @@ export function toJson_ChallengeSpec(obj: ChallengeSpec | undefined): Record<str
  */
 export interface ChallengeSpecIssuerRef {
   /**
-   * Group of the resource being referred to.
+   * Group of the issuer being referred to.
+   * Defaults to 'cert-manager.io'.
    *
+   * @default cert-manager.io'.
    * @schema ChallengeSpecIssuerRef#group
    */
   readonly group?: string;
 
   /**
-   * Kind of the resource being referred to.
+   * Kind of the issuer being referred to.
+   * Defaults to 'Issuer'.
    *
+   * @default Issuer'.
    * @schema ChallengeSpecIssuerRef#kind
    */
   readonly kind?: string;
 
   /**
-   * Name of the resource being referred to.
+   * Name of the issuer being referred to.
    *
    * @schema ChallengeSpecIssuerRef#name
    */
@@ -907,6 +911,13 @@ export interface ChallengeSpecSolverDns01Rfc2136 {
   readonly nameserver: string;
 
   /**
+   * Protocol to use for dynamic DNS update queries. Valid values are (case-sensitive) ``TCP`` and ``UDP``; ``UDP`` (default).
+   *
+   * @schema ChallengeSpecSolverDns01Rfc2136#protocol
+   */
+  readonly protocol?: ChallengeSpecSolverDns01Rfc2136Protocol;
+
+  /**
    * The TSIG Algorithm configured in the DNS supporting RFC2136. Used only
    * when ``tsigSecretSecretRef`` and ``tsigKeyName`` are defined.
    * Supported values are (case-insensitive): ``HMACMD5`` (default),
@@ -945,6 +956,7 @@ export function toJson_ChallengeSpecSolverDns01Rfc2136(
   }
   const result = {
     nameserver: obj.nameserver,
+    protocol: obj.protocol,
     tsigAlgorithm: obj.tsigAlgorithm,
     tsigKeyName: obj.tsigKeyName,
     tsigSecretSecretRef: toJson_ChallengeSpecSolverDns01Rfc2136TsigSecretSecretRef(obj.tsigSecretSecretRef),
@@ -1753,6 +1765,18 @@ export function toJson_ChallengeSpecSolverDns01DigitaloceanTokenSecretRef(
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
+ * Protocol to use for dynamic DNS update queries. Valid values are (case-sensitive) ``TCP`` and ``UDP``; ``UDP`` (default).
+ *
+ * @schema ChallengeSpecSolverDns01Rfc2136Protocol
+ */
+export enum ChallengeSpecSolverDns01Rfc2136Protocol {
+  /** TCP */
+  TCP = "TCP",
+  /** UDP */
+  UDP = "UDP",
+}
+
+/**
  * The name of the secret containing the TSIG value.
  * If ``tsigKeyName`` is defined, this field is required.
  *
@@ -2344,6 +2368,18 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpec {
   readonly priorityClassName?: string;
 
   /**
+   * If specified, the pod's resource requirements.
+   * These values override the global resource configuration flags.
+   * Note that when only specifying resource limits, ensure they are greater than or equal
+   * to the corresponding global resource requests configured via controller flags
+   * (--acme-http01-solver-resource-request-cpu, --acme-http01-solver-resource-request-memory).
+   * Kubernetes will reject pod creation if limits are lower than requests, causing challenge failures.
+   *
+   * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpec#resources
+   */
+  readonly resources?: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResources;
+
+  /**
    * If specified, the pod's security context
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpec#securityContext
@@ -2385,6 +2421,7 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpec(
         ? undefined
         : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     priorityClassName: obj.priorityClassName,
+    resources: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResources(obj.resources),
     securityContext: toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecSecurityContext(
       obj.securityContext,
     ),
@@ -2535,6 +2572,18 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpec {
   readonly priorityClassName?: string;
 
   /**
+   * If specified, the pod's resource requirements.
+   * These values override the global resource configuration flags.
+   * Note that when only specifying resource limits, ensure they are greater than or equal
+   * to the corresponding global resource requests configured via controller flags
+   * (--acme-http01-solver-resource-request-cpu, --acme-http01-solver-resource-request-memory).
+   * Kubernetes will reject pod creation if limits are lower than requests, causing challenge failures.
+   *
+   * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpec#resources
+   */
+  readonly resources?: ChallengeSpecSolverHttp01IngressPodTemplateSpecResources;
+
+  /**
    * If specified, the pod's security context
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpec#securityContext
@@ -2576,6 +2625,7 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpec(
         ? undefined
         : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     priorityClassName: obj.priorityClassName,
+    resources: toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecResources(obj.resources),
     securityContext: toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecSecurityContext(obj.securityContext),
     serviceAccountName: obj.serviceAccountName,
     tolerations: obj.tolerations?.map((y) => toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecTolerations(y)),
@@ -2711,6 +2761,61 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecI
   }
   const result = {
     name: obj.name,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * If specified, the pod's resource requirements.
+ * These values override the global resource configuration flags.
+ * Note that when only specifying resource limits, ensure they are greater than or equal
+ * to the corresponding global resource requests configured via controller flags
+ * (--acme-http01-solver-resource-request-cpu, --acme-http01-solver-resource-request-memory).
+ * Kubernetes will reject pod creation if limits are lower than requests, causing challenge failures.
+ *
+ * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResources
+ */
+export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResources {
+  /**
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   *
+   * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResources#limits
+   */
+  readonly limits?: { [key: string]: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesLimits };
+
+  /**
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to the global values configured via controller flags. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   *
+   * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResources#requests
+   */
+  readonly requests?: { [key: string]: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesRequests };
+}
+
+/**
+ * Converts an object of type 'ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResources' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResources(
+  obj: ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResources | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    limits:
+      obj.limits === undefined
+        ? undefined
+        : Object.entries(obj.limits).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
+    requests:
+      obj.requests === undefined
+        ? undefined
+        : Object.entries(obj.requests).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -3018,6 +3123,61 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecImagePullS
   }
   const result = {
     name: obj.name,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * If specified, the pod's resource requirements.
+ * These values override the global resource configuration flags.
+ * Note that when only specifying resource limits, ensure they are greater than or equal
+ * to the corresponding global resource requests configured via controller flags
+ * (--acme-http01-solver-resource-request-cpu, --acme-http01-solver-resource-request-memory).
+ * Kubernetes will reject pod creation if limits are lower than requests, causing challenge failures.
+ *
+ * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecResources
+ */
+export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecResources {
+  /**
+   * Limits describes the maximum amount of compute resources allowed.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   *
+   * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecResources#limits
+   */
+  readonly limits?: { [key: string]: ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesLimits };
+
+  /**
+   * Requests describes the minimum amount of compute resources required.
+   * If Requests is omitted for a container, it defaults to Limits if that is explicitly specified,
+   * otherwise to the global values configured via controller flags. Requests cannot exceed Limits.
+   * More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+   *
+   * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecResources#requests
+   */
+  readonly requests?: { [key: string]: ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesRequests };
+}
+
+/**
+ * Converts an object of type 'ChallengeSpecSolverHttp01IngressPodTemplateSpecResources' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecResources(
+  obj: ChallengeSpecSolverHttp01IngressPodTemplateSpecResources | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    limits:
+      obj.limits === undefined
+        ? undefined
+        : Object.entries(obj.limits).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
+    requests:
+      obj.requests === undefined
+        ? undefined
+        : Object.entries(obj.requests).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1]?.value }), {}),
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -3378,8 +3538,8 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
    * most preferred is the one with the greatest sum of weights, i.e.
    * for each node that meets all of the scheduling requirements (resource
    * request, requiredDuringScheduling anti-affinity expressions, etc.),
-   * compute a sum by iterating through the elements of this field and adding
-   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * compute a sum by iterating through the elements of this field and subtracting
+   * "weight" from the sum if the node has pods which matches the corresponding podAffinityTerm; the
    * node(s) with the highest sum are the most preferred.
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
@@ -3426,6 +3586,32 @@ export function toJson_ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecA
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesLimits
+ */
+export class ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesLimits {
+  public static fromNumber(value: number): ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesLimits {
+    return new ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesLimits(value);
+  }
+  public static fromString(value: string): ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesLimits {
+    return new ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesLimits(value);
+  }
+  private constructor(public readonly value: number | string) {}
+}
+
+/**
+ * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesRequests
+ */
+export class ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesRequests {
+  public static fromNumber(value: number): ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesRequests {
+    return new ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesRequests(value);
+  }
+  public static fromString(value: string): ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesRequests {
+    return new ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecResourcesRequests(value);
+  }
+  private constructor(public readonly value: number | string) {}
+}
 
 /**
  * The SELinux context to be applied to all containers.
@@ -3711,8 +3897,8 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
    * most preferred is the one with the greatest sum of weights, i.e.
    * for each node that meets all of the scheduling requirements (resource
    * request, requiredDuringScheduling anti-affinity expressions, etc.),
-   * compute a sum by iterating through the elements of this field and adding
-   * "weight" to the sum if the node has pods which matches the corresponding podAffinityTerm; the
+   * compute a sum by iterating through the elements of this field and subtracting
+   * "weight" from the sum if the node has pods which matches the corresponding podAffinityTerm; the
    * node(s) with the highest sum are the most preferred.
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinity#preferredDuringSchedulingIgnoredDuringExecution
@@ -3759,6 +3945,32 @@ export function toJson_ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPo
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesLimits
+ */
+export class ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesLimits {
+  public static fromNumber(value: number): ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesLimits {
+    return new ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesLimits(value);
+  }
+  public static fromString(value: string): ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesLimits {
+    return new ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesLimits(value);
+  }
+  private constructor(public readonly value: number | string) {}
+}
+
+/**
+ * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesRequests
+ */
+export class ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesRequests {
+  public static fromNumber(value: number): ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesRequests {
+    return new ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesRequests(value);
+  }
+  public static fromString(value: string): ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesRequests {
+    return new ChallengeSpecSolverHttp01IngressPodTemplateSpecResourcesRequests(value);
+  }
+  private constructor(public readonly value: number | string) {}
+}
 
 /**
  * The SELinux context to be applied to all containers.
@@ -4072,7 +4284,6 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
@@ -4087,7 +4298,6 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
@@ -4231,7 +4441,6 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
@@ -4246,7 +4455,6 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
@@ -4478,7 +4686,6 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
@@ -4493,7 +4700,6 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
@@ -4637,7 +4843,6 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#matchLabelKeys
    */
@@ -4652,7 +4857,6 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityRequiredDuringSchedulingIgnoredDuringExecution#mismatchLabelKeys
    */
@@ -4847,7 +5051,6 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
@@ -4862,7 +5065,6 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
@@ -5062,7 +5264,6 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
@@ -5077,7 +5278,6 @@ export interface ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinit
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01GatewayHttpRoutePodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
@@ -5379,7 +5579,6 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
@@ -5394,7 +5593,6 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffin
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
@@ -5594,7 +5792,6 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both matchLabelKeys and labelSelector.
    * Also, matchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#matchLabelKeys
    */
@@ -5609,7 +5806,6 @@ export interface ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiA
    * pod labels will be ignored. The default value is empty.
    * The same key is forbidden to exist in both mismatchLabelKeys and labelSelector.
    * Also, mismatchLabelKeys cannot be set when labelSelector isn't set.
-   * This is a beta field and requires enabling MatchLabelKeysInPodAffinity feature gate (enabled by default).
    *
    * @schema ChallengeSpecSolverHttp01IngressPodTemplateSpecAffinityPodAntiAffinityPreferredDuringSchedulingIgnoredDuringExecutionPodAffinityTerm#mismatchLabelKeys
    */
@@ -7731,21 +7927,25 @@ export function toJson_OrderSpec(obj: OrderSpec | undefined): Record<string, any
  */
 export interface OrderSpecIssuerRef {
   /**
-   * Group of the resource being referred to.
+   * Group of the issuer being referred to.
+   * Defaults to 'cert-manager.io'.
    *
+   * @default cert-manager.io'.
    * @schema OrderSpecIssuerRef#group
    */
   readonly group?: string;
 
   /**
-   * Kind of the resource being referred to.
+   * Kind of the issuer being referred to.
+   * Defaults to 'Issuer'.
    *
+   * @default Issuer'.
    * @schema OrderSpecIssuerRef#kind
    */
   readonly kind?: string;
 
   /**
-   * Name of the resource being referred to.
+   * Name of the issuer being referred to.
    *
    * @schema OrderSpecIssuerRef#name
    */

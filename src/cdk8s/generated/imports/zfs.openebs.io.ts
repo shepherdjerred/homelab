@@ -156,7 +156,10 @@ export function toJson_ZfsBackupSpec(obj: ZfsBackupSpec | undefined): Record<str
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * ZFSNode records information about all zfs pools available in a node. In general, the openebs node-agent creates the ZFSNode object & periodically synchronizing the zfs pools available in the node. ZFSNode has an owner reference pointing to the corresponding node object.
+ * ZFSNode records information about all zfs pools available
+in a node. In general, the openebs node-agent creates the ZFSNode
+object & periodically synchronizing the zfs pools available in the node.
+ZFSNode has an owner reference pointing to the corresponding node object.
  *
  * @schema ZFSNode
  */
@@ -210,7 +213,10 @@ export class ZfsNode extends ApiObject {
 }
 
 /**
- * ZFSNode records information about all zfs pools available in a node. In general, the openebs node-agent creates the ZFSNode object & periodically synchronizing the zfs pools available in the node. ZFSNode has an owner reference pointing to the corresponding node object.
+ * ZFSNode records information about all zfs pools available
+ * in a node. In general, the openebs node-agent creates the ZFSNode
+ * object & periodically synchronizing the zfs pools available in the node.
+ * ZFSNode has an owner reference pointing to the corresponding node object.
  *
  * @schema ZFSNode
  */
@@ -400,7 +406,13 @@ export interface ZfsRestoreProps {
   readonly spec: ZfsRestoreSpec;
 
   /**
-   * VolumeInfo defines ZFS volume parameters for all modes in which ZFS volumes can be created like - ZFS volume with filesystem, ZFS Volume exposed as zfs or ZFS volume exposed as raw block device. Some of the parameters can be only set during creation time (as specified in the details of the parameter), and a few are editable. In case of Cloned volumes, the parameters are assigned the same values as the source volume.
+   * VolumeInfo defines ZFS volume parameters for all modes in which
+   * ZFS volumes can be created like - ZFS volume with filesystem,
+   * ZFS Volume exposed as zfs or ZFS volume exposed as raw block device.
+   * Some of the parameters can be only set during creation time
+   * (as specified in the details of the parameter), and a few are editable.
+   * In case of Cloned volumes, the parameters are assigned the same values
+   * as the source volume.
    *
    * @schema ZFSRestore#volSpec
    */
@@ -472,7 +484,13 @@ export function toJson_ZfsRestoreSpec(obj: ZfsRestoreSpec | undefined): Record<s
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * VolumeInfo defines ZFS volume parameters for all modes in which ZFS volumes can be created like - ZFS volume with filesystem, ZFS Volume exposed as zfs or ZFS volume exposed as raw block device. Some of the parameters can be only set during creation time (as specified in the details of the parameter), and a few are editable. In case of Cloned volumes, the parameters are assigned the same values as the source volume.
+ * VolumeInfo defines ZFS volume parameters for all modes in which
+ * ZFS volumes can be created like - ZFS volume with filesystem,
+ * ZFS Volume exposed as zfs or ZFS volume exposed as raw block device.
+ * Some of the parameters can be only set during creation time
+ * (as specified in the details of the parameter), and a few are editable.
+ * In case of Cloned volumes, the parameters are assigned the same values
+ * as the source volume.
  *
  * @schema ZfsRestoreVolSpec
  */
@@ -485,35 +503,66 @@ export interface ZfsRestoreVolSpec {
   readonly capacity: string;
 
   /**
-   * Compression specifies the block-level compression algorithm to be applied to the ZFS Volume. The value "on" indicates ZFS to use the default compression algorithm. The default compression algorithm used by ZFS will be either lzjb or, if the lz4_compress feature is enabled, lz4. Compression property can be edited after the volume has been created. The change will only be applied to the newly-written data. For instance, if the Volume was created with "off" and the next day the compression was modified to "on", the data written prior to setting "on" will not be compressed. Default Value: off.
+   * Compression specifies the block-level compression algorithm to be applied to the ZFS Volume.
+   * The value "on" indicates ZFS to use the default compression algorithm. The default compression
+   * algorithm used by ZFS will be either lzjb or, if the lz4_compress feature is enabled, lz4.
+   * Compression property can be edited after the volume has been created. The change will only
+   * be applied to the newly-written data. For instance, if the Volume was created with "off" and
+   * the next day the compression was modified to "on", the data written prior to setting "on" will
+   * not be compressed.
+   * Default Value: off.
    *
    * @schema ZfsRestoreVolSpec#compression
    */
   readonly compression?: string;
 
   /**
-   * Deduplication is the process for removing redundant data at the block level, reducing the total amount of data stored. If a file system has the dedup property enabled, duplicate data blocks are removed synchronously. The result is that only unique data is stored and common components are shared among files. Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO. Before creating a pool with deduplication enabled, ensure that you have planned your hardware requirements appropriately and implemented appropriate recovery practices, such as regular backups. As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative. should be enabled on the zvol. Dedup property can be edited after the volume has been created. Default Value: off.
+   * Deduplication is the process for removing redundant data at the block level,
+   * reducing the total amount of data stored. If a file system has the dedup property
+   * enabled, duplicate data blocks are removed synchronously.
+   * The result is that only unique data is stored and common components are shared among files.
+   * Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO.
+   * Before creating a pool with deduplication enabled, ensure that you have planned your hardware
+   * requirements appropriately and implemented appropriate recovery practices, such as regular backups.
+   * As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative.
+   * should be enabled on the zvol.
+   * Dedup property can be edited after the volume has been created.
+   * Default Value: off.
    *
    * @schema ZfsRestoreVolSpec#dedup
    */
   readonly dedup?: ZfsRestoreVolSpecDedup;
 
   /**
-   * Enabling the encryption feature allows for the creation of encrypted filesystems and volumes. ZFS will encrypt file and zvol data, file attributes, ACLs, permission bits, directory listings, FUID mappings, and userused / groupused data. ZFS will not encrypt metadata related to the pool structure, including dataset and snapshot names, dataset hierarchy, properties, file size, file holes, and deduplication tables (though the deduplicated data itself is encrypted). Default Value: off.
+   * Enabling the encryption feature allows for the creation of
+   * encrypted filesystems and volumes. ZFS will encrypt file and zvol data,
+   * file attributes, ACLs, permission bits, directory listings, FUID mappings,
+   * and userused / groupused data. ZFS will not encrypt metadata related to the
+   * pool structure, including dataset and snapshot names, dataset hierarchy,
+   * properties, file size, file holes, and deduplication tables
+   * (though the deduplicated data itself is encrypted).
+   * Default Value: off.
    *
    * @schema ZfsRestoreVolSpec#encryption
    */
   readonly encryption?: string;
 
   /**
-   * FsType specifies filesystem type for the zfs volume/dataset. If FsType is provided as "zfs", then the driver will create a ZFS dataset, formatting is not required as underlying filesystem is ZFS anyway. If FsType is ext2, ext3, ext4 or xfs, then the driver will create a ZVOL and format the volume accordingly. FsType can not be modified once volume has been provisioned. Default Value: ext4.
+   * FsType specifies filesystem type for the zfs volume/dataset.
+   * If FsType is provided as "zfs", then the driver will create a
+   * ZFS dataset, formatting is not required as underlying filesystem is ZFS anyway.
+   * If FsType is ext2, ext3, ext4 or xfs, then the driver will create a ZVOL and
+   * format the volume accordingly.
+   * FsType can not be modified once volume has been provisioned.
+   * Default Value: ext4.
    *
    * @schema ZfsRestoreVolSpec#fsType
    */
   readonly fsType?: string;
 
   /**
-   * KeyFormat specifies format of the encryption key The supported KeyFormats are passphrase, raw, hex.
+   * KeyFormat specifies format of the encryption key
+   * The supported KeyFormats are passphrase, raw, hex.
    *
    * @schema ZfsRestoreVolSpec#keyformat
    */
@@ -527,63 +576,90 @@ export interface ZfsRestoreVolSpec {
   readonly keylocation?: string;
 
   /**
-   * OwnerNodeID is the Node ID where the ZPOOL is running which is where the volume has been provisioned. OwnerNodeID can not be edited after the volume has been provisioned.
+   * OwnerNodeID is the Node ID where the ZPOOL is running which is where
+   * the volume has been provisioned.
+   * OwnerNodeID can not be edited after the volume has been provisioned.
    *
    * @schema ZfsRestoreVolSpec#ownerNodeID
    */
   readonly ownerNodeId: string;
 
   /**
-   * poolName specifies the name of the pool where the volume has been created. PoolName can not be edited after the volume has been provisioned.
+   * poolName specifies the name of the pool where the volume has been created.
+   * PoolName can not be edited after the volume has been provisioned.
    *
    * @schema ZfsRestoreVolSpec#poolName
    */
   readonly poolName: string;
 
   /**
-   * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota". QuotaType can not be modified once volume has been provisioned. Default Value: quota.
+   * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota".
+   * QuotaType can not be modified once volume has been provisioned.
+   * Default Value: quota.
    *
    * @schema ZfsRestoreVolSpec#quotaType
    */
   readonly quotaType?: ZfsRestoreVolSpecQuotaType;
 
   /**
-   * Specifies a suggested block size for files in the file system. The size specified must be a power of two greater than or equal to 512 and less than or equal to 128 Kbytes. RecordSize property can be edited after the volume has been created. Changing the file system's recordsize affects only files created afterward; existing files are unaffected. Default Value: 128k.
+   * Specifies a suggested block size for files in the file system.
+   * The size specified must be a power of two greater than or equal to 512 and less than or equal to 128 Kbytes.
+   * RecordSize property can be edited after the volume has been created.
+   * Changing the file system's recordsize affects only files created afterward; existing files are unaffected.
+   * Default Value: 128k.
    *
    * @schema ZfsRestoreVolSpec#recordsize
    */
   readonly recordsize?: string;
 
   /**
-   * Shared specifies whether the volume can be shared among multiple pods. If it is not set to "yes", then the ZFS-LocalPV Driver will not allow the volumes to be mounted by more than one pods.
+   * Shared specifies whether the volume can be shared among multiple pods.
+   * If it is not set to "yes", then the ZFS-LocalPV Driver will not allow
+   * the volumes to be mounted by more than one pods.
    *
    * @schema ZfsRestoreVolSpec#shared
    */
   readonly shared?: ZfsRestoreVolSpecShared;
 
   /**
-   * SnapName specifies the name of the snapshot where the volume has been cloned from. Snapname can not be edited after the volume has been provisioned.
+   * SnapName specifies the name of the snapshot where the volume has been cloned from.
+   * Snapname can not be edited after the volume has been provisioned.
    *
    * @schema ZfsRestoreVolSpec#snapname
    */
   readonly snapname?: string;
 
   /**
-   * ThinProvision describes whether space reservation for the source volume is required or not. The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume. If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not have the enough capacity. If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough capacity and capacity required by volume can be reserved. ThinProvision can not be modified once volume has been provisioned. Default Value: no.
+   * ThinProvision describes whether space reservation for the source volume is required or not.
+   * The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume.
+   * If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not
+   * have the enough capacity.
+   * If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough
+   * capacity and capacity required by volume can be reserved.
+   * ThinProvision can not be modified once volume has been provisioned.
+   * Default Value: no.
    *
    * @schema ZfsRestoreVolSpec#thinProvision
    */
   readonly thinProvision?: ZfsRestoreVolSpecThinProvision;
 
   /**
-   * VolBlockSize specifies the block size for the zvol. The volsize can only be set to a multiple of volblocksize, and cannot be zero. VolBlockSize can not be edited after the volume has been provisioned. Default Value: 8k.
+   * VolBlockSize specifies the block size for the zvol.
+   * The volsize can only be set to a multiple of volblocksize, and cannot be zero.
+   * VolBlockSize can not be edited after the volume has been provisioned.
+   * Default Value: 8k.
    *
    * @schema ZfsRestoreVolSpec#volblocksize
    */
   readonly volblocksize?: string;
 
   /**
-   * volumeType determines whether the volume is of type "DATASET" or "ZVOL". If fstype provided in the storageclass is "zfs", a volume of type dataset will be created. If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype in the storageclass, then a volume of type zvol will be created, which will be further formatted as the fstype provided in the storageclass. VolumeType can not be modified once volume has been provisioned.
+   * volumeType determines whether the volume is of type "DATASET" or "ZVOL".
+   * If fstype provided in the storageclass is "zfs", a volume of type dataset will be created.
+   * If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype
+   * in the storageclass, then a volume of type zvol will be created, which will be
+   * further formatted as the fstype provided in the storageclass.
+   * VolumeType can not be modified once volume has been provisioned.
    *
    * @schema ZfsRestoreVolSpec#volumeType
    */
@@ -622,7 +698,17 @@ export function toJson_ZfsRestoreVolSpec(obj: ZfsRestoreVolSpec | undefined): Re
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * Deduplication is the process for removing redundant data at the block level, reducing the total amount of data stored. If a file system has the dedup property enabled, duplicate data blocks are removed synchronously. The result is that only unique data is stored and common components are shared among files. Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO. Before creating a pool with deduplication enabled, ensure that you have planned your hardware requirements appropriately and implemented appropriate recovery practices, such as regular backups. As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative. should be enabled on the zvol. Dedup property can be edited after the volume has been created. Default Value: off.
+ * Deduplication is the process for removing redundant data at the block level,
+ * reducing the total amount of data stored. If a file system has the dedup property
+ * enabled, duplicate data blocks are removed synchronously.
+ * The result is that only unique data is stored and common components are shared among files.
+ * Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO.
+ * Before creating a pool with deduplication enabled, ensure that you have planned your hardware
+ * requirements appropriately and implemented appropriate recovery practices, such as regular backups.
+ * As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative.
+ * should be enabled on the zvol.
+ * Dedup property can be edited after the volume has been created.
+ * Default Value: off.
  *
  * @schema ZfsRestoreVolSpecDedup
  */
@@ -634,7 +720,8 @@ export enum ZfsRestoreVolSpecDedup {
 }
 
 /**
- * KeyFormat specifies format of the encryption key The supported KeyFormats are passphrase, raw, hex.
+ * KeyFormat specifies format of the encryption key
+ * The supported KeyFormats are passphrase, raw, hex.
  *
  * @schema ZfsRestoreVolSpecKeyformat
  */
@@ -648,7 +735,9 @@ export enum ZfsRestoreVolSpecKeyformat {
 }
 
 /**
- * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota". QuotaType can not be modified once volume has been provisioned. Default Value: quota.
+ * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota".
+ * QuotaType can not be modified once volume has been provisioned.
+ * Default Value: quota.
  *
  * @schema ZfsRestoreVolSpecQuotaType
  */
@@ -660,7 +749,9 @@ export enum ZfsRestoreVolSpecQuotaType {
 }
 
 /**
- * Shared specifies whether the volume can be shared among multiple pods. If it is not set to "yes", then the ZFS-LocalPV Driver will not allow the volumes to be mounted by more than one pods.
+ * Shared specifies whether the volume can be shared among multiple pods.
+ * If it is not set to "yes", then the ZFS-LocalPV Driver will not allow
+ * the volumes to be mounted by more than one pods.
  *
  * @schema ZfsRestoreVolSpecShared
  */
@@ -672,7 +763,14 @@ export enum ZfsRestoreVolSpecShared {
 }
 
 /**
- * ThinProvision describes whether space reservation for the source volume is required or not. The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume. If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not have the enough capacity. If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough capacity and capacity required by volume can be reserved. ThinProvision can not be modified once volume has been provisioned. Default Value: no.
+ * ThinProvision describes whether space reservation for the source volume is required or not.
+ * The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume.
+ * If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not
+ * have the enough capacity.
+ * If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough
+ * capacity and capacity required by volume can be reserved.
+ * ThinProvision can not be modified once volume has been provisioned.
+ * Default Value: no.
  *
  * @schema ZfsRestoreVolSpecThinProvision
  */
@@ -684,7 +782,12 @@ export enum ZfsRestoreVolSpecThinProvision {
 }
 
 /**
- * volumeType determines whether the volume is of type "DATASET" or "ZVOL". If fstype provided in the storageclass is "zfs", a volume of type dataset will be created. If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype in the storageclass, then a volume of type zvol will be created, which will be further formatted as the fstype provided in the storageclass. VolumeType can not be modified once volume has been provisioned.
+ * volumeType determines whether the volume is of type "DATASET" or "ZVOL".
+ * If fstype provided in the storageclass is "zfs", a volume of type dataset will be created.
+ * If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype
+ * in the storageclass, then a volume of type zvol will be created, which will be
+ * further formatted as the fstype provided in the storageclass.
+ * VolumeType can not be modified once volume has been provisioned.
  *
  * @schema ZfsRestoreVolSpecVolumeType
  */
@@ -761,7 +864,13 @@ export interface ZfsSnapshotProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * VolumeInfo defines ZFS volume parameters for all modes in which ZFS volumes can be created like - ZFS volume with filesystem, ZFS Volume exposed as zfs or ZFS volume exposed as raw block device. Some of the parameters can be only set during creation time (as specified in the details of the parameter), and a few are editable. In case of Cloned volumes, the parameters are assigned the same values as the source volume.
+   * VolumeInfo defines ZFS volume parameters for all modes in which
+   * ZFS volumes can be created like - ZFS volume with filesystem,
+   * ZFS Volume exposed as zfs or ZFS volume exposed as raw block device.
+   * Some of the parameters can be only set during creation time
+   * (as specified in the details of the parameter), and a few are editable.
+   * In case of Cloned volumes, the parameters are assigned the same values
+   * as the source volume.
    *
    * @schema ZFSSnapshot#spec
    */
@@ -786,7 +895,13 @@ export function toJson_ZfsSnapshotProps(obj: ZfsSnapshotProps | undefined): Reco
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * VolumeInfo defines ZFS volume parameters for all modes in which ZFS volumes can be created like - ZFS volume with filesystem, ZFS Volume exposed as zfs or ZFS volume exposed as raw block device. Some of the parameters can be only set during creation time (as specified in the details of the parameter), and a few are editable. In case of Cloned volumes, the parameters are assigned the same values as the source volume.
+ * VolumeInfo defines ZFS volume parameters for all modes in which
+ * ZFS volumes can be created like - ZFS volume with filesystem,
+ * ZFS Volume exposed as zfs or ZFS volume exposed as raw block device.
+ * Some of the parameters can be only set during creation time
+ * (as specified in the details of the parameter), and a few are editable.
+ * In case of Cloned volumes, the parameters are assigned the same values
+ * as the source volume.
  *
  * @schema ZfsSnapshotSpec
  */
@@ -799,35 +914,66 @@ export interface ZfsSnapshotSpec {
   readonly capacity: string;
 
   /**
-   * Compression specifies the block-level compression algorithm to be applied to the ZFS Volume. The value "on" indicates ZFS to use the default compression algorithm. The default compression algorithm used by ZFS will be either lzjb or, if the lz4_compress feature is enabled, lz4. Compression property can be edited after the volume has been created. The change will only be applied to the newly-written data. For instance, if the Volume was created with "off" and the next day the compression was modified to "on", the data written prior to setting "on" will not be compressed. Default Value: off.
+   * Compression specifies the block-level compression algorithm to be applied to the ZFS Volume.
+   * The value "on" indicates ZFS to use the default compression algorithm. The default compression
+   * algorithm used by ZFS will be either lzjb or, if the lz4_compress feature is enabled, lz4.
+   * Compression property can be edited after the volume has been created. The change will only
+   * be applied to the newly-written data. For instance, if the Volume was created with "off" and
+   * the next day the compression was modified to "on", the data written prior to setting "on" will
+   * not be compressed.
+   * Default Value: off.
    *
    * @schema ZfsSnapshotSpec#compression
    */
   readonly compression?: string;
 
   /**
-   * Deduplication is the process for removing redundant data at the block level, reducing the total amount of data stored. If a file system has the dedup property enabled, duplicate data blocks are removed synchronously. The result is that only unique data is stored and common components are shared among files. Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO. Before creating a pool with deduplication enabled, ensure that you have planned your hardware requirements appropriately and implemented appropriate recovery practices, such as regular backups. As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative. should be enabled on the zvol. Dedup property can be edited after the volume has been created. Default Value: off.
+   * Deduplication is the process for removing redundant data at the block level,
+   * reducing the total amount of data stored. If a file system has the dedup property
+   * enabled, duplicate data blocks are removed synchronously.
+   * The result is that only unique data is stored and common components are shared among files.
+   * Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO.
+   * Before creating a pool with deduplication enabled, ensure that you have planned your hardware
+   * requirements appropriately and implemented appropriate recovery practices, such as regular backups.
+   * As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative.
+   * should be enabled on the zvol.
+   * Dedup property can be edited after the volume has been created.
+   * Default Value: off.
    *
    * @schema ZfsSnapshotSpec#dedup
    */
   readonly dedup?: ZfsSnapshotSpecDedup;
 
   /**
-   * Enabling the encryption feature allows for the creation of encrypted filesystems and volumes. ZFS will encrypt file and zvol data, file attributes, ACLs, permission bits, directory listings, FUID mappings, and userused / groupused data. ZFS will not encrypt metadata related to the pool structure, including dataset and snapshot names, dataset hierarchy, properties, file size, file holes, and deduplication tables (though the deduplicated data itself is encrypted). Default Value: off.
+   * Enabling the encryption feature allows for the creation of
+   * encrypted filesystems and volumes. ZFS will encrypt file and zvol data,
+   * file attributes, ACLs, permission bits, directory listings, FUID mappings,
+   * and userused / groupused data. ZFS will not encrypt metadata related to the
+   * pool structure, including dataset and snapshot names, dataset hierarchy,
+   * properties, file size, file holes, and deduplication tables
+   * (though the deduplicated data itself is encrypted).
+   * Default Value: off.
    *
    * @schema ZfsSnapshotSpec#encryption
    */
   readonly encryption?: string;
 
   /**
-   * FsType specifies filesystem type for the zfs volume/dataset. If FsType is provided as "zfs", then the driver will create a ZFS dataset, formatting is not required as underlying filesystem is ZFS anyway. If FsType is ext2, ext3, ext4 or xfs, then the driver will create a ZVOL and format the volume accordingly. FsType can not be modified once volume has been provisioned. Default Value: ext4.
+   * FsType specifies filesystem type for the zfs volume/dataset.
+   * If FsType is provided as "zfs", then the driver will create a
+   * ZFS dataset, formatting is not required as underlying filesystem is ZFS anyway.
+   * If FsType is ext2, ext3, ext4 or xfs, then the driver will create a ZVOL and
+   * format the volume accordingly.
+   * FsType can not be modified once volume has been provisioned.
+   * Default Value: ext4.
    *
    * @schema ZfsSnapshotSpec#fsType
    */
   readonly fsType?: string;
 
   /**
-   * KeyFormat specifies format of the encryption key The supported KeyFormats are passphrase, raw, hex.
+   * KeyFormat specifies format of the encryption key
+   * The supported KeyFormats are passphrase, raw, hex.
    *
    * @schema ZfsSnapshotSpec#keyformat
    */
@@ -841,63 +987,90 @@ export interface ZfsSnapshotSpec {
   readonly keylocation?: string;
 
   /**
-   * OwnerNodeID is the Node ID where the ZPOOL is running which is where the volume has been provisioned. OwnerNodeID can not be edited after the volume has been provisioned.
+   * OwnerNodeID is the Node ID where the ZPOOL is running which is where
+   * the volume has been provisioned.
+   * OwnerNodeID can not be edited after the volume has been provisioned.
    *
    * @schema ZfsSnapshotSpec#ownerNodeID
    */
   readonly ownerNodeId: string;
 
   /**
-   * poolName specifies the name of the pool where the volume has been created. PoolName can not be edited after the volume has been provisioned.
+   * poolName specifies the name of the pool where the volume has been created.
+   * PoolName can not be edited after the volume has been provisioned.
    *
    * @schema ZfsSnapshotSpec#poolName
    */
   readonly poolName: string;
 
   /**
-   * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota". QuotaType can not be modified once volume has been provisioned. Default Value: quota.
+   * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota".
+   * QuotaType can not be modified once volume has been provisioned.
+   * Default Value: quota.
    *
    * @schema ZfsSnapshotSpec#quotaType
    */
   readonly quotaType?: ZfsSnapshotSpecQuotaType;
 
   /**
-   * Specifies a suggested block size for files in the file system. The size specified must be a power of two greater than or equal to 512 and less than or equal to 128 Kbytes. RecordSize property can be edited after the volume has been created. Changing the file system's recordsize affects only files created afterward; existing files are unaffected. Default Value: 128k.
+   * Specifies a suggested block size for files in the file system.
+   * The size specified must be a power of two greater than or equal to 512 and less than or equal to 128 Kbytes.
+   * RecordSize property can be edited after the volume has been created.
+   * Changing the file system's recordsize affects only files created afterward; existing files are unaffected.
+   * Default Value: 128k.
    *
    * @schema ZfsSnapshotSpec#recordsize
    */
   readonly recordsize?: string;
 
   /**
-   * Shared specifies whether the volume can be shared among multiple pods. If it is not set to "yes", then the ZFS-LocalPV Driver will not allow the volumes to be mounted by more than one pods.
+   * Shared specifies whether the volume can be shared among multiple pods.
+   * If it is not set to "yes", then the ZFS-LocalPV Driver will not allow
+   * the volumes to be mounted by more than one pods.
    *
    * @schema ZfsSnapshotSpec#shared
    */
   readonly shared?: ZfsSnapshotSpecShared;
 
   /**
-   * SnapName specifies the name of the snapshot where the volume has been cloned from. Snapname can not be edited after the volume has been provisioned.
+   * SnapName specifies the name of the snapshot where the volume has been cloned from.
+   * Snapname can not be edited after the volume has been provisioned.
    *
    * @schema ZfsSnapshotSpec#snapname
    */
   readonly snapname?: string;
 
   /**
-   * ThinProvision describes whether space reservation for the source volume is required or not. The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume. If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not have the enough capacity. If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough capacity and capacity required by volume can be reserved. ThinProvision can not be modified once volume has been provisioned. Default Value: no.
+   * ThinProvision describes whether space reservation for the source volume is required or not.
+   * The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume.
+   * If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not
+   * have the enough capacity.
+   * If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough
+   * capacity and capacity required by volume can be reserved.
+   * ThinProvision can not be modified once volume has been provisioned.
+   * Default Value: no.
    *
    * @schema ZfsSnapshotSpec#thinProvision
    */
   readonly thinProvision?: ZfsSnapshotSpecThinProvision;
 
   /**
-   * VolBlockSize specifies the block size for the zvol. The volsize can only be set to a multiple of volblocksize, and cannot be zero. VolBlockSize can not be edited after the volume has been provisioned. Default Value: 8k.
+   * VolBlockSize specifies the block size for the zvol.
+   * The volsize can only be set to a multiple of volblocksize, and cannot be zero.
+   * VolBlockSize can not be edited after the volume has been provisioned.
+   * Default Value: 8k.
    *
    * @schema ZfsSnapshotSpec#volblocksize
    */
   readonly volblocksize?: string;
 
   /**
-   * volumeType determines whether the volume is of type "DATASET" or "ZVOL". If fstype provided in the storageclass is "zfs", a volume of type dataset will be created. If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype in the storageclass, then a volume of type zvol will be created, which will be further formatted as the fstype provided in the storageclass. VolumeType can not be modified once volume has been provisioned.
+   * volumeType determines whether the volume is of type "DATASET" or "ZVOL".
+   * If fstype provided in the storageclass is "zfs", a volume of type dataset will be created.
+   * If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype
+   * in the storageclass, then a volume of type zvol will be created, which will be
+   * further formatted as the fstype provided in the storageclass.
+   * VolumeType can not be modified once volume has been provisioned.
    *
    * @schema ZfsSnapshotSpec#volumeType
    */
@@ -936,7 +1109,17 @@ export function toJson_ZfsSnapshotSpec(obj: ZfsSnapshotSpec | undefined): Record
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * Deduplication is the process for removing redundant data at the block level, reducing the total amount of data stored. If a file system has the dedup property enabled, duplicate data blocks are removed synchronously. The result is that only unique data is stored and common components are shared among files. Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO. Before creating a pool with deduplication enabled, ensure that you have planned your hardware requirements appropriately and implemented appropriate recovery practices, such as regular backups. As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative. should be enabled on the zvol. Dedup property can be edited after the volume has been created. Default Value: off.
+ * Deduplication is the process for removing redundant data at the block level,
+ * reducing the total amount of data stored. If a file system has the dedup property
+ * enabled, duplicate data blocks are removed synchronously.
+ * The result is that only unique data is stored and common components are shared among files.
+ * Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO.
+ * Before creating a pool with deduplication enabled, ensure that you have planned your hardware
+ * requirements appropriately and implemented appropriate recovery practices, such as regular backups.
+ * As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative.
+ * should be enabled on the zvol.
+ * Dedup property can be edited after the volume has been created.
+ * Default Value: off.
  *
  * @schema ZfsSnapshotSpecDedup
  */
@@ -948,7 +1131,8 @@ export enum ZfsSnapshotSpecDedup {
 }
 
 /**
- * KeyFormat specifies format of the encryption key The supported KeyFormats are passphrase, raw, hex.
+ * KeyFormat specifies format of the encryption key
+ * The supported KeyFormats are passphrase, raw, hex.
  *
  * @schema ZfsSnapshotSpecKeyformat
  */
@@ -962,7 +1146,9 @@ export enum ZfsSnapshotSpecKeyformat {
 }
 
 /**
- * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota". QuotaType can not be modified once volume has been provisioned. Default Value: quota.
+ * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota".
+ * QuotaType can not be modified once volume has been provisioned.
+ * Default Value: quota.
  *
  * @schema ZfsSnapshotSpecQuotaType
  */
@@ -974,7 +1160,9 @@ export enum ZfsSnapshotSpecQuotaType {
 }
 
 /**
- * Shared specifies whether the volume can be shared among multiple pods. If it is not set to "yes", then the ZFS-LocalPV Driver will not allow the volumes to be mounted by more than one pods.
+ * Shared specifies whether the volume can be shared among multiple pods.
+ * If it is not set to "yes", then the ZFS-LocalPV Driver will not allow
+ * the volumes to be mounted by more than one pods.
  *
  * @schema ZfsSnapshotSpecShared
  */
@@ -986,7 +1174,14 @@ export enum ZfsSnapshotSpecShared {
 }
 
 /**
- * ThinProvision describes whether space reservation for the source volume is required or not. The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume. If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not have the enough capacity. If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough capacity and capacity required by volume can be reserved. ThinProvision can not be modified once volume has been provisioned. Default Value: no.
+ * ThinProvision describes whether space reservation for the source volume is required or not.
+ * The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume.
+ * If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not
+ * have the enough capacity.
+ * If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough
+ * capacity and capacity required by volume can be reserved.
+ * ThinProvision can not be modified once volume has been provisioned.
+ * Default Value: no.
  *
  * @schema ZfsSnapshotSpecThinProvision
  */
@@ -998,7 +1193,12 @@ export enum ZfsSnapshotSpecThinProvision {
 }
 
 /**
- * volumeType determines whether the volume is of type "DATASET" or "ZVOL". If fstype provided in the storageclass is "zfs", a volume of type dataset will be created. If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype in the storageclass, then a volume of type zvol will be created, which will be further formatted as the fstype provided in the storageclass. VolumeType can not be modified once volume has been provisioned.
+ * volumeType determines whether the volume is of type "DATASET" or "ZVOL".
+ * If fstype provided in the storageclass is "zfs", a volume of type dataset will be created.
+ * If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype
+ * in the storageclass, then a volume of type zvol will be created, which will be
+ * further formatted as the fstype provided in the storageclass.
+ * VolumeType can not be modified once volume has been provisioned.
  *
  * @schema ZfsSnapshotSpecVolumeType
  */
@@ -1075,7 +1275,13 @@ export interface ZfsSnapshotV1Alpha1Props {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * VolumeInfo defines ZFS volume parameters for all modes in which ZFS volumes can be created like - ZFS volume with filesystem, ZFS Volume exposed as zfs or ZFS volume exposed as raw block device. Some of the parameters can be only set during creation time (as specified in the details of the parameter), and a few are editable. In case of Cloned volumes, the parameters are assigned the same values as the source volume.
+   * VolumeInfo defines ZFS volume parameters for all modes in which
+   * ZFS volumes can be created like - ZFS volume with filesystem,
+   * ZFS Volume exposed as zfs or ZFS volume exposed as raw block device.
+   * Some of the parameters can be only set during creation time
+   * (as specified in the details of the parameter), and a few are editable.
+   * In case of Cloned volumes, the parameters are assigned the same values
+   * as the source volume.
    *
    * @schema ZFSSnapshotV1Alpha1#spec
    */
@@ -1102,7 +1308,13 @@ export function toJson_ZfsSnapshotV1Alpha1Props(
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * VolumeInfo defines ZFS volume parameters for all modes in which ZFS volumes can be created like - ZFS volume with filesystem, ZFS Volume exposed as zfs or ZFS volume exposed as raw block device. Some of the parameters can be only set during creation time (as specified in the details of the parameter), and a few are editable. In case of Cloned volumes, the parameters are assigned the same values as the source volume.
+ * VolumeInfo defines ZFS volume parameters for all modes in which
+ * ZFS volumes can be created like - ZFS volume with filesystem,
+ * ZFS Volume exposed as zfs or ZFS volume exposed as raw block device.
+ * Some of the parameters can be only set during creation time
+ * (as specified in the details of the parameter), and a few are editable.
+ * In case of Cloned volumes, the parameters are assigned the same values
+ * as the source volume.
  *
  * @schema ZfsSnapshotV1Alpha1Spec
  */
@@ -1115,35 +1327,66 @@ export interface ZfsSnapshotV1Alpha1Spec {
   readonly capacity: string;
 
   /**
-   * Compression specifies the block-level compression algorithm to be applied to the ZFS Volume. The value "on" indicates ZFS to use the default compression algorithm. The default compression algorithm used by ZFS will be either lzjb or, if the lz4_compress feature is enabled, lz4. Compression property can be edited after the volume has been created. The change will only be applied to the newly-written data. For instance, if the Volume was created with "off" and the next day the compression was modified to "on", the data written prior to setting "on" will not be compressed. Default Value: off.
+   * Compression specifies the block-level compression algorithm to be applied to the ZFS Volume.
+   * The value "on" indicates ZFS to use the default compression algorithm. The default compression
+   * algorithm used by ZFS will be either lzjb or, if the lz4_compress feature is enabled, lz4.
+   * Compression property can be edited after the volume has been created. The change will only
+   * be applied to the newly-written data. For instance, if the Volume was created with "off" and
+   * the next day the compression was modified to "on", the data written prior to setting "on" will
+   * not be compressed.
+   * Default Value: off.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#compression
    */
   readonly compression?: string;
 
   /**
-   * Deduplication is the process for removing redundant data at the block level, reducing the total amount of data stored. If a file system has the dedup property enabled, duplicate data blocks are removed synchronously. The result is that only unique data is stored and common components are shared among files. Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO. Before creating a pool with deduplication enabled, ensure that you have planned your hardware requirements appropriately and implemented appropriate recovery practices, such as regular backups. As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative. should be enabled on the zvol. Dedup property can be edited after the volume has been created. Default Value: off.
+   * Deduplication is the process for removing redundant data at the block level,
+   * reducing the total amount of data stored. If a file system has the dedup property
+   * enabled, duplicate data blocks are removed synchronously.
+   * The result is that only unique data is stored and common components are shared among files.
+   * Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO.
+   * Before creating a pool with deduplication enabled, ensure that you have planned your hardware
+   * requirements appropriately and implemented appropriate recovery practices, such as regular backups.
+   * As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative.
+   * should be enabled on the zvol.
+   * Dedup property can be edited after the volume has been created.
+   * Default Value: off.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#dedup
    */
   readonly dedup?: ZfsSnapshotV1Alpha1SpecDedup;
 
   /**
-   * Enabling the encryption feature allows for the creation of encrypted filesystems and volumes. ZFS will encrypt file and zvol data, file attributes, ACLs, permission bits, directory listings, FUID mappings, and userused / groupused data. ZFS will not encrypt metadata related to the pool structure, including dataset and snapshot names, dataset hierarchy, properties, file size, file holes, and deduplication tables (though the deduplicated data itself is encrypted). Default Value: off.
+   * Enabling the encryption feature allows for the creation of
+   * encrypted filesystems and volumes. ZFS will encrypt file and zvol data,
+   * file attributes, ACLs, permission bits, directory listings, FUID mappings,
+   * and userused / groupused data. ZFS will not encrypt metadata related to the
+   * pool structure, including dataset and snapshot names, dataset hierarchy,
+   * properties, file size, file holes, and deduplication tables
+   * (though the deduplicated data itself is encrypted).
+   * Default Value: off.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#encryption
    */
   readonly encryption?: string;
 
   /**
-   * FsType specifies filesystem type for the zfs volume/dataset. If FsType is provided as "zfs", then the driver will create a ZFS dataset, formatting is not required as underlying filesystem is ZFS anyway. If FsType is ext2, ext3, ext4 or xfs, then the driver will create a ZVOL and format the volume accordingly. FsType can not be modified once volume has been provisioned. Default Value: ext4.
+   * FsType specifies filesystem type for the zfs volume/dataset.
+   * If FsType is provided as "zfs", then the driver will create a
+   * ZFS dataset, formatting is not required as underlying filesystem is ZFS anyway.
+   * If FsType is ext2, ext3, ext4 or xfs, then the driver will create a ZVOL and
+   * format the volume accordingly.
+   * FsType can not be modified once volume has been provisioned.
+   * Default Value: ext4.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#fsType
    */
   readonly fsType?: string;
 
   /**
-   * KeyFormat specifies format of the encryption key The supported KeyFormats are passphrase, raw, hex.
+   * KeyFormat specifies format of the encryption key
+   * The supported KeyFormats are passphrase, raw, hex.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#keyformat
    */
@@ -1157,49 +1400,72 @@ export interface ZfsSnapshotV1Alpha1Spec {
   readonly keylocation?: string;
 
   /**
-   * OwnerNodeID is the Node ID where the ZPOOL is running which is where the volume has been provisioned. OwnerNodeID can not be edited after the volume has been provisioned.
+   * OwnerNodeID is the Node ID where the ZPOOL is running which is where
+   * the volume has been provisioned.
+   * OwnerNodeID can not be edited after the volume has been provisioned.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#ownerNodeID
    */
   readonly ownerNodeId: string;
 
   /**
-   * poolName specifies the name of the pool where the volume has been created. PoolName can not be edited after the volume has been provisioned.
+   * poolName specifies the name of the pool where the volume has been created.
+   * PoolName can not be edited after the volume has been provisioned.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#poolName
    */
   readonly poolName: string;
 
   /**
-   * Specifies a suggested block size for files in the file system. The size specified must be a power of two greater than or equal to 512 and less than or equal to 128 Kbytes. RecordSize property can be edited after the volume has been created. Changing the file system's recordsize affects only files created afterward; existing files are unaffected. Default Value: 128k.
+   * Specifies a suggested block size for files in the file system.
+   * The size specified must be a power of two greater than or equal to 512 and less than or equal to 128 Kbytes.
+   * RecordSize property can be edited after the volume has been created.
+   * Changing the file system's recordsize affects only files created afterward; existing files are unaffected.
+   * Default Value: 128k.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#recordsize
    */
   readonly recordsize?: string;
 
   /**
-   * SnapName specifies the name of the snapshot where the volume has been cloned from. Snapname can not be edited after the volume has been provisioned.
+   * SnapName specifies the name of the snapshot where the volume has been cloned from.
+   * Snapname can not be edited after the volume has been provisioned.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#snapname
    */
   readonly snapname?: string;
 
   /**
-   * ThinProvision describes whether space reservation for the source volume is required or not. The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume. If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not have the enough capacity. If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough capacity and capacity required by volume can be reserved. ThinProvision can not be modified once volume has been provisioned. Default Value: no.
+   * ThinProvision describes whether space reservation for the source volume is required or not.
+   * The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume.
+   * If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not
+   * have the enough capacity.
+   * If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough
+   * capacity and capacity required by volume can be reserved.
+   * ThinProvision can not be modified once volume has been provisioned.
+   * Default Value: no.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#thinProvision
    */
   readonly thinProvision?: ZfsSnapshotV1Alpha1SpecThinProvision;
 
   /**
-   * VolBlockSize specifies the block size for the zvol. The volsize can only be set to a multiple of volblocksize, and cannot be zero. VolBlockSize can not be edited after the volume has been provisioned. Default Value: 8k.
+   * VolBlockSize specifies the block size for the zvol.
+   * The volsize can only be set to a multiple of volblocksize, and cannot be zero.
+   * VolBlockSize can not be edited after the volume has been provisioned.
+   * Default Value: 8k.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#volblocksize
    */
   readonly volblocksize?: string;
 
   /**
-   * volumeType determines whether the volume is of type "DATASET" or "ZVOL". If fstype provided in the storageclass is "zfs", a volume of type dataset will be created. If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype in the storageclass, then a volume of type zvol will be created, which will be further formatted as the fstype provided in the storageclass. VolumeType can not be modified once volume has been provisioned.
+   * volumeType determines whether the volume is of type "DATASET" or "ZVOL".
+   * If fstype provided in the storageclass is "zfs", a volume of type dataset will be created.
+   * If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype
+   * in the storageclass, then a volume of type zvol will be created, which will be
+   * further formatted as the fstype provided in the storageclass.
+   * VolumeType can not be modified once volume has been provisioned.
    *
    * @schema ZfsSnapshotV1Alpha1Spec#volumeType
    */
@@ -1238,7 +1504,17 @@ export function toJson_ZfsSnapshotV1Alpha1Spec(
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * Deduplication is the process for removing redundant data at the block level, reducing the total amount of data stored. If a file system has the dedup property enabled, duplicate data blocks are removed synchronously. The result is that only unique data is stored and common components are shared among files. Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO. Before creating a pool with deduplication enabled, ensure that you have planned your hardware requirements appropriately and implemented appropriate recovery practices, such as regular backups. As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative. should be enabled on the zvol. Dedup property can be edited after the volume has been created. Default Value: off.
+ * Deduplication is the process for removing redundant data at the block level,
+ * reducing the total amount of data stored. If a file system has the dedup property
+ * enabled, duplicate data blocks are removed synchronously.
+ * The result is that only unique data is stored and common components are shared among files.
+ * Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO.
+ * Before creating a pool with deduplication enabled, ensure that you have planned your hardware
+ * requirements appropriately and implemented appropriate recovery practices, such as regular backups.
+ * As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative.
+ * should be enabled on the zvol.
+ * Dedup property can be edited after the volume has been created.
+ * Default Value: off.
  *
  * @schema ZfsSnapshotV1Alpha1SpecDedup
  */
@@ -1250,7 +1526,8 @@ export enum ZfsSnapshotV1Alpha1SpecDedup {
 }
 
 /**
- * KeyFormat specifies format of the encryption key The supported KeyFormats are passphrase, raw, hex.
+ * KeyFormat specifies format of the encryption key
+ * The supported KeyFormats are passphrase, raw, hex.
  *
  * @schema ZfsSnapshotV1Alpha1SpecKeyformat
  */
@@ -1264,7 +1541,14 @@ export enum ZfsSnapshotV1Alpha1SpecKeyformat {
 }
 
 /**
- * ThinProvision describes whether space reservation for the source volume is required or not. The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume. If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not have the enough capacity. If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough capacity and capacity required by volume can be reserved. ThinProvision can not be modified once volume has been provisioned. Default Value: no.
+ * ThinProvision describes whether space reservation for the source volume is required or not.
+ * The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume.
+ * If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not
+ * have the enough capacity.
+ * If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough
+ * capacity and capacity required by volume can be reserved.
+ * ThinProvision can not be modified once volume has been provisioned.
+ * Default Value: no.
  *
  * @schema ZfsSnapshotV1Alpha1SpecThinProvision
  */
@@ -1276,7 +1560,12 @@ export enum ZfsSnapshotV1Alpha1SpecThinProvision {
 }
 
 /**
- * volumeType determines whether the volume is of type "DATASET" or "ZVOL". If fstype provided in the storageclass is "zfs", a volume of type dataset will be created. If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype in the storageclass, then a volume of type zvol will be created, which will be further formatted as the fstype provided in the storageclass. VolumeType can not be modified once volume has been provisioned.
+ * volumeType determines whether the volume is of type "DATASET" or "ZVOL".
+ * If fstype provided in the storageclass is "zfs", a volume of type dataset will be created.
+ * If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype
+ * in the storageclass, then a volume of type zvol will be created, which will be
+ * further formatted as the fstype provided in the storageclass.
+ * VolumeType can not be modified once volume has been provisioned.
  *
  * @schema ZfsSnapshotV1Alpha1SpecVolumeType
  */
@@ -1353,7 +1642,13 @@ export interface ZfsVolumeProps {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * VolumeInfo defines ZFS volume parameters for all modes in which ZFS volumes can be created like - ZFS volume with filesystem, ZFS Volume exposed as zfs or ZFS volume exposed as raw block device. Some of the parameters can be only set during creation time (as specified in the details of the parameter), and a few are editable. In case of Cloned volumes, the parameters are assigned the same values as the source volume.
+   * VolumeInfo defines ZFS volume parameters for all modes in which
+   * ZFS volumes can be created like - ZFS volume with filesystem,
+   * ZFS Volume exposed as zfs or ZFS volume exposed as raw block device.
+   * Some of the parameters can be only set during creation time
+   * (as specified in the details of the parameter), and a few are editable.
+   * In case of Cloned volumes, the parameters are assigned the same values
+   * as the source volume.
    *
    * @schema ZFSVolume#spec
    */
@@ -1378,7 +1673,13 @@ export function toJson_ZfsVolumeProps(obj: ZfsVolumeProps | undefined): Record<s
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * VolumeInfo defines ZFS volume parameters for all modes in which ZFS volumes can be created like - ZFS volume with filesystem, ZFS Volume exposed as zfs or ZFS volume exposed as raw block device. Some of the parameters can be only set during creation time (as specified in the details of the parameter), and a few are editable. In case of Cloned volumes, the parameters are assigned the same values as the source volume.
+ * VolumeInfo defines ZFS volume parameters for all modes in which
+ * ZFS volumes can be created like - ZFS volume with filesystem,
+ * ZFS Volume exposed as zfs or ZFS volume exposed as raw block device.
+ * Some of the parameters can be only set during creation time
+ * (as specified in the details of the parameter), and a few are editable.
+ * In case of Cloned volumes, the parameters are assigned the same values
+ * as the source volume.
  *
  * @schema ZfsVolumeSpec
  */
@@ -1391,35 +1692,66 @@ export interface ZfsVolumeSpec {
   readonly capacity: string;
 
   /**
-   * Compression specifies the block-level compression algorithm to be applied to the ZFS Volume. The value "on" indicates ZFS to use the default compression algorithm. The default compression algorithm used by ZFS will be either lzjb or, if the lz4_compress feature is enabled, lz4. Compression property can be edited after the volume has been created. The change will only be applied to the newly-written data. For instance, if the Volume was created with "off" and the next day the compression was modified to "on", the data written prior to setting "on" will not be compressed. Default Value: off.
+   * Compression specifies the block-level compression algorithm to be applied to the ZFS Volume.
+   * The value "on" indicates ZFS to use the default compression algorithm. The default compression
+   * algorithm used by ZFS will be either lzjb or, if the lz4_compress feature is enabled, lz4.
+   * Compression property can be edited after the volume has been created. The change will only
+   * be applied to the newly-written data. For instance, if the Volume was created with "off" and
+   * the next day the compression was modified to "on", the data written prior to setting "on" will
+   * not be compressed.
+   * Default Value: off.
    *
    * @schema ZfsVolumeSpec#compression
    */
   readonly compression?: string;
 
   /**
-   * Deduplication is the process for removing redundant data at the block level, reducing the total amount of data stored. If a file system has the dedup property enabled, duplicate data blocks are removed synchronously. The result is that only unique data is stored and common components are shared among files. Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO. Before creating a pool with deduplication enabled, ensure that you have planned your hardware requirements appropriately and implemented appropriate recovery practices, such as regular backups. As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative. should be enabled on the zvol. Dedup property can be edited after the volume has been created. Default Value: off.
+   * Deduplication is the process for removing redundant data at the block level,
+   * reducing the total amount of data stored. If a file system has the dedup property
+   * enabled, duplicate data blocks are removed synchronously.
+   * The result is that only unique data is stored and common components are shared among files.
+   * Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO.
+   * Before creating a pool with deduplication enabled, ensure that you have planned your hardware
+   * requirements appropriately and implemented appropriate recovery practices, such as regular backups.
+   * As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative.
+   * should be enabled on the zvol.
+   * Dedup property can be edited after the volume has been created.
+   * Default Value: off.
    *
    * @schema ZfsVolumeSpec#dedup
    */
   readonly dedup?: ZfsVolumeSpecDedup;
 
   /**
-   * Enabling the encryption feature allows for the creation of encrypted filesystems and volumes. ZFS will encrypt file and zvol data, file attributes, ACLs, permission bits, directory listings, FUID mappings, and userused / groupused data. ZFS will not encrypt metadata related to the pool structure, including dataset and snapshot names, dataset hierarchy, properties, file size, file holes, and deduplication tables (though the deduplicated data itself is encrypted). Default Value: off.
+   * Enabling the encryption feature allows for the creation of
+   * encrypted filesystems and volumes. ZFS will encrypt file and zvol data,
+   * file attributes, ACLs, permission bits, directory listings, FUID mappings,
+   * and userused / groupused data. ZFS will not encrypt metadata related to the
+   * pool structure, including dataset and snapshot names, dataset hierarchy,
+   * properties, file size, file holes, and deduplication tables
+   * (though the deduplicated data itself is encrypted).
+   * Default Value: off.
    *
    * @schema ZfsVolumeSpec#encryption
    */
   readonly encryption?: string;
 
   /**
-   * FsType specifies filesystem type for the zfs volume/dataset. If FsType is provided as "zfs", then the driver will create a ZFS dataset, formatting is not required as underlying filesystem is ZFS anyway. If FsType is ext2, ext3, ext4 or xfs, then the driver will create a ZVOL and format the volume accordingly. FsType can not be modified once volume has been provisioned. Default Value: ext4.
+   * FsType specifies filesystem type for the zfs volume/dataset.
+   * If FsType is provided as "zfs", then the driver will create a
+   * ZFS dataset, formatting is not required as underlying filesystem is ZFS anyway.
+   * If FsType is ext2, ext3, ext4 or xfs, then the driver will create a ZVOL and
+   * format the volume accordingly.
+   * FsType can not be modified once volume has been provisioned.
+   * Default Value: ext4.
    *
    * @schema ZfsVolumeSpec#fsType
    */
   readonly fsType?: string;
 
   /**
-   * KeyFormat specifies format of the encryption key The supported KeyFormats are passphrase, raw, hex.
+   * KeyFormat specifies format of the encryption key
+   * The supported KeyFormats are passphrase, raw, hex.
    *
    * @schema ZfsVolumeSpec#keyformat
    */
@@ -1433,63 +1765,90 @@ export interface ZfsVolumeSpec {
   readonly keylocation?: string;
 
   /**
-   * OwnerNodeID is the Node ID where the ZPOOL is running which is where the volume has been provisioned. OwnerNodeID can not be edited after the volume has been provisioned.
+   * OwnerNodeID is the Node ID where the ZPOOL is running which is where
+   * the volume has been provisioned.
+   * OwnerNodeID can not be edited after the volume has been provisioned.
    *
    * @schema ZfsVolumeSpec#ownerNodeID
    */
   readonly ownerNodeId: string;
 
   /**
-   * poolName specifies the name of the pool where the volume has been created. PoolName can not be edited after the volume has been provisioned.
+   * poolName specifies the name of the pool where the volume has been created.
+   * PoolName can not be edited after the volume has been provisioned.
    *
    * @schema ZfsVolumeSpec#poolName
    */
   readonly poolName: string;
 
   /**
-   * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota". QuotaType can not be modified once volume has been provisioned. Default Value: quota.
+   * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota".
+   * QuotaType can not be modified once volume has been provisioned.
+   * Default Value: quota.
    *
    * @schema ZfsVolumeSpec#quotaType
    */
   readonly quotaType?: ZfsVolumeSpecQuotaType;
 
   /**
-   * Specifies a suggested block size for files in the file system. The size specified must be a power of two greater than or equal to 512 and less than or equal to 128 Kbytes. RecordSize property can be edited after the volume has been created. Changing the file system's recordsize affects only files created afterward; existing files are unaffected. Default Value: 128k.
+   * Specifies a suggested block size for files in the file system.
+   * The size specified must be a power of two greater than or equal to 512 and less than or equal to 128 Kbytes.
+   * RecordSize property can be edited after the volume has been created.
+   * Changing the file system's recordsize affects only files created afterward; existing files are unaffected.
+   * Default Value: 128k.
    *
    * @schema ZfsVolumeSpec#recordsize
    */
   readonly recordsize?: string;
 
   /**
-   * Shared specifies whether the volume can be shared among multiple pods. If it is not set to "yes", then the ZFS-LocalPV Driver will not allow the volumes to be mounted by more than one pods.
+   * Shared specifies whether the volume can be shared among multiple pods.
+   * If it is not set to "yes", then the ZFS-LocalPV Driver will not allow
+   * the volumes to be mounted by more than one pods.
    *
    * @schema ZfsVolumeSpec#shared
    */
   readonly shared?: ZfsVolumeSpecShared;
 
   /**
-   * SnapName specifies the name of the snapshot where the volume has been cloned from. Snapname can not be edited after the volume has been provisioned.
+   * SnapName specifies the name of the snapshot where the volume has been cloned from.
+   * Snapname can not be edited after the volume has been provisioned.
    *
    * @schema ZfsVolumeSpec#snapname
    */
   readonly snapname?: string;
 
   /**
-   * ThinProvision describes whether space reservation for the source volume is required or not. The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume. If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not have the enough capacity. If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough capacity and capacity required by volume can be reserved. ThinProvision can not be modified once volume has been provisioned. Default Value: no.
+   * ThinProvision describes whether space reservation for the source volume is required or not.
+   * The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume.
+   * If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not
+   * have the enough capacity.
+   * If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough
+   * capacity and capacity required by volume can be reserved.
+   * ThinProvision can not be modified once volume has been provisioned.
+   * Default Value: no.
    *
    * @schema ZfsVolumeSpec#thinProvision
    */
   readonly thinProvision?: ZfsVolumeSpecThinProvision;
 
   /**
-   * VolBlockSize specifies the block size for the zvol. The volsize can only be set to a multiple of volblocksize, and cannot be zero. VolBlockSize can not be edited after the volume has been provisioned. Default Value: 8k.
+   * VolBlockSize specifies the block size for the zvol.
+   * The volsize can only be set to a multiple of volblocksize, and cannot be zero.
+   * VolBlockSize can not be edited after the volume has been provisioned.
+   * Default Value: 8k.
    *
    * @schema ZfsVolumeSpec#volblocksize
    */
   readonly volblocksize?: string;
 
   /**
-   * volumeType determines whether the volume is of type "DATASET" or "ZVOL". If fstype provided in the storageclass is "zfs", a volume of type dataset will be created. If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype in the storageclass, then a volume of type zvol will be created, which will be further formatted as the fstype provided in the storageclass. VolumeType can not be modified once volume has been provisioned.
+   * volumeType determines whether the volume is of type "DATASET" or "ZVOL".
+   * If fstype provided in the storageclass is "zfs", a volume of type dataset will be created.
+   * If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype
+   * in the storageclass, then a volume of type zvol will be created, which will be
+   * further formatted as the fstype provided in the storageclass.
+   * VolumeType can not be modified once volume has been provisioned.
    *
    * @schema ZfsVolumeSpec#volumeType
    */
@@ -1528,7 +1887,17 @@ export function toJson_ZfsVolumeSpec(obj: ZfsVolumeSpec | undefined): Record<str
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * Deduplication is the process for removing redundant data at the block level, reducing the total amount of data stored. If a file system has the dedup property enabled, duplicate data blocks are removed synchronously. The result is that only unique data is stored and common components are shared among files. Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO. Before creating a pool with deduplication enabled, ensure that you have planned your hardware requirements appropriately and implemented appropriate recovery practices, such as regular backups. As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative. should be enabled on the zvol. Dedup property can be edited after the volume has been created. Default Value: off.
+ * Deduplication is the process for removing redundant data at the block level,
+ * reducing the total amount of data stored. If a file system has the dedup property
+ * enabled, duplicate data blocks are removed synchronously.
+ * The result is that only unique data is stored and common components are shared among files.
+ * Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO.
+ * Before creating a pool with deduplication enabled, ensure that you have planned your hardware
+ * requirements appropriately and implemented appropriate recovery practices, such as regular backups.
+ * As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative.
+ * should be enabled on the zvol.
+ * Dedup property can be edited after the volume has been created.
+ * Default Value: off.
  *
  * @schema ZfsVolumeSpecDedup
  */
@@ -1540,7 +1909,8 @@ export enum ZfsVolumeSpecDedup {
 }
 
 /**
- * KeyFormat specifies format of the encryption key The supported KeyFormats are passphrase, raw, hex.
+ * KeyFormat specifies format of the encryption key
+ * The supported KeyFormats are passphrase, raw, hex.
  *
  * @schema ZfsVolumeSpecKeyformat
  */
@@ -1554,7 +1924,9 @@ export enum ZfsVolumeSpecKeyformat {
 }
 
 /**
- * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota". QuotaType can not be modified once volume has been provisioned. Default Value: quota.
+ * quotaType determines whether the dataset volume quota type is of type "quota" or "refquota".
+ * QuotaType can not be modified once volume has been provisioned.
+ * Default Value: quota.
  *
  * @schema ZfsVolumeSpecQuotaType
  */
@@ -1566,7 +1938,9 @@ export enum ZfsVolumeSpecQuotaType {
 }
 
 /**
- * Shared specifies whether the volume can be shared among multiple pods. If it is not set to "yes", then the ZFS-LocalPV Driver will not allow the volumes to be mounted by more than one pods.
+ * Shared specifies whether the volume can be shared among multiple pods.
+ * If it is not set to "yes", then the ZFS-LocalPV Driver will not allow
+ * the volumes to be mounted by more than one pods.
  *
  * @schema ZfsVolumeSpecShared
  */
@@ -1578,7 +1952,14 @@ export enum ZfsVolumeSpecShared {
 }
 
 /**
- * ThinProvision describes whether space reservation for the source volume is required or not. The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume. If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not have the enough capacity. If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough capacity and capacity required by volume can be reserved. ThinProvision can not be modified once volume has been provisioned. Default Value: no.
+ * ThinProvision describes whether space reservation for the source volume is required or not.
+ * The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume.
+ * If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not
+ * have the enough capacity.
+ * If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough
+ * capacity and capacity required by volume can be reserved.
+ * ThinProvision can not be modified once volume has been provisioned.
+ * Default Value: no.
  *
  * @schema ZfsVolumeSpecThinProvision
  */
@@ -1590,7 +1971,12 @@ export enum ZfsVolumeSpecThinProvision {
 }
 
 /**
- * volumeType determines whether the volume is of type "DATASET" or "ZVOL". If fstype provided in the storageclass is "zfs", a volume of type dataset will be created. If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype in the storageclass, then a volume of type zvol will be created, which will be further formatted as the fstype provided in the storageclass. VolumeType can not be modified once volume has been provisioned.
+ * volumeType determines whether the volume is of type "DATASET" or "ZVOL".
+ * If fstype provided in the storageclass is "zfs", a volume of type dataset will be created.
+ * If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype
+ * in the storageclass, then a volume of type zvol will be created, which will be
+ * further formatted as the fstype provided in the storageclass.
+ * VolumeType can not be modified once volume has been provisioned.
  *
  * @schema ZfsVolumeSpecVolumeType
  */
@@ -1667,7 +2053,13 @@ export interface ZfsVolumeV1Alpha1Props {
   readonly metadata?: ApiObjectMetadata;
 
   /**
-   * VolumeInfo defines ZFS volume parameters for all modes in which ZFS volumes can be created like - ZFS volume with filesystem, ZFS Volume exposed as zfs or ZFS volume exposed as raw block device. Some of the parameters can be only set during creation time (as specified in the details of the parameter), and a few are editable. In case of Cloned volumes, the parameters are assigned the same values as the source volume.
+   * VolumeInfo defines ZFS volume parameters for all modes in which
+   * ZFS volumes can be created like - ZFS volume with filesystem,
+   * ZFS Volume exposed as zfs or ZFS volume exposed as raw block device.
+   * Some of the parameters can be only set during creation time
+   * (as specified in the details of the parameter), and a few are editable.
+   * In case of Cloned volumes, the parameters are assigned the same values
+   * as the source volume.
    *
    * @schema ZFSVolumeV1Alpha1#spec
    */
@@ -1694,7 +2086,13 @@ export function toJson_ZfsVolumeV1Alpha1Props(
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * VolumeInfo defines ZFS volume parameters for all modes in which ZFS volumes can be created like - ZFS volume with filesystem, ZFS Volume exposed as zfs or ZFS volume exposed as raw block device. Some of the parameters can be only set during creation time (as specified in the details of the parameter), and a few are editable. In case of Cloned volumes, the parameters are assigned the same values as the source volume.
+ * VolumeInfo defines ZFS volume parameters for all modes in which
+ * ZFS volumes can be created like - ZFS volume with filesystem,
+ * ZFS Volume exposed as zfs or ZFS volume exposed as raw block device.
+ * Some of the parameters can be only set during creation time
+ * (as specified in the details of the parameter), and a few are editable.
+ * In case of Cloned volumes, the parameters are assigned the same values
+ * as the source volume.
  *
  * @schema ZfsVolumeV1Alpha1Spec
  */
@@ -1707,35 +2105,66 @@ export interface ZfsVolumeV1Alpha1Spec {
   readonly capacity: string;
 
   /**
-   * Compression specifies the block-level compression algorithm to be applied to the ZFS Volume. The value "on" indicates ZFS to use the default compression algorithm. The default compression algorithm used by ZFS will be either lzjb or, if the lz4_compress feature is enabled, lz4. Compression property can be edited after the volume has been created. The change will only be applied to the newly-written data. For instance, if the Volume was created with "off" and the next day the compression was modified to "on", the data written prior to setting "on" will not be compressed. Default Value: off.
+   * Compression specifies the block-level compression algorithm to be applied to the ZFS Volume.
+   * The value "on" indicates ZFS to use the default compression algorithm. The default compression
+   * algorithm used by ZFS will be either lzjb or, if the lz4_compress feature is enabled, lz4.
+   * Compression property can be edited after the volume has been created. The change will only
+   * be applied to the newly-written data. For instance, if the Volume was created with "off" and
+   * the next day the compression was modified to "on", the data written prior to setting "on" will
+   * not be compressed.
+   * Default Value: off.
    *
    * @schema ZfsVolumeV1Alpha1Spec#compression
    */
   readonly compression?: string;
 
   /**
-   * Deduplication is the process for removing redundant data at the block level, reducing the total amount of data stored. If a file system has the dedup property enabled, duplicate data blocks are removed synchronously. The result is that only unique data is stored and common components are shared among files. Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO. Before creating a pool with deduplication enabled, ensure that you have planned your hardware requirements appropriately and implemented appropriate recovery practices, such as regular backups. As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative. should be enabled on the zvol. Dedup property can be edited after the volume has been created. Default Value: off.
+   * Deduplication is the process for removing redundant data at the block level,
+   * reducing the total amount of data stored. If a file system has the dedup property
+   * enabled, duplicate data blocks are removed synchronously.
+   * The result is that only unique data is stored and common components are shared among files.
+   * Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO.
+   * Before creating a pool with deduplication enabled, ensure that you have planned your hardware
+   * requirements appropriately and implemented appropriate recovery practices, such as regular backups.
+   * As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative.
+   * should be enabled on the zvol.
+   * Dedup property can be edited after the volume has been created.
+   * Default Value: off.
    *
    * @schema ZfsVolumeV1Alpha1Spec#dedup
    */
   readonly dedup?: ZfsVolumeV1Alpha1SpecDedup;
 
   /**
-   * Enabling the encryption feature allows for the creation of encrypted filesystems and volumes. ZFS will encrypt file and zvol data, file attributes, ACLs, permission bits, directory listings, FUID mappings, and userused / groupused data. ZFS will not encrypt metadata related to the pool structure, including dataset and snapshot names, dataset hierarchy, properties, file size, file holes, and deduplication tables (though the deduplicated data itself is encrypted). Default Value: off.
+   * Enabling the encryption feature allows for the creation of
+   * encrypted filesystems and volumes. ZFS will encrypt file and zvol data,
+   * file attributes, ACLs, permission bits, directory listings, FUID mappings,
+   * and userused / groupused data. ZFS will not encrypt metadata related to the
+   * pool structure, including dataset and snapshot names, dataset hierarchy,
+   * properties, file size, file holes, and deduplication tables
+   * (though the deduplicated data itself is encrypted).
+   * Default Value: off.
    *
    * @schema ZfsVolumeV1Alpha1Spec#encryption
    */
   readonly encryption?: string;
 
   /**
-   * FsType specifies filesystem type for the zfs volume/dataset. If FsType is provided as "zfs", then the driver will create a ZFS dataset, formatting is not required as underlying filesystem is ZFS anyway. If FsType is ext2, ext3, ext4 or xfs, then the driver will create a ZVOL and format the volume accordingly. FsType can not be modified once volume has been provisioned. Default Value: ext4.
+   * FsType specifies filesystem type for the zfs volume/dataset.
+   * If FsType is provided as "zfs", then the driver will create a
+   * ZFS dataset, formatting is not required as underlying filesystem is ZFS anyway.
+   * If FsType is ext2, ext3, ext4 or xfs, then the driver will create a ZVOL and
+   * format the volume accordingly.
+   * FsType can not be modified once volume has been provisioned.
+   * Default Value: ext4.
    *
    * @schema ZfsVolumeV1Alpha1Spec#fsType
    */
   readonly fsType?: string;
 
   /**
-   * KeyFormat specifies format of the encryption key The supported KeyFormats are passphrase, raw, hex.
+   * KeyFormat specifies format of the encryption key
+   * The supported KeyFormats are passphrase, raw, hex.
    *
    * @schema ZfsVolumeV1Alpha1Spec#keyformat
    */
@@ -1749,49 +2178,72 @@ export interface ZfsVolumeV1Alpha1Spec {
   readonly keylocation?: string;
 
   /**
-   * OwnerNodeID is the Node ID where the ZPOOL is running which is where the volume has been provisioned. OwnerNodeID can not be edited after the volume has been provisioned.
+   * OwnerNodeID is the Node ID where the ZPOOL is running which is where
+   * the volume has been provisioned.
+   * OwnerNodeID can not be edited after the volume has been provisioned.
    *
    * @schema ZfsVolumeV1Alpha1Spec#ownerNodeID
    */
   readonly ownerNodeId: string;
 
   /**
-   * poolName specifies the name of the pool where the volume has been created. PoolName can not be edited after the volume has been provisioned.
+   * poolName specifies the name of the pool where the volume has been created.
+   * PoolName can not be edited after the volume has been provisioned.
    *
    * @schema ZfsVolumeV1Alpha1Spec#poolName
    */
   readonly poolName: string;
 
   /**
-   * Specifies a suggested block size for files in the file system. The size specified must be a power of two greater than or equal to 512 and less than or equal to 128 Kbytes. RecordSize property can be edited after the volume has been created. Changing the file system's recordsize affects only files created afterward; existing files are unaffected. Default Value: 128k.
+   * Specifies a suggested block size for files in the file system.
+   * The size specified must be a power of two greater than or equal to 512 and less than or equal to 128 Kbytes.
+   * RecordSize property can be edited after the volume has been created.
+   * Changing the file system's recordsize affects only files created afterward; existing files are unaffected.
+   * Default Value: 128k.
    *
    * @schema ZfsVolumeV1Alpha1Spec#recordsize
    */
   readonly recordsize?: string;
 
   /**
-   * SnapName specifies the name of the snapshot where the volume has been cloned from. Snapname can not be edited after the volume has been provisioned.
+   * SnapName specifies the name of the snapshot where the volume has been cloned from.
+   * Snapname can not be edited after the volume has been provisioned.
    *
    * @schema ZfsVolumeV1Alpha1Spec#snapname
    */
   readonly snapname?: string;
 
   /**
-   * ThinProvision describes whether space reservation for the source volume is required or not. The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume. If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not have the enough capacity. If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough capacity and capacity required by volume can be reserved. ThinProvision can not be modified once volume has been provisioned. Default Value: no.
+   * ThinProvision describes whether space reservation for the source volume is required or not.
+   * The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume.
+   * If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not
+   * have the enough capacity.
+   * If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough
+   * capacity and capacity required by volume can be reserved.
+   * ThinProvision can not be modified once volume has been provisioned.
+   * Default Value: no.
    *
    * @schema ZfsVolumeV1Alpha1Spec#thinProvision
    */
   readonly thinProvision?: ZfsVolumeV1Alpha1SpecThinProvision;
 
   /**
-   * VolBlockSize specifies the block size for the zvol. The volsize can only be set to a multiple of volblocksize, and cannot be zero. VolBlockSize can not be edited after the volume has been provisioned. Default Value: 8k.
+   * VolBlockSize specifies the block size for the zvol.
+   * The volsize can only be set to a multiple of volblocksize, and cannot be zero.
+   * VolBlockSize can not be edited after the volume has been provisioned.
+   * Default Value: 8k.
    *
    * @schema ZfsVolumeV1Alpha1Spec#volblocksize
    */
   readonly volblocksize?: string;
 
   /**
-   * volumeType determines whether the volume is of type "DATASET" or "ZVOL". If fstype provided in the storageclass is "zfs", a volume of type dataset will be created. If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype in the storageclass, then a volume of type zvol will be created, which will be further formatted as the fstype provided in the storageclass. VolumeType can not be modified once volume has been provisioned.
+   * volumeType determines whether the volume is of type "DATASET" or "ZVOL".
+   * If fstype provided in the storageclass is "zfs", a volume of type dataset will be created.
+   * If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype
+   * in the storageclass, then a volume of type zvol will be created, which will be
+   * further formatted as the fstype provided in the storageclass.
+   * VolumeType can not be modified once volume has been provisioned.
    *
    * @schema ZfsVolumeV1Alpha1Spec#volumeType
    */
@@ -1828,7 +2280,17 @@ export function toJson_ZfsVolumeV1Alpha1Spec(obj: ZfsVolumeV1Alpha1Spec | undefi
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * Deduplication is the process for removing redundant data at the block level, reducing the total amount of data stored. If a file system has the dedup property enabled, duplicate data blocks are removed synchronously. The result is that only unique data is stored and common components are shared among files. Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO. Before creating a pool with deduplication enabled, ensure that you have planned your hardware requirements appropriately and implemented appropriate recovery practices, such as regular backups. As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative. should be enabled on the zvol. Dedup property can be edited after the volume has been created. Default Value: off.
+ * Deduplication is the process for removing redundant data at the block level,
+ * reducing the total amount of data stored. If a file system has the dedup property
+ * enabled, duplicate data blocks are removed synchronously.
+ * The result is that only unique data is stored and common components are shared among files.
+ * Deduplication can consume significant processing power (CPU) and memory as well as generate additional disk IO.
+ * Before creating a pool with deduplication enabled, ensure that you have planned your hardware
+ * requirements appropriately and implemented appropriate recovery practices, such as regular backups.
+ * As an alternative to deduplication consider using compression=lz4, as a less resource-intensive alternative.
+ * should be enabled on the zvol.
+ * Dedup property can be edited after the volume has been created.
+ * Default Value: off.
  *
  * @schema ZfsVolumeV1Alpha1SpecDedup
  */
@@ -1840,7 +2302,8 @@ export enum ZfsVolumeV1Alpha1SpecDedup {
 }
 
 /**
- * KeyFormat specifies format of the encryption key The supported KeyFormats are passphrase, raw, hex.
+ * KeyFormat specifies format of the encryption key
+ * The supported KeyFormats are passphrase, raw, hex.
  *
  * @schema ZfsVolumeV1Alpha1SpecKeyformat
  */
@@ -1854,7 +2317,14 @@ export enum ZfsVolumeV1Alpha1SpecKeyformat {
 }
 
 /**
- * ThinProvision describes whether space reservation for the source volume is required or not. The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume. If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not have the enough capacity. If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough capacity and capacity required by volume can be reserved. ThinProvision can not be modified once volume has been provisioned. Default Value: no.
+ * ThinProvision describes whether space reservation for the source volume is required or not.
+ * The value "yes" indicates that volume should be thin provisioned and "no" means thick provisioning of the volume.
+ * If thinProvision is set to "yes" then volume can be provisioned even if the ZPOOL does not
+ * have the enough capacity.
+ * If thinProvision is set to "no" then volume can be provisioned only if the ZPOOL has enough
+ * capacity and capacity required by volume can be reserved.
+ * ThinProvision can not be modified once volume has been provisioned.
+ * Default Value: no.
  *
  * @schema ZfsVolumeV1Alpha1SpecThinProvision
  */
@@ -1866,7 +2336,12 @@ export enum ZfsVolumeV1Alpha1SpecThinProvision {
 }
 
 /**
- * volumeType determines whether the volume is of type "DATASET" or "ZVOL". If fstype provided in the storageclass is "zfs", a volume of type dataset will be created. If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype in the storageclass, then a volume of type zvol will be created, which will be further formatted as the fstype provided in the storageclass. VolumeType can not be modified once volume has been provisioned.
+ * volumeType determines whether the volume is of type "DATASET" or "ZVOL".
+ * If fstype provided in the storageclass is "zfs", a volume of type dataset will be created.
+ * If "ext4", "ext3", "ext2" or "xfs" is mentioned as fstype
+ * in the storageclass, then a volume of type zvol will be created, which will be
+ * further formatted as the fstype provided in the storageclass.
+ * VolumeType can not be modified once volume has been provisioned.
  *
  * @schema ZfsVolumeV1Alpha1SpecVolumeType
  */

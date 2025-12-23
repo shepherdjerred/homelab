@@ -11,9 +11,9 @@ export function createCloudflareOperatorApp(chart: Chart) {
       project: "default",
       source: {
         // https://github.com/adyanth/cloudflare-operator
-        repoUrl: "https://adyanth.github.io/cloudflare-operator/",
+        repoUrl: "https://github.com/adyanth/cloudflare-operator.git",
         targetRevision: versions["cloudflare-operator"],
-        chart: "cloudflare-operator",
+        path: "config/default",
       },
       destination: {
         server: "https://kubernetes.default.svc",

@@ -148,11 +148,23 @@ export interface ConnectorSpec {
    * Connector node. If unset, hostname defaults to <connector
    * name>-connector. Hostname can contain lower case letters, numbers and
    * dashes, it must not start or end with a dash and must be between 2
-   * and 63 characters long.
+   * and 63 characters long. This field should only be used when creating a connector
+   * with an unspecified number of replicas, or a single replica.
    *
    * @schema ConnectorSpec#hostname
    */
   readonly hostname?: string;
+
+  /**
+   * HostnamePrefix specifies the hostname prefix for each
+   * replica. Each device will have the integer number
+   * from its StatefulSet pod appended to this prefix to form the full hostname.
+   * HostnamePrefix can contain lower case letters, numbers and dashes, it
+   * must not start with a dash and must be between 1 and 62 characters long.
+   *
+   * @schema ConnectorSpec#hostnamePrefix
+   */
+  readonly hostnamePrefix?: string;
 
   /**
    * ProxyClass is the name of the ProxyClass custom resource that
@@ -163,6 +175,16 @@ export interface ConnectorSpec {
    * @schema ConnectorSpec#proxyClass
    */
   readonly proxyClass?: string;
+
+  /**
+   * Replicas specifies how many devices to create. Set this to enable
+   * high availability for app connectors, subnet routers, or exit nodes.
+   * https://tailscale.com/kb/1115/high-availability. Defaults to 1.
+   *
+   * @default 1.
+   * @schema ConnectorSpec#replicas
+   */
+  readonly replicas?: number;
 
   /**
    * SubnetRouter defines subnet routes that the Connector device should
@@ -205,7 +227,9 @@ export function toJson_ConnectorSpec(obj: ConnectorSpec | undefined): Record<str
     appConnector: toJson_ConnectorSpecAppConnector(obj.appConnector),
     exitNode: obj.exitNode,
     hostname: obj.hostname,
+    hostnamePrefix: obj.hostnamePrefix,
     proxyClass: obj.proxyClass,
+    replicas: obj.replicas,
     subnetRouter: toJson_ConnectorSpecSubnetRouter(obj.subnetRouter),
     tags: obj.tags?.map((y) => y),
   };
@@ -328,7 +352,6 @@ NB: if you want cluster workloads to be able to refer to Tailscale Ingress
 using its MagicDNS name, you must also annotate the Ingress resource with
 tailscale.com/experimental-forward-cluster-traffic-via-ingress annotation to
 ensure that the proxy created for the Ingress listens on its Pod IP address.
-NB: Clusters where Pods get assigned IPv6 addresses only are currently not supported.
  *
  * @schema DNSConfig
  */
@@ -407,7 +430,6 @@ export class DnsConfig extends ApiObject {
  * using its MagicDNS name, you must also annotate the Ingress resource with
  * tailscale.com/experimental-forward-cluster-traffic-via-ingress annotation to
  * ensure that the proxy created for the Ingress listens on its Pod IP address.
- * NB: Clusters where Pods get assigned IPv6 addresses only are currently not supported.
  *
  * @schema DNSConfig
  */
@@ -497,6 +519,21 @@ export interface DnsConfigSpecNameserver {
   readonly image?: DnsConfigSpecNameserverImage;
 
   /**
+   * Pod configuration.
+   *
+   * @schema DnsConfigSpecNameserver#pod
+   */
+  readonly pod?: DnsConfigSpecNameserverPod;
+
+  /**
+   * Replicas specifies how many Pods to create. Defaults to 1.
+   *
+   * @default 1.
+   * @schema DnsConfigSpecNameserver#replicas
+   */
+  readonly replicas?: number;
+
+  /**
    * Service configuration.
    *
    * @schema DnsConfigSpecNameserver#service
@@ -516,6 +553,8 @@ export function toJson_DnsConfigSpecNameserver(
   }
   const result = {
     image: toJson_DnsConfigSpecNameserverImage(obj.image),
+    pod: toJson_DnsConfigSpecNameserverPod(obj.pod),
+    replicas: obj.replicas,
     service: toJson_DnsConfigSpecNameserverService(obj.service),
   };
   // filter undefined values
@@ -565,6 +604,38 @@ export function toJson_DnsConfigSpecNameserverImage(
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
+ * Pod configuration.
+ *
+ * @schema DnsConfigSpecNameserverPod
+ */
+export interface DnsConfigSpecNameserverPod {
+  /**
+   * If specified, applies tolerations to the pods deployed by the DNSConfig resource.
+   *
+   * @schema DnsConfigSpecNameserverPod#tolerations
+   */
+  readonly tolerations?: DnsConfigSpecNameserverPodTolerations[];
+}
+
+/**
+ * Converts an object of type 'DnsConfigSpecNameserverPod' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_DnsConfigSpecNameserverPod(
+  obj: DnsConfigSpecNameserverPod | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    tolerations: obj.tolerations?.map((y) => toJson_DnsConfigSpecNameserverPodTolerations(y)),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
  * Service configuration.
  *
  * @schema DnsConfigSpecNameserverService
@@ -590,6 +661,81 @@ export function toJson_DnsConfigSpecNameserverService(
   }
   const result = {
     clusterIP: obj.clusterIp,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * The pod this Toleration is attached to tolerates any taint that matches
+ * the triple <key,value,effect> using the matching operator <operator>.
+ *
+ * @schema DnsConfigSpecNameserverPodTolerations
+ */
+export interface DnsConfigSpecNameserverPodTolerations {
+  /**
+   * Effect indicates the taint effect to match. Empty means match all taint effects.
+   * When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
+   *
+   * @schema DnsConfigSpecNameserverPodTolerations#effect
+   */
+  readonly effect?: string;
+
+  /**
+   * Key is the taint key that the toleration applies to. Empty means match all taint keys.
+   * If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+   *
+   * @schema DnsConfigSpecNameserverPodTolerations#key
+   */
+  readonly key?: string;
+
+  /**
+   * Operator represents a key's relationship to the value.
+   * Valid operators are Exists and Equal. Defaults to Equal.
+   * Exists is equivalent to wildcard for value, so that a pod can
+   * tolerate all taints of a particular category.
+   *
+   * @default Equal.
+   * @schema DnsConfigSpecNameserverPodTolerations#operator
+   */
+  readonly operator?: string;
+
+  /**
+   * TolerationSeconds represents the period of time the toleration (which must be
+   * of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,
+   * it is not set, which means tolerate the taint forever (do not evict). Zero and
+   * negative values will be treated as 0 (evict immediately) by the system.
+   *
+   * @schema DnsConfigSpecNameserverPodTolerations#tolerationSeconds
+   */
+  readonly tolerationSeconds?: number;
+
+  /**
+   * Value is the taint value the toleration matches to.
+   * If the operator is Exists, the value should be empty, otherwise just a regular string.
+   *
+   * @schema DnsConfigSpecNameserverPodTolerations#value
+   */
+  readonly value?: string;
+}
+
+/**
+ * Converts an object of type 'DnsConfigSpecNameserverPodTolerations' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_DnsConfigSpecNameserverPodTolerations(
+  obj: DnsConfigSpecNameserverPodTolerations | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    effect: obj.effect,
+    key: obj.key,
+    operator: obj.operator,
+    tolerationSeconds: obj.tolerationSeconds,
+    value: obj.value,
   };
   // filter undefined values
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
@@ -1066,6 +1212,24 @@ export interface ProxyClassSpecStatefulSetPod {
   readonly annotations?: { [key: string]: string };
 
   /**
+   * DNSConfig defines DNS parameters for the proxy Pod in addition to those generated from DNSPolicy.
+   * When DNSPolicy is set to "None", DNSConfig must be specified.
+   * https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config
+   *
+   * @schema ProxyClassSpecStatefulSetPod#dnsConfig
+   */
+  readonly dnsConfig?: ProxyClassSpecStatefulSetPodDnsConfig;
+
+  /**
+   * DNSPolicy defines how DNS will be configured for the proxy Pod.
+   * By default the Tailscale Kubernetes Operator does not set a DNS policy (uses cluster default).
+   * https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+   *
+   * @schema ProxyClassSpecStatefulSetPod#dnsPolicy
+   */
+  readonly dnsPolicy?: ProxyClassSpecStatefulSetPodDnsPolicy;
+
+  /**
    * Proxy Pod's image pull Secrets.
    * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodSpec
    *
@@ -1101,6 +1265,15 @@ export interface ProxyClassSpecStatefulSetPod {
    * @schema ProxyClassSpecStatefulSetPod#nodeSelector
    */
   readonly nodeSelector?: { [key: string]: string };
+
+  /**
+   * PriorityClassName for the proxy Pod.
+   * By default Tailscale Kubernetes operator does not apply any priority class.
+   * https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#scheduling
+   *
+   * @schema ProxyClassSpecStatefulSetPod#priorityClassName
+   */
+  readonly priorityClassName?: string;
 
   /**
    * Proxy Pod's security context.
@@ -1163,6 +1336,8 @@ export function toJson_ProxyClassSpecStatefulSetPod(
       obj.annotations === undefined
         ? undefined
         : Object.entries(obj.annotations).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
+    dnsConfig: toJson_ProxyClassSpecStatefulSetPodDnsConfig(obj.dnsConfig),
+    dnsPolicy: obj.dnsPolicy,
     imagePullSecrets: obj.imagePullSecrets?.map((y) => toJson_ProxyClassSpecStatefulSetPodImagePullSecrets(y)),
     labels:
       obj.labels === undefined
@@ -1173,6 +1348,7 @@ export function toJson_ProxyClassSpecStatefulSetPod(
       obj.nodeSelector === undefined
         ? undefined
         : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
+    priorityClassName: obj.priorityClassName,
     securityContext: toJson_ProxyClassSpecStatefulSetPodSecurityContext(obj.securityContext),
     tailscaleContainer: toJson_ProxyClassSpecStatefulSetPodTailscaleContainer(obj.tailscaleContainer),
     tailscaleInitContainer: toJson_ProxyClassSpecStatefulSetPodTailscaleInitContainer(obj.tailscaleInitContainer),
@@ -1283,6 +1459,81 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinity(
   return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
 }
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * DNSConfig defines DNS parameters for the proxy Pod in addition to those generated from DNSPolicy.
+ * When DNSPolicy is set to "None", DNSConfig must be specified.
+ * https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config
+ *
+ * @schema ProxyClassSpecStatefulSetPodDnsConfig
+ */
+export interface ProxyClassSpecStatefulSetPodDnsConfig {
+  /**
+   * A list of DNS name server IP addresses.
+   * This will be appended to the base nameservers generated from DNSPolicy.
+   * Duplicated nameservers will be removed.
+   *
+   * @schema ProxyClassSpecStatefulSetPodDnsConfig#nameservers
+   */
+  readonly nameservers?: string[];
+
+  /**
+   * A list of DNS resolver options.
+   * This will be merged with the base options generated from DNSPolicy.
+   * Duplicated entries will be removed. Resolution options given in Options
+   * will override those that appear in the base DNSPolicy.
+   *
+   * @schema ProxyClassSpecStatefulSetPodDnsConfig#options
+   */
+  readonly options?: ProxyClassSpecStatefulSetPodDnsConfigOptions[];
+
+  /**
+   * A list of DNS search domains for host-name lookup.
+   * This will be appended to the base search paths generated from DNSPolicy.
+   * Duplicated search paths will be removed.
+   *
+   * @schema ProxyClassSpecStatefulSetPodDnsConfig#searches
+   */
+  readonly searches?: string[];
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStatefulSetPodDnsConfig' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyClassSpecStatefulSetPodDnsConfig(
+  obj: ProxyClassSpecStatefulSetPodDnsConfig | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    nameservers: obj.nameservers?.map((y) => y),
+    options: obj.options?.map((y) => toJson_ProxyClassSpecStatefulSetPodDnsConfigOptions(y)),
+    searches: obj.searches?.map((y) => y),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * DNSPolicy defines how DNS will be configured for the proxy Pod.
+ * By default the Tailscale Kubernetes Operator does not set a DNS policy (uses cluster default).
+ * https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
+ *
+ * @schema ProxyClassSpecStatefulSetPodDnsPolicy
+ */
+export enum ProxyClassSpecStatefulSetPodDnsPolicy {
+  /** ClusterFirstWithHostNet */
+  CLUSTER_FIRST_WITH_HOST_NET = "ClusterFirstWithHostNet",
+  /** ClusterFirst */
+  CLUSTER_FIRST = "ClusterFirst",
+  /** Default */
+  DEFAULT = "Default",
+  /** None */
+  NONE = "None",
+}
 
 /**
  * LocalObjectReference contains enough information to let you locate the
@@ -2207,6 +2458,47 @@ export function toJson_ProxyClassSpecStatefulSetPodAffinityPodAntiAffinity(
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
+ * PodDNSConfigOption defines DNS resolver options of a pod.
+ *
+ * @schema ProxyClassSpecStatefulSetPodDnsConfigOptions
+ */
+export interface ProxyClassSpecStatefulSetPodDnsConfigOptions {
+  /**
+   * Name is this DNS resolver option's name.
+   * Required.
+   *
+   * @schema ProxyClassSpecStatefulSetPodDnsConfigOptions#name
+   */
+  readonly name?: string;
+
+  /**
+   * Value is this DNS resolver option's value.
+   *
+   * @schema ProxyClassSpecStatefulSetPodDnsConfigOptions#value
+   */
+  readonly value?: string;
+}
+
+/**
+ * Converts an object of type 'ProxyClassSpecStatefulSetPodDnsConfigOptions' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_ProxyClassSpecStatefulSetPodDnsConfigOptions(
+  obj: ProxyClassSpecStatefulSetPodDnsConfigOptions | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    name: obj.name,
+    value: obj.value,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
  * appArmorProfile is the AppArmor options to use by the containers in this pod.
  * Note that this field cannot be set when spec.os.name is windows.
  *
@@ -2606,9 +2898,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerResources {
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResources#limits
    */
-  readonly limits?: {
-    [key: string]: ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits;
-  };
+  readonly limits?: { [key: string]: ProxyClassSpecStatefulSetPodTailscaleContainerResourcesLimits };
 
   /**
    * Requests describes the minimum amount of compute resources required.
@@ -2618,9 +2908,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleContainerResources {
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleContainerResources#requests
    */
-  readonly requests?: {
-    [key: string]: ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests;
-  };
+  readonly requests?: { [key: string]: ProxyClassSpecStatefulSetPodTailscaleContainerResourcesRequests };
 }
 
 /**
@@ -2964,9 +3252,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerResources {
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResources#limits
    */
-  readonly limits?: {
-    [key: string]: ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits;
-  };
+  readonly limits?: { [key: string]: ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesLimits };
 
   /**
    * Requests describes the minimum amount of compute resources required.
@@ -2976,9 +3262,7 @@ export interface ProxyClassSpecStatefulSetPodTailscaleInitContainerResources {
    *
    * @schema ProxyClassSpecStatefulSetPodTailscaleInitContainerResources#requests
    */
-  readonly requests?: {
-    [key: string]: ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests;
-  };
+  readonly requests?: { [key: string]: ProxyClassSpecStatefulSetPodTailscaleInitContainerResourcesRequests };
 }
 
 /**
@@ -6181,6 +6465,14 @@ export interface RecorderSpec {
   readonly enableUi?: boolean;
 
   /**
+   * Replicas specifies how many instances of tsrecorder to run. Defaults to 1.
+   *
+   * @default 1.
+   * @schema RecorderSpec#replicas
+   */
+  readonly replicas?: number;
+
+  /**
    * Configuration parameters for the Recorder's StatefulSet. The operator
    * deploys a StatefulSet for each Recorder resource.
    *
@@ -6221,6 +6513,7 @@ export function toJson_RecorderSpec(obj: RecorderSpec | undefined): Record<strin
   }
   const result = {
     enableUI: obj.enableUi,
+    replicas: obj.replicas,
     statefulSet: toJson_RecorderSpecStatefulSet(obj.statefulSet),
     storage: toJson_RecorderSpecStorage(obj.storage),
     tags: obj.tags?.map((y) => y),
@@ -7301,9 +7594,7 @@ export interface RecorderSpecStatefulSetPodContainerResources {
    *
    * @schema RecorderSpecStatefulSetPodContainerResources#limits
    */
-  readonly limits?: {
-    [key: string]: RecorderSpecStatefulSetPodContainerResourcesLimits;
-  };
+  readonly limits?: { [key: string]: RecorderSpecStatefulSetPodContainerResourcesLimits };
 
   /**
    * Requests describes the minimum amount of compute resources required.
@@ -7313,9 +7604,7 @@ export interface RecorderSpecStatefulSetPodContainerResources {
    *
    * @schema RecorderSpecStatefulSetPodContainerResources#requests
    */
-  readonly requests?: {
-    [key: string]: RecorderSpecStatefulSetPodContainerResourcesRequests;
-  };
+  readonly requests?: { [key: string]: RecorderSpecStatefulSetPodContainerResourcesRequests };
 }
 
 /**

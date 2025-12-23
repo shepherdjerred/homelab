@@ -23,18 +23,18 @@ const runCommand = async (command: string, args: string[]) => {
   throw new Error(`Command failed with code ${String(exitCode)}`);
 };
 
-console.log(await runCommand("cdk8s", ["import", "k8s", "--language=typescript"]));
+console.log(await runCommand("cdk8s", ["import", "k8s", "--language=typescript", "--output=generated/imports"]));
 
 // run "kubectl get crds -o json | cdk8s import /dev/stdin --language=typescript"
 console.log(
-  await runCommand("bash", ["-c", "kubectl get crds -o json | cdk8s import /dev/stdin --language=typescript"]),
+  await runCommand("bash", ["-c", "kubectl get crds -o json | cdk8s import /dev/stdin --language=typescript --output=generated/imports"]),
 );
 
 const files: string[] = [];
 // List files in directory using Bun glob
 try {
-  const importGlob = new Bun.Glob("generated/imports/*.ts");
-  for await (const file of importGlob.scan()) {
+  const importGlob = new Bun.Glob("*.ts");
+  for await (const file of importGlob.scan({ cwd: "generated/imports" })) {
     files.push(file);
   }
 } catch {
