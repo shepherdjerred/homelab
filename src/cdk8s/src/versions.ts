@@ -149,7 +149,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://groundhog2k.github.io/helm-charts/ versioning=semver
   "groundhog2k/rabbitmq": "2.2.2",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "postalserver/postal": "3.1.1@sha256:3ed74702cb18b0c2d4467eeb870f12ee133d4fea32abd53e1c912c8e871cee0e",
+  "postalserver/postal": "3.3.4@sha256:0945f345ee87f5e6a4eb227d47f41c223ec0aa8b06a7c24f9f60ca0f9b9e0c28",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/mariadb": "11.8@sha256:1cac8492bd78b1ec693238dc600be173397efd7b55eabc725abc281dc855b482",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
