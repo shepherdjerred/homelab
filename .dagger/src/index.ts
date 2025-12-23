@@ -8,6 +8,7 @@ import {
   prepareHaContainer,
   typeCheckHaWithContainer,
   lintHaWithContainer,
+  buildHaWithContainer,
 } from "./ha";
 import { getMiseRuntimeContainer } from "./base";
 import {
@@ -26,7 +27,7 @@ import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
 import { buildAndPushDependencySummaryImage } from "./dependency-summary";
 import { buildAndPushClaudeCodeUIImage } from "./claudecodeui";
-import { build as helmBuildFn, publish as helmPublishFn } from "./helm";
+import { build as helmBuildFn, publish as helmPublishFn, buildAllCharts } from "./helm";
 import { Stage } from "./stage";
 import versions from "./versions";
 
@@ -309,7 +310,9 @@ export class Homelab {
         message: `CDK8s Build: FAILED\n${formatDaggerError(e)}`,
       }));
 
-    const haBuildPromise = Promise.resolve(buildHa(updatedSource))
+    // HA build - uses shared container to ensure types are generated
+    const haBuildPromise = haContainerPromise
+      .then((container) => buildHaWithContainer(container))
       .then(() => ({ status: "passed" as const, message: "HA Build: PASSED" }))
       .catch((e: unknown) => ({
         status: "failed" as const,
@@ -319,11 +322,7 @@ export class Homelab {
     // Always build Helm chart (for both dev and prod)
     const helmBuildPromise = Promise.resolve().then(() => {
       try {
-        const dist = this.helmBuild(
-          updatedSource.directory("src/cdk8s/helm"),
-          updatedSource,
-          chartVersion || "dev-snapshot",
-        );
+        const dist = this.helmBuild(updatedSource, chartVersion || "dev-snapshot");
         return {
           status: "passed" as const,
           message: "Helm Build: PASSED",
@@ -582,10 +581,10 @@ export class Homelab {
     })
     source: Directory,
   ): Promise<string> {
-    const testVersion = "test-0.1.0";
+    const testVersion = "0.1.0-test";
 
-    // Build the chart with test version
-    const helmDist = this.helmBuild(source.directory("src/cdk8s/helm"), source, testVersion);
+    // Build all charts with test version
+    const helmDist = buildAllCharts(source, testVersion);
 
     // Test the built chart using TypeScript script
     // Copy Helm binary from official alpine/helm image (avoids network download issues)
@@ -866,24 +865,25 @@ export class Homelab {
   }
 
   /**
-   * Builds the Helm chart, updates version/appVersion, and exports artifacts.
-   * @param source The Helm chart source directory (should be src/cdk8s/helm).
+   * Builds the torvalds Helm chart, updates version/appVersion, and exports artifacts.
    * @param repoRoot The repository root directory.
    * @param version The raw build number (e.g. "123") - will be formatted as "1.0.0-123".
    * @returns The dist directory with packaged chart and YAMLs.
    */
   @func()
   helmBuild(
-    @argument({ defaultPath: "src/cdk8s/helm" }) source: Directory,
-    @argument({ defaultPath: "." }) repoRoot: Directory,
+    @argument({
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
+      defaultPath: ".",
+    })
+    repoRoot: Directory,
     @argument() version: string,
   ): Directory {
-    return helmBuildFn(source, repoRoot, `1.0.0-${version}`);
+    return helmBuildFn(repoRoot, `1.0.0-${version}`);
   }
 
   /**
-   * Publishes the packaged Helm chart to a ChartMuseum repo and returns a StepResult.
-   * @param source The Helm chart source directory (should be src/cdk8s/helm).
+   * Publishes the packaged torvalds Helm chart to a ChartMuseum repo and returns a StepResult.
    * @param repoRoot The repository root directory.
    * @param version The raw build number (e.g. "123") - will be formatted as "1.0.0-123".
    * @param repo The ChartMuseum repo URL.
@@ -894,7 +894,6 @@ export class Homelab {
    */
   @func()
   async helmPublish(
-    @argument({ defaultPath: "src/cdk8s/helm" }) source: Directory,
     @argument({ defaultPath: "." }) repoRoot: Directory,
     @argument() version: string,
     @argument() repo = "https://chartmuseum.tailnet-1a49.ts.net",
@@ -906,14 +905,7 @@ export class Homelab {
       return { status: "skipped", message: "[SKIPPED] Not prod" };
     }
     try {
-      const result = await helmPublishFn(
-        source,
-        repoRoot,
-        `1.0.0-${version}`,
-        repo,
-        chartMuseumUsername,
-        chartMuseumPassword,
-      );
+      const result = await helmPublishFn(repoRoot, `1.0.0-${version}`, repo, chartMuseumUsername, chartMuseumPassword);
       return { status: "passed", message: result };
     } catch (e: unknown) {
       return {
