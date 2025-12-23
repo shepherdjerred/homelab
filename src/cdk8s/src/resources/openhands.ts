@@ -1,5 +1,15 @@
-import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
-import { Cpu, Deployment, DeploymentStrategy, EnvValue, Namespace, Protocol, Secret, Service } from "cdk8s-plus-31";
+import { ApiObject, Chart, Duration, JsonPatch, Size } from "cdk8s";
+import {
+  Cpu,
+  Deployment,
+  DeploymentStrategy,
+  EnvValue,
+  Namespace,
+  Probe,
+  Protocol,
+  Secret,
+  Service,
+} from "cdk8s-plus-31";
 import { withCommonProps, ROOT_UID, ROOT_GID } from "../misc/common.ts";
 import { TailscaleIngress } from "../misc/tailscale.ts";
 import { OnePasswordItem } from "../../generated/imports/onepassword.com.ts";
@@ -85,6 +95,28 @@ export function createOpenHandsDeployment(chart: Chart) {
     },
   });
 
+  // Add init container to wait for DinD to be ready
+  deployment.addInitContainer({
+    name: "wait-for-dind",
+    image: `docker.io/library/busybox:${versions["library/busybox"]}`,
+    command: ["/bin/sh", "-c"],
+    args: [
+      `
+      echo "Waiting for Docker daemon to be ready..."
+      until nc -z localhost 2375; do
+        echo "Docker daemon not ready yet, waiting..."
+        sleep 2
+      done
+      echo "Docker daemon is ready!"
+      `,
+    ],
+    securityContext: {
+      ensureNonRoot: false,
+      user: ROOT_UID,
+      group: ROOT_GID,
+    },
+  });
+
   // Docker-in-Docker sidecar container
   deployment.addContainer(
     withCommonProps({
@@ -116,6 +148,19 @@ export function createOpenHandsDeployment(chart: Chart) {
           limit: Size.gibibytes(8),
         },
       },
+      liveness: Probe.fromCommand(["docker", "info"], {
+        initialDelaySeconds: Duration.seconds(30),
+        periodSeconds: Duration.seconds(30),
+        failureThreshold: 3,
+        timeoutSeconds: Duration.seconds(10),
+      }),
+      readiness: Probe.fromTcpSocket({
+        port: 2375,
+        host: "localhost",
+        initialDelaySeconds: Duration.seconds(10),
+        periodSeconds: Duration.seconds(5),
+        failureThreshold: 3,
+      }),
     }),
   );
 
@@ -163,6 +208,14 @@ export function createOpenHandsDeployment(chart: Chart) {
           limit: Size.gibibytes(4),
         },
       },
+      startup: Probe.fromTcpSocket({
+        port: 3000,
+        host: "localhost",
+        initialDelaySeconds: Duration.seconds(10),
+        periodSeconds: Duration.seconds(5),
+        failureThreshold: 60, // 5 min total: 10s + (60 * 5s) = 310s
+        timeoutSeconds: Duration.seconds(3),
+      }),
     }),
   );
 
@@ -203,6 +256,17 @@ export function createOpenHandsDeployment(chart: Chart) {
       {
         name: "openhands-config",
         mountPath: "/.openhands",
+      },
+    ]),
+  );
+
+  // Add hostAlias to make host.docker.internal resolve to localhost
+  // This fixes DNS resolution in Kubernetes where host.docker.internal doesn't exist
+  deploymentApiObject.addJsonPatch(
+    JsonPatch.add("/spec/template/spec/hostAliases", [
+      {
+        ip: "127.0.0.1",
+        hostnames: ["host.docker.internal"],
       },
     ]),
   );

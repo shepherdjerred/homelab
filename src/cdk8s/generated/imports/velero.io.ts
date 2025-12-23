@@ -311,6 +311,13 @@ export interface BackupSpec {
   readonly uploaderConfig?: BackupSpecUploaderConfig;
 
   /**
+   * VolumeGroupSnapshotLabelKey specifies the label key to group PVCs under a VGS.
+   *
+   * @schema BackupSpec#volumeGroupSnapshotLabelKey
+   */
+  readonly volumeGroupSnapshotLabelKey?: string;
+
+  /**
    * VolumeSnapshotLocations is a list containing names of VolumeSnapshotLocations associated with this backup.
    *
    * @schema BackupSpec#volumeSnapshotLocations
@@ -355,6 +362,7 @@ export function toJson_BackupSpec(obj: BackupSpec | undefined): Record<string, a
     storageLocation: obj.storageLocation,
     ttl: obj.ttl,
     uploaderConfig: toJson_BackupSpecUploaderConfig(obj.uploaderConfig),
+    volumeGroupSnapshotLabelKey: obj.volumeGroupSnapshotLabelKey,
     volumeSnapshotLocations: obj.volumeSnapshotLocations?.map((y) => y),
   };
   // filter undefined values
@@ -1223,11 +1231,11 @@ export interface BackupRepositorySpec {
 
   /**
    * ResticIdentifier is the full restic-compatible string for identifying
-   * this repository.
+   * this repository. This field is only used when RepositoryType is "restic".
    *
    * @schema BackupRepositorySpec#resticIdentifier
    */
-  readonly resticIdentifier: string;
+  readonly resticIdentifier?: string;
 
   /**
    * VolumeNamespace is the namespace this backup repository contains
@@ -2022,6 +2030,13 @@ export function toJson_DataUploadSpec(obj: DataUploadSpec | undefined): Record<s
  */
 export interface DataUploadSpecCsiSnapshot {
   /**
+   * Driver is the driver used by the VolumeSnapshotContent
+   *
+   * @schema DataUploadSpecCsiSnapshot#driver
+   */
+  readonly driver?: string;
+
+  /**
    * SnapshotClass is the name of the snapshot class that the volume snapshot is created with
    *
    * @schema DataUploadSpecCsiSnapshot#snapshotClass
@@ -2054,6 +2069,7 @@ export function toJson_DataUploadSpecCsiSnapshot(
     return undefined;
   }
   const result = {
+    driver: obj.driver,
     snapshotClass: obj.snapshotClass,
     storageClass: obj.storageClass,
     volumeSnapshot: obj.volumeSnapshot,
@@ -2486,6 +2502,14 @@ export interface PodVolumeBackupSpec {
   readonly backupStorageLocation: string;
 
   /**
+   * Cancel indicates request to cancel the ongoing PodVolumeBackup. It can be set
+   * when the PodVolumeBackup is in InProgress phase
+   *
+   * @schema PodVolumeBackupSpec#cancel
+   */
+  readonly cancel?: boolean;
+
+  /**
    * Node is the name of the node that the Pod is running on.
    *
    * @schema PodVolumeBackupSpec#node
@@ -2548,6 +2572,7 @@ export function toJson_PodVolumeBackupSpec(obj: PodVolumeBackupSpec | undefined)
   }
   const result = {
     backupStorageLocation: obj.backupStorageLocation,
+    cancel: obj.cancel,
     node: obj.node,
     pod: toJson_PodVolumeBackupSpecPod(obj.pod),
     repoIdentifier: obj.repoIdentifier,
@@ -2773,6 +2798,14 @@ export interface PodVolumeRestoreSpec {
   readonly backupStorageLocation: string;
 
   /**
+   * Cancel indicates request to cancel the ongoing PodVolumeRestore. It can be set
+   * when the PodVolumeRestore is in InProgress phase
+   *
+   * @schema PodVolumeRestoreSpec#cancel
+   */
+  readonly cancel?: boolean;
+
+  /**
    * Pod is a reference to the pod containing the volume to be restored.
    *
    * @schema PodVolumeRestoreSpec#pod
@@ -2833,6 +2866,7 @@ export function toJson_PodVolumeRestoreSpec(obj: PodVolumeRestoreSpec | undefine
   }
   const result = {
     backupStorageLocation: obj.backupStorageLocation,
+    cancel: obj.cancel,
     pod: toJson_PodVolumeRestoreSpecPod(obj.pod),
     repoIdentifier: obj.repoIdentifier,
     snapshotID: obj.snapshotId,
@@ -4321,6 +4355,13 @@ export interface ScheduleSpecTemplate {
   readonly uploaderConfig?: ScheduleSpecTemplateUploaderConfig;
 
   /**
+   * VolumeGroupSnapshotLabelKey specifies the label key to group PVCs under a VGS.
+   *
+   * @schema ScheduleSpecTemplate#volumeGroupSnapshotLabelKey
+   */
+  readonly volumeGroupSnapshotLabelKey?: string;
+
+  /**
    * VolumeSnapshotLocations is a list containing names of VolumeSnapshotLocations associated with this backup.
    *
    * @schema ScheduleSpecTemplate#volumeSnapshotLocations
@@ -4365,6 +4406,7 @@ export function toJson_ScheduleSpecTemplate(obj: ScheduleSpecTemplate | undefine
     storageLocation: obj.storageLocation,
     ttl: obj.ttl,
     uploaderConfig: toJson_ScheduleSpecTemplateUploaderConfig(obj.uploaderConfig),
+    volumeGroupSnapshotLabelKey: obj.volumeGroupSnapshotLabelKey,
     volumeSnapshotLocations: obj.volumeSnapshotLocations?.map((y) => y),
   };
   // filter undefined values
