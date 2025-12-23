@@ -95,28 +95,6 @@ export function createOpenHandsDeployment(chart: Chart) {
     },
   });
 
-  // Add init container to wait for DinD to be ready
-  deployment.addInitContainer({
-    name: "wait-for-dind",
-    image: `docker.io/library/busybox:${versions["library/busybox"]}`,
-    command: ["/bin/sh", "-c"],
-    args: [
-      `
-      echo "Waiting for Docker daemon to be ready..."
-      until nc -z localhost 2375; do
-        echo "Docker daemon not ready yet, waiting..."
-        sleep 2
-      done
-      echo "Docker daemon is ready!"
-      `,
-    ],
-    securityContext: {
-      ensureNonRoot: false,
-      user: ROOT_UID,
-      group: ROOT_GID,
-    },
-  });
-
   // Docker-in-Docker sidecar container
   deployment.addContainer(
     withCommonProps({
