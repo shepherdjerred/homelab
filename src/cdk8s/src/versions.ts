@@ -105,7 +105,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "chocobozzz/peertube": "v7.3.0-bookworm@sha256:011b0ec43d921bd60a3aa01fc7995e42cf15275925f16bee6f17a6c896ca5060",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
-  "gha-runner-scale-set-controller": "0.13.0",
+  "gha-runner-scale-set-controller": "0.13.1",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set": "0.13.0",
   // renovate: datasource=docker registryUrl=https://registry.dagger.io versioning=loose
