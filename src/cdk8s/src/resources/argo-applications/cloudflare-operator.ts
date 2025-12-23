@@ -12,7 +12,7 @@ export function createCloudflareOperatorApp(chart: Chart) {
       source: {
         // https://github.com/adyanth/cloudflare-operator
         repoUrl: "https://github.com/adyanth/cloudflare-operator.git",
-        targetRevision: versions["cloudflare-operator"],
+        targetRevision: versions["adyanth/cloudflare-operator"],
         path: "config/default",
       },
       destination: {
