@@ -504,9 +504,10 @@ export class Homelab {
       .withFile("src/cdk8s/src/versions.ts", source.file("src/cdk8s/src/versions.ts"))
       .withFile(".dagger/src/versions.ts", source.file(".dagger/src/versions.ts"))
       .withFile(".dagger/test/test-renovate-regex.ts", source.file(".dagger/test/test-renovate-regex.ts"))
-      .withExec(["bun", "run", ".dagger/test/test-renovate-regex.ts"]);
+      // Write output to file then read it back to avoid Dagger SDK URLSearchParams.toJSON bug
+      .withExec(["sh", "-c", "bun run .dagger/test/test-renovate-regex.ts > /tmp/result.txt 2>&1"]);
 
-    return container.stdout();
+    return container.file("/tmp/result.txt").contents();
   }
 
   /**
@@ -538,11 +539,10 @@ export class Homelab {
       .withFile("/usr/local/bin/helm", helmBinary)
       .withExec(["chmod", "+x", "/usr/local/bin/helm"])
       .withExec(["helm", "version"])
-      .withExec(["bun", "run", "./test-helm.ts"]);
+      // Write output to file then read it back to avoid Dagger SDK URLSearchParams.toJSON bug
+      .withExec(["sh", "-c", "bun run ./test-helm.ts > /tmp/result.txt 2>&1"]);
 
-    const output = await container.stdout();
-
-    return output;
+    return container.file("/tmp/result.txt").contents();
   }
 
   /**
