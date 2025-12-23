@@ -74,43 +74,41 @@ jobs:
           DAGGER_ENGINE_POD_NAME="$(kubectl get pod --selector=name=dagger-dagger-helm-engine --namespace=dagger --output=jsonpath='{.items[0].metadata.name}')"
           echo "_EXPERIMENTAL_DAGGER_RUNNER_HOST=kube-pod://$DAGGER_ENGINE_POD_NAME?namespace=dagger" >> "$GITHUB_ENV"
 
-      - name: Run Dagger CI pipeline (prod)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Run Dagger CI pipeline
         env:
-          GHCR_USERNAME: ${{ github.actor }}
-          GHCR_PASSWORD: ${{ github.token }}
           CHARTMUSEUM_USERNAME: sjerred
           HASS_BASE_URL: https://homeassistant.tailnet-1a49.ts.net
+          GHCR_PASSWORD: ${{ github.token }}
         run: |
-          CHART_VERSION=$(( ${{ github.run_number }} + 2246 ))
-          dagger call ci \
-            --source=. \
-            --argocd-token env://ARGOCD_TOKEN \
-            --ghcr-username "$GHCR_USERNAME" \
-            --ghcr-password env://GHCR_PASSWORD \
-            --chart-version "$CHART_VERSION" \
-            --chart-museum-username "$CHARTMUSEUM_USERNAME" \
-            --chart-museum-password env://CHARTMUSEUM_PASSWORD \
-            --hass-base-url env://HASS_BASE_URL \
-            --hass-token env://HASS_TOKEN \
-            --env prod
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
+            ENV_NAME="prod"
+            ARGOCD_TOKEN_VAL="env://ARGOCD_TOKEN"
+            GHCR_USERNAME_VAL="${{ github.actor }}"
+            GHCR_PASSWORD_VAL="env://GHCR_PASSWORD"
+            CHART_VERSION_VAL="$(( ${{ github.run_number }} + 2246 ))"
+            CHARTMUSEUM_USERNAME_VAL="sjerred"
+            CHARTMUSEUM_PASSWORD_VAL="env://CHARTMUSEUM_PASSWORD"
+          else
+            ENV_NAME="dev"
+            ARGOCD_TOKEN_VAL="dummy"
+            GHCR_USERNAME_VAL="dummy"
+            GHCR_PASSWORD_VAL="dummy"
+            CHART_VERSION_VAL="dummy"
+            CHARTMUSEUM_USERNAME_VAL="dummy"
+            CHARTMUSEUM_PASSWORD_VAL="dummy"
+          fi
 
-      - name: Run Dagger CI pipeline (dev)
-        if: github.event_name == 'pull_request' || github.ref != 'refs/heads/main'
-        env:
-          HASS_BASE_URL: https://homeassistant.tailnet-1a49.ts.net
-        run: |
           dagger call ci \
             --source=. \
-            --argocd-token dummy \
-            --ghcr-username dummy \
-            --ghcr-password dummy \
-            --chart-version dummy \
-            --chart-museum-username dummy \
-            --chart-museum-password dummy \
+            --argocd-token "$ARGOCD_TOKEN_VAL" \
+            --ghcr-username "$GHCR_USERNAME_VAL" \
+            --ghcr-password "$GHCR_PASSWORD_VAL" \
+            --chart-version "$CHART_VERSION_VAL" \
+            --chart-museum-username "$CHARTMUSEUM_USERNAME_VAL" \
+            --chart-museum-password "$CHARTMUSEUM_PASSWORD_VAL" \
             --hass-base-url env://HASS_BASE_URL \
             --hass-token env://HASS_TOKEN \
-            --env dev
+            --env "$ENV_NAME"
 
 permissions:
   contents: read
