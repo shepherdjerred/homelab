@@ -38,7 +38,11 @@ export function createBetterSkillCappedDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  deployment.addContainer(
+  // Create emptyDir volumes for nginx writable directories
+  const cacheVolume = Volume.fromEmptyDir(chart, "bsc-nginx-cache", "nginx-cache");
+  const runVolume = Volume.fromEmptyDir(chart, "bsc-nginx-run", "nginx-run");
+
+  const container = deployment.addContainer(
     withCommonProps({
       image: `ghcr.io/shepherdjerred/better-skill-capped:${versions["shepherdjerred/better-skill-capped"]}`,
       securityContext: {
@@ -55,6 +59,10 @@ export function createBetterSkillCappedDeployment(chart: Chart) {
       ],
     }),
   );
+
+  // Mount writable directories for nginx running as non-root
+  container.mount("/var/cache/nginx", cacheVolume);
+  container.mount("/var/run", runVolume);
 
   new Service(chart, "better-skill-capped-service", {
     selector: deployment,
