@@ -17,7 +17,7 @@ const versions = {
   // renovate: datasource=python-version versioning=semver
   python: "3.14.2",
   // renovate: datasource=node-version versioning=semver
-  node: "24.11.1",
+  node: "24.12.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "node/claudecodeui": "20-alpine@sha256:0535d6223cd06df73d03e2c40f572e9e97abbb9d66d1819db5ec84be3e7e9c3a",
   // renovate: datasource=npm registryUrl=https://registry.npmjs.org versioning=npm
