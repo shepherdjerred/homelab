@@ -16,11 +16,12 @@ function buildClaudeCodeUIContainer(_source: Directory): Container {
       .container()
       .from(`node:${versions["node/claudecodeui"]}`)
       // Install build dependencies required for node-pty (needed by claude-code-ui)
-      .withExec(["apk", "add", "--no-cache", "python3", "make", "g++"])
+      // py3-setuptools provides distutils which node-gyp requires (removed in Python 3.12+)
+      .withExec(["apk", "add", "--no-cache", "python3", "py3-setuptools", "make", "g++"])
       // Install ClaudeCodeUI globally
       .withExec(["npm", "install", "-g", `@siteboon/claude-code-ui@${versions["@siteboon/claude-code-ui"]}`])
       // Remove build dependencies to keep image size smaller
-      .withExec(["apk", "del", "python3", "make", "g++"])
+      .withExec(["apk", "del", "python3", "py3-setuptools", "make", "g++"])
       // Create directories for data persistence
       .withExec(["mkdir", "-p", "/data/db", "/data/projects"])
       // Set environment variables
