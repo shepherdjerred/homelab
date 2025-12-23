@@ -155,7 +155,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/rabbitmq": "3.13-management@sha256:e582c0bc7766f3342496d8485efb5a1df782b5ce3886ad017e2eaae442311f69",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "boky/postfix": "latest@sha256:f3f247fd42528b969e2603ac120d5a5b5db7dfe61f4505c49d438b9ba1822999",
+  "boky/postfix": "latest@sha256:f4e62b80404c2f2c920137273ca6ae3bd07817ee087bbe424d9867d3280de787",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "library/busybox": "latest@sha256:870e815c3a50dd0f6b40efddb319c72c32c3ee340b5a3e8945904232ccd12f44",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
