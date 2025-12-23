@@ -12,7 +12,7 @@ function buildClaudeCodeUIContainer(): Container {
   return (
     dag
       .container()
-      .from(`node:${versions["node/claudecodeui"]}`)
+      .from(`node:${versions["library/node"]}`)
       // Install ClaudeCodeUI globally
       .withExec(["npm", "install", "-g", `@siteboon/claude-code-ui@${versions["@siteboon/claude-code-ui"]}`])
       // Create directories for data persistence
