@@ -15,8 +15,12 @@ function buildClaudeCodeUIContainer(_source: Directory): Container {
     dag
       .container()
       .from(`node:${versions["node/claudecodeui"]}`)
+      // Install build dependencies required for node-pty (needed by claude-code-ui)
+      .withExec(["apk", "add", "--no-cache", "python3", "make", "g++"])
       // Install ClaudeCodeUI globally
       .withExec(["npm", "install", "-g", `@siteboon/claude-code-ui@${versions["@siteboon/claude-code-ui"]}`])
+      // Remove build dependencies to keep image size smaller
+      .withExec(["apk", "del", "python3", "make", "g++"])
       // Create directories for data persistence
       .withExec(["mkdir", "-p", "/data/db", "/data/projects"])
       // Set environment variables
