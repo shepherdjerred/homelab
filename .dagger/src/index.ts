@@ -1,5 +1,5 @@
 import { func, argument, Directory, object, Secret, dag, File } from "@dagger.io/dagger";
-import { formatDaggerError } from "./errors";
+import { formatDaggerError, execOrThrow } from "./errors";
 import {
   buildHa,
   typeCheckHa,
@@ -503,11 +503,10 @@ export class Homelab {
       .withFile("renovate.json", source.file("renovate.json"))
       .withFile("src/cdk8s/src/versions.ts", source.file("src/cdk8s/src/versions.ts"))
       .withFile(".dagger/src/versions.ts", source.file(".dagger/src/versions.ts"))
-      .withFile(".dagger/test/test-renovate-regex.ts", source.file(".dagger/test/test-renovate-regex.ts"))
-      // Write output to file then read it back to avoid Dagger SDK URLSearchParams.toJSON bug
-      .withExec(["sh", "-c", "bun run .dagger/test/test-renovate-regex.ts > /tmp/result.txt 2>&1"]);
+      .withFile(".dagger/test/test-renovate-regex.ts", source.file(".dagger/test/test-renovate-regex.ts"));
 
-    return await container.file("/tmp/result.txt").contents();
+    // Use execOrThrow which works around the URLSearchParams bug by using ReturnType.Any
+    return execOrThrow(container, ["bun", "run", ".dagger/test/test-renovate-regex.ts"]);
   }
 
   /**
@@ -538,11 +537,10 @@ export class Homelab {
       .withFile("/workspace/test-helm.ts", source.file("scripts/test-helm.ts"))
       .withFile("/usr/local/bin/helm", helmBinary)
       .withExec(["chmod", "+x", "/usr/local/bin/helm"])
-      .withExec(["helm", "version"])
-      // Write output to file then read it back to avoid Dagger SDK URLSearchParams.toJSON bug
-      .withExec(["sh", "-c", "bun run ./test-helm.ts > /tmp/result.txt 2>&1"]);
+      .withExec(["helm", "version"]);
 
-    return await container.file("/tmp/result.txt").contents();
+    // Use execOrThrow which works around the URLSearchParams bug by using ReturnType.Any
+    return execOrThrow(container, ["bun", "run", "./test-helm.ts"]);
   }
 
   /**
