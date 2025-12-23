@@ -168,7 +168,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "all-hands-ai/openhands": "main@sha256:0dcd216f296cace3321e911dfb143d3b13d680aead5b542881dc4c419cc1a676",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "library/docker": "28-dind@sha256:2a232a42256f70d78e3cc5d2b5d6b3276710a0de0596c145f627ecfae90282ac",
+  "library/docker": "29-dind@sha256:173f284a4299164772a90f52b373e73e087583c0963f1334c9995f190ef6f3f5",
   // not managed by renovate
   "shepherdjerred/claudecodeui": "latest",
 };
