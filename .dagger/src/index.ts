@@ -507,7 +507,7 @@ export class Homelab {
       // Write output to file then read it back to avoid Dagger SDK URLSearchParams.toJSON bug
       .withExec(["sh", "-c", "bun run .dagger/test/test-renovate-regex.ts > /tmp/result.txt 2>&1"]);
 
-    return container.file("/tmp/result.txt").contents();
+    return await container.file("/tmp/result.txt").contents();
   }
 
   /**
@@ -542,7 +542,7 @@ export class Homelab {
       // Write output to file then read it back to avoid Dagger SDK URLSearchParams.toJSON bug
       .withExec(["sh", "-c", "bun run ./test-helm.ts > /tmp/result.txt 2>&1"]);
 
-    return container.file("/tmp/result.txt").contents();
+    return await container.file("/tmp/result.txt").contents();
   }
 
   /**
