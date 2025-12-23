@@ -1,5 +1,10 @@
 import { App, Chart, Size } from "cdk8s";
 import { createRedlibDeployment } from "../resources/frontends/redlib.ts";
+import { createSjerRedDeployment } from "../resources/frontends/sjer-red.ts";
+import { createScoutForLolFrontendDeployment } from "../resources/frontends/scout-for-lol.ts";
+import { createWebringDocsDeployment } from "../resources/frontends/webring.ts";
+import { createDppDocsDeployment } from "../resources/frontends/dpp-docs.ts";
+import { createBetterSkillCappedDeployment } from "../resources/frontends/better-skill-capped.ts";
 import { createGolinkDeployment } from "../resources/golink.ts";
 import { createHomeAssistantDeployment } from "../resources/home/homeassistant.ts";
 import { createPlexDeployment } from "../resources/media/plex.ts";
@@ -28,6 +33,8 @@ import { PostalMariaDB } from "../resources/postgres/postal-mariadb.ts";
 import { createPostalDeployment } from "../resources/mail/postal.ts";
 import { createGolinkSyncJob } from "../resources/golink-sync.ts";
 import { createBirmelDeployment } from "../resources/birmel/index.ts";
+import { createCloudflareTunnelCRD } from "../resources/cloudflare-tunnel.ts";
+import { createClaudeCodeUIDeployment } from "../resources/claudecodeui.ts";
 
 export async function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
@@ -103,4 +110,17 @@ export async function createTorvaldsChart(app: App) {
 
   // Birmel Discord bot
   createBirmelDeployment(chart);
+
+  // ClaudeCodeUI - Web UI for managing Claude Code sessions
+  createClaudeCodeUIDeployment(chart);
+
+  // Cloudflare Tunnel for public site access
+  createCloudflareTunnelCRD(chart);
+
+  // Public static sites (via Cloudflare Tunnel)
+  createSjerRedDeployment(chart);
+  createScoutForLolFrontendDeployment(chart);
+  createWebringDocsDeployment(chart);
+  createDppDocsDeployment(chart);
+  createBetterSkillCappedDeployment(chart);
 }

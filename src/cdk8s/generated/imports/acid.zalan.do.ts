@@ -2027,9 +2027,7 @@ export interface PostgresqlSpec {
   /**
    * @schema PostgresqlSpec#preparedDatabases
    */
-  readonly preparedDatabases?: {
-    [key: string]: PostgresqlSpecPreparedDatabases;
-  };
+  readonly preparedDatabases?: { [key: string]: PostgresqlSpecPreparedDatabases };
 
   /**
    * deprecated
@@ -2187,13 +2185,7 @@ export function toJson_PostgresqlSpec(obj: PostgresqlSpec | undefined): Record<s
       obj.preparedDatabases === undefined
         ? undefined
         : Object.entries(obj.preparedDatabases).reduce(
-            (r, i) =>
-              i[1] === undefined
-                ? r
-                : {
-                    ...r,
-                    [i[0]]: toJson_PostgresqlSpecPreparedDatabases(i[1]),
-                  },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: toJson_PostgresqlSpecPreparedDatabases(i[1]) }),
             {},
           ),
     replicaLoadBalancer: obj.replicaLoadBalancer,
@@ -2655,13 +2647,7 @@ export function toJson_PostgresqlSpecPreparedDatabases(
       obj.schemas === undefined
         ? undefined
         : Object.entries(obj.schemas).reduce(
-            (r, i) =>
-              i[1] === undefined
-                ? r
-                : {
-                    ...r,
-                    [i[0]]: toJson_PostgresqlSpecPreparedDatabasesSchemas(i[1]),
-                  },
+            (r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: toJson_PostgresqlSpecPreparedDatabasesSchemas(i[1]) }),
             {},
           ),
     secretNamespace: obj.secretNamespace,

@@ -17,6 +17,7 @@ export async function sync(
   appName = "torvalds",
 ): Promise<StepResult> {
   // Use curl to get both the response body and HTTP status code
+  // Write to file then read to avoid Dagger SDK URLSearchParams.toJSON bug
   const container = getCurlContainer()
     .withSecretVariable("ARGOCD_TOKEN", argocdToken)
     .withExec([
@@ -25,9 +26,9 @@ export async function sync(
       // Output: body\nHTTP_CODE
       `curl -s -w '\\n%{http_code}' -X POST ${argocdServer}/api/v1/applications/${appName}/sync ` +
         '-H "Authorization: Bearer $ARGOCD_TOKEN" ' +
-        "-H 'Content-Type: application/json'",
+        "-H 'Content-Type: application/json' > /tmp/result.txt 2>&1",
     ]);
-  const output = await container.stdout();
+  const output = await container.file("/tmp/result.txt").contents();
 
   // Split output into body and status code
   const lastNewline = output.lastIndexOf("\n");

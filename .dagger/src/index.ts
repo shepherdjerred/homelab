@@ -1,5 +1,5 @@
 import { func, argument, Directory, object, Secret, dag, File } from "@dagger.io/dagger";
-import { formatDaggerError } from "./errors";
+import { formatDaggerError, execOrThrow } from "./errors";
 import {
   buildHa,
   typeCheckHa,
@@ -25,6 +25,7 @@ import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
 import { buildAndPushDependencySummaryImage } from "./dependency-summary";
+import { buildAndPushClaudeCodeUIImage } from "./claudecodeui";
 import { build as helmBuildFn, publish as helmPublishFn } from "./helm";
 import { Stage } from "./stage";
 import versions from "./versions";
@@ -139,6 +140,35 @@ export class Homelab {
   }
 
   /**
+   * Update the versions.ts file with the ClaudeCodeUI image version for production builds
+   * @param source The source directory
+   * @param version The version to set for the ClaudeCodeUI image
+   * @returns The updated source directory
+   */
+  @func()
+  updateClaudeCodeUIVersion(
+    @argument({
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
+      defaultPath: ".",
+    })
+    source: Directory,
+    @argument() version: string,
+  ): Directory {
+    return dag
+      .container()
+      .from(`alpine:${versions.alpine}`)
+      .withMountedDirectory("/workspace", source)
+      .withWorkdir("/workspace")
+      .withExec([
+        "sed",
+        "-i",
+        `s/"shepherdjerred\\/claudecodeui": "[^"]*"/"shepherdjerred\\/claudecodeui": "${version}"/`,
+        "src/cdk8s/src/versions.ts",
+      ])
+      .directory("/workspace");
+  }
+
+  /**
    * Runs kube-linter, ArgoCD sync, builds for CDK8s and HA, publishes the HA image (if prod), and publishes the Helm chart (if prod) as part of the CI pipeline.
    * @param source The source directory for kube-linter, and builds.
    * @param argocdToken The ArgoCD API token for authentication (as a Dagger Secret).
@@ -180,6 +210,7 @@ export class Homelab {
     if (env === Stage.Prod) {
       updatedSource = this.updateHaVersion(source, chartVersion);
       updatedSource = this.updateDependencySummaryVersion(updatedSource, chartVersion);
+      updatedSource = this.updateClaudeCodeUIVersion(updatedSource, chartVersion);
     }
 
     // Prepare shared containers once - this is a major optimization
@@ -389,6 +420,31 @@ export class Homelab {
         message: `Versioned tag: ${versionedResult.message}\nLatest tag: ${latestResult.message}`,
       };
     }
+    // Publish ClaudeCodeUI image if prod - push versioned and latest tags in parallel
+    let claudeCodeUIPublishResult: StepResult = {
+      status: "skipped",
+      message: "[SKIPPED] Not prod",
+    };
+    if (env === Stage.Prod) {
+      const [versionedResult, latestResult] = await Promise.all([
+        this.internalPublishClaudeCodeUIImage(
+          `ghcr.io/shepherdjerred/claudecodeui:${chartVersion}`,
+          ghcrUsername,
+          ghcrPassword,
+          env,
+        ),
+        this.internalPublishClaudeCodeUIImage(
+          `ghcr.io/shepherdjerred/claudecodeui:latest`,
+          ghcrUsername,
+          ghcrPassword,
+          env,
+        ),
+      ]);
+      claudeCodeUIPublishResult = {
+        status: versionedResult.status === "passed" && latestResult.status === "passed" ? "passed" : "failed",
+        message: `Versioned tag: ${versionedResult.message}\nLatest tag: ${latestResult.message}`,
+      };
+    }
     // Publish Helm chart if prod
     let helmPublishResult: StepResult = {
       status: "skipped",
@@ -429,6 +485,7 @@ export class Homelab {
       helmBuildResult.message,
       `HA Image Publish result:\n${haPublishResult.message}`,
       `Dependency Summary Image Publish result:\n${depSummaryPublishResult.message}`,
+      `ClaudeCodeUI Image Publish result:\n${claudeCodeUIPublishResult.message}`,
       `Helm Chart Publish result:\n${helmPublishResult.message}`,
     ].join("\n\n");
     // Fail if any critical step failed
@@ -447,6 +504,7 @@ export class Homelab {
       (env === Stage.Prod &&
         (haPublishResult.status === "failed" ||
           depSummaryPublishResult.status === "failed" ||
+          claudeCodeUIPublishResult.status === "failed" ||
           helmPublishResult.status === "failed"))
     ) {
       throw new Error(summary);
@@ -503,10 +561,10 @@ export class Homelab {
       .withFile("renovate.json", source.file("renovate.json"))
       .withFile("src/cdk8s/src/versions.ts", source.file("src/cdk8s/src/versions.ts"))
       .withFile(".dagger/src/versions.ts", source.file(".dagger/src/versions.ts"))
-      .withFile(".dagger/test/test-renovate-regex.ts", source.file(".dagger/test/test-renovate-regex.ts"))
-      .withExec(["bun", "run", ".dagger/test/test-renovate-regex.ts"]);
+      .withFile(".dagger/test/test-renovate-regex.ts", source.file(".dagger/test/test-renovate-regex.ts"));
 
-    return container.stdout();
+    // Use execOrThrow which works around the URLSearchParams bug by using ReturnType.Any
+    return execOrThrow(container, ["bun", "run", ".dagger/test/test-renovate-regex.ts"]);
   }
 
   /**
@@ -537,12 +595,10 @@ export class Homelab {
       .withFile("/workspace/test-helm.ts", source.file("scripts/test-helm.ts"))
       .withFile("/usr/local/bin/helm", helmBinary)
       .withExec(["chmod", "+x", "/usr/local/bin/helm"])
-      .withExec(["helm", "version"])
-      .withExec(["bun", "run", "./test-helm.ts"]);
+      .withExec(["helm", "version"]);
 
-    const output = await container.stdout();
-
-    return output;
+    // Use execOrThrow which works around the URLSearchParams bug by using ReturnType.Any
+    return execOrThrow(container, ["bun", "run", "./test-helm.ts"]);
   }
 
   /**
@@ -768,6 +824,43 @@ export class Homelab {
   }
 
   /**
+   * Builds the ClaudeCodeUI image and optionally pushes it to GHCR.
+   *
+   * - In 'prod', the image is built and pushed to GHCR.
+   * - In 'dev', the image is built but not pushed (dry-run).
+   *
+   * @param imageName The image name (including tag), e.g. ghcr.io/shepherdjerred/claudecodeui:latest
+   * @param ghcrUsername The GHCR username
+   * @param ghcrPassword The GHCR password (as a Dagger Secret)
+   * @param env The environment to run in: 'prod' to build and push, 'dev' to only build (default: 'dev').
+   * @returns A StepResult object with status and message.
+   */
+  @func()
+  async publishClaudeCodeUIImage(
+    imageName: string,
+    ghcrUsername: string,
+    ghcrPassword: Secret,
+    @argument() env: Stage = Stage.Dev,
+  ): Promise<string> {
+    return JSON.stringify(
+      await this.internalPublishClaudeCodeUIImage(imageName, ghcrUsername, ghcrPassword, env),
+      null,
+      2,
+    );
+  }
+
+  async internalPublishClaudeCodeUIImage(
+    imageName: string,
+    ghcrUsername: string,
+    ghcrPassword: Secret,
+    @argument() env: Stage = Stage.Dev,
+  ): Promise<StepResult> {
+    const isDryRun = env !== Stage.Prod;
+
+    return buildAndPushClaudeCodeUIImage(imageName, ghcrUsername, ghcrPassword, isDryRun);
+  }
+
+  /**
    * Builds the Helm chart, updates version/appVersion, and exports artifacts.
    * @param source The Helm chart source directory (should be src/cdk8s/helm).
    * @param repoRoot The repository root directory.
@@ -850,7 +943,9 @@ export class Homelab {
     }
     try {
       const chartFile = `torvalds-${version}.tgz`;
-      const result = await dag
+      // Use -w to append HTTP status code, write to file, then read it back
+      // This avoids calling .stdout() which triggers a Dagger SDK bug
+      const container = dag
         .container()
         .from(`alpine/helm:${versions["alpine/helm"]}`)
         .withMountedDirectory("/workspace", builtDist)
@@ -860,20 +955,23 @@ export class Homelab {
         .withExec([
           "sh",
           "-c",
-          `curl -f -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts`,
-        ])
-        .stdout();
+          `curl -s -w '\\n%{http_code}' -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts > /tmp/result.txt 2>&1`,
+        ]);
 
-      return { status: "passed", message: result };
-    } catch (err: unknown) {
-      // Check for 409 Conflict (chart already exists) - treat as success
-      const errorMessage = formatDaggerError(err);
-      if (errorMessage.includes("409")) {
-        return {
-          status: "passed",
-          message: "409 Conflict: Chart already exists, treating as success.",
-        };
+      const result = await container.file("/tmp/result.txt").contents();
+      const lines = result.trim().split("\n");
+      const httpCode = lines.pop() ?? "";
+      const body = lines.join("\n");
+
+      if (httpCode === "201" || httpCode === "200") {
+        return { status: "passed", message: body || "Chart published successfully" };
+      } else if (httpCode === "409") {
+        return { status: "passed", message: "409 Conflict: Chart already exists, treating as success." };
+      } else {
+        return { status: "failed", message: `Helm Chart Publish: FAILED\nHTTP ${httpCode}: ${body}` };
       }
+    } catch (err: unknown) {
+      const errorMessage = formatDaggerError(err);
       return {
         status: "failed",
         message: `Helm Chart Publish: FAILED\n${errorMessage}`,

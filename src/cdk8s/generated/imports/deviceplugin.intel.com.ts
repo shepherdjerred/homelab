@@ -4,7 +4,7 @@ import { ApiObject, ApiObjectMetadata, GroupVersionKind } from "cdk8s";
 import { Construct } from "constructs";
 
 /**
- * DlbDevicePlugin is the Schema for the dlbdeviceplugins API. It represents
+ * DEPRECATED: DlbDevicePlugin is the Schema for the dlbdeviceplugins API. It represents
 the DLB device plugin responsible for advertising Intel DLB hardware resources to
 the kubelet.
  *
@@ -60,7 +60,7 @@ export class DlbDevicePlugin extends ApiObject {
 }
 
 /**
- * DlbDevicePlugin is the Schema for the dlbdeviceplugins API. It represents
+ * DEPRECATED: DlbDevicePlugin is the Schema for the dlbdeviceplugins API. It represents
  * the DLB device plugin responsible for advertising Intel DLB hardware resources to
  * the kubelet.
  *
@@ -488,7 +488,7 @@ export function toJson_DsaDevicePluginSpecTolerations(
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
- * FpgaDevicePlugin is the Schema for the fpgadeviceplugins API. It represents
+ * DEPRECATED: FpgaDevicePlugin is the Schema for the fpgadeviceplugins API. It represents
 the FPGA device plugin responsible for advertising Intel FPGA hardware resources to
 the kubelet.
  *
@@ -544,7 +544,7 @@ export class FpgaDevicePlugin extends ApiObject {
 }
 
 /**
- * FpgaDevicePlugin is the Schema for the fpgadeviceplugins API. It represents
+ * DEPRECATED: FpgaDevicePlugin is the Schema for the fpgadeviceplugins API. It represents
  * the FPGA device plugin responsible for advertising Intel FPGA hardware resources to
  * the kubelet.
  *
@@ -844,6 +844,35 @@ export function toJson_GpuDevicePluginProps(obj: GpuDevicePluginProps | undefine
  */
 export interface GpuDevicePluginSpec {
   /**
+   * AllowIDs is a comma-separated list of PCI IDs of GPU devices that should only be advertised by the plugin.
+   * If not set, all devices are advertised.
+   * The list can contain IDs in the form of '0x1234,0x49a4,0x50b4'.
+   * Cannot be used together with DenyIDs.
+   *
+   * @schema GpuDevicePluginSpec#allowIDs
+   */
+  readonly allowIDs?: string;
+
+  /**
+   * ByPathMode changes how plugin handles the DRM by-path/ directory mounting for GPU devices.
+   * See GPU plugin documentation for detailed description of the modes.
+   * If left empty, it defaults to 'single'.
+   *
+   * @schema GpuDevicePluginSpec#bypathMode
+   */
+  readonly bypathMode?: GpuDevicePluginSpecBypathMode;
+
+  /**
+   * DenyIDs is a comma-separated list of PCI IDs of GPU devices that should only be denied by the plugin.
+   * If not set, all devices are advertised.
+   * The list can contain IDs in the form of '0x1234,0x49a4,0x50b4'.
+   * Cannot be used together with AllowIDs.
+   *
+   * @schema GpuDevicePluginSpec#denyIDs
+   */
+  readonly denyIDs?: string;
+
+  /**
    * EnableMonitoring enables the monitoring resource ('i915_monitoring')
    * which gives access to all GPU devices on given node. Typically used with Intel XPU-Manager.
    *
@@ -882,18 +911,10 @@ export interface GpuDevicePluginSpec {
   /**
    * PreferredAllocationPolicy sets the mode of allocating GPU devices on a node.
    * See documentation for detailed description of the policies. Only valid when SharedDevNum > 1 is set.
-   * Not applicable with ResourceManager.
    *
    * @schema GpuDevicePluginSpec#preferredAllocationPolicy
    */
   readonly preferredAllocationPolicy?: GpuDevicePluginSpecPreferredAllocationPolicy;
-
-  /**
-   * ResourceManager handles the fractional resource management for multi-GPU nodes. Enable only for clusters with GPU Aware Scheduling.
-   *
-   * @schema GpuDevicePluginSpec#resourceManager
-   */
-  readonly resourceManager?: boolean;
 
   /**
    * SharedDevNum is a number of containers that can share the same GPU device.
@@ -919,6 +940,9 @@ export function toJson_GpuDevicePluginSpec(obj: GpuDevicePluginSpec | undefined)
     return undefined;
   }
   const result = {
+    allowIDs: obj.allowIDs,
+    bypathMode: obj.bypathMode,
+    denyIDs: obj.denyIDs,
     enableMonitoring: obj.enableMonitoring,
     image: obj.image,
     initImage: obj.initImage,
@@ -928,7 +952,6 @@ export function toJson_GpuDevicePluginSpec(obj: GpuDevicePluginSpec | undefined)
         ? undefined
         : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
     preferredAllocationPolicy: obj.preferredAllocationPolicy,
-    resourceManager: obj.resourceManager,
     sharedDevNum: obj.sharedDevNum,
     tolerations: obj.tolerations?.map((y) => toJson_GpuDevicePluginSpecTolerations(y)),
   };
@@ -938,9 +961,24 @@ export function toJson_GpuDevicePluginSpec(obj: GpuDevicePluginSpec | undefined)
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
+ * ByPathMode changes how plugin handles the DRM by-path/ directory mounting for GPU devices.
+ * See GPU plugin documentation for detailed description of the modes.
+ * If left empty, it defaults to 'single'.
+ *
+ * @schema GpuDevicePluginSpecBypathMode
+ */
+export enum GpuDevicePluginSpecBypathMode {
+  /** none */
+  NONE = "none",
+  /** single */
+  SINGLE = "single",
+  /** all */
+  ALL = "all",
+}
+
+/**
  * PreferredAllocationPolicy sets the mode of allocating GPU devices on a node.
  * See documentation for detailed description of the policies. Only valid when SharedDevNum > 1 is set.
- * Not applicable with ResourceManager.
  *
  * @schema GpuDevicePluginSpecPreferredAllocationPolicy
  */
@@ -1279,6 +1317,240 @@ export function toJson_IaaDevicePluginSpecTolerations(
 /* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
 
 /**
+ * NpuDevicePlugin is the Schema for the npudeviceplugins API. It represents
+the NPU device plugin responsible for advertising Intel NPU hardware resources to
+the kubelet.
+ *
+ * @schema NpuDevicePlugin
+ */
+export class NpuDevicePlugin extends ApiObject {
+  /**
+   * Returns the apiVersion and kind for "NpuDevicePlugin"
+   */
+  public static readonly GVK: GroupVersionKind = {
+    apiVersion: "deviceplugin.intel.com/v1",
+    kind: "NpuDevicePlugin",
+  };
+
+  /**
+   * Renders a Kubernetes manifest for "NpuDevicePlugin".
+   *
+   * This can be used to inline resource manifests inside other objects (e.g. as templates).
+   *
+   * @param props initialization props
+   */
+  public static manifest(props: NpuDevicePluginProps = {}): any {
+    return {
+      ...NpuDevicePlugin.GVK,
+      ...toJson_NpuDevicePluginProps(props),
+    };
+  }
+
+  /**
+   * Defines a "NpuDevicePlugin" API object
+   * @param scope the scope in which to define this object
+   * @param id a scope-local name for the object
+   * @param props initialization props
+   */
+  public constructor(scope: Construct, id: string, props: NpuDevicePluginProps = {}) {
+    super(scope, id, {
+      ...NpuDevicePlugin.GVK,
+      ...props,
+    });
+  }
+
+  /**
+   * Renders the object to Kubernetes JSON.
+   */
+  public override toJson(): any {
+    const resolved = super.toJson();
+
+    return {
+      ...NpuDevicePlugin.GVK,
+      ...toJson_NpuDevicePluginProps(resolved),
+    };
+  }
+}
+
+/**
+ * NpuDevicePlugin is the Schema for the npudeviceplugins API. It represents
+ * the NPU device plugin responsible for advertising Intel NPU hardware resources to
+ * the kubelet.
+ *
+ * @schema NpuDevicePlugin
+ */
+export interface NpuDevicePluginProps {
+  /**
+   * @schema NpuDevicePlugin#metadata
+   */
+  readonly metadata?: ApiObjectMetadata;
+
+  /**
+   * NpuDevicePluginSpec defines the desired state of NpuDevicePlugin.
+   *
+   * @schema NpuDevicePlugin#spec
+   */
+  readonly spec?: NpuDevicePluginSpec;
+}
+
+/**
+ * Converts an object of type 'NpuDevicePluginProps' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_NpuDevicePluginProps(obj: NpuDevicePluginProps | undefined): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    metadata: obj.metadata,
+    spec: toJson_NpuDevicePluginSpec(obj.spec),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * NpuDevicePluginSpec defines the desired state of NpuDevicePlugin.
+ *
+ * @schema NpuDevicePluginSpec
+ */
+export interface NpuDevicePluginSpec {
+  /**
+   * Image is a container image with NPU device plugin executable.
+   *
+   * @schema NpuDevicePluginSpec#image
+   */
+  readonly image?: string;
+
+  /**
+   * LogLevel sets the plugin's log level.
+   *
+   * @schema NpuDevicePluginSpec#logLevel
+   */
+  readonly logLevel?: number;
+
+  /**
+   * NodeSelector provides a simple way to constrain device plugin pods to nodes with particular labels.
+   *
+   * @schema NpuDevicePluginSpec#nodeSelector
+   */
+  readonly nodeSelector?: { [key: string]: string };
+
+  /**
+   * SharedDevNum is a number of containers that can share the same NPU device.
+   *
+   * @schema NpuDevicePluginSpec#sharedDevNum
+   */
+  readonly sharedDevNum?: number;
+
+  /**
+   * Specialized nodes (e.g., with accelerators) can be Tainted to make sure unwanted pods are not scheduled on them. Tolerations can be set for the plugin pod to neutralize the Taint.
+   *
+   * @schema NpuDevicePluginSpec#tolerations
+   */
+  readonly tolerations?: NpuDevicePluginSpecTolerations[];
+}
+
+/**
+ * Converts an object of type 'NpuDevicePluginSpec' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_NpuDevicePluginSpec(obj: NpuDevicePluginSpec | undefined): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    image: obj.image,
+    logLevel: obj.logLevel,
+    nodeSelector:
+      obj.nodeSelector === undefined
+        ? undefined
+        : Object.entries(obj.nodeSelector).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {}),
+    sharedDevNum: obj.sharedDevNum,
+    tolerations: obj.tolerations?.map((y) => toJson_NpuDevicePluginSpecTolerations(y)),
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
+ * The pod this Toleration is attached to tolerates any taint that matches
+ * the triple <key,value,effect> using the matching operator <operator>.
+ *
+ * @schema NpuDevicePluginSpecTolerations
+ */
+export interface NpuDevicePluginSpecTolerations {
+  /**
+   * Effect indicates the taint effect to match. Empty means match all taint effects.
+   * When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.
+   *
+   * @schema NpuDevicePluginSpecTolerations#effect
+   */
+  readonly effect?: string;
+
+  /**
+   * Key is the taint key that the toleration applies to. Empty means match all taint keys.
+   * If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+   *
+   * @schema NpuDevicePluginSpecTolerations#key
+   */
+  readonly key?: string;
+
+  /**
+   * Operator represents a key's relationship to the value.
+   * Valid operators are Exists and Equal. Defaults to Equal.
+   * Exists is equivalent to wildcard for value, so that a pod can
+   * tolerate all taints of a particular category.
+   *
+   * @default Equal.
+   * @schema NpuDevicePluginSpecTolerations#operator
+   */
+  readonly operator?: string;
+
+  /**
+   * TolerationSeconds represents the period of time the toleration (which must be
+   * of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default,
+   * it is not set, which means tolerate the taint forever (do not evict). Zero and
+   * negative values will be treated as 0 (evict immediately) by the system.
+   *
+   * @schema NpuDevicePluginSpecTolerations#tolerationSeconds
+   */
+  readonly tolerationSeconds?: number;
+
+  /**
+   * Value is the taint value the toleration matches to.
+   * If the operator is Exists, the value should be empty, otherwise just a regular string.
+   *
+   * @schema NpuDevicePluginSpecTolerations#value
+   */
+  readonly value?: string;
+}
+
+/**
+ * Converts an object of type 'NpuDevicePluginSpecTolerations' to JSON representation.
+ */
+/* eslint-disable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+export function toJson_NpuDevicePluginSpecTolerations(
+  obj: NpuDevicePluginSpecTolerations | undefined,
+): Record<string, any> | undefined {
+  if (obj === undefined) {
+    return undefined;
+  }
+  const result = {
+    effect: obj.effect,
+    key: obj.key,
+    operator: obj.operator,
+    tolerationSeconds: obj.tolerationSeconds,
+    value: obj.value,
+  };
+  // filter undefined values
+  return Object.entries(result).reduce((r, i) => (i[1] === undefined ? r : { ...r, [i[0]]: i[1] }), {});
+}
+/* eslint-enable max-len, @stylistic/max-len, quote-props, @stylistic/quote-props */
+
+/**
  * QatDevicePlugin is the Schema for the qatdeviceplugins API. It represents the QAT device
 plugin responsible for advertising Intel QuickAssist Technology hardware resources
 to the kubelet.
@@ -1510,6 +1782,8 @@ export enum QatDevicePluginSpecKernelVfDrivers {
   VALUE_420XXVF = "420xxvf",
   /** c4xxxvf */
   C4XXXVF = "c4xxxvf",
+  /** 6xxxvf */
+  VALUE_6XXXVF = "6xxxvf",
 }
 
 /**
@@ -1701,6 +1975,13 @@ export function toJson_SgxDevicePluginProps(obj: SgxDevicePluginProps | undefine
  */
 export interface SgxDevicePluginSpec {
   /**
+   * DcapInfraResources flag enables two special resources for Intel DCAP infrastructure containers.
+   *
+   * @schema SgxDevicePluginSpec#dcapInfraResources
+   */
+  readonly dcapInfraResources?: boolean;
+
+  /**
    * EnclaveLimit is a number of containers that can share the same SGX enclave device.
    *
    * @schema SgxDevicePluginSpec#enclaveLimit
@@ -1760,6 +2041,7 @@ export function toJson_SgxDevicePluginSpec(obj: SgxDevicePluginSpec | undefined)
     return undefined;
   }
   const result = {
+    dcapInfraResources: obj.dcapInfraResources,
     enclaveLimit: obj.enclaveLimit,
     image: obj.image,
     initImage: obj.initImage,
