@@ -10,3 +10,6 @@ dist/
 # MCP credentials cache
 .cursor/cache/
 .claude/settings.local.json
+
+# Worktree initialization marker
+.git/worktree-initialized
