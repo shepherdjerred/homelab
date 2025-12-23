@@ -145,7 +145,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://charts.gitlab.io/ versioning=semver
   gitlab: "9.7.0",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
-  mariadb: "24.0.1",
+  mariadb: "24.0.2",
   // renovate: datasource=helm registryUrl=https://groundhog2k.github.io/helm-charts/ versioning=semver
   "groundhog2k/rabbitmq": "2.2.2",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
