@@ -10,7 +10,6 @@ import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 import { createNvmeMetricsMonitoring } from "../monitoring/nvme-metrics.ts";
 import { createZfsSnapshotsMonitoring } from "../monitoring/zfs-snapshots.ts";
 import { createZfsZpoolMonitoring } from "../monitoring/zfs-zpool.ts";
-import { escapeAlertmanagerTemplate } from "../monitoring/monitoring/rules/shared.ts";
 // import { HelmValuesForChart } from "../types/helm/index.js"; // Using 'any' for complex config
 
 export async function createPrometheusApp(chart: Chart) {
@@ -209,9 +208,12 @@ export async function createPrometheusApp(chart: Chart) {
               {
                 send_resolved: true,
                 routing_key_file: `/etc/alertmanager/secrets/${alertmanagerSecrets.name}/pagerduty_token`,
-                // Use utility function to escape templates for Alertmanager processing
-                description: escapeAlertmanagerTemplate("{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"),
-                severity: "error",
+                // Alertmanager will evaluate this Go template when sending to PagerDuty
+                // kube-prometheus-stack chart passes config values through without template processing
+                description: "{{ range .Alerts }}{{ .Annotations.summary }}\\n{{ end }}",
+                // Map alert severity label to PagerDuty severity (critical/warning/error/info)
+                // Check if GroupLabels exists first (nil during helm lint)
+                severity: '{{ if .GroupLabels }}{{ if eq .GroupLabels.severity "critical" }}critical{{ else if eq .GroupLabels.severity "warning" }}warning{{ else }}error{{ end }}{{ else }}error{{ end }}',
                 // details: escapeAlertmanagerTemplate(
                 //   JSON.stringify(
                 //     {
@@ -246,6 +248,16 @@ export async function createPrometheusApp(chart: Chart) {
             {
               receiver: "null",
               matchers: ['alertname = "Watchdog"'],
+            },
+            {
+              // Route info-level alerts to null receiver (don't page for informational alerts)
+              receiver: "null",
+              matchers: ['severity = "info"'],
+            },
+            {
+              // Route critical and warning alerts to PagerDuty
+              receiver: "pagerduty",
+              matchers: ['severity =~ "critical|warning"'],
             },
           ],
         },
