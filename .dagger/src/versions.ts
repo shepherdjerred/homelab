@@ -21,7 +21,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "node/claudecodeui": "20-alpine@sha256:0535d6223cd06df73d03e2c40f572e9e97abbb9d66d1819db5ec84be3e7e9c3a",
   // renovate: datasource=npm registryUrl=https://registry.npmjs.org versioning=npm
-  "@siteboon/claude-code-ui": "0.2.0",
+  "@siteboon/claude-code-ui": "1.12.0",
   // this is empty because we have to perform some string manipulation below
   // not managed by renovate
   bun: "",
