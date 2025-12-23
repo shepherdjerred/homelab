@@ -73,7 +73,7 @@ export function createClaudeCodeUIDeployment(chart: Chart) {
   deployment.addContainer(
     withCommonProps({
       name: "claudecodeui",
-      image: `ghcr.io/${versions["shepherdjerred/claudecodeui"]}`,
+      image: `ghcr.io/shepherdjerred/claudecodeui:${versions["shepherdjerred/claudecodeui"]}`,
       ports: [
         {
           name: "http",
