@@ -34,6 +34,7 @@ import { createPostalDeployment } from "../resources/mail/postal.ts";
 import { createGolinkSyncJob } from "../resources/golink-sync.ts";
 import { createBirmelDeployment } from "../resources/birmel/index.ts";
 import { createCloudflareTunnelCRD } from "../resources/cloudflare-tunnel.ts";
+import { createClaudeCodeUIDeployment } from "../resources/claudecodeui.ts";
 
 export async function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
@@ -109,6 +110,9 @@ export async function createTorvaldsChart(app: App) {
 
   // Birmel Discord bot
   createBirmelDeployment(chart);
+
+  // ClaudeCodeUI - Web UI for managing Claude Code sessions
+  createClaudeCodeUIDeployment(chart);
 
   // Cloudflare Tunnel for public site access
   createCloudflareTunnelCRD(chart);
