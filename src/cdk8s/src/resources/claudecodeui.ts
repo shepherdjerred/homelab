@@ -74,6 +74,12 @@ export function createClaudeCodeUIDeployment(chart: Chart) {
     withCommonProps({
       name: "claudecodeui",
       image: `ghcr.io/shepherdjerred/claudecodeui:${versions["shepherdjerred/claudecodeui"]}`,
+      securityContext: {
+        ensureNonRoot: false,
+        user: ROOT_UID,
+        group: ROOT_GID,
+        readOnlyRootFilesystem: false,
+      },
       ports: [
         {
           name: "http",
