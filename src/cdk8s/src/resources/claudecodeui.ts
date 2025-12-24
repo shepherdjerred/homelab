@@ -1,7 +1,7 @@
 import { Chart, JsonPatch, Size } from "cdk8s";
 import { ApiObject } from "cdk8s";
 import { Cpu, Deployment, DeploymentStrategy, EnvValue, Namespace, Protocol, Service } from "cdk8s-plus-31";
-import { withCommonProps } from "../misc/common.ts";
+import { withCommonProps, ROOT_UID, ROOT_GID } from "../misc/common.ts";
 import { TailscaleIngress } from "../misc/tailscale.ts";
 import { KubePersistentVolumeClaim, Quantity } from "../../generated/imports/k8s.ts";
 import { SSD_STORAGE_CLASS } from "../misc/storage-classes.ts";
@@ -74,6 +74,12 @@ export function createClaudeCodeUIDeployment(chart: Chart) {
     withCommonProps({
       name: "claudecodeui",
       image: `ghcr.io/shepherdjerred/claudecodeui:${versions["shepherdjerred/claudecodeui"]}`,
+      securityContext: {
+        ensureNonRoot: false,
+        user: ROOT_UID,
+        group: ROOT_GID,
+        readOnlyRootFilesystem: false,
+      },
       ports: [
         {
           name: "http",

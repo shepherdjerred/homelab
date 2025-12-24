@@ -126,7 +126,7 @@ export function createOpenHandsDeployment(chart: Chart) {
           limit: Size.gibibytes(8),
         },
       },
-      liveness: Probe.fromCommand(["docker", "info"], {
+      liveness: Probe.fromCommand(["/bin/sh", "-c", "DOCKER_HOST=tcp://localhost:2375 docker info"], {
         initialDelaySeconds: Duration.seconds(30),
         periodSeconds: Duration.seconds(30),
         failureThreshold: 3,
@@ -134,7 +134,7 @@ export function createOpenHandsDeployment(chart: Chart) {
       }),
       readiness: Probe.fromTcpSocket({
         port: 2375,
-        host: "localhost",
+        host: "127.0.0.1",
         initialDelaySeconds: Duration.seconds(10),
         periodSeconds: Duration.seconds(5),
         failureThreshold: 3,
@@ -188,7 +188,7 @@ export function createOpenHandsDeployment(chart: Chart) {
       },
       startup: Probe.fromTcpSocket({
         port: 3000,
-        host: "localhost",
+        host: "127.0.0.1",
         initialDelaySeconds: Duration.seconds(10),
         periodSeconds: Duration.seconds(5),
         failureThreshold: 60, // 5 min total: 10s + (60 * 5s) = 310s
