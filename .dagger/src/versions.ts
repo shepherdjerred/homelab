@@ -19,7 +19,7 @@ const versions = {
   // renovate: datasource=node-version versioning=semver
   node: "24.12.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "node/claudecodeui": "20-alpine@sha256:658d0f63e501824d6c23e06d4bb95c71e7d704537c9d9272f488ac03a370d448",
+  "library/node": "20-alpine@sha256:658d0f63e501824d6c23e06d4bb95c71e7d704537c9d9272f488ac03a370d448",
   // renovate: datasource=npm registryUrl=https://registry.npmjs.org versioning=npm
   "@siteboon/claude-code-ui": "1.12.0",
   // this is empty because we have to perform some string manipulation below

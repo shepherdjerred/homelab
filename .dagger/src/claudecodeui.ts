@@ -14,7 +14,7 @@ function buildClaudeCodeUIContainer(_source: Directory): Container {
   return (
     dag
       .container()
-      .from(`node:${versions["node/claudecodeui"]}`)
+      .from(`node:${versions["library/node"]}`)
       // Install build dependencies required for node-pty (needed by claude-code-ui)
       // py3-setuptools provides distutils which node-gyp requires (removed in Python 3.12+)
       .withExec(["apk", "add", "--no-cache", "python3", "py3-setuptools", "make", "g++"])
