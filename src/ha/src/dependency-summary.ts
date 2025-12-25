@@ -8,9 +8,33 @@
  * - POSTAL_API_KEY: Postal server API key
  * - RECIPIENT_EMAIL: Email address to send the summary to
  * - SENDER_EMAIL: (optional) Email address to send from (default: updates@homelab.local)
+ * - SENTRY_DSN: (optional) Sentry DSN for error tracking
  */
 
+import * as Sentry from "@sentry/bun";
 import simpleGit from "simple-git";
+
+// Initialize Sentry for error tracking
+const sentryDsn = Bun.env["SENTRY_DSN"];
+if (sentryDsn) {
+  Sentry.init({
+    dsn: sentryDsn,
+    environment: Bun.env["ENVIRONMENT"] ?? "production",
+  });
+} else {
+  console.warn("SENTRY_DSN not set, error tracking disabled");
+}
+
+// Handle unhandled errors
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled rejection:", reason);
+  Sentry.captureException(reason);
+});
+
+process.on("uncaughtException", (error) => {
+  console.error("Uncaught exception:", error);
+  Sentry.captureException(error);
+});
 import OpenAI from "openai";
 import { z } from "zod";
 import { createPostalClientFromEnv } from "./postal-client.js";
