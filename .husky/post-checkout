@@ -20,16 +20,14 @@ fi
 
 echo "🔧 Setting up new worktree..."
 
-# Run mise trust
+# Run mise trust and dev setup
 if command -v mise > /dev/null 2>&1; then
   echo "✓ Running mise trust..."
   mise trust
-fi
-
-# Install dependencies
-if [ -f "package.json" ]; then
-  echo "✓ Installing dependencies..."
-  bun install
+  echo "✓ Running mise dev (installing dagger, deps, etc.)..."
+  mise run dev
+else
+  echo "⚠️ mise not found, skipping dev setup"
 fi
 
 # Create marker file to prevent running again
