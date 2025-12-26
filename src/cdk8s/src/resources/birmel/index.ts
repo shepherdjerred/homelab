@@ -71,7 +71,7 @@ export function createBirmelDeployment(chart: Chart) {
         // Telemetry configuration (OpenTelemetry)
         TELEMETRY_ENABLED: EnvValue.fromValue("true"),
         TELEMETRY_SERVICE_NAME: EnvValue.fromValue("birmel"),
-        OTLP_ENDPOINT: EnvValue.fromValue("http://tempo.monitoring.svc.cluster.local:4318"),
+        OTLP_ENDPOINT: EnvValue.fromValue("http://tempo.tempo.svc.cluster.local:4318"),
 
         // Sentry configuration
         SENTRY_ENABLED: EnvValue.fromValue("true"),
