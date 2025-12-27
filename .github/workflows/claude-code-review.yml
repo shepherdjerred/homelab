@@ -34,6 +34,8 @@ jobs:
 
       - name: Run Claude Code Review
         uses: anthropics/claude-code-action@beta
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ env.CLAUDE_CODE_OAUTH_TOKEN }}
         with:
           claude_access_token: ${{ env.CLAUDE_CODE_OAUTH_TOKEN }}
           direct_prompt: |
