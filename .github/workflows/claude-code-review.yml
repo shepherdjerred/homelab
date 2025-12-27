@@ -36,89 +36,44 @@ jobs:
         with:
           claude_access_token: ${{ env.CLAUDE_CODE_OAUTH_TOKEN }}
           direct_prompt: |
-            You are reviewing a pull request for a Kubernetes homelab infrastructure monorepo. Perform a thorough code review that considers both the immediate changes and how they fit into the overall architecture.
+            Review this PR for a Kubernetes homelab infrastructure monorepo. Focus on things linters and type checkers can't catch.
 
-            ## Repository Context
-
-            This is a TypeScript-first Kubernetes infrastructure monorepo using:
-            - **Runtime**: Bun (NOT Node.js) - always use Bun APIs
-            - **Infrastructure**: CDK8s for type-safe Kubernetes manifests
-            - **CI/CD**: Dagger (TypeScript SDK) + GitHub Actions
-            - **Validation**: Zod schemas for all configuration
-
-            ### Workspace Structure
-            - `src/cdk8s/` - Kubernetes infrastructure-as-code (main workspace)
+            ## Repository Structure
+            - `src/cdk8s/` - CDK8s Kubernetes infrastructure-as-code
+            - `src/cdk8s/src/resources/` - K8s resources organized by domain (monitoring/, mail/, torrents/, media/, etc.)
             - `src/ha/` - Home Assistant automations
-            - `src/helm-types/` - Type-safe Helm chart parameter generator
-            - `.dagger/` - CI/CD pipeline module
+            - `src/helm-types/` - Helm chart TypeScript type generator
+            - `.dagger/` - CI/CD pipeline (Dagger TypeScript SDK)
 
-            ### Key Patterns to Enforce
+            ## What to Review
 
-            1. **Bun APIs over Node.js** - Use `Bun.file()`, `Bun.spawn()`, `Bun.env` instead of `fs`, `child_process`, `process.env`
+            **Architecture & Design**
+            - Does this change belong where it's placed? Should it be in a different module/directory?
+            - Does it follow existing patterns in similar code, or unnecessarily diverge?
+            - Are there simpler approaches that would work?
+            - Will this be maintainable long-term?
 
-            2. **Zod for validation** - All configuration should use Zod schemas with proper naming (e.g., `ConfigSchema`)
+            **Logic & Correctness**
+            - Are there obvious bugs or edge cases not handled?
+            - Does the code actually do what it claims to do?
+            - Are there race conditions, resource leaks, or failure modes?
 
-            3. **No type assertions** - Only `as const` and `as unknown` are allowed. Never use `as SomeType`
+            **Security**
+            - Hardcoded secrets or credentials?
+            - Sensitive data exposure in logs/errors?
+            - Unsafe handling of external input?
 
-            4. **Typed Helm values** - Use `HelmValuesForChart<"chart-name">` for type-safe Helm configurations
+            **Git Hygiene**
+            - Are commit messages descriptive and following conventional commits (feat:, fix:, chore:)?
+            - Is the PR title clear about what this changes?
+            - Are changes atomic and focused, or should this be split up?
 
-            5. **Construct pattern for K8s resources** - New resources should extend Construct and follow existing patterns in `src/cdk8s/src/resources/`
+            ## Output
 
-            6. **Centralized versions** - All dependency versions should be in `src/cdk8s/src/versions.ts`
+            Be direct and specific. For each issue:
+            - Reference the file and line
+            - Explain what's wrong
+            - Suggest a fix
 
-            7. **File naming** - kebab-case for files, PascalCase for types, camelCase for functions
-
-            8. **Strict TypeScript** - No unused locals/parameters, no implicit returns, noUncheckedIndexedAccess enabled
-
-            ## Review Checklist
-
-            Please evaluate the PR against these criteria and provide specific, actionable feedback:
-
-            ### Code Quality
-            - [ ] TypeScript strict mode compliance (no `any`, proper null handling)
-            - [ ] Follows Bun-first API conventions
-            - [ ] Uses Zod for validation where appropriate
-            - [ ] No forbidden type assertions
-            - [ ] Proper error handling
-
-            ### Architecture & Patterns
-            - [ ] Follows existing patterns in the codebase
-            - [ ] Resources properly organized by domain
-            - [ ] Helm values are type-safe
-            - [ ] New K8s resources use Construct pattern
-            - [ ] Versions centralized in versions.ts
-
-            ### Testing & Quality
-            - [ ] Has appropriate test coverage (`.test.ts` files)
-            - [ ] Would pass linting (`bun run lint`)
-            - [ ] Would pass type checking (`bun run typecheck`)
-
-            ### Git Hygiene
-            - [ ] Commit messages follow conventional commits (feat:, fix:, chore:, etc.)
-            - [ ] PR title is descriptive and follows conventions
-            - [ ] Changes are atomic and focused
-
-            ### Security
-            - [ ] No hardcoded secrets or credentials
-            - [ ] Secrets handled via 1Password or Kubernetes secrets
-            - [ ] No sensitive data in logs or error messages
-
-            ## Output Format
-
-            Provide your review as:
-
-            1. **Summary**: Brief overall assessment (1-2 sentences)
-
-            2. **Architecture Fit**: How well does this change fit the existing architecture? Any concerns?
-
-            3. **Specific Issues**: List each issue with:
-               - File and line reference
-               - What's wrong
-               - Suggested fix (with code if applicable)
-
-            4. **Suggestions**: Optional improvements that aren't blocking
-
-            5. **Commit Message Feedback**: If commit messages or PR title could be improved, explain how
-
-            Be thorough but constructive. Focus on issues that matter for maintainability, type safety, and consistency with the codebase patterns.
+            Skip praise and filler. If the PR looks good, just say so briefly.
           timeout_minutes: 30
