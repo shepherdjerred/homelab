@@ -427,12 +427,14 @@ export class Homelab {
     if (env === Stage.Prod) {
       const [versionedResult, latestResult] = await Promise.all([
         this.internalPublishClaudeCodeUIImage(
+          updatedSource,
           `ghcr.io/shepherdjerred/claudecodeui:${chartVersion}`,
           ghcrUsername,
           ghcrPassword,
           env,
         ),
         this.internalPublishClaudeCodeUIImage(
+          updatedSource,
           `ghcr.io/shepherdjerred/claudecodeui:latest`,
           ghcrUsername,
           ghcrPassword,
@@ -828,6 +830,7 @@ export class Homelab {
    * - In 'prod', the image is built and pushed to GHCR.
    * - In 'dev', the image is built but not pushed (dry-run).
    *
+   * @param source The source directory (unused, but required for API consistency)
    * @param imageName The image name (including tag), e.g. ghcr.io/shepherdjerred/claudecodeui:latest
    * @param ghcrUsername The GHCR username
    * @param ghcrPassword The GHCR password (as a Dagger Secret)
@@ -836,19 +839,21 @@ export class Homelab {
    */
   @func()
   async publishClaudeCodeUIImage(
+    source: Directory,
     imageName: string,
     ghcrUsername: string,
     ghcrPassword: Secret,
     @argument() env: Stage = Stage.Dev,
   ): Promise<string> {
     return JSON.stringify(
-      await this.internalPublishClaudeCodeUIImage(imageName, ghcrUsername, ghcrPassword, env),
+      await this.internalPublishClaudeCodeUIImage(source, imageName, ghcrUsername, ghcrPassword, env),
       null,
       2,
     );
   }
 
   async internalPublishClaudeCodeUIImage(
+    source: Directory,
     imageName: string,
     ghcrUsername: string,
     ghcrPassword: Secret,
@@ -856,7 +861,7 @@ export class Homelab {
   ): Promise<StepResult> {
     const isDryRun = env !== Stage.Prod;
 
-    return buildAndPushClaudeCodeUIImage(imageName, ghcrUsername, ghcrPassword, isDryRun);
+    return buildAndPushClaudeCodeUIImage(source, imageName, ghcrUsername, ghcrPassword, isDryRun);
   }
 
   /**
