@@ -6,6 +6,7 @@
   "workspaces": [
     "src/cdk8s",
     "src/ha",
+    "src/deps-email",
     "src/helm-types",
     ".dagger"
   ],
@@ -48,6 +49,11 @@
       "bash -c 'cd src/ha && bun run typecheck'",
       "bash -c 'cd src/ha && bunx eslint --cache --fix'",
       "bash -c 'cd src/ha && bun run test'"
+    ],
+    "src/deps-email/**/*.{ts,tsx}": [
+      "bash -c 'cd src/deps-email && bunx eslint --cache --fix'",
+      "bash -c 'cd src/deps-email && bun run typecheck'",
+      "bash -c 'cd src/deps-email && bun run test'"
     ],
     "src/cdk8s/**/*.{ts,tsx}": [
       "bash -c 'cd src/cdk8s && bunx eslint --cache --fix'",

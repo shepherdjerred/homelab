@@ -51,6 +51,16 @@
         "yaml": "^2.8.1",
       },
     },
+    "src/deps-email": {
+      "name": "@homelab/deps-email",
+      "version": "1.0.0",
+      "dependencies": {
+        "openai": "^6.10.0",
+        "simple-git": "^3.30.0",
+        "yaml": "^2.8.1",
+        "zod": "^4.1.11",
+      },
+    },
     "src/ha": {
       "name": "@homelab/ha",
       "version": "1.0.0",
@@ -163,6 +173,8 @@
     "@homelab/cdk8s": ["@homelab/cdk8s@workspace:src/cdk8s"],
 
     "@homelab/dagger": ["@homelab/dagger@workspace:.dagger"],
+
+    "@homelab/deps-email": ["@homelab/deps-email@workspace:src/deps-email"],
 
     "@homelab/ha": ["@homelab/ha@workspace:src/ha"],
 

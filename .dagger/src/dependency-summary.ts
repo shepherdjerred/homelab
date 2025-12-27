@@ -11,8 +11,8 @@ import versions from "./versions";
  * @returns A configured Container ready to run the dependency-summary script.
  */
 function buildDependencySummaryContainer(source: Directory): Container {
-  // Get just the HA source directory (contains dependency-summary.ts)
-  const haSource = source.directory("src/ha");
+  // Get the deps-email source directory (contains main.ts)
+  const depsEmailSource = source.directory("src/deps-email");
 
   // Get helm binary from official image
   const helmBinary = dag.container().from(`alpine/helm:${versions["alpine/helm"]}`).file("/usr/bin/helm");
@@ -30,19 +30,20 @@ function buildDependencySummaryContainer(source: Directory): Container {
       // Copy patches directory for bun patch support
       .withDirectory("patches", source.directory("patches"))
       // Copy minimal workspace files needed for dependency resolution
-      .withFile("src/ha/package.json", haSource.file("package.json"))
+      .withFile("src/deps-email/package.json", depsEmailSource.file("package.json"))
       .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
       .withFile("src/helm-types/package.json", source.file("src/helm-types/package.json"))
+      .withFile("src/ha/package.json", source.file("src/ha/package.json"))
       .withFile(".dagger/package.json", source.file(".dagger/package.json"))
       // Install dependencies (cached unless dependency files change)
       .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache-default-dep-summary"))
       .withExec(["bun", "install", "--frozen-lockfile"])
-      // Copy the full ha source after dependencies are resolved
-      .withDirectory("src/ha", haSource, { exclude: ["package.json"] })
-      // Set working directory to the ha workspace
-      .withWorkdir("/app/src/ha")
+      // Copy the full deps-email source after dependencies are resolved
+      .withDirectory("src/deps-email", depsEmailSource, { exclude: ["package.json"] })
+      // Set working directory to the deps-email workspace
+      .withWorkdir("/app/src/deps-email")
       // Default command to run the dependency summary script
-      .withDefaultArgs(["bun", "run", "src/dependency-summary.ts"])
+      .withDefaultArgs(["bun", "run", "src/main.ts"])
   );
 }
 
