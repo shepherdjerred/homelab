@@ -1,0 +1,112 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  claude-review:
+    # Only run for PRs from @shepherdjerred
+    if: github.event.pull_request.user.login == 'shepherdjerred'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Claude Code Review
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          direct_prompt: |
+            You are reviewing a pull request for a Kubernetes homelab infrastructure monorepo. Perform a thorough code review that considers both the immediate changes and how they fit into the overall architecture.
+
+            ## Repository Context
+
+            This is a TypeScript-first Kubernetes infrastructure monorepo using:
+            - **Runtime**: Bun (NOT Node.js) - always use Bun APIs
+            - **Infrastructure**: CDK8s for type-safe Kubernetes manifests
+            - **CI/CD**: Dagger (TypeScript SDK) + GitHub Actions
+            - **Validation**: Zod schemas for all configuration
+
+            ### Workspace Structure
+            - `src/cdk8s/` - Kubernetes infrastructure-as-code (main workspace)
+            - `src/ha/` - Home Assistant automations
+            - `src/helm-types/` - Type-safe Helm chart parameter generator
+            - `.dagger/` - CI/CD pipeline module
+
+            ### Key Patterns to Enforce
+
+            1. **Bun APIs over Node.js** - Use `Bun.file()`, `Bun.spawn()`, `Bun.env` instead of `fs`, `child_process`, `process.env`
+
+            2. **Zod for validation** - All configuration should use Zod schemas with proper naming (e.g., `ConfigSchema`)
+
+            3. **No type assertions** - Only `as const` and `as unknown` are allowed. Never use `as SomeType`
+
+            4. **Typed Helm values** - Use `HelmValuesForChart<"chart-name">` for type-safe Helm configurations
+
+            5. **Construct pattern for K8s resources** - New resources should extend Construct and follow existing patterns in `src/cdk8s/src/resources/`
+
+            6. **Centralized versions** - All dependency versions should be in `src/cdk8s/src/versions.ts`
+
+            7. **File naming** - kebab-case for files, PascalCase for types, camelCase for functions
+
+            8. **Strict TypeScript** - No unused locals/parameters, no implicit returns, noUncheckedIndexedAccess enabled
+
+            ## Review Checklist
+
+            Please evaluate the PR against these criteria and provide specific, actionable feedback:
+
+            ### Code Quality
+            - [ ] TypeScript strict mode compliance (no `any`, proper null handling)
+            - [ ] Follows Bun-first API conventions
+            - [ ] Uses Zod for validation where appropriate
+            - [ ] No forbidden type assertions
+            - [ ] Proper error handling
+
+            ### Architecture & Patterns
+            - [ ] Follows existing patterns in the codebase
+            - [ ] Resources properly organized by domain
+            - [ ] Helm values are type-safe
+            - [ ] New K8s resources use Construct pattern
+            - [ ] Versions centralized in versions.ts
+
+            ### Testing & Quality
+            - [ ] Has appropriate test coverage (`.test.ts` files)
+            - [ ] Would pass linting (`bun run lint`)
+            - [ ] Would pass type checking (`bun run typecheck`)
+
+            ### Git Hygiene
+            - [ ] Commit messages follow conventional commits (feat:, fix:, chore:, etc.)
+            - [ ] PR title is descriptive and follows conventions
+            - [ ] Changes are atomic and focused
+
+            ### Security
+            - [ ] No hardcoded secrets or credentials
+            - [ ] Secrets handled via 1Password or Kubernetes secrets
+            - [ ] No sensitive data in logs or error messages
+
+            ## Output Format
+
+            Provide your review as:
+
+            1. **Summary**: Brief overall assessment (1-2 sentences)
+
+            2. **Architecture Fit**: How well does this change fit the existing architecture? Any concerns?
+
+            3. **Specific Issues**: List each issue with:
+               - File and line reference
+               - What's wrong
+               - Suggested fix (with code if applicable)
+
+            4. **Suggestions**: Optional improvements that aren't blocking
+
+            5. **Commit Message Feedback**: If commit messages or PR title could be improved, explain how
+
+            Be thorough but constructive. Focus on issues that matter for maintainability, type safety, and consistency with the codebase patterns.
+          timeout_minutes: 30
