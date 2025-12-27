@@ -29,12 +29,12 @@ jobs:
         with:
           export-env: true
         env:
-          CLAUDE_CODE_ACCESS_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/CLAUDE_CODE_ACCESS_TOKEN
+          CLAUDE_CODE_OAUTH_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/CLAUDE_CODE_OAUTH_TOKEN
 
       - name: Run Claude Code Review
         uses: anthropics/claude-code-action@beta
         with:
-          claude_access_token: ${{ env.CLAUDE_CODE_ACCESS_TOKEN }}
+          claude_access_token: ${{ env.CLAUDE_CODE_OAUTH_TOKEN }}
           direct_prompt: |
             You are reviewing a pull request for a Kubernetes homelab infrastructure monorepo. Perform a thorough code review that considers both the immediate changes and how they fit into the overall architecture.
 
