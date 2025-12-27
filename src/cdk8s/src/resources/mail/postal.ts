@@ -241,8 +241,8 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
   });
   const fastmailSecret = Secret.fromSecretName(chart, "fastmail-secret", fastmailItem.name);
 
-  // Postal secrets (Rails secret key, etc.)
-  // Expected fields: rails_secret_key
+  // Postal secrets (Rails secret key, DKIM signing key, etc.)
+  // Expected fields: rails_secret_key, signing_key
   const postalSecretsItem = new OnePasswordItem(chart, "postal-secrets", {
     spec: {
       itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/n3tfwq24v3rstfedrloupgzaqe",
@@ -295,6 +295,12 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     RAILS_SECRET_KEY: EnvValue.fromSecretValue({
       secret: postalSecrets,
       key: "rails_secret_key",
+    }),
+
+    // DKIM signing key for email authentication
+    SIGNING_KEY: EnvValue.fromSecretValue({
+      secret: postalSecrets,
+      key: "signing_key",
     }),
 
     // Logging configuration
