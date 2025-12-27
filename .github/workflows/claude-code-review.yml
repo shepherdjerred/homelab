@@ -4,25 +4,37 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
 jobs:
   claude-review:
     # Only run for PRs from @shepherdjerred
     if: github.event.pull_request.user.login == 'shepherdjerred'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      issues: write
+    runs-on: [homelab-runner-set]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - uses: 1password/load-secrets-action/configure@v3
+        with:
+          connect-host: http://onepassword-connect.1password.svc.cluster.local:8080
+          connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
+
+      - uses: 1password/load-secrets-action@v3
+        with:
+          export-env: true
+        env:
+          CLAUDE_CODE_ACCESS_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/CLAUDE_CODE_ACCESS_TOKEN
+
       - name: Run Claude Code Review
         uses: anthropics/claude-code-action@beta
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_access_token: ${{ env.CLAUDE_CODE_ACCESS_TOKEN }}
           direct_prompt: |
             You are reviewing a pull request for a Kubernetes homelab infrastructure monorepo. Perform a thorough code review that considers both the immediate changes and how they fit into the overall architecture.
 
