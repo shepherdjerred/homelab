@@ -33,10 +33,11 @@ jobs:
           CLAUDE_CODE_OAUTH_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/CLAUDE_CODE_OAUTH_TOKEN
 
       - name: Run Claude Code Review
-        uses: anthropics/claude-code-action@beta
+        uses: anthropics/claude-code-action@v1
         with:
-          claude_access_token: ${{ env.CLAUDE_CODE_OAUTH_TOKEN }}
-          direct_prompt: |
+          claude_code_oauth_token: ${{ env.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
             Review this PR for a Kubernetes homelab infrastructure monorepo. Focus on things linters and type checkers can't catch.
 
             ## Repository Structure
@@ -77,4 +78,3 @@ jobs:
             - Suggest a fix
 
             Skip praise and filler. If the PR looks good, just say so briefly.
-          timeout_minutes: 30
