@@ -8,8 +8,10 @@
  * - POSTAL_API_KEY: Postal server API key
  * - RECIPIENT_EMAIL: Email address to send the summary to
  * - SENDER_EMAIL: (optional) Email address to send from (default: updates@homelab.local)
+ * - SENTRY_DSN: (optional) Sentry DSN for error tracking
  */
 
+import "./sentry.ts";
 import simpleGit from "simple-git";
 import OpenAI from "openai";
 import { z } from "zod";
