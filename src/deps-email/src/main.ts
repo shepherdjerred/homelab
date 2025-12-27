@@ -1,6 +1,6 @@
 /**
  * Standalone script to generate and send weekly dependency update summaries.
- * Run via: bun run src/dependency-summary.ts
+ * Run via: bun run src/main.ts
  *
  * Required environment variables:
  * - OPENAI_API_KEY: OpenAI API key for GPT-5.1
@@ -19,7 +19,7 @@ import {
   fetchReleaseNotesBetween,
   getGitHubRepoForImage,
   type FullDependencyDiff,
-} from "./helm-deps/index.js";
+} from "./index.js";
 import { HELM_CHART_GITHUB_REPOS, HELM_CHART_APP_REPOS, DOCKER_IMAGE_GITHUB_REPOS } from "./repo-mappings.js";
 
 // Schema for parsed dependency info from renovate comments
@@ -78,7 +78,7 @@ const VERSIONS_FILE_PATH = "src/cdk8s/src/versions.ts";
 const REPO_URL = "https://github.com/shepherdjerred/homelab.git";
 
 // Parse command line args
-// Usage: bun run src/dependency-summary.ts [days] [--dry-run]
+// Usage: bun run src/main.ts [days] [--dry-run]
 const args = Bun.argv.slice(2);
 const dryRun = args.includes("--dry-run");
 const daysArg = args.find((a) => !a.startsWith("--"));
