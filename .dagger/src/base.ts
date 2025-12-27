@@ -54,6 +54,7 @@ export function getWorkspaceContainer(repoRoot: Directory, workspacePath: string
     .withFile("src/ha/package.json", repoRoot.file("src/ha/package.json"))
     .withFile("src/cdk8s/package.json", repoRoot.file("src/cdk8s/package.json"))
     .withFile("src/helm-types/package.json", repoRoot.file("src/helm-types/package.json"))
+    .withFile("src/deps-email/package.json", repoRoot.file("src/deps-email/package.json"))
     // Create stub .dagger/package.json since Dagger excludes .dagger directory by default
     // Copy the root package.json and extract just the dagger workspace package.json structure
     .withExec([
@@ -68,6 +69,9 @@ export function getWorkspaceContainer(repoRoot: Directory, workspacePath: string
       .withDirectory("src/ha", repoRoot.directory("src/ha"), { exclude: ["package.json", "node_modules"] })
       .withDirectory("src/cdk8s", repoRoot.directory("src/cdk8s"), { exclude: ["package.json", "node_modules"] })
       .withDirectory("src/helm-types", repoRoot.directory("src/helm-types"), {
+        exclude: ["package.json", "node_modules"],
+      })
+      .withDirectory("src/deps-email", repoRoot.directory("src/deps-email"), {
         exclude: ["package.json", "node_modules"],
       })
       // Install dependencies (cached unless dependency files change)
