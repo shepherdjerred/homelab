@@ -11,7 +11,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "curlimages/curl": "8.17.0@sha256:935d9100e9ba842cdb060de42472c7ca90cfe9a7c96e4dacb55e79e560b3ff40",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "alpine/kubectl": "1.35.0@sha256:5a4914e2ac580778f4b8b2f092259be16568c24445de07e7ba4aa1e2faf91461",
+  "alpine/kubectl": "1.35.0@sha256:5e47bfc2f1ba0558318d545f4899381db9c1c4ef3a352f5c51d365489262428f",
   // renovate: datasource=github-releases versioning=semver
   "stackrox/kube-linter": "v0.8.1",
   // renovate: datasource=python-version versioning=semver
