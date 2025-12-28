@@ -35,6 +35,9 @@ import { createGolinkSyncJob } from "../resources/golink-sync.ts";
 import { createBirmelDeployment } from "../resources/birmel/index.ts";
 import { createCloudflareTunnelCRD } from "../resources/cloudflare-tunnel.ts";
 import { createClaudeCodeUIDeployment } from "../resources/claudecodeui.ts";
+import { createPlausiblePostgreSQLDatabase } from "../resources/postgres/plausible-db.ts";
+import { createClickHouseDeployment } from "../resources/analytics/clickhouse.ts";
+import { createPlausibleDeployment } from "../resources/analytics/plausible.ts";
 
 export async function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
@@ -123,4 +126,9 @@ export async function createTorvaldsChart(app: App) {
   createWebringDocsDeployment(chart);
   createDppDocsDeployment(chart);
   createBetterSkillCappedDeployment(chart);
+
+  // Plausible Analytics
+  createPlausiblePostgreSQLDatabase(chart);
+  const clickhouse = createClickHouseDeployment(chart);
+  createPlausibleDeployment(chart, { clickhouseService: clickhouse.service });
 }
