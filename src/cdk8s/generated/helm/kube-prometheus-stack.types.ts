@@ -2166,7 +2166,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecImage = {
    */
   repository?: string;
   /**
-   * @default "v0.29.0"
+   * @default "v0.30.0"
    */
   tag?: string;
   /**
@@ -5347,17 +5347,15 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatc
 
 export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatchImage = {
   /**
-   * @default "registry.k8s.io"
+   * @default "ghcr.io"
    */
   registry?: string;
   /**
-   * @default "ingress-nginx/kube-webhook-certgen"
+   * @default "jkroepke/kube-webhook-certgen"
    */
   repository?: string;
   /**
-   * latest tag: https://github.com/kubernetes/ingress-nginx/blob/main/images/kube-webhook-certgen/TAG
-   *
-   * @default "v1.6.5"
+   * @default "1.7.3"
    */
   tag?: string;
   /**
@@ -7640,7 +7638,7 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecImage = {
    */
   repository?: string;
   /**
-   * @default "v3.8.0"
+   * @default "v3.8.1"
    */
   tag?: string;
   /**

@@ -478,6 +478,12 @@ export type RedisHelmValuesMaster = {
    */
   schedulerName?: string;
   /**
+   * Name of the runtime class to be used by master pod(s)
+   *
+   * @default ""
+   */
+  runtimeClassName?: string;
+  /**
    * ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
    *
    * @default {"type":"RollingUpdate"}
@@ -1631,6 +1637,12 @@ export type RedisHelmValuesReplica = {
    * @default ""
    */
   schedulerName?: string;
+  /**
+   * Name of the runtime class to be used by replica pod(s)
+   *
+   * @default ""
+   */
+  runtimeClassName?: string;
   /**
    * ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
    *
@@ -5605,13 +5617,13 @@ export type RedisHelmValues = {
   /**
    * Redis(R) master configuration parameters
    *
-   * @default {...} (56 keys)
+   * @default {...} (57 keys)
    */
   master?: RedisHelmValuesMaster;
   /**
    * Redis(R) replicas configuration parameters
    *
-   * @default {...} (59 keys)
+   * @default {...} (60 keys)
    */
   replica?: RedisHelmValuesReplica;
   /**
@@ -5799,6 +5811,7 @@ export type RedisHelmParameters = {
   "master.containerSecurityContext.capabilities.drop"?: string;
   "master.kind"?: string;
   "master.schedulerName"?: string;
+  "master.runtimeClassName"?: string;
   "master.updateStrategy.type"?: string;
   "master.minReadySeconds"?: string;
   "master.priorityClassName"?: string;
@@ -5915,6 +5928,7 @@ export type RedisHelmParameters = {
   "replica.containerSecurityContext.seccompProfile.type"?: string;
   "replica.containerSecurityContext.capabilities.drop"?: string;
   "replica.schedulerName"?: string;
+  "replica.runtimeClassName"?: string;
   "replica.updateStrategy.type"?: string;
   "replica.minReadySeconds"?: string;
   "replica.priorityClassName"?: string;

@@ -85,6 +85,7 @@ import type { CoderHelmValues } from "../../generated/helm/coder.types";
 import type { RedisHelmValues } from "../../generated/helm/redis.types";
 import type { WindmillHelmValues } from "../../generated/helm/windmill.types";
 import type { GitlabHelmValues } from "../../generated/helm/gitlab.types";
+import type { SeaweedfsHelmValues } from "../../generated/helm/seaweedfs.types";
 
 type HelmChartValuesMap = {
   "argo-cd": ArgocdHelmValues;
@@ -106,6 +107,7 @@ type HelmChartValuesMap = {
   redis: RedisHelmValues;
   windmill: WindmillHelmValues;
   gitlab: GitlabHelmValues;
+  seaweedfs: SeaweedfsHelmValues;
 };
 
 export type HelmValuesForChart<TChart extends keyof HelmChartValuesMap> = HelmChartValuesMap[TChart];

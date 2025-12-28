@@ -7,7 +7,7 @@ export type CertmanagerHelmValuesGlobal = {
    * The nodeSelector on Pods tells Kubernetes to schedule Pods on the nodes with
    * matching labels.
    * For more information, see [Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/).
-   * If a component-specific nodeSelector is also set, it will take precedence.
+   * If a component-specific nodeSelector is also set, it will be merged and take precedence.
    * +docs:property
    *
    * @default {}

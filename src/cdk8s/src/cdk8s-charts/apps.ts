@@ -29,6 +29,7 @@ import { createPostgresOperatorApp } from "../resources/argo-applications/postgr
 import { createCoderApp } from "../resources/argo-applications/coder.ts";
 import { createWindmillApp } from "../resources/argo-applications/windmill.ts";
 import { createGitlabApp } from "../resources/argo-applications/gitlab.ts";
+import { createSeaweedfsApp } from "../resources/argo-applications/seaweedfs.ts";
 import { createAllGrafanaDashboards } from "../resources/grafana/index.ts";
 import { createDependencySummaryCronJob } from "../resources/home/dependency-summary.ts";
 import { createOpenHandsDeployment } from "../resources/openhands.ts";
@@ -88,6 +89,7 @@ export async function createAppsChart(app: App) {
   createCoderApp(chart);
   createWindmillApp(chart);
   createGitlabApp(chart);
+  createSeaweedfsApp(chart);
   // Create all Grafana dashboards (gitckup, ha-workflow, scout, smartctl, velero, zfs)
   createAllGrafanaDashboards(chart);
 

@@ -144,6 +144,8 @@ const versions = {
   windmill: "4.0.12",
   // renovate: datasource=helm registryUrl=https://charts.gitlab.io/ versioning=semver
   gitlab: "9.7.0",
+  // renovate: datasource=helm registryUrl=https://seaweedfs.github.io/seaweedfs/helm versioning=semver
+  seaweedfs: "4.0.404",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
   mariadb: "24.0.2",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver

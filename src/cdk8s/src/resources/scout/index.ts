@@ -47,13 +47,14 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
     APPLICATION_ID: EnvValue.fromValue(applicationId),
     AWS_ACCESS_KEY_ID: EnvValue.fromSecretValue({
       secret: Secret.fromSecretName(chart, "aws-access-key-id", onePasswordItem.name),
-      key: "r2-access-key-id",
+      key: "s3-access-key-id",
     }),
     AWS_SECRET_ACCESS_KEY: EnvValue.fromSecretValue({
       secret: Secret.fromSecretName(chart, "aws-access-key-secret", onePasswordItem.name),
-      key: "r2-secret-access-key",
+      key: "s3-secret-access-key",
     }),
-    AWS_ENDPOINT_URL: EnvValue.fromValue("https://48948ed6cd40d73e34d27f0cc10e595f.r2.cloudflarestorage.com"),
+    // Use SeaweedFS S3 endpoint via Tailscale funnel
+    AWS_ENDPOINT_URL: EnvValue.fromValue("https://seaweedfs-s3.tail1c46f.ts.net"),
     AWS_REGION: EnvValue.fromValue("auto"),
     DISCORD_TOKEN: EnvValue.fromSecretValue({
       secret: Secret.fromSecretName(chart, "discord-token-secret", onePasswordItem.name),
