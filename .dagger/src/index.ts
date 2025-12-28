@@ -554,6 +554,7 @@ export class Homelab {
       .withFile("src/ha/package.json", source.file("src/ha/package.json"))
       .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
       .withFile("src/helm-types/package.json", source.file("src/helm-types/package.json"))
+      .withFile("src/deps-email/package.json", source.file("src/deps-email/package.json"))
       // Copy .dagger/package.json (Dagger excludes .dagger by default, but we can copy specific files)
       .withFile(".dagger/package.json", source.file(".dagger/package.json"))
       // Install dependencies (includes zod from workspace packages)
