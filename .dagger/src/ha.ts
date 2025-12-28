@@ -108,6 +108,7 @@ function buildHaContainer(source: Directory): Container {
       .withFile("src/ha/package.json", haSource.file("package.json"))
       .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
       .withFile("src/helm-types/package.json", source.file("src/helm-types/package.json"))
+      .withFile("src/deps-email/package.json", source.file("src/deps-email/package.json"))
       .withFile(".dagger/package.json", source.file(".dagger/package.json"))
       // Install dependencies (cached unless dependency files change)
       .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache-default-ha"))
