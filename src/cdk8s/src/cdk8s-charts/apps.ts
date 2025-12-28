@@ -31,6 +31,7 @@ import { createWindmillApp } from "../resources/argo-applications/windmill.ts";
 import { createGitlabApp } from "../resources/argo-applications/gitlab.ts";
 import { createSeaweedfsApp } from "../resources/argo-applications/seaweedfs.ts";
 import { createAllGrafanaDashboards } from "../resources/grafana/index.ts";
+import { createDdnsApp } from "../resources/argo-applications/ddns.ts";
 import { createDependencySummaryCronJob } from "../resources/home/dependency-summary.ts";
 import { createOpenHandsDeployment } from "../resources/openhands.ts";
 
@@ -92,6 +93,9 @@ export async function createAppsChart(app: App) {
   createSeaweedfsApp(chart);
   // Create all Grafana dashboards (gitckup, ha-workflow, scout, smartctl, velero, zfs)
   createAllGrafanaDashboards(chart);
+
+  // Per-service ArgoCD apps (migrated from torvalds)
+  createDdnsApp(chart);
 
   // Weekly dependency summary email
   createDependencySummaryCronJob(chart);
