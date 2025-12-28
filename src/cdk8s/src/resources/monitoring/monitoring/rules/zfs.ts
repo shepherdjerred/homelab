@@ -49,7 +49,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "ZFS ARC metadata usage is high",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString("(node_zfs_arc_arc_meta_used / node_zfs_arc_c) > 0.75"),
-          for: "15m",
+          for: "30m",
           labels: { severity: "warning" },
         },
         {
@@ -61,7 +61,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "High ZFS ARC eviction rate detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_deleted[5m]) > 1000"),
-          for: "10m",
+          for: "30m",
           labels: { severity: "warning" },
         },
       ],
@@ -223,7 +223,7 @@ export function getZfsMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "High ZFS eviction skips - potential lock contention",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString("rate(node_zfs_arc_evict_skip[5m]) > 100"),
-          for: "15m",
+          for: "1h",
           labels: { severity: "warning" },
         },
         {
