@@ -25,6 +25,7 @@ export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
           70,
           "Litter Robot waste drawer is high: {{ $value }}% ({{ $labels.entity }}).",
           "Litter Robot waste high",
+          "1h", // Increased from default 10m to reduce flapping from sensor variance
         ),
         {
           alert: "LitterRobotNotCyclingRecently",
