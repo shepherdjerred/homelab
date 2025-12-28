@@ -56,7 +56,7 @@ const versions = {
   "shepherdjerred/dependency-summary": "latest",
   // Custom sjer.red image - updated by CI pipeline
   // not managed by renovate
-  "shepherdjerred/sjer.red": "1.0.89",
+  "shepherdjerred/sjer.red": "1.0.91",
   // Custom scout-for-lol-frontend image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/scout-for-lol-frontend": "latest",
