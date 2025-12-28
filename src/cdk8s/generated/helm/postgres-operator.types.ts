@@ -10,7 +10,7 @@ export type PostgresoperatorHelmValuesImage = {
    */
   repository?: string;
   /**
-   * @default "v1.14.0"
+   * @default "v1.15.1"
    */
   tag?: string;
   /**
@@ -73,7 +73,7 @@ export type PostgresoperatorHelmValuesConfigGeneral = {
   /**
    * Spilo docker image
    *
-   * @default "ghcr.io/zalando/spilo-17:4.0-p2"
+   * @default "ghcr.io/zalando/spilo-17:4.0-p3"
    */
   docker_image?: string;
   /**

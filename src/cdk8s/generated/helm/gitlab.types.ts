@@ -39,7 +39,7 @@ export type GitlabHelmValuesGlobal = {
   /**
    * https://docs.gitlab.com/charts/charts/globals#gitlab-version
    *
-   * @default "18.6.2"
+   * @default "18.7.0"
    */
   gitlabVersion?: string;
   /**
@@ -54,6 +54,10 @@ export type GitlabHelmValuesGlobal = {
    * @default {...} (14 keys)
    */
   hosts?: GitlabHelmValuesGlobalHosts;
+  /**
+   * @default {...} (8 keys)
+   */
+  gatewayApi?: GitlabHelmValuesGlobalGatewayApi;
   /**
    * https://docs.gitlab.com/charts/charts/globals#configure-ingress-settings
    *
@@ -131,6 +135,8 @@ export type GitlabHelmValuesGlobal = {
    */
   appConfig?: GitlabHelmValuesGlobalAppConfig;
   /**
+   * End of global.appConfig
+   *
    * @default {"gitlab-pages":{}}
    */
   oauth?: GitlabHelmValuesGlobalOauth;
@@ -284,10 +290,12 @@ export type GitlabHelmValuesGlobal = {
    * https://docs.gitlab.com/ci/secrets/
    * Experimental, unsupported
    *
-   * @default {...} (4 keys)
+   * @default {...} (5 keys)
    */
   openbao?: GitlabHelmValuesGlobalOpenbao;
   /**
+   * https://docs.gitlab.com/charts/charts/globals
+   *
    * @default {}
    */
   extraEnv?: GitlabHelmValuesGlobalExtraEnv;
@@ -420,6 +428,316 @@ export type GitlabHelmValuesGlobalHostsPages = object;
 export type GitlabHelmValuesGlobalHostsOpenbao = object;
 
 export type GitlabHelmValuesGlobalHostsWorkspaces = object;
+
+export type GitlabHelmValuesGlobalGatewayApi = {
+  /**
+   * @default false
+   */
+  enabled?: boolean;
+  /**
+   * @default {"provider":{"type":"Kubernetes","kubernetes":{"envoyService":{"type":"LoadBalancer"}}}}
+   */
+  envoyProxySpec?: GitlabHelmValuesGlobalGatewayApiEnvoyProxySpec;
+  /**
+   * @default {"name":"gitlab-gw","controllerName":"gateway.envoyproxy.io/gitlab-gatewayclass-controller"}
+   */
+  class?: GitlabHelmValuesGlobalGatewayApiClass;
+  /**
+   * @default false
+   */
+  installEnvoy?: boolean;
+  /**
+   * @default false
+   */
+  configureCertmanager?: boolean;
+  /**
+   * @default "HTTPS"
+   */
+  protocol?: string;
+  addresses?: unknown[];
+  /**
+   * @default {...} (9 keys)
+   */
+  listeners?: GitlabHelmValuesGlobalGatewayApiListeners;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiEnvoyProxySpec = {
+  /**
+   * @default {"type":"Kubernetes","kubernetes":{"envoyService":{"type":"LoadBalancer"}}}
+   */
+  provider?: GitlabHelmValuesGlobalGatewayApiEnvoyProxySpecProvider;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiEnvoyProxySpecProvider = {
+  /**
+   * @default "Kubernetes"
+   */
+  type?: string;
+  /**
+   * @default {"envoyService":{"type":"LoadBalancer"}}
+   */
+  kubernetes?: GitlabHelmValuesGlobalGatewayApiEnvoyProxySpecProviderKubernetes;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiEnvoyProxySpecProviderKubernetes = {
+  /**
+   * @default {"type":"LoadBalancer"}
+   */
+  envoyService?: GitlabHelmValuesGlobalGatewayApiEnvoyProxySpecProviderKubernetesEnvoyService;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiEnvoyProxySpecProviderKubernetesEnvoyService = {
+  /**
+   * @default "LoadBalancer"
+   */
+  type?: string;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiClass = {
+  /**
+   * @default "gitlab-gw"
+   */
+  name?: string;
+  /**
+   * @default "gateway.envoyproxy.io/gitlab-gatewayclass-contr..."
+   */
+  controllerName?: string;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListeners = {
+  /**
+   * @default {"protocol":"HTTP"}
+   */
+  "certmanager-http"?: GitlabHelmValuesGlobalGatewayApiListenersCertmanagerhttp;
+  /**
+   * @default {"protocol":"","tls":{"mode":"Terminate","certificateRefs":[{"name":"gitlab-tls"}]}}
+   */
+  "gitlab-web"?: GitlabHelmValuesGlobalGatewayApiListenersGitlabweb;
+  /**
+   * @default {"protocol":"TCP"}
+   */
+  "gitlab-ssh"?: GitlabHelmValuesGlobalGatewayApiListenersGitlabssh;
+  /**
+   * @default {"protocol":"","tls":{"mode":"Terminate","certificateRefs":[{"name":"registry-tls"}]}}
+   */
+  "registry-web"?: GitlabHelmValuesGlobalGatewayApiListenersRegistryweb;
+  /**
+   * @default {"protocol":"","tls":{"mode":"Terminate","certificateRefs":[{"name":"pages-tls"}]}}
+   */
+  "pages-web"?: GitlabHelmValuesGlobalGatewayApiListenersPagesweb;
+  /**
+   * @default {"protocol":"","tls":{"mode":"Terminate","certificateRefs":[{"name":"kas-tls"}]}}
+   */
+  "kas-web"?: GitlabHelmValuesGlobalGatewayApiListenersKasweb;
+  /**
+   * @default {"protocol":"","tls":{"mode":"Terminate","certificateRefs":[{"name":"kas-workspaces-tls"}]}}
+   */
+  "kas-workspaces-web"?: GitlabHelmValuesGlobalGatewayApiListenersKasworkspacesweb;
+  /**
+   * @default {"protocol":"","tls":{"mode":"Terminate","certificateRefs":[{"name":"kas-workspaces-tls"}]}}
+   */
+  "kas-registry-web"?: GitlabHelmValuesGlobalGatewayApiListenersKasregistryweb;
+  /**
+   * @default {"protocol":"","tls":{"mode":"Terminate","certificateRefs":[{"name":"minio-tls"}]}}
+   */
+  "minio-web"?: GitlabHelmValuesGlobalGatewayApiListenersMinioweb;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersCertmanagerhttp = {
+  /**
+   * @default "HTTP"
+   */
+  protocol?: string;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersGitlabweb = {
+  /**
+   * @default ""
+   */
+  protocol?: string;
+  /**
+   * @default {"mode":"Terminate","certificateRefs":[{"name":"gitlab-tls"}]}
+   */
+  tls?: GitlabHelmValuesGlobalGatewayApiListenersGitlabwebTls;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersGitlabwebTls = {
+  /**
+   * @default "Terminate"
+   */
+  mode?: string;
+  certificateRefs?: GitlabHelmValuesGlobalGatewayApiListenersGitlabwebTlsCertificateRefsElement[];
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersGitlabwebTlsCertificateRefsElement = {
+  /**
+   * @default "gitlab-tls"
+   */
+  name?: string;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersGitlabssh = {
+  /**
+   * @default "TCP"
+   */
+  protocol?: string;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersRegistryweb = {
+  /**
+   * @default ""
+   */
+  protocol?: string;
+  /**
+   * @default {"mode":"Terminate","certificateRefs":[{"name":"registry-tls"}]}
+   */
+  tls?: GitlabHelmValuesGlobalGatewayApiListenersRegistrywebTls;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersRegistrywebTls = {
+  /**
+   * @default "Terminate"
+   */
+  mode?: string;
+  certificateRefs?: GitlabHelmValuesGlobalGatewayApiListenersRegistrywebTlsCertificateRefsElement[];
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersRegistrywebTlsCertificateRefsElement = {
+  /**
+   * @default "registry-tls"
+   */
+  name?: string;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersPagesweb = {
+  /**
+   * @default ""
+   */
+  protocol?: string;
+  /**
+   * @default {"mode":"Terminate","certificateRefs":[{"name":"pages-tls"}]}
+   */
+  tls?: GitlabHelmValuesGlobalGatewayApiListenersPageswebTls;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersPageswebTls = {
+  /**
+   * @default "Terminate"
+   */
+  mode?: string;
+  certificateRefs?: GitlabHelmValuesGlobalGatewayApiListenersPageswebTlsCertificateRefsElement[];
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersPageswebTlsCertificateRefsElement = {
+  /**
+   * @default "pages-tls"
+   */
+  name?: string;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersKasweb = {
+  /**
+   * @default ""
+   */
+  protocol?: string;
+  /**
+   * @default {"mode":"Terminate","certificateRefs":[{"name":"kas-tls"}]}
+   */
+  tls?: GitlabHelmValuesGlobalGatewayApiListenersKaswebTls;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersKaswebTls = {
+  /**
+   * @default "Terminate"
+   */
+  mode?: string;
+  certificateRefs?: GitlabHelmValuesGlobalGatewayApiListenersKaswebTlsCertificateRefsElement[];
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersKaswebTlsCertificateRefsElement = {
+  /**
+   * @default "kas-tls"
+   */
+  name?: string;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersKasworkspacesweb = {
+  /**
+   * @default ""
+   */
+  protocol?: string;
+  /**
+   * @default {"mode":"Terminate","certificateRefs":[{"name":"kas-workspaces-tls"}]}
+   */
+  tls?: GitlabHelmValuesGlobalGatewayApiListenersKasworkspaceswebTls;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersKasworkspaceswebTls = {
+  /**
+   * @default "Terminate"
+   */
+  mode?: string;
+  certificateRefs?: GitlabHelmValuesGlobalGatewayApiListenersKasworkspaceswebTlsCertificateRefsElement[];
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersKasworkspaceswebTlsCertificateRefsElement = {
+  /**
+   * @default "kas-workspaces-tls"
+   */
+  name?: string;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersKasregistryweb = {
+  /**
+   * @default ""
+   */
+  protocol?: string;
+  /**
+   * @default {"mode":"Terminate","certificateRefs":[{"name":"kas-workspaces-tls"}]}
+   */
+  tls?: GitlabHelmValuesGlobalGatewayApiListenersKasregistrywebTls;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersKasregistrywebTls = {
+  /**
+   * @default "Terminate"
+   */
+  mode?: string;
+  certificateRefs?: GitlabHelmValuesGlobalGatewayApiListenersKasregistrywebTlsCertificateRefsElement[];
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersKasregistrywebTlsCertificateRefsElement = {
+  /**
+   * @default "kas-workspaces-tls"
+   */
+  name?: string;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersMinioweb = {
+  /**
+   * @default ""
+   */
+  protocol?: string;
+  /**
+   * @default {"mode":"Terminate","certificateRefs":[{"name":"minio-tls"}]}
+   */
+  tls?: GitlabHelmValuesGlobalGatewayApiListenersMiniowebTls;
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersMiniowebTls = {
+  /**
+   * @default "Terminate"
+   */
+  mode?: string;
+  certificateRefs?: GitlabHelmValuesGlobalGatewayApiListenersMiniowebTlsCertificateRefsElement[];
+};
+
+export type GitlabHelmValuesGlobalGatewayApiListenersMiniowebTlsCertificateRefsElement = {
+  /**
+   * @default "minio-tls"
+   */
+  name?: string;
+};
 
 export type GitlabHelmValuesGlobalIngress = {
   /**
@@ -947,12 +1265,6 @@ export type GitlabHelmValuesGlobalAppConfig = {
    */
   workspaces?: GitlabHelmValuesGlobalAppConfigWorkspaces;
   /**
-   * Configure Database Traffic Capture. This is a Gitlab internal-use experiment.
-   *
-   * @default {"config":{"storage":{"connector":{"provider":"","projectId":"","credentials":"","bucket":""}}}}
-   */
-  databaseTrafficCapture?: GitlabHelmValuesGlobalAppConfigDatabaseTrafficCapture;
-  /**
    * Configure GitLab Cells. Cells is a GitLab internal-use experiment.
    * https://docs.gitlab.com/administration/cells/
    *
@@ -1002,6 +1314,7 @@ export type GitlabHelmValuesGlobalAppConfig = {
    * @default {}
    */
   initialDefaults?: GitlabHelmValuesGlobalAppConfigInitialDefaults;
+  actionCableAllowedOrigins?: unknown[];
 };
 
 export type GitlabHelmValuesGlobalAppConfigDefaultProjectsFeatures = {
@@ -1758,66 +2071,6 @@ export type GitlabHelmValuesGlobalAppConfigWorkspaces = {
    * This is common for config maps, custom settings, and extensible configurations.
    */
   [key: string]: unknown;
-};
-
-export type GitlabHelmValuesGlobalAppConfigDatabaseTrafficCapture = {
-  /**
-   * This type allows arbitrary additional properties beyond those defined below.
-   * This is common for config maps, custom settings, and extensible configurations.
-   */
-  [key: string]: unknown;
-  /**
-   * @default {"storage":{"connector":{"provider":"","projectId":"","credentials":"","bucket":""}}}
-   */
-  config?: GitlabHelmValuesGlobalAppConfigDatabaseTrafficCaptureConfig;
-};
-
-export type GitlabHelmValuesGlobalAppConfigDatabaseTrafficCaptureConfig = {
-  /**
-   * This type allows arbitrary additional properties beyond those defined below.
-   * This is common for config maps, custom settings, and extensible configurations.
-   */
-  [key: string]: unknown;
-  /**
-   * @default {"connector":{"provider":"","projectId":"","credentials":"","bucket":""}}
-   */
-  storage?: GitlabHelmValuesGlobalAppConfigDatabaseTrafficCaptureConfigStorage;
-};
-
-export type GitlabHelmValuesGlobalAppConfigDatabaseTrafficCaptureConfigStorage = {
-  /**
-   * This type allows arbitrary additional properties beyond those defined below.
-   * This is common for config maps, custom settings, and extensible configurations.
-   */
-  [key: string]: unknown;
-  /**
-   * @default {...} (4 keys)
-   */
-  connector?: GitlabHelmValuesGlobalAppConfigDatabaseTrafficCaptureConfigStorageConnector;
-};
-
-export type GitlabHelmValuesGlobalAppConfigDatabaseTrafficCaptureConfigStorageConnector = {
-  /**
-   * This type allows arbitrary additional properties beyond those defined below.
-   * This is common for config maps, custom settings, and extensible configurations.
-   */
-  [key: string]: unknown;
-  /**
-   * @default ""
-   */
-  provider?: string;
-  /**
-   * @default ""
-   */
-  projectId?: string;
-  /**
-   * @default ""
-   */
-  credentials?: string;
-  /**
-   * @default ""
-   */
-  bucket?: string;
 };
 
 export type GitlabHelmValuesGlobalAppConfigCell = {
@@ -2787,6 +3040,21 @@ export type GitlabHelmValuesGlobalOpenbao = {
   host?: unknown;
   https?: unknown;
   url?: unknown;
+  /**
+   * @default {"secret":"","key":"token"}
+   */
+  httpAudit?: GitlabHelmValuesGlobalOpenbaoHttpAudit;
+};
+
+export type GitlabHelmValuesGlobalOpenbaoHttpAudit = {
+  /**
+   * @default ""
+   */
+  secret?: string;
+  /**
+   * @default "token"
+   */
+  key?: string;
 };
 
 export type GitlabHelmValuesGlobalExtraEnv = {
@@ -5437,7 +5705,7 @@ export type GitlabHelmValuesOpenbaoConfig = {
    */
   initialize?: GitlabHelmValuesOpenbaoConfigInitialize;
   /**
-   * @default {"http":{"enabled":true,"streamingUri":"{{ include \"gitlab.workhorse.url\" . }}/api/v4/internal/secrets_manager/audit_logs"}}
+   * @default {"http":{"enabled":false,"streamingUri":"{{ include \"gitlab.workhorse.url\" . }}/api/v4/internal/secrets_manager/audit_logs"}}
    */
   audit?: GitlabHelmValuesOpenbaoConfigAudit;
   /**
@@ -5481,14 +5749,14 @@ export type GitlabHelmValuesOpenbaoConfigInitialize = {
 
 export type GitlabHelmValuesOpenbaoConfigAudit = {
   /**
-   * @default {"enabled":true,"streamingUri":"{{ include \"gitlab.workhorse.url\" . }}/api/v4/internal/secrets_manager/audit_logs"}
+   * @default {"enabled":false,"streamingUri":"{{ include \"gitlab.workhorse.url\" . }}/api/v4/internal/secrets_manager/audit_logs"}
    */
   http?: GitlabHelmValuesOpenbaoConfigAuditHttp;
 };
 
 export type GitlabHelmValuesOpenbaoConfigAuditHttp = {
   /**
-   * @default true
+   * @default false
    */
   enabled?: boolean;
   /**
@@ -5548,6 +5816,55 @@ export type GitlabHelmValuesOpenbaoConfigStoragePostgresqlConnection = {
   sslMode?: string;
 };
 
+export type GitlabHelmValuesEnvoygateway = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
+   * @default {"envoyGateway":{"gateway":{"controllerName":"gateway.envoyproxy.io/gitlab-gatewayclass-controller"},"extensionApis":{"enableEnvoyPatchPolicy":true}}}
+   */
+  config?: GitlabHelmValuesEnvoygatewayConfig;
+};
+
+export type GitlabHelmValuesEnvoygatewayConfig = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
+   * @default {"gateway":{"controllerName":"gateway.envoyproxy.io/gitlab-gatewayclass-controller"},"extensionApis":{"enableEnvoyPatchPolicy":true}}
+   */
+  envoyGateway?: GitlabHelmValuesEnvoygatewayConfigEnvoyGateway;
+};
+
+export type GitlabHelmValuesEnvoygatewayConfigEnvoyGateway = {
+  /**
+   * @default {"controllerName":"gateway.envoyproxy.io/gitlab-gatewayclass-controller"}
+   */
+  gateway?: GitlabHelmValuesEnvoygatewayConfigEnvoyGatewayGateway;
+  /**
+   * @default {"enableEnvoyPatchPolicy":true}
+   */
+  extensionApis?: GitlabHelmValuesEnvoygatewayConfigEnvoyGatewayExtensionApis;
+};
+
+export type GitlabHelmValuesEnvoygatewayConfigEnvoyGatewayGateway = {
+  /**
+   * @default "gateway.envoyproxy.io/gitlab-gatewayclass-contr..."
+   */
+  controllerName?: string;
+};
+
+export type GitlabHelmValuesEnvoygatewayConfigEnvoyGatewayExtensionApis = {
+  /**
+   * @default true
+   */
+  enableEnvoyPatchPolicy?: boolean;
+};
+
 export type GitlabHelmValues = {
   /**
    * This type allows arbitrary additional properties beyond those defined below.
@@ -5575,7 +5892,7 @@ export type GitlabHelmValues = {
    * The global properties are used to configure multiple charts at once.
    * https://docs.gitlab.com/charts/charts/globals
    *
-   * @default {...} (54 keys)
+   * @default {...} (55 keys)
    */
   global?: GitlabHelmValuesGlobal;
   /**
@@ -5674,6 +5991,10 @@ export type GitlabHelmValues = {
    * @default {...} (8 keys)
    */
   openbao?: GitlabHelmValuesOpenbao;
+  /**
+   * @default {"config":{"envoyGateway":{"gateway":{"controllerName":"gateway.envoyproxy.io/gitlab-gatewayclass-controller"},"extensionApis":{"enableEnvoyPatchPolicy":true}}}}
+   */
+  "envoy-gateway"?: GitlabHelmValuesEnvoygateway;
 };
 
 export type GitlabHelmParameters = {
@@ -5687,6 +6008,38 @@ export type GitlabHelmParameters = {
   "global.hosts.https"?: string;
   "global.hosts.externalIP"?: string;
   "global.hosts.ssh"?: string;
+  "global.gatewayApi.enabled"?: string;
+  "global.gatewayApi.envoyProxySpec.provider.type"?: string;
+  "global.gatewayApi.envoyProxySpec.provider.kubernetes.envoyService.type"?: string;
+  "global.gatewayApi.class.name"?: string;
+  "global.gatewayApi.class.controllerName"?: string;
+  "global.gatewayApi.installEnvoy"?: string;
+  "global.gatewayApi.configureCertmanager"?: string;
+  "global.gatewayApi.protocol"?: string;
+  "global.gatewayApi.addresses"?: string;
+  "global.gatewayApi.listeners.certmanager-http.protocol"?: string;
+  "global.gatewayApi.listeners.gitlab-web.protocol"?: string;
+  "global.gatewayApi.listeners.gitlab-web.tls.mode"?: string;
+  "global.gatewayApi.listeners.gitlab-web.tls.certificateRefs.name"?: string;
+  "global.gatewayApi.listeners.gitlab-ssh.protocol"?: string;
+  "global.gatewayApi.listeners.registry-web.protocol"?: string;
+  "global.gatewayApi.listeners.registry-web.tls.mode"?: string;
+  "global.gatewayApi.listeners.registry-web.tls.certificateRefs.name"?: string;
+  "global.gatewayApi.listeners.pages-web.protocol"?: string;
+  "global.gatewayApi.listeners.pages-web.tls.mode"?: string;
+  "global.gatewayApi.listeners.pages-web.tls.certificateRefs.name"?: string;
+  "global.gatewayApi.listeners.kas-web.protocol"?: string;
+  "global.gatewayApi.listeners.kas-web.tls.mode"?: string;
+  "global.gatewayApi.listeners.kas-web.tls.certificateRefs.name"?: string;
+  "global.gatewayApi.listeners.kas-workspaces-web.protocol"?: string;
+  "global.gatewayApi.listeners.kas-workspaces-web.tls.mode"?: string;
+  "global.gatewayApi.listeners.kas-workspaces-web.tls.certificateRefs.name"?: string;
+  "global.gatewayApi.listeners.kas-registry-web.protocol"?: string;
+  "global.gatewayApi.listeners.kas-registry-web.tls.mode"?: string;
+  "global.gatewayApi.listeners.kas-registry-web.tls.certificateRefs.name"?: string;
+  "global.gatewayApi.listeners.minio-web.protocol"?: string;
+  "global.gatewayApi.listeners.minio-web.tls.mode"?: string;
+  "global.gatewayApi.listeners.minio-web.tls.certificateRefs.name"?: string;
   "global.ingress.apiVersion"?: string;
   "global.ingress.configureCertmanager"?: string;
   "global.ingress.useNewIngressForCerts"?: string;
@@ -5837,10 +6190,6 @@ export type GitlabHelmParameters = {
   "global.appConfig.serviceDeskEmail.deliveryMethod"?: string;
   "global.appConfig.ldap.preventSignin"?: string;
   "global.appConfig.duoAuth.enabled"?: string;
-  "global.appConfig.databaseTrafficCapture.config.storage.connector.provider"?: string;
-  "global.appConfig.databaseTrafficCapture.config.storage.connector.projectId"?: string;
-  "global.appConfig.databaseTrafficCapture.config.storage.connector.credentials"?: string;
-  "global.appConfig.databaseTrafficCapture.config.storage.connector.bucket"?: string;
   "global.appConfig.cell.enabled"?: string;
   "global.appConfig.cell.database.skipSequenceAlteration"?: string;
   "global.appConfig.cell.topologyServiceClient.tls.enabled"?: string;
@@ -5877,6 +6226,7 @@ export type GitlabHelmParameters = {
   "global.appConfig.smartcard.sanExtensions"?: string;
   "global.appConfig.smartcard.requiredForGitAccess"?: string;
   "global.appConfig.sidekiq.routingRules"?: string;
+  "global.appConfig.actionCableAllowedOrigins"?: string;
   "global.geo.enabled"?: string;
   "global.geo.role"?: string;
   "global.geo.nodeName"?: string;
@@ -5959,6 +6309,8 @@ export type GitlabHelmParameters = {
   "global.openbao.host"?: string;
   "global.openbao.https"?: string;
   "global.openbao.url"?: string;
+  "global.openbao.httpAudit.secret"?: string;
+  "global.openbao.httpAudit.key"?: string;
   "global.job.nameSuffixOverride"?: string;
   "global.traefik.apiVersion"?: string;
   "upgradeCheck.enabled"?: string;
@@ -6266,4 +6618,6 @@ export type GitlabHelmParameters = {
   "openbao.config.storage.postgresql.connection.database"?: string;
   "openbao.config.storage.postgresql.connection.username"?: string;
   "openbao.config.storage.postgresql.connection.sslMode"?: string;
+  "envoy-gateway.config.envoyGateway.gateway.controllerName"?: string;
+  "envoy-gateway.config.envoyGateway.extensionApis.enableEnvoyPatchPolicy"?: string;
 };

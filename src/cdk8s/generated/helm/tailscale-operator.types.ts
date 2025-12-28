@@ -1,6 +1,29 @@
 // Generated TypeScript types for tailscale-operator Helm chart
 
-export type TailscaleoperatorHelmValuesOauth = object;
+export type TailscaleoperatorHelmValuesOauth = {
+  /**
+   * The Client ID the operator will authenticate with.
+   *
+   * @default ""
+   */
+  clientId?: string;
+  /**
+   * If set a Kubernetes Secret with the provided value will be created in
+   * the operator namespace, and mounted into the operator Pod. Takes precedence
+   * over oauth.audience.
+   *
+   * @default ""
+   */
+  clientSecret?: string;
+  /**
+   * The audience for oauth.clientId if using a workload identity federation
+   * OAuth client. Mutually exclusive with oauth.clientSecret.
+   * See https://tailscale.com/kb/1581/workload-identity-federation.
+   *
+   * @default ""
+   */
+  audience?: string;
+};
 
 export type TailscaleoperatorHelmValuesOauthSecretVolume = object;
 
@@ -193,12 +216,11 @@ export type TailscaleoperatorHelmValuesApiServerProxyConfig = {
 export type TailscaleoperatorHelmValues = {
   /**
    * Copyright (c) Tailscale Inc & AUTHORS
-   * Operator oauth credentials. If set a Kubernetes Secret with the provided
-   * values will be created in the operator namespace. If unset a Secret named
-   * operator-oauth must be precreated or oauthSecretVolume needs to be adjusted.
-   * This block will be overridden by oauthSecretVolume, if set.
+   * Operator oauth credentials. If unset a Secret named operator-oauth must be
+   * precreated or oauthSecretVolume needs to be adjusted. This block will be
+   * overridden by oauthSecretVolume, if set.
    *
-   * @default {}
+   * @default {"clientId":"","clientSecret":"","audience":""}
    */
   oauth?: TailscaleoperatorHelmValuesOauth;
   /**
@@ -262,6 +284,9 @@ export type TailscaleoperatorHelmValues = {
 };
 
 export type TailscaleoperatorHelmParameters = {
+  "oauth.clientId"?: string;
+  "oauth.clientSecret"?: string;
+  "oauth.audience"?: string;
   loginServer?: string;
   installCRDs?: string;
   "operatorConfig.defaultTags"?: string;

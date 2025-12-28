@@ -8,18 +8,24 @@ export type WindmillHelmValuesPostgresql = {
    */
   enabled?: boolean;
   /**
-   * @default {"limits":{"memory":"2Gi","ephemeral-storage":"50Gi"}}
+   * @default {"limits":{"memory":"2Gi"}}
    */
   resources?: WindmillHelmValuesPostgresqlResources;
   /**
    * @default {"postgresUser":"postgres","postgresPassword":"windmill","database":"windmill"}
    */
   auth?: WindmillHelmValuesPostgresqlAuth;
+  /**
+   * persistence configuration for PostgreSQL data
+   *
+   * @default {...} (4 keys)
+   */
+  persistence?: WindmillHelmValuesPostgresqlPersistence;
 };
 
 export type WindmillHelmValuesPostgresqlResources = {
   /**
-   * @default {"memory":"2Gi","ephemeral-storage":"50Gi"}
+   * @default {"memory":"2Gi"}
    */
   limits?: WindmillHelmValuesPostgresqlResourcesLimits;
   /**
@@ -33,10 +39,6 @@ export type WindmillHelmValuesPostgresqlResourcesLimits = {
    * @default "2Gi"
    */
   memory?: string;
-  /**
-   * @default "50Gi"
-   */
-  "ephemeral-storage"?: string;
 };
 
 export type WindmillHelmValuesPostgresqlResourcesRequests = {
@@ -44,10 +46,6 @@ export type WindmillHelmValuesPostgresqlResourcesRequests = {
    * @default "2Gi"
    */
   memory?: string;
-  /**
-   * @default "50Gi"
-   */
-  "ephemeral-storage"?: string;
 };
 
 export type WindmillHelmValuesPostgresqlAuth = {
@@ -63,6 +61,38 @@ export type WindmillHelmValuesPostgresqlAuth = {
    * @default "windmill"
    */
   database?: string;
+};
+
+export type WindmillHelmValuesPostgresqlPersistence = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
+   * enable persistence using PVC
+   *
+   * @default false
+   */
+  enabled?: boolean;
+  /**
+   * storage class for the PVC (leave empty for default)
+   *
+   * @default ""
+   */
+  storageClass?: string;
+  /**
+   * access mode for the PVC
+   *
+   * @default "ReadWriteOnce"
+   */
+  accessMode?: string;
+  /**
+   * size of the PVC
+   *
+   * @default "50Gi"
+   */
+  size?: string;
 };
 
 export type WindmillHelmValuesMinio = {
@@ -254,6 +284,13 @@ export type WindmillHelmValuesWindmill = {
    * @default "Always"
    */
   imagePullPolicy?: string;
+  /**
+   * Disable PID namespace isolation (unshare). Set to true for nodes where user namespaces are disabled.
+   * Some systems like Bottlerocket AMI have max_user_namespaces=0 which prevents unshare from working.
+   *
+   * @default false
+   */
+  disableUnsharePid?: boolean;
   workerGroups?: WindmillHelmValuesWindmillWorkerGroupsElement[];
   /**
    * app configuration
@@ -312,6 +349,14 @@ export type WindmillHelmValuesWindmillWorkerGroupsElement = {
   nodeSelector?: WindmillHelmValuesWindmillWorkerGroupsNodeSelector;
   tolerations?: unknown[];
   hostAliases?: unknown[];
+  /**
+   * @default true
+   */
+  privileged?: boolean;
+  /**
+   * @default false
+   */
+  disableUnsharePid?: boolean;
   /**
    * @default {"runAsUser":0,"runAsNonRoot":false}
    */
@@ -1352,18 +1397,24 @@ export type WindmillHelmValuesHubpostgresql = {
    */
   enabled?: boolean;
   /**
-   * @default {"limits":{"memory":"2Gi","ephemeral-storage":"20Gi"}}
+   * @default {"limits":{"memory":"2Gi"}}
    */
   resources?: WindmillHelmValuesHubpostgresqlResources;
   /**
    * @default {"postgresUser":"postgres","postgresPassword":"windmill","database":"windmillhub"}
    */
   auth?: WindmillHelmValuesHubpostgresqlAuth;
+  /**
+   * persistence configuration for PostgreSQL data
+   *
+   * @default {...} (4 keys)
+   */
+  persistence?: WindmillHelmValuesHubpostgresqlPersistence;
 };
 
 export type WindmillHelmValuesHubpostgresqlResources = {
   /**
-   * @default {"memory":"2Gi","ephemeral-storage":"20Gi"}
+   * @default {"memory":"2Gi"}
    */
   limits?: WindmillHelmValuesHubpostgresqlResourcesLimits;
   /**
@@ -1377,10 +1428,6 @@ export type WindmillHelmValuesHubpostgresqlResourcesLimits = {
    * @default "2Gi"
    */
   memory?: string;
-  /**
-   * @default "20Gi"
-   */
-  "ephemeral-storage"?: string;
 };
 
 export type WindmillHelmValuesHubpostgresqlResourcesRequests = {
@@ -1388,10 +1435,6 @@ export type WindmillHelmValuesHubpostgresqlResourcesRequests = {
    * @default "2Gi"
    */
   memory?: string;
-  /**
-   * @default "20Gi"
-   */
-  "ephemeral-storage"?: string;
 };
 
 export type WindmillHelmValuesHubpostgresqlAuth = {
@@ -1409,9 +1452,41 @@ export type WindmillHelmValuesHubpostgresqlAuth = {
   database?: string;
 };
 
+export type WindmillHelmValuesHubpostgresqlPersistence = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
+   * enable persistence using PVC
+   *
+   * @default false
+   */
+  enabled?: boolean;
+  /**
+   * storage class for the PVC (leave empty for default)
+   *
+   * @default ""
+   */
+  storageClass?: string;
+  /**
+   * access mode for the PVC
+   *
+   * @default "ReadWriteOnce"
+   */
+  accessMode?: string;
+  /**
+   * size of the PVC
+   *
+   * @default "50Gi"
+   */
+  size?: string;
+};
+
 export type WindmillHelmValues = {
   /**
-   * @default {"enabled":true,"resources":{"limits":{"memory":"2Gi","ephemeral-storage":"50Gi"}},"auth":{"postgresUser":"postgres","postgresPassword":"windmill","database":"windmill"}}
+   * @default {...} (4 keys)
    */
   postgresql?: WindmillHelmValuesPostgresql;
   /**
@@ -1419,7 +1494,7 @@ export type WindmillHelmValues = {
    */
   minio?: WindmillHelmValuesMinio;
   /**
-   * @default {...} (30 keys)
+   * @default {...} (31 keys)
    */
   windmill?: WindmillHelmValuesWindmill;
   /**
@@ -1439,7 +1514,7 @@ export type WindmillHelmValues = {
    */
   hub?: WindmillHelmValuesHub;
   /**
-   * @default {"enabled":false,"resources":{"limits":{"memory":"2Gi","ephemeral-storage":"20Gi"}},"auth":{"postgresUser":"postgres","postgresPassword":"windmill","database":"windmillhub"}}
+   * @default {...} (4 keys)
    */
   "hub-postgresql"?: WindmillHelmValuesHubpostgresql;
   extraDeploy?: unknown[];
@@ -1448,12 +1523,14 @@ export type WindmillHelmValues = {
 export type WindmillHelmParameters = {
   "postgresql.enabled"?: string;
   "postgresql.resources.limits.memory"?: string;
-  "postgresql.resources.limits.ephemeral-storage"?: string;
   "postgresql.resources.requests.memory"?: string;
-  "postgresql.resources.requests.ephemeral-storage"?: string;
   "postgresql.auth.postgresUser"?: string;
   "postgresql.auth.postgresPassword"?: string;
   "postgresql.auth.database"?: string;
+  "postgresql.persistence.enabled"?: string;
+  "postgresql.persistence.storageClass"?: string;
+  "postgresql.persistence.accessMode"?: string;
+  "postgresql.persistence.size"?: string;
   "minio.enabled"?: string;
   "minio.fullnameOverride"?: string;
   "minio.mode"?: string;
@@ -1485,12 +1562,15 @@ export type WindmillHelmParameters = {
   "windmill.publicAppDomain"?: string;
   "windmill.secondaryApiDomain"?: string;
   "windmill.imagePullPolicy"?: string;
+  "windmill.disableUnsharePid"?: string;
   "windmill.workerGroups.name"?: string;
   "windmill.workerGroups.controller"?: string;
   "windmill.workerGroups.replicas"?: string;
   "windmill.workerGroups.terminationGracePeriodSeconds"?: string;
   "windmill.workerGroups.tolerations"?: string;
   "windmill.workerGroups.hostAliases"?: string;
+  "windmill.workerGroups.privileged"?: string;
+  "windmill.workerGroups.disableUnsharePid"?: string;
   "windmill.workerGroups.podSecurityContext.runAsUser"?: string;
   "windmill.workerGroups.podSecurityContext.runAsNonRoot"?: string;
   "windmill.workerGroups.resources.limits.memory"?: string;
@@ -1597,11 +1677,13 @@ export type WindmillHelmParameters = {
   "hub.extraEnv"?: string;
   "hub-postgresql.enabled"?: string;
   "hub-postgresql.resources.limits.memory"?: string;
-  "hub-postgresql.resources.limits.ephemeral-storage"?: string;
   "hub-postgresql.resources.requests.memory"?: string;
-  "hub-postgresql.resources.requests.ephemeral-storage"?: string;
   "hub-postgresql.auth.postgresUser"?: string;
   "hub-postgresql.auth.postgresPassword"?: string;
   "hub-postgresql.auth.database"?: string;
+  "hub-postgresql.persistence.enabled"?: string;
+  "hub-postgresql.persistence.storageClass"?: string;
+  "hub-postgresql.persistence.accessMode"?: string;
+  "hub-postgresql.persistence.size"?: string;
   extraDeploy?: string;
 };

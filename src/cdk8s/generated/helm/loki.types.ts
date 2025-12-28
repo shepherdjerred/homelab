@@ -98,7 +98,7 @@ export type LokiHelmValuesLoki = {
   /**
    * The SecurityContext for Loki pods
    *
-   * @default {...} (4 keys)
+   * @default {...} (5 keys)
    */
   podSecurityContext?: LokiHelmValuesLokiPodSecurityContext;
   /**
@@ -191,6 +191,10 @@ export type LokiHelmValuesLoki = {
    * @default {...} (4 keys)
    */
   server?: LokiHelmValuesLokiServer;
+  /**
+   * @default {"trafficDistribution":""}
+   */
+  service?: LokiHelmValuesLokiService;
   /**
    * Limits config
    *
@@ -416,7 +420,7 @@ export type LokiHelmValuesLokiImage = {
   /**
    * Overrides the image tag whose default is the chart's appVersion
    *
-   * @default "3.5.7"
+   * @default "3.6.3"
    */
   tag?: string;
   digest?: unknown;
@@ -449,6 +453,10 @@ export type LokiHelmValuesLokiPodSecurityContext = {
    * @default 10001
    */
   fsGroup?: number;
+  /**
+   * @default "OnRootMismatch"
+   */
+  fsGroupChangePolicy?: string;
   /**
    * @default 10001
    */
@@ -505,6 +513,16 @@ export type LokiHelmValuesLokiServer = {
    * @default "600s"
    */
   http_server_write_timeout?: string;
+};
+
+export type LokiHelmValuesLokiService = {
+  /**
+   * trafficDistribution for services
+   * Ref: https://kubernetes.io/docs/concepts/services-networking/service/#traffic-distribution
+   *
+   * @default ""
+   */
+  trafficDistribution?: string;
 };
 
 export type LokiHelmValuesLokiLimitsconfig = {
@@ -1136,7 +1154,7 @@ export type LokiHelmValuesEnterprise = {
   /**
    * Default version of GEL to deploy
    *
-   * @default "3.5.4"
+   * @default "3.6.1"
    */
   version?: string;
   cluster_name?: unknown;
@@ -1231,7 +1249,7 @@ export type LokiHelmValuesEnterpriseImage = {
   /**
    * Docker image tag
    *
-   * @default "3.5.4"
+   * @default "3.6.3"
    */
   tag?: string;
   digest?: unknown;
@@ -2329,7 +2347,7 @@ export type LokiHelmValuesGateway = {
   /**
    * Gateway service configuration
    *
-   * @default {...} (7 keys)
+   * @default {...} (8 keys)
    */
   service?: LokiHelmValuesGatewayService;
   /**
@@ -2571,6 +2589,12 @@ export type LokiHelmValuesGatewayService = {
    * @default {}
    */
   labels?: LokiHelmValuesGatewayServiceLabels;
+  /**
+   * trafficDistribution for gateway service
+   *
+   * @default ""
+   */
+  trafficDistribution?: string;
 };
 
 export type LokiHelmValuesGatewayServiceAnnotations = {
@@ -3121,7 +3145,7 @@ export type LokiHelmValuesSingleBinary = {
    */
   selectorLabels?: LokiHelmValuesSingleBinarySelectorLabels;
   /**
-   * @default {"annotations":{},"labels":{},"type":"ClusterIP"}
+   * @default {...} (4 keys)
    */
   service?: LokiHelmValuesSingleBinaryService;
   /**
@@ -3249,6 +3273,12 @@ export type LokiHelmValuesSingleBinaryService = {
    * @default "ClusterIP"
    */
   type?: string;
+  /**
+   * trafficDistribution single binary Service
+   *
+   * @default ""
+   */
+  trafficDistribution?: string;
 };
 
 export type LokiHelmValuesSingleBinaryServiceAnnotations = {
@@ -3437,7 +3467,7 @@ export type LokiHelmValuesWrite = {
    */
   selectorLabels?: LokiHelmValuesWriteSelectorLabels;
   /**
-   * @default {"annotations":{},"labels":{},"type":"ClusterIP"}
+   * @default {...} (4 keys)
    */
   service?: LokiHelmValuesWriteService;
   /**
@@ -3508,7 +3538,7 @@ export type LokiHelmValuesWrite = {
    */
   podManagementPolicy?: string;
   /**
-   * @default {...} (9 keys)
+   * @default {...} (10 keys)
    */
   persistence?: LokiHelmValuesWritePersistence;
 };
@@ -3639,6 +3669,12 @@ export type LokiHelmValuesWriteService = {
    * @default "ClusterIP"
    */
   type?: string;
+  /**
+   * trafficDistribution for write service
+   *
+   * @default ""
+   */
+  trafficDistribution?: string;
 };
 
 export type LokiHelmValuesWriteServiceAnnotations = {
@@ -3742,6 +3778,7 @@ export type LokiHelmValuesWritePersistence = {
    */
   size?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
   selector?: unknown;
   /**
    * Annotations for volume claim
@@ -3834,7 +3871,7 @@ export type LokiHelmValuesRead = {
    */
   selectorLabels?: LokiHelmValuesReadSelectorLabels;
   /**
-   * @default {"annotations":{},"labels":{},"type":"ClusterIP"}
+   * @default {...} (4 keys)
    */
   service?: LokiHelmValuesReadService;
   /**
@@ -3872,10 +3909,15 @@ export type LokiHelmValuesRead = {
   resources?: LokiHelmValuesReadResources;
   /**
    * liveness probe settings for read pods. If empty, applies no livenessProbe
+   * statup probe for the read pods. If empty, applies no startupProbe
    *
    * @default {}
    */
   livenessProbe?: LokiHelmValuesReadLivenessProbe;
+  /**
+   * @default {}
+   */
+  startupProbe?: LokiHelmValuesReadStartupProbe;
   /**
    * Grace period to allow the read to shutdown before it is killed
    *
@@ -3918,7 +3960,7 @@ export type LokiHelmValuesRead = {
   /**
    * read.persistence is used only if legacyReadTarget is set to true
    *
-   * @default {...} (7 keys)
+   * @default {...} (8 keys)
    */
   persistence?: LokiHelmValuesReadPersistence;
 };
@@ -3996,6 +4038,12 @@ export type LokiHelmValuesReadService = {
    * @default "ClusterIP"
    */
   type?: string;
+  /**
+   * trafficDistribution for read service
+   *
+   * @default ""
+   */
+  trafficDistribution?: string;
 };
 
 export type LokiHelmValuesReadServiceAnnotations = {
@@ -4019,6 +4067,8 @@ export type LokiHelmValuesReadLifecycle = object;
 export type LokiHelmValuesReadResources = object;
 
 export type LokiHelmValuesReadLivenessProbe = object;
+
+export type LokiHelmValuesReadStartupProbe = object;
 
 export type LokiHelmValuesReadAffinity = {
   /**
@@ -4089,6 +4139,7 @@ export type LokiHelmValuesReadPersistence = {
    */
   size?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
   selector?: unknown;
   /**
    * Annotations for volume claim
@@ -4161,7 +4212,7 @@ export type LokiHelmValuesBackend = {
    */
   selectorLabels?: LokiHelmValuesBackendSelectorLabels;
   /**
-   * @default {"annotations":{},"labels":{},"type":"ClusterIP"}
+   * @default {...} (4 keys)
    */
   service?: LokiHelmValuesBackendService;
   /**
@@ -4225,7 +4276,7 @@ export type LokiHelmValuesBackend = {
    */
   podManagementPolicy?: string;
   /**
-   * @default {...} (9 keys)
+   * @default {...} (10 keys)
    */
   persistence?: LokiHelmValuesBackendPersistence;
 };
@@ -4303,6 +4354,12 @@ export type LokiHelmValuesBackendService = {
    * @default "ClusterIP"
    */
   type?: string;
+  /**
+   * trafficDistribution for backend Service
+   *
+   * @default ""
+   */
+  trafficDistribution?: string;
 };
 
 export type LokiHelmValuesBackendServiceAnnotations = {
@@ -4404,6 +4461,7 @@ export type LokiHelmValuesBackendPersistence = {
    */
   size?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
   selector?: unknown;
   /**
    * Annotations for volume claim
@@ -4504,19 +4562,19 @@ export type LokiHelmValuesIngester = {
   podAnnotations?: LokiHelmValuesIngesterPodAnnotations;
   /**
    * The name of the PriorityClass for ingester pods
-   * Labels for ingestor service
+   * Labels for ingester service
    *
    * @default {}
    */
   serviceLabels?: LokiHelmValuesIngesterServiceLabels;
   /**
-   * Annotations for ingestor service
+   * Annotations for ingester service
    *
    * @default {}
    */
   serviceAnnotations?: LokiHelmValuesIngesterServiceAnnotations;
   /**
-   * Service type for ingestor service
+   * Service type for ingester service
    *
    * @default "ClusterIP"
    */
@@ -4598,6 +4656,12 @@ export type LokiHelmValuesIngester = {
    * @default {"grpc":""}
    */
   appProtocol?: LokiHelmValuesIngesterAppProtocol;
+  /**
+   * trafficDistribution for ingester service
+   *
+   * @default ""
+   */
+  trafficDistribution?: string;
   /**
    * Enabling zone awareness on ingesters will create 3 statefulests where all writes will send a replica to each zone.
    * This is primarily intended to accelerate rollout operations by allowing for multiple ingesters within a single
@@ -4855,6 +4919,7 @@ export type LokiHelmValuesIngesterPersistenceClaimsElement = {
    */
   size?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
 };
 
 export type LokiHelmValuesIngesterAppProtocol = {
@@ -5380,6 +5445,12 @@ export type LokiHelmValuesQuerier = {
    * @default {"grpc":""}
    */
   appProtocol?: LokiHelmValuesQuerierAppProtocol;
+  /**
+   * trafficDistribution for querier service
+   *
+   * @default ""
+   */
+  trafficDistribution?: string;
 };
 
 export type LokiHelmValuesQuerierAutoscaling = {
@@ -5656,6 +5727,12 @@ export type LokiHelmValuesQueryFrontend = {
    * @default {"enabled":true}
    */
   loadBalancer?: LokiHelmValuesQueryFrontendLoadBalancer;
+  /**
+   * trafficDistribution for query-frontend service
+   *
+   * @default ""
+   */
+  trafficDistribution?: string;
 };
 
 export type LokiHelmValuesQueryFrontendAutoscaling = {
@@ -5893,6 +5970,12 @@ export type LokiHelmValuesQueryScheduler = {
    * @default {"grpc":""}
    */
   appProtocol?: LokiHelmValuesQuerySchedulerAppProtocol;
+  /**
+   * trafficDistribution for query-scheduler service
+   *
+   * @default ""
+   */
+  trafficDistribution?: string;
 };
 
 export type LokiHelmValuesQuerySchedulerDnsConfig = object;
@@ -6071,7 +6154,7 @@ export type LokiHelmValuesIndexGateway = {
   topologySpreadConstraints?: unknown[];
   tolerations?: unknown[];
   /**
-   * @default {...} (10 keys)
+   * @default {...} (11 keys)
    */
   persistence?: LokiHelmValuesIndexGatewayPersistence;
   /**
@@ -6080,6 +6163,12 @@ export type LokiHelmValuesIndexGateway = {
    * @default {"grpc":""}
    */
   appProtocol?: LokiHelmValuesIndexGatewayAppProtocol;
+  /**
+   * trafficDistribution for index-gateway service
+   *
+   * @default ""
+   */
+  trafficDistribution?: string;
   /**
    * UpdateStrategy for the indexGateway StatefulSet.
    * Optional for updateStrategy.type=RollingUpdate. See [Partitioned rolling updates](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#partitions) in the StatefulSet docs for details.
@@ -6184,6 +6273,7 @@ export type LokiHelmValuesIndexGatewayPersistence = {
    */
   size?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
   /**
    * Annotations for index gateway PVCs
    *
@@ -6565,6 +6655,7 @@ export type LokiHelmValuesCompactorPersistenceClaimsElement = {
    */
   size?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
   /**
    * @default {}
    */
@@ -6882,6 +6973,7 @@ export type LokiHelmValuesBloomGatewayPersistenceClaimsElement = {
    */
   size?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
 };
 
 export type LokiHelmValuesBloomGatewayServiceAccount = {
@@ -7154,6 +7246,7 @@ export type LokiHelmValuesBloomPlannerPersistenceClaimsElement = {
    */
   size?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
   /**
    * @default {}
    */
@@ -7667,6 +7760,7 @@ export type LokiHelmValuesPatternIngesterPersistenceClaimsElement = {
    */
   size?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
   /**
    * @default {}
    */
@@ -7808,7 +7902,7 @@ export type LokiHelmValuesRuler = {
    */
   dnsConfig?: LokiHelmValuesRulerDnsConfig;
   /**
-   * @default {...} (6 keys)
+   * @default {...} (7 keys)
    */
   persistence?: LokiHelmValuesRulerPersistence;
   /**
@@ -7910,6 +8004,7 @@ export type LokiHelmValuesRulerPersistence = {
    */
   size?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
   /**
    * Annotations for ruler PVCs
    *
@@ -8295,7 +8390,7 @@ export type LokiHelmValuesMemcachedExporter = {
    */
   enabled?: boolean;
   /**
-   * @default {"repository":"prom/memcached-exporter","tag":"v0.15.3","pullPolicy":"IfNotPresent"}
+   * @default {"repository":"prom/memcached-exporter","tag":"v0.15.4","pullPolicy":"IfNotPresent"}
    */
   image?: LokiHelmValuesMemcachedExporterImage;
   /**
@@ -8343,7 +8438,7 @@ export type LokiHelmValuesMemcachedExporterImage = {
    */
   repository?: string;
   /**
-   * @default "v0.15.3"
+   * @default "v0.15.4"
    */
   tag?: string;
   /**
@@ -8628,7 +8723,7 @@ export type LokiHelmValuesResultsCache = {
   /**
    * Persistence settings for the results-cache
    *
-   * @default {...} (5 keys)
+   * @default {...} (6 keys)
    */
   persistence?: LokiHelmValuesResultsCachePersistence;
 };
@@ -8706,6 +8801,7 @@ export type LokiHelmValuesResultsCachePersistence = {
    */
   storageSize?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
   /**
    * Volume mount path
    *
@@ -8916,7 +9012,7 @@ export type LokiHelmValuesChunksCache = {
   /**
    * Persistence settings for the chunks-cache
    *
-   * @default {...} (5 keys)
+   * @default {...} (6 keys)
    */
   persistence?: LokiHelmValuesChunksCachePersistence;
   /**
@@ -9000,6 +9096,7 @@ export type LokiHelmValuesChunksCachePersistence = {
    */
   storageSize?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
   /**
    * Volume mount path
    *
@@ -9215,7 +9312,7 @@ export type LokiHelmValuesChunksCacheL2 = {
   /**
    * Persistence settings for the chunks-cache-l2
    *
-   * @default {...} (5 keys)
+   * @default {...} (6 keys)
    */
   persistence?: LokiHelmValuesChunksCacheL2Persistence;
 };
@@ -9293,6 +9390,7 @@ export type LokiHelmValuesChunksCacheL2Persistence = {
    */
   storageSize?: string;
   storageClass?: unknown;
+  volumeAttributesClassName?: unknown;
   /**
    * Volume mount path
    *
@@ -9572,7 +9670,7 @@ export type LokiHelmValuesSidecarImage = {
   /**
    * Docker image tag
    *
-   * @default "1.30.10"
+   * @default "1.30.9"
    */
   tag?: string;
   /**
@@ -10452,7 +10550,7 @@ export type LokiHelmValues = {
    * see below for more specifics on Loki's configuration.
    * Configuration for running Loki
    *
-   * @default {...} (52 keys)
+   * @default {...} (53 keys)
    */
   loki?: LokiHelmValuesLoki;
   /**
@@ -10558,7 +10656,7 @@ export type LokiHelmValues = {
   /**
    * Configuration for the read pod(s)
    *
-   * @default {...} (30 keys)
+   * @default {...} (31 keys)
    */
   read?: LokiHelmValuesRead;
   /**
@@ -10572,7 +10670,7 @@ export type LokiHelmValues = {
    * For large Loki deployments ingesting more than 1 TB/day
    * Configuration for the ingester
    *
-   * @default {...} (37 keys)
+   * @default {...} (38 keys)
    */
   ingester?: LokiHelmValuesIngester;
   /**
@@ -10584,25 +10682,25 @@ export type LokiHelmValues = {
   /**
    * Configuration for the querier
    *
-   * @default {...} (29 keys)
+   * @default {...} (30 keys)
    */
   querier?: LokiHelmValuesQuerier;
   /**
    * Configuration for the query-frontend
    *
-   * @default {...} (28 keys)
+   * @default {...} (29 keys)
    */
   queryFrontend?: LokiHelmValuesQueryFrontend;
   /**
    * Configuration for the query-scheduler
    *
-   * @default {...} (25 keys)
+   * @default {...} (26 keys)
    */
   queryScheduler?: LokiHelmValuesQueryScheduler;
   /**
    * Configuration for the index-gateway
    *
-   * @default {...} (30 keys)
+   * @default {...} (31 keys)
    */
   indexGateway?: LokiHelmValuesIndexGateway;
   /**
@@ -10732,6 +10830,7 @@ export type LokiHelmParameters = {
   "loki.image.pullPolicy"?: string;
   "loki.revisionHistoryLimit"?: string;
   "loki.podSecurityContext.fsGroup"?: string;
+  "loki.podSecurityContext.fsGroupChangePolicy"?: string;
   "loki.podSecurityContext.runAsGroup"?: string;
   "loki.podSecurityContext.runAsNonRoot"?: string;
   "loki.podSecurityContext.runAsUser"?: string;
@@ -10749,6 +10848,7 @@ export type LokiHelmParameters = {
   "loki.server.grpc_listen_port"?: string;
   "loki.server.http_server_read_timeout"?: string;
   "loki.server.http_server_write_timeout"?: string;
+  "loki.service.trafficDistribution"?: string;
   "loki.limits_config.reject_old_samples"?: string;
   "loki.limits_config.reject_old_samples_max_age"?: string;
   "loki.limits_config.max_cache_freshness_per_query"?: string;
@@ -10994,6 +11094,7 @@ export type LokiHelmParameters = {
   "gateway.service.clusterIP"?: string;
   "gateway.service.nodePort"?: string;
   "gateway.service.loadBalancerIP"?: string;
+  "gateway.service.trafficDistribution"?: string;
   "gateway.ingress.enabled"?: string;
   "gateway.ingress.ingressClassName"?: string;
   "gateway.ingress.hosts.host"?: string;
@@ -11068,6 +11169,7 @@ export type LokiHelmParameters = {
   "singleBinary.image.tag"?: string;
   "singleBinary.priorityClassName"?: string;
   "singleBinary.service.type"?: string;
+  "singleBinary.service.trafficDistribution"?: string;
   "singleBinary.targetModule"?: string;
   "singleBinary.extraArgs"?: string;
   "singleBinary.extraEnv"?: string;
@@ -11111,6 +11213,7 @@ export type LokiHelmParameters = {
   "write.image.tag"?: string;
   "write.priorityClassName"?: string;
   "write.service.type"?: string;
+  "write.service.trafficDistribution"?: string;
   "write.targetModule"?: string;
   "write.extraArgs"?: string;
   "write.extraEnv"?: string;
@@ -11134,6 +11237,7 @@ export type LokiHelmParameters = {
   "write.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "write.persistence.size"?: string;
   "write.persistence.storageClass"?: string;
+  "write.persistence.volumeAttributesClassName"?: string;
   "write.persistence.selector"?: string;
   "read.replicas"?: string;
   "read.autoscaling.enabled"?: string;
@@ -11146,6 +11250,7 @@ export type LokiHelmParameters = {
   "read.image.tag"?: string;
   "read.priorityClassName"?: string;
   "read.service.type"?: string;
+  "read.service.trafficDistribution"?: string;
   "read.targetModule"?: string;
   "read.legacyReadTarget"?: string;
   "read.extraArgs"?: string;
@@ -11168,6 +11273,7 @@ export type LokiHelmParameters = {
   "read.persistence.accessModes"?: string;
   "read.persistence.size"?: string;
   "read.persistence.storageClass"?: string;
+  "read.persistence.volumeAttributesClassName"?: string;
   "read.persistence.selector"?: string;
   "backend.replicas"?: string;
   "backend.autoscaling.enabled"?: string;
@@ -11180,6 +11286,7 @@ export type LokiHelmParameters = {
   "backend.image.tag"?: string;
   "backend.priorityClassName"?: string;
   "backend.service.type"?: string;
+  "backend.service.trafficDistribution"?: string;
   "backend.targetModule"?: string;
   "backend.extraArgs"?: string;
   "backend.extraEnv"?: string;
@@ -11202,6 +11309,7 @@ export type LokiHelmParameters = {
   "backend.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "backend.persistence.size"?: string;
   "backend.persistence.storageClass"?: string;
+  "backend.persistence.volumeAttributesClassName"?: string;
   "backend.persistence.selector"?: string;
   "ingester.replicas"?: string;
   "ingester.hostAliases"?: string;
@@ -11246,10 +11354,12 @@ export type LokiHelmParameters = {
   "ingester.persistence.claims.accessModes"?: string;
   "ingester.persistence.claims.size"?: string;
   "ingester.persistence.claims.storageClass"?: string;
+  "ingester.persistence.claims.volumeAttributesClassName"?: string;
   "ingester.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "ingester.persistence.whenDeleted"?: string;
   "ingester.persistence.whenScaled"?: string;
   "ingester.appProtocol.grpc"?: string;
+  "ingester.trafficDistribution"?: string;
   "ingester.zoneAwareReplication.enabled"?: string;
   "ingester.zoneAwareReplication.maxUnavailablePct"?: string;
   "ingester.zoneAwareReplication.zoneA.nodeSelector"?: string;
@@ -11333,6 +11443,7 @@ export type LokiHelmParameters = {
   "querier.maxSurge"?: string;
   "querier.tolerations"?: string;
   "querier.appProtocol.grpc"?: string;
+  "querier.trafficDistribution"?: string;
   "queryFrontend.replicas"?: string;
   "queryFrontend.hostAliases"?: string;
   "queryFrontend.hostUsers"?: string;
@@ -11366,6 +11477,7 @@ export type LokiHelmParameters = {
   "queryFrontend.tolerations"?: string;
   "queryFrontend.appProtocol.grpc"?: string;
   "queryFrontend.loadBalancer.enabled"?: string;
+  "queryFrontend.trafficDistribution"?: string;
   "queryScheduler.replicas"?: string;
   "queryScheduler.hostAliases"?: string;
   "queryScheduler.hostUsers"?: string;
@@ -11389,6 +11501,7 @@ export type LokiHelmParameters = {
   "queryScheduler.topologySpreadConstraints"?: string;
   "queryScheduler.tolerations"?: string;
   "queryScheduler.appProtocol.grpc"?: string;
+  "queryScheduler.trafficDistribution"?: string;
   "indexGateway.replicas"?: string;
   "indexGateway.joinMemberlist"?: string;
   "indexGateway.hostAliases"?: string;
@@ -11418,10 +11531,12 @@ export type LokiHelmParameters = {
   "indexGateway.persistence.inMemory"?: string;
   "indexGateway.persistence.size"?: string;
   "indexGateway.persistence.storageClass"?: string;
+  "indexGateway.persistence.volumeAttributesClassName"?: string;
   "indexGateway.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "indexGateway.persistence.whenDeleted"?: string;
   "indexGateway.persistence.whenScaled"?: string;
   "indexGateway.appProtocol.grpc"?: string;
+  "indexGateway.trafficDistribution"?: string;
   "indexGateway.updateStrategy.type"?: string;
   "compactor.replicas"?: string;
   "compactor.hostAliases"?: string;
@@ -11451,6 +11566,7 @@ export type LokiHelmParameters = {
   "compactor.persistence.claims.accessModes"?: string;
   "compactor.persistence.claims.size"?: string;
   "compactor.persistence.claims.storageClass"?: string;
+  "compactor.persistence.claims.volumeAttributesClassName"?: string;
   "compactor.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "compactor.persistence.whenDeleted"?: string;
   "compactor.persistence.whenScaled"?: string;
@@ -11485,6 +11601,7 @@ export type LokiHelmParameters = {
   "bloomGateway.persistence.claims.accessModes"?: string;
   "bloomGateway.persistence.claims.size"?: string;
   "bloomGateway.persistence.claims.storageClass"?: string;
+  "bloomGateway.persistence.claims.volumeAttributesClassName"?: string;
   "bloomGateway.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "bloomGateway.persistence.whenDeleted"?: string;
   "bloomGateway.persistence.whenScaled"?: string;
@@ -11519,6 +11636,7 @@ export type LokiHelmParameters = {
   "bloomPlanner.persistence.claims.accessModes"?: string;
   "bloomPlanner.persistence.claims.size"?: string;
   "bloomPlanner.persistence.claims.storageClass"?: string;
+  "bloomPlanner.persistence.claims.volumeAttributesClassName"?: string;
   "bloomPlanner.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "bloomPlanner.persistence.whenDeleted"?: string;
   "bloomPlanner.persistence.whenScaled"?: string;
@@ -11587,6 +11705,7 @@ export type LokiHelmParameters = {
   "patternIngester.persistence.claims.accessModes"?: string;
   "patternIngester.persistence.claims.size"?: string;
   "patternIngester.persistence.claims.storageClass"?: string;
+  "patternIngester.persistence.claims.volumeAttributesClassName"?: string;
   "patternIngester.persistence.enableStatefulSetAutoDeletePVC"?: string;
   "patternIngester.persistence.whenDeleted"?: string;
   "patternIngester.persistence.whenScaled"?: string;
@@ -11623,6 +11742,7 @@ export type LokiHelmParameters = {
   "ruler.persistence.accessModes"?: string;
   "ruler.persistence.size"?: string;
   "ruler.persistence.storageClass"?: string;
+  "ruler.persistence.volumeAttributesClassName"?: string;
   "ruler.appProtocol.grpc"?: string;
   "overridesExporter.enabled"?: string;
   "overridesExporter.replicas"?: string;
@@ -11719,6 +11839,7 @@ export type LokiHelmParameters = {
   "resultsCache.persistence.enabled"?: string;
   "resultsCache.persistence.storageSize"?: string;
   "resultsCache.persistence.storageClass"?: string;
+  "resultsCache.persistence.volumeAttributesClassName"?: string;
   "resultsCache.persistence.mountPath"?: string;
   "chunksCache.suffix"?: string;
   "chunksCache.enabled"?: string;
@@ -11752,6 +11873,7 @@ export type LokiHelmParameters = {
   "chunksCache.persistence.enabled"?: string;
   "chunksCache.persistence.storageSize"?: string;
   "chunksCache.persistence.storageClass"?: string;
+  "chunksCache.persistence.volumeAttributesClassName"?: string;
   "chunksCache.persistence.mountPath"?: string;
   "chunksCache.l2.suffix"?: string;
   "chunksCache.l2.l2ChunkCacheHandoff"?: string;
@@ -11786,6 +11908,7 @@ export type LokiHelmParameters = {
   "chunksCache.l2.persistence.enabled"?: string;
   "chunksCache.l2.persistence.storageSize"?: string;
   "chunksCache.l2.persistence.storageClass"?: string;
+  "chunksCache.l2.persistence.volumeAttributesClassName"?: string;
   "chunksCache.l2.persistence.mountPath"?: string;
   "rollout_operator.enabled"?: string;
   "rollout_operator.podSecurityContext.fsGroup"?: string;
