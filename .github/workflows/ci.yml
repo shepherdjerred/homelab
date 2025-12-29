@@ -12,6 +12,34 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - name: Check if version-only change
+        id: check-versions
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          VERSION_FILES="src/cdk8s/src/versions.ts .dagger/src/versions.ts"
+
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            CHANGED_FILES=$(gh pr view "$PR_NUMBER" --json files -q '.files[].path')
+          else
+            CHANGED_FILES=$(git diff --name-only HEAD~1)
+          fi
+
+          VERSION_ONLY="true"
+          for file in $CHANGED_FILES; do
+            if [[ ! " $VERSION_FILES " =~ [[:space:]]${file}[[:space:]] ]]; then
+              VERSION_ONLY="false"
+              break
+            fi
+          done
+
+          echo "version_only=$VERSION_ONLY" >> "$GITHUB_OUTPUT"
+          echo "Detected version_only=$VERSION_ONLY"
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
@@ -109,7 +137,8 @@ jobs:
             --chart-museum-password "$CHARTMUSEUM_PASSWORD_VAL" \
             --hass-base-url env://HASS_BASE_URL \
             --hass-token env://HASS_TOKEN \
-            --env "$ENV_NAME"
+            --env "$ENV_NAME" \
+            --version-only "${{ steps.check-versions.outputs.version_only }}"
 
 permissions:
   contents: read
