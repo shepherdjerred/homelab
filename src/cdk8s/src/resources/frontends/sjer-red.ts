@@ -2,6 +2,7 @@ import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import versions from "../../versions.ts";
+import { TunnelBinding, TunnelBindingTunnelRefKind } from "../../../generated/imports/networking.cfargotunnel.com.ts";
 
 export function createSjerRedDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "sjer-red", {
@@ -29,15 +30,23 @@ export function createSjerRedDeployment(chart: Chart) {
   container.mount("/var/cache/nginx", cacheVolume);
   container.mount("/var/run", runVolume);
 
-  new Service(chart, "sjer-red-service", {
+  const service = new Service(chart, "sjer-red-service", {
     selector: deployment,
     ports: [{ port: 80 }],
-    metadata: {
-      annotations: {
-        "cloudflare-operator.io/content": "sjer-red-service",
-        "cloudflare-operator.io/tunnel": "homelab-tunnel",
-        "cloudflare-operator.io/hostname": "sjer.red",
+  });
+
+  new TunnelBinding(chart, "sjer-red-tunnel-binding", {
+    subjects: [
+      {
+        name: service.name,
+        spec: {
+          fqdn: "sjer.red",
+        },
       },
+    ],
+    tunnelRef: {
+      kind: TunnelBindingTunnelRefKind.TUNNEL,
+      name: "homelab-tunnel",
     },
   });
 }
