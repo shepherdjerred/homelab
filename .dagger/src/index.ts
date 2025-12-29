@@ -363,105 +363,103 @@ export class Homelab {
       haTypeCheckPromise,
     ]);
 
-    // Publish HA image if prod - push versioned and latest tags in parallel
-    let haPublishResult: StepResult = {
-      status: "skipped",
-      message: "[SKIPPED] Not prod",
-    };
-    if (env === Stage.Prod) {
-      // Push both tags in parallel for faster publishing
-      const [versionedResult, latestResult] = await Promise.all([
-        this.internalPublishHaImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
-        this.internalPublishHaImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/homelab:latest`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
-      ]);
-      // Combine results
-      haPublishResult = {
-        status: versionedResult.status === "passed" && latestResult.status === "passed" ? "passed" : "failed",
-        message: `Versioned tag: ${versionedResult.message}\nLatest tag: ${latestResult.message}`,
-      };
-    }
+    // Publish all images and Helm chart in parallel for faster CI
+    let haPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
+    let depSummaryPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
+    let claudeCodeUIPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
+    let helmPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
 
-    // Publish dependency-summary image if prod - push versioned and latest tags in parallel
-    let depSummaryPublishResult: StepResult = {
-      status: "skipped",
-      message: "[SKIPPED] Not prod",
-    };
     if (env === Stage.Prod) {
-      const [versionedResult, latestResult] = await Promise.all([
-        this.internalPublishDependencySummaryImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/dependency-summary:${chartVersion}`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
-        this.internalPublishDependencySummaryImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/dependency-summary:latest`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
+      // Run all image pushes and helm publish in parallel
+      const [haResults, depSummaryResults, claudeCodeUIResults, helmResult] = await Promise.all([
+        // HA image: push versioned and latest tags in parallel
+        Promise.all([
+          this.internalPublishHaImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+          this.internalPublishHaImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/homelab:latest`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+        ]),
+        // Dependency-summary image: push versioned and latest tags in parallel
+        Promise.all([
+          this.internalPublishDependencySummaryImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/dependency-summary:${chartVersion}`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+          this.internalPublishDependencySummaryImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/dependency-summary:latest`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+        ]),
+        // ClaudeCodeUI image: push versioned and latest tags in parallel
+        Promise.all([
+          this.internalPublishClaudeCodeUIImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/claudecodeui:${chartVersion}`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+          this.internalPublishClaudeCodeUIImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/claudecodeui:latest`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+        ]),
+        // Helm chart publish
+        helmBuildResult.dist
+          ? this.helmPublishBuilt(
+              helmBuildResult.dist,
+              `1.0.0-${chartVersion}`,
+              chartRepo,
+              chartMuseumUsername,
+              chartMuseumPassword,
+              env,
+            )
+          : Promise.resolve({ status: "skipped" as const, message: "[SKIPPED] No dist available" }),
       ]);
+
+      // Combine HA results
+      haPublishResult = {
+        status: haResults[0].status === "passed" && haResults[1].status === "passed" ? "passed" : "failed",
+        message: `Versioned tag: ${haResults[0].message}\nLatest tag: ${haResults[1].message}`,
+      };
+
+      // Combine dependency-summary results
       depSummaryPublishResult = {
-        status: versionedResult.status === "passed" && latestResult.status === "passed" ? "passed" : "failed",
-        message: `Versioned tag: ${versionedResult.message}\nLatest tag: ${latestResult.message}`,
+        status:
+          depSummaryResults[0].status === "passed" && depSummaryResults[1].status === "passed" ? "passed" : "failed",
+        message: `Versioned tag: ${depSummaryResults[0].message}\nLatest tag: ${depSummaryResults[1].message}`,
       };
-    }
-    // Publish ClaudeCodeUI image if prod - push versioned and latest tags in parallel
-    let claudeCodeUIPublishResult: StepResult = {
-      status: "skipped",
-      message: "[SKIPPED] Not prod",
-    };
-    if (env === Stage.Prod) {
-      const [versionedResult, latestResult] = await Promise.all([
-        this.internalPublishClaudeCodeUIImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/claudecodeui:${chartVersion}`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
-        this.internalPublishClaudeCodeUIImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/claudecodeui:latest`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
-      ]);
+
+      // Combine ClaudeCodeUI results
       claudeCodeUIPublishResult = {
-        status: versionedResult.status === "passed" && latestResult.status === "passed" ? "passed" : "failed",
-        message: `Versioned tag: ${versionedResult.message}\nLatest tag: ${latestResult.message}`,
+        status:
+          claudeCodeUIResults[0].status === "passed" && claudeCodeUIResults[1].status === "passed"
+            ? "passed"
+            : "failed",
+        message: `Versioned tag: ${claudeCodeUIResults[0].message}\nLatest tag: ${claudeCodeUIResults[1].message}`,
       };
-    }
-    // Publish Helm chart if prod
-    let helmPublishResult: StepResult = {
-      status: "skipped",
-      message: "[SKIPPED] Not prod",
-    };
-    if (env === Stage.Prod && helmBuildResult.dist) {
-      // Publish using the dist directory as the source
-      helmPublishResult = await this.helmPublishBuilt(
-        helmBuildResult.dist,
-        `1.0.0-${chartVersion}`,
-        chartRepo,
-        chartMuseumUsername,
-        chartMuseumPassword,
-        env,
-      );
+
+      // Helm result
+      helmPublishResult = helmResult;
     }
     // Sync (run only after successful Helm chart publish)
     let syncResult: StepResult = {
