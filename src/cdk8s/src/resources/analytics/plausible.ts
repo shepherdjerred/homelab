@@ -40,6 +40,9 @@ export function createPlausibleDeployment(chart: Chart, props: CreatePlausibleDe
     chart,
     "plausible-pg-secret-volume",
     Secret.fromSecretName(chart, "plausible-pg-secret", postgresSecretName),
+    {
+      name: "pg-secret", // Explicit name to avoid dots from postgres-operator secret name
+    },
   );
   const dbUrlVolume = Volume.fromEmptyDir(chart, "plausible-db-url-volume", "plausible-db-url");
 
