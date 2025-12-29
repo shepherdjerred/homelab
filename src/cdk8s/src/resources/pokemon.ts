@@ -12,6 +12,7 @@ import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { withCommonProps } from "../misc/common.ts";
 import { ZfsSsdVolume } from "../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../misc/cloudflare-tunnel.ts";
 import { OnePasswordItem } from "../../generated/imports/onepassword.com.ts";
 import versions from "../versions.ts";
 
@@ -125,6 +126,11 @@ export function createPokemonDeployment(chart: Chart) {
     service: uiService,
     host: "pokebot",
     funnel: true,
+  });
+
+  createCloudflareTunnelBinding(chart, "pokebot-cf-tunnel", {
+    serviceName: uiService.name,
+    subdomain: "pokebot",
   });
 
   ApiObject.of(deployment).addJsonPatch(

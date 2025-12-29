@@ -7,6 +7,7 @@ import { Namespace } from "cdk8s-plus-31";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import { createIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 
 export function createSeaweedfsApp(chart: Chart) {
   new Namespace(chart, "seaweedfs-namespace", {
@@ -31,6 +32,12 @@ export function createSeaweedfsApp(chart: Chart) {
 
   // Tailscale ingress with funnel for S3 API (external access)
   createIngress(chart, "seaweedfs-s3-ingress", "seaweedfs", "seaweedfs-s3", 8333, ["seaweedfs-s3"], true);
+
+  createCloudflareTunnelBinding(chart, "seaweedfs-s3-cf-tunnel", {
+    serviceName: "seaweedfs-s3",
+    subdomain: "seaweedfs",
+    namespace: "seaweedfs",
+  });
 
   // ClusterIP service for Filer UI (the helm chart creates a headless service which doesn't work with Tailscale ingress)
   new KubeService(chart, "seaweedfs-filer-ui-service", {
