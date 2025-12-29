@@ -1,6 +1,7 @@
 import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
+import { IntOrString, KubeService } from "../../../generated/imports/k8s.ts";
 import versions from "../../versions.ts";
 import { Namespace } from "cdk8s-plus-31";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
@@ -31,8 +32,30 @@ export function createSeaweedfsApp(chart: Chart) {
   // Tailscale ingress with funnel for S3 API (external access)
   createIngress(chart, "seaweedfs-s3-ingress", "seaweedfs", "seaweedfs-s3", 8333, ["seaweedfs-s3"], true);
 
+  // ClusterIP service for Filer UI (the helm chart creates a headless service which doesn't work with Tailscale ingress)
+  new KubeService(chart, "seaweedfs-filer-ui-service", {
+    metadata: {
+      name: "seaweedfs-filer-ui",
+      namespace: "seaweedfs",
+    },
+    spec: {
+      type: "ClusterIP",
+      selector: {
+        "app.kubernetes.io/component": "filer",
+        "app.kubernetes.io/name": "seaweedfs",
+      },
+      ports: [
+        {
+          name: "http",
+          port: 8888,
+          targetPort: IntOrString.fromNumber(8888),
+        },
+      ],
+    },
+  });
+
   // Tailscale ingress for Filer web UI (internal only)
-  createIngress(chart, "seaweedfs-filer-ingress", "seaweedfs", "seaweedfs-filer", 8888, ["seaweedfs-filer"], false);
+  createIngress(chart, "seaweedfs-filer-ingress", "seaweedfs", "seaweedfs-filer-ui", 8888, ["seaweedfs-filer"], false);
 
   const seaweedfsValues: HelmValuesForChart<"seaweedfs"> = {
     global: {
