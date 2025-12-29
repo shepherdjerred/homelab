@@ -29,6 +29,7 @@ import { buildAndPushDependencySummaryImage } from "./dependency-summary";
 import { build as helmBuildFn, publish as helmPublishFn, buildAllCharts } from "./helm";
 import { Stage } from "./stage";
 import versions from "./versions";
+import { runReleasePleaseWorkflow } from "./release-please.ts";
 
 export type StepStatus = "passed" | "failed" | "skipped";
 // note: this must be an interface for Dagger
@@ -140,7 +141,7 @@ export class Homelab {
   }
 
   /**
-   * Runs kube-linter, ArgoCD sync, builds for CDK8s and HA, publishes the HA image (if prod), and publishes the Helm chart (if prod) as part of the CI pipeline.
+   * Runs kube-linter, ArgoCD sync, builds for CDK8s and HA, publishes the HA image (if prod), publishes the Helm chart (if prod), and runs release-please for npm publishing as part of the CI pipeline.
    * @param source The source directory for kube-linter, and builds.
    * @param argocdToken The ArgoCD API token for authentication (as a Dagger Secret).
    * @param ghcrUsername The GHCR username (required for prod).
@@ -153,6 +154,8 @@ export class Homelab {
    * @param hassToken The Home Assistant long-lived access token (as a Dagger Secret). Optional if src/ha/src/hass/ exists.
    * @param env The environment (e.g., 'prod' or 'dev').
    * @param versionOnly If true, skip HA checks and CDK8s lint/test (for version-only PRs).
+   * @param githubToken GitHub token with write access for release-please (as a Dagger Secret, optional).
+   * @param npmToken NPM token for publishing @shepherdjerred/helm-types (as a Dagger Secret, optional).
    * @returns A summary string of the results for each CI step.
    */
   @func()
@@ -177,6 +180,8 @@ export class Homelab {
     hassToken?: Secret,
     @argument() env: Stage = Stage.Dev,
     @argument() versionOnly = false,
+    githubToken?: Secret,
+    npmToken?: Secret,
   ): Promise<string> {
     // Update image versions in versions.ts if prod
     let updatedSource = source;
@@ -416,6 +421,13 @@ export class Homelab {
       const sync = await argocdSync(argocdToken);
       syncResult = sync;
     }
+
+    // Release-please workflow (only on prod with tokens)
+    const releasePleaseResult: StepResult =
+      env === Stage.Prod && githubToken && npmToken
+        ? await runReleasePleaseWorkflow(githubToken, npmToken, updatedSource)
+        : { status: "skipped", message: "[SKIPPED] No github/npm tokens provided" };
+
     // Build summary
     const summary = [
       renovateTestResult.message,
@@ -432,6 +444,7 @@ export class Homelab {
       `HA Image Publish result:\n${haPublishResult.message}`,
       `Dependency Summary Image Publish result:\n${depSummaryPublishResult.message}`,
       `Helm Chart Publish result:\n${helmPublishResult.message}`,
+      `Release-please result:\n${releasePleaseResult.message}`,
     ].join("\n\n");
     // Fail if any critical step failed
     if (
