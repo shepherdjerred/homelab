@@ -18,14 +18,14 @@ jobs:
       - name: Check if version-only change
         id: check-versions
         env:
-          GH_TOKEN: ${{ github.token }}
           EVENT_NAME: ${{ github.event_name }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           VERSION_FILES="src/cdk8s/src/versions.ts .dagger/src/versions.ts"
 
           if [[ "$EVENT_NAME" == "pull_request" ]]; then
-            CHANGED_FILES=$(gh pr view "$PR_NUMBER" --json files -q '.files[].path')
+            git fetch origin "$BASE_SHA" --depth=1
+            CHANGED_FILES=$(git diff --name-only "$BASE_SHA" HEAD)
           else
             CHANGED_FILES=$(git diff --name-only HEAD~1)
           fi
