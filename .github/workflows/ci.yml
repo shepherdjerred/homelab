@@ -127,6 +127,11 @@ jobs:
             CHARTMUSEUM_PASSWORD_VAL="dummy"
           fi
 
+          VERSION_ONLY_FLAG=""
+          if [[ "${{ steps.check-versions.outputs.version_only }}" == "true" ]]; then
+            VERSION_ONLY_FLAG="--version-only"
+          fi
+
           dagger call ci \
             --source=. \
             --argocd-token "$ARGOCD_TOKEN_VAL" \
@@ -138,7 +143,7 @@ jobs:
             --hass-base-url env://HASS_BASE_URL \
             --hass-token env://HASS_TOKEN \
             --env "$ENV_NAME" \
-            --version-only "${{ steps.check-versions.outputs.version_only }}"
+            $VERSION_ONLY_FLAG
 
 permissions:
   contents: read
