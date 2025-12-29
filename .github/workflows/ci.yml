@@ -59,6 +59,8 @@ jobs:
           ARGOCD_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/ARGOCD_TOKEN
           HASS_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/HASS_TOKEN
           CHARTMUSEUM_PASSWORD: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/CHARTMUSEUM_PASSWORD
+          NPM_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/NPM_TOKEN
+          GH_PAT: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/GH_PAT
 
       - name: Extract kubectl version
         id: kubectl-version
@@ -117,6 +119,8 @@ jobs:
             CHART_VERSION_VAL="$(( ${{ github.run_number }} + 2246 ))"
             CHARTMUSEUM_USERNAME_VAL="sjerred"
             CHARTMUSEUM_PASSWORD_VAL="env://CHARTMUSEUM_PASSWORD"
+            GITHUB_TOKEN_VAL="env://GH_PAT"
+            NPM_TOKEN_VAL="env://NPM_TOKEN"
           else
             ENV_NAME="dev"
             ARGOCD_TOKEN_VAL="dummy"
@@ -125,6 +129,8 @@ jobs:
             CHART_VERSION_VAL="dummy"
             CHARTMUSEUM_USERNAME_VAL="dummy"
             CHARTMUSEUM_PASSWORD_VAL="dummy"
+            GITHUB_TOKEN_VAL=""
+            NPM_TOKEN_VAL=""
           fi
 
           VERSION_ONLY_FLAG=""
@@ -132,6 +138,12 @@ jobs:
             VERSION_ONLY_FLAG="--version-only"
           fi
 
+          RELEASE_ARGS=""
+          if [[ -n "$GITHUB_TOKEN_VAL" && -n "$NPM_TOKEN_VAL" ]]; then
+            RELEASE_ARGS="--github-token $GITHUB_TOKEN_VAL --npm-token $NPM_TOKEN_VAL"
+          fi
+
+          # shellcheck disable=SC2086
           dagger call ci \
             --source=. \
             --argocd-token "$ARGOCD_TOKEN_VAL" \
@@ -143,8 +155,10 @@ jobs:
             --hass-base-url env://HASS_BASE_URL \
             --hass-token env://HASS_TOKEN \
             --env "$ENV_NAME" \
-            $VERSION_ONLY_FLAG
+            $VERSION_ONLY_FLAG \
+            $RELEASE_ARGS
 
 permissions:
-  contents: read
+  contents: write
   packages: write
+  pull-requests: write
