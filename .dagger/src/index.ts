@@ -181,6 +181,7 @@ export class Homelab {
    * @param hassBaseUrl The Home Assistant base URL (as a Dagger Secret). Optional if src/ha/src/hass/ exists.
    * @param hassToken The Home Assistant long-lived access token (as a Dagger Secret). Optional if src/ha/src/hass/ exists.
    * @param env The environment (e.g., 'prod' or 'dev').
+   * @param versionOnly If true, skip HA checks and CDK8s lint/test (for version-only PRs).
    * @returns A summary string of the results for each CI step.
    */
   @func()
@@ -204,6 +205,7 @@ export class Homelab {
     hassBaseUrl?: Secret,
     hassToken?: Secret,
     @argument() env: Stage = Stage.Dev,
+    @argument() versionOnly = false,
   ): Promise<string> {
     // Update image versions in versions.ts if prod
     let updatedSource = source;
@@ -216,8 +218,11 @@ export class Homelab {
     // Prepare shared containers once - this is a major optimization
     // All HA operations (lint, typecheck, build) share the same prepared container
     // All CDK8s operations share the same prepared container
-    const haContainerPromise = prepareHaContainer(updatedSource, hassBaseUrl, hassToken);
+    // Skip HA container preparation for version-only PRs (saves time)
+    const haContainerPromise = versionOnly ? undefined : prepareHaContainer(updatedSource, hassBaseUrl, hassToken);
     const cdk8sContainer = prepareCdk8sContainer(updatedSource);
+    const versionOnlySkip = (name: string): Promise<{ status: "skipped"; message: string }> =>
+      Promise.resolve({ status: "skipped" as const, message: `${name}: SKIPPED (version-only)` });
 
     // Renovate regex test (run async)
     const renovateTestPromise = this.testRenovateRegex(updatedSource)
@@ -230,50 +235,47 @@ export class Homelab {
         message: `Renovate Test: FAILED\n${formatDaggerError(e)}`,
       }));
 
-    // Helm test (run async)
-    const helmTestPromise = this.testHelm(updatedSource)
-      .then((msg) => ({
-        status: "passed" as const,
-        message: `Helm Test: PASSED\n${msg}`,
-      }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `Helm Test: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // Helm test (run async) - skip for version-only PRs
+    const helmTestPromise = versionOnly
+      ? versionOnlySkip("Helm Test")
+      : this.testHelm(updatedSource)
+          .then((msg) => ({ status: "passed" as const, message: `Helm Test: PASSED\n${msg}` }))
+          .catch((e: unknown) => ({
+            status: "failed" as const,
+            message: `Helm Test: FAILED\n${formatDaggerError(e)}`,
+          }));
 
-    // CDK8s test - uses shared container
-    const cdk8sTestPromise = testCdk8sWithContainer(cdk8sContainer)
-      .then((msg) => ({
-        status: "passed" as const,
-        message: `CDK8s Test: PASSED\n${msg}`,
-      }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `CDK8s Test: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // CDK8s test - uses shared container - skip for version-only PRs
+    const cdk8sTestPromise = versionOnly
+      ? versionOnlySkip("CDK8s Test")
+      : testCdk8sWithContainer(cdk8sContainer)
+          .then((msg) => ({ status: "passed" as const, message: `CDK8s Test: PASSED\n${msg}` }))
+          .catch((e: unknown) => ({
+            status: "failed" as const,
+            message: `CDK8s Test: FAILED\n${formatDaggerError(e)}`,
+          }));
 
-    // CDK8s linting - uses shared container
-    const cdk8sLintPromise = lintCdk8sWithContainer(cdk8sContainer)
-      .then((msg) => ({
-        status: "passed" as const,
-        message: `CDK8s Lint: PASSED\n${msg}`,
-      }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `CDK8s Lint: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // CDK8s linting - uses shared container - skip for version-only PRs
+    const cdk8sLintPromise = versionOnly
+      ? versionOnlySkip("CDK8s Lint")
+      : lintCdk8sWithContainer(cdk8sContainer)
+          .then((msg) => ({ status: "passed" as const, message: `CDK8s Lint: PASSED\n${msg}` }))
+          .catch((e: unknown) => ({
+            status: "failed" as const,
+            message: `CDK8s Lint: FAILED\n${formatDaggerError(e)}`,
+          }));
 
-    // HA linting - uses shared container
-    const haLintPromise = haContainerPromise
-      .then((container) => lintHaWithContainer(container))
-      .then((msg) => ({
-        status: "passed" as const,
-        message: `HA Lint: PASSED\n${msg}`,
-      }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `HA Lint: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // HA linting - uses shared container - skip for version-only PRs
+    const haLintPromise =
+      versionOnly || !haContainerPromise
+        ? versionOnlySkip("HA Lint")
+        : haContainerPromise
+            .then((container) => lintHaWithContainer(container))
+            .then((msg) => ({ status: "passed" as const, message: `HA Lint: PASSED\n${msg}` }))
+            .catch((e: unknown) => ({
+              status: "failed" as const,
+              message: `HA Lint: FAILED\n${formatDaggerError(e)}`,
+            }));
 
     // CDK8s type checking - uses shared container
     const cdk8sTypeCheckPromise = typeCheckCdk8sWithContainer(cdk8sContainer)
@@ -286,17 +288,17 @@ export class Homelab {
         message: `CDK8s TypeCheck: FAILED\n${formatDaggerError(e)}`,
       }));
 
-    // HA type checking - uses shared container
-    const haTypeCheckPromise = haContainerPromise
-      .then((container) => typeCheckHaWithContainer(container))
-      .then((msg) => ({
-        status: "passed" as const,
-        message: `HA TypeCheck: PASSED\n${msg}`,
-      }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `HA TypeCheck: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // HA type checking - uses shared container - skip for version-only PRs
+    const haTypeCheckPromise =
+      versionOnly || !haContainerPromise
+        ? versionOnlySkip("HA TypeCheck")
+        : haContainerPromise
+            .then((container) => typeCheckHaWithContainer(container))
+            .then((msg) => ({ status: "passed" as const, message: `HA TypeCheck: PASSED\n${msg}` }))
+            .catch((e: unknown) => ({
+              status: "failed" as const,
+              message: `HA TypeCheck: FAILED\n${formatDaggerError(e)}`,
+            }));
 
     // CDK8s build - uses shared container
     const cdk8sBuildPromise = Promise.resolve(buildK8sManifestsWithContainer(cdk8sContainer))
@@ -309,12 +311,12 @@ export class Homelab {
         message: `CDK8s Build: FAILED\n${formatDaggerError(e)}`,
       }));
 
-    const haBuildPromise = Promise.resolve(buildHa(updatedSource))
-      .then(() => ({ status: "passed" as const, message: "HA Build: PASSED" }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `HA Build: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // HA build - skip for version-only PRs
+    const haBuildPromise = versionOnly
+      ? versionOnlySkip("HA Build")
+      : Promise.resolve(buildHa(updatedSource))
+          .then(() => ({ status: "passed" as const, message: "HA Build: PASSED" }))
+          .catch((e: unknown) => ({ status: "failed" as const, message: `HA Build: FAILED\n${formatDaggerError(e)}` }));
 
     // Always build Helm chart (for both dev and prod)
     const helmBuildPromise = Promise.resolve().then(() => {
