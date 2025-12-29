@@ -63,6 +63,8 @@ export function createSeaweedfsApp(chart: Chart) {
         {
           name: "data",
           type: "persistentVolumeClaim",
+          size: Size.gibibytes(32).asString(),
+          storageClass: SSD_STORAGE_CLASS,
           maxVolumes: 0, // 0 means auto-detect
         },
       ],
@@ -97,6 +99,9 @@ export function createSeaweedfsApp(chart: Chart) {
       enabled: true,
       replicas: 1,
       enableAuth: false, // We'll configure auth later if needed
+      logs: {
+        type: "emptyDir",
+      },
     },
   };
 
