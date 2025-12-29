@@ -2,10 +2,17 @@ import { Chart } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 
 export function createArgoCdApp(chart: Chart) {
   createIngress(chart, "argocd-ingress", "argocd", "argocd-server", 443, ["argocd"], true);
+
+  createCloudflareTunnelBinding(chart, "argocd-cf-tunnel", {
+    serviceName: "argocd-server",
+    subdomain: "argocd",
+    namespace: "argocd",
+  });
 
   const argoCdValues: HelmValuesForChart<"argo-cd"> = {
     global: {

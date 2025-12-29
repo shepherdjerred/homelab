@@ -3,6 +3,7 @@ import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { ROOT_GID, ROOT_UID, withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import versions from "../../versions.ts";
 import { Glob } from "bun";
 
@@ -89,5 +90,10 @@ export async function createHomeAssistantDeployment(chart: Chart) {
     service,
     host: "homeassistant",
     funnel: true,
+  });
+
+  createCloudflareTunnelBinding(chart, "homeassistant-cf-tunnel", {
+    serviceName: service.name,
+    subdomain: "homeassistant",
   });
 }

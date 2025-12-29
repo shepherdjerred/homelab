@@ -3,6 +3,7 @@ import { Application } from "../../../generated/imports/argoproj.io.ts";
 import { Namespace } from "cdk8s-plus-31";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { createWindmillPostgreSQLDatabase } from "../postgres/windmill-db.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 
@@ -24,6 +25,12 @@ export function createWindmillApp(chart: Chart) {
 
   // Create Tailscale ingress for Windmill
   createIngress(chart, "windmill-ingress", "windmill", "windmill-app", 8000, ["windmill"], true);
+
+  createCloudflareTunnelBinding(chart, "windmill-cf-tunnel", {
+    serviceName: "windmill-app",
+    subdomain: "windmill",
+    namespace: "windmill",
+  });
 
   const windmillValues: HelmValuesForChart<"windmill"> = {
     // Disable built-in PostgreSQL - we use postgres-operator

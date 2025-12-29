@@ -2,6 +2,7 @@ import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 
@@ -15,6 +16,12 @@ export function createMinecraftTsmcApp(chart: Chart) {
     ["minecraft-tsmc-bluemap"],
     true,
   );
+
+  createCloudflareTunnelBinding(chart, "minecraft-tsmc-bluemap-cf-tunnel", {
+    serviceName: "minecraft-tsmc-bluemap",
+    fqdn: "bluemap.ts-mc.net",
+    namespace: "minecraft-tsmc",
+  });
 
   const minecraftValues: HelmValuesForChart<"minecraft"> = {
     image: {
