@@ -95,8 +95,10 @@ echo "Database URL built successfully"
         // Base URL configuration
         BASE_URL: EnvValue.fromValue("https://plausible.tailnet-1a49.ts.net"),
 
-        // ClickHouse configuration
-        CLICKHOUSE_DATABASE_URL: EnvValue.fromValue(`http://${props.clickhouseService.name}:8123/plausible_events_db`),
+        // ClickHouse configuration (plausible user with empty password)
+        CLICKHOUSE_DATABASE_URL: EnvValue.fromValue(
+          `http://plausible:@${props.clickhouseService.name}:8123/plausible_events_db`,
+        ),
 
         // SMTP configuration via existing Postal server
         MAILER_ADAPTER: EnvValue.fromValue("Bamboo.SMTPAdapter"),
