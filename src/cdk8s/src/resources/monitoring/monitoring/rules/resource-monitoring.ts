@@ -14,12 +14,12 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           alert: "HighCPUUsageSustained",
           annotations: {
             description: escapePrometheusTemplate(
-              "Node {{ $labels.instance }} has sustained high CPU usage: {{ $value | humanizePercentage }} for over 1 day",
+              "Node {{ $labels.instance }} has sustained high CPU usage: {{ $value | humanize }}% for over 1 day",
             ),
             summary: "Sustained high CPU usage detected",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            '(100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 7.5',
+            '(100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 75',
           ),
           for: "1d",
           labels: { severity: "warning" },
