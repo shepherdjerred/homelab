@@ -2,6 +2,7 @@ import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import versions from "../../versions.ts";
+import { TunnelBinding, TunnelBindingTunnelRefKind } from "../../../generated/imports/networking.cfargotunnel.com.ts";
 
 export function createScoutForLolFrontendDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "scout-for-lol-frontend", {
@@ -29,15 +30,23 @@ export function createScoutForLolFrontendDeployment(chart: Chart) {
   container.mount("/var/cache/nginx", cacheVolume);
   container.mount("/var/run", runVolume);
 
-  new Service(chart, "scout-for-lol-frontend-service", {
+  const service = new Service(chart, "scout-for-lol-frontend-service", {
     selector: deployment,
     ports: [{ port: 80 }],
-    metadata: {
-      annotations: {
-        "cloudflare-operator.io/content": "scout-for-lol-frontend-service",
-        "cloudflare-operator.io/tunnel": "homelab-tunnel",
-        "cloudflare-operator.io/hostname": "scout-for-lol.com",
+  });
+
+  new TunnelBinding(chart, "scout-for-lol-tunnel-binding", {
+    subjects: [
+      {
+        name: service.name,
+        spec: {
+          fqdn: "scout-for-lol.com",
+        },
       },
+    ],
+    tunnelRef: {
+      kind: TunnelBindingTunnelRefKind.TUNNEL,
+      name: "homelab-tunnel",
     },
   });
 }

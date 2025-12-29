@@ -12,6 +12,7 @@ import { KubeCronJob, Quantity } from "../../../generated/imports/k8s.ts";
 import { withCommonProps } from "../../misc/common.ts";
 import versions from "../../versions.ts";
 import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
+import { TunnelBinding, TunnelBindingTunnelRefKind } from "../../../generated/imports/networking.cfargotunnel.com.ts";
 
 export function createBetterSkillCappedDeployment(chart: Chart) {
   // Create a shared PVC for the manifest
@@ -64,15 +65,23 @@ export function createBetterSkillCappedDeployment(chart: Chart) {
   container.mount("/var/cache/nginx", cacheVolume);
   container.mount("/var/run", runVolume);
 
-  new Service(chart, "better-skill-capped-service", {
+  const service = new Service(chart, "better-skill-capped-service", {
     selector: deployment,
     ports: [{ port: 80 }],
-    metadata: {
-      annotations: {
-        "cloudflare-operator.io/content": "better-skill-capped-service",
-        "cloudflare-operator.io/tunnel": "homelab-tunnel",
-        "cloudflare-operator.io/hostname": "better-skill-capped.com",
+  });
+
+  new TunnelBinding(chart, "better-skill-capped-tunnel-binding", {
+    subjects: [
+      {
+        name: service.name,
+        spec: {
+          fqdn: "better-skill-capped.com",
+        },
       },
+    ],
+    tunnelRef: {
+      kind: TunnelBindingTunnelRefKind.TUNNEL,
+      name: "homelab-tunnel",
     },
   });
 
