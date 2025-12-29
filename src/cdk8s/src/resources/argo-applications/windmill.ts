@@ -34,6 +34,10 @@ export function createWindmillApp(chart: Chart) {
     minio: {
       enabled: false,
     },
+    // Disable Helm chart's ingress - we use Tailscale ingress created above
+    ingress: {
+      enabled: false,
+    },
     windmill: {
       // Database configuration - placeholder, will be overridden by DATABASE_URL env var from init container
       databaseUrl: "postgres://windmill:password@windmill-postgresql:5432/windmill?sslmode=disable",
