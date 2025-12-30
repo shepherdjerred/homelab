@@ -85,6 +85,9 @@ export function createDaggerApp(chart: Chart) {
           // TODO: use types for this
           valuesObject: {
             engine: {
+              image: {
+                ref: "ghcr.io/shepherdjerred/dagger-engine:v0.19.8",
+              },
               // Use StatefulSet instead of DaemonSet to enable PVC support
               kind: "StatefulSet",
               statefulSet: {
