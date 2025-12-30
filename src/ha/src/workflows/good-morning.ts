@@ -24,6 +24,10 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   const personJerred = hass.refBy.id("person.jerred");
   const personShuxin = hass.refBy.id("person.shuxin");
 
+  function isAnyoneHome() {
+    return personJerred.state === "home" || personShuxin.state === "home";
+  }
+
   const weekdayWakeUpHour = 8;
   const weekendWakeUpHour = 9;
 
@@ -51,10 +55,10 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
 
   async function runEarly() {
     await withTimeout(
-      runIf(personJerred.state === "home", () =>
+      runIf(isAnyoneHome(), () =>
         bedroomHeater.set_temperature({
           hvac_mode: "heat",
-          temperature: 24,
+          temperature: 24, // pre-wake heating
         }),
       ),
       { amount: 2, unit: "m" },
@@ -68,20 +72,20 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
         () =>
           bedroomHeater.set_temperature({
             hvac_mode: "heat",
-            temperature: 23,
+            temperature: 24,
           }),
         async () => {
           try {
             await livingRoomClimate.set_temperature({
               hvac_mode: "heat",
-              temperature: 23,
+              temperature: 24,
             });
           } catch {
             logger.debug("Living room climate not available, skipping");
           }
         },
         () =>
-          runIf(personJerred.state === "home", () =>
+          runIf(isAnyoneHome(), () =>
             runParallel([
               () =>
                 hass.call.notify.notify({
@@ -181,7 +185,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
 
   async function runGetUp() {
     await withTimeout(
-      runIf(personJerred.state === "home", () =>
+      runIf(isAnyoneHome(), () =>
         runParallel([
           () =>
             runIf(personShuxin.state === "not_home", () =>
