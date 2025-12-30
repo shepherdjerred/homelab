@@ -16,12 +16,12 @@ import { z } from "zod";
 // ============================================================================
 
 // Winter temperature setpoints (in Celsius)
-const WINTER_TEMP_HOME_COMFORT = 23; // When home and awake
-const WINTER_TEMP_AWAY = 18; // Energy saving when away
-const WINTER_TEMP_BEDTIME = 21; // Comfortable for falling asleep
-const WINTER_TEMP_DEEP_SLEEP = 20; // Cooler during deep sleep
+const WINTER_TEMP_HOME_COMFORT = 24; // When home and awake
+const WINTER_TEMP_AWAY = 20; // Energy saving when away
+const WINTER_TEMP_BEDTIME = 22; // Comfortable for falling asleep
+const WINTER_TEMP_DEEP_SLEEP = 22; // Cooler during deep sleep
 const WINTER_TEMP_PRE_WAKE = 24; // Warm before waking
-const WINTER_TEMP_LIVING_ROOM_SLEEP = 20; // Living room during sleep hours
+const WINTER_TEMP_LIVING_ROOM_SLEEP = 22; // Living room during sleep hours
 
 // Active configuration (change these for seasonal adjustments)
 const TEMP_HOME_COMFORT = WINTER_TEMP_HOME_COMFORT;
@@ -39,7 +39,12 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
   const officeHeater = hass.refBy.id("climate.office_thermostat");
   const livingRoomClimate = hass.refBy.id("climate.living_room");
   const personJerred = hass.refBy.id("person.jerred");
+  const personShuxin = hass.refBy.id("person.shuxin");
   const pcPowerSensor = hass.refBy.id("sensor.sonoff_desktop_pc002166152_power");
+
+  function isAnyoneHome() {
+    return personJerred.state === "home" || personShuxin.state === "home";
+  }
 
   /**
    * Check if PC is generating significant heat
@@ -124,7 +129,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
     exec: () =>
       instrumentWorkflow("climate_pc_heat_check", async () => {
         await withTimeout(
-          runIf(personJerred.state === "home", async () => {
+          runIf(isAnyoneHome(), async () => {
             const pcGeneratingHeat = isPcGeneratingHeat();
 
             // Only adjust office heating based on PC state
@@ -156,7 +161,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
     exec: () =>
       instrumentWorkflow("climate_bedtime_prep", async () => {
         await withTimeout(
-          runIf(personJerred.state === "home", async () => {
+          runIf(isAnyoneHome(), async () => {
             logger.info("Setting bedtime climate - comfortable for falling asleep");
             await setClimateZones(TEMP_BEDTIME, TEMP_BEDTIME, TEMP_LIVING_ROOM_SLEEP);
           }),
@@ -175,7 +180,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
     exec: () =>
       instrumentWorkflow("climate_deep_sleep", async () => {
         await withTimeout(
-          runIf(personJerred.state === "home", async () => {
+          runIf(isAnyoneHome(), async () => {
             logger.info("Setting deep sleep climate - cooler for better sleep");
             await setClimateZones(TEMP_DEEP_SLEEP, TEMP_DEEP_SLEEP, TEMP_LIVING_ROOM_SLEEP);
           }),
@@ -194,7 +199,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
     exec: () =>
       instrumentWorkflow("climate_pre_wake_weekday", async () => {
         await withTimeout(
-          runIf(personJerred.state === "home", async () => {
+          runIf(isAnyoneHome(), async () => {
             logger.info("Pre-wake heating for weekday - warming house before wake time");
             await setClimateZones(TEMP_PRE_WAKE, TEMP_PRE_WAKE, TEMP_HOME_COMFORT);
           }),
@@ -213,7 +218,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
     exec: () =>
       instrumentWorkflow("climate_pre_wake_weekend", async () => {
         await withTimeout(
-          runIf(personJerred.state === "home", async () => {
+          runIf(isAnyoneHome(), async () => {
             logger.info("Pre-wake heating for weekend - warming house before wake time");
             await setClimateZones(TEMP_PRE_WAKE, TEMP_PRE_WAKE, TEMP_HOME_COMFORT);
           }),

@@ -5,6 +5,7 @@ import { instrumentWorkflow } from "../metrics.ts";
 
 export function welcomeHome({ hass, logger }: TServiceParams) {
   const personJerred = hass.refBy.id("person.jerred");
+  const personShuxin = hass.refBy.id("person.shuxin");
   const roomba = hass.refBy.id("vacuum.roomba");
   const entrywayLight = hass.refBy.id("switch.entryway_overhead_lights");
   const livingRoomScene = hass.refBy.id("scene.living_room_main_bright");
@@ -16,60 +17,82 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
     hass.refBy.id("scene.christmas_tree_under_the_tree"),
   ];
 
+  async function runWelcomeHome() {
+    await instrumentWorkflow("welcome_home", async () => {
+      await withTimeout(
+        (async () => {
+          logger.info("Welcome Home automation triggered");
+
+          await hass.call.notify.notify({
+            title: "Welcome Home",
+            message: "Welcome back! Hope you had a great time.",
+          });
+
+          // Set climate to comfortable home temperature (24°C)
+          logger.debug("Setting climate to home comfort mode");
+          await bedroomHeater.set_temperature({
+            hvac_mode: "heat",
+            temperature: 24,
+          });
+          try {
+            await livingRoomClimate.set_temperature({
+              hvac_mode: "heat",
+              temperature: 24,
+            });
+          } catch {
+            logger.debug("Living room climate not available, skipping");
+          }
+
+          logger.debug("Turning on entryway light");
+          await entrywayLight.turn_on();
+
+          logger.debug("Setting living room scene to bright");
+          await livingRoomScene.turn_on();
+
+          const randomScene = christmasScenes[Math.floor(Math.random() * christmasScenes.length)];
+          if (randomScene) {
+            logger.debug("Turning on random Christmas tree scene");
+            await randomScene.turn_on();
+          } else {
+            throw new Error("No Christmas tree scene found");
+          }
+
+          if (shouldStopCleaning(roomba.state)) {
+            logger.debug("Commanding Roomba to return to base");
+            await roomba.return_to_base();
+          }
+        })(),
+        { amount: 2, unit: "m" },
+        "welcome_home workflow",
+      );
+    });
+  }
+
+  // Trigger welcome home when first person arrives (house was empty)
   personJerred.onUpdate(
     async (
       newState: ENTITY_STATE<"person.jerred"> | undefined,
       oldState: ENTITY_STATE<"person.jerred"> | undefined,
     ) => {
       if (oldState && newState && newState.state === "home" && oldState.state === "not_home") {
-        await instrumentWorkflow("welcome_home", async () => {
-          await withTimeout(
-            (async () => {
-              logger.info("Welcome Home automation triggered");
+        // Only trigger if Shuxin is not home (this is the first arrival)
+        if (personShuxin.state === "not_home") {
+          await runWelcomeHome();
+        }
+      }
+    },
+  );
 
-              await hass.call.notify.notify({
-                title: "Welcome Home",
-                message: "Welcome back! Hope you had a great time.",
-              });
-
-              // Set climate to comfortable home temperature (23°C)
-              logger.debug("Setting climate to home comfort mode");
-              await bedroomHeater.set_temperature({
-                hvac_mode: "heat",
-                temperature: 23,
-              });
-              try {
-                await livingRoomClimate.set_temperature({
-                  hvac_mode: "heat",
-                  temperature: 23,
-                });
-              } catch {
-                logger.debug("Living room climate not available, skipping");
-              }
-
-              logger.debug("Turning on entryway light");
-              await entrywayLight.turn_on();
-
-              logger.debug("Setting living room scene to bright");
-              await livingRoomScene.turn_on();
-
-              const randomScene = christmasScenes[Math.floor(Math.random() * christmasScenes.length)];
-              if (randomScene) {
-                logger.debug("Turning on random Christmas tree scene");
-                await randomScene.turn_on();
-              } else {
-                throw new Error("No Christmas tree scene found");
-              }
-
-              if (shouldStopCleaning(roomba.state)) {
-                logger.debug("Commanding Roomba to return to base");
-                await roomba.return_to_base();
-              }
-            })(),
-            { amount: 2, unit: "m" },
-            "welcome_home workflow",
-          );
-        });
+  personShuxin.onUpdate(
+    async (
+      newState: ENTITY_STATE<"person.shuxin"> | undefined,
+      oldState: ENTITY_STATE<"person.shuxin"> | undefined,
+    ) => {
+      if (oldState && newState && newState.state === "home" && oldState.state === "not_home") {
+        // Only trigger if Jerred is not home (this is the first arrival)
+        if (personJerred.state === "not_home") {
+          await runWelcomeHome();
+        }
       }
     },
   );
