@@ -3,6 +3,7 @@ import { Application } from "../../../generated/imports/argoproj.io.ts";
 import { Namespace } from "cdk8s-plus-31";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { createGitlabPostgreSQLDatabase } from "../postgres/gitlab-db.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 
@@ -24,6 +25,12 @@ export function createGitlabApp(chart: Chart) {
 
   // Create Tailscale ingress for GitLab webservice
   createIngress(chart, "gitlab-ingress", "gitlab", "gitlab-webservice-default", 8181, ["gitlab"], true);
+
+  createCloudflareTunnelBinding(chart, "gitlab-cf-tunnel", {
+    serviceName: "gitlab-webservice-default",
+    subdomain: "gitlab",
+    namespace: "gitlab",
+  });
 
   const gitlabValues: HelmValuesForChart<"gitlab"> = {
     // Skip upgrade check for fresh installations

@@ -845,6 +845,11 @@ export type SeaweedfsHelmValuesVolume = {
 
 export type SeaweedfsHelmValuesVolumeDataDirsElement = {
   /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
    * @default "data1"
    */
   name?: string;

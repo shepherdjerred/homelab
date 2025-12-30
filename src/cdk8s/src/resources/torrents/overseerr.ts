@@ -3,6 +3,7 @@ import { Cpu, Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus
 import { withCommonLinuxServerProps } from "../../misc/linux-server.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import versions from "../../versions.ts";
 
 export function createOverseerrDeployment(chart: Chart) {
@@ -47,5 +48,10 @@ export function createOverseerrDeployment(chart: Chart) {
     service,
     host: "overseerr",
     funnel: true,
+  });
+
+  createCloudflareTunnelBinding(chart, "overseerr-cf-tunnel", {
+    serviceName: service.name,
+    subdomain: "overseerr",
   });
 }

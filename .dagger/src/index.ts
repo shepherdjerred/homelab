@@ -184,6 +184,7 @@ export class Homelab {
    * @param env The environment (e.g., 'prod' or 'dev').
    * @param githubToken GitHub token with write access for release-please (as a Dagger Secret, optional).
    * @param npmToken NPM token for publishing @shepherdjerred/helm-types (as a Dagger Secret, optional).
+   * @param versionOnly If true, skip HA checks and CDK8s lint/test (for version-only PRs).
    * @returns A summary string of the results for each CI step.
    */
   @func()
@@ -209,6 +210,7 @@ export class Homelab {
     @argument() env: Stage = Stage.Dev,
     githubToken?: Secret,
     npmToken?: Secret,
+    @argument() versionOnly = false,
   ): Promise<string> {
     // Update image versions in versions.ts if prod
     let updatedSource = source;
@@ -221,8 +223,11 @@ export class Homelab {
     // Prepare shared containers once - this is a major optimization
     // All HA operations (lint, typecheck, build) share the same prepared container
     // All CDK8s operations share the same prepared container
-    const haContainerPromise = prepareHaContainer(updatedSource, hassBaseUrl, hassToken);
+    // Skip HA container preparation for version-only PRs (saves time)
+    const haContainerPromise = versionOnly ? undefined : prepareHaContainer(updatedSource, hassBaseUrl, hassToken);
     const cdk8sContainer = prepareCdk8sContainer(updatedSource);
+    const versionOnlySkip = (name: string): Promise<{ status: "skipped"; message: string }> =>
+      Promise.resolve({ status: "skipped" as const, message: `${name}: SKIPPED (version-only)` });
 
     // Renovate regex test (run async)
     const renovateTestPromise = this.testRenovateRegex(updatedSource)
@@ -235,50 +240,47 @@ export class Homelab {
         message: `Renovate Test: FAILED\n${formatDaggerError(e)}`,
       }));
 
-    // Helm test (run async)
-    const helmTestPromise = this.testHelm(updatedSource)
-      .then((msg) => ({
-        status: "passed" as const,
-        message: `Helm Test: PASSED\n${msg}`,
-      }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `Helm Test: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // Helm test (run async) - skip for version-only PRs
+    const helmTestPromise = versionOnly
+      ? versionOnlySkip("Helm Test")
+      : this.testHelm(updatedSource)
+          .then((msg) => ({ status: "passed" as const, message: `Helm Test: PASSED\n${msg}` }))
+          .catch((e: unknown) => ({
+            status: "failed" as const,
+            message: `Helm Test: FAILED\n${formatDaggerError(e)}`,
+          }));
 
-    // CDK8s test - uses shared container
-    const cdk8sTestPromise = testCdk8sWithContainer(cdk8sContainer)
-      .then((msg) => ({
-        status: "passed" as const,
-        message: `CDK8s Test: PASSED\n${msg}`,
-      }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `CDK8s Test: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // CDK8s test - uses shared container - skip for version-only PRs
+    const cdk8sTestPromise = versionOnly
+      ? versionOnlySkip("CDK8s Test")
+      : testCdk8sWithContainer(cdk8sContainer)
+          .then((msg) => ({ status: "passed" as const, message: `CDK8s Test: PASSED\n${msg}` }))
+          .catch((e: unknown) => ({
+            status: "failed" as const,
+            message: `CDK8s Test: FAILED\n${formatDaggerError(e)}`,
+          }));
 
-    // CDK8s linting - uses shared container
-    const cdk8sLintPromise = lintCdk8sWithContainer(cdk8sContainer)
-      .then((msg) => ({
-        status: "passed" as const,
-        message: `CDK8s Lint: PASSED\n${msg}`,
-      }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `CDK8s Lint: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // CDK8s linting - uses shared container - skip for version-only PRs
+    const cdk8sLintPromise = versionOnly
+      ? versionOnlySkip("CDK8s Lint")
+      : lintCdk8sWithContainer(cdk8sContainer)
+          .then((msg) => ({ status: "passed" as const, message: `CDK8s Lint: PASSED\n${msg}` }))
+          .catch((e: unknown) => ({
+            status: "failed" as const,
+            message: `CDK8s Lint: FAILED\n${formatDaggerError(e)}`,
+          }));
 
-    // HA linting - uses shared container
-    const haLintPromise = haContainerPromise
-      .then((container) => lintHaWithContainer(container))
-      .then((msg) => ({
-        status: "passed" as const,
-        message: `HA Lint: PASSED\n${msg}`,
-      }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `HA Lint: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // HA linting - uses shared container - skip for version-only PRs
+    const haLintPromise =
+      versionOnly || !haContainerPromise
+        ? versionOnlySkip("HA Lint")
+        : haContainerPromise
+            .then((container) => lintHaWithContainer(container))
+            .then((msg) => ({ status: "passed" as const, message: `HA Lint: PASSED\n${msg}` }))
+            .catch((e: unknown) => ({
+              status: "failed" as const,
+              message: `HA Lint: FAILED\n${formatDaggerError(e)}`,
+            }));
 
     // CDK8s type checking - uses shared container
     const cdk8sTypeCheckPromise = typeCheckCdk8sWithContainer(cdk8sContainer)
@@ -291,17 +293,17 @@ export class Homelab {
         message: `CDK8s TypeCheck: FAILED\n${formatDaggerError(e)}`,
       }));
 
-    // HA type checking - uses shared container
-    const haTypeCheckPromise = haContainerPromise
-      .then((container) => typeCheckHaWithContainer(container))
-      .then((msg) => ({
-        status: "passed" as const,
-        message: `HA TypeCheck: PASSED\n${msg}`,
-      }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `HA TypeCheck: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // HA type checking - uses shared container - skip for version-only PRs
+    const haTypeCheckPromise =
+      versionOnly || !haContainerPromise
+        ? versionOnlySkip("HA TypeCheck")
+        : haContainerPromise
+            .then((container) => typeCheckHaWithContainer(container))
+            .then((msg) => ({ status: "passed" as const, message: `HA TypeCheck: PASSED\n${msg}` }))
+            .catch((e: unknown) => ({
+              status: "failed" as const,
+              message: `HA TypeCheck: FAILED\n${formatDaggerError(e)}`,
+            }));
 
     // CDK8s build - uses shared container
     const cdk8sBuildPromise = Promise.resolve(buildK8sManifestsWithContainer(cdk8sContainer))
@@ -314,12 +316,12 @@ export class Homelab {
         message: `CDK8s Build: FAILED\n${formatDaggerError(e)}`,
       }));
 
-    const haBuildPromise = Promise.resolve(buildHa(updatedSource))
-      .then(() => ({ status: "passed" as const, message: "HA Build: PASSED" }))
-      .catch((e: unknown) => ({
-        status: "failed" as const,
-        message: `HA Build: FAILED\n${formatDaggerError(e)}`,
-      }));
+    // HA build - skip for version-only PRs
+    const haBuildPromise = versionOnly
+      ? versionOnlySkip("HA Build")
+      : Promise.resolve(buildHa(updatedSource))
+          .then(() => ({ status: "passed" as const, message: "HA Build: PASSED" }))
+          .catch((e: unknown) => ({ status: "failed" as const, message: `HA Build: FAILED\n${formatDaggerError(e)}` }));
 
     // Always build Helm chart (for both dev and prod)
     const helmBuildPromise = Promise.resolve().then(() => {
@@ -368,105 +370,103 @@ export class Homelab {
       haTypeCheckPromise,
     ]);
 
-    // Publish HA image if prod - push versioned and latest tags in parallel
-    let haPublishResult: StepResult = {
-      status: "skipped",
-      message: "[SKIPPED] Not prod",
-    };
-    if (env === Stage.Prod) {
-      // Push both tags in parallel for faster publishing
-      const [versionedResult, latestResult] = await Promise.all([
-        this.internalPublishHaImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
-        this.internalPublishHaImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/homelab:latest`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
-      ]);
-      // Combine results
-      haPublishResult = {
-        status: versionedResult.status === "passed" && latestResult.status === "passed" ? "passed" : "failed",
-        message: `Versioned tag: ${versionedResult.message}\nLatest tag: ${latestResult.message}`,
-      };
-    }
+    // Publish all images and Helm chart in parallel for faster CI
+    let haPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
+    let depSummaryPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
+    let claudeCodeUIPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
+    let helmPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
 
-    // Publish dependency-summary image if prod - push versioned and latest tags in parallel
-    let depSummaryPublishResult: StepResult = {
-      status: "skipped",
-      message: "[SKIPPED] Not prod",
-    };
     if (env === Stage.Prod) {
-      const [versionedResult, latestResult] = await Promise.all([
-        this.internalPublishDependencySummaryImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/dependency-summary:${chartVersion}`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
-        this.internalPublishDependencySummaryImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/dependency-summary:latest`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
+      // Run all image pushes and helm publish in parallel
+      const [haResults, depSummaryResults, claudeCodeUIResults, helmResult] = await Promise.all([
+        // HA image: push versioned and latest tags in parallel
+        Promise.all([
+          this.internalPublishHaImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+          this.internalPublishHaImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/homelab:latest`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+        ]),
+        // Dependency-summary image: push versioned and latest tags in parallel
+        Promise.all([
+          this.internalPublishDependencySummaryImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/dependency-summary:${chartVersion}`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+          this.internalPublishDependencySummaryImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/dependency-summary:latest`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+        ]),
+        // ClaudeCodeUI image: push versioned and latest tags in parallel
+        Promise.all([
+          this.internalPublishClaudeCodeUIImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/claudecodeui:${chartVersion}`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+          this.internalPublishClaudeCodeUIImage(
+            updatedSource,
+            `ghcr.io/shepherdjerred/claudecodeui:latest`,
+            ghcrUsername,
+            ghcrPassword,
+            env,
+          ),
+        ]),
+        // Helm chart publish
+        helmBuildResult.dist
+          ? this.helmPublishBuilt(
+              helmBuildResult.dist,
+              `1.0.0-${chartVersion}`,
+              chartRepo,
+              chartMuseumUsername,
+              chartMuseumPassword,
+              env,
+            )
+          : Promise.resolve({ status: "skipped" as const, message: "[SKIPPED] No dist available" }),
       ]);
+
+      // Combine HA results
+      haPublishResult = {
+        status: haResults[0].status === "passed" && haResults[1].status === "passed" ? "passed" : "failed",
+        message: `Versioned tag: ${haResults[0].message}\nLatest tag: ${haResults[1].message}`,
+      };
+
+      // Combine dependency-summary results
       depSummaryPublishResult = {
-        status: versionedResult.status === "passed" && latestResult.status === "passed" ? "passed" : "failed",
-        message: `Versioned tag: ${versionedResult.message}\nLatest tag: ${latestResult.message}`,
+        status:
+          depSummaryResults[0].status === "passed" && depSummaryResults[1].status === "passed" ? "passed" : "failed",
+        message: `Versioned tag: ${depSummaryResults[0].message}\nLatest tag: ${depSummaryResults[1].message}`,
       };
-    }
-    // Publish ClaudeCodeUI image if prod - push versioned and latest tags in parallel
-    let claudeCodeUIPublishResult: StepResult = {
-      status: "skipped",
-      message: "[SKIPPED] Not prod",
-    };
-    if (env === Stage.Prod) {
-      const [versionedResult, latestResult] = await Promise.all([
-        this.internalPublishClaudeCodeUIImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/claudecodeui:${chartVersion}`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
-        this.internalPublishClaudeCodeUIImage(
-          updatedSource,
-          `ghcr.io/shepherdjerred/claudecodeui:latest`,
-          ghcrUsername,
-          ghcrPassword,
-          env,
-        ),
-      ]);
+
+      // Combine ClaudeCodeUI results
       claudeCodeUIPublishResult = {
-        status: versionedResult.status === "passed" && latestResult.status === "passed" ? "passed" : "failed",
-        message: `Versioned tag: ${versionedResult.message}\nLatest tag: ${latestResult.message}`,
+        status:
+          claudeCodeUIResults[0].status === "passed" && claudeCodeUIResults[1].status === "passed"
+            ? "passed"
+            : "failed",
+        message: `Versioned tag: ${claudeCodeUIResults[0].message}\nLatest tag: ${claudeCodeUIResults[1].message}`,
       };
-    }
-    // Publish Helm chart if prod
-    let helmPublishResult: StepResult = {
-      status: "skipped",
-      message: "[SKIPPED] Not prod",
-    };
-    if (env === Stage.Prod && helmBuildResult.dist) {
-      // Publish using the dist directory as the source
-      helmPublishResult = await this.helmPublishBuilt(
-        helmBuildResult.dist,
-        `1.0.0-${chartVersion}`,
-        chartRepo,
-        chartMuseumUsername,
-        chartMuseumPassword,
-        env,
-      );
+
+      // Helm result
+      helmPublishResult = helmResult;
     }
     // Sync (run only after successful Helm chart publish)
     let syncResult: StepResult = {

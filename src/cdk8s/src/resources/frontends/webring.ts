@@ -2,6 +2,7 @@ import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import versions from "../../versions.ts";
+import { TunnelBinding, TunnelBindingTunnelRefKind } from "../../../generated/imports/networking.cfargotunnel.com.ts";
 
 export function createWebringDocsDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "webring-docs", {
@@ -29,15 +30,23 @@ export function createWebringDocsDeployment(chart: Chart) {
   container.mount("/var/cache/nginx", cacheVolume);
   container.mount("/var/run", runVolume);
 
-  new Service(chart, "webring-docs-service", {
+  const service = new Service(chart, "webring-docs-service", {
     selector: deployment,
     ports: [{ port: 80 }],
-    metadata: {
-      annotations: {
-        "cloudflare-operator.io/content": "webring-docs-service",
-        "cloudflare-operator.io/tunnel": "homelab-tunnel",
-        "cloudflare-operator.io/hostname": "webring.sjer.red",
+  });
+
+  new TunnelBinding(chart, "webring-docs-tunnel-binding", {
+    subjects: [
+      {
+        name: service.name,
+        spec: {
+          fqdn: "webring.sjer.red",
+        },
       },
+    ],
+    tunnelRef: {
+      kind: TunnelBindingTunnelRefKind.TUNNEL,
+      name: "homelab-tunnel",
     },
   });
 }

@@ -4,6 +4,7 @@ import { withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { ZfsHddVolume } from "../../misc/zfs-hdd-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import versions from "../../versions.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import type { Redis } from "../common/redis.ts";
@@ -148,5 +149,10 @@ export function createPeerTubeDeployment(chart: Chart, props: CreatePeerTubeDepl
     service,
     host: "peertube",
     funnel: true,
+  });
+
+  createCloudflareTunnelBinding(chart, "peertube-cf-tunnel", {
+    serviceName: service.name,
+    subdomain: "peertube",
   });
 }

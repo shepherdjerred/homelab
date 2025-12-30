@@ -91,7 +91,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
   openebs: "4.4.0",
   // not managed by renovate
-  "shepherdjerred/scout-for-lol/beta": "1.0.82",
+  "shepherdjerred/scout-for-lol/beta": "1.0.91",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/prod": "1.0.802",
   // not managed by renovate
@@ -99,7 +99,7 @@ const versions = {
   // not managed by renovate
   "shepherdjerred/starlight-karma-bot/prod": "1.0.13",
   // not managed by renovate
-  "shepherdjerred/birmel": "1.0.374",
+  "shepherdjerred/birmel": "1.0.426",
   // not managed by renovate
   "shepherdjerred/discord-plays-pokemon": "1.0.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
@@ -119,7 +119,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "openebs/velero-plugin": "3.6.0@sha256:9ea3331d891e436a7239e37e68ca4c8888500cb122be7cdc9d8400f345555c76",
   // renovate: datasource=github-releases versioning=semver
-  "kubernetes/kubernetes": "v1.34.2",
+  "kubernetes/kubernetes": "v1.35.0",
   // renovate: datasource=custom.papermc versioning=semver
   paper: "1.21.10",
   // this is empty because we have to perform some string manipulation below
@@ -128,7 +128,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io/recyclarr versioning=docker
   recyclarr: "7.5.2@sha256:2550848d43a453f2c6adf3582f2198ac719f76670691d76de0819053103ef2fb",
   // renovate: datasource=github-releases versioning=semver
-  "siderolabs/talos": "1.11.5",
+  "siderolabs/talos": "1.12.0",
   // renovate: datasource=helm registryUrl=https://opensource.zalando.com/postgres-operator/charts/postgres-operator versioning=semver
   "postgres-operator": "1.15.1",
   // renovate: datasource=helm registryUrl=https://helm.coder.com/v2 versioning=semver

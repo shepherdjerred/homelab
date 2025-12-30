@@ -2,6 +2,7 @@ import { Cpu, Deployment, DeploymentStrategy, EnvValue, Secret, Service, Volume 
 import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 import type { Service as ServiceType } from "cdk8s-plus-31";
@@ -40,6 +41,9 @@ export function createPlausibleDeployment(chart: Chart, props: CreatePlausibleDe
     chart,
     "plausible-pg-secret-volume",
     Secret.fromSecretName(chart, "plausible-pg-secret", postgresSecretName),
+    {
+      name: "pg-secret", // Explicit name to avoid dots from postgres-operator secret name
+    },
   );
   const dbUrlVolume = Volume.fromEmptyDir(chart, "plausible-db-url-volume", "plausible-db-url");
 
@@ -92,8 +96,10 @@ echo "Database URL built successfully"
         // Base URL configuration
         BASE_URL: EnvValue.fromValue("https://plausible.tailnet-1a49.ts.net"),
 
-        // ClickHouse configuration
-        CLICKHOUSE_DATABASE_URL: EnvValue.fromValue(`http://${props.clickhouseService.name}:8123/plausible_events_db`),
+        // ClickHouse configuration (plausible user with empty password)
+        CLICKHOUSE_DATABASE_URL: EnvValue.fromValue(
+          `http://plausible:@${props.clickhouseService.name}:8123/plausible_events_db`,
+        ),
 
         // SMTP configuration via existing Postal server
         MAILER_ADAPTER: EnvValue.fromValue("Bamboo.SMTPAdapter"),
@@ -158,6 +164,11 @@ echo "Database URL built successfully"
     service,
     host: "plausible",
     funnel: true,
+  });
+
+  createCloudflareTunnelBinding(chart, "plausible-cf-tunnel", {
+    serviceName: service.name,
+    subdomain: "plausible",
   });
 
   return { deployment, service };

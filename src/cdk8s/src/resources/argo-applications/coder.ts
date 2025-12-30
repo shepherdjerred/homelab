@@ -6,6 +6,7 @@ import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import { KubeClusterRole, KubeClusterRoleBinding } from "../../../generated/imports/k8s.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { createCoderPostgreSQLDatabase } from "../postgres/coder-db.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 
@@ -27,6 +28,12 @@ export function createCoderApp(chart: Chart) {
 
   // Create Tailscale ingress for Coder
   createIngress(chart, "coder-ingress", "coder", "coder", 80, ["coder"], true);
+
+  createCloudflareTunnelBinding(chart, "coder-cf-tunnel", {
+    serviceName: "coder",
+    subdomain: "coder",
+    namespace: "coder",
+  });
 
   // Create 1Password item for GitHub OAuth credentials
   // Create an item in 1Password vault "Kubernetes" with:

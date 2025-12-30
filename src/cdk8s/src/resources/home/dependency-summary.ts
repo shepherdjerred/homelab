@@ -89,11 +89,11 @@ export function createDependencySummaryCronJob(chart: Chart) {
                   resources: {
                     requests: {
                       cpu: Quantity.fromString("100m"),
-                      memory: Quantity.fromString("256Mi"),
+                      memory: Quantity.fromString("512Mi"),
                     },
                     limits: {
                       cpu: Quantity.fromString("500m"),
-                      memory: Quantity.fromString("512Mi"),
+                      memory: Quantity.fromString("1Gi"),
                     },
                   },
                 },

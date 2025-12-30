@@ -13,6 +13,7 @@ import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import versions from "../../versions.ts";
 import { ServiceMonitor } from "../../../generated/imports/monitoring.coreos.com.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
@@ -196,6 +197,11 @@ export function createPlexDeployment(
     service,
     host: "plex",
     funnel: true,
+  });
+
+  createCloudflareTunnelBinding(chart, "plex-cf-tunnel", {
+    serviceName: service.name,
+    subdomain: "plex",
   });
 
   ApiObject.of(deployment).addJsonPatch(

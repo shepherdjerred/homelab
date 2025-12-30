@@ -214,7 +214,9 @@ export async function createPrometheusApp(chart: Chart) {
                 description: escapeAlertmanagerTemplate("{{ range .Alerts }}{{ .Annotations.summary }}\\n{{ end }}"),
                 // Map alert severity label to PagerDuty severity (critical/warning/error/info)
                 // Check if GroupLabels exists first (nil during helm lint)
-                severity: escapeAlertmanagerTemplate('{{ if .GroupLabels }}{{ if eq .GroupLabels.severity "critical" }}critical{{ else if eq .GroupLabels.severity "warning" }}warning{{ else }}error{{ end }}{{ else }}error{{ end }}'),
+                severity: escapeAlertmanagerTemplate(
+                  '{{ if .GroupLabels }}{{ if eq .GroupLabels.severity "critical" }}critical{{ else if eq .GroupLabels.severity "warning" }}warning{{ else }}error{{ end }}{{ else }}error{{ end }}',
+                ),
                 // details: escapeAlertmanagerTemplate(
                 //   JSON.stringify(
                 //     {
@@ -254,6 +256,12 @@ export async function createPrometheusApp(chart: Chart) {
               // Route info-level alerts to null receiver (don't page for informational alerts)
               receiver: "null",
               matchers: ['severity = "info"'],
+            },
+            {
+              // Silence PDB alerts for postgres-operator critical-op PDBs
+              // These PDBs only match pods during critical operations, so Total=0 is expected
+              receiver: "null",
+              matchers: ['alertname = "KubePdbNotEnoughHealthyPods"', 'poddisruptionbudget =~ ".*-critical-op-pdb"'],
             },
             {
               // Route critical and warning alerts to PagerDuty

@@ -74,6 +74,9 @@ export const EXTENSIBLE_TYPE_PATTERNS: Record<string, string[]> = {
     "global.psql", // External PostgreSQL configuration
     "global.appConfig", // Application configuration
   ],
+  seaweedfs: [
+    "volume.dataDirs", // dataDirs elements support size, storageClass when type is persistentVolumeClaim
+  ],
 };
 
 /**

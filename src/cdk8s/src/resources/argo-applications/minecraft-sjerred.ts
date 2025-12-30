@@ -2,6 +2,7 @@ import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 
@@ -15,6 +16,12 @@ export function createMinecraftSjerredApp(chart: Chart) {
     ["minecraft-sjerred-bluemap"],
     true,
   );
+
+  createCloudflareTunnelBinding(chart, "minecraft-sjerred-bluemap-cf-tunnel", {
+    serviceName: "minecraft-sjerred-bluemap",
+    subdomain: "sjerred.bluemap",
+    namespace: "minecraft-sjerred",
+  });
 
   const minecraftValues: HelmValuesForChart<"minecraft"> = {
     image: {
