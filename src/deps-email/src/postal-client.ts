@@ -49,12 +49,18 @@ export type PostalClientConfig = {
   host: string; // e.g., "postal.tailnet-1a49.ts.net" or "http://postal-service:5000"
   apiKey: string; // Server API key from Postal web UI
   defaultFrom?: string;
+  /**
+   * Override the Host header sent to Postal.
+   * Useful when accessing Postal via internal service URL but Postal expects a specific hostname.
+   */
+  hostHeader?: string;
 };
 
 export class PostalClient {
   private baseUrl: string;
   private apiKey: string;
   private defaultFrom: string;
+  private hostHeader?: string;
 
   constructor(config: PostalClientConfig) {
     // Handle both full URLs (http://...) and bare hostnames
@@ -62,6 +68,7 @@ export class PostalClient {
       config.host.startsWith("http://") || config.host.startsWith("https://") ? config.host : `https://${config.host}`;
     this.apiKey = config.apiKey;
     this.defaultFrom = config.defaultFrom ?? "updates@homelab.local";
+    this.hostHeader = config.hostHeader;
   }
 
   async sendEmail(params: {
@@ -89,12 +96,17 @@ export class PostalClient {
       tag: params.tag,
     };
 
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      "X-Server-API-Key": this.apiKey,
+    };
+    if (this.hostHeader) {
+      headers["Host"] = this.hostHeader;
+    }
+
     const response = await fetch(`${this.baseUrl}/api/v1/send/message`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Server-API-Key": this.apiKey,
-      },
+      headers,
       body: JSON.stringify(payload),
     });
 
@@ -119,6 +131,7 @@ export class PostalClient {
 export function createPostalClientFromEnv(): PostalClient {
   const host = Bun.env["POSTAL_HOST"];
   const apiKey = Bun.env["POSTAL_API_KEY"];
+  const hostHeader = Bun.env["POSTAL_HOST_HEADER"];
 
   if (!host) {
     throw new Error("POSTAL_HOST environment variable not set");
@@ -131,5 +144,6 @@ export function createPostalClientFromEnv(): PostalClient {
     host,
     apiKey,
     defaultFrom: Bun.env["SENDER_EMAIL"],
+    hostHeader,
   });
 }

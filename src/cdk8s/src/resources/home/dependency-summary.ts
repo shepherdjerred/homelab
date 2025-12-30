@@ -69,6 +69,10 @@ export function createDependencySummaryCronJob(chart: Chart) {
                       value: "http://torvalds-postal-web-service.torvalds.svc.cluster.local:5000",
                     },
                     {
+                      name: "POSTAL_HOST_HEADER",
+                      value: "postal.tailnet-1a49.ts.net",
+                    },
+                    {
                       name: "POSTAL_API_KEY",
                       valueFrom: {
                         secretKeyRef: {
