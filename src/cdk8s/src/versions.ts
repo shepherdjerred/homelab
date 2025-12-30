@@ -68,7 +68,7 @@ const versions = {
   "shepherdjerred/dpp-docs": "latest",
   // Custom better-skill-capped image - updated by CI pipeline
   // not managed by renovate
-  "shepherdjerred/better-skill-capped": "1.0.89",
+  "shepherdjerred/better-skill-capped": "1.0.91",
   // Custom better-skill-capped-fetcher image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/better-skill-capped-fetcher": "1.0.89",
