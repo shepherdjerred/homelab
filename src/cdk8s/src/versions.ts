@@ -143,7 +143,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
   redis: "24.1.0",
   // renovate: datasource=helm registryUrl=https://windmill-labs.github.io/windmill-helm-charts/ versioning=semver
-  windmill: "4.0.12",
+  windmill: "4.0.21",
   // renovate: datasource=helm registryUrl=https://charts.gitlab.io/ versioning=semver
   gitlab: "9.7.0",
   // renovate: datasource=helm registryUrl=https://seaweedfs.github.io/seaweedfs/helm versioning=semver
