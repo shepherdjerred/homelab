@@ -45,7 +45,7 @@ export function createDppDocsDeployment(chart: Chart) {
       },
     ],
     tunnelRef: {
-      kind: TunnelBindingTunnelRefKind.TUNNEL,
+      kind: TunnelBindingTunnelRefKind.CLUSTER_TUNNEL,
       name: "homelab-tunnel",
     },
   });

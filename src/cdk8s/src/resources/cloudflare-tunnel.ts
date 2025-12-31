@@ -1,7 +1,7 @@
 import { Chart } from "cdk8s";
 import { Secret } from "cdk8s-plus-31";
 import { OnePasswordItem } from "../../generated/imports/onepassword.com.ts";
-import { TunnelV1Alpha2 } from "../../generated/imports/networking.cfargotunnel.com.ts";
+import { ClusterTunnel } from "../../generated/imports/networking.cfargotunnel.com.ts";
 
 export function createCloudflareTunnelCRD(chart: Chart) {
   // 1Password item containing Cloudflare API token
@@ -19,12 +19,12 @@ export function createCloudflareTunnelCRD(chart: Chart) {
 
   const secret = Secret.fromSecretName(chart, "cloudflare-tunnel-secret", item.name);
 
-  // Create Tunnel CRD
+  // Create ClusterTunnel CRD (cluster-scoped, accessible from all namespaces)
   // This will automatically:
   // 1. Create a Cloudflare Tunnel named "homelab-k8s"
   // 2. Deploy cloudflared pods
   // 3. Manage DNS records for annotated services
-  new TunnelV1Alpha2(chart, "cloudflare-tunnel-crd", {
+  new ClusterTunnel(chart, "cloudflare-tunnel-crd", {
     metadata: {
       name: "homelab-tunnel",
     },
@@ -33,7 +33,7 @@ export function createCloudflareTunnelCRD(chart: Chart) {
         secret: secret.name,
         cloudflareApiToken: "cloudflare-api-token",
         accountId: "48948ed6cd40d73e34d27f0cc10e595f",
-        domain: "sjer.red", // Required in v1alpha2
+        domain: "sjer.red",
       },
       newTunnel: {
         name: "homelab-k8s",
