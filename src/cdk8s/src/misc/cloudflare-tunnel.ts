@@ -22,7 +22,7 @@ export function createCloudflareTunnelBinding(
       },
     ],
     tunnelRef: {
-      kind: TunnelBindingTunnelRefKind.TUNNEL,
+      kind: TunnelBindingTunnelRefKind.CLUSTER_TUNNEL,
       name: "homelab-tunnel",
     },
   });
