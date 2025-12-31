@@ -1,6 +1,7 @@
 // Auto-generated index file for Helm chart types
 
 export * from "./connect.types.ts";
+export * from "./knative-operator.types.ts";
 export * from "./argo-cd.types.ts";
 export * from "./cert-manager.types.ts";
 export * from "./intel-device-plugins-operator.types.ts";
