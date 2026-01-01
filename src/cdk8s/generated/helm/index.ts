@@ -20,6 +20,5 @@ export * from "./postgres-operator.types.ts";
 export * from "./coder.types.ts";
 export * from "./redis.types.ts";
 export * from "./windmill.types.ts";
-export * from "./gitlab.types.ts";
 export * from "./seaweedfs.types.ts";
 export * from "./mariadb.types.ts";
