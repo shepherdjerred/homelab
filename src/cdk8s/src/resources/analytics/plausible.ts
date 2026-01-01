@@ -48,7 +48,6 @@ export function createPlausibleDeployment(chart: Chart, props: CreatePlausibleDe
   const dbUrlVolume = Volume.fromEmptyDir(chart, "plausible-db-url-volume", "plausible-db-url");
 
   // Init container to build DATABASE_URL from postgres-operator secret
-  // Following the pattern from windmill.ts
   deployment.addInitContainer(
     withCommonProps({
       name: "build-db-url",
