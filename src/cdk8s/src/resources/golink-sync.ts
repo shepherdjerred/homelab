@@ -212,7 +212,8 @@ while IFS= read -r line; do
         echo "Deleting stale: go/$short -> $long"
         # Fetch the detail page to get the XSRF token (required for deletion)
         detail_page=$(curl -sL "$GOLINK_URL/.detail/$short" -H "Sec-Golink: 1" 2>/dev/null)
-        xsrf_token=$(echo "$detail_page" | grep -oP 'name="xsrf" value="\\K[^"]+' || true)
+        # Use sed instead of grep -P (Perl regex not available in base debian)
+        xsrf_token=$(echo "$detail_page" | sed -n 's/.*name="xsrf" value="\\([^"]*\\)".*/\\1/p' | head -1)
 
         if [ -n "$xsrf_token" ]; then
           curl -sL -X POST "$GOLINK_URL/.delete/$short" \\
