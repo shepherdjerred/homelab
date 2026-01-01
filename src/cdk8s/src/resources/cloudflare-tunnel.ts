@@ -1,36 +1,29 @@
 import { Chart } from "cdk8s";
-import { Secret } from "cdk8s-plus-31";
-import { OnePasswordItem } from "../../generated/imports/onepassword.com.ts";
 import { ClusterTunnel } from "../../generated/imports/networking.cfargotunnel.com.ts";
+import { createCloudflareTunnelSecret, CLOUDFLARE_TUNNEL_SECRET_NAME } from "../misc/cloudflare-tunnel.ts";
 
 export function createCloudflareTunnelCRD(chart: Chart) {
-  // 1Password item containing Cloudflare API token
-  // The item should have field:
-  // - cloudflare-api-token: Cloudflare API token with these permissions:
-  //   - Zone / Zone / Read
-  //   - Zone / DNS / Edit
-  //   - Account / Account Settings / Read
-  //   - Account / Cloudflare Tunnel / Edit
-  const item = new OnePasswordItem(chart, "cloudflare-tunnel-config", {
-    spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/sc5kj6xthlxmdn7k4mesdr2mju",
-    },
-  });
-
-  const secret = Secret.fromSecretName(chart, "cloudflare-tunnel-secret", item.name);
+  // Create the 1Password-synced secret in the chart's namespace (torvalds)
+  // This is also used by TunnelBindings in this namespace
+  const namespace = chart.namespace ?? "torvalds";
+  createCloudflareTunnelSecret(chart, namespace);
 
   // Create ClusterTunnel CRD (cluster-scoped, accessible from all namespaces)
   // This will automatically:
   // 1. Create a Cloudflare Tunnel named "homelab-k8s"
   // 2. Deploy cloudflared pods
   // 3. Manage DNS records for annotated services
+  //
+  // Note: The cloudflare-operator looks for the secret in the namespace of
+  // each TunnelBinding, not in a central location. The createCloudflareTunnelBinding
+  // helper automatically creates a OnePasswordItem in each target namespace.
   new ClusterTunnel(chart, "cloudflare-tunnel-crd", {
     metadata: {
       name: "homelab-tunnel",
     },
     spec: {
       cloudflare: {
-        secret: secret.name,
+        secret: CLOUDFLARE_TUNNEL_SECRET_NAME,
         cloudflareApiToken: "cloudflare-api-token",
         accountId: "48948ed6cd40d73e34d27f0cc10e595f",
         domain: "sjer.red",
