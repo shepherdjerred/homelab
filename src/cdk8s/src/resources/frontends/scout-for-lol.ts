@@ -3,6 +3,7 @@ import { Chart } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import versions from "../../versions.ts";
 import { TunnelBinding, TunnelBindingTunnelRefKind } from "../../../generated/imports/networking.cfargotunnel.com.ts";
+import { TUNNEL_CNAME_TARGET } from "../argo-applications/external-dns.ts";
 
 export function createScoutForLolFrontendDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "scout-for-lol-frontend", {
@@ -33,6 +34,12 @@ export function createScoutForLolFrontendDeployment(chart: Chart) {
   const service = new Service(chart, "scout-for-lol-frontend-service", {
     selector: deployment,
     ports: [{ port: 80 }],
+    metadata: {
+      annotations: {
+        "external-dns.alpha.kubernetes.io/hostname": "scout-for-lol.com",
+        "external-dns.alpha.kubernetes.io/target": TUNNEL_CNAME_TARGET,
+      },
+    },
   });
 
   new TunnelBinding(chart, "scout-for-lol-tunnel-binding", {
@@ -47,6 +54,7 @@ export function createScoutForLolFrontendDeployment(chart: Chart) {
     tunnelRef: {
       kind: TunnelBindingTunnelRefKind.CLUSTER_TUNNEL,
       name: "homelab-tunnel",
+      disableDnsUpdates: true,
     },
   });
 }

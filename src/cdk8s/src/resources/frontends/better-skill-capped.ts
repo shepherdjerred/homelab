@@ -13,6 +13,7 @@ import { withCommonProps } from "../../misc/common.ts";
 import versions from "../../versions.ts";
 import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import { TunnelBinding, TunnelBindingTunnelRefKind } from "../../../generated/imports/networking.cfargotunnel.com.ts";
+import { TUNNEL_CNAME_TARGET } from "../argo-applications/external-dns.ts";
 
 export function createBetterSkillCappedDeployment(chart: Chart) {
   // Create a shared PVC for the manifest
@@ -68,6 +69,12 @@ export function createBetterSkillCappedDeployment(chart: Chart) {
   const service = new Service(chart, "better-skill-capped-service", {
     selector: deployment,
     ports: [{ port: 80 }],
+    metadata: {
+      annotations: {
+        "external-dns.alpha.kubernetes.io/hostname": "better-skill-capped.com",
+        "external-dns.alpha.kubernetes.io/target": TUNNEL_CNAME_TARGET,
+      },
+    },
   });
 
   new TunnelBinding(chart, "better-skill-capped-tunnel-binding", {
@@ -82,6 +89,7 @@ export function createBetterSkillCappedDeployment(chart: Chart) {
     tunnelRef: {
       kind: TunnelBindingTunnelRefKind.CLUSTER_TUNNEL,
       name: "homelab-tunnel",
+      disableDnsUpdates: true,
     },
   });
 

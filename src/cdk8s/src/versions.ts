@@ -146,6 +146,8 @@ const versions = {
   seaweedfs: "4.0.404",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
   mariadb: "24.0.2",
+  // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/external-dns versioning=semver
+  "external-dns": "1.15.2",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "postalserver/postal": "3.3.4@sha256:0945f345ee87f5e6a4eb227d47f41c223ec0aa8b06a7c24f9f60ca0f9b9e0c28",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
