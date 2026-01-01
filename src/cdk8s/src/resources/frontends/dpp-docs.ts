@@ -3,6 +3,7 @@ import { Chart } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import versions from "../../versions.ts";
 import { TunnelBinding, TunnelBindingTunnelRefKind } from "../../../generated/imports/networking.cfargotunnel.com.ts";
+import { TUNNEL_CNAME_TARGET } from "../argo-applications/external-dns.ts";
 
 export function createDppDocsDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "dpp-docs", {
@@ -33,6 +34,12 @@ export function createDppDocsDeployment(chart: Chart) {
   const service = new Service(chart, "dpp-docs-service", {
     selector: deployment,
     ports: [{ port: 80 }],
+    metadata: {
+      annotations: {
+        "external-dns.alpha.kubernetes.io/hostname": "discord-plays-pokemon.com",
+        "external-dns.alpha.kubernetes.io/target": TUNNEL_CNAME_TARGET,
+      },
+    },
   });
 
   new TunnelBinding(chart, "dpp-docs-tunnel-binding", {
@@ -47,6 +54,7 @@ export function createDppDocsDeployment(chart: Chart) {
     tunnelRef: {
       kind: TunnelBindingTunnelRefKind.CLUSTER_TUNNEL,
       name: "homelab-tunnel",
+      disableDnsUpdates: true,
     },
   });
 }

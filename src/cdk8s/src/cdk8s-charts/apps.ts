@@ -10,6 +10,7 @@ import { createIntelDevicePluginOperatorApp } from "../resources/argo-applicatio
 import { createIntelGpuDevicePluginApp } from "../resources/argo-applications/intel-gpu-device-plugin.ts";
 import { createCertManagerApp } from "../resources/argo-applications/cert-manager.ts";
 import { createCloudflareOperatorApp } from "../resources/argo-applications/cloudflare-operator.ts";
+import { createExternalDnsApp } from "../resources/argo-applications/external-dns.ts";
 import { createNfdApp } from "../resources/argo-applications/nfd.ts";
 import { createGrafanaApp } from "../resources/argo-applications/grafana.ts";
 import { createChartMuseumApp } from "../resources/argo-applications/chartmuseum.ts";
@@ -73,6 +74,7 @@ export async function createAppsChart(app: App) {
   createIntelGpuDevicePluginApp(chart);
   createCertManagerApp(chart);
   createCloudflareOperatorApp(chart);
+  createExternalDnsApp(chart);
   createNfdApp(chart);
   createGrafanaApp(chart);
   createChartMuseumApp(chart);
