@@ -27,7 +27,6 @@ import { createDaggerApp } from "../resources/argo-applications/dagger.ts";
 import { createVeleroApp } from "../resources/argo-applications/velero.ts";
 import { createPostgresOperatorApp } from "../resources/argo-applications/postgres-operator.ts";
 import { createCoderApp } from "../resources/argo-applications/coder.ts";
-import { createWindmillApp } from "../resources/argo-applications/windmill.ts";
 import { createSeaweedfsApp } from "../resources/argo-applications/seaweedfs.ts";
 import { createKnativeOperatorApp } from "../resources/argo-applications/knative-operator.ts";
 import { createKnativeServing } from "../resources/knative/serving.ts";
@@ -87,7 +86,6 @@ export async function createAppsChart(app: App) {
   createVeleroApp(chart);
   createPostgresOperatorApp(chart);
   createCoderApp(chart);
-  createWindmillApp(chart);
   createSeaweedfsApp(chart);
   createKnativeOperatorApp(chart);
   createKnativeServing(chart);
