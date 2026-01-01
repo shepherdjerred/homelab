@@ -84,7 +84,6 @@ import type { VeleroHelmValues } from "../../generated/helm/velero.types";
 import type { CoderHelmValues } from "../../generated/helm/coder.types";
 import type { RedisHelmValues } from "../../generated/helm/redis.types";
 import type { WindmillHelmValues } from "../../generated/helm/windmill.types";
-import type { GitlabHelmValues } from "../../generated/helm/gitlab.types";
 import type { SeaweedfsHelmValues } from "../../generated/helm/seaweedfs.types";
 import type { KnativeoperatorHelmValues } from "../../generated/helm/knative-operator.types";
 
@@ -107,7 +106,6 @@ type HelmChartValuesMap = {
   coder: CoderHelmValues;
   redis: RedisHelmValues;
   windmill: WindmillHelmValues;
-  gitlab: GitlabHelmValues;
   seaweedfs: SeaweedfsHelmValues;
   "knative-operator": KnativeoperatorHelmValues;
 };

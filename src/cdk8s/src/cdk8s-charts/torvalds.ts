@@ -26,9 +26,6 @@ import { createRecyclarrDeployment } from "../resources/torrents/recyclarr.ts";
 import { createWhisperbridgeDeployment } from "../resources/torrents/whisperbridge.ts";
 import { createGrafanaPostgreSQLDatabase } from "../resources/postgres/grafana-db.ts";
 import { createGickupDeployment } from "../resources/gickup.ts";
-import { Redis } from "../resources/common/redis.ts";
-import { createPeerTubePostgreSQLDatabase } from "../resources/postgres/peertube-db.ts";
-import { createPeerTubeDeployment } from "../resources/media/peertube.ts";
 import { PostalMariaDB } from "../resources/postgres/postal-mariadb.ts";
 import { createPostalDeployment } from "../resources/mail/postal.ts";
 import { createGolinkSyncJob } from "../resources/golink-sync.ts";
@@ -92,13 +89,6 @@ export async function createTorvaldsChart(app: App) {
   createWhisperbridgeDeployment(chart);
   createGrafanaPostgreSQLDatabase(chart);
   await createGickupDeployment(chart);
-
-  // PeerTube
-  const peertubeRedis = new Redis(chart, "peertube-redis", {
-    namespace: "torvalds",
-  });
-  createPeerTubePostgreSQLDatabase(chart);
-  createPeerTubeDeployment(chart, { redis: peertubeRedis });
 
   // Postal (all components in torvalds namespace)
   // Note: Postal v3 removed RabbitMQ dependency
