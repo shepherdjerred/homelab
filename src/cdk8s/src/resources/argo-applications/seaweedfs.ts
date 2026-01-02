@@ -119,7 +119,7 @@ export function createSeaweedfsApp(chart: Chart) {
       logs: {
         type: "emptyDir",
       },
-      // Enable S3 gateway on filer
+      // Enable S3 gateway on filer (used for internal filer operations)
       s3: {
         enabled: true,
         port: 8333,
@@ -128,7 +128,8 @@ export function createSeaweedfsApp(chart: Chart) {
     s3: {
       enabled: true,
       replicas: 1,
-      enableAuth: false, // We'll configure auth later if needed
+      enableAuth: true,
+      existingConfigSecret: "seaweedfs-s3-credentials",
       logs: {
         type: "emptyDir",
       },
