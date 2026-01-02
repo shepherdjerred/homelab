@@ -1,3 +1,6 @@
+// Sentry must be initialized first to capture all errors
+import "./sentry.ts";
+
 import { goodMorning } from "./workflows/good-morning.ts";
 import { goodNight } from "./workflows/good-night.ts";
 import { welcomeHome } from "./workflows/welcome-home.ts";
