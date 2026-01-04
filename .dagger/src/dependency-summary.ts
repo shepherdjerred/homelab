@@ -29,17 +29,15 @@ function buildDependencySummaryContainer(source: Directory): Container {
       .withFile("bun.lock", source.file("bun.lock"))
       // Copy patches directory for bun patch support
       .withDirectory("patches", source.directory("patches"))
-      // Copy minimal workspace files needed for dependency resolution
-      .withFile("src/deps-email/package.json", depsEmailSource.file("package.json"))
-      .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
-      .withFile("src/helm-types/package.json", source.file("src/helm-types/package.json"))
-      .withFile("src/ha/package.json", source.file("src/ha/package.json"))
+      // Copy full workspace directories for bun workspace resolution
+      .withDirectory("src/deps-email", depsEmailSource, { exclude: ["node_modules"] })
+      .withDirectory("src/cdk8s", source.directory("src/cdk8s"), { exclude: ["node_modules"] })
+      .withDirectory("src/helm-types", source.directory("src/helm-types"), { exclude: ["node_modules"] })
+      .withDirectory("src/ha", source.directory("src/ha"), { exclude: ["node_modules"] })
       .withFile(".dagger/package.json", source.file(".dagger/package.json"))
       // Install dependencies (cached unless dependency files change)
       .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache-default-dep-summary"))
       .withExec(["bun", "install", "--frozen-lockfile"])
-      // Copy the full deps-email source after dependencies are resolved
-      .withDirectory("src/deps-email", depsEmailSource, { exclude: ["package.json"] })
       // Set working directory to the deps-email workspace
       .withWorkdir("/app/src/deps-email")
       // Default command to run the dependency summary script
