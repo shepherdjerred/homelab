@@ -505,11 +505,11 @@ export class Homelab {
       .withFile("bun.lock", source.file("bun.lock"))
       // Copy patches directory for bun patch support
       .withDirectory("patches", source.directory("patches"))
-      // Copy workspace package.json files for monorepo support
-      .withFile("src/ha/package.json", source.file("src/ha/package.json"))
-      .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
-      .withFile("src/helm-types/package.json", source.file("src/helm-types/package.json"))
-      .withFile("src/deps-email/package.json", source.file("src/deps-email/package.json"))
+      // Copy workspace directories for monorepo support (bun needs directories, not just package.json)
+      .withDirectory("src/ha", source.directory("src/ha"), { exclude: ["node_modules"] })
+      .withDirectory("src/cdk8s", source.directory("src/cdk8s"), { exclude: ["node_modules"] })
+      .withDirectory("src/helm-types", source.directory("src/helm-types"), { exclude: ["node_modules"] })
+      .withDirectory("src/deps-email", source.directory("src/deps-email"), { exclude: ["node_modules"] })
       // Copy .dagger/package.json (Dagger excludes .dagger by default, but we can copy specific files)
       .withFile(".dagger/package.json", source.file(".dagger/package.json"))
       // Install dependencies (includes zod from workspace packages)
