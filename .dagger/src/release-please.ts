@@ -29,16 +29,19 @@ export async function runReleasePleaseCommand(
   container: Container,
   command: string,
 ): Promise<{ output: string; success: boolean }> {
-  const result = await container.withExec(["sh", "-c", `${command} 2>&1; echo "EXIT_CODE:$?"`]).stdout();
+  // Use file-based output capture to avoid Dagger SDK URLSearchParams.toJSON bug with Bun
+  const ctr = await container
+    .withExec(["sh", "-c", `${command} > /tmp/output.txt 2>&1; echo $? > /tmp/exitcode.txt`])
+    .sync();
 
-  const lines = result.trim().split("\n");
-  const lastLine = lines[lines.length - 1] ?? "";
-  const exitCodeMatch = /EXIT_CODE:(\d+)/.exec(lastLine);
-  const exitCode = exitCodeMatch ? parseInt(exitCodeMatch[1] ?? "1", 10) : 1;
-  const output = lines.slice(0, -1).join("\n");
+  const [output, exitCodeStr] = await Promise.all([
+    ctr.file("/tmp/output.txt").contents(),
+    ctr.file("/tmp/exitcode.txt").contents(),
+  ]);
+  const exitCode = parseInt(exitCodeStr.trim(), 10);
 
   return {
-    output: output || "(no output)",
+    output: output.trim() || "(no output)",
     success: exitCode === 0,
   };
 }
@@ -111,6 +114,7 @@ export async function runReleasePleaseWorkflow(
       .withExec(["bun", "install", "--frozen-lockfile"]);
 
     try {
+      // Use sync() instead of stdout() to avoid Dagger SDK URLSearchParams.toJSON bug
       await publishContainer
         .withWorkdir("/workspace/src/helm-types")
         .withSecretVariable("NPM_TOKEN", npmToken)
@@ -126,7 +130,7 @@ export async function runReleasePleaseWorkflow(
           "--registry",
           "https://registry.npmjs.org",
         ])
-        .stdout();
+        .sync();
       releaseOutputs.push("✓ Published @shepherdjerred/helm-types");
     } catch (error) {
       releaseOutputs.push(`✗ Failed to publish @shepherdjerred/helm-types: ${formatDaggerError(error)}`);
