@@ -90,6 +90,9 @@ export async function sync(
   }
   if (statusCode.startsWith("2")) {
     return { status: "passed", message };
+  } else if (message.includes("another operation is already in progress")) {
+    // Another sync is already running - this is fine, not a failure
+    return { status: "passed", message: `Sync already in progress (skipped): ${message}` };
   } else {
     return { status: "failed", message };
   }
