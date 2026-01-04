@@ -50,11 +50,6 @@ export function getWorkspaceContainer(repoRoot: Directory, workspacePath: string
     .withFile(".prettierrc", repoRoot.file(".prettierrc"))
     // Copy root TypeScript config (workspace configs extend from it)
     .withFile("tsconfig.base.json", repoRoot.file("tsconfig.base.json"))
-    // Copy all workspace package.json files for proper monorepo dependency resolution
-    .withFile("src/ha/package.json", repoRoot.file("src/ha/package.json"))
-    .withFile("src/cdk8s/package.json", repoRoot.file("src/cdk8s/package.json"))
-    .withFile("src/helm-types/package.json", repoRoot.file("src/helm-types/package.json"))
-    .withFile("src/deps-email/package.json", repoRoot.file("src/deps-email/package.json"))
     // Create stub .dagger/package.json since Dagger excludes .dagger directory by default
     // Copy the root package.json and extract just the dagger workspace package.json structure
     .withExec([
@@ -66,14 +61,12 @@ export function getWorkspaceContainer(repoRoot: Directory, workspacePath: string
   return (
     container
       // Copy all workspace sources BEFORE install (needed for workspace symlinks)
-      .withDirectory("src/ha", repoRoot.directory("src/ha"), { exclude: ["package.json", "node_modules"] })
-      .withDirectory("src/cdk8s", repoRoot.directory("src/cdk8s"), { exclude: ["package.json", "node_modules"] })
-      .withDirectory("src/helm-types", repoRoot.directory("src/helm-types"), {
-        exclude: ["package.json", "node_modules"],
-      })
-      .withDirectory("src/deps-email", repoRoot.directory("src/deps-email"), {
-        exclude: ["package.json", "node_modules"],
-      })
+      // Note: Don't exclude package.json - withDirectory replaces the target directory,
+      // so excluding package.json would remove the ones we copied earlier
+      .withDirectory("src/ha", repoRoot.directory("src/ha"), { exclude: ["node_modules"] })
+      .withDirectory("src/cdk8s", repoRoot.directory("src/cdk8s"), { exclude: ["node_modules"] })
+      .withDirectory("src/helm-types", repoRoot.directory("src/helm-types"), { exclude: ["node_modules"] })
+      .withDirectory("src/deps-email", repoRoot.directory("src/deps-email"), { exclude: ["node_modules"] })
       // Install dependencies (cached unless dependency files change)
       .withMountedCache("/root/.bun/install/cache", dag.cacheVolume(`bun-cache-${platform ?? "default"}`))
       .withExec(["bun", "install", "--frozen-lockfile"])
