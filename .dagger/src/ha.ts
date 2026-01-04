@@ -104,17 +104,15 @@ function buildHaContainer(source: Directory): Container {
       .withFile("bun.lock", source.file("bun.lock"))
       // Copy patches directory for bun patch support
       .withDirectory("patches", source.directory("patches"))
-      // Copy minimal workspace files needed for dependency resolution
-      .withFile("src/ha/package.json", haSource.file("package.json"))
-      .withFile("src/cdk8s/package.json", source.file("src/cdk8s/package.json"))
-      .withFile("src/helm-types/package.json", source.file("src/helm-types/package.json"))
-      .withFile("src/deps-email/package.json", source.file("src/deps-email/package.json"))
+      // Copy full workspace directories for bun workspace resolution
+      .withDirectory("src/ha", haSource, { exclude: ["node_modules"] })
+      .withDirectory("src/cdk8s", source.directory("src/cdk8s"), { exclude: ["node_modules"] })
+      .withDirectory("src/helm-types", source.directory("src/helm-types"), { exclude: ["node_modules"] })
+      .withDirectory("src/deps-email", source.directory("src/deps-email"), { exclude: ["node_modules"] })
       .withFile(".dagger/package.json", source.file(".dagger/package.json"))
       // Install dependencies (cached unless dependency files change)
       .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache-default-ha"))
       .withExec(["bun", "install", "--frozen-lockfile"])
-      // Copy the full ha source after dependencies are resolved
-      .withDirectory("src/ha", haSource, { exclude: ["package.json"] })
       // Set working directory to the ha workspace
       .withWorkdir("/app/src/ha")
       // Expose metrics port
