@@ -64,7 +64,7 @@ const versions = {
   "shepherdjerred/scout-for-lol-frontend": "latest",
   // Custom webring-docs image - updated by CI pipeline
   // not managed by renovate
-  "shepherdjerred/webring-docs": "3fa22fb65942b2e94790c17e68907371f48f857a",
+  "shepherdjerred/webring-docs": "336100baaf908cbb7c8cab772932aef8a4ece33a",
   // Custom dpp-docs image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/dpp-docs": "latest",
