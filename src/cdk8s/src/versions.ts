@@ -153,7 +153,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/mariadb": "11.8@sha256:1cac8492bd78b1ec693238dc600be173397efd7b55eabc725abc281dc855b482",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "boky/postfix": "latest@sha256:f4e62b80404c2f2c920137273ca6ae3bd07817ee087bbe424d9867d3280de787",
+  "boky/postfix": "latest@sha256:aafc772384232497bed875e1eb66b4d3e54ba1ebc86e2e185a6dc1dbc48182ef",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "library/busybox": "latest@sha256:870e815c3a50dd0f6b40efddb319c72c32c3ee340b5a3e8945904232ccd12f44",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
