@@ -1,5 +1,5 @@
 import { Chart, Size } from "cdk8s";
-import { Cpu, Deployment, DeploymentStrategy, EnvValue, Service, Volume } from "cdk8s-plus-31";
+import { ConfigMap, Cpu, Deployment, DeploymentStrategy, EnvValue, Service, Volume } from "cdk8s-plus-31";
 import { withCommonProps } from "../../misc/common.ts";
 import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
 import versions from "../../versions.ts";
@@ -13,6 +13,35 @@ export function createClickHouseDeployment(chart: Chart) {
   // 64GB should be sufficient for homelab analytics
   const dataVolume = new ZfsSsdVolume(chart, "clickhouse-data", {
     storage: Size.gibibytes(64),
+  });
+
+  // ConfigMap to disable expensive system logging
+  // By default ClickHouse profiles itself continuously, generating billions of rows
+  // that fill up disk even with zero actual usage
+  const configMap = new ConfigMap(chart, "clickhouse-config", {
+    data: {
+      "disable-logs.xml": `<?xml version="1.0"?>
+<clickhouse>
+  <!-- Disable trace_log - self-profiling generates billions of rows -->
+  <trace_log remove="1"/>
+
+  <!-- Disable text_log - not needed for homelab -->
+  <text_log remove="1"/>
+
+  <!-- Keep query_log with short TTL -->
+  <query_log>
+    <ttl>event_date + INTERVAL 1 DAY</ttl>
+  </query_log>
+
+  <!-- Minimal metric logging -->
+  <metric_log>
+    <ttl>event_date + INTERVAL 1 DAY</ttl>
+  </metric_log>
+  <asynchronous_metric_log>
+    <ttl>event_date + INTERVAL 1 DAY</ttl>
+  </asynchronous_metric_log>
+</clickhouse>`,
+    },
   });
 
   const deployment = new Deployment(chart, "clickhouse", {
@@ -48,6 +77,12 @@ export function createClickHouseDeployment(chart: Chart) {
         {
           path: "/var/lib/clickhouse",
           volume: Volume.fromPersistentVolumeClaim(chart, "clickhouse-data-volume", dataVolume.claim),
+        },
+        {
+          // Use conf.d instead of config.d to avoid overwriting docker_related_config.xml
+          // which contains critical listen_host settings
+          path: "/etc/clickhouse-server/conf.d",
+          volume: Volume.fromConfigMap(chart, "clickhouse-config-volume", configMap),
         },
       ],
       resources: {
