@@ -73,7 +73,11 @@ export function createPostgresOperatorApp(chart: Chart) {
         {
           group: "acid.zalan.do",
           kind: "OperatorConfiguration",
-          jsonPointers: ["/status"],
+          jsonPointers: [
+            "/status",
+            // The operator adds this field at runtime by copying from kubernetes.enable_cross_namespace_secret
+            "/configuration/enable_cross_namespace_secret",
+          ],
         },
       ],
     },

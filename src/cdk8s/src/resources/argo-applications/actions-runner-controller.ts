@@ -66,6 +66,11 @@ export const repositories: RepositoryConfig[] = [
     githubUrl: "https://github.com/shepherdjerred/resume",
     minRunners: 0,
   },
+  {
+    name: "starlight-karma-bot",
+    githubUrl: "https://github.com/shepherdjerred/starlight-karma-bot",
+    minRunners: 0,
+  },
 ];
 
 export function createActionsRunnerControllerApp(chart: Chart) {
@@ -147,7 +152,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
               githubConfigUrl: repo.githubUrl,
               githubConfigSecret: githubPat.name,
               minRunners: repo.minRunners ?? 1,
-              maxRunners: 3,  // Limit concurrent runners per repository
+              maxRunners: 3, // Limit concurrent runners per repository
               controllerServiceAccount: {
                 namespace: "arc-system",
                 name: "actions-runner-controller-gha-rs-controller",
@@ -162,7 +167,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
                       env: [
                         {
                           name: "RUNNER_GRACEFUL_STOP_TIMEOUT",
-                          value: "60m",  // 1 hour maximum - hard limit for all runners
+                          value: "60m", // 1 hour maximum - hard limit for all runners
                         },
                       ],
                     },

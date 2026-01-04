@@ -12,7 +12,9 @@ import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { withCommonProps } from "../misc/common.ts";
 import { ZfsSsdVolume } from "../misc/zfs-ssd-volume.ts";
 import { TailscaleIngress } from "../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../misc/cloudflare-tunnel.ts";
 import { OnePasswordItem } from "../../generated/imports/onepassword.com.ts";
+import versions from "../versions.ts";
 
 export function createPokemonDeployment(chart: Chart) {
   const GID = 1000;
@@ -42,7 +44,7 @@ export function createPokemonDeployment(chart: Chart) {
 
   deployment.addContainer(
     withCommonProps({
-      image: `ghcr.io/shepherdjerred/discord-plays-pokemon:latest`,
+      image: `ghcr.io/shepherdjerred/discord-plays-pokemon:${versions["shepherdjerred/discord-plays-pokemon"]}`,
       envVariables: {
         SIZEW: EnvValue.fromValue("1920"),
         SIZEH: EnvValue.fromValue("1080"),
@@ -124,6 +126,11 @@ export function createPokemonDeployment(chart: Chart) {
     service: uiService,
     host: "pokebot",
     funnel: true,
+  });
+
+  createCloudflareTunnelBinding(chart, "pokebot-cf-tunnel", {
+    serviceName: uiService.name,
+    subdomain: "pokebot",
   });
 
   ApiObject.of(deployment).addJsonPatch(

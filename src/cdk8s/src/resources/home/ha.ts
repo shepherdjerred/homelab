@@ -11,24 +11,41 @@ export function createHaDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const item = new OnePasswordItem(chart, "ha-token", {
+  const haTokenItem = new OnePasswordItem(chart, "ha-token", {
     spec: {
       itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/a5fjhnycunqy2iag34ls2owzzy",
     },
   });
 
-  const secret = Secret.fromSecretName(chart, "ha-token-secret", item.name);
+  const haTokenSecret = Secret.fromSecretName(chart, "ha-token-secret", haTokenItem.name);
+
+  const sentryItem = new OnePasswordItem(chart, "ha-sentry", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/lmjtyjwdnxjsnba7jlsn3vnfhq",
+    },
+  });
+
+  const sentrySecret = Secret.fromSecretName(chart, "ha-sentry-secret", sentryItem.name);
 
   deployment.addContainer(
     withCommonProps({
       image: `ghcr.io/shepherdjerred/homelab:${versions["shepherdjerred/homelab"]}`,
       envVariables: {
         HASS_TOKEN: EnvValue.fromSecretValue({
-          secret,
+          secret: haTokenSecret,
           key: "password",
         }),
         HASS_BASE_URL: EnvValue.fromValue("https://homeassistant.tailnet-1a49.ts.net"),
         METRICS_PORT: EnvValue.fromValue("9090"),
+
+        // Sentry configuration
+        SENTRY_ENABLED: EnvValue.fromValue("true"),
+        SENTRY_DSN: EnvValue.fromSecretValue({
+          secret: sentrySecret,
+          key: "credential",
+        }),
+        SENTRY_ENVIRONMENT: EnvValue.fromValue("production"),
+        SENTRY_RELEASE: EnvValue.fromValue(versions["shepherdjerred/homelab"]),
       },
       securityContext: {
         ensureNonRoot: false,

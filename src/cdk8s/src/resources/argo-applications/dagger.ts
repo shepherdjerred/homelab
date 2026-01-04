@@ -85,6 +85,17 @@ export function createDaggerApp(chart: Chart) {
           // TODO: use types for this
           valuesObject: {
             engine: {
+              image: {
+                ref: "ghcr.io/shepherdjerred/dagger-engine:v0.19.8",
+              },
+              // Configure GC to prevent disk from filling up (1TB volume)
+              configJson: JSON.stringify({
+                gc: {
+                  maxUsedSpace: "800GB",
+                  reservedSpace: "100GB",
+                  minFreeSpace: "15%",
+                },
+              }),
               // Use StatefulSet instead of DaemonSet to enable PVC support
               kind: "StatefulSet",
               statefulSet: {

@@ -12,6 +12,34 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - name: Check if version-only change
+        id: check-versions
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          VERSION_FILES="src/cdk8s/src/versions.ts .dagger/src/versions.ts"
+
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            git fetch origin "$BASE_SHA" --depth=1
+            CHANGED_FILES=$(git diff --name-only "$BASE_SHA" HEAD)
+          else
+            CHANGED_FILES=$(git diff --name-only HEAD~1)
+          fi
+
+          VERSION_ONLY="true"
+          for file in $CHANGED_FILES; do
+            if [[ ! " $VERSION_FILES " =~ [[:space:]]${file}[[:space:]] ]]; then
+              VERSION_ONLY="false"
+              break
+            fi
+          done
+
+          echo "version_only=$VERSION_ONLY" >> "$GITHUB_OUTPUT"
+          echo "Detected version_only=$VERSION_ONLY"
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
@@ -99,6 +127,11 @@ jobs:
             CHARTMUSEUM_PASSWORD_VAL="dummy"
           fi
 
+          VERSION_ONLY_FLAG=""
+          if [[ "${{ steps.check-versions.outputs.version_only }}" == "true" ]]; then
+            VERSION_ONLY_FLAG="--version-only"
+          fi
+
           dagger call ci \
             --source=. \
             --argocd-token "$ARGOCD_TOKEN_VAL" \
@@ -109,7 +142,8 @@ jobs:
             --chart-museum-password "$CHARTMUSEUM_PASSWORD_VAL" \
             --hass-base-url env://HASS_BASE_URL \
             --hass-token env://HASS_TOKEN \
-            --env "$ENV_NAME"
+            --env "$ENV_NAME" \
+            $VERSION_ONLY_FLAG
 
 permissions:
   contents: read

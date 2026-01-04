@@ -69,6 +69,10 @@ export function createDependencySummaryCronJob(chart: Chart) {
                       value: "http://torvalds-postal-web-service.torvalds.svc.cluster.local:5000",
                     },
                     {
+                      name: "POSTAL_HOST_HEADER",
+                      value: "postal.tailnet-1a49.ts.net",
+                    },
+                    {
                       name: "POSTAL_API_KEY",
                       valueFrom: {
                         secretKeyRef: {
@@ -89,11 +93,11 @@ export function createDependencySummaryCronJob(chart: Chart) {
                   resources: {
                     requests: {
                       cpu: Quantity.fromString("100m"),
-                      memory: Quantity.fromString("256Mi"),
+                      memory: Quantity.fromString("512Mi"),
                     },
                     limits: {
                       cpu: Quantity.fromString("500m"),
-                      memory: Quantity.fromString("512Mi"),
+                      memory: Quantity.fromString("1Gi"),
                     },
                   },
                 },

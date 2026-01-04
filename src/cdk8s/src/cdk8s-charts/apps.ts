@@ -10,6 +10,7 @@ import { createIntelDevicePluginOperatorApp } from "../resources/argo-applicatio
 import { createIntelGpuDevicePluginApp } from "../resources/argo-applications/intel-gpu-device-plugin.ts";
 import { createCertManagerApp } from "../resources/argo-applications/cert-manager.ts";
 import { createCloudflareOperatorApp } from "../resources/argo-applications/cloudflare-operator.ts";
+import { createExternalDnsApp } from "../resources/argo-applications/external-dns.ts";
 import { createNfdApp } from "../resources/argo-applications/nfd.ts";
 import { createGrafanaApp } from "../resources/argo-applications/grafana.ts";
 import { createChartMuseumApp } from "../resources/argo-applications/chartmuseum.ts";
@@ -27,12 +28,12 @@ import { createDaggerApp } from "../resources/argo-applications/dagger.ts";
 import { createVeleroApp } from "../resources/argo-applications/velero.ts";
 import { createPostgresOperatorApp } from "../resources/argo-applications/postgres-operator.ts";
 import { createCoderApp } from "../resources/argo-applications/coder.ts";
-import { createWindmillApp } from "../resources/argo-applications/windmill.ts";
-import { createGitlabApp } from "../resources/argo-applications/gitlab.ts";
+import { createSeaweedfsApp } from "../resources/argo-applications/seaweedfs.ts";
+import { createKnativeOperatorApp } from "../resources/argo-applications/knative-operator.ts";
+import { createKnativeServing } from "../resources/knative/serving.ts";
 import { createAllGrafanaDashboards } from "../resources/grafana/index.ts";
 import { createDdnsApp } from "../resources/argo-applications/ddns.ts";
 import { createDependencySummaryCronJob } from "../resources/home/dependency-summary.ts";
-import { createOpenHandsDeployment } from "../resources/openhands.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -73,6 +74,7 @@ export async function createAppsChart(app: App) {
   createIntelGpuDevicePluginApp(chart);
   createCertManagerApp(chart);
   createCloudflareOperatorApp(chart);
+  createExternalDnsApp(chart);
   createNfdApp(chart);
   createGrafanaApp(chart);
   createChartMuseumApp(chart);
@@ -87,8 +89,9 @@ export async function createAppsChart(app: App) {
   createVeleroApp(chart);
   createPostgresOperatorApp(chart);
   createCoderApp(chart);
-  createWindmillApp(chart);
-  createGitlabApp(chart);
+  createSeaweedfsApp(chart);
+  createKnativeOperatorApp(chart);
+  createKnativeServing(chart);
   // Create all Grafana dashboards (gitckup, ha-workflow, scout, smartctl, velero, zfs)
   createAllGrafanaDashboards(chart);
 
@@ -97,7 +100,4 @@ export async function createAppsChart(app: App) {
 
   // Weekly dependency summary email
   createDependencySummaryCronJob(chart);
-
-  // OpenHands AI coding assistant with Docker-in-Docker sidecar
-  createOpenHandsDeployment(chart);
 }

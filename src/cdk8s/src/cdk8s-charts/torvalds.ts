@@ -25,15 +25,14 @@ import { createRecyclarrDeployment } from "../resources/torrents/recyclarr.ts";
 import { createWhisperbridgeDeployment } from "../resources/torrents/whisperbridge.ts";
 import { createGrafanaPostgreSQLDatabase } from "../resources/postgres/grafana-db.ts";
 import { createGickupDeployment } from "../resources/gickup.ts";
-import { Redis } from "../resources/common/redis.ts";
-import { createPeerTubePostgreSQLDatabase } from "../resources/postgres/peertube-db.ts";
-import { createPeerTubeDeployment } from "../resources/media/peertube.ts";
 import { PostalMariaDB } from "../resources/postgres/postal-mariadb.ts";
 import { createPostalDeployment } from "../resources/mail/postal.ts";
 import { createGolinkSyncJob } from "../resources/golink-sync.ts";
 import { createBirmelDeployment } from "../resources/birmel/index.ts";
 import { createCloudflareTunnelCRD } from "../resources/cloudflare-tunnel.ts";
-import { createClaudeCodeUIDeployment } from "../resources/claudecodeui.ts";
+import { createPlausiblePostgreSQLDatabase } from "../resources/postgres/plausible-db.ts";
+import { createClickHouseDeployment } from "../resources/analytics/clickhouse.ts";
+import { createPlausibleDeployment } from "../resources/analytics/plausible.ts";
 
 export async function createTorvaldsChart(app: App) {
   const chart = new Chart(app, "torvalds", {
@@ -88,13 +87,6 @@ export async function createTorvaldsChart(app: App) {
   createGrafanaPostgreSQLDatabase(chart);
   await createGickupDeployment(chart);
 
-  // PeerTube
-  const peertubeRedis = new Redis(chart, "peertube-redis", {
-    namespace: "torvalds",
-  });
-  createPeerTubePostgreSQLDatabase(chart);
-  createPeerTubeDeployment(chart, { redis: peertubeRedis });
-
   // Postal (all components in torvalds namespace)
   // Note: Postal v3 removed RabbitMQ dependency
   const postalMariadb = new PostalMariaDB(chart, "postal-mariadb", {
@@ -109,9 +101,6 @@ export async function createTorvaldsChart(app: App) {
   // Birmel Discord bot
   createBirmelDeployment(chart);
 
-  // ClaudeCodeUI - Web UI for managing Claude Code sessions
-  createClaudeCodeUIDeployment(chart);
-
   // Cloudflare Tunnel for public site access
   createCloudflareTunnelCRD(chart);
 
@@ -121,4 +110,9 @@ export async function createTorvaldsChart(app: App) {
   createWebringDocsDeployment(chart);
   createDppDocsDeployment(chart);
   createBetterSkillCappedDeployment(chart);
+
+  // Plausible Analytics
+  createPlausiblePostgreSQLDatabase(chart);
+  const clickhouse = createClickHouseDeployment(chart);
+  createPlausibleDeployment(chart, { clickhouseService: clickhouse.service });
 }

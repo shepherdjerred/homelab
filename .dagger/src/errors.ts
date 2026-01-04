@@ -28,11 +28,21 @@ const ErrorSchema = z.instanceof(Error);
  * @returns ExecResult with stdout, stderr, and exitCode
  */
 export async function execWithOutput(container: Container, args: string[]): Promise<ExecResult> {
-  const ctr = await container.withExec(args, { expect: ReturnType.Any }).sync();
+  // Escape args for shell execution and capture stdout/stderr/exitcode to files
+  // This avoids calling .stdout() which triggers a Dagger SDK bug with Bun
+  const escapedArgs = args.map((arg) => `'${arg.replace(/'/g, "'\\''")}'`).join(" ");
+  const shellCmd = `${escapedArgs} > /tmp/stdout.txt 2> /tmp/stderr.txt; echo $? > /tmp/exitcode.txt`;
 
-  const [stdout, stderr, exitCode] = await Promise.all([ctr.stdout(), ctr.stderr(), ctr.exitCode()]);
+  const ctr = await container.withExec(["sh", "-c", shellCmd], { expect: ReturnType.Any }).sync();
 
-  return { stdout, stderr, exitCode };
+  // Read results from files instead of using .stdout()/.stderr()
+  const [stdout, stderr, exitCodeStr] = await Promise.all([
+    ctr.file("/tmp/stdout.txt").contents(),
+    ctr.file("/tmp/stderr.txt").contents(),
+    ctr.file("/tmp/exitcode.txt").contents(),
+  ]);
+
+  return { stdout, stderr, exitCode: parseInt(exitCodeStr.trim(), 10) };
 }
 
 /**

@@ -11,17 +11,13 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "curlimages/curl": "8.17.0@sha256:935d9100e9ba842cdb060de42472c7ca90cfe9a7c96e4dacb55e79e560b3ff40",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "alpine/kubectl": "1.35.0@sha256:5a4914e2ac580778f4b8b2f092259be16568c24445de07e7ba4aa1e2faf91461",
+  "alpine/kubectl": "1.35.0@sha256:8235eddc02d51e29a6990248e559494505dab83bd47de829351b22d5b702f38d",
   // renovate: datasource=github-releases versioning=semver
   "stackrox/kube-linter": "v0.8.1",
   // renovate: datasource=python-version versioning=semver
   python: "3.14.2",
   // renovate: datasource=node-version versioning=semver
   node: "24.12.0",
-  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "library/node": "20-alpine@sha256:658d0f63e501824d6c23e06d4bb95c71e7d704537c9d9272f488ac03a370d448",
-  // renovate: datasource=npm registryUrl=https://registry.npmjs.org versioning=npm
-  "@siteboon/claude-code-ui": "1.12.0",
   // this is empty because we have to perform some string manipulation below
   // not managed by renovate
   bun: "",

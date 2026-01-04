@@ -134,7 +134,8 @@ export async function publishChart(
   chartMuseumPassword: Secret,
 ): Promise<string> {
   const chartFile = `${chartName}-${version}.tgz`;
-  const container = dag
+  // Use file-based output capture to avoid Dagger SDK URLSearchParams.toJSON bug with Bun
+  const container = await dag
     .container()
     .from(`alpine/helm:${versions["alpine/helm"]}`)
     .withMountedDirectory("/workspace", chartDist)
@@ -144,26 +145,26 @@ export async function publishChart(
     .withExec([
       "sh",
       "-c",
-      `curl -f -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts`,
-    ]);
+      `curl -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts > /tmp/result.txt 2>&1; echo $? > /tmp/exitcode.txt`,
+    ])
+    .sync();
 
-  try {
-    return await container.stdout();
-  } catch (err: unknown) {
-    const ErrorSchema = z.object({
-      stderr: z.string().optional(),
-      message: z.string().optional(),
-    });
+  const [result, exitCodeStr] = await Promise.all([
+    container.file("/tmp/result.txt").contents(),
+    container.file("/tmp/exitcode.txt").contents(),
+  ]);
+  const exitCode = parseInt(exitCodeStr.trim(), 10);
 
-    const result = ErrorSchema.safeParse(err);
-    if (result.success) {
-      const { stderr = "", message = "" } = result.data;
-      if (stderr.includes("409") || message.includes("409")) {
-        return "409 Conflict: Chart already exists, treating as success.";
-      }
-    }
-    throw err;
+  if (exitCode === 0) {
+    return result.trim() || "Chart published successfully";
   }
+
+  // Check for 409 Conflict (chart already exists)
+  if (result.includes("409")) {
+    return "409 Conflict: Chart already exists, treating as success.";
+  }
+
+  throw new Error(`Chart publish failed (exit code ${String(exitCode)}): ${result.trim()}`);
 }
 
 /**

@@ -4,6 +4,7 @@ import { withCommonProps } from "../misc/common.ts";
 import { ZfsSsdVolume } from "../misc/zfs-ssd-volume.ts";
 import versions from "../versions.ts";
 import { TailscaleIngress } from "../misc/tailscale.ts";
+import { createCloudflareTunnelBinding } from "../misc/cloudflare-tunnel.ts";
 
 export function createFreshRssDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "freshrss", {
@@ -51,5 +52,10 @@ export function createFreshRssDeployment(chart: Chart) {
     service,
     host: "freshrss",
     funnel: true,
+  });
+
+  createCloudflareTunnelBinding(chart, "freshrss-cf-tunnel", {
+    serviceName: service.name,
+    subdomain: "freshrss",
   });
 }
