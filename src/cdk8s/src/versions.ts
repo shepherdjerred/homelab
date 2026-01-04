@@ -162,7 +162,7 @@ const versions = {
   "mccloud/bazarr-openai-whisperbridge":
     "latest@sha256:e6d60d008e70c3f6daaa39225db480d698c9be2c57c5857c53caae9798b1f232",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "library/debian": "bookworm-slim@sha256:e899040a73d36e2b36fa33216943539d9957cba8172b858097c2cabcdb20a3e2",
+  "library/debian": "bookworm-slim@sha256:d5d3f9c23164ea16f31852f95bd5959aad1c5e854332fe00f7b3a20fcc9f635c",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "plausible/analytics": "v2.0.0@sha256:cd5f75e1399073669b13b4151cc603332a825324d0b8f13dfc9de9112a3c68a1",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
