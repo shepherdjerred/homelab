@@ -34,6 +34,7 @@ import { createKnativeServing } from "../resources/knative/serving.ts";
 import { createAllGrafanaDashboards } from "../resources/grafana/index.ts";
 import { createDdnsApp } from "../resources/argo-applications/ddns.ts";
 import { createDependencySummaryCronJob } from "../resources/home/dependency-summary.ts";
+import { createAppsApp } from "../resources/argo-applications/apps.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -63,6 +64,7 @@ export async function createAppsChart(app: App) {
     },
   });
 
+  createAppsApp(chart);
   createOpenEBSApp(chart);
   createOnePasswordApp(chart);
   createArgoCdApp(chart);

@@ -7,7 +7,7 @@ import versions from "./versions";
  * List of all Helm charts to build and publish.
  * Each chart name corresponds to a CDK8s chart that outputs {name}.k8s.yaml
  */
-export const HELM_CHARTS = ["torvalds", "ddns"] as const;
+export const HELM_CHARTS = ["torvalds", "ddns", "apps"] as const;
 export type HelmChartName = (typeof HELM_CHARTS)[number];
 
 /**
