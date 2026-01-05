@@ -26,7 +26,7 @@ import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
 import { buildAndPushDependencySummaryImage } from "./dependency-summary";
-import { build as helmBuildFn, publish as helmPublishFn, buildAllCharts } from "./helm";
+import { build as helmBuildFn, publish as helmPublishFn, buildAllCharts, HELM_CHARTS } from "./helm";
 import { Stage } from "./stage";
 import versions from "./versions";
 import { runReleasePleaseWorkflow } from "./release-please.ts";
@@ -856,34 +856,40 @@ export class Homelab {
       return { status: "skipped", message: "[SKIPPED] Not prod" };
     }
     try {
-      const chartFile = `torvalds-${version}.tgz`;
-      // Use -w to append HTTP status code, write to file, then read it back
-      // This avoids calling .stdout() which triggers a Dagger SDK bug
-      const container = dag
-        .container()
-        .from(`alpine/helm:${versions["alpine/helm"]}`)
-        .withMountedDirectory("/workspace", builtDist)
-        .withWorkdir("/workspace")
-        .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
-        .withSecretVariable("CHARTMUSEUM_PASSWORD", chartMuseumPassword)
-        .withExec([
-          "sh",
-          "-c",
-          `curl -s -w '\\n%{http_code}' -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts > /tmp/result.txt 2>&1`,
-        ]);
+      const results: string[] = [];
 
-      const result = await container.file("/tmp/result.txt").contents();
-      const lines = result.trim().split("\n");
-      const httpCode = lines.pop() ?? "";
-      const body = lines.join("\n");
+      for (const chartName of HELM_CHARTS) {
+        const chartFile = `${chartName}-${version}.tgz`;
+        // Use -w to append HTTP status code, write to file, then read it back
+        // This avoids calling .stdout() which triggers a Dagger SDK bug
+        const container = dag
+          .container()
+          .from(`alpine/helm:${versions["alpine/helm"]}`)
+          .withMountedDirectory("/workspace", builtDist.directory(chartName))
+          .withWorkdir("/workspace")
+          .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
+          .withSecretVariable("CHARTMUSEUM_PASSWORD", chartMuseumPassword)
+          .withExec([
+            "sh",
+            "-c",
+            `curl -s -w '\\n%{http_code}' -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts > /tmp/result.txt 2>&1`,
+          ]);
 
-      if (httpCode === "201" || httpCode === "200") {
-        return { status: "passed", message: body || "Chart published successfully" };
-      } else if (httpCode === "409") {
-        return { status: "passed", message: "409 Conflict: Chart already exists, treating as success." };
-      } else {
-        return { status: "failed", message: `Helm Chart Publish: FAILED\nHTTP ${httpCode}: ${body}` };
+        const result = await container.file("/tmp/result.txt").contents();
+        const lines = result.trim().split("\n");
+        const httpCode = lines.pop() ?? "";
+        const body = lines.join("\n");
+
+        if (httpCode === "201" || httpCode === "200") {
+          results.push(`${chartName}: published successfully`);
+        } else if (httpCode === "409") {
+          results.push(`${chartName}: already exists (409)`);
+        } else {
+          return { status: "failed", message: `Helm Chart Publish: FAILED for ${chartName}\nHTTP ${httpCode}: ${body}` };
+        }
       }
+
+      return { status: "passed", message: results.join("\n") };
     } catch (err: unknown) {
       const errorMessage = formatDaggerError(err);
       return {
