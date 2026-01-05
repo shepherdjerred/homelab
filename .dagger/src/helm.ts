@@ -8,7 +8,6 @@ import versions from "./versions";
  * Each chart name corresponds to a CDK8s chart that outputs {name}.k8s.yaml
  */
 export const HELM_CHARTS = [
-  "torvalds",
   "ddns",
   "apps",
   "scout-beta",

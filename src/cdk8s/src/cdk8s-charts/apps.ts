@@ -5,7 +5,6 @@ import { createArgoCdApp } from "../resources/argo-applications/argocd.ts";
 import { createPrometheusApp } from "../resources/argo-applications/prometheus.ts";
 import { createPrometheusAdapterApp } from "../resources/argo-applications/prometheus-adapter.ts";
 import { createTailscaleApp } from "../resources/argo-applications/tailscale.ts";
-import { createTorvaldsApp } from "../resources/argo-applications/torvalds.ts";
 import { createIntelDevicePluginOperatorApp } from "../resources/argo-applications/intel-device-plugin-operator.ts";
 import { createIntelGpuDevicePluginApp } from "../resources/argo-applications/intel-gpu-device-plugin.ts";
 import { createCertManagerApp } from "../resources/argo-applications/cert-manager.ts";
@@ -92,7 +91,6 @@ export async function createAppsChart(app: App) {
   createOnePasswordApp(chart);
   createArgoCdApp(chart);
   createTailscaleApp(chart);
-  createTorvaldsApp(chart);
   await createPrometheusApp(chart);
   createPrometheusAdapterApp(chart);
   createIntelDevicePluginOperatorApp(chart);

@@ -1,5 +1,4 @@
 import { App } from "cdk8s";
-import { createTorvaldsChart } from "./cdk8s-charts/torvalds.ts";
 import { createAppsChart } from "./cdk8s-charts/apps.ts";
 import { createScoutChart } from "./cdk8s-charts/scout.ts";
 import { createStarlightKarmaBotChart } from "./cdk8s-charts/starlight-karma-bot.ts";
@@ -28,7 +27,6 @@ import { createGrafanaDbChart } from "./cdk8s-charts/grafana-db.ts";
  */
 export async function setupCharts(app: App): Promise<void> {
   await createAppsChart(app);
-  createTorvaldsChart(app);
   createScoutChart(app, "beta");
   createScoutChart(app, "prod");
   createStarlightKarmaBotChart(app, "beta");
