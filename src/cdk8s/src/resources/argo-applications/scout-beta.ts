@@ -1,0 +1,26 @@
+import { Chart } from "cdk8s";
+import { Application } from "../../../generated/imports/argoproj.io.ts";
+
+export function createScoutBetaApp(chart: Chart) {
+  return new Application(chart, "scout-beta-app", {
+    metadata: {
+      name: "scout-beta",
+    },
+    spec: {
+      project: "default",
+      source: {
+        repoUrl: "https://chartmuseum.tailnet-1a49.ts.net",
+        targetRevision: "~1.0.0-0",
+        chart: "scout-beta",
+      },
+      destination: {
+        server: "https://kubernetes.default.svc",
+        namespace: "scout-beta",
+      },
+      syncPolicy: {
+        automated: {},
+        syncOptions: ["CreateNamespace=true"],
+      },
+    },
+  });
+}
