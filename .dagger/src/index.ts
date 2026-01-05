@@ -782,10 +782,10 @@ export class Homelab {
   }
 
   /**
-   * Builds the torvalds Helm chart, updates version/appVersion, and exports artifacts.
+   * Builds all Helm charts, updates version/appVersion, and exports artifacts.
    * @param repoRoot The repository root directory.
    * @param version The raw build number (e.g. "123") - will be formatted as "1.0.0-123".
-   * @returns The dist directory with packaged chart and YAMLs.
+   * @returns The dist directory with packaged charts.
    */
   @func()
   helmBuild(
@@ -796,7 +796,7 @@ export class Homelab {
     repoRoot: Directory,
     @argument() version: string,
   ): Directory {
-    return helmBuildFn(repoRoot, `1.0.0-${version}`);
+    return buildAllCharts(repoRoot, `1.0.0-${version}`);
   }
 
   /**
