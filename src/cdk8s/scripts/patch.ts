@@ -18,7 +18,8 @@ const runCommand = async (command: string, args: string[]) => {
 // Use gsed if available (macOS with GNU sed installed), otherwise use sed
 const sedCommand = Bun.which("gsed") ? "gsed" : "sed";
 
-const torvaldsFile = "dist/torvalds.k8s.yaml";
+// Files that may contain Intel GPU resources
+const filesToPatch = ["dist/torvalds.k8s.yaml", "dist/media.k8s.yaml", "dist/pokemon.k8s.yaml"];
 
 console.log("🔧 Applying Intel GPU resource patches...");
 
@@ -44,12 +45,20 @@ const gpuReplacements = [
 ];
 
 for (const replacement of gpuReplacements) {
-  try {
-    await runCommand(sedCommand, ["-i", replacement.sedPattern, torvaldsFile]);
-    console.log(`✓ Processed pattern: ${replacement.pattern}`);
-  } catch (error) {
-    console.error(`✗ Failed to process pattern ${replacement.pattern}:`, error);
+  for (const file of filesToPatch) {
+    // Check if file exists before patching
+    const fileExists = await Bun.file(file).exists();
+    if (!fileExists) {
+      continue;
+    }
+
+    try {
+      await runCommand(sedCommand, ["-i", replacement.sedPattern, file]);
+    } catch (error) {
+      console.error(`✗ Failed to process pattern ${replacement.pattern} in ${file}:`, error);
+    }
   }
+  console.log(`✓ Processed pattern: ${replacement.pattern}`);
 }
 
 console.log("🎉 Intel GPU resource patches applied successfully!");

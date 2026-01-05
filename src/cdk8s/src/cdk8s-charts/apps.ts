@@ -45,6 +45,19 @@ import { createSjerRedApp } from "../resources/argo-applications/sjer-red.ts";
 import { createWebringApp } from "../resources/argo-applications/webring.ts";
 import { createDppDocsApp } from "../resources/argo-applications/dpp-docs.ts";
 import { createBetterSkillCappedApp } from "../resources/argo-applications/better-skill-capped.ts";
+import { createPlausibleApp } from "../resources/argo-applications/plausible.ts";
+import { createBirmelApp } from "../resources/argo-applications/birmel.ts";
+import { createScoutFrontendApp } from "../resources/argo-applications/scout-frontend.ts";
+import { createCloudflareTunnelApp } from "../resources/argo-applications/cloudflare-tunnel.ts";
+import { createMediaApp } from "../resources/argo-applications/media.ts";
+import { createHomeApp } from "../resources/argo-applications/home.ts";
+import { createPostalApp } from "../resources/argo-applications/postal.ts";
+import { createSyncthingApp } from "../resources/argo-applications/syncthing.ts";
+import { createGolinkApp } from "../resources/argo-applications/golink.ts";
+import { createFreshrssApp } from "../resources/argo-applications/freshrss.ts";
+import { createPokemonApp } from "../resources/argo-applications/pokemon.ts";
+import { createGickupApp } from "../resources/argo-applications/gickup.ts";
+import { createGrafanaDbApp } from "../resources/argo-applications/grafana-db.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -120,6 +133,23 @@ export async function createAppsChart(app: App) {
   createWebringApp(chart);
   createDppDocsApp(chart);
   createBetterSkillCappedApp(chart);
+
+  // New namespace apps (migrated from torvalds)
+  createPlausibleApp(chart);
+  createBirmelApp(chart);
+  createScoutFrontendApp(chart);
+  createCloudflareTunnelApp(chart);
+
+  // Torvalds namespace apps (separate charts for easier future migration)
+  createMediaApp(chart);
+  createHomeApp(chart);
+  createPostalApp(chart);
+  createSyncthingApp(chart);
+  createGolinkApp(chart);
+  createFreshrssApp(chart);
+  createPokemonApp(chart);
+  createGickupApp(chart);
+  createGrafanaDbApp(chart);
 
   // ArgoCD AppProject
   createProject(chart);

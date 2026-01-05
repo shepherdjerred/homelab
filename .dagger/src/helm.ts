@@ -7,7 +7,35 @@ import versions from "./versions";
  * List of all Helm charts to build and publish.
  * Each chart name corresponds to a CDK8s chart that outputs {name}.k8s.yaml
  */
-export const HELM_CHARTS = ["torvalds", "ddns", "apps", "scout-beta", "scout-prod", "starlight-karma-bot-beta", "starlight-karma-bot-prod", "redlib", "sjer-red", "webring", "dpp-docs", "better-skill-capped"] as const;
+export const HELM_CHARTS = [
+  "torvalds",
+  "ddns",
+  "apps",
+  "scout-beta",
+  "scout-prod",
+  "starlight-karma-bot-beta",
+  "starlight-karma-bot-prod",
+  "redlib",
+  "sjer-red",
+  "webring",
+  "dpp-docs",
+  "better-skill-capped",
+  // New namespace charts
+  "plausible",
+  "birmel",
+  "scout-frontend",
+  "cloudflare-tunnel",
+  // Torvalds namespace charts (separate apps)
+  "media",
+  "home",
+  "postal",
+  "syncthing",
+  "golink",
+  "freshrss",
+  "pokemon",
+  "gickup",
+  "grafana-db",
+] as const;
 export type HelmChartName = (typeof HELM_CHARTS)[number];
 
 /**

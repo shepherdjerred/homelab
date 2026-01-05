@@ -1,10 +1,12 @@
 #!/usr/bin/env bun
 
-const YAML_FILE = "dist/torvalds.k8s.yaml";
 const EXPECTED_VALUE = 1;
 
-// Services that should have Intel GPU resources
-const GPU_SERVICES = ["plex", "pokemon"];
+// Services that should have Intel GPU resources, mapped to their chart files
+const GPU_SERVICES: Record<string, string> = {
+  plex: "dist/media.k8s.yaml",
+  pokemon: "dist/pokemon.k8s.yaml",
+};
 
 async function testGpuResources() {
   console.log("🧪 Testing Intel GPU resource allocation...");
@@ -23,49 +25,50 @@ async function testGpuResources() {
     }
     console.log("✅ Build completed\n");
 
-    const file = Bun.file(YAML_FILE);
-    // Check if file exists using Bun API
-    if (!(await file.exists())) {
-      console.error(`❌ File ${YAML_FILE} does not exist after build.`);
-      process.exit(1);
-    }
-    const content = await file.text();
-
     let errors = 0;
     let successes = 0;
 
-    // Find all Intel GPU resource references
-    const gpuResourcePattern = /gpu\.intel\.com\/i915:\s*(.+)/g;
-    const matches = [...content.matchAll(gpuResourcePattern)];
+    // Check for specific services in their respective chart files
+    for (const [service, yamlFile] of Object.entries(GPU_SERVICES)) {
+      const file = Bun.file(yamlFile);
+      if (!(await file.exists())) {
+        console.error(`❌ File ${yamlFile} does not exist after build.`);
+        errors++;
+        continue;
+      }
+      const content = await file.text();
 
-    if (matches.length === 0) {
-      console.error("❌ No Intel GPU resources found in the generated YAML");
-      errors++;
-    } else {
-      console.log(`📊 Found ${matches.length.toString()} Intel GPU resource(s)`);
+      // Find Intel GPU resource references in this file
+      const gpuResourcePattern = /gpu\.intel\.com\/i915:\s*(.+)/g;
+      const matches = [...content.matchAll(gpuResourcePattern)];
 
-      for (const match of matches) {
-        if (!match[1]) {
-          throw new Error(`No match found for ${match.toString()}`);
-        }
-        const value = match[1].trim();
-        const lineNumber = content.substring(0, match.index).split("\n").length;
+      if (matches.length === 0) {
+        console.error(`❌ No Intel GPU resources found in ${yamlFile}`);
+        errors++;
+      } else {
+        console.log(`📊 Found ${matches.length.toString()} Intel GPU resource(s) in ${yamlFile}`);
 
-        if (value === EXPECTED_VALUE.toString()) {
-          console.log(`✅ Line ${lineNumber.toString()}: gpu.intel.com/i915: ${value} (correct)`);
-          successes++;
-        } else {
-          console.error(
-            `❌ Line ${lineNumber.toString()}: gpu.intel.com/i915: ${value} (should be ${EXPECTED_VALUE.toString()})`,
-          );
-          errors++;
+        for (const match of matches) {
+          if (!match[1]) {
+            throw new Error(`No match found for ${match.toString()}`);
+          }
+          const value = match[1].trim();
+          const lineNumber = content.substring(0, match.index).split("\n").length;
+
+          if (value === EXPECTED_VALUE.toString()) {
+            console.log(`✅ Line ${lineNumber.toString()}: gpu.intel.com/i915: ${value} (correct)`);
+            successes++;
+          } else {
+            console.error(
+              `❌ Line ${lineNumber.toString()}: gpu.intel.com/i915: ${value} (should be ${EXPECTED_VALUE.toString()})`,
+            );
+            errors++;
+          }
         }
       }
-    }
 
-    // Check for specific services
-    for (const service of GPU_SERVICES) {
-      const servicePattern = new RegExp(`name: torvalds-${service}[\\s\\S]*?gpu\\.intel\\.com\\/i915:\\s*(.+?)`, "g");
+      // Check for service-specific GPU resource
+      const servicePattern = new RegExp(`name: ${service}[\\s\\S]*?gpu\\.intel\\.com\\/i915:\\s*(.+?)`, "g");
       const serviceMatch = servicePattern.exec(content);
 
       if (serviceMatch?.[1]) {
@@ -77,24 +80,26 @@ async function testGpuResources() {
           errors++;
         }
       } else {
-        console.error(`❌ Service ${service}: Intel GPU resource not found`);
+        console.error(`❌ Service ${service}: Intel GPU resource not found in ${yamlFile}`);
         errors++;
       }
-    }
 
-    // Check for problematic patterns
-    const problematicPatterns = [
-      /gpu\.intel\.com\/i915:\s*null/g,
-      /gpu\.intel\.com\/i915:\s*0\s*$/g,
-      /gpu\.intel\.com\/i915:\s*'0'/g,
-      /gpu\.intel\.com\/i915:\s*"0"/g,
-    ];
+      // Check for problematic patterns
+      const problematicPatterns = [
+        /gpu\.intel\.com\/i915:\s*null/g,
+        /gpu\.intel\.com\/i915:\s*0\s*$/g,
+        /gpu\.intel\.com\/i915:\s*'0'/g,
+        /gpu\.intel\.com\/i915:\s*"0"/g,
+      ];
 
-    for (const pattern of problematicPatterns) {
-      const matches = [...content.matchAll(pattern)];
-      if (matches.length > 0) {
-        console.error(`❌ Found ${matches.length.toString()} problematic pattern(s): ${pattern.source}`);
-        errors++;
+      for (const pattern of problematicPatterns) {
+        const patternMatches = [...content.matchAll(pattern)];
+        if (patternMatches.length > 0) {
+          console.error(
+            `❌ Found ${patternMatches.length.toString()} problematic pattern(s) in ${yamlFile}: ${pattern.source}`,
+          );
+          errors++;
+        }
       }
     }
 

@@ -50,7 +50,6 @@ export async function createGickupDeployment(chart: Chart) {
     },
     metadata: {
       name: "gickup-github-token",
-      namespace: "torvalds",
     },
   });
 

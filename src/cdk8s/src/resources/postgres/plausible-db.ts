@@ -14,7 +14,6 @@ export function createPlausiblePostgreSQLDatabase(chart: Chart) {
   return new Postgresql(chart, "plausible-postgresql", {
     metadata: {
       name: "plausible-postgresql",
-      namespace: "torvalds",
     },
     spec: {
       numberOfInstances: 1, // Single node setup for homelab

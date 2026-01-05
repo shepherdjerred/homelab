@@ -23,7 +23,7 @@ import versions from "../versions.ts";
  * to reach golink at go.tailnet-xxx.ts.net via an HTTP proxy.
  */
 export function createGolinkSyncJob(chart: Chart) {
-  const namespace = "torvalds";
+  const namespace = chart.namespace ?? "torvalds";
   const name = "golink-sync";
   const tailnetDomain = "tailnet-1a49.ts.net";
   const golinkUrl = `https://go.${tailnetDomain}`;
