@@ -40,6 +40,11 @@ import { createScoutProdApp } from "../resources/argo-applications/scout-prod.ts
 import { createStarlightKarmaBotBetaApp } from "../resources/argo-applications/starlight-karma-bot-beta.ts";
 import { createStarlightKarmaBotProdApp } from "../resources/argo-applications/starlight-karma-bot-prod.ts";
 import { createProject } from "../resources/argo-applications/project.ts";
+import { createRedlibApp } from "../resources/argo-applications/redlib.ts";
+import { createSjerRedApp } from "../resources/argo-applications/sjer-red.ts";
+import { createWebringApp } from "../resources/argo-applications/webring.ts";
+import { createDppDocsApp } from "../resources/argo-applications/dpp-docs.ts";
+import { createBetterSkillCappedApp } from "../resources/argo-applications/better-skill-capped.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -108,6 +113,13 @@ export async function createAppsChart(app: App) {
   createScoutProdApp(chart);
   createStarlightKarmaBotBetaApp(chart);
   createStarlightKarmaBotProdApp(chart);
+
+  // Stateless frontend services
+  createRedlibApp(chart);
+  createSjerRedApp(chart);
+  createWebringApp(chart);
+  createDppDocsApp(chart);
+  createBetterSkillCappedApp(chart);
 
   // ArgoCD AppProject
   createProject(chart);

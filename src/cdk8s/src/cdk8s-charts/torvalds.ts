@@ -1,10 +1,5 @@
 import { App, Chart, Size } from "cdk8s";
-import { createRedlibDeployment } from "../resources/frontends/redlib.ts";
-import { createSjerRedDeployment } from "../resources/frontends/sjer-red.ts";
 import { createScoutForLolFrontendDeployment } from "../resources/frontends/scout-for-lol.ts";
-import { createWebringDocsDeployment } from "../resources/frontends/webring.ts";
-import { createDppDocsDeployment } from "../resources/frontends/dpp-docs.ts";
-import { createBetterSkillCappedDeployment } from "../resources/frontends/better-skill-capped.ts";
 import { createGolinkDeployment } from "../resources/golink.ts";
 import { createHomeAssistantDeployment } from "../resources/home/homeassistant.ts";
 import { createPlexDeployment } from "../resources/media/plex.ts";
@@ -56,7 +51,6 @@ export async function createTorvaldsChart(app: App) {
     movies: moviesVolume.claim,
   });
   createTautulliDeployment(chart);
-  createRedlibDeployment(chart);
   createPlexDeployment(chart, {
     tv: tvVolume.claim,
     movies: moviesVolume.claim,
@@ -105,11 +99,7 @@ export async function createTorvaldsChart(app: App) {
   createCloudflareTunnelCRD(chart);
 
   // Public static sites (via Cloudflare Tunnel)
-  createSjerRedDeployment(chart);
   createScoutForLolFrontendDeployment(chart);
-  createWebringDocsDeployment(chart);
-  createDppDocsDeployment(chart);
-  createBetterSkillCappedDeployment(chart);
 
   // Plausible Analytics
   createPlausiblePostgreSQLDatabase(chart);
