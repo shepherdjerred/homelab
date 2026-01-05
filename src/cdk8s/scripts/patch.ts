@@ -19,7 +19,7 @@ const runCommand = async (command: string, args: string[]) => {
 const sedCommand = Bun.which("gsed") ? "gsed" : "sed";
 
 // Files that may contain Intel GPU resources
-const filesToPatch = ["dist/torvalds.k8s.yaml", "dist/media.k8s.yaml", "dist/pokemon.k8s.yaml"];
+const filesToPatch = ["dist/media.k8s.yaml", "dist/pokemon.k8s.yaml"];
 
 console.log("🔧 Applying Intel GPU resource patches...");
 
