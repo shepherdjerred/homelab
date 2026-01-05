@@ -35,7 +35,7 @@
       "name": "@homelab/cdk8s",
       "dependencies": {
         "@grafana/grafana-foundation-sdk": "11.6.0-cogv0.0.x.1759917919",
-        "@homelab/helm-types": "workspace:*",
+        "@shepherdjerred/helm-types": "workspace:*",
         "cdk8s": "^2.69.60",
         "cdk8s-plus-31": "^2.2.4",
         "constructs": "^10.4.2",
@@ -81,10 +81,10 @@
       },
     },
     "src/helm-types": {
-      "name": "@homelab/helm-types",
+      "name": "@shepherdjerred/helm-types",
       "version": "1.0.0",
       "bin": {
-        "helm-types": "src/cli.ts",
+        "helm-types": "dist/cli.js",
       },
       "dependencies": {
         "yaml": "^2.8.1",
@@ -182,8 +182,6 @@
     "@homelab/deps-email": ["@homelab/deps-email@workspace:src/deps-email"],
 
     "@homelab/ha": ["@homelab/ha@workspace:src/ha"],
-
-    "@homelab/helm-types": ["@homelab/helm-types@workspace:src/helm-types"],
 
     "@humanfs/core": ["@humanfs/core@0.19.1", "", {}, "sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA=="],
 
@@ -284,6 +282,8 @@
     "@sentry/node-core": ["@sentry/node-core@10.32.1", "", { "dependencies": { "@apm-js-collab/tracing-hooks": "^0.3.1", "@sentry/core": "10.32.1", "@sentry/opentelemetry": "10.32.1", "import-in-the-middle": "^2" }, "peerDependencies": { "@opentelemetry/api": "^1.9.0", "@opentelemetry/context-async-hooks": "^1.30.1 || ^2.1.0 || ^2.2.0", "@opentelemetry/core": "^1.30.1 || ^2.1.0 || ^2.2.0", "@opentelemetry/instrumentation": ">=0.57.1 <1", "@opentelemetry/resources": "^1.30.1 || ^2.1.0 || ^2.2.0", "@opentelemetry/sdk-trace-base": "^1.30.1 || ^2.1.0 || ^2.2.0", "@opentelemetry/semantic-conventions": "^1.37.0" } }, "sha512-w56rxdBanBKc832zuwnE+zNzUQ19fPxfHEtOhK8JGPu3aSwQYcIxwz9z52lOx3HN7k/8Fj5694qlT3x/PokhRw=="],
 
     "@sentry/opentelemetry": ["@sentry/opentelemetry@10.32.1", "", { "dependencies": { "@sentry/core": "10.32.1" }, "peerDependencies": { "@opentelemetry/api": "^1.9.0", "@opentelemetry/context-async-hooks": "^1.30.1 || ^2.1.0 || ^2.2.0", "@opentelemetry/core": "^1.30.1 || ^2.1.0 || ^2.2.0", "@opentelemetry/sdk-trace-base": "^1.30.1 || ^2.1.0 || ^2.2.0", "@opentelemetry/semantic-conventions": "^1.37.0" } }, "sha512-YLssSz5Y+qPvufrh2cDaTXDoXU8aceOhB+YTjT8/DLF6SOj7Tzen52aAcjNaifawaxEsLCC8O+B+A2iA+BllvA=="],
+
+    "@shepherdjerred/helm-types": ["@shepherdjerred/helm-types@workspace:src/helm-types"],
 
     "@sindresorhus/merge-streams": ["@sindresorhus/merge-streams@4.0.0", "", {}, "sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ=="],
 
