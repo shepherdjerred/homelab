@@ -35,6 +35,11 @@ import { createAllGrafanaDashboards } from "../resources/grafana/index.ts";
 import { createDdnsApp } from "../resources/argo-applications/ddns.ts";
 import { createDependencySummaryCronJob } from "../resources/home/dependency-summary.ts";
 import { createAppsApp } from "../resources/argo-applications/apps.ts";
+import { createScoutBetaApp } from "../resources/argo-applications/scout-beta.ts";
+import { createScoutProdApp } from "../resources/argo-applications/scout-prod.ts";
+import { createStarlightKarmaBotBetaApp } from "../resources/argo-applications/starlight-karma-bot-beta.ts";
+import { createStarlightKarmaBotProdApp } from "../resources/argo-applications/starlight-karma-bot-prod.ts";
+import { createProject } from "../resources/argo-applications/project.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -99,6 +104,13 @@ export async function createAppsChart(app: App) {
 
   // Per-service ArgoCD apps (migrated from torvalds)
   createDdnsApp(chart);
+  createScoutBetaApp(chart);
+  createScoutProdApp(chart);
+  createStarlightKarmaBotBetaApp(chart);
+  createStarlightKarmaBotProdApp(chart);
+
+  // ArgoCD AppProject
+  createProject(chart);
 
   // Weekly dependency summary email
   createDependencySummaryCronJob(chart);
