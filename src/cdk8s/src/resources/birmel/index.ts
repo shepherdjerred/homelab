@@ -60,6 +60,7 @@ export function createBirmelDeployment(chart: Chart) {
         OPENAI_CLASSIFIER_MODEL: EnvValue.fromValue("gpt-5-nano"),
 
         // Database paths
+        DATABASE_URL: EnvValue.fromValue("file:/app/data/birmel.db"),
         OPS_DATABASE_URL: EnvValue.fromValue("file:/app/data/birmel-ops.db"),
         MASTRA_MEMORY_DB_PATH: EnvValue.fromValue("file:/app/data/mastra-memory.db"),
 
