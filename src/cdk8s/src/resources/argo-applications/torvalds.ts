@@ -27,10 +27,9 @@ export function createTorvaldsApp(chart: Chart) {
         server: "https://kubernetes.default.svc",
         namespace: "torvalds",
       },
+      // Auto-sync disabled during migration to prevent accidental data deletion
+      // Manual sync required - re-enable automated sync after migration is complete
       syncPolicy: {
-        automated: {
-          prune: false, // Prevent accidental data deletion during migration
-        },
         syncOptions: ["CreateNamespace=true"],
       },
     },
