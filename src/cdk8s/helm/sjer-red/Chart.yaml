@@ -1,0 +1,6 @@
+apiVersion: v2
+name: sjer-red
+description: sjer.red personal website
+type: application
+version: "$version"
+appVersion: "$appVersion"

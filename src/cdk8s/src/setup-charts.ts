@@ -5,6 +5,11 @@ import { createAppsChart } from "./cdk8s-charts/apps.ts";
 import { createScoutChart } from "./cdk8s-charts/scout.ts";
 import { createStarlightKarmaBotChart } from "./cdk8s-charts/starlight-karma-bot.ts";
 import { createDdnsChart } from "./cdk8s-charts/ddns.ts";
+import { createRedlibChart } from "./cdk8s-charts/redlib.ts";
+import { createSjerRedChart } from "./cdk8s-charts/sjer-red.ts";
+import { createWebringChart } from "./cdk8s-charts/webring.ts";
+import { createDppDocsChart } from "./cdk8s-charts/dpp-docs.ts";
+import { createBetterSkillCappedChart } from "./cdk8s-charts/better-skill-capped.ts";
 
 /**
  * Sets up all charts for the application
@@ -20,4 +25,9 @@ export async function setupCharts(app: App): Promise<void> {
 
   // Per-service charts (migrated from torvalds)
   createDdnsChart(app);
+  createRedlibChart(app);
+  createSjerRedChart(app);
+  createWebringChart(app);
+  createDppDocsChart(app);
+  createBetterSkillCappedChart(app);
 }

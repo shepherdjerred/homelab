@@ -1,0 +1,6 @@
+apiVersion: v2
+name: dpp-docs
+description: Discord Plays Pokemon documentation site
+type: application
+version: "$version"
+appVersion: "$appVersion"
