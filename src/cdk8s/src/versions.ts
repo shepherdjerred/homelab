@@ -167,7 +167,7 @@ const versions = {
   "plausible/analytics": "v2.0.0@sha256:cd5f75e1399073669b13b4151cc603332a825324d0b8f13dfc9de9112a3c68a1",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "clickhouse/clickhouse-server":
-    "25.12-alpine@sha256:4876aaab383e2b1c3bf10ebbb127204e795d2e470f8c3af3eae09bd0ed664b5b",
+    "25.12-alpine@sha256:fe8856342116bb06d40609a2c12f4afbe450b33c6d4e7539147f4fba2f43cb44",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];
