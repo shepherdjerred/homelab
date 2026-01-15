@@ -76,7 +76,7 @@ Edit `src/cdk8s/src/versions.ts`:
 ```typescript
 const versions = {
   // renovate: datasource=helm registryUrl=https://charts.example.com versioning=semver
-  "myapp": "1.2.3",
+  myapp: "1.2.3",
 };
 ```
 
@@ -175,7 +175,7 @@ export function createMyAppApp(chart: Chart) {
 
   const values: HelmValuesForChart<"myapp"> = {
     postgresql: {
-      install: false,  // Use external DB
+      install: false, // Use external DB
     },
     global: {
       psql: {

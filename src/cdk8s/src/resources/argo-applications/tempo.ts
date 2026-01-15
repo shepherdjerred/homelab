@@ -1,7 +1,7 @@
 import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
 import versions from "../../versions.ts";
-import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
+import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 
 /**
  * Creates Grafana Tempo for distributed tracing.
@@ -42,7 +42,7 @@ export function createTempoApp(chart: Chart) {
     // Persistence configuration
     persistence: {
       enabled: true,
-      storageClassName: SSD_STORAGE_CLASS,
+      storageClassName: NVME_STORAGE_CLASS,
       size: Size.gibibytes(32).asString(),
     },
     // Expose OTLP ports via service

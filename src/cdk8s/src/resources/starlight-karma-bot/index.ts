@@ -4,7 +4,7 @@ import { withCommonProps } from "../../misc/common.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 import { match } from "ts-pattern";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 
 export type Stage = "prod" | "beta";
 
@@ -41,7 +41,7 @@ export function createStarlightKarmaBotDeployment(chart: Chart, stage: Stage) {
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "starlight-karma-bot-storage-claim", {
+  const localPathVolume = new ZfsNvmeVolume(chart, "starlight-karma-bot-storage-claim", {
     storage: Size.gibibytes(2),
   });
 

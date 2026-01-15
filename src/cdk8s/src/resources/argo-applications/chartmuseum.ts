@@ -4,7 +4,7 @@ import versions from "../../versions.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
-import { HDD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
+import { SATA_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 export function createChartMuseumApp(chart: Chart) {
   createIngress(chart, "chartmusuem-ingress", "chartmuseum", "chartmuseum", 8080, ["chartmuseum"], true);
@@ -28,7 +28,7 @@ export function createChartMuseumApp(chart: Chart) {
   const chartMuseumValues: HelmValuesForChart<"chartmuseum"> = {
     persistence: {
       enabled: true,
-      storageClass: HDD_STORAGE_CLASS,
+      storageClass: SATA_STORAGE_CLASS,
       size: Size.gibibytes(8).asString(),
     },
     env: {

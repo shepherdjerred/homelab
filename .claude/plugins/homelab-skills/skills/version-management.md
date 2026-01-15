@@ -75,29 +75,29 @@ export default versions;
 
 ### Datasources
 
-| Datasource | Use For |
-|------------|---------|
-| `helm` | Helm charts |
-| `docker` | Container images |
-| `github-releases` | GitHub releases |
-| `custom.papermc` | Custom registries |
+| Datasource        | Use For           |
+| ----------------- | ----------------- |
+| `helm`            | Helm charts       |
+| `docker`          | Container images  |
+| `github-releases` | GitHub releases   |
+| `custom.papermc`  | Custom registries |
 
 ### Registry URLs
 
-| Registry | URL |
-|----------|-----|
-| Docker Hub | `https://docker.io` |
-| GitHub Container Registry | `https://ghcr.io` |
-| Quay.io | `https://quay.io` |
-| Helm chart repos | Chart-specific URL |
+| Registry                  | URL                 |
+| ------------------------- | ------------------- |
+| Docker Hub                | `https://docker.io` |
+| GitHub Container Registry | `https://ghcr.io`   |
+| Quay.io                   | `https://quay.io`   |
+| Helm chart repos          | Chart-specific URL  |
 
 ### Versioning Schemes
 
-| Scheme | Use For |
-|--------|---------|
+| Scheme   | Use For                     |
+| -------- | --------------------------- |
 | `semver` | Semantic versioning (1.2.3) |
-| `docker` | Docker tag conventions |
-| `loose` | Non-standard versions |
+| `docker` | Docker tag conventions      |
+| `loose`  | Non-standard versions       |
 
 ## Usage in Code
 
@@ -139,11 +139,13 @@ Always include digests for production images:
 ```
 
 **Benefits:**
+
 - Immutable deployments
 - Reproducible builds
 - Security (prevents tag mutation attacks)
 
 **Getting the digest:**
+
 ```bash
 # Using crane
 crane digest ghcr.io/org/image:1.0.0
@@ -165,6 +167,7 @@ Some versions are updated by the Dagger CI pipeline:
 ```
 
 The pipeline updates these via:
+
 ```typescript
 // In .dagger/src/index.ts
 this.updateHaVersion(source, chartVersion);

@@ -1,11 +1,12 @@
 # Homelab
 
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
-![ArgoCD badge](https://argocd.tailnet-1a49.ts.net/api/badge?name=torvalds)
+![ArgoCD badge](https://argocd.tailnet-1a49.ts.net/api/badge?name=apps)
 
-This repository contains resources related to my homelab, currently called
-`torvalds`. I give each of my servers a unique name so that I can keep track of
-them over time.
+This repository contains resources related to my homelab. The server is named
+`torvalds` - I give each of my servers a unique name so that I can keep track of
+them over time. Services are deployed across multiple namespaces (media, home,
+postal, etc.) using an app-of-apps pattern in ArgoCD.
 
 Currently my server is managed with Kubernetes. I've used Docker, Ansible, and
 bash scripts in the past. Kubernetes has been an interesting experiment and I

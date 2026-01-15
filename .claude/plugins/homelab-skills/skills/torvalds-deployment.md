@@ -1,14 +1,29 @@
 ---
 description: >-
-  Use when asking about adding services to torvalds namespace,
-  createXxxDeployment patterns, or homelab deployment conventions.
+  Use when asking about adding services, createXxxDeployment patterns,
+  or homelab deployment conventions. Services use per-namespace charts.
 ---
 
-# Torvalds Namespace Deployment
+# Homelab Service Deployment
 
 ## Overview
 
-The `torvalds` namespace is the main homelab chart containing all user-facing services (media servers, home automation, utilities). Services follow a consistent `createXxxDeployment()` pattern.
+Services are deployed across multiple namespaces using an app-of-apps pattern. Each service
+category has its own namespace and Helm chart (e.g., `media`, `home`, `postal`). Services follow
+a consistent `createXxxDeployment()` pattern.
+
+## Namespace Structure
+
+| Namespace   | Services                                     | Chart File     |
+| ----------- | -------------------------------------------- | -------------- |
+| `media`     | Plex, Radarr, Sonarr, Bazarr, Prowlarr, etc. | `media.ts`     |
+| `home`      | Home Assistant, HA automations               | `home.ts`      |
+| `postal`    | Postal mail server, MariaDB                  | `postal.ts`    |
+| `syncthing` | Syncthing                                    | `syncthing.ts` |
+| `golink`    | GoLink                                       | `golink.ts`    |
+| `freshrss`  | FreshRSS                                     | `freshrss.ts`  |
+| `pokemon`   | Pokemon bots                                 | `pokemon.ts`   |
+| `gickup`    | Gickup                                       | `gickup.ts`    |
 
 ## Standard Deployment Pattern
 
@@ -18,16 +33,9 @@ Create `src/cdk8s/src/resources/{category}/yourservice.ts`:
 
 ```typescript
 import { Chart, Size } from "cdk8s";
-import {
-  Cpu,
-  Deployment,
-  DeploymentStrategy,
-  type PersistentVolumeClaim,
-  Service,
-  Volume,
-} from "cdk8s-plus-31";
+import { Cpu, Deployment, DeploymentStrategy, type PersistentVolumeClaim, Service, Volume } from "cdk8s-plus-31";
 import { LINUXSERVER_GID, withCommonLinuxServerProps } from "../../misc/linux-server.ts";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
 
@@ -48,7 +56,7 @@ export function createYourServiceDeployment(
   });
 
   // 2. Create config volume (SSD for performance)
-  const configVolume = new ZfsSsdVolume(chart, "yourservice-pvc", {
+  const configVolume = new ZfsNvmeVolume(chart, "yourservice-pvc", {
     storage: Size.gibibytes(8),
   });
 
@@ -60,22 +68,16 @@ export function createYourServiceDeployment(
       volumeMounts: [
         {
           path: "/config",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart,
-            "yourservice-config-volume",
-            configVolume.claim,
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "yourservice-config-volume", configVolume.claim),
         },
         // Add shared volumes if needed
         ...(claims?.downloads
-          ? [{
-              path: "/downloads",
-              volume: Volume.fromPersistentVolumeClaim(
-                chart,
-                "yourservice-downloads-volume",
-                claims.downloads,
-              ),
-            }]
+          ? [
+              {
+                path: "/downloads",
+                volume: Volume.fromPersistentVolumeClaim(chart, "yourservice-downloads-volume", claims.downloads),
+              },
+            ]
           : []),
       ],
       resources: {
@@ -117,21 +119,21 @@ const versions = {
 };
 ```
 
-### Step 3: Register in Torvalds Chart
+### Step 3: Register in Appropriate Chart
 
-Edit `src/cdk8s/src/cdk8s-charts/torvalds.ts`:
+For media services, edit `src/cdk8s/src/cdk8s-charts/media.ts`:
 
 ```typescript
-import { createYourServiceDeployment } from "../resources/yourservice.ts";
+import { createYourServiceDeployment } from "../resources/media/yourservice.ts";
 
-export async function createTorvaldsChart(app: App) {
-  const chart = new Chart(app, "torvalds", {
-    namespace: "torvalds",
+export function createMediaChart(app: App) {
+  const chart = new Chart(app, "media", {
+    namespace: "media",
     disableResourceNameHashes: true,
   });
 
-  // Existing volumes...
-  const downloadsVolume = new ZfsHddVolume(chart, "downloads-hdd-pvc", {
+  // Shared volumes
+  const downloadsVolume = new ZfsSataVolume(chart, "downloads-hdd-pvc", {
     storage: Size.tebibytes(1),
   });
 
@@ -143,6 +145,30 @@ export async function createTorvaldsChart(app: App) {
   // ... rest of chart
 }
 ```
+
+### Step 4: Create ArgoCD Application (if new namespace)
+
+If creating a new namespace, add ArgoCD app in `src/cdk8s/src/resources/argo-applications/yournamespace.ts`:
+
+```typescript
+import { Chart } from "cdk8s";
+import { Application } from "../../generated/imports/argoproj.io.ts";
+import { createArgoApplication } from "./common.ts";
+
+export function createYourNamespaceApplication(chart: Chart) {
+  return createArgoApplication(chart, "yournamespace", {
+    chart: {
+      repoUrl: "https://chartmuseum.tailnet-1a49.ts.net",
+      chartName: "yournamespace",
+    },
+    destination: {
+      namespace: "yournamespace",
+    },
+  });
+}
+```
+
+Then register in `src/cdk8s/src/cdk8s-charts/apps.ts` and add to `HELM_CHARTS` in `.dagger/src/helm.ts`.
 
 ## Advanced Patterns
 
@@ -216,26 +242,35 @@ envVariables: {
 new TailscaleIngress(chart, "yourservice-ingress", {
   service,
   host: "yourservice",
-  funnel: true,  // Accessible from public internet
+  funnel: true, // Accessible from public internet
 });
 ```
 
 ## Directory Structure
 
 ```text
-src/cdk8s/src/resources/
-├── torrents/           # Sonarr, Radarr, qBittorrent
-├── media/              # Plex, PeerTube, Tautulli
-├── home/               # Home Assistant
-├── frontends/          # Web apps
-├── mail/               # Postal mail server
-├── postgres/           # Database constructs
-└── common/             # Shared constructs (Redis)
+src/cdk8s/src/
+├── cdk8s-charts/
+│   ├── media.ts        # Media namespace chart
+│   ├── home.ts         # Home namespace chart
+│   ├── postal.ts       # Postal namespace chart
+│   └── ...             # Other namespace charts
+├── resources/
+│   ├── torrents/       # Sonarr, Radarr, qBittorrent
+│   ├── media/          # Plex, Tautulli, etc.
+│   ├── home/           # Home Assistant
+│   ├── mail/           # Postal mail server
+│   └── argo-applications/  # ArgoCD app definitions
+└── helm/
+    ├── media/          # Media Helm chart
+    ├── home/           # Home Helm chart
+    └── ...             # Other Helm charts
 ```
 
 ## Key Files
 
-- `src/cdk8s/src/cdk8s-charts/torvalds.ts` - Main chart orchestrator
+- `src/cdk8s/src/cdk8s-charts/media.ts` - Media namespace chart
+- `src/cdk8s/src/cdk8s-charts/home.ts` - Home namespace chart
 - `src/cdk8s/src/resources/torrents/sonarr.ts` - Reference example
 - `src/cdk8s/src/resources/media/plex.ts` - Complex example with sidecars
-- `src/cdk8s/src/resources/torrents/qbittorrent.ts` - VPN sidecar example
+- `.dagger/src/helm.ts` - HELM_CHARTS list of all charts

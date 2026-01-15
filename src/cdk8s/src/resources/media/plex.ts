@@ -11,7 +11,7 @@ import {
 } from "cdk8s-plus-31";
 import { ApiObject, Chart, JsonPatch, Size } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import versions from "../../versions.ts";
@@ -42,7 +42,7 @@ export function createPlexDeployment(
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "plex-pvc", {
+  const localPathVolume = new ZfsNvmeVolume(chart, "plex-pvc", {
     storage: Size.gibibytes(64),
   });
 

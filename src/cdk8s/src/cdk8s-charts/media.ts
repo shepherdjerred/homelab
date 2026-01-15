@@ -1,5 +1,5 @@
 import { App, Chart, Size } from "cdk8s";
-import { ZfsHddVolume } from "../misc/zfs-hdd-volume.ts";
+import { ZfsSataVolume } from "../misc/zfs-sata-volume.ts";
 import { createBazarrDeployment } from "../resources/torrents/bazarr.ts";
 import { createTautulliDeployment } from "../resources/media/tautulli.ts";
 import { createPlexDeployment } from "../resources/media/plex.ts";
@@ -19,13 +19,13 @@ export function createMediaChart(app: App) {
   });
 
   // Shared volumes for media stack
-  const tvVolume = new ZfsHddVolume(chart, "plex-tv-hdd-pvc", {
+  const tvVolume = new ZfsSataVolume(chart, "plex-tv-hdd-pvc", {
     storage: Size.tebibytes(4),
   });
-  const downloadsVolume = new ZfsHddVolume(chart, "qbittorrent-hdd-pvc", {
+  const downloadsVolume = new ZfsSataVolume(chart, "qbittorrent-hdd-pvc", {
     storage: Size.tebibytes(1),
   });
-  const moviesVolume = new ZfsHddVolume(chart, "plex-movies-hdd-pvc", {
+  const moviesVolume = new ZfsSataVolume(chart, "plex-movies-hdd-pvc", {
     storage: Size.tebibytes(4),
   });
 

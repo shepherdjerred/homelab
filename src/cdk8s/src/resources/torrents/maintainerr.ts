@@ -1,7 +1,7 @@
 import { Cpu, Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { LINUXSERVER_GID, withCommonLinuxServerProps } from "../../misc/linux-server.ts";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
 
@@ -14,7 +14,7 @@ export function createMaintainerrDeployment(chart: Chart) {
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "maintainerr-pvc", {
+  const localPathVolume = new ZfsNvmeVolume(chart, "maintainerr-pvc", {
     storage: Size.gibibytes(8),
   });
 

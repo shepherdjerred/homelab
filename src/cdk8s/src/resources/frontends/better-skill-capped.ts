@@ -11,7 +11,7 @@ import { Chart, Size } from "cdk8s";
 import { KubeCronJob, Quantity } from "../../../generated/imports/k8s.ts";
 import { withCommonProps } from "../../misc/common.ts";
 import versions from "../../versions.ts";
-import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
+import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import { TunnelBinding, TunnelBindingTunnelRefKind } from "../../../generated/imports/networking.cfargotunnel.com.ts";
 import { TUNNEL_CNAME_TARGET } from "../argo-applications/external-dns.ts";
 
@@ -19,7 +19,7 @@ export function createBetterSkillCappedDeployment(chart: Chart) {
   // Create a shared PVC for the manifest
   const manifestPvc = new PersistentVolumeClaim(chart, "better-skill-capped-manifest-pvc", {
     storage: Size.gibibytes(1),
-    storageClassName: SSD_STORAGE_CLASS,
+    storageClassName: NVME_STORAGE_CLASS,
     accessModes: [PersistentVolumeAccessMode.READ_WRITE_MANY],
     volumeMode: PersistentVolumeMode.FILE_SYSTEM,
     metadata: {

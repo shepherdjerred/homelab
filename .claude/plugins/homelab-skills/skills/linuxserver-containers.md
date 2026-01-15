@@ -8,7 +8,9 @@ description: >-
 
 ## Overview
 
-LinuxServer.io provides Docker images for many popular self-hosted applications (Sonarr, Radarr, Plex alternatives, etc.). These images have specific requirements for user/group IDs and security contexts.
+LinuxServer.io provides Docker images for many popular self-hosted applications (Sonarr, Radarr,
+Plex alternatives, etc.). These images have specific requirements for user/group IDs and security
+contexts.
 
 ## withCommonLinuxServerProps Helper
 
@@ -41,7 +43,7 @@ deployment.addContainer(
 ```typescript
 // From src/cdk8s/src/misc/linux-server.ts
 const commonLinuxServerProps: Partial<ContainerProps> = {
-  ...commonProps,  // TZ: America/Los_Angeles
+  ...commonProps, // TZ: America/Los_Angeles
   envVariables: {
     ...commonProps.envVariables,
     PUID: EnvValue.fromValue("1000"),
@@ -50,19 +52,19 @@ const commonLinuxServerProps: Partial<ContainerProps> = {
   securityContext: {
     ensureNonRoot: false,
     readOnlyRootFilesystem: false,
-    user: 0,   // Run as root
-    group: 0,  // Root group
+    user: 0, // Run as root
+    group: 0, // Root group
   },
 };
 ```
 
 ### Environment Variables
 
-| Variable | Value | Purpose |
-|----------|-------|---------|
-| `PUID` | 1000 | User ID for file ownership |
-| `PGID` | 1000 | Group ID for file ownership |
-| `TZ` | America/Los_Angeles | Timezone |
+| Variable | Value               | Purpose                     |
+| -------- | ------------------- | --------------------------- |
+| `PUID`   | 1000                | User ID for file ownership  |
+| `PGID`   | 1000                | Group ID for file ownership |
+| `TZ`     | America/Los_Angeles | Timezone                    |
 
 ### Security Context
 
@@ -84,7 +86,7 @@ securityContext: {
 ```typescript
 const deployment = new Deployment(chart, "myapp", {
   securityContext: {
-    fsGroup: LINUXSERVER_GID,  // 1000
+    fsGroup: LINUXSERVER_GID, // 1000
   },
 });
 ```
@@ -99,16 +101,16 @@ LinuxServer.io apps typically need:
 2. **Data volumes (HDD):** Media files, downloads
 
 ```typescript
-import { ZfsSsdVolume } from "../misc/zfs-ssd-volume.ts";
-import { ZfsHddVolume } from "../misc/zfs-hdd-volume.ts";
+import { ZfsNvmeVolume } from "../misc/zfs-nvme-volume.ts";
+import { ZfsSataVolume } from "../misc/zfs-sata-volume.ts";
 
 // Config on fast storage
-const configVolume = new ZfsSsdVolume(chart, "myapp-config-pvc", {
+const configVolume = new ZfsNvmeVolume(chart, "myapp-config-pvc", {
   storage: Size.gibibytes(8),
 });
 
 // Media on large storage
-const mediaVolume = new ZfsHddVolume(chart, "media-hdd-pvc", {
+const mediaVolume = new ZfsSataVolume(chart, "media-hdd-pvc", {
   storage: Size.tebibytes(4),
 });
 
@@ -128,16 +130,9 @@ volumeMounts: [
 
 ```typescript
 import { Chart, Size } from "cdk8s";
-import {
-  Cpu,
-  Deployment,
-  DeploymentStrategy,
-  type PersistentVolumeClaim,
-  Service,
-  Volume,
-} from "cdk8s-plus-31";
+import { Cpu, Deployment, DeploymentStrategy, type PersistentVolumeClaim, Service, Volume } from "cdk8s-plus-31";
 import { LINUXSERVER_GID, withCommonLinuxServerProps } from "../../misc/linux-server.ts";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
 
@@ -156,7 +151,7 @@ export function createSonarrDeployment(
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "sonarr-pvc", {
+  const localPathVolume = new ZfsNvmeVolume(chart, "sonarr-pvc", {
     storage: Size.gibibytes(8),
   });
 
@@ -167,21 +162,15 @@ export function createSonarrDeployment(
       volumeMounts: [
         {
           path: "/config",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart, "sonarr-volume", localPathVolume.claim
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "sonarr-volume", localPathVolume.claim),
         },
         {
           path: "/downloads",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart, "sonarr-downloads-volume", claims.downloads
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "sonarr-downloads-volume", claims.downloads),
         },
         {
           path: "/tv",
-          volume: Volume.fromPersistentVolumeClaim(
-            chart, "sonarr-tv-volume", claims.tv
-          ),
+          volume: Volume.fromPersistentVolumeClaim(chart, "sonarr-tv-volume", claims.tv),
         },
       ],
       resources: {
@@ -231,23 +220,23 @@ strategy: DeploymentStrategy.recreate(),
 
 ## Resource Recommendations
 
-| App Type | CPU Request | CPU Limit | Memory Request | Memory Limit |
-|----------|-------------|-----------|----------------|--------------|
-| Light (Bazarr) | 50m | 500m | 128Mi | 256Mi |
-| Medium (Sonarr) | 50m | 1000m | 256Mi | 768Mi |
-| Heavy (qBittorrent) | 100m | 2000m | 1Gi | 4Gi |
+| App Type            | CPU Request | CPU Limit | Memory Request | Memory Limit |
+| ------------------- | ----------- | --------- | -------------- | ------------ |
+| Light (Bazarr)      | 50m         | 500m      | 128Mi          | 256Mi        |
+| Medium (Sonarr)     | 50m         | 1000m     | 256Mi          | 768Mi        |
+| Heavy (qBittorrent) | 100m        | 2000m     | 1Gi            | 4Gi          |
 
 ## Common LinuxServer.io Apps
 
-| App | Port | Purpose |
-|-----|------|---------|
-| sonarr | 8989 | TV series management |
-| radarr | 7878 | Movie management |
-| bazarr | 6767 | Subtitle management |
-| prowlarr | 9696 | Indexer management |
-| qbittorrent | 8080 | Torrent client |
-| overseerr | 5055 | Media requests |
-| tautulli | 8181 | Plex monitoring |
+| App         | Port | Purpose              |
+| ----------- | ---- | -------------------- |
+| sonarr      | 8989 | TV series management |
+| radarr      | 7878 | Movie management     |
+| bazarr      | 6767 | Subtitle management  |
+| prowlarr    | 9696 | Indexer management   |
+| qbittorrent | 8080 | Torrent client       |
+| overseerr   | 5055 | Media requests       |
+| tautulli    | 8181 | Plex monitoring      |
 
 ## Key Files
 

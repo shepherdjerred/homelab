@@ -1,7 +1,7 @@
 import { Deployment, DeploymentStrategy, EnvValue, Secret, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../misc/common.ts";
-import { ZfsSsdVolume } from "../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../misc/zfs-nvme-volume.ts";
 import { OnePasswordItem } from "../../generated/imports/onepassword.com.ts";
 import versions from "../versions.ts";
 
@@ -17,7 +17,7 @@ export function createGolinkDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "golink-pvc", {
+  const localPathVolume = new ZfsNvmeVolume(chart, "golink-pvc", {
     storage: Size.gibibytes(8),
   });
 

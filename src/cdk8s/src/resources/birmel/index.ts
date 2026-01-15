@@ -3,7 +3,7 @@ import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import versions from "../../versions.ts";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 
 export function createBirmelDeployment(chart: Chart) {
@@ -22,7 +22,7 @@ export function createBirmelDeployment(chart: Chart) {
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "birmel-pvc", {
+  const localPathVolume = new ZfsNvmeVolume(chart, "birmel-pvc", {
     storage: Size.gibibytes(2),
   });
 

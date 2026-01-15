@@ -15,12 +15,9 @@ machine:
     module.zfs.parameters.zfs_arc_max: "51539607552"
     # Min ARC size: 8GB (ensures cache isn't starved during memory pressure)
     module.zfs.parameters.zfs_arc_min: "8589934592"
-    # Allow metadata to use up to 85% of ARC (default 75%)
+    # Favor metadata in ARC (default 500, higher = more metadata)
     # Workload is metadata-heavy (many snapshots/small files)
-    module.zfs.parameters.zfs_arc_meta_limit_percent: "85"
-    # Reduce metadata reclaim aggressiveness (default 100)
-    # Lower value = more aggressive reclaim, higher = keep metadata longer
-    module.zfs.parameters.zfs_arc_meta_prune: "1000"
+    module.zfs.parameters.zfs_arc_meta_balance: "750"
     # Increase prefetch limit for sequential reads (default 10)
     module.zfs.parameters.zfs_prefetch_disable: "0"
     # Enable compressed ARC (stores compressed data in ARC, saves memory)

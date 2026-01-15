@@ -8,13 +8,13 @@ import { getCurlContainer } from "./base";
  * Uses caching for improved performance.
  * @param argocdToken The ArgoCD API token for authentication (as a Dagger Secret).
  * @param argocdServer The ArgoCD server URL (defaults to hardcoded value for now).
- * @param appName The ArgoCD application name to sync (defaults to "torvalds").
+ * @param appName The ArgoCD application name to sync (defaults to "apps").
  * @returns A StepResult object with status and message.
  */
 export async function sync(
   argocdToken: Secret,
   argocdServer = "https://argocd.tailnet-1a49.ts.net",
-  appName = "torvalds",
+  appName = "apps",
 ): Promise<StepResult> {
   // Use curl to get both the response body and HTTP status code
   // Write to file then read to avoid Dagger SDK URLSearchParams.toJSON bug

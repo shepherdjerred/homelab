@@ -1,7 +1,7 @@
 import { Chart, Size } from "cdk8s";
 import { Deployment, DeploymentStrategy, Service, Volume, EnvValue } from "cdk8s-plus-31";
 import { withCommonProps } from "../misc/common.ts";
-import { ZfsSsdVolume } from "../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../misc/zfs-nvme-volume.ts";
 import versions from "../versions.ts";
 import { TailscaleIngress } from "../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../misc/cloudflare-tunnel.ts";
@@ -12,10 +12,10 @@ export function createFreshRssDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const freshRssDataVolume = new ZfsSsdVolume(chart, "freshrss-data", {
+  const freshRssDataVolume = new ZfsNvmeVolume(chart, "freshrss-data", {
     storage: Size.gibibytes(32),
   });
-  const freshRssExtensionsVolme = new ZfsSsdVolume(chart, "freshrss-extensions", {
+  const freshRssExtensionsVolme = new ZfsNvmeVolume(chart, "freshrss-extensions", {
     storage: Size.gibibytes(8),
   });
 

@@ -24,7 +24,7 @@ export const HELM_CHARTS = [
   "birmel",
   "scout-frontend",
   "cloudflare-tunnel",
-  // Torvalds namespace charts (separate apps)
+  // Per-service namespace charts
   "media",
   "home",
   "postal",
@@ -120,29 +120,6 @@ export function buildAllCharts(repoRoot: Directory, version: string): Directory 
 }
 
 /**
- * Build the torvalds Helm chart, update version/appVersion, and export artifacts.
- * Uses the new per-chart directory structure (src/cdk8s/helm/{chartName}/).
- * @param repoRoot The repository root directory.
- * @param version The full semver version (e.g. "1.0.0-123") - used as-is in Chart.yaml.
- * @returns The dist directory with packaged chart and YAMLs.
- */
-export function build(repoRoot: Directory, version: string): Directory {
-  const cdk8sManifests = buildK8sManifests(repoRoot);
-
-  // Build only the torvalds chart (primary chart, for backwards compatibility)
-  // Use full path from repo root to avoid nested .directory() issues
-  const torvaldsChartDir = repoRoot.directory("src/cdk8s/helm/torvalds");
-  const container = getHelmContainerForChart(torvaldsChartDir, "torvalds", cdk8sManifests, repoRoot, version);
-
-  // Export all YAMLs and the packaged chart to dist/
-  return container
-    .withExec(["mkdir", "-p", "dist"])
-    .withExec(["sh", "-c", "cp *.yaml dist/ || true"])
-    .withExec(["sh", "-c", "cp torvalds-*.tgz dist/ || true"])
-    .directory("/workspace/dist");
-}
-
-/**
  * Publish a single pre-built Helm chart to a ChartMuseum repo.
  * @param chartName The name of the chart.
  * @param chartDist The directory containing the packaged chart (.tgz file).
@@ -225,50 +202,4 @@ export async function publishAllCharts(
   }
 
   return results;
-}
-
-/**
- * Publish the packaged torvalds Helm chart to a ChartMuseum repo.
- * Uses the new per-chart directory structure (src/cdk8s/helm/{chartName}/).
- * @param repoRoot The repository root directory.
- * @param version The full semver version (e.g. "1.0.0-123") - used as-is in Chart.yaml.
- * @param repo The ChartMuseum repo URL.
- * @param chartMuseumUsername The ChartMuseum username.
- * @param chartMuseumPassword The ChartMuseum password (secret).
- * @returns The curl output from the publish step.
- */
-export async function publish(
-  repoRoot: Directory,
-  version: string,
-  repo = "https://chartmuseum.tailnet-1a49.ts.net",
-  chartMuseumUsername: string,
-  chartMuseumPassword: Secret,
-): Promise<string> {
-  const cdk8sManifests = buildK8sManifests(repoRoot);
-
-  // Build and publish only the torvalds chart (for backwards compatibility)
-  // Use full path from repo root to avoid nested .directory() issues
-  const torvaldsChartDir = repoRoot.directory("src/cdk8s/helm/torvalds");
-  const chartFile = `torvalds-${version}.tgz`;
-  const container = getHelmContainerForChart(torvaldsChartDir, "torvalds", cdk8sManifests, repoRoot, version)
-    .withEnvVariable("CHARTMUSEUM_USERNAME", chartMuseumUsername)
-    .withSecretVariable("CHARTMUSEUM_PASSWORD", chartMuseumPassword)
-    .withExec([
-      "sh",
-      "-c",
-      `curl -s -w '\\n%{http_code}' -u $CHARTMUSEUM_USERNAME:$CHARTMUSEUM_PASSWORD --data-binary @${chartFile} ${repo}/api/charts > /tmp/result.txt 2>&1`,
-    ]);
-
-  const result = await container.file("/tmp/result.txt").contents();
-  const lines = result.trim().split("\n");
-  const httpCode = lines.pop() ?? "";
-  const body = lines.join("\n");
-
-  if (httpCode === "201" || httpCode === "200") {
-    return body || "Chart published successfully";
-  } else if (httpCode === "409") {
-    return "409 Conflict: Chart already exists, treating as success.";
-  } else {
-    throw new Error(`Helm Chart Publish failed with HTTP ${httpCode}: ${body}`);
-  }
 }

@@ -26,7 +26,7 @@ import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
 import { buildAndPushDependencySummaryImage } from "./dependency-summary";
-import { build as helmBuildFn, publish as helmPublishFn, buildAllCharts, HELM_CHARTS } from "./helm";
+import { buildAllCharts, HELM_CHARTS } from "./helm";
 import { Stage } from "./stage";
 import versions from "./versions";
 import { runReleasePleaseWorkflow } from "./release-please.ts";
@@ -800,7 +800,7 @@ export class Homelab {
   }
 
   /**
-   * Publishes the packaged torvalds Helm chart to a ChartMuseum repo and returns a StepResult.
+   * Publishes all packaged Helm charts to a ChartMuseum repo and returns a StepResult.
    * @param repoRoot The repository root directory.
    * @param version The raw build number (e.g. "123") - will be formatted as "1.0.0-123".
    * @param repo The ChartMuseum repo URL.
