@@ -5,7 +5,7 @@ import { Namespace } from "cdk8s-plus-31";
 import { Size } from "cdk8s";
 import { KubeRole, KubeRoleBinding } from "../../../generated/imports/k8s.ts";
 import { repositories } from "./actions-runner-controller.ts";
-import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
+import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 
 export function createDaggerApp(chart: Chart) {
   new Namespace(chart, "dagger-namespace", {
@@ -101,7 +101,7 @@ export function createDaggerApp(chart: Chart) {
               statefulSet: {
                 persistentVolumeClaim: {
                   enabled: true,
-                  storageClassName: SSD_STORAGE_CLASS,
+                  storageClassName: NVME_STORAGE_CLASS,
                   accessModes: ["ReadWriteOnce"],
                   resources: {
                     requests: {

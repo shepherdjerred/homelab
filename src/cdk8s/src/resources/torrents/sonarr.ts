@@ -1,7 +1,7 @@
 import { Cpu, Deployment, DeploymentStrategy, type PersistentVolumeClaim, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { LINUXSERVER_GID, withCommonLinuxServerProps } from "../../misc/linux-server.ts";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
 
@@ -20,7 +20,7 @@ export function createSonarrDeployment(
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "sonarr-pvc", {
+  const localPathVolume = new ZfsNvmeVolume(chart, "sonarr-pvc", {
     storage: Size.gibibytes(8),
   });
 

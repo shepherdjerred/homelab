@@ -18,6 +18,7 @@ Patches are applied to the base Talos machine configuration to customize the clu
 **Purpose**: Configure kubelet settings
 
 **Current settings**:
+
 - `max-pods: 300` - Maximum number of pods per node (increased from 250)
 
 ### zfs.yaml
@@ -25,6 +26,7 @@ Patches are applied to the base Talos machine configuration to customize the clu
 **Purpose**: Configure ZFS kernel module parameters
 
 **Current settings**:
+
 - `zfs_arc_max: 67108864000` (62.5 GB) - Maximum ARC size, set to 50% of total RAM
 - `zfs_arc_min: 8589934592` (8 GB) - Minimum ARC size
 
@@ -74,6 +76,7 @@ kubectl port-forward -n prometheus svc/prometheus-kube-prometheus-prometheus 909
 ```
 
 Then query `node_zfs_arc_c_max`:
+
 - Expected: 67108864000 (62.5 GB)
 
 Or check directly on the node:
@@ -120,4 +123,4 @@ rate(node_zfs_arc_hash_collisions[5m])
 rate(node_zfs_arc_deleted[5m])
 ```
 
-See PrometheusRule `prometheus-zfs-monitoring-rules` in the `torvalds` namespace for configured alerts.
+See PrometheusRule `prometheus-zfs-monitoring-rules` in the `prometheus` namespace for configured alerts.

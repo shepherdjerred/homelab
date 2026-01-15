@@ -2,7 +2,7 @@ import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
-import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
+import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import { createPrometheusMonitoring } from "../monitoring/monitoring/prometheus.ts";
 import { createSmartctlMonitoring } from "../monitoring/smartctl.ts";
@@ -119,7 +119,7 @@ export async function createPrometheusApp(chart: Chart) {
       ],
       persistence: {
         enabled: true,
-        storageClassName: SSD_STORAGE_CLASS,
+        storageClassName: NVME_STORAGE_CLASS,
       },
       // Deploy Grafana as a StatefulSet instead of Deployment to avoid PVC deadlock
       // Single-replica StatefulSet handles rolling updates properly with RWO (ReadWriteOnce) PVCs
@@ -159,7 +159,7 @@ export async function createPrometheusApp(chart: Chart) {
         storage: {
           volumeClaimTemplate: {
             spec: {
-              storageClassName: SSD_STORAGE_CLASS,
+              storageClassName: NVME_STORAGE_CLASS,
               accessModes: ["ReadWriteOnce"],
               resources: {
                 requests: {
@@ -296,7 +296,7 @@ export async function createPrometheusApp(chart: Chart) {
         storageSpec: {
           volumeClaimTemplate: {
             spec: {
-              storageClassName: SSD_STORAGE_CLASS,
+              storageClassName: NVME_STORAGE_CLASS,
               accessModes: ["ReadWriteOnce"],
               resources: {
                 requests: {

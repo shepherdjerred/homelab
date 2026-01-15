@@ -22,14 +22,14 @@ bunx @homelab/helm-types \
 
 ## CLI Options
 
-| Option | Alias | Required | Description |
-|--------|-------|----------|-------------|
-| `--name` | `-n` | Yes | Unique identifier for the chart |
-| `--repo` | `-r` | Yes | Helm repository URL |
-| `--version` | `-v` | Yes | Chart version |
-| `--chart` | `-c` | No | Chart name in repo (defaults to --name) |
-| `--output` | `-o` | No | Output file path (stdout if omitted) |
-| `--interface` | `-i` | No | Interface name (auto-generated from chart name) |
+| Option        | Alias | Required | Description                                     |
+| ------------- | ----- | -------- | ----------------------------------------------- |
+| `--name`      | `-n`  | Yes      | Unique identifier for the chart                 |
+| `--repo`      | `-r`  | Yes      | Helm repository URL                             |
+| `--version`   | `-v`  | Yes      | Chart version                                   |
+| `--chart`     | `-c`  | No       | Chart name in repo (defaults to --name)         |
+| `--output`    | `-o`  | No       | Output file path (stdout if omitted)            |
+| `--interface` | `-i`  | No       | Interface name (auto-generated from chart name) |
 
 ## Integration with CDK8s
 
@@ -52,12 +52,11 @@ import type { CertmanagerHelmValues } from "../../generated/helm/cert-manager.ty
 
 type HelmChartValuesMap = {
   "argo-cd": ArgocdHelmValues;
-  "cert-manager": CertmanagerHelmValues;  // Add new chart
+  "cert-manager": CertmanagerHelmValues; // Add new chart
   // ... other charts
 };
 
-export type HelmValuesForChart<TChart extends keyof HelmChartValuesMap> =
-  HelmChartValuesMap[TChart];
+export type HelmValuesForChart<TChart extends keyof HelmChartValuesMap> = HelmChartValuesMap[TChart];
 ```
 
 ### Step 3: Use in ArgoCD Applications
@@ -66,7 +65,7 @@ export type HelmValuesForChart<TChart extends keyof HelmChartValuesMap> =
 import type { HelmValuesForChart } from "../misc/typed-helm-parameters.ts";
 
 const certManagerValues: HelmValuesForChart<"cert-manager"> = {
-  installCRDs: true,  // Type-safe with autocomplete
+  installCRDs: true, // Type-safe with autocomplete
   prometheus: {
     enabled: true,
     servicemonitor: {

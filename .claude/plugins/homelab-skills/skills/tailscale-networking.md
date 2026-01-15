@@ -8,7 +8,8 @@ description: >-
 
 ## Overview
 
-Services are exposed via Tailscale for secure private network access. The Tailscale Kubernetes operator provides an ingress class that automatically provisions DNS entries on the tailnet.
+Services are exposed via Tailscale for secure private network access. The Tailscale Kubernetes
+operator provides an ingress class that automatically provisions DNS entries on the tailnet.
 
 ## TailscaleIngress Construct
 
@@ -37,7 +38,7 @@ new TailscaleIngress(chart, "myapp-ingress", {
 new TailscaleIngress(chart, "myapp-ingress", {
   service,
   host: "myapp",
-  funnel: true,  // Accessible from public internet
+  funnel: true, // Accessible from public internet
 });
 ```
 
@@ -46,11 +47,13 @@ new TailscaleIngress(chart, "myapp-ingress", {
 ## DNS Pattern
 
 All services follow the pattern:
+
 ```text
 {host}.tailnet-1a49.ts.net
 ```
 
 Examples:
+
 - `sonarr.tailnet-1a49.ts.net`
 - `plex.tailnet-1a49.ts.net`
 - `argocd.tailnet-1a49.ts.net`
@@ -90,9 +93,7 @@ export class TailscaleIngress extends Construct {
     const ingress = new Ingress(scope, `${id}-ingress`, merge({}, base, props));
 
     // Set ingress class to Tailscale
-    ApiObject.of(ingress).addJsonPatch(
-      JsonPatch.add("/spec/ingressClassName", "tailscale"),
-    );
+    ApiObject.of(ingress).addJsonPatch(JsonPatch.add("/spec/ingressClassName", "tailscale"));
   }
 }
 ```
@@ -106,12 +107,12 @@ import { createIngress } from "../misc/tailscale.ts";
 
 createIngress(
   chart,
-  "myapp-ingress",      // Ingress resource name
-  "myapp-namespace",    // Namespace
-  "myapp-service",      // Service name (string, not object)
-  8080,                 // Port
-  ["myapp"],            // Hosts array
-  false,                // Funnel enabled
+  "myapp-ingress", // Ingress resource name
+  "myapp-namespace", // Namespace
+  "myapp-service", // Service name (string, not object)
+  8080, // Port
+  ["myapp"], // Hosts array
+  false, // Funnel enabled
 );
 ```
 
@@ -126,7 +127,7 @@ export function createIngress(
   port: number,
   hosts: string[],
   funnel: boolean,
-): KubeIngress
+): KubeIngress;
 ```
 
 ## Common Patterns
@@ -143,7 +144,7 @@ export function createArgoCdApp(chart: Chart) {
     "argocd-server",
     443,
     ["argocd"],
-    true,  // Public access for external tools
+    true, // Public access for external tools
   );
 
   // ... ArgoCD Application definition
@@ -181,12 +182,14 @@ new TailscaleIngress(chart, "external-ingress", {
 ## Funnel Considerations
 
 **When to use Funnel:**
+
 - External webhook receivers
 - Public-facing web apps
 - GitHub Actions integrations
 - OAuth callbacks
 
 **When NOT to use Funnel:**
+
 - Internal tools (Sonarr, Radarr, etc.)
 - Admin dashboards (ArgoCD, Grafana)
 - Database connections
@@ -228,7 +231,7 @@ tls: [
 
 ```bash
 kubectl get ingress -A
-kubectl describe ingress myapp-ingress -n torvalds
+kubectl describe ingress myapp-ingress -n media  # or appropriate namespace
 ```
 
 ### Check Tailscale Operator Logs

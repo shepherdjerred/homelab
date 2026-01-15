@@ -5,12 +5,15 @@ import {
   VolumeSnapshotClassDeletionPolicy,
 } from "../../generated/imports/snapshot.storage.k8s.io.ts";
 
-export const SSD_STORAGE_CLASS = "zfs-ssd";
-export const HDD_STORAGE_CLASS = "zfs-hdd";
+// Note: K8s storage class names don't match hardware (legacy naming)
+// - "zfs-ssd" is backed by NVMe SSDs
+// - "zfs-hdd" is backed by SATA SSDs
+export const NVME_STORAGE_CLASS = "zfs-ssd";
+export const SATA_STORAGE_CLASS = "zfs-hdd";
 
 export function createStorageClasses(chart: Chart) {
   new KubeStorageClass(chart, "host-zfs-ssd", {
-    metadata: { name: SSD_STORAGE_CLASS },
+    metadata: { name: NVME_STORAGE_CLASS },
     provisioner: "zfs.csi.openebs.io",
     allowVolumeExpansion: true,
     reclaimPolicy: "Retain",
@@ -27,7 +30,7 @@ export function createStorageClasses(chart: Chart) {
   });
 
   new KubeStorageClass(chart, "host-zfs-hdd", {
-    metadata: { name: HDD_STORAGE_CLASS },
+    metadata: { name: SATA_STORAGE_CLASS },
     provisioner: "zfs.csi.openebs.io",
     allowVolumeExpansion: true,
     reclaimPolicy: "Retain",

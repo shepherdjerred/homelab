@@ -3,7 +3,7 @@ import { Application } from "../../../generated/imports/argoproj.io.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
-import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
+import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 
 export function createMinecraftShuxinApp(chart: Chart) {
@@ -74,7 +74,7 @@ export function createMinecraftShuxinApp(chart: Chart) {
       ],
     },
     persistence: {
-      storageClass: SSD_STORAGE_CLASS,
+      storageClass: NVME_STORAGE_CLASS,
       dataDir: {
         Size: Size.gibibytes(32).asString(),
         enabled: true,

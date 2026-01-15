@@ -1,7 +1,7 @@
 import { Chart, Size } from "cdk8s";
 import { ConfigMap, Cpu, Deployment, DeploymentStrategy, EnvValue, Service, Volume } from "cdk8s-plus-31";
 import { withCommonProps } from "../../misc/common.ts";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import versions from "../../versions.ts";
 
 export function createClickHouseDeployment(chart: Chart) {
@@ -11,7 +11,7 @@ export function createClickHouseDeployment(chart: Chart) {
 
   // Persistent volume for ClickHouse data
   // 64GB should be sufficient for homelab analytics
-  const dataVolume = new ZfsSsdVolume(chart, "clickhouse-data", {
+  const dataVolume = new ZfsNvmeVolume(chart, "clickhouse-data", {
     storage: Size.gibibytes(64),
   });
 

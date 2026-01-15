@@ -14,7 +14,7 @@ import { $ } from "bun";
 const TEST_BUILD_NUMBER = "123";
 const TEST_VERSION = `1.0.0-${TEST_BUILD_NUMBER}`;
 const EXPORT_DIR = "./test-helm-chart-export";
-const CHART_NAME = "torvalds";
+const CHART_NAME = "media";
 const CHART_FILE = `${CHART_NAME}-${TEST_VERSION}.tgz`;
 
 async function main() {
@@ -77,7 +77,7 @@ async function main() {
     const templates = templatesLsResult.text().trim().split("\n").filter((f) => f.length > 0);
     console.log("Found templates:", templates);
 
-    const expectedTemplates = ["apps.k8s.yaml", "project.k8s.yaml", "torvalds.k8s.yaml"];
+    const expectedTemplates = ["media.k8s.yaml"];
 
     for (const template of expectedTemplates) {
       if (!templates.includes(template)) {
@@ -89,36 +89,27 @@ async function main() {
     // Step 8: Validate template contents contain valid Kubernetes resources
     console.log("🔬 Validating template contents...");
 
-    // Check torvalds.k8s.yaml for expected resources
-    const torvaldsTemplate = await Bun.file(`${templatesDir}/torvalds.k8s.yaml`).text();
+    // Check media.k8s.yaml for expected resources
+    const mediaTemplate = await Bun.file(`${templatesDir}/media.k8s.yaml`).text();
 
     // Verify it contains Kubernetes resources
     const expectedResourceTypes = ["apiVersion:", "kind: PersistentVolumeClaim", "kind: Deployment", "kind: Service"];
 
     for (const resourceType of expectedResourceTypes) {
-      if (!torvaldsTemplate.includes(resourceType)) {
+      if (!mediaTemplate.includes(resourceType)) {
         console.warn(`⚠️  Expected resource type not found: ${resourceType}`);
       }
     }
 
-    // Verify it contains homelab-specific resources
-    const expectedResources = ["name: plex-tv-hdd-pvc", "namespace: torvalds", "storageClassName: zfs-hdd"];
+    // Verify it contains homelab-specific resources (media namespace)
+    const expectedResources = ["name: plex-tv-hdd-pvc", "namespace: media", "storageClassName: zfs-hdd"];
 
     for (const resource of expectedResources) {
-      if (!torvaldsTemplate.includes(resource)) {
+      if (!mediaTemplate.includes(resource)) {
         throw new Error(`Expected homelab resource not found: ${resource}`);
       }
     }
     console.log("✅ Template contents are valid and contain expected resources");
-
-    // Step 9: Check apps.k8s.yaml for ArgoCD applications
-    console.log("🎯 Validating ArgoCD applications...");
-    const appsTemplate = await Bun.file(`${templatesDir}/apps.k8s.yaml`).text();
-
-    if (!appsTemplate.includes("kind: Application") || !appsTemplate.includes("argoproj.io")) {
-      throw new Error("apps.k8s.yaml does not contain expected ArgoCD applications");
-    }
-    console.log("✅ ArgoCD applications are present in apps template");
 
     // Step 10: Verify the chart can be linted (if helm is available)
     console.log("🔍 Testing Helm lint (if available)...");

@@ -11,7 +11,7 @@ import {
 import { Chart, Size } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../misc/linux-server.ts";
 import { withCommonProps } from "../../misc/common.ts";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
@@ -40,7 +40,7 @@ export function createQBitTorrentDeployment(
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "qbittorrent-pvc", {
+  const localPathVolume = new ZfsNvmeVolume(chart, "qbittorrent-pvc", {
     storage: Size.gibibytes(16),
   });
 

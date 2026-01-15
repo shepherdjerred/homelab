@@ -8,19 +8,20 @@ description: >-
 
 ## Overview
 
-This project provides reusable CDK8s constructs for common patterns: storage volumes with backup labeling, Tailscale networking, container property composition, and database services.
+This project provides reusable CDK8s constructs for common patterns: storage volumes with backup
+labeling, Tailscale networking, container property composition, and database services.
 
 ## Storage Constructs
 
-### ZfsSsdVolume
+### ZfsNvmeVolume
 
 Creates a PVC on NVMe storage with automatic Velero backup labeling.
 
 ```typescript
-import { ZfsSsdVolume } from "../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../misc/zfs-nvme-volume.ts";
 import { Size } from "cdk8s";
 
-const configVolume = new ZfsSsdVolume(chart, "myapp-config-pvc", {
+const configVolume = new ZfsNvmeVolume(chart, "myapp-config-pvc", {
   storage: Size.gibibytes(8),
 });
 
@@ -37,15 +38,15 @@ volumeMounts: [
 ],
 ```
 
-### ZfsHddVolume
+### ZfsSataVolume
 
-Creates a PVC on HDD storage for large data.
+Creates a PVC on SATA SSD storage for large data (uses K8s storage class `zfs-hdd` for legacy reasons).
 
 ```typescript
-import { ZfsHddVolume } from "../misc/zfs-hdd-volume.ts";
+import { ZfsSataVolume } from "../misc/zfs-sata-volume.ts";
 import { Size } from "cdk8s";
 
-const mediaVolume = new ZfsHddVolume(chart, "media-hdd-pvc", {
+const mediaVolume = new ZfsSataVolume(chart, "media-hdd-pvc", {
   storage: Size.tebibytes(4),
 });
 ```
@@ -54,10 +55,10 @@ const mediaVolume = new ZfsHddVolume(chart, "media-hdd-pvc", {
 
 Both constructs auto-label PVCs for Velero:
 
-| Volume Size | Backup Status |
-|-------------|---------------|
-| < 200 GB | `velero.io/backup: enabled` |
-| >= 200 GB | `velero.io/backup: disabled` |
+| Volume Size | Backup Status                |
+| ----------- | ---------------------------- |
+| < 200 GB    | `velero.io/backup: enabled`  |
+| >= 200 GB   | `velero.io/backup: disabled` |
 
 ```typescript
 // Implementation detail
@@ -82,7 +83,7 @@ import { TailscaleIngress } from "../misc/tailscale.ts";
 // Basic usage (private Tailscale access)
 new TailscaleIngress(chart, "myapp-ingress", {
   service,
-  host: "myapp",  // Accessible at myapp.tailnet-1a49.ts.net
+  host: "myapp", // Accessible at myapp.tailnet-1a49.ts.net
 });
 
 // Public internet access via Funnel
@@ -102,12 +103,12 @@ import { createIngress } from "../misc/tailscale.ts";
 
 createIngress(
   chart,
-  "myapp-ingress",    // Ingress name
-  "myapp",            // Namespace
-  "myapp-service",    // Service name
-  8080,               // Port
-  ["myapp"],          // Hosts
-  false,              // Funnel enabled
+  "myapp-ingress", // Ingress name
+  "myapp", // Namespace
+  "myapp-service", // Service name
+  8080, // Port
+  ["myapp"], // Hosts
+  false, // Funnel enabled
 );
 ```
 
@@ -130,6 +131,7 @@ deployment.addContainer(
 ```
 
 **What it adds:**
+
 - `TZ: America/Los_Angeles` environment variable
 - Empty resources object (ready for limits)
 
@@ -158,6 +160,7 @@ deployment.addContainer(
 ```
 
 **What it adds:**
+
 - `PUID: 1000` and `PGID: 1000` environment variables
 - `TZ: America/Los_Angeles`
 - Security context allowing root (for permission fixing)
@@ -172,7 +175,7 @@ Deploys Redis via ArgoCD with Bitnami Helm chart:
 import { Redis } from "../resources/common/redis.ts";
 
 const redis = new Redis(chart, "myapp-redis", {
-  namespace: "torvalds",
+  namespace: "media",  // Use the appropriate service namespace
 });
 
 // Use in deployment
@@ -183,6 +186,7 @@ envVariables: {
 ```
 
 **Features:**
+
 - Standalone architecture (no replication)
 - No authentication (internal use)
 - No persistence (in-memory only)
@@ -196,16 +200,16 @@ Specialized MariaDB for Postal mail server:
 import { PostalMariaDB } from "../resources/postgres/postal-mariadb.ts";
 
 const mariadb = new PostalMariaDB(chart, "postal-mariadb", {
-  namespace: "torvalds",
+  namespace: "postal",
   storageClass: "zfs-ssd",
   storageSize: "32Gi",
 });
 
 // Access properties
-mariadb.serviceName      // "postal-mariadb"
-mariadb.databaseName     // "postal"
-mariadb.username         // "postal"
-mariadb.secretItem       // OnePasswordItem for credentials
+mariadb.serviceName; // "postal-mariadb"
+mariadb.databaseName; // "postal"
+mariadb.username; // "postal"
+mariadb.secretItem; // OnePasswordItem for credentials
 ```
 
 ## Utility Patterns
@@ -227,9 +231,7 @@ ApiObject.of(deployment).addJsonPatch(
 );
 
 // Enable host networking
-ApiObject.of(deployment).addJsonPatch(
-  JsonPatch.add("/spec/template/spec/hostNetwork", true),
-);
+ApiObject.of(deployment).addJsonPatch(JsonPatch.add("/spec/template/spec/hostNetwork", true));
 ```
 
 ### OnePasswordItem for Secrets
@@ -274,8 +276,8 @@ volumeMounts: files.map((file) => ({
 
 ```typescript
 // Storage classes
-export const SSD_STORAGE_CLASS = "zfs-ssd";
-export const HDD_STORAGE_CLASS = "zfs-hdd";
+export const NVME_STORAGE_CLASS = "zfs-ssd";
+export const SATA_STORAGE_CLASS = "zfs-hdd";
 
 // User/Group IDs
 export const ROOT_UID = 0;
@@ -286,8 +288,8 @@ export const LINUXSERVER_GID = 1000;
 
 ## Key Files
 
-- `src/cdk8s/src/misc/zfs-ssd-volume.ts` - SSD volume construct
-- `src/cdk8s/src/misc/zfs-hdd-volume.ts` - HDD volume construct
+- `src/cdk8s/src/misc/zfs-nvme-volume.ts` - SSD volume construct
+- `src/cdk8s/src/misc/zfs-sata-volume.ts` - HDD volume construct
 - `src/cdk8s/src/misc/tailscale.ts` - Tailscale ingress construct
 - `src/cdk8s/src/misc/common.ts` - Base container props
 - `src/cdk8s/src/misc/linux-server.ts` - LinuxServer.io props

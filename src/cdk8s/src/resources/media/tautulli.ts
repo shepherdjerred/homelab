@@ -1,7 +1,7 @@
 import { Chart, Size } from "cdk8s";
 import { Deployment, DeploymentStrategy, Service, Volume } from "cdk8s-plus-31";
 import { withCommonLinuxServerProps } from "../../misc/linux-server.ts";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
 
@@ -11,7 +11,7 @@ export function createTautulliDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "tautulli-pvc", {
+  const localPathVolume = new ZfsNvmeVolume(chart, "tautulli-pvc", {
     storage: Size.gibibytes(8),
   });
 

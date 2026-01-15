@@ -6,11 +6,11 @@ import {
   PersistentVolumeMode,
 } from "cdk8s-plus-31";
 import { Construct } from "constructs";
-import { HDD_STORAGE_CLASS } from "./storage-classes.ts";
+import { SATA_STORAGE_CLASS } from "./storage-classes.ts";
 import { type SetRequired } from "type-fest";
 import { Size } from "cdk8s";
 
-export class ZfsHddVolume extends Construct {
+export class ZfsSataVolume extends Construct {
   public readonly claim: PersistentVolumeClaim;
   constructor(
     scope: Construct,
@@ -28,7 +28,7 @@ export class ZfsHddVolume extends Construct {
 
     const baseProps: PersistentVolumeClaimProps = {
       storage: props.storage,
-      storageClassName: HDD_STORAGE_CLASS,
+      storageClassName: SATA_STORAGE_CLASS,
       accessModes: [PersistentVolumeAccessMode.READ_WRITE_ONCE],
       volumeMode: PersistentVolumeMode.FILE_SYSTEM,
       metadata: {

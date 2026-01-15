@@ -6,7 +6,7 @@ import { ServiceMonitor } from "../../../generated/imports/monitoring.coreos.com
 import versions from "../../versions.ts";
 import type { Stage } from "../../cdk8s-charts/scout.ts";
 import { match } from "ts-pattern";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 
 export function createScoutDeployment(chart: Chart, stage: Stage) {
   const deployment = new Deployment(chart, "scout-backend", {
@@ -39,7 +39,7 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
     },
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "scout-storage-claim", {
+  const localPathVolume = new ZfsNvmeVolume(chart, "scout-storage-claim", {
     storage: Size.gibibytes(8),
   });
 

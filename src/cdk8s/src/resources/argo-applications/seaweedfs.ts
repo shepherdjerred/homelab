@@ -5,7 +5,7 @@ import { IntOrString, KubeService } from "../../../generated/imports/k8s.ts";
 import versions from "../../versions.ts";
 import { Namespace } from "cdk8s-plus-31";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
-import { SSD_STORAGE_CLASS } from "../../misc/storage-classes.ts";
+import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 
@@ -80,7 +80,7 @@ export function createSeaweedfsApp(chart: Chart) {
       data: {
         type: "persistentVolumeClaim",
         size: Size.gibibytes(1).asString(),
-        storageClass: SSD_STORAGE_CLASS,
+        storageClass: NVME_STORAGE_CLASS,
       },
       logs: {
         type: "emptyDir",
@@ -94,7 +94,7 @@ export function createSeaweedfsApp(chart: Chart) {
           name: "data",
           type: "persistentVolumeClaim",
           size: Size.gibibytes(32).asString(),
-          storageClass: SSD_STORAGE_CLASS,
+          storageClass: NVME_STORAGE_CLASS,
           maxVolumes: 0, // 0 means auto-detect
         },
       ],
@@ -102,7 +102,7 @@ export function createSeaweedfsApp(chart: Chart) {
       idx: {
         type: "persistentVolumeClaim",
         size: Size.gibibytes(50).asString(),
-        storageClass: SSD_STORAGE_CLASS,
+        storageClass: NVME_STORAGE_CLASS,
       },
       logs: {
         type: "emptyDir",
@@ -114,7 +114,7 @@ export function createSeaweedfsApp(chart: Chart) {
       data: {
         type: "persistentVolumeClaim",
         size: Size.gibibytes(1).asString(),
-        storageClass: SSD_STORAGE_CLASS,
+        storageClass: NVME_STORAGE_CLASS,
       },
       logs: {
         type: "emptyDir",

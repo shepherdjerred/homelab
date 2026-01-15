@@ -1,7 +1,7 @@
 import { Deployment, DeploymentStrategy, EnvValue, Secret, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonLinuxServerProps } from "../../misc/linux-server.ts";
-import { ZfsSsdVolume } from "../../misc/zfs-ssd-volume.ts";
+import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import versions from "../../versions.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 
@@ -11,7 +11,7 @@ export function createRecyclarrDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const localPathVolume = new ZfsSsdVolume(chart, "recyclarr-pvc", {
+  const localPathVolume = new ZfsNvmeVolume(chart, "recyclarr-pvc", {
     storage: Size.gibibytes(8),
   });
 

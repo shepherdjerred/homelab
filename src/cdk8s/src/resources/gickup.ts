@@ -1,7 +1,7 @@
 import { Chart, Size } from "cdk8s";
 import { ConfigMap, Deployment, DeploymentStrategy, Secret, Service, Volume } from "cdk8s-plus-31";
 import { withCommonProps } from "../misc/common.ts";
-import { ZfsHddVolume } from "../misc/zfs-hdd-volume.ts";
+import { ZfsSataVolume } from "../misc/zfs-sata-volume.ts";
 import { ServiceMonitor } from "../../generated/imports/monitoring.coreos.com.ts";
 import { OnePasswordItem } from "../../generated/imports/onepassword.com.ts";
 import versions from "../versions.ts";
@@ -37,7 +37,7 @@ export async function createGickupDeployment(chart: Chart) {
     strategy: DeploymentStrategy.recreate(),
   });
 
-  const backupVolume = new ZfsHddVolume(chart, "gickup-backup-pvc", {
+  const backupVolume = new ZfsSataVolume(chart, "gickup-backup-pvc", {
     storage: Size.gibibytes(256),
   });
 

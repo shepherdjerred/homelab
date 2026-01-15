@@ -19,21 +19,21 @@ Dagger Pipeline (build/test)
     ↓
 CDK8s Build (generate manifests)
     ↓
-Helm Package (create chart)
+Helm Package (create 24 charts)
     ↓
-ChartMuseum (store chart)
+ChartMuseum (store charts)
     ↓
-ArgoCD Sync (deploy)
+ArgoCD Sync (deploy via app-of-apps)
     ↓
 Kubernetes Cluster
 ```
 
 ## Pipeline Triggers
 
-| Event | Pipeline Mode | Actions |
-|-------|--------------|---------|
-| Push to `main` | Production | Build, test, publish, deploy |
-| Pull Request | Development | Build, test only |
+| Event          | Pipeline Mode | Actions                      |
+| -------------- | ------------- | ---------------------------- |
+| Push to `main` | Production    | Build, test, publish, deploy |
+| Pull Request   | Development   | Build, test only             |
 
 ## Dagger Pipeline
 
@@ -118,6 +118,8 @@ if (env === Stage.Prod) {
 
 #### 5. Helm Chart Publishing (Prod Only)
 
+All 24 charts are published to ChartMuseum:
+
 ```typescript
 if (env === Stage.Prod && helmBuildResult.dist) {
   await this.helmPublishBuilt(
@@ -135,7 +137,7 @@ if (env === Stage.Prod && helmBuildResult.dist) {
 
 ```typescript
 if (env === Stage.Prod && helmPublishResult.status === "passed") {
-  await argocdSync(argocdToken);
+  await argocdSync(argocdToken); // Syncs "apps" application
 }
 ```
 
@@ -153,9 +155,16 @@ CDK8s synthesizes Kubernetes YAML manifests to `src/cdk8s/dist/`:
 
 ```text
 src/cdk8s/dist/
-├── apps.yaml       # ArgoCD applications
-├── torvalds.yaml   # Main homelab chart
-└── ...
+├── apps.k8s.yaml       # ArgoCD applications (app-of-apps)
+├── media.k8s.yaml      # Media namespace resources
+├── home.k8s.yaml       # Home namespace resources
+├── postal.k8s.yaml     # Postal namespace resources
+├── syncthing.k8s.yaml  # Syncthing namespace resources
+├── freshrss.k8s.yaml   # FreshRSS namespace resources
+├── golink.k8s.yaml     # GoLink namespace resources
+├── pokemon.k8s.yaml    # Pokemon namespace resources
+├── gickup.k8s.yaml     # Gickup namespace resources
+└── ...                 # Other charts
 ```
 
 ## Helm Chart Packaging
@@ -163,26 +172,39 @@ src/cdk8s/dist/
 From `.dagger/src/helm.ts`:
 
 ```typescript
-function getHelmContainer(source: Directory, repoRoot: Directory, version: string) {
-  const cdk8sManifests = buildK8sManifests(repoRoot);
-
-  return dag.container()
-    .from(`alpine/helm:${versions["alpine/helm"]}`)
-    .withMountedDirectory("/workspace", source)
-    // Update Chart.yaml version
-    .withExec(["helm-set-version.sh", "Chart.yaml", version])
-    // Copy CDK8s manifests to templates/
-    .withExec(["mkdir", "-p", "templates"])
-    .withDirectory("templates", cdk8sManifests)
-    // Package chart
-    .withExec(["helm", "package", "."]);
-}
+export const HELM_CHARTS = [
+  "ddns",
+  "apps",
+  "scout-beta",
+  "scout-prod",
+  "starlight-karma-bot-beta",
+  "starlight-karma-bot-prod",
+  "redlib",
+  "sjer-red",
+  "webring",
+  "dpp-docs",
+  "better-skill-capped",
+  "plausible",
+  "birmel",
+  "scout-frontend",
+  "cloudflare-tunnel",
+  // Per-service namespace charts
+  "media",
+  "home",
+  "postal",
+  "syncthing",
+  "golink",
+  "freshrss",
+  "pokemon",
+  "gickup",
+  "grafana-db",
+] as const;
 ```
 
 ### Chart Version Format
 
 ```text
-torvalds-1.0.0-{github_run_number}.tgz
+{chartname}-1.0.0-{github_run_number}.tgz
 ```
 
 ## ChartMuseum
@@ -196,21 +218,21 @@ https://chartmuseum.tailnet-1a49.ts.net
 ### Publishing
 
 ```typescript
-export async function publish(
-  source: Directory,
-  repoRoot: Directory,
+export async function publishAllCharts(
+  allChartsDist: Directory,
   version: string,
   repo: string,
   chartMuseumUsername: string,
   chartMuseumPassword: Secret,
-): Promise<string> {
-  const chartFile = `torvalds-${version}.tgz`;
+): Promise<Record<string, string>> {
+  const results: Record<string, string> = {};
 
-  // POST chart to ChartMuseum API
-  await container.withExec([
-    "sh", "-c",
-    `curl -u $USER:$PASS --data-binary @${chartFile} ${repo}/api/charts`,
-  ]);
+  for (const chartName of HELM_CHARTS) {
+    const chartDist = allChartsDist.directory(chartName);
+    results[chartName] = await publishChart(chartName, chartDist, version, ...);
+  }
+
+  return results;
 }
 ```
 
@@ -222,13 +244,13 @@ From `.dagger/src/argocd.ts`:
 export async function sync(
   argocdToken: Secret,
   argocdServer = "https://argocd.tailnet-1a49.ts.net",
-  appName = "torvalds",
+  appName = "apps", // App-of-apps that manages all other apps
 ): Promise<StepResult> {
   // POST to ArgoCD sync API
   await container.withExec([
-    "sh", "-c",
-    `curl -X POST ${argocdServer}/api/v1/applications/${appName}/sync ` +
-      '-H "Authorization: Bearer $ARGOCD_TOKEN"',
+    "sh",
+    "-c",
+    `curl -X POST ${argocdServer}/api/v1/applications/${appName}/sync ` + '-H "Authorization: Bearer $ARGOCD_TOKEN"',
   ]);
 }
 ```
@@ -279,17 +301,18 @@ dagger call ci \
 ### Force ArgoCD Sync
 
 ```bash
-argocd app sync torvalds
+argocd app sync apps
 # Or via API
-curl -X POST https://argocd.tailnet-1a49.ts.net/api/v1/applications/torvalds/sync \
+curl -X POST https://argocd.tailnet-1a49.ts.net/api/v1/applications/apps/sync \
   -H "Authorization: Bearer $ARGOCD_TOKEN"
 ```
 
 ### Check ArgoCD Status
 
 ```bash
-argocd app get torvalds
-argocd app history torvalds
+argocd app get apps
+argocd app list
+argocd app get media  # Check specific namespace app
 ```
 
 ## Rollback
@@ -297,14 +320,14 @@ argocd app history torvalds
 ### Via ArgoCD UI
 
 1. Go to https://argocd.tailnet-1a49.ts.net
-2. Select `torvalds` application
+2. Select the application to rollback (e.g., `media`, `home`)
 3. Click "History and Rollback"
 4. Select previous revision
 
 ### Via CLI
 
 ```bash
-argocd app rollback torvalds <revision>
+argocd app rollback media <revision>
 ```
 
 ## Key Files
@@ -312,7 +335,7 @@ argocd app rollback torvalds <revision>
 - `.github/workflows/ci.yml` - GitHub Actions workflow
 - `.dagger/src/index.ts` - Main Dagger pipeline
 - `.dagger/src/cdk8s.ts` - CDK8s build functions
-- `.dagger/src/helm.ts` - Helm packaging and publishing
+- `.dagger/src/helm.ts` - Helm packaging and publishing (HELM_CHARTS list)
 - `.dagger/src/argocd.ts` - ArgoCD sync function
-- `src/cdk8s/helm/Chart.yaml` - Helm chart definition
+- `src/cdk8s/helm/{chartname}/Chart.yaml` - Helm chart definitions
 - `src/cdk8s/src/main.ts` - CDK8s entry point
