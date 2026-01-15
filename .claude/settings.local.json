@@ -25,7 +25,14 @@
       "Bash(gh run list:*)",
       "WebFetch(domain:dagger.cloud)",
       "Bash(git fetch:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(velero backup describe:*)",
+      "Bash(velero backup get:*)",
+      "Bash(sort:*)",
+      "Bash(kubectl scale:*)",
+      "Bash(kubectl patch:*)",
+      "Bash(while read pvc)",
+      "Bash(xargs:*)"
     ],
     "deny": [],
     "ask": []

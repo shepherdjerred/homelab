@@ -35,7 +35,7 @@ export function createHaDeployment(chart: Chart) {
           secret: haTokenSecret,
           key: "password",
         }),
-        HASS_BASE_URL: EnvValue.fromValue("https://homeassistant.tailnet-1a49.ts.net"),
+        HASS_BASE_URL: EnvValue.fromValue("http://home-homeassistant-service:8123"),
         METRICS_PORT: EnvValue.fromValue("9090"),
 
         // Sentry configuration
