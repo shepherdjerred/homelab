@@ -4,12 +4,12 @@ import { createPostalDeployment } from "../resources/mail/postal.ts";
 
 export function createPostalChart(app: App) {
   const chart = new Chart(app, "postal", {
-    namespace: "torvalds",
+    namespace: "postal",
     disableResourceNameHashes: true,
   });
 
   const postalMariadb = new PostalMariaDB(chart, "postal-mariadb", {
-    namespace: "torvalds",
+    namespace: "postal",
     storageClass: "zfs-ssd",
     storageSize: "32Gi",
   });

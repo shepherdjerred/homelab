@@ -102,7 +102,7 @@ echo "Database URL built successfully"
 
         // SMTP configuration via existing Postal server
         MAILER_ADAPTER: EnvValue.fromValue("Bamboo.SMTPAdapter"),
-        SMTP_HOST_ADDR: EnvValue.fromValue("torvalds-postal-smtp-service"),
+        SMTP_HOST_ADDR: EnvValue.fromValue("postal-postal-smtp-service.postal"),
         SMTP_HOST_PORT: EnvValue.fromValue("25"),
         SMTP_HOST_SSL_ENABLED: EnvValue.fromValue("false"),
         MAILER_EMAIL: EnvValue.fromValue("plausible@sjer.red"),

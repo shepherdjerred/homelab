@@ -23,14 +23,14 @@ The `whisperbridge` container acts as a proxy between Bazarr's Whisper provider 
 
 ## Deployment
 
-The whisperbridge is deployed as part of the torvalds chart. After deploying:
+The whisperbridge is deployed as part of the media chart. After deploying:
 
 ```bash
 # Verify the pod is running
-kubectl get pods -n torvalds | grep whisperbridge
+kubectl get pods -n media | grep whisperbridge
 
 # Check logs
-kubectl logs -n torvalds -l cdk8s.io/metadata.addr=torvalds-whisperbridge-c85075a8
+kubectl logs -n media -l cdk8s.io/metadata.addr=media-whisperbridge-c85075a8
 ```
 
 ## Bazarr Configuration
@@ -42,7 +42,7 @@ kubectl logs -n torvalds -l cdk8s.io/metadata.addr=torvalds-whisperbridge-c85075
 3. Click **Add Provider** and select **Whisper**
 
 4. Configure the provider:
-   - **Endpoint**: `http://torvalds-whisperbridge-service:9000`
+   - **Endpoint**: `http://media-whisperbridge-service:9000`
    - **Timeout**: `3600` (1 hour - increase for very long files)
 
 5. Click **Save**
@@ -67,20 +67,20 @@ kubectl logs -n torvalds -l cdk8s.io/metadata.addr=torvalds-whisperbridge-c85075
 ### Check whisperbridge logs
 
 ```bash
-kubectl logs -n torvalds deployment/torvalds-whisperbridge
+kubectl logs -n media deployment/media-whisperbridge
 ```
 
 ### Verify Groq API key is loaded
 
 ```bash
-kubectl get secret -n torvalds torvalds-groq-secrets -o yaml
+kubectl get secret -n media media-groq-secrets -o yaml
 ```
 
 ### Test the endpoint directly
 
 ```bash
-kubectl run -it --rm curl --image=curlimages/curl -n torvalds -- \
-  curl -X GET http://torvalds-whisperbridge-service:9000/
+kubectl run -it --rm curl --image=curlimages/curl -n media -- \
+  curl -X GET http://media-whisperbridge-service:9000/
 ```
 
 ### Common issues

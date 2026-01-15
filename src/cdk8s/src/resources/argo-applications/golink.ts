@@ -15,7 +15,7 @@ export function createGolinkApp(chart: Chart) {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "torvalds",
+        namespace: "golink",
       },
       syncPolicy: {
         automated: {},

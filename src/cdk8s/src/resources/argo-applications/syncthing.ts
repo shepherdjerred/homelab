@@ -15,7 +15,7 @@ export function createSyncthingApp(chart: Chart) {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "torvalds",
+        namespace: "syncthing",
       },
       syncPolicy: {
         automated: {},

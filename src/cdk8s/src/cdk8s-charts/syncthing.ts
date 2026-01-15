@@ -3,7 +3,7 @@ import { createSyncthingDeployment } from "../resources/syncthing.ts";
 
 export function createSyncthingChart(app: App) {
   const chart = new Chart(app, "syncthing", {
-    namespace: "torvalds",
+    namespace: "syncthing",
     disableResourceNameHashes: true,
   });
 

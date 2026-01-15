@@ -66,7 +66,7 @@ export function createDependencySummaryCronJob(chart: Chart) {
                     },
                     {
                       name: "POSTAL_HOST",
-                      value: "http://torvalds-postal-web-service.torvalds.svc.cluster.local:5000",
+                      value: "http://postal-postal-web-service.postal.svc.cluster.local:5000",
                     },
                     {
                       name: "POSTAL_HOST_HEADER",

@@ -15,7 +15,7 @@ export function createFreshrssApp(chart: Chart) {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "torvalds",
+        namespace: "freshrss",
       },
       syncPolicy: {
         automated: {},

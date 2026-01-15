@@ -118,7 +118,7 @@ export async function createAppsChart(app: App) {
   // Create all Grafana dashboards (gitckup, ha-workflow, scout, smartctl, velero, zfs)
   createAllGrafanaDashboards(chart);
 
-  // Per-service ArgoCD apps (migrated from torvalds)
+  // Per-service ArgoCD apps
   createDdnsApp(chart);
   createScoutBetaApp(chart);
   createScoutProdApp(chart);
@@ -132,13 +132,13 @@ export async function createAppsChart(app: App) {
   createDppDocsApp(chart);
   createBetterSkillCappedApp(chart);
 
-  // New namespace apps (migrated from torvalds)
+  // New namespace apps
   createPlausibleApp(chart);
   createBirmelApp(chart);
   createScoutFrontendApp(chart);
   createCloudflareTunnelApp(chart);
 
-  // Torvalds namespace apps (separate charts for easier future migration)
+  // Service apps with dedicated namespaces
   createMediaApp(chart);
   createHomeApp(chart);
   createPostalApp(chart);

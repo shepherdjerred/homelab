@@ -319,7 +319,7 @@ export async function createPrometheusApp(chart: Chart) {
             scheme: "http",
             static_configs: [
               {
-                targets: ["torvalds-homeassistant-service.torvalds:8123"],
+                targets: ["home-homeassistant-service.home:8123"],
               },
             ],
           },

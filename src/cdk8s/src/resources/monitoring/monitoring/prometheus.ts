@@ -15,7 +15,7 @@ export function createPrometheusMonitoring(chart: Chart) {
   new PrometheusRule(chart, "prometheus-homeassistant-rules", {
     metadata: {
       name: "prometheus-homeassistant-rules",
-      namespace: "torvalds",
+      namespace: "home",
       labels: { release: "prometheus" },
     },
     spec: {
@@ -51,7 +51,7 @@ export function createPrometheusMonitoring(chart: Chart) {
   new PrometheusRule(chart, "prometheus-resource-monitoring-rules", {
     metadata: {
       name: "prometheus-resource-monitoring-rules",
-      namespace: "torvalds",
+      namespace: "prometheus",
       labels: { release: "prometheus" },
     },
     spec: {
@@ -63,7 +63,7 @@ export function createPrometheusMonitoring(chart: Chart) {
   new PrometheusRule(chart, "prometheus-zfs-monitoring-rules", {
     metadata: {
       name: "prometheus-zfs-monitoring-rules",
-      namespace: "torvalds",
+      namespace: "prometheus",
       labels: { release: "prometheus" },
     },
     spec: {
@@ -86,7 +86,7 @@ export function createPrometheusMonitoring(chart: Chart) {
   new PrometheusRule(chart, "prometheus-ha-workflow-rules", {
     metadata: {
       name: "prometheus-ha-workflow-rules",
-      namespace: "torvalds",
+      namespace: "home",
       labels: { release: "prometheus" },
     },
     spec: {
@@ -98,7 +98,7 @@ export function createPrometheusMonitoring(chart: Chart) {
   new PrometheusRule(chart, "prometheus-gitckup-rules", {
     metadata: {
       name: "prometheus-gitckup-rules",
-      namespace: "torvalds",
+      namespace: "gickup",
       labels: { release: "prometheus" },
     },
     spec: {
@@ -110,7 +110,7 @@ export function createPrometheusMonitoring(chart: Chart) {
   new PrometheusRule(chart, "prometheus-qbittorrent-rules", {
     metadata: {
       name: "prometheus-qbittorrent-rules",
-      namespace: "torvalds",
+      namespace: "media",
       labels: { release: "prometheus" },
     },
     spec: {

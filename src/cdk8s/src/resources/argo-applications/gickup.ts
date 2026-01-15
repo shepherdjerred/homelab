@@ -15,7 +15,7 @@ export function createGickupApp(chart: Chart) {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "torvalds",
+        namespace: "gickup",
       },
       syncPolicy: {
         automated: {},

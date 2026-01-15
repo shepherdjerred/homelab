@@ -32,7 +32,7 @@ export async function setupCharts(app: App): Promise<void> {
   createStarlightKarmaBotChart(app, "beta");
   createStarlightKarmaBotChart(app, "prod");
 
-  // Per-service charts (migrated from torvalds)
+  // Per-service charts
   createDdnsChart(app);
   createRedlibChart(app);
   createSjerRedChart(app);

@@ -559,7 +559,7 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
  *    The web container runs `postal initialize` before starting the web server.
  *
  * 3. Create initial admin user:
- *    kubectl exec -it <postal-web-pod> -n torvalds -- postal make-user
+ *    kubectl exec -it <postal-web-pod> -n postal -- postal make-user
  *
  * 4. Create organization:
  *    Log into the web UI and create your first organization

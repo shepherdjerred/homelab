@@ -4,7 +4,7 @@ import { createHaDeployment } from "../resources/home/ha.ts";
 
 export async function createHomeChart(app: App) {
   const chart = new Chart(app, "home", {
-    namespace: "torvalds",
+    namespace: "home",
     disableResourceNameHashes: true,
   });
 

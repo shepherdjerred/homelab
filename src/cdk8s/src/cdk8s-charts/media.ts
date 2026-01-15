@@ -14,7 +14,7 @@ import { createWhisperbridgeDeployment } from "../resources/torrents/whisperbrid
 
 export function createMediaChart(app: App) {
   const chart = new Chart(app, "media", {
-    namespace: "torvalds",
+    namespace: "media",
     disableResourceNameHashes: true,
   });
 

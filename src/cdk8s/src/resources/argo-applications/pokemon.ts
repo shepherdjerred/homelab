@@ -15,7 +15,7 @@ export function createPokemonApp(chart: Chart) {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "torvalds",
+        namespace: "pokemon",
       },
       syncPolicy: {
         automated: {},

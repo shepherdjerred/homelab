@@ -4,7 +4,7 @@ import { createGolinkSyncJob } from "../resources/golink-sync.ts";
 
 export function createGolinkChart(app: App) {
   const chart = new Chart(app, "golink", {
-    namespace: "torvalds",
+    namespace: "golink",
     disableResourceNameHashes: true,
   });
 

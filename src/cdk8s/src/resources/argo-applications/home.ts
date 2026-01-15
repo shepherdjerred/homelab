@@ -15,7 +15,7 @@ export function createHomeApp(chart: Chart) {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "torvalds",
+        namespace: "home",
       },
       syncPolicy: {
         automated: {},

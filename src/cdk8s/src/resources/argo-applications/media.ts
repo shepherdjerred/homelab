@@ -15,7 +15,7 @@ export function createMediaApp(chart: Chart) {
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "torvalds",
+        namespace: "media",
       },
       syncPolicy: {
         automated: {},
