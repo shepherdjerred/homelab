@@ -95,7 +95,7 @@ const versions = {
   // not managed by renovate
   "shepherdjerred/scout-for-lol/beta": "1.0.157",
   // not managed by renovate
-  "shepherdjerred/scout-for-lol/prod": "1.0.152",
+  "shepherdjerred/scout-for-lol/prod": "1.0.157",
   // not managed by renovate
   "shepherdjerred/starlight-karma-bot/beta": "1.0.27",
   // not managed by renovate
