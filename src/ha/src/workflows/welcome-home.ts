@@ -10,12 +10,14 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
   const entrywayLight = hass.refBy.id("switch.entryway_overhead_lights");
   const livingRoomScene = hass.refBy.id("scene.living_room_main_bright");
   const bedroomHeater = hass.refBy.id("climate.bedroom_thermostat");
-  const livingRoomClimate = hass.refBy.id("climate.living_room");
+  // TODO: Re-enable when living room thermostat is back online
+  // const livingRoomClimate = hass.refBy.id("climate.living_room");
 
-  const christmasScenes = [
-    hass.refBy.id("scene.christmas_tree_silent_night"),
-    hass.refBy.id("scene.christmas_tree_under_the_tree"),
-  ];
+  // TODO: Re-enable when Christmas decorations are back
+  // const christmasScenes = [
+  //   hass.refBy.id("scene.christmas_tree_silent_night"),
+  //   hass.refBy.id("scene.christmas_tree_under_the_tree"),
+  // ];
 
   async function runWelcomeHome() {
     await instrumentWorkflow("welcome_home", async () => {
@@ -28,20 +30,21 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
             message: "Welcome back! Hope you had a great time.",
           });
 
-          // Set climate to comfortable home temperature (24°C)
+          // Set climate to comfortable home temperature (22°C)
           logger.debug("Setting climate to home comfort mode");
           await bedroomHeater.set_temperature({
             hvac_mode: "heat",
-            temperature: 24,
+            temperature: 22,
           });
-          try {
-            await livingRoomClimate.set_temperature({
-              hvac_mode: "heat",
-              temperature: 24,
-            });
-          } catch {
-            logger.debug("Living room climate not available, skipping");
-          }
+          // TODO: Re-enable when living room thermostat is back online
+          // try {
+          //   await livingRoomClimate.set_temperature({
+          //     hvac_mode: "heat",
+          //     temperature: 24,
+          //   });
+          // } catch {
+          //   logger.debug("Living room climate not available, skipping");
+          // }
 
           logger.debug("Turning on entryway light");
           await entrywayLight.turn_on();
@@ -49,13 +52,14 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
           logger.debug("Setting living room scene to bright");
           await livingRoomScene.turn_on();
 
-          const randomScene = christmasScenes[Math.floor(Math.random() * christmasScenes.length)];
-          if (randomScene) {
-            logger.debug("Turning on random Christmas tree scene");
-            await randomScene.turn_on();
-          } else {
-            throw new Error("No Christmas tree scene found");
-          }
+          // TODO: Re-enable when Christmas decorations are back
+          // const randomScene = christmasScenes[Math.floor(Math.random() * christmasScenes.length)];
+          // if (randomScene) {
+          //   logger.debug("Turning on random Christmas tree scene");
+          //   await randomScene.turn_on();
+          // } else {
+          //   throw new Error("No Christmas tree scene found");
+          // }
 
           if (shouldStopCleaning(roomba.state)) {
             logger.debug("Commanding Roomba to return to base");
