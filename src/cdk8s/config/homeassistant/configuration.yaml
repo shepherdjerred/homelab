@@ -64,6 +64,28 @@ automation: !include automation.yaml
 scene: !include scenes.yaml
 script: !include scripts.yaml
 
+# Template sensors for monitoring
+# Note: Jinja2 templates are escaped for Helm compatibility ({{ "{{" }} ... {{ "}}" }})
+template:
+  - sensor:
+      - name: "Unavailable Entities Count"
+        unique_id: unavailable_entities_count
+        state: >
+          {{ "{{" }} states
+             | selectattr('state', 'in', ['unavailable', 'unknown'])
+             | rejectattr('domain', 'in', ['group', 'automation', 'scene', 'script', 'button', 'event', 'number', 'select', 'text', 'update'])
+             | list | count {{ "}}" }}
+        unit_of_measurement: "entities"
+        state_class: measurement
+        icon: mdi:alert-circle
+        attributes:
+          entities: >
+            {{ "{{" }} states
+               | selectattr('state', 'in', ['unavailable', 'unknown'])
+               | rejectattr('domain', 'in', ['group', 'automation', 'scene', 'script', 'button', 'event', 'number', 'select', 'text', 'update'])
+               | map(attribute='entity_id')
+               | list {{ "}}" }}
+
 prometheus:
   namespace: homeassistant
 

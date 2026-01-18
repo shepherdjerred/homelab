@@ -115,6 +115,23 @@ export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
       ],
     },
 
+    // Entity availability monitoring
+    {
+      name: "homeassistant-availability",
+      rules: [
+        createSensorAlert(
+          "HomeAssistantEntitiesUnavailable",
+          'homeassistant_sensor_unit_entities{entity="sensor.unavailable_entities_count"}',
+          ">",
+          0,
+          "{{ $value }} Home Assistant entities are unavailable or unknown.",
+          "Home Assistant entities unavailable",
+          "5m", // Alert after 5 minutes of entities being unavailable
+          "warning",
+        ),
+      ],
+    },
+
     // Battery monitoring
     {
       name: "homeassistant-batteries",
