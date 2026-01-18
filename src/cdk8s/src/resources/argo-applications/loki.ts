@@ -4,8 +4,62 @@ import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
+import { ConfigMap } from "cdk8s-plus-31";
+
+// Loki alerting rules for Home Assistant logs
+// Note: Go template syntax escaped for Helm compatibility ({{ "{{" }} ... {{ "}}" }})
+const lokiAlertRules = `
+groups:
+  - name: homeassistant-logs
+    rules:
+      - alert: HomeAssistantErrorLogs
+        expr: |
+          sum by (app) (
+            count_over_time({app="homeassistant"} |~ "(?i)(error|exception|failed|failure)" [5m])
+          ) > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Home Assistant error logs detected"
+          description: "Home Assistant has logged {{ "{{" }} $value {{ "}}" }} errors in the last 5 minutes."
+          runbook_url: "https://grafana.tailnet-1a49.ts.net/explore?schemaVersion=1&panes=%7B%22v1d%22:%7B%22datasource%22:%22loki%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22expr%22:%22%7Bapp%3D%5C%22homeassistant%5C%22%7D%20%7C~%20%5C%22(?i)(error%7Cexception%7Cfailed%7Cfailure)%5C%22%22%7D%5D%7D%7D"
+      - alert: HomeAssistantWarningLogs
+        expr: |
+          sum by (app) (
+            count_over_time({app="homeassistant"} |~ "(?i)warning" [5m])
+          ) > 50
+        for: 10m
+        labels:
+          severity: info
+        annotations:
+          summary: "Home Assistant warning logs elevated"
+          description: "Home Assistant has logged {{ "{{" }} $value {{ "}}" }} warnings in the last 5 minutes."
+      - alert: HomeAssistantIntegrationFailed
+        expr: |
+          count_over_time({app="homeassistant"} |~ "(?i)(setup failed|integration .* failed|unable to set up)" [10m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Home Assistant integration setup failed"
+          description: "A Home Assistant integration failed to set up. Check logs for details."
+          runbook_url: "https://grafana.tailnet-1a49.ts.net/explore?schemaVersion=1&panes=%7B%22v1d%22:%7B%22datasource%22:%22loki%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22expr%22:%22%7Bapp%3D%5C%22homeassistant%5C%22%7D%20%7C~%20%5C%22(?i)(setup%20failed%7Cintegration%20.*%20failed%7Cunable%20to%20set%20up)%5C%22%22%7D%5D%7D%7D"
+`;
+
 export function createLokiApp(chart: Chart) {
   createIngress(chart, "loki-ingress", "loki", "loki", 3100, ["loki"], false);
+
+  // Create ConfigMap for Loki alert rules
+  const rulesConfigMap = new ConfigMap(chart, "loki-alert-rules", {
+    metadata: {
+      name: "loki-alert-rules",
+      namespace: "loki",
+    },
+    data: {
+      "homeassistant-rules.yaml": lokiAlertRules,
+    },
+  });
 
   const lokiValues: HelmValuesForChart<"loki"> = {
     deploymentMode: "SingleBinary",
@@ -15,6 +69,21 @@ export function createLokiApp(chart: Chart) {
         storageClass: NVME_STORAGE_CLASS,
         size: Size.gibibytes(64).asString(),
       },
+      extraVolumes: [
+        {
+          name: "alert-rules",
+          configMap: {
+            name: rulesConfigMap.name,
+          },
+        },
+      ],
+      extraVolumeMounts: [
+        {
+          name: "alert-rules",
+          mountPath: "/etc/loki/rules/fake", // 'fake' is the tenant name when auth is disabled
+          readOnly: true,
+        },
+      ],
     },
     // Disable scalable targets - they require object storage
     read: { replicas: 0 },
@@ -48,6 +117,27 @@ export function createLokiApp(chart: Chart) {
             },
           },
         ],
+      },
+      // Ruler configuration for alerting (structuredConfig merges with templated config)
+      structuredConfig: {
+        ruler: {
+          alertmanager_url: "http://prometheus-kube-prometheus-alertmanager.prometheus:9093",
+          enable_api: true,
+          enable_alertmanager_v2: true,
+          storage: {
+            type: "local",
+            local: {
+              directory: "/etc/loki/rules",
+            },
+          },
+        },
+      },
+    },
+    // Enable ruler component
+    ruler: {
+      enabled: true,
+      directories: {
+        fake: "/etc/loki/rules/fake", // 'fake' is the tenant name when auth is disabled
       },
     },
     minio: {
