@@ -1,10 +1,10 @@
 const versions = {
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
   connect: "2.1.1",
-  // renovate: datasource=helm registryUrl=https://knative.github.io/operator versioning=semver
-  "knative-operator": "1.20.0",
   // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
   "argo-cd": "9.2.3",
+  // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
+  "argocd-image-updater": "0.12.0",
   // renovate: datasource=helm registryUrl=https://charts.jetstack.io versioning=semver-coerced
   "cert-manager": "v1.19.2",
   // renovate: datasource=helm registryUrl=https://intel.github.io/helm-charts/ versioning=semver
@@ -168,6 +168,9 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "clickhouse/clickhouse-server":
     "25.12-alpine@sha256:4876aaab383e2b1c3bf10ebbb127204e795d2e470f8c3af3eae09bd0ed664b5b",
+  // Custom caddy-s3proxy image - Caddy with s3proxy plugin for serving static sites from S3
+  // not managed by renovate
+  "shepherdjerred/caddy-s3proxy": "latest",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];
