@@ -119,16 +119,21 @@ export function getHomeAssistantRuleGroups(): PrometheusRuleSpecGroups[] {
     {
       name: "homeassistant-availability",
       rules: [
-        createSensorAlert(
-          "HomeAssistantEntitiesUnavailable",
-          'homeassistant_sensor_unit_entities{entity="sensor.unavailable_entities_count"}',
-          ">",
-          0,
-          "{{ $value }} Home Assistant entities are unavailable or unknown.",
-          "Home Assistant entities unavailable",
-          "5m", // Alert after 5 minutes of entities being unavailable
-          "warning",
-        ),
+        {
+          alert: "HomeAssistantEntitiesUnavailable",
+          annotations: {
+            description:
+              '{{ "{{" }} $value {{ "}}" }} Home Assistant entities are unavailable or unknown. Check the sensor attributes for the list of affected entities.',
+            summary: "Home Assistant entities unavailable",
+            runbook_url:
+              "https://homeassistant.tailnet-1a49.ts.net/history?entity_id=sensor.unavailable_entities_count",
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            'homeassistant_sensor_unit_entities{entity="sensor.unavailable_entities_count"} > 0',
+          ),
+          for: "5m",
+          labels: { severity: "warning" },
+        },
       ],
     },
 
