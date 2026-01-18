@@ -2,6 +2,7 @@ import { App } from "cdk8s";
 import { Chart } from "cdk8s";
 import { createOnePasswordApp } from "../resources/argo-applications/1password.ts";
 import { createArgoCdApp } from "../resources/argo-applications/argocd.ts";
+import { createArgoCdImageUpdaterApp } from "../resources/argo-applications/argocd-image-updater.ts";
 import { createPrometheusApp } from "../resources/argo-applications/prometheus.ts";
 import { createPrometheusAdapterApp } from "../resources/argo-applications/prometheus-adapter.ts";
 import { createTailscaleApp } from "../resources/argo-applications/tailscale.ts";
@@ -28,8 +29,6 @@ import { createVeleroApp } from "../resources/argo-applications/velero.ts";
 import { createPostgresOperatorApp } from "../resources/argo-applications/postgres-operator.ts";
 import { createCoderApp } from "../resources/argo-applications/coder.ts";
 import { createSeaweedfsApp } from "../resources/argo-applications/seaweedfs.ts";
-import { createKnativeOperatorApp } from "../resources/argo-applications/knative-operator.ts";
-import { createKnativeServing } from "../resources/knative/serving.ts";
 import { createAllGrafanaDashboards } from "../resources/grafana/index.ts";
 import { createDdnsApp } from "../resources/argo-applications/ddns.ts";
 import { createDependencySummaryCronJob } from "../resources/home/dependency-summary.ts";
@@ -57,6 +56,7 @@ import { createFreshrssApp } from "../resources/argo-applications/freshrss.ts";
 import { createPokemonApp } from "../resources/argo-applications/pokemon.ts";
 import { createGickupApp } from "../resources/argo-applications/gickup.ts";
 import { createGrafanaDbApp } from "../resources/argo-applications/grafana-db.ts";
+import { createS3StaticSitesApp } from "../resources/argo-applications/s3-static-sites.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -90,6 +90,7 @@ export async function createAppsChart(app: App) {
   createOpenEBSApp(chart);
   createOnePasswordApp(chart);
   createArgoCdApp(chart);
+  createArgoCdImageUpdaterApp(chart);
   createTailscaleApp(chart);
   await createPrometheusApp(chart);
   createPrometheusAdapterApp(chart);
@@ -113,8 +114,6 @@ export async function createAppsChart(app: App) {
   createPostgresOperatorApp(chart);
   createCoderApp(chart);
   createSeaweedfsApp(chart);
-  createKnativeOperatorApp(chart);
-  createKnativeServing(chart);
   // Create all Grafana dashboards (gitckup, ha-workflow, scout, smartctl, velero, zfs)
   createAllGrafanaDashboards(chart);
 
@@ -131,6 +130,9 @@ export async function createAppsChart(app: App) {
   createWebringApp(chart);
   createDppDocsApp(chart);
   createBetterSkillCappedApp(chart);
+
+  // S3-backed static sites (served via Caddy s3proxy)
+  createS3StaticSitesApp(chart);
 
   // New namespace apps
   createPlausibleApp(chart);
