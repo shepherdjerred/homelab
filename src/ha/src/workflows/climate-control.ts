@@ -16,12 +16,13 @@ import { z } from "zod";
 // ============================================================================
 
 // Winter temperature setpoints (in Celsius)
-const WINTER_TEMP_HOME_COMFORT = 24; // When home and awake
+const WINTER_TEMP_HOME_COMFORT = 22; // When home and awake
 const WINTER_TEMP_AWAY = 20; // Energy saving when away
 const WINTER_TEMP_BEDTIME = 22; // Comfortable for falling asleep
 const WINTER_TEMP_DEEP_SLEEP = 22; // Cooler during deep sleep
-const WINTER_TEMP_PRE_WAKE = 24; // Warm before waking
-const WINTER_TEMP_LIVING_ROOM_SLEEP = 22; // Living room during sleep hours
+const WINTER_TEMP_PRE_WAKE = 22; // Warm before waking
+// TODO: Re-enable when living room thermostat is back online
+// const WINTER_TEMP_LIVING_ROOM_SLEEP = 22; // Living room during sleep hours
 
 // Active configuration (change these for seasonal adjustments)
 const TEMP_HOME_COMFORT = WINTER_TEMP_HOME_COMFORT;
@@ -29,7 +30,8 @@ const TEMP_AWAY = WINTER_TEMP_AWAY;
 const TEMP_BEDTIME = WINTER_TEMP_BEDTIME;
 const TEMP_DEEP_SLEEP = WINTER_TEMP_DEEP_SLEEP;
 const TEMP_PRE_WAKE = WINTER_TEMP_PRE_WAKE;
-const TEMP_LIVING_ROOM_SLEEP = WINTER_TEMP_LIVING_ROOM_SLEEP;
+// TODO: Re-enable when living room thermostat is back online
+// const TEMP_LIVING_ROOM_SLEEP = WINTER_TEMP_LIVING_ROOM_SLEEP;
 
 // PC power threshold - skip bedroom heating when PC generates heat (watts)
 const PC_HEAT_THRESHOLD = 150;
@@ -37,7 +39,8 @@ const PC_HEAT_THRESHOLD = 150;
 export function climateControl({ hass, scheduler, logger }: TServiceParams) {
   const bedroomHeater = hass.refBy.id("climate.bedroom_thermostat");
   const officeHeater = hass.refBy.id("climate.office_thermostat");
-  const livingRoomClimate = hass.refBy.id("climate.living_room");
+  // TODO: Re-enable when living room thermostat is back online
+  // const livingRoomClimate = hass.refBy.id("climate.living_room");
   const personJerred = hass.refBy.id("person.jerred");
   const personShuxin = hass.refBy.id("person.shuxin");
   const pcPowerSensor = hass.refBy.id("sensor.sonoff_desktop_pc002166152_power");
@@ -81,7 +84,8 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
    * Safely handles cases where entities might not exist
    * Skips office heating when PC is generating significant heat
    */
-  async function setClimateZones(bedroomTemp: number, officeTemp: number, livingRoomTemp: number) {
+  // Note: livingRoomTemp parameter removed until thermostat is back online
+  async function setClimateZones(bedroomTemp: number, officeTemp: number) {
     const tasks: (() => Promise<unknown>)[] = [];
 
     // Always set bedroom temperature (bedroom is separate from office)
@@ -105,17 +109,18 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
       logger.info(`Skipping office heating - PC is generating sufficient heat`);
     }
 
+    // TODO: Re-enable when living room thermostat is back online
     // Set living room if entity exists and is available
-    try {
-      tasks.push(() =>
-        livingRoomClimate.set_temperature({
-          hvac_mode: "heat",
-          temperature: livingRoomTemp,
-        }),
-      );
-    } catch {
-      logger.debug("Living room climate not available, skipping");
-    }
+    // try {
+    //   tasks.push(() =>
+    //     livingRoomClimate.set_temperature({
+    //       hvac_mode: "heat",
+    //       temperature: livingRoomTemp,
+    //     }),
+    //   );
+    // } catch {
+    //   logger.debug("Living room climate not available, skipping");
+    // }
 
     await runParallel(tasks);
   }
@@ -163,7 +168,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
         await withTimeout(
           runIf(isAnyoneHome(), async () => {
             logger.info("Setting bedtime climate - comfortable for falling asleep");
-            await setClimateZones(TEMP_BEDTIME, TEMP_BEDTIME, TEMP_LIVING_ROOM_SLEEP);
+            await setClimateZones(TEMP_BEDTIME, TEMP_BEDTIME);
           }),
           { amount: 2, unit: "m" },
           "climate_bedtime_prep",
@@ -182,7 +187,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
         await withTimeout(
           runIf(isAnyoneHome(), async () => {
             logger.info("Setting deep sleep climate - cooler for better sleep");
-            await setClimateZones(TEMP_DEEP_SLEEP, TEMP_DEEP_SLEEP, TEMP_LIVING_ROOM_SLEEP);
+            await setClimateZones(TEMP_DEEP_SLEEP, TEMP_DEEP_SLEEP);
           }),
           { amount: 2, unit: "m" },
           "climate_deep_sleep",
@@ -201,7 +206,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
         await withTimeout(
           runIf(isAnyoneHome(), async () => {
             logger.info("Pre-wake heating for weekday - warming house before wake time");
-            await setClimateZones(TEMP_PRE_WAKE, TEMP_PRE_WAKE, TEMP_HOME_COMFORT);
+            await setClimateZones(TEMP_PRE_WAKE, TEMP_PRE_WAKE);
           }),
           { amount: 2, unit: "m" },
           "climate_pre_wake_weekday",
@@ -220,7 +225,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
         await withTimeout(
           runIf(isAnyoneHome(), async () => {
             logger.info("Pre-wake heating for weekend - warming house before wake time");
-            await setClimateZones(TEMP_PRE_WAKE, TEMP_PRE_WAKE, TEMP_HOME_COMFORT);
+            await setClimateZones(TEMP_PRE_WAKE, TEMP_PRE_WAKE);
           }),
           { amount: 2, unit: "m" },
           "climate_pre_wake_weekend",
@@ -233,7 +238,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
    */
   async function setAwayMode() {
     logger.info("Setting climate to away mode - energy saving");
-    await setClimateZones(TEMP_AWAY, TEMP_AWAY, TEMP_AWAY);
+    await setClimateZones(TEMP_AWAY, TEMP_AWAY);
   }
 
   /**
@@ -241,7 +246,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
    */
   async function setHomeComfortMode() {
     logger.info("Setting climate to home comfort mode");
-    await setClimateZones(TEMP_HOME_COMFORT, TEMP_HOME_COMFORT, TEMP_HOME_COMFORT);
+    await setClimateZones(TEMP_HOME_COMFORT, TEMP_HOME_COMFORT);
   }
 
   /**
@@ -249,7 +254,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
    */
   async function setBedtimeMode() {
     logger.info("Setting climate to bedtime mode");
-    await setClimateZones(TEMP_BEDTIME, TEMP_BEDTIME, TEMP_LIVING_ROOM_SLEEP);
+    await setClimateZones(TEMP_BEDTIME, TEMP_BEDTIME);
   }
 
   return {

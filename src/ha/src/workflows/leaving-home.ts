@@ -8,7 +8,8 @@ export function leavingHome({ hass, logger }: TServiceParams) {
   const personShuxin = hass.refBy.id("person.shuxin");
   const roomba = hass.refBy.id("vacuum.roomba");
   const bedroomHeater = hass.refBy.id("climate.bedroom_thermostat");
-  const livingRoomClimate = hass.refBy.id("climate.living_room");
+  // TODO: Re-enable when living room thermostat is back online
+  // const livingRoomClimate = hass.refBy.id("climate.living_room");
 
   async function runLeavingHome() {
     await instrumentWorkflow("leaving_home", async () => {
@@ -27,14 +28,15 @@ export function leavingHome({ hass, logger }: TServiceParams) {
             hvac_mode: "heat",
             temperature: 20,
           });
-          try {
-            await livingRoomClimate.set_temperature({
-              hvac_mode: "heat",
-              temperature: 20,
-            });
-          } catch {
-            logger.debug("Living room climate not available, skipping");
-          }
+          // TODO: Re-enable when living room thermostat is back online
+          // try {
+          //   await livingRoomClimate.set_temperature({
+          //     hvac_mode: "heat",
+          //     temperature: 20,
+          //   });
+          // } catch {
+          //   logger.debug("Living room climate not available, skipping");
+          // }
 
           // turn off all lights
           logger.debug("Turning off all lights");

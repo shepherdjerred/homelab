@@ -8,7 +8,8 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
   const bedroomMediaPlayer = hass.refBy.id("media_player.bedroom");
   const bedroomLight = hass.refBy.id("light.bedroom");
   const bedroomHeater = hass.refBy.id("climate.bedroom_thermostat");
-  const livingRoomClimate = hass.refBy.id("climate.living_room");
+  // TODO: Re-enable when living room thermostat is back online
+  // const livingRoomClimate = hass.refBy.id("climate.living_room");
 
   hass.socket.onEvent({
     context,
@@ -42,14 +43,15 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
               hvac_mode: "heat",
               temperature: 22,
             });
-            try {
-              await livingRoomClimate.set_temperature({
-                hvac_mode: "heat",
-                temperature: 22,
-              });
-            } catch {
-              logger.debug("Living room climate not available, skipping");
-            }
+            // TODO: Re-enable when living room thermostat is back online
+            // try {
+            //   await livingRoomClimate.set_temperature({
+            //     hvac_mode: "heat",
+            //     temperature: 22,
+            //   });
+            // } catch {
+            //   logger.debug("Living room climate not available, skipping");
+            // }
 
             if (bedroomLight.state === "on") {
               logger.debug("Turning on bedroom scene");

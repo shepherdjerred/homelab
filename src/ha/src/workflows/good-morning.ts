@@ -18,7 +18,8 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   const bedroomBrightScene = hass.refBy.id("scene.bedroom_bright");
   const extraMediaPlayers = [hass.refBy.id("media_player.main_bathroom"), hass.refBy.id("media_player.entryway")];
   const bedroomHeater = hass.refBy.id("climate.bedroom_thermostat");
-  const livingRoomClimate = hass.refBy.id("climate.living_room");
+  // TODO: Re-enable when living room thermostat is back online
+  // const livingRoomClimate = hass.refBy.id("climate.living_room");
   const entrywayLight = hass.refBy.id("switch.entryway_overhead_lights");
   const mainBathroomLight = hass.refBy.id("switch.main_bathroom_lights");
   const personJerred = hass.refBy.id("person.jerred");
@@ -58,7 +59,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
       runIf(isAnyoneHome(), () =>
         bedroomHeater.set_temperature({
           hvac_mode: "heat",
-          temperature: 24, // pre-wake heating
+          temperature: 22, // pre-wake heating
         }),
       ),
       { amount: 2, unit: "m" },
@@ -72,18 +73,19 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
         () =>
           bedroomHeater.set_temperature({
             hvac_mode: "heat",
-            temperature: 24,
+            temperature: 22,
           }),
-        async () => {
-          try {
-            await livingRoomClimate.set_temperature({
-              hvac_mode: "heat",
-              temperature: 24,
-            });
-          } catch {
-            logger.debug("Living room climate not available, skipping");
-          }
-        },
+        // TODO: Re-enable when living room thermostat is back online
+        // async () => {
+        //   try {
+        //     await livingRoomClimate.set_temperature({
+        //       hvac_mode: "heat",
+        //       temperature: 24,
+        //     });
+        //   } catch {
+        //     logger.debug("Living room climate not available, skipping");
+        //   }
+        // },
         () =>
           runIf(isAnyoneHome(), () =>
             runParallel([
