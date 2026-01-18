@@ -885,7 +885,10 @@ export class Homelab {
         } else if (httpCode === "409") {
           results.push(`${chartName}: already exists (409)`);
         } else {
-          return { status: "failed", message: `Helm Chart Publish: FAILED for ${chartName}\nHTTP ${httpCode}: ${body}` };
+          return {
+            status: "failed",
+            message: `Helm Chart Publish: FAILED for ${chartName}\nHTTP ${httpCode}: ${body}`,
+          };
         }
       }
 

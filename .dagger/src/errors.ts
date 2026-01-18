@@ -11,7 +11,7 @@ export type ExecResult = {
   stdout: string;
   stderr: string;
   exitCode: number;
-}
+};
 
 // Zod schemas for error type checking
 const ExecErrorSchema = z.instanceof(ExecError);

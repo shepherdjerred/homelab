@@ -65,14 +65,14 @@ bun run prettier
 
 ```typescript
 // ✅ Good
-Bun.file("path")
-Bun.spawn(["cmd"])
-Bun.env.VAR
+Bun.file("path");
+Bun.spawn(["cmd"]);
+Bun.env.VAR;
 
 // ❌ Avoid
-fs.readFileSync("path")
-child_process.spawn("cmd")
-process.env.VAR
+fs.readFileSync("path");
+child_process.spawn("cmd");
+process.env.VAR;
 ```
 
 ### Use Zod for validation
@@ -83,8 +83,8 @@ const UserSchema = z.object({ name: z.string() });
 UserSchema.parse(data);
 
 // ❌ Avoid
-typeof data === "object"
-data instanceof User
+typeof data === "object";
+data instanceof User;
 ```
 
 ### No type assertions (except `as unknown` or `as const`)

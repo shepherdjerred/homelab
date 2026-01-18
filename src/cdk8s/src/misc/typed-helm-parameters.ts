@@ -84,7 +84,6 @@ import type { VeleroHelmValues } from "../../generated/helm/velero.types";
 import type { CoderHelmValues } from "../../generated/helm/coder.types";
 import type { RedisHelmValues } from "../../generated/helm/redis.types";
 import type { SeaweedfsHelmValues } from "../../generated/helm/seaweedfs.types";
-import type { KnativeoperatorHelmValues } from "../../generated/helm/knative-operator.types";
 
 type HelmChartValuesMap = {
   "argo-cd": ArgocdHelmValues;
@@ -105,7 +104,6 @@ type HelmChartValuesMap = {
   coder: CoderHelmValues;
   redis: RedisHelmValues;
   seaweedfs: SeaweedfsHelmValues;
-  "knative-operator": KnativeoperatorHelmValues;
 };
 
 export type HelmValuesForChart<TChart extends keyof HelmChartValuesMap> = HelmChartValuesMap[TChart];

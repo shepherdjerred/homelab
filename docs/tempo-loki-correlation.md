@@ -5,10 +5,12 @@ This document explains how to manually configure Tempo-to-Loki trace correlation
 ## Why Manual Configuration?
 
 Grafana 12.1.0+ has a bug where datasource provisioning fails when a `uid` field is specified:
+
 - **Issue**: https://github.com/grafana/grafana/issues/110740
 - **Status**: Open as of Dec 2025
 
-Until this is fixed, the `tracesToLogsV2` configuration cannot be provisioned via YAML and must be configured manually in the Grafana UI.
+Until this is fixed, the `tracesToLogsV2` configuration cannot be provisioned via YAML and must be configured
+manually in the Grafana UI.
 
 ## Configuration Steps
 
@@ -22,15 +24,15 @@ Until this is fixed, the `tracesToLogsV2` configuration cannot be provisioned vi
 
 Scroll down to the **Trace to logs** section and configure:
 
-| Setting | Value |
-|---------|-------|
-| **Data source** | `loki` |
-| **Span start time shift** | `-1h` |
-| **Span end time shift** | `1h` |
-| **Filter by trace ID** | Disabled |
-| **Filter by span ID** | Disabled |
-| **Use custom query** | Enabled |
-| **Query** | `{namespace=~"dagger\|arc-runners"} \| logfmt \| traceID=\`${__trace.traceId}\`` |
+| Setting                   | Value                                                                              |
+| ------------------------- | ---------------------------------------------------------------------------------- |
+| **Data source**           | `loki`                                                                             |
+| **Span start time shift** | `-1h`                                                                              |
+| **Span end time shift**   | `1h`                                                                               |
+| **Filter by trace ID**    | Disabled                                                                           |
+| **Filter by span ID**     | Disabled                                                                           |
+| **Use custom query**      | Enabled                                                                            |
+| **Query**                 | `{namespace=~"dagger\|arc-runners"} \| logfmt \| traceID=\`${\_\_trace.traceId}\`` |
 
 ### 3. Save & Test
 

@@ -32,7 +32,11 @@ async function main() {
     // Step 3: Verify the export directory exists and contains expected files
     console.log("🔍 Verifying exported files...");
     const lsResult = await $`ls -1 ${EXPORT_DIR}`;
-    const exportFiles = lsResult.text().trim().split("\n").filter((f) => f.length > 0);
+    const exportFiles = lsResult
+      .text()
+      .trim()
+      .split("\n")
+      .filter((f) => f.length > 0);
     console.log("Exported files:", exportFiles);
 
     // Check for required files
@@ -63,7 +67,11 @@ async function main() {
     console.log("📁 Verifying templates directory...");
     const chartDir = `${EXPORT_DIR}/${CHART_NAME}`;
     const chartLsResult = await $`ls -1 ${chartDir}`;
-    const chartContents = chartLsResult.text().trim().split("\n").filter((f) => f.length > 0);
+    const chartContents = chartLsResult
+      .text()
+      .trim()
+      .split("\n")
+      .filter((f) => f.length > 0);
 
     if (!chartContents.includes("templates")) {
       throw new Error("Templates directory not found in chart");
@@ -74,7 +82,11 @@ async function main() {
     console.log("🎯 Verifying CDK8s templates...");
     const templatesDir = `${chartDir}/templates`;
     const templatesLsResult = await $`ls -1 ${templatesDir}`;
-    const templates = templatesLsResult.text().trim().split("\n").filter((f) => f.length > 0);
+    const templates = templatesLsResult
+      .text()
+      .trim()
+      .split("\n")
+      .filter((f) => f.length > 0);
     console.log("Found templates:", templates);
 
     const expectedTemplates = ["media.k8s.yaml"];
