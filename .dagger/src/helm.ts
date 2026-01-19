@@ -34,6 +34,7 @@ export const HELM_CHARTS = [
   "pokemon",
   "gickup",
   "grafana-db",
+  "s3-static-sites",
 ] as const;
 export type HelmChartName = (typeof HELM_CHARTS)[number];
 
