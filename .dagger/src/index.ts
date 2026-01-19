@@ -26,6 +26,7 @@ import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
 import { buildAndPushDependencySummaryImage } from "./dependency-summary";
+import { buildAndPushCaddyS3ProxyImage } from "./caddy-s3proxy";
 import { buildAllCharts, HELM_CHARTS } from "./helm";
 import { Stage } from "./stage";
 import versions from "./versions";
@@ -344,11 +345,12 @@ export class Homelab {
     // Publish all images and Helm chart in parallel for faster CI
     let haPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
     let depSummaryPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
+    let caddyS3ProxyPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
     let helmPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
 
     if (env === Stage.Prod) {
       // Run all image pushes and helm publish in parallel
-      const [haResults, depSummaryResults, helmResult] = await Promise.all([
+      const [haResults, depSummaryResults, caddyS3ProxyResult, helmResult] = await Promise.all([
         // HA image: push versioned and latest tags in parallel
         Promise.all([
           this.internalPublishHaImage(
@@ -383,6 +385,13 @@ export class Homelab {
             env,
           ),
         ]),
+        // Caddy-s3proxy image: push latest tag only (no versioning needed for this utility image)
+        buildAndPushCaddyS3ProxyImage(
+          `ghcr.io/shepherdjerred/caddy-s3proxy:latest`,
+          ghcrUsername,
+          ghcrPassword,
+          false,
+        ),
         // Helm chart publish
         helmBuildResult.dist
           ? this.helmPublishBuilt(
@@ -408,6 +417,9 @@ export class Homelab {
           depSummaryResults[0].status === "passed" && depSummaryResults[1].status === "passed" ? "passed" : "failed",
         message: `Versioned tag: ${depSummaryResults[0].message}\nLatest tag: ${depSummaryResults[1].message}`,
       };
+
+      // Caddy-s3proxy result
+      caddyS3ProxyPublishResult = caddyS3ProxyResult;
 
       // Helm result
       helmPublishResult = helmResult;
@@ -443,6 +455,7 @@ export class Homelab {
       helmBuildResult.message,
       `HA Image Publish result:\n${haPublishResult.message}`,
       `Dependency Summary Image Publish result:\n${depSummaryPublishResult.message}`,
+      `Caddy S3Proxy Image Publish result:\n${caddyS3ProxyPublishResult.message}`,
       `Helm Chart Publish result:\n${helmPublishResult.message}`,
       `Release-please result:\n${releasePleaseResult.message}`,
     ].join("\n\n");
@@ -462,6 +475,7 @@ export class Homelab {
       (env === Stage.Prod &&
         (haPublishResult.status === "failed" ||
           depSummaryPublishResult.status === "failed" ||
+          caddyS3ProxyPublishResult.status === "failed" ||
           helmPublishResult.status === "failed"))
     ) {
       throw new Error(summary);
