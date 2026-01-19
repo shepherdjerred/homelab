@@ -39,13 +39,9 @@ import { createStarlightKarmaBotBetaApp } from "../resources/argo-applications/s
 import { createStarlightKarmaBotProdApp } from "../resources/argo-applications/starlight-karma-bot-prod.ts";
 import { createProject } from "../resources/argo-applications/project.ts";
 import { createRedlibApp } from "../resources/argo-applications/redlib.ts";
-import { createSjerRedApp } from "../resources/argo-applications/sjer-red.ts";
-import { createWebringApp } from "../resources/argo-applications/webring.ts";
-import { createDppDocsApp } from "../resources/argo-applications/dpp-docs.ts";
-import { createBetterSkillCappedApp } from "../resources/argo-applications/better-skill-capped.ts";
+import { createBetterSkillCappedFetcherApp } from "../resources/argo-applications/better-skill-capped-fetcher.ts";
 import { createPlausibleApp } from "../resources/argo-applications/plausible.ts";
 import { createBirmelApp } from "../resources/argo-applications/birmel.ts";
-import { createScoutFrontendApp } from "../resources/argo-applications/scout-frontend.ts";
 import { createCloudflareTunnelApp } from "../resources/argo-applications/cloudflare-tunnel.ts";
 import { createMediaApp } from "../resources/argo-applications/media.ts";
 import { createHomeApp } from "../resources/argo-applications/home.ts";
@@ -124,12 +120,9 @@ export async function createAppsChart(app: App) {
   createStarlightKarmaBotBetaApp(chart);
   createStarlightKarmaBotProdApp(chart);
 
-  // Stateless frontend services
+  // Stateless services
   createRedlibApp(chart);
-  createSjerRedApp(chart);
-  createWebringApp(chart);
-  createDppDocsApp(chart);
-  createBetterSkillCappedApp(chart);
+  createBetterSkillCappedFetcherApp(chart);
 
   // S3-backed static sites (served via Caddy s3proxy)
   createS3StaticSitesApp(chart);
@@ -137,7 +130,6 @@ export async function createAppsChart(app: App) {
   // New namespace apps
   createPlausibleApp(chart);
   createBirmelApp(chart);
-  createScoutFrontendApp(chart);
   createCloudflareTunnelApp(chart);
 
   // Service apps with dedicated namespaces

@@ -1,6 +1,0 @@
-apiVersion: v2
-name: better-skill-capped
-description: Better Skill Capped - Enhanced Skill Capped interface
-type: application
-version: "$version"
-appVersion: "$appVersion"

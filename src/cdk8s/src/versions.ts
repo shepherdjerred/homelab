@@ -56,21 +56,6 @@ const versions = {
   // Custom dependency-summary image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/dependency-summary": "latest",
-  // Custom sjer.red image - updated by CI pipeline
-  // not managed by renovate
-  "shepherdjerred/sjer.red": "1.0.111",
-  // Custom scout-for-lol-frontend image - updated by CI pipeline
-  // not managed by renovate
-  "shepherdjerred/scout-for-lol-frontend": "latest",
-  // Custom webring-docs image - updated by CI pipeline
-  // not managed by renovate
-  "shepherdjerred/webring-docs": "336100baaf908cbb7c8cab772932aef8a4ece33a",
-  // Custom dpp-docs image - updated by CI pipeline
-  // not managed by renovate
-  "shepherdjerred/dpp-docs": "latest",
-  // Custom better-skill-capped image - updated by CI pipeline
-  // not managed by renovate
-  "shepherdjerred/better-skill-capped": "1.0.97",
   // Custom better-skill-capped-fetcher image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/better-skill-capped-fetcher": "1.0.103",

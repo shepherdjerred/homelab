@@ -1,6 +1,0 @@
-apiVersion: v2
-name: scout-frontend
-description: Scout for LoL frontend
-type: application
-version: "$version"
-appVersion: "$appVersion"

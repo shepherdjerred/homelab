@@ -3,6 +3,7 @@ import type { StaticSiteConfig } from "../../misc/s3-static-site.ts";
 export const staticSites: StaticSiteConfig[] = [
   { hostname: "sjer.red", bucket: "sjer-red" },
   { hostname: "webring.sjer.red", bucket: "webring" },
+  { hostname: "resume.sjer.red", bucket: "resume", indexFile: "resume.pdf" },
   { hostname: "discord-plays-pokemon.com", bucket: "dpp-docs", externalDns: true },
   { hostname: "scout-for-lol.com", bucket: "scout-frontend", externalDns: true },
   { hostname: "better-skill-capped.com", bucket: "better-skill-capped", externalDns: true },
