@@ -1,6 +1,6 @@
 import { Chart, JsonPatch } from "cdk8s";
 import { Construct } from "constructs";
-import { Deployment, DeploymentStrategy, Service, Volume, ConfigMap } from "cdk8s-plus-31";
+import { ConfigMap, Deployment, DeploymentStrategy, EnvValue, Secret, Service, Volume } from "cdk8s-plus-31";
 import { TunnelBinding, TunnelBindingTunnelRefKind } from "../../generated/imports/networking.cfargotunnel.com.ts";
 import { TUNNEL_CNAME_TARGET } from "../resources/argo-applications/external-dns.ts";
 import { withCommonProps } from "./common.ts";
@@ -101,12 +101,23 @@ export class S3StaticSites extends Construct {
     const dataVolume = Volume.fromEmptyDir(this, "caddy-data", "caddy-data");
     const configVolume = Volume.fromEmptyDir(this, "caddy-config", "caddy-config");
 
+    const credentialsSecret = Secret.fromSecretName(chart, "s3-credentials-secret", props.credentialsSecretName);
+
     const container = deployment.addContainer(
       withCommonProps({
         name: "caddy",
         image: `ghcr.io/shepherdjerred/caddy-s3proxy:${versions["shepherdjerred/caddy-s3proxy"]}`,
         portNumber: 80,
-        envVariables: {},
+        envVariables: {
+          AWS_ACCESS_KEY_ID: EnvValue.fromSecretValue({
+            secret: credentialsSecret,
+            key: "s3-access-key-id",
+          }),
+          AWS_SECRET_ACCESS_KEY: EnvValue.fromSecretValue({
+            secret: credentialsSecret,
+            key: "s3-secret-access-key",
+          }),
+        },
         securityContext: {
           readOnlyRootFilesystem: false,
           user: 1000,
