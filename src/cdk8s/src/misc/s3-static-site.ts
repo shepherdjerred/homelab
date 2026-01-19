@@ -146,9 +146,9 @@ export class S3StaticSites extends Construct {
 		bucket ${site.bucket}
 		region {$S3_REGION:${props.s3Region ?? "us-east-1"}}
 		index ${indexFile}
-		error_page /* ${notFoundPage}
+		errors 404 ${notFoundPage}
 		endpoint {$S3_ENDPOINT:${props.s3Endpoint}}
-		use_path_style
+		force_path_style
 	}
 }
 `);
