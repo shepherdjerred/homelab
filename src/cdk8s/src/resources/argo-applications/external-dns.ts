@@ -12,6 +12,7 @@ const TUNNEL_ID = "3cbdc9a6-9e79-412d-8fe1-60117fecd4d3";
 
 // External domains that external-dns should manage
 export const EXTERNAL_DNS_DOMAINS = [
+  "sjer.red",
   "scout-for-lol.com",
   "better-skill-capped.com",
   "discord-plays-pokemon.com",
