@@ -26,7 +26,13 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   const personShuxin = hass.refBy.id("person.shuxin");
 
   function isAnyoneHome() {
-    return personJerred.state === "home" || personShuxin.state === "home";
+    const jerredHome = personJerred.state === "home";
+    const shuxinHome = personShuxin.state === "home";
+    const anyoneHome = jerredHome || shuxinHome;
+    logger.info(
+      `isAnyoneHome check: jerred=${personJerred.state} (home=${String(jerredHome)}), shuxin=${personShuxin.state} (home=${String(shuxinHome)}), result=${String(anyoneHome)}`,
+    );
+    return anyoneHome;
   }
 
   const weekdayWakeUpHour = 8;
@@ -55,6 +61,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   });
 
   async function runEarly() {
+    logger.info("good_morning_early triggered");
     await withTimeout(
       runIf(isAnyoneHome(), () =>
         bedroomHeater.set_temperature({
@@ -68,6 +75,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   }
 
   async function runWakeUp() {
+    logger.info("good_morning_wake_up triggered");
     await withTimeout(
       runParallel([
         () =>
@@ -186,6 +194,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
   }
 
   async function runGetUp() {
+    logger.info("good_morning_get_up triggered");
     await withTimeout(
       runIf(isAnyoneHome(), () =>
         runParallel([

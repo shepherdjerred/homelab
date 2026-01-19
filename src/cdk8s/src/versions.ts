@@ -58,7 +58,7 @@ const versions = {
   "shepherdjerred/dependency-summary": "latest",
   // Custom sjer.red image - updated by CI pipeline
   // not managed by renovate
-  "shepherdjerred/sjer.red": "1.0.109",
+  "shepherdjerred/sjer.red": "1.0.111",
   // Custom scout-for-lol-frontend image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/scout-for-lol-frontend": "latest",
@@ -73,7 +73,7 @@ const versions = {
   "shepherdjerred/better-skill-capped": "1.0.97",
   // Custom better-skill-capped-fetcher image - updated by CI pipeline
   // not managed by renovate
-  "shepherdjerred/better-skill-capped-fetcher": "1.0.97",
+  "shepherdjerred/better-skill-capped-fetcher": "1.0.103",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing": "2.0.12@sha256:b2dbc42f95154986ae3578256f3fa9612fa7e930184d823aa56192b478fa0b8a",
   // renovate: datasource=github-releases versioning=semver-coerced
@@ -93,7 +93,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://openebs.github.io/openebs versioning=semver
   openebs: "4.4.0",
   // not managed by renovate
-  "shepherdjerred/scout-for-lol/beta": "1.0.163",
+  "shepherdjerred/scout-for-lol/beta": "1.0.171",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/prod": "1.0.163",
   // not managed by renovate
@@ -101,7 +101,7 @@ const versions = {
   // not managed by renovate
   "shepherdjerred/starlight-karma-bot/prod": "1.0.13",
   // not managed by renovate
-  "shepherdjerred/birmel": "1.0.1335",
+  "shepherdjerred/birmel": "1.0.1470",
   // not managed by renovate
   "shepherdjerred/discord-plays-pokemon": "1.0.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker

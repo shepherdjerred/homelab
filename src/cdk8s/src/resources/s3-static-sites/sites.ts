@@ -6,6 +6,7 @@ export const staticSites: StaticSiteConfig[] = [
   { hostname: "discord-plays-pokemon.com", bucket: "dpp-docs", externalDns: true },
   { hostname: "scout-for-lol.com", bucket: "scout-frontend", externalDns: true },
   { hostname: "better-skill-capped.com", bucket: "better-skill-capped", externalDns: true },
+  { hostname: "clauderon.com", bucket: "clauderon", externalDns: true },
 ];
 
 export const S3_ENDPOINT = "https://seaweedfs.sjer.red";
