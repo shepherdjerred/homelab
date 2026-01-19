@@ -16,6 +16,7 @@ export const EXTERNAL_DNS_DOMAINS = [
   "better-skill-capped.com",
   "discord-plays-pokemon.com",
   "ts-mc.net",
+  "clauderon.com",
 ];
 
 // Helper to get the tunnel CNAME target
