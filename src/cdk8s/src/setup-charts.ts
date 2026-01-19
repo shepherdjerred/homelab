@@ -4,13 +4,9 @@ import { createScoutChart } from "./cdk8s-charts/scout.ts";
 import { createStarlightKarmaBotChart } from "./cdk8s-charts/starlight-karma-bot.ts";
 import { createDdnsChart } from "./cdk8s-charts/ddns.ts";
 import { createRedlibChart } from "./cdk8s-charts/redlib.ts";
-import { createSjerRedChart } from "./cdk8s-charts/sjer-red.ts";
-import { createWebringChart } from "./cdk8s-charts/webring.ts";
-import { createDppDocsChart } from "./cdk8s-charts/dpp-docs.ts";
-import { createBetterSkillCappedChart } from "./cdk8s-charts/better-skill-capped.ts";
+import { createBetterSkillCappedFetcherChart } from "./cdk8s-charts/better-skill-capped-fetcher.ts";
 import { createPlausibleChart } from "./cdk8s-charts/plausible.ts";
 import { createBirmelChart } from "./cdk8s-charts/birmel.ts";
-import { createScoutFrontendChart } from "./cdk8s-charts/scout-frontend.ts";
 import { createCloudflareTunnelChart } from "./cdk8s-charts/cloudflare-tunnel.ts";
 import { createMediaChart } from "./cdk8s-charts/media.ts";
 import { createHomeChart } from "./cdk8s-charts/home.ts";
@@ -36,10 +32,7 @@ export async function setupCharts(app: App): Promise<void> {
   // Per-service charts
   createDdnsChart(app);
   createRedlibChart(app);
-  createSjerRedChart(app);
-  createWebringChart(app);
-  createDppDocsChart(app);
-  createBetterSkillCappedChart(app);
+  createBetterSkillCappedFetcherChart(app);
 
   // S3-backed static sites
   createS3StaticSitesChart(app);
@@ -47,7 +40,6 @@ export async function setupCharts(app: App): Promise<void> {
   // New namespace charts
   createPlausibleChart(app);
   createBirmelChart(app);
-  createScoutFrontendChart(app);
   createCloudflareTunnelChart(app);
 
   // Torvalds namespace charts (separate apps for easier future migration)

@@ -1,6 +1,0 @@
-apiVersion: v2
-name: webring
-description: Webring documentation site
-type: application
-version: "$version"
-appVersion: "$appVersion"

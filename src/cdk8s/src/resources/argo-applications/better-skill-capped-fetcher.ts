@@ -1,21 +1,21 @@
 import { Chart } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
 
-export function createWebringApp(chart: Chart) {
-  return new Application(chart, "webring-app", {
+export function createBetterSkillCappedFetcherApp(chart: Chart) {
+  return new Application(chart, "better-skill-capped-fetcher-app", {
     metadata: {
-      name: "webring",
+      name: "better-skill-capped-fetcher",
     },
     spec: {
       project: "default",
       source: {
         repoUrl: "https://chartmuseum.tailnet-1a49.ts.net",
         targetRevision: "~1.0.0-0",
-        chart: "webring",
+        chart: "better-skill-capped-fetcher",
       },
       destination: {
         server: "https://kubernetes.default.svc",
-        namespace: "webring",
+        namespace: "better-skill-capped",
       },
       syncPolicy: {
         automated: {},

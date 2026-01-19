@@ -15,14 +15,10 @@ export const HELM_CHARTS = [
   "starlight-karma-bot-beta",
   "starlight-karma-bot-prod",
   "redlib",
-  "sjer-red",
-  "webring",
-  "dpp-docs",
-  "better-skill-capped",
+  "better-skill-capped-fetcher",
   // New namespace charts
   "plausible",
   "birmel",
-  "scout-frontend",
   "cloudflare-tunnel",
   // Per-service namespace charts
   "media",
@@ -34,6 +30,7 @@ export const HELM_CHARTS = [
   "pokemon",
   "gickup",
   "grafana-db",
+  // S3 static sites (consolidates sjer-red, webring, dpp-docs, scout-frontend, better-skill-capped)
   "s3-static-sites",
 ] as const;
 export type HelmChartName = (typeof HELM_CHARTS)[number];
