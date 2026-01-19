@@ -2,7 +2,6 @@ import { Chart, JsonPatch } from "cdk8s";
 import { Construct } from "constructs";
 import { ConfigMap, Deployment, DeploymentStrategy, EnvValue, Secret, Service, Volume } from "cdk8s-plus-31";
 import { TunnelBinding, TunnelBindingTunnelRefKind } from "../../generated/imports/networking.cfargotunnel.com.ts";
-import { TUNNEL_CNAME_TARGET } from "../resources/argo-applications/external-dns.ts";
 import { withCommonProps } from "./common.ts";
 import versions from "../versions.ts";
 import { ApiObject } from "cdk8s";
@@ -12,7 +11,6 @@ export type StaticSiteConfig = {
   bucket: string;
   indexFile?: string;
   notFoundPage?: string;
-  externalDns?: boolean;
 };
 
 export type S3StaticSitesProps = {
@@ -47,6 +45,11 @@ export function generateCaddyfile(props: CaddyfileGeneratorProps): string {
     const address = site.hostname.includes("://") ? site.hostname : `http://${site.hostname}`;
 
     blocks.push(`${address} {
+	# Redirect directory-style paths to include trailing slash
+	# Matches paths like /foo/bar but not /foo/bar/ or /foo/bar.html
+	@noTrailingSlash path_regexp ^/[^.]*[^/]$
+	redir @noTrailingSlash {uri}/ 301
+
 	# Strip conditional headers to work around caddy-s3-proxy issue #63
 	# https://github.com/lindenlab/caddy-s3-proxy/issues/63
 	request_header -If-Modified-Since
@@ -146,18 +149,9 @@ export class S3StaticSites extends Construct {
 
     this.deployment = deployment;
 
-    const serviceAnnotations: Record<string, string> = {};
-    const externalHostnames = props.sites.filter((site) => site.externalDns).map((site) => site.hostname);
-
-    if (externalHostnames.length > 0) {
-      serviceAnnotations["external-dns.alpha.kubernetes.io/hostname"] = externalHostnames.join(",");
-      serviceAnnotations["external-dns.alpha.kubernetes.io/target"] = TUNNEL_CNAME_TARGET;
-    }
-
     this.service = new Service(this, "service", {
       metadata: {
         name: "s3-static-sites",
-        annotations: Object.keys(serviceAnnotations).length > 0 ? serviceAnnotations : undefined,
       },
       selector: deployment,
       ports: [{ port: 80 }],
@@ -179,7 +173,6 @@ export class S3StaticSites extends Construct {
         tunnelRef: {
           kind: TunnelBindingTunnelRefKind.CLUSTER_TUNNEL,
           name: "homelab-tunnel",
-          disableDnsUpdates: site.externalDns ?? false,
         },
       });
     }
