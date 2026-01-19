@@ -14,6 +14,8 @@ export function createCloudflareTunnelCRD(chart: Chart) {
   // - We intentionally avoid external-dns for tunnel CNAMEs to prevent
   //   ownership drift and stale tunnel targets. If external-dns is re-added,
   //   keep tunnel hostnames out of it or explicitly disable DNS updates here.
+  // - After removing external-dns, clean up any lingering `_externaldns.*` TXT
+  //   records in Cloudflare to avoid ownership confusion.
   //
   // Note: For ClusterTunnel, the cloudflare-operator looks for the API token secret
   // in the cloudflare-operator-system namespace (where the operator runs).
