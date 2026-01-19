@@ -6,11 +6,11 @@
  * Usage: EDITOR="bun /path/to/fix-machineconfig.ts" talosctl edit machineconfig -n 192.168.1.81
  */
 
-import { parseAllDocuments, stringify } from 'yaml';
+import { parseAllDocuments, stringify } from "yaml";
 
 const configFile = process.argv[2];
 if (!configFile) {
-  console.error('No config file provided');
+  console.error("No config file provided");
   process.exit(1);
 }
 
@@ -22,23 +22,23 @@ const config = docs[0].toJSON();
 
 // Clean up kernel modules - remove duplicates and iptables
 config.machine.kernel.modules = [
-  { name: 'i915' },
+  { name: "i915" },
   {
-    name: 'zfs',
+    name: "zfs",
     parameters: [
-      'zfs_arc_max=51539607552',
-      'zfs_arc_min=8589934592',
-      'zfs_vdev_async_read_max_active=32',
-      'zfs_vdev_async_write_max_active=32',
-      'zfs_dirty_data_max=8589934592'
-    ]
-  }
+      "zfs_arc_max=51539607552",
+      "zfs_arc_min=8589934592",
+      "zfs_vdev_async_read_max_active=32",
+      "zfs_vdev_async_write_max_active=32",
+      "zfs_dirty_data_max=8589934592",
+    ],
+  },
 ];
 
 // Clean up sysfs - remove deprecated ZFS params that don't exist
 if (config.machine.sysfs) {
-  delete config.machine.sysfs['module.zfs.parameters.zfs_arc_meta_limit_percent'];
-  delete config.machine.sysfs['module.zfs.parameters.zfs_arc_meta_prune'];
+  delete config.machine.sysfs["module.zfs.parameters.zfs_arc_meta_limit_percent"];
+  delete config.machine.sysfs["module.zfs.parameters.zfs_arc_meta_prune"];
 }
 
 // Clean up extraKernelArgs duplicates
@@ -49,8 +49,8 @@ if (config.machine.install?.extraKernelArgs) {
 // Rebuild output with all documents
 let output = stringify(config);
 for (let i = 1; i < docs.length; i++) {
-  output += '---\n' + stringify(docs[i].toJSON());
+  output += "---\n" + stringify(docs[i].toJSON());
 }
 
 await Bun.write(configFile, output);
-console.error('Config cleaned successfully');
+console.error("Config cleaned successfully");

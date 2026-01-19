@@ -6,5 +6,5 @@ machine:
     modules:
       - name: zfs
         parameters:
-          - zfs_arc_max=67108864000  # 62.5 GB (50% of 125 GB total RAM)
-          - zfs_arc_min=8589934592    # 8 GB minimum
+          - zfs_arc_max=67108864000 # 62.5 GB (50% of 125 GB total RAM)
+          - zfs_arc_min=8589934592 # 8 GB minimum

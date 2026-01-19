@@ -27,7 +27,10 @@ console.log(await runCommand("cdk8s", ["import", "k8s", "--language=typescript",
 
 // run "kubectl get crds -o json | cdk8s import /dev/stdin --language=typescript"
 console.log(
-  await runCommand("bash", ["-c", "kubectl get crds -o json | cdk8s import /dev/stdin --language=typescript --output=generated/imports"]),
+  await runCommand("bash", [
+    "-c",
+    "kubectl get crds -o json | cdk8s import /dev/stdin --language=typescript --output=generated/imports",
+  ]),
 );
 
 const files: string[] = [];

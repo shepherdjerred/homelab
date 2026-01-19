@@ -18,10 +18,7 @@ function buildCaddyS3ProxyContainer() {
   const caddyBinary = builder.file("caddy");
 
   // Runtime stage: minimal caddy alpine image with our custom binary
-  return dag
-    .container()
-    .from(`caddy:${versions.caddy}-alpine`)
-    .withFile("/usr/bin/caddy", caddyBinary);
+  return dag.container().from(`caddy:${versions.caddy}-alpine`).withFile("/usr/bin/caddy", caddyBinary);
 }
 
 /**

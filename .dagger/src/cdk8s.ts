@@ -2,6 +2,7 @@
 import { Container, Directory, dag } from "@dagger.io/dagger";
 import { getWorkspaceContainer } from "./base";
 import { execOrThrow } from "./errors";
+import versions from "./versions";
 
 /**
  * Creates a prepared CDK8s container with workspace dependencies installed.
@@ -64,4 +65,48 @@ export async function testCdk8s(source: Directory): Promise<string> {
  */
 export function testCdk8sWithContainer(container: Container): Promise<string> {
   return execOrThrow(container, ["bun", "run", "test:gpu-resources"]);
+}
+
+/**
+ * Builds a Caddy container with the s3proxy plugin for validation.
+ */
+function buildCaddyS3ProxyContainer() {
+  const builder = dag
+    .container()
+    .from(`caddy:${versions.caddy}-builder-alpine`)
+    .withExec(["xcaddy", "build", "--with", "github.com/lindenlab/caddy-s3-proxy"]);
+
+  const caddyBinary = builder.file("caddy");
+
+  return dag.container().from(`caddy:${versions.caddy}-alpine`).withFile("/usr/bin/caddy", caddyBinary);
+}
+
+/**
+ * Validates the Caddyfile syntax using caddy validate.
+ * Uses the caddy-s3proxy container to ensure the s3proxy directive is recognized.
+ */
+export async function validateCaddyfile(source: Directory): Promise<string> {
+  // First, generate the Caddyfile using bun
+  const cdk8sContainer = prepareCdk8sContainer(source);
+  const caddyfileContent = await cdk8sContainer.withExec(["bun", "run", "scripts/generate-caddyfile.ts"]).stdout();
+
+  // Then validate it using the caddy-s3proxy container
+  const caddyContainer = buildCaddyS3ProxyContainer()
+    .withNewFile("/etc/caddy/Caddyfile", caddyfileContent)
+    .withExec(["caddy", "validate", "--config", "/etc/caddy/Caddyfile"]);
+
+  return execOrThrow(caddyContainer, ["caddy", "validate", "--config", "/etc/caddy/Caddyfile"]);
+}
+
+/**
+ * Validates the Caddyfile syntax using a pre-prepared CDK8s container.
+ */
+export async function validateCaddyfileWithContainer(container: Container): Promise<string> {
+  // Generate the Caddyfile
+  const caddyfileContent = await container.withExec(["bun", "run", "scripts/generate-caddyfile.ts"]).stdout();
+
+  // Validate using caddy-s3proxy container
+  const caddyContainer = buildCaddyS3ProxyContainer().withNewFile("/etc/caddy/Caddyfile", caddyfileContent);
+
+  return execOrThrow(caddyContainer, ["caddy", "validate", "--config", "/etc/caddy/Caddyfile"]);
 }

@@ -21,6 +21,7 @@ import {
   lintCdk8sWithContainer,
   buildK8sManifestsWithContainer,
   testCdk8sWithContainer,
+  validateCaddyfileWithContainer,
 } from "./cdk8s";
 import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
@@ -231,6 +232,16 @@ export class Homelab {
             message: `CDK8s Test: FAILED\n${formatDaggerError(e)}`,
           }));
 
+    // Caddyfile validation - uses shared container - skip for version-only PRs
+    const caddyfileValidatePromise = versionOnly
+      ? versionOnlySkip("Caddyfile Validate")
+      : validateCaddyfileWithContainer(cdk8sContainer)
+          .then((msg) => ({ status: "passed" as const, message: `Caddyfile Validate: PASSED\n${msg}` }))
+          .catch((e: unknown) => ({
+            status: "failed" as const,
+            message: `Caddyfile Validate: FAILED\n${formatDaggerError(e)}`,
+          }));
+
     // CDK8s linting - uses shared container - skip for version-only PRs
     const cdk8sLintPromise = versionOnly
       ? versionOnlySkip("CDK8s Lint")
@@ -325,6 +336,7 @@ export class Homelab {
       renovateTestResult,
       helmTestResult,
       cdk8sTestResult,
+      caddyfileValidateResult,
       cdk8sLintResult,
       haLintResult,
       cdk8sTypeCheckResult,
@@ -336,6 +348,7 @@ export class Homelab {
       renovateTestPromise,
       helmTestPromise,
       cdk8sTestPromise,
+      caddyfileValidatePromise,
       cdk8sLintPromise,
       haLintPromise,
       cdk8sTypeCheckPromise,
@@ -386,12 +399,7 @@ export class Homelab {
           ),
         ]),
         // Caddy-s3proxy image: push latest tag only (no versioning needed for this utility image)
-        buildAndPushCaddyS3ProxyImage(
-          `ghcr.io/shepherdjerred/caddy-s3proxy:latest`,
-          ghcrUsername,
-          ghcrPassword,
-          false,
-        ),
+        buildAndPushCaddyS3ProxyImage(`ghcr.io/shepherdjerred/caddy-s3proxy:latest`, ghcrUsername, ghcrPassword, false),
         // Helm chart publish
         helmBuildResult.dist
           ? this.helmPublishBuilt(
@@ -445,6 +453,7 @@ export class Homelab {
       renovateTestResult.message,
       helmTestResult.message,
       cdk8sTestResult.message,
+      caddyfileValidateResult.message,
       cdk8sLintResult.message,
       haLintResult.message,
       cdk8sTypeCheckResult.message,
@@ -464,6 +473,7 @@ export class Homelab {
       renovateTestResult.status === "failed" ||
       helmTestResult.status === "failed" ||
       cdk8sTestResult.status === "failed" ||
+      caddyfileValidateResult.status === "failed" ||
       cdk8sLintResult.status === "failed" ||
       haLintResult.status === "failed" ||
       cdk8sTypeCheckResult.status === "failed" ||
