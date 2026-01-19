@@ -44,8 +44,9 @@ export function generateCaddyfile(props: CaddyfileGeneratorProps): string {
   for (const site of props.sites) {
     const indexFile = site.indexFile ?? "index.html";
     const notFoundPage = site.notFoundPage ?? "404.html";
+    const address = site.hostname.includes("://") ? site.hostname : `http://${site.hostname}`;
 
-    blocks.push(`${site.hostname} {
+    blocks.push(`${address} {
 	s3proxy {
 		bucket ${site.bucket}
 		region {$S3_REGION:${props.s3Region ?? "us-east-1"}}
