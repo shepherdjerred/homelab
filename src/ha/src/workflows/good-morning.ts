@@ -30,7 +30,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
     const shuxinHome = personShuxin.state === "home";
     const anyoneHome = jerredHome || shuxinHome;
     logger.info(
-      `isAnyoneHome check: jerred=${personJerred.state} (home=${jerredHome}), shuxin=${personShuxin.state} (home=${shuxinHome}), result=${anyoneHome}`,
+      `isAnyoneHome check: jerred=${personJerred.state} (home=${String(jerredHome)}), shuxin=${personShuxin.state} (home=${String(shuxinHome)}), result=${String(anyoneHome)}`,
     );
     return anyoneHome;
   }
