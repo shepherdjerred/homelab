@@ -47,6 +47,11 @@ export function generateCaddyfile(props: CaddyfileGeneratorProps): string {
     const address = site.hostname.includes("://") ? site.hostname : `http://${site.hostname}`;
 
     blocks.push(`${address} {
+	# Redirect directory-style paths to include trailing slash
+	# Matches paths like /foo/bar but not /foo/bar/ or /foo/bar.html
+	@noTrailingSlash path_regexp ^/[^.]*[^/]$
+	redir @noTrailingSlash {uri}/ 301
+
 	# Strip conditional headers to work around caddy-s3-proxy issue #63
 	# https://github.com/lindenlab/caddy-s3-proxy/issues/63
 	request_header -If-Modified-Since
