@@ -22,6 +22,45 @@ export type S3StaticSitesProps = {
   credentialsSecretName: string;
 };
 
+export type CaddyfileGeneratorProps = {
+  sites: StaticSiteConfig[];
+  s3Endpoint: string;
+  s3Region?: string;
+};
+
+/**
+ * Generates a Caddyfile for S3 static sites.
+ * Exported for testing/validation purposes.
+ */
+export function generateCaddyfile(props: CaddyfileGeneratorProps): string {
+  const blocks: string[] = [];
+
+  blocks.push(`{
+	order s3proxy last
+	auto_https off
+}
+`);
+
+  for (const site of props.sites) {
+    const indexFile = site.indexFile ?? "index.html";
+    const notFoundPage = site.notFoundPage ?? "404.html";
+
+    blocks.push(`${site.hostname} {
+	s3proxy {
+		bucket ${site.bucket}
+		region {$S3_REGION:${props.s3Region ?? "us-east-1"}}
+		index ${indexFile}
+		errors 404 ${notFoundPage}
+		endpoint {$S3_ENDPOINT:${props.s3Endpoint}}
+		force_path_style
+	}
+}
+`);
+  }
+
+  return blocks.join("\n");
+}
+
 export class S3StaticSites extends Construct {
   public readonly service: Service;
   public readonly deployment: Deployment;
@@ -32,7 +71,7 @@ export class S3StaticSites extends Construct {
     const chart = Chart.of(this);
     const namespace = chart.namespace;
 
-    const caddyfile = this.generateCaddyfile(props);
+    const caddyfile = generateCaddyfile(props);
 
     const configMap = new ConfigMap(this, "caddyfile", {
       metadata: {
@@ -127,33 +166,5 @@ export class S3StaticSites extends Construct {
         },
       });
     }
-  }
-
-  private generateCaddyfile(props: S3StaticSitesProps): string {
-    const blocks: string[] = [];
-
-    blocks.push(`{
-	order s3proxy last
-}
-`);
-
-    for (const site of props.sites) {
-      const indexFile = site.indexFile ?? "index.html";
-      const notFoundPage = site.notFoundPage ?? "404.html";
-
-      blocks.push(`${site.hostname} {
-	s3proxy {
-		bucket ${site.bucket}
-		region {$S3_REGION:${props.s3Region ?? "us-east-1"}}
-		index ${indexFile}
-		errors 404 ${notFoundPage}
-		endpoint {$S3_ENDPOINT:${props.s3Endpoint}}
-		force_path_style
-	}
-}
-`);
-    }
-
-    return blocks.join("\n");
   }
 }
