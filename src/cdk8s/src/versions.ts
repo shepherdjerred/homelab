@@ -49,7 +49,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "tailscale/golink": "main@sha256:ba5303fefc041cf9f11f960a90c3e16ca922dad8140ef43f704670f5c55f581b",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
-  "home-assistant/home-assistant": "2025.12.5@sha256:9a5a3eb4a213dfb25932dee9dc6815c9305f78cecb5afa716fa2483163d8fb5b",
+  "home-assistant/home-assistant": "2026.1.2@sha256:3007eeeaf87d1e3a2047faeac6ff01dfef218b8a404bdff3ce421c1f4f363a43",
   // Custom homelab HA image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/homelab": "latest",
