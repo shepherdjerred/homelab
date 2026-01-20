@@ -2,6 +2,7 @@ import { Chart, Duration } from "cdk8s";
 import { ConfigMap, DaemonSet, Volume, ServiceAccount, Probe } from "cdk8s-plus-31";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import versions from "../../versions.ts";
 
 const CURRENT_FILENAME = fileURLToPath(import.meta.url);
 const CURRENT_DIRNAME = dirname(CURRENT_FILENAME);
@@ -49,7 +50,7 @@ export async function createZfsSnapshotsMonitoring(chart: Chart) {
   // Configure the container
   const container = zfsSnapshotsDaemonSet.addContainer({
     name: "zfs-snapshots-collector",
-    image: "python:3.11-alpine",
+    image: `docker.io/library/python:${versions["library/python"]}`,
     command: ["/bin/sh"],
     args: [
       "-c",

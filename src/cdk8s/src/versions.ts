@@ -93,6 +93,10 @@ const versions = {
   "gha-runner-scale-set-controller": "0.13.1",
   // renovate: datasource=docker registryUrl=https://ghcr.io/actions/actions-runner-controller-charts versioning=semver
   "gha-runner-scale-set": "0.13.1",
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
+  "actions/actions-runner": "2.322.0",
+  // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
+  "library/python": "3.11-alpine",
   // renovate: datasource=docker registryUrl=https://registry.dagger.io versioning=loose
   "dagger-helm": "0.19.8",
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
