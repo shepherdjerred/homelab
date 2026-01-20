@@ -130,7 +130,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
   redis: "24.1.0",
   // renovate: datasource=helm registryUrl=https://seaweedfs.github.io/seaweedfs/helm versioning=semver
-  seaweedfs: "4.0.404",
+  seaweedfs: "4.0.407",
   // renovate: datasource=helm registryUrl=https://charts.bitnami.com/bitnami versioning=semver
   mariadb: "24.0.2",
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/external-dns versioning=semver
