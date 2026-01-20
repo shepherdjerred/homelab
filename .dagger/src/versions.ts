@@ -11,7 +11,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "curlimages/curl": "8.17.0@sha256:935d9100e9ba842cdb060de42472c7ca90cfe9a7c96e4dacb55e79e560b3ff40",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
-  caddy: "2.9.1",
+  caddy: "2.10.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "alpine/kubectl": "1.35.0@sha256:8235eddc02d51e29a6990248e559494505dab83bd47de829351b22d5b702f38d",
   // renovate: datasource=github-releases versioning=semver
