@@ -182,7 +182,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
                   containers: [
                     {
                       name: "runner",
-                      image: "ghcr.io/actions/actions-runner:latest",
+                      image: `ghcr.io/actions/actions-runner:${versions["actions/actions-runner"]}`,
                       command: ["/home/runner/run.sh"],
                       env: [
                         {
