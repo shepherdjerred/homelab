@@ -60,8 +60,48 @@ export async function createPrometheusApp(chart: Chart) {
   await createZfsSnapshotsMonitoring(chart);
   await createZfsZpoolMonitoring(chart);
 
+  // Type extension for blackbox-exporter subchart (not included in generated types)
+  type PrometheusValuesWithBlackbox = HelmValuesForChart<"kube-prometheus-stack"> & {
+    "prometheus-blackbox-exporter"?: {
+      enabled?: boolean;
+      config?: {
+        modules?: Record<
+          string,
+          {
+            prober: string;
+            timeout?: string;
+            http?: {
+              valid_http_versions?: string[];
+              valid_status_codes?: number[];
+              follow_redirects?: boolean;
+              preferred_ip_protocol?: string;
+            };
+          }
+        >;
+      };
+    };
+  };
+
   // Note: Some configurations bypass type checking due to incomplete generated types
-  const prometheusValues: HelmValuesForChart<"kube-prometheus-stack"> = {
+  const prometheusValues: PrometheusValuesWithBlackbox = {
+    // Enable blackbox-exporter for HTTP probing of static sites
+    "prometheus-blackbox-exporter": {
+      enabled: true,
+      config: {
+        modules: {
+          http_2xx: {
+            prober: "http",
+            timeout: "10s",
+            http: {
+              valid_http_versions: ["HTTP/1.1", "HTTP/2.0"],
+              valid_status_codes: [200, 301, 302],
+              follow_redirects: true,
+              preferred_ip_protocol: "ip4",
+            },
+          },
+        },
+      },
+    },
     // Tune default alert rules that are too sensitive for homelab
     customRules: {
       // CPUThrottlingHigh default is 25% for 15m - too sensitive for homelab workloads

@@ -6,6 +6,7 @@ import { TUNNEL_CNAME_TARGET } from "../resources/argo-applications/external-dns
 import { withCommonProps } from "./common.ts";
 import versions from "../versions.ts";
 import { ApiObject } from "cdk8s";
+import { Probe } from "../../generated/imports/monitoring.coreos.com.ts";
 
 export type StaticSiteConfig = {
   hostname: string;
@@ -185,6 +186,31 @@ export class S3StaticSites extends Construct {
           kind: TunnelBindingTunnelRefKind.CLUSTER_TUNNEL,
           name: "homelab-tunnel",
           disableDnsUpdates: site.externalDns ?? false,
+        },
+      });
+
+      // Create Probe for HTTP monitoring via blackbox-exporter
+      new Probe(this, `probe-${site.hostname.replace(/\./g, "-")}`, {
+        metadata: {
+          name: `static-site-${site.hostname.replace(/\./g, "-")}`,
+          namespace,
+          labels: { release: "prometheus" },
+        },
+        spec: {
+          jobName: `static-site-${site.hostname}`,
+          interval: "60s",
+          module: "http_2xx",
+          prober: {
+            url: "prometheus-prometheus-blackbox-exporter.prometheus:9115",
+          },
+          targets: {
+            staticConfig: {
+              static: [`https://${site.hostname}`],
+              labels: {
+                site: site.hostname,
+              },
+            },
+          },
         },
       });
     }

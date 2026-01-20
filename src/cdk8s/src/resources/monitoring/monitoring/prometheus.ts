@@ -9,6 +9,7 @@ import { getSmartctlRuleGroups } from "./rules/smartctl";
 import { getHaWorkflowRuleGroups } from "./rules/ha-workflows";
 import { getGitckupRuleGroups } from "./rules/gitckup";
 import { getQBitTorrentRuleGroups } from "./rules/qbittorrent";
+import { getStaticSitesRuleGroups } from "./rules/static-sites";
 
 export function createPrometheusMonitoring(chart: Chart) {
   // Create Home Assistant rules
@@ -115,6 +116,18 @@ export function createPrometheusMonitoring(chart: Chart) {
     },
     spec: {
       groups: getQBitTorrentRuleGroups(),
+    },
+  });
+
+  // Create static sites rules
+  new PrometheusRule(chart, "prometheus-static-sites-rules", {
+    metadata: {
+      name: "prometheus-static-sites-rules",
+      namespace: "s3-static-sites",
+      labels: { release: "prometheus" },
+    },
+    spec: {
+      groups: getStaticSitesRuleGroups(),
     },
   });
 }
