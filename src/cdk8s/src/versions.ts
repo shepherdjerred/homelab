@@ -134,7 +134,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "postalserver/postal": "3.3.4@sha256:0945f345ee87f5e6a4eb227d47f41c223ec0aa8b06a7c24f9f60ca0f9b9e0c28",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
-  "library/mariadb": "11.8@sha256:1cac8492bd78b1ec693238dc600be173397efd7b55eabc725abc281dc855b482",
+  "library/mariadb": "11.8@sha256:345fa26d595e8c7fe298e0c4098ed400356f502458769c8902229b3437d6da2b",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "boky/postfix": "latest@sha256:aafc772384232497bed875e1eb66b4d3e54ba1ebc86e2e185a6dc1dbc48182ef",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
