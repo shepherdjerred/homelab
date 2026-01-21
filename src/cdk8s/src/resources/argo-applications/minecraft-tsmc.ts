@@ -5,7 +5,6 @@ import { createIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
-import { TUNNEL_CNAME_TARGET } from "./external-dns.ts";
 
 export function createMinecraftTsmcApp(chart: Chart) {
   createIngress(
@@ -22,7 +21,6 @@ export function createMinecraftTsmcApp(chart: Chart) {
     serviceName: "minecraft-tsmc-bluemap",
     fqdn: "bluemap.ts-mc.net",
     namespace: "minecraft-tsmc",
-    disableDnsUpdates: true,
   });
 
   const minecraftValues: HelmValuesForChart<"minecraft"> = {
@@ -56,10 +54,6 @@ export function createMinecraftTsmcApp(chart: Chart) {
           service: {
             enabled: true,
             port: 8100,
-            annotations: {
-              "external-dns.alpha.kubernetes.io/hostname": "bluemap.ts-mc.net",
-              "external-dns.alpha.kubernetes.io/target": TUNNEL_CNAME_TARGET,
-            },
           },
           protocol: "TCP",
           containerPort: 8100,
