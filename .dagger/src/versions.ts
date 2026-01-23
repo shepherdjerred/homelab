@@ -7,7 +7,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "oven/bun": "1.3.5@sha256:e90cdbaf9ccdb3d4bd693aa335c3310a6004286a880f62f79b18f9b1312a8ec3",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  ubuntu: "noble@sha256:c35e29c9450151419d9448b0fd75374fec4fff364a27f176fb458d472dfc9e54",
+  ubuntu: "noble@sha256:cd1dba651b3080c3686ecf4e3c4220f026b521fb76978881737d24f200828b2b",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "curlimages/curl": "8.17.0@sha256:935d9100e9ba842cdb060de42472c7ca90cfe9a7c96e4dacb55e79e560b3ff40",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
