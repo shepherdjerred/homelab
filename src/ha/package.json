@@ -18,7 +18,7 @@
     "@digital-alchemy/automation": "^25.3.1",
     "@digital-alchemy/core": "^25.4.2",
     "@digital-alchemy/hass": "^25.3.2",
-    "@digital-alchemy/synapse": "^25.3.1",
+    "@digital-alchemy/synapse": "^26.0.0",
     "@digital-alchemy/type-writer": "^25.10.12",
     "@sentry/bun": "^10.0.0",
     "@total-typescript/ts-reset": "^0.6.1",
