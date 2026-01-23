@@ -96,7 +96,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "actions/actions-runner": "2.331.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "library/python": "3.11-alpine",
+  "library/python": "3.14-alpine",
   // renovate: datasource=docker registryUrl=https://registry.dagger.io versioning=loose
   "dagger-helm": "0.19.8",
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
