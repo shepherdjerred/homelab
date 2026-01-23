@@ -19,7 +19,7 @@ const versions = {
   // renovate: datasource=python-version versioning=semver
   python: "3.14.2",
   // renovate: datasource=node-version versioning=semver
-  node: "24.12.0",
+  node: "24.13.0",
   // this is empty because we have to perform some string manipulation below
   // not managed by renovate
   bun: "",
