@@ -142,7 +142,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "boky/postfix": "latest@sha256:aafc772384232497bed875e1eb66b4d3e54ba1ebc86e2e185a6dc1dbc48182ef",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "library/busybox": "latest@sha256:870e815c3a50dd0f6b40efddb319c72c32c3ee340b5a3e8945904232ccd12f44",
+  "library/busybox": "latest@sha256:70ce0a747f09cd7c09c2d6eaeab69d60adb0398f569296e8c0e844599388ebd6",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "library/alpine": "latest@sha256:1882fa4569e0c591ea092d3766c4893e19b8901a8e649de7067188aba3cc0679",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
