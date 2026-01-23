@@ -1,6 +1,6 @@
 const versions = {
   // renovate: datasource=helm registryUrl=https://1password.github.io/connect-helm-charts/ versioning=semver
-  connect: "2.1.1",
+  connect: "2.2.1",
   // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
   "argo-cd": "9.2.3",
   // renovate: datasource=helm registryUrl=https://argoproj.github.io/argo-helm versioning=semver
