@@ -1,6 +1,6 @@
 import { dag, type Secret } from "@dagger.io/dagger";
 import type { StepResult } from ".";
-import versions from "./versions";
+import { caddyVersionOnly } from "./versions";
 
 /**
  * Builds a Caddy container with the s3proxy plugin.
@@ -9,16 +9,17 @@ import versions from "./versions";
  */
 function buildCaddyS3ProxyContainer() {
   // Build stage: use caddy builder image which has xcaddy
+  // Use version-only (no digest) because variant tags have different digests than the base image
   const builder = dag
     .container()
-    .from(`caddy:${versions.caddy}-builder-alpine`)
+    .from(`caddy:${caddyVersionOnly}-builder-alpine`)
     .withExec(["xcaddy", "build", "--with", "github.com/lindenlab/caddy-s3-proxy"]);
 
   // Get the built caddy binary
   const caddyBinary = builder.file("caddy");
 
   // Runtime stage: minimal caddy alpine image with our custom binary
-  return dag.container().from(`caddy:${versions.caddy}-alpine`).withFile("/usr/bin/caddy", caddyBinary);
+  return dag.container().from(`caddy:${caddyVersionOnly}-alpine`).withFile("/usr/bin/caddy", caddyBinary);
 }
 
 /**

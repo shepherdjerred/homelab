@@ -2,7 +2,7 @@
 import { Container, Directory, dag } from "@dagger.io/dagger";
 import { getWorkspaceContainer } from "./base";
 import { execOrThrow } from "./errors";
-import versions from "./versions";
+import { caddyVersionOnly } from "./versions";
 
 /**
  * Creates a prepared CDK8s container with workspace dependencies installed.
@@ -69,16 +69,17 @@ export function testCdk8sWithContainer(container: Container): Promise<string> {
 
 /**
  * Builds a Caddy container with the s3proxy plugin for validation.
+ * Uses version-only (no digest) because variant tags have different digests than the base image.
  */
 function buildCaddyS3ProxyContainer() {
   const builder = dag
     .container()
-    .from(`caddy:${versions.caddy}-builder-alpine`)
+    .from(`caddy:${caddyVersionOnly}-builder-alpine`)
     .withExec(["xcaddy", "build", "--with", "github.com/lindenlab/caddy-s3-proxy"]);
 
   const caddyBinary = builder.file("caddy");
 
-  return dag.container().from(`caddy:${versions.caddy}-alpine`).withFile("/usr/bin/caddy", caddyBinary);
+  return dag.container().from(`caddy:${caddyVersionOnly}-alpine`).withFile("/usr/bin/caddy", caddyBinary);
 }
 
 /**

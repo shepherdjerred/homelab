@@ -36,4 +36,11 @@ const helmVersion = versions["alpine/helm"].split("@")[0];
 if (helmVersion === undefined) throw new Error("Failed to parse helm version");
 versions.helm = helmVersion;
 
+// Extract caddy version without digest for use with variant tags (-alpine, -builder-alpine)
+// The base caddy digest doesn't apply to variants which have different content
+const caddyVersionOnly = versions.caddy.split("@")[0];
+if (caddyVersionOnly === undefined) throw new Error("Failed to parse caddy version");
+
 export default versions;
+
+export { caddyVersionOnly };
