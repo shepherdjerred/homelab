@@ -143,10 +143,10 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
                       try {
                         logger.info("Attempting to play media on bedroom player");
                         await bedroomMediaPlayer.play_media({
-                          media: {
+                          media: JSON.stringify({
                             media_content_id: "FV:2/5",
                             media_content_type: "favorite_item_id",
-                          },
+                          }),
                         });
                         logger.info("Successfully started media playback");
                       } catch (error) {
@@ -160,10 +160,10 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
                         await wait({ amount: 3, unit: "s" });
                         try {
                           await bedroomMediaPlayer.play_media({
-                            media: {
+                            media: JSON.stringify({
                               media_content_id: "FV:2/5",
                               media_content_type: "favorite_item_id",
-                            },
+                            }),
                           });
                           logger.info("Retry successful");
                         } catch (retryError) {
