@@ -54,7 +54,7 @@ export async function runReleasePr(githubToken: Secret): Promise<{ output: strin
 
   return runReleasePleaseCommand(
     container,
-    `git clone https://x-access-token:$GITHUB_TOKEN@github.com/${REPO_URL}.git . && release-please release-pr --token=\\$GITHUB_TOKEN --repo-url=${REPO_URL} --target-branch=main`,
+    `git clone https://x-access-token:$GITHUB_TOKEN@github.com/${REPO_URL}.git . && release-please release-pr --token=$GITHUB_TOKEN --repo-url=${REPO_URL} --target-branch=main`,
   );
 }
 
@@ -66,7 +66,7 @@ export async function runGithubRelease(githubToken: Secret): Promise<{ output: s
 
   return runReleasePleaseCommand(
     container,
-    `git clone https://x-access-token:$GITHUB_TOKEN@github.com/${REPO_URL}.git . && release-please github-release --token=\\$GITHUB_TOKEN --repo-url=${REPO_URL} --target-branch=main`,
+    `git clone https://x-access-token:$GITHUB_TOKEN@github.com/${REPO_URL}.git . && release-please github-release --token=$GITHUB_TOKEN --repo-url=${REPO_URL} --target-branch=main`,
   );
 }
 
