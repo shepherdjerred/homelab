@@ -65,6 +65,15 @@ export function createLokiApp(chart: Chart) {
     deploymentMode: "SingleBinary",
     singleBinary: {
       replicas: 1,
+      resources: {
+        requests: {
+          cpu: "250m",
+          memory: "2Gi",
+        },
+        limits: {
+          memory: "4Gi",
+        },
+      },
       persistence: {
         storageClass: NVME_STORAGE_CLASS,
         size: Size.gibibytes(64).asString(),

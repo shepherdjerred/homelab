@@ -293,6 +293,11 @@ export async function createPrometheusApp(chart: Chart) {
               matchers: ['alertname = "Watchdog"'],
             },
             {
+              // InfoInhibitor is used internally to suppress info-level alerts, don't page for it
+              receiver: "null",
+              matchers: ['alertname = "InfoInhibitor"'],
+            },
+            {
               // Route info-level alerts to null receiver (don't page for informational alerts)
               receiver: "null",
               matchers: ['severity = "info"'],
