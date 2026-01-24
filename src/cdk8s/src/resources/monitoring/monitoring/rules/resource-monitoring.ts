@@ -144,6 +144,20 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
       name: "resource-disk-monitoring",
       rules: [
         {
+          alert: "PVCStorageHigh",
+          annotations: {
+            description: escapePrometheusTemplate(
+              "PVC {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is {{ $value | humanizePercentage }} full",
+            ),
+            summary: "PVC storage usage above 90%",
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "(kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes) > 0.9",
+          ),
+          for: "10m",
+          labels: { severity: "warning" },
+        },
+        {
           alert: "HighDiskUsage",
           annotations: {
             description: escapePrometheusTemplate(
