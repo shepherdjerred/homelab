@@ -607,7 +607,7 @@ export type ConnectHelmValuesOperator = {
   /**
    * The 1Password Operator version to pull
    *
-   * @default "1.9.1"
+   * @default "1.10.1"
    */
   version?: string;
   /**
@@ -711,6 +711,14 @@ export type ConnectHelmValuesOperator = {
    * @default "info"
    */
   logLevel?: string;
+  /**
+   * Enables operator-driven annotations when true
+   *
+   * Passes the --enable-annotations flag to the Operator container when true.
+   *
+   * @default false
+   */
+  enableAnnotations?: boolean;
   customEnvVars?: unknown[];
 };
 
@@ -994,7 +1002,7 @@ export type ConnectHelmValues = {
   /**
    * This section of values is for 1Password Operator Configuration
    *
-   * @default {...} (30 keys)
+   * @default {...} (31 keys)
    */
   operator?: ConnectHelmValuesOperator;
   /**
@@ -1095,6 +1103,7 @@ export type ConnectHelmParameters = {
   "operator.clusterRoleBinding.create"?: string;
   "operator.clusterRoleBinding.name"?: string;
   "operator.logLevel"?: string;
+  "operator.enableAnnotations"?: string;
   "operator.customEnvVars"?: string;
   "acceptanceTests.enabled"?: string;
   "acceptanceTests.healthCheck.enabled"?: string;

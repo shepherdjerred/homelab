@@ -169,7 +169,10 @@ export type ArgocdHelmValuesGlobal = {
    */
   deploymentStrategy?: ArgocdHelmValuesGlobalDeploymentStrategy;
   env?: unknown[];
+  extraVolumes?: unknown[];
+  extraVolumeMounts?: unknown[];
   /**
+   * Example of adding a custom CA bundle mount:
    * Annotations for the all deployed Certificates
    *
    * @default {}
@@ -2553,7 +2556,7 @@ export type ArgocdHelmValuesRedisImage = {
   repository?: string;
   /**
    * Redis tag
-   * Do not upgrade to >= 7.4.0, otherwise you are no longer using an open source version of Redis
+   * Do not use 7.4.0 <= v < 8.0.0, otherwise you are no longer using an open source version of Redis
    *
    * @default "8.2.2-alpine"
    */
@@ -3759,11 +3762,11 @@ export type ArgocdHelmValuesServer = {
    * Readiness and liveness probes for default backend
    * Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
    *
-   * @default {...} (5 keys)
+   * @default {...} (6 keys)
    */
   readinessProbe?: ArgocdHelmValuesServerReadinessProbe;
   /**
-   * @default {...} (5 keys)
+   * @default {...} (6 keys)
    */
   livenessProbe?: ArgocdHelmValuesServerLivenessProbe;
   /**
@@ -4164,6 +4167,12 @@ export type ArgocdHelmValuesServerContainerSecurityContextCapabilities = {
 
 export type ArgocdHelmValuesServerReadinessProbe = {
   /**
+   * Enable Kubernetes readiness probe for default backend
+   *
+   * @default true
+   */
+  enabled?: boolean;
+  /**
    * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
@@ -4196,6 +4205,12 @@ export type ArgocdHelmValuesServerReadinessProbe = {
 };
 
 export type ArgocdHelmValuesServerLivenessProbe = {
+  /**
+   * Enable Kubernetes liveness probe for default backend
+   *
+   * @default true
+   */
+  enabled?: boolean;
   /**
    * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
@@ -5300,14 +5315,14 @@ export type ArgocdHelmValuesRepoServer = {
    */
   containerSecurityContext?: ArgocdHelmValuesRepoServerContainerSecurityContext;
   /**
-   * Readiness and liveness probes for default backend
+   * Readiness and liveness probes for Repo Server
    * Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
    *
-   * @default {...} (5 keys)
+   * @default {...} (6 keys)
    */
   readinessProbe?: ArgocdHelmValuesRepoServerReadinessProbe;
   /**
-   * @default {...} (5 keys)
+   * @default {...} (6 keys)
    */
   livenessProbe?: ArgocdHelmValuesRepoServerLivenessProbe;
   /**
@@ -5588,6 +5603,12 @@ export type ArgocdHelmValuesRepoServerContainerSecurityContextCapabilities = {
 
 export type ArgocdHelmValuesRepoServerReadinessProbe = {
   /**
+   * Enable Kubernetes readiness probe for Repo Server
+   *
+   * @default true
+   */
+  enabled?: boolean;
+  /**
    * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
    * @default 3
@@ -5620,6 +5641,12 @@ export type ArgocdHelmValuesRepoServerReadinessProbe = {
 };
 
 export type ArgocdHelmValuesRepoServerLivenessProbe = {
+  /**
+   * Enable Kubernetes liveness probe for Repo Server
+   *
+   * @default true
+   */
+  enabled?: boolean;
   /**
    * Minimum consecutive failures for the [probe] to be considered failed after having succeeded
    *
@@ -8055,7 +8082,7 @@ export type ArgocdHelmValues = {
   /**
    * Globally shared configuration
    *
-   * @default {...} (25 keys)
+   * @default {...} (27 keys)
    */
   global?: ArgocdHelmValuesGlobal;
   /**
@@ -8172,6 +8199,8 @@ export type ArgocdHelmParameters = {
   "global.affinity.nodeAffinity.matchExpressions"?: string;
   "global.topologySpreadConstraints"?: string;
   "global.env"?: string;
+  "global.extraVolumes"?: string;
+  "global.extraVolumeMounts"?: string;
   "configs.cm.create"?: string;
   "configs.cm.application.instanceLabelKey"?: string;
   "configs.cm.application.sync.impersonation.enabled"?: string;
@@ -8529,11 +8558,13 @@ export type ArgocdHelmParameters = {
   "server.containerSecurityContext.allowPrivilegeEscalation"?: string;
   "server.containerSecurityContext.seccompProfile.type"?: string;
   "server.containerSecurityContext.capabilities.drop"?: string;
+  "server.readinessProbe.enabled"?: string;
   "server.readinessProbe.failureThreshold"?: string;
   "server.readinessProbe.initialDelaySeconds"?: string;
   "server.readinessProbe.periodSeconds"?: string;
   "server.readinessProbe.successThreshold"?: string;
   "server.readinessProbe.timeoutSeconds"?: string;
+  "server.livenessProbe.enabled"?: string;
   "server.livenessProbe.failureThreshold"?: string;
   "server.livenessProbe.initialDelaySeconds"?: string;
   "server.livenessProbe.periodSeconds"?: string;
@@ -8667,11 +8698,13 @@ export type ArgocdHelmParameters = {
   "repoServer.containerSecurityContext.allowPrivilegeEscalation"?: string;
   "repoServer.containerSecurityContext.seccompProfile.type"?: string;
   "repoServer.containerSecurityContext.capabilities.drop"?: string;
+  "repoServer.readinessProbe.enabled"?: string;
   "repoServer.readinessProbe.failureThreshold"?: string;
   "repoServer.readinessProbe.initialDelaySeconds"?: string;
   "repoServer.readinessProbe.periodSeconds"?: string;
   "repoServer.readinessProbe.successThreshold"?: string;
   "repoServer.readinessProbe.timeoutSeconds"?: string;
+  "repoServer.livenessProbe.enabled"?: string;
   "repoServer.livenessProbe.failureThreshold"?: string;
   "repoServer.livenessProbe.initialDelaySeconds"?: string;
   "repoServer.livenessProbe.periodSeconds"?: string;

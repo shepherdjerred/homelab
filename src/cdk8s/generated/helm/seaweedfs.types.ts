@@ -78,7 +78,7 @@ export type SeaweedfsHelmValuesGlobal = {
    */
   replicationPlacement?: number;
   /**
-   * @default {"WEED_CLUSTER_DEFAULT":"sw","WEED_CLUSTER_SW_MASTER":"seaweedfs-master.seaweedfs:9333","WEED_CLUSTER_SW_FILER":"seaweedfs-filer-client.seaweedfs:8888"}
+   * @default {"WEED_CLUSTER_DEFAULT":"sw","WEED_CLUSTER_SW_MASTER":"{{ include \"seaweedfs.cluster.masterAddress\" . }}","WEED_CLUSTER_SW_FILER":"{{ include \"seaweedfs.cluster.filerAddress\" . }}"}
    */
   extraEnvironmentVars?: SeaweedfsHelmValuesGlobalExtraEnvironmentVars;
 };
@@ -145,11 +145,11 @@ export type SeaweedfsHelmValuesGlobalExtraEnvironmentVars = {
    */
   WEED_CLUSTER_DEFAULT?: string;
   /**
-   * @default "seaweedfs-master.seaweedfs:9333"
+   * @default "{{ include "seaweedfs.cluster.masterAddress" . }}"
    */
   WEED_CLUSTER_SW_MASTER?: string;
   /**
-   * @default "seaweedfs-filer-client.seaweedfs:8888"
+   * @default "{{ include "seaweedfs.cluster.filerAddress" . }}"
    */
   WEED_CLUSTER_SW_FILER?: string;
 };
@@ -680,6 +680,8 @@ export type SeaweedfsHelmValuesVolume = {
   extraArgs?: unknown[];
   dataDirs?: SeaweedfsHelmValuesVolumeDataDirsElement[];
   /**
+   * This will automatically create a job for patching Kubernetes resources if the dataDirs type is 'persistentVolumeClaim' and the size has changed.
+   *
    * @default {"enabled":true,"image":"alpine/k8s:1.28.4"}
    */
   resizeHook?: SeaweedfsHelmValuesVolumeResizeHook;
@@ -701,6 +703,7 @@ export type SeaweedfsHelmValuesVolume = {
    */
   compactionMBps?: number;
   rack?: unknown;
+  id?: unknown;
   dataCenter?: unknown;
   /**
    * Redirect moved or non-local volumes. (default proxy)
@@ -2170,10 +2173,6 @@ export type SeaweedfsHelmValuesAdmin = {
    * @default 33646
    */
   grpcPort?: number;
-  /**
-   * @default 9327
-   */
-  metricsPort?: number;
   loggingOverrideLevel?: unknown;
   /**
    * Admin authentication
@@ -2614,7 +2613,6 @@ export type SeaweedfsHelmValuesWorker = {
   metricsPort?: number;
   /**
    * Admin server to connect to
-   * Format: "host:port" or auto-discover from admin service
    *
    * @default ""
    */
@@ -2723,7 +2721,7 @@ export type SeaweedfsHelmValuesWorker = {
   extraEnvironmentVars?: SeaweedfsHelmValuesWorkerExtraEnvironmentVars;
   /**
    * Health checks for worker pods
-   * Since workers do not have an HTTP endpoint, a tcpSocket probe on the metrics port is recommended.
+   * Workers expose /health (liveness) and /ready (readiness) endpoints on the metricsPort
    *
    * @default {...} (7 keys)
    */
@@ -2836,9 +2834,9 @@ export type SeaweedfsHelmValuesWorkerLivenessProbe = {
    */
   enabled?: boolean;
   /**
-   * @default {"port":"metrics"}
+   * @default {"path":"/health","port":"metrics"}
    */
-  tcpSocket?: SeaweedfsHelmValuesWorkerLivenessProbeTcpSocket;
+  httpGet?: SeaweedfsHelmValuesWorkerLivenessProbeHttpGet;
   /**
    * @default 30
    */
@@ -2861,7 +2859,11 @@ export type SeaweedfsHelmValuesWorkerLivenessProbe = {
   timeoutSeconds?: number;
 };
 
-export type SeaweedfsHelmValuesWorkerLivenessProbeTcpSocket = {
+export type SeaweedfsHelmValuesWorkerLivenessProbeHttpGet = {
+  /**
+   * @default "/health"
+   */
+  path?: string;
   /**
    * @default "metrics"
    */
@@ -2874,9 +2876,9 @@ export type SeaweedfsHelmValuesWorkerReadinessProbe = {
    */
   enabled?: boolean;
   /**
-   * @default {"port":"metrics"}
+   * @default {"path":"/ready","port":"metrics"}
    */
-  tcpSocket?: SeaweedfsHelmValuesWorkerReadinessProbeTcpSocket;
+  httpGet?: SeaweedfsHelmValuesWorkerReadinessProbeHttpGet;
   /**
    * @default 20
    */
@@ -2899,7 +2901,11 @@ export type SeaweedfsHelmValuesWorkerReadinessProbe = {
   timeoutSeconds?: number;
 };
 
-export type SeaweedfsHelmValuesWorkerReadinessProbeTcpSocket = {
+export type SeaweedfsHelmValuesWorkerReadinessProbeHttpGet = {
+  /**
+   * @default "/ready"
+   */
+  path?: string;
   /**
    * @default "metrics"
    */
@@ -3604,7 +3610,7 @@ export type SeaweedfsHelmValues = {
    */
   master?: SeaweedfsHelmValuesMaster;
   /**
-   * @default {...} (45 keys)
+   * @default {...} (46 keys)
    */
   volume?: SeaweedfsHelmValuesVolume;
   /**
@@ -3630,7 +3636,7 @@ export type SeaweedfsHelmValues = {
    */
   sftp?: SeaweedfsHelmValuesSftp;
   /**
-   * @default {...} (37 keys)
+   * @default {...} (36 keys)
    */
   admin?: SeaweedfsHelmValuesAdmin;
   /**
@@ -3791,6 +3797,7 @@ export type SeaweedfsHelmParameters = {
   "volume.resizeHook.image"?: string;
   "volume.compactionMBps"?: string;
   "volume.rack"?: string;
+  "volume.id"?: string;
   "volume.dataCenter"?: string;
   "volume.readMode"?: string;
   "volume.whiteList"?: string;
@@ -4004,7 +4011,6 @@ export type SeaweedfsHelmParameters = {
   "admin.replicas"?: string;
   "admin.port"?: string;
   "admin.grpcPort"?: string;
-  "admin.metricsPort"?: string;
   "admin.loggingOverrideLevel"?: string;
   "admin.secret.existingSecret"?: string;
   "admin.secret.userKey"?: string;
@@ -4090,14 +4096,16 @@ export type SeaweedfsHelmParameters = {
   "worker.priorityClassName"?: string;
   "worker.serviceAccountName"?: string;
   "worker.livenessProbe.enabled"?: string;
-  "worker.livenessProbe.tcpSocket.port"?: string;
+  "worker.livenessProbe.httpGet.path"?: string;
+  "worker.livenessProbe.httpGet.port"?: string;
   "worker.livenessProbe.initialDelaySeconds"?: string;
   "worker.livenessProbe.periodSeconds"?: string;
   "worker.livenessProbe.successThreshold"?: string;
   "worker.livenessProbe.failureThreshold"?: string;
   "worker.livenessProbe.timeoutSeconds"?: string;
   "worker.readinessProbe.enabled"?: string;
-  "worker.readinessProbe.tcpSocket.port"?: string;
+  "worker.readinessProbe.httpGet.path"?: string;
+  "worker.readinessProbe.httpGet.port"?: string;
   "worker.readinessProbe.initialDelaySeconds"?: string;
   "worker.readinessProbe.periodSeconds"?: string;
   "worker.readinessProbe.successThreshold"?: string;

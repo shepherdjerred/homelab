@@ -1582,15 +1582,13 @@ export type LokiHelmValuesLokiCanary = {
    * @default {...} (5 keys)
    */
   image?: LokiHelmValuesLokiCanaryImage;
+  livenessProbe?: unknown;
   /**
-   * Readiness probe
-   *
    * @default {"httpGet":{"path":"/metrics","port":"http-metrics"},"initialDelaySeconds":15,"timeoutSeconds":1}
    */
   readinessProbe?: LokiHelmValuesLokiCanaryReadinessProbe;
+  startupProbe?: unknown;
   /**
-   * Update strategy for the `loki-canary` Daemonset pods
-   *
    * @default {"type":"RollingUpdate","rollingUpdate":{"maxUnavailable":1}}
    */
   updateStrategy?: LokiHelmValuesLokiCanaryUpdateStrategy;
@@ -2863,11 +2861,23 @@ export type LokiHelmValuesEnterpriseGateway = {
    */
   strategy?: LokiHelmValuesEnterpriseGatewayStrategy;
   /**
+   * Liveness probe
+   *
+   * @default {}
+   */
+  livenessProbe?: LokiHelmValuesEnterpriseGatewayLivenessProbe;
+  /**
    * Readiness probe
    *
    * @default {"httpGet":{"path":"/ready","port":"http-metrics"},"initialDelaySeconds":45}
    */
   readinessProbe?: LokiHelmValuesEnterpriseGatewayReadinessProbe;
+  /**
+   * Startup probe
+   *
+   * @default {}
+   */
+  startupProbe?: LokiHelmValuesEnterpriseGatewayStartupProbe;
   /**
    * Request and limit Kubernetes resources
    * Values are defined in small.yaml and large.yaml
@@ -2997,6 +3007,8 @@ export type LokiHelmValuesEnterpriseGatewayStrategy = {
   type?: string;
 };
 
+export type LokiHelmValuesEnterpriseGatewayLivenessProbe = object;
+
 export type LokiHelmValuesEnterpriseGatewayReadinessProbe = {
   /**
    * @default {"path":"/ready","port":"http-metrics"}
@@ -3018,6 +3030,8 @@ export type LokiHelmValuesEnterpriseGatewayReadinessProbeHttpGet = {
    */
   port?: string;
 };
+
+export type LokiHelmValuesEnterpriseGatewayStartupProbe = object;
 
 export type LokiHelmValuesEnterpriseGatewayResources = object;
 
@@ -4640,6 +4654,12 @@ export type LokiHelmValuesIngester = {
    */
   livenessProbe?: LokiHelmValuesIngesterLivenessProbe;
   /**
+   * startup probe settings for ingester pods. If empty use `loki.startupProbe`
+   *
+   * @default {}
+   */
+  startupProbe?: LokiHelmValuesIngesterStartupProbe;
+  /**
    * UpdateStrategy for the ingester StatefulSets.
    * Optional for updateStrategy.type=RollingUpdate. See [Partitioned rolling updates](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#partitions) in the StatefulSet docs for details.
    *
@@ -4860,6 +4880,8 @@ export type LokiHelmValuesIngesterNodeSelector = object;
 export type LokiHelmValuesIngesterReadinessProbe = object;
 
 export type LokiHelmValuesIngesterLivenessProbe = object;
+
+export type LokiHelmValuesIngesterStartupProbe = object;
 
 export type LokiHelmValuesIngesterUpdateStrategy = {
   /**
@@ -6408,17 +6430,23 @@ export type LokiHelmValuesCompactor = {
   extraVolumeMounts?: unknown[];
   extraVolumes?: unknown[];
   /**
-   * readiness probe settings for ingester pods. If empty, use `loki.readinessProbe`
+   * readiness probe settings for compactor pods. If empty, use `loki.readinessProbe`
    *
    * @default {}
    */
   readinessProbe?: LokiHelmValuesCompactorReadinessProbe;
   /**
-   * liveness probe settings for ingester pods. If empty use `loki.livenessProbe`
+   * liveness probe settings for compactor pods. If empty use `loki.livenessProbe`
    *
    * @default {}
    */
   livenessProbe?: LokiHelmValuesCompactorLivenessProbe;
+  /**
+   * liveness probe settings for ingester pods. If empty use `loki.livenessProbe`
+   *
+   * @default {}
+   */
+  startupProbe?: LokiHelmValuesCompactorStartupProbe;
   /**
    * Resource requests and limits for the compactor
    *
@@ -6577,6 +6605,14 @@ export type LokiHelmValuesCompactorReadinessProbe = {
 };
 
 export type LokiHelmValuesCompactorLivenessProbe = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+};
+
+export type LokiHelmValuesCompactorStartupProbe = {
   /**
    * This type allows arbitrary additional properties beyond those defined below.
    * This is common for config maps, custom settings, and extensible configurations.
@@ -6767,19 +6803,19 @@ export type LokiHelmValuesBloomGateway = {
   extraVolumeMounts?: unknown[];
   extraVolumes?: unknown[];
   /**
-   * readiness probe settings for ingester pods. If empty, use `loki.readinessProbe`
+   * readiness probe settings for bloom-gateway pods. If empty, use `loki.readinessProbe`
    *
    * @default {}
    */
   readinessProbe?: LokiHelmValuesBloomGatewayReadinessProbe;
   /**
-   * liveness probe settings for ingester pods. If empty use `loki.livenessProbe`
+   * liveness probe settings for bloom-gateway pods. If empty use `loki.livenessProbe`
    *
    * @default {}
    */
   livenessProbe?: LokiHelmValuesBloomGatewayLivenessProbe;
   /**
-   * startup probe settings for ingester pods. If empty, use `loki.startupProbe`
+   * startup probe settings for bloom-gateway pods. If empty, use `loki.startupProbe`
    *
    * @default {}
    */
@@ -7068,19 +7104,19 @@ export type LokiHelmValuesBloomPlanner = {
   extraVolumeMounts?: unknown[];
   extraVolumes?: unknown[];
   /**
-   * readiness probe settings for ingester pods. If empty, use `loki.readinessProbe`
+   * readiness probe settings for bloom-planner pods. If empty, use `loki.readinessProbe`
    *
    * @default {}
    */
   readinessProbe?: LokiHelmValuesBloomPlannerReadinessProbe;
   /**
-   * liveness probe settings for ingester pods. If empty use `loki.livenessProbe`
+   * liveness probe settings for bloom-planner pods. If empty use `loki.livenessProbe`
    *
    * @default {}
    */
   livenessProbe?: LokiHelmValuesBloomPlannerLivenessProbe;
   /**
-   * startup probe settings for ingester pods. If empty use `loki.startupProbe`
+   * startup probe settings for bloom-planner pods. If empty use `loki.startupProbe`
    *
    * @default {}
    */
@@ -7583,17 +7619,23 @@ export type LokiHelmValuesPatternIngester = {
   extraVolumeMounts?: unknown[];
   extraVolumes?: unknown[];
   /**
-   * readiness probe settings for ingester pods. If empty, use `loki.readinessProbe`
+   * readiness probe settings for pattern ingester pods. If empty, use `loki.readinessProbe`
    *
    * @default {}
    */
   readinessProbe?: LokiHelmValuesPatternIngesterReadinessProbe;
   /**
-   * liveness probe settings for ingester pods. If empty use `loki.livenessProbe`
+   * liveness probe settings for pattern ingester pods. If empty use `loki.livenessProbe`
    *
    * @default {}
    */
   livenessProbe?: LokiHelmValuesPatternIngesterLivenessProbe;
+  /**
+   * startup probe settings for pattern ingester pods. If empty use `loki.startupProbe`
+   *
+   * @default {}
+   */
+  startupProbe?: LokiHelmValuesPatternIngesterStartupProbe;
   /**
    * Resource requests and limits for the pattern ingester
    *
@@ -7698,6 +7740,8 @@ export type LokiHelmValuesPatternIngesterServiceAnnotations = object;
 export type LokiHelmValuesPatternIngesterReadinessProbe = object;
 
 export type LokiHelmValuesPatternIngesterLivenessProbe = object;
+
+export type LokiHelmValuesPatternIngesterStartupProbe = object;
 
 export type LokiHelmValuesPatternIngesterResources = object;
 
@@ -9609,7 +9653,7 @@ export type LokiHelmValuesMinioResourcesLimits = {
 
 export type LokiHelmValuesSidecar = {
   /**
-   * @default {...} (4 keys)
+   * @default {...} (5 keys)
    */
   image?: LokiHelmValuesSidecarImage;
   /**
@@ -9662,9 +9706,13 @@ export type LokiHelmValuesSidecar = {
 
 export type LokiHelmValuesSidecarImage = {
   /**
+   * @default "docker.io"
+   */
+  registry?: string;
+  /**
    * The Docker registry and image for the k8s sidecar
    *
-   * @default "docker.io/kiwigrid/k8s-sidecar"
+   * @default "kiwigrid/k8s-sidecar"
    */
   repository?: string;
   /**
@@ -10571,7 +10619,7 @@ export type LokiHelmValues = {
    * The Loki canary pushes logs to and queries from this loki installation to test
    * that it's working correctly
    *
-   * @default {...} (24 keys)
+   * @default {...} (26 keys)
    */
   lokiCanary?: LokiHelmValuesLokiCanary;
   /**
@@ -10619,7 +10667,7 @@ export type LokiHelmValues = {
   /**
    * If running enterprise and using the default enterprise gateway, configs go here.
    *
-   * @default {...} (24 keys)
+   * @default {...} (26 keys)
    */
   enterpriseGateway?: LokiHelmValuesEnterpriseGateway;
   /**
@@ -10670,7 +10718,7 @@ export type LokiHelmValues = {
    * For large Loki deployments ingesting more than 1 TB/day
    * Configuration for the ingester
    *
-   * @default {...} (38 keys)
+   * @default {...} (39 keys)
    */
   ingester?: LokiHelmValuesIngester;
   /**
@@ -10706,7 +10754,7 @@ export type LokiHelmValues = {
   /**
    * Optional compactor configuration
    *
-   * @default {...} (29 keys)
+   * @default {...} (30 keys)
    */
   compactor?: LokiHelmValuesCompactor;
   /**
@@ -10730,7 +10778,7 @@ export type LokiHelmValues = {
   /**
    * Configuration for the pattern ingester
    *
-   * @default {...} (30 keys)
+   * @default {...} (31 keys)
    */
   patternIngester?: LokiHelmValuesPatternIngester;
   /**
@@ -11004,10 +11052,12 @@ export type LokiHelmParameters = {
   "lokiCanary.image.tag"?: string;
   "lokiCanary.image.digest"?: string;
   "lokiCanary.image.pullPolicy"?: string;
+  "lokiCanary.livenessProbe"?: string;
   "lokiCanary.readinessProbe.httpGet.path"?: string;
   "lokiCanary.readinessProbe.httpGet.port"?: string;
   "lokiCanary.readinessProbe.initialDelaySeconds"?: string;
   "lokiCanary.readinessProbe.timeoutSeconds"?: string;
+  "lokiCanary.startupProbe"?: string;
   "lokiCanary.updateStrategy.type"?: string;
   "lokiCanary.updateStrategy.rollingUpdate.maxUnavailable"?: string;
   "lokiCanary.replicas"?: string;
@@ -11937,6 +11987,7 @@ export type LokiHelmParameters = {
   "minio.resources.limits.memory"?: string;
   "minio.address"?: string;
   extraObjects?: string;
+  "sidecar.image.registry"?: string;
   "sidecar.image.repository"?: string;
   "sidecar.image.tag"?: string;
   "sidecar.image.sha"?: string;
