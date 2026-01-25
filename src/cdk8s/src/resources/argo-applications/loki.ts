@@ -6,6 +6,96 @@ import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 import { ConfigMap } from "cdk8s-plus-31";
 
+// Loki alerting rules for Kubernetes events
+// Note: Go template syntax escaped for Helm compatibility ({{ "{{" }} ... {{ "}}" }})
+const kubernetesEventsAlertRules = `
+groups:
+  - name: kubernetes-events
+    rules:
+      - alert: KubernetesWarningEvent
+        expr: |
+          sum by (namespace, kind, name, reason) (
+            count_over_time({app="kubernetes-events", type="Warning"} [5m])
+          ) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Kubernetes Warning event: {{ "{{" }} $labels.reason {{ "}}" }}"
+          description: "Warning event for {{ "{{" }} $labels.kind {{ "}}" }}/{{ "{{" }} $labels.name {{ "}}" }} in namespace {{ "{{" }} $labels.namespace {{ "}}" }}. Reason: {{ "{{" }} $labels.reason {{ "}}" }}. Count: {{ "{{" }} $value {{ "}}" }} in last 5 minutes."
+      - alert: KubernetesFailedScheduling
+        expr: |
+          sum by (namespace, name) (
+            count_over_time({app="kubernetes-events", reason="FailedScheduling"} [10m])
+          ) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Pod scheduling failure"
+          description: "Pod {{ "{{" }} $labels.name {{ "}}" }} in namespace {{ "{{" }} $labels.namespace {{ "}}" }} failed to schedule. Check node resources and taints."
+      - alert: KubernetesImagePullFailure
+        expr: |
+          sum by (namespace, name) (
+            count_over_time({app="kubernetes-events", reason=~"Failed|ErrImagePull|ImagePullBackOff"} |~ "(?i)(pull|image)" [10m])
+          ) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Image pull failure"
+          description: "Failed to pull image for {{ "{{" }} $labels.name {{ "}}" }} in namespace {{ "{{" }} $labels.namespace {{ "}}" }}."
+      - alert: KubernetesOOMKilled
+        expr: |
+          count_over_time({app="kubernetes-events", reason="OOMKilled"} [15m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container OOMKilled"
+          description: "A container was killed due to out of memory. Check memory limits."
+      - alert: KubernetesCrashLoopBackOff
+        expr: |
+          sum by (namespace, name) (
+            count_over_time({app="kubernetes-events", reason="BackOff"} |~ "(?i)crash" [15m])
+          ) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container in CrashLoopBackOff"
+          description: "Container {{ "{{" }} $labels.name {{ "}}" }} in namespace {{ "{{" }} $labels.namespace {{ "}}" }} is in CrashLoopBackOff."
+      - alert: KubernetesVolumeFailure
+        expr: |
+          sum by (namespace, name, reason) (
+            count_over_time({app="kubernetes-events", reason=~"FailedAttachVolume|FailedMount|FailedBinding"} [10m])
+          ) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Volume operation failed"
+          description: "Volume failure for {{ "{{" }} $labels.name {{ "}}" }} in namespace {{ "{{" }} $labels.namespace {{ "}}" }}. Reason: {{ "{{" }} $labels.reason {{ "}}" }}."
+      - alert: KubernetesNodeNotReady
+        expr: |
+          count_over_time({app="kubernetes-events", kind="Node", reason=~"NodeNotReady|NodeNotSchedulable"} [5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Node not ready"
+          description: "A Kubernetes node is not ready or not schedulable."
+      - alert: KubernetesHighEventRate
+        expr: |
+          sum(count_over_time({app="kubernetes-events", type="Warning"} [5m])) > 50
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High rate of Kubernetes warning events"
+          description: "More than 50 warning events in the last 5 minutes ({{ "{{" }} $value {{ "}}" }} events). This may indicate a cluster issue."
+`;
+
 // Loki alerting rules for Home Assistant logs
 // Note: Go template syntax escaped for Helm compatibility ({{ "{{" }} ... {{ "}}" }})
 const lokiAlertRules = `
@@ -58,6 +148,7 @@ export function createLokiApp(chart: Chart) {
     },
     data: {
       "homeassistant-rules.yaml": lokiAlertRules,
+      "kubernetes-events-rules.yaml": kubernetesEventsAlertRules,
     },
   });
 
