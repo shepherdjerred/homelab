@@ -8,6 +8,7 @@ export const staticSites: StaticSiteConfig[] = [
   { hostname: "scout-for-lol.com", bucket: "scout-frontend", externalDns: true },
   { hostname: "better-skill-capped.com", bucket: "better-skill-capped", externalDns: true },
   { hostname: "clauderon.com", bucket: "clauderon", externalDns: true },
+  { hostname: "ts-mc.net", bucket: "ts-mc", externalDns: true },
 ];
 
 export const S3_ENDPOINT = "https://seaweedfs.sjer.red";
