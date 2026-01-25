@@ -38,6 +38,10 @@
     {
       "matchPackageNames": ["paper", "siderolabs/talos", "kubernetes/kubernetes"],
       "automerge": false
+    },
+    {
+      "matchPackageNames": ["ghcr.io/shepherdjerred/dotfiles"],
+      "minimumReleaseAge": "0 days"
     }
   ],
   "schedule": ["after 3am on Sunday"],
