@@ -720,6 +720,12 @@ export type VeleroHelmValuesCredentialsExtraEnvVars = {
 
 export type VeleroHelmValuesNodeAgent = {
   /**
+   * Disables Host Path volumes for node-agent.
+   *
+   * @default false
+   */
+  disableHostPath?: boolean;
+  /**
    * @default "/var/lib/kubelet/pods"
    */
   podVolumePath?: string;
@@ -1162,7 +1168,7 @@ export type VeleroHelmValues = {
    */
   deployNodeAgent?: boolean;
   /**
-   * @default {...} (24 keys)
+   * @default {...} (25 keys)
    */
   nodeAgent?: VeleroHelmValuesNodeAgent;
   /**
@@ -1294,6 +1300,7 @@ export type VeleroHelmParameters = {
   backupsEnabled?: string;
   snapshotsEnabled?: string;
   deployNodeAgent?: string;
+  "nodeAgent.disableHostPath"?: string;
   "nodeAgent.podVolumePath"?: string;
   "nodeAgent.pluginVolumePath"?: string;
   "nodeAgent.priorityClassName"?: string;

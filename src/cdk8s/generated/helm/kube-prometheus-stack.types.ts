@@ -2166,7 +2166,7 @@ export type KubeprometheusstackHelmValuesAlertmanagerAlertmanagerSpecImage = {
    */
   repository?: string;
   /**
-   * @default "v0.30.0"
+   * @default "v0.30.1"
    */
   tag?: string;
   /**
@@ -2303,7 +2303,7 @@ export type KubeprometheusstackHelmValuesGrafana = {
   /**
    * "timeInterval": "5s"
    *
-   * @default {...} (5 keys)
+   * @default {...} (7 keys)
    */
   operator?: KubeprometheusstackHelmValuesGrafanaOperator;
   /**
@@ -2412,11 +2412,15 @@ export type KubeprometheusstackHelmValuesGrafanaOperator = {
    */
   resyncPeriod?: string;
   /**
-   * Which folder all ddashboard in Grafana General means on Root level
+   * Which folder contains all dashboards in Grafana
+   * This folder will be created on the Root level
+   * Only one of 'folder', 'folderUID' or 'folderRef' can be set
    *
    * @default "General"
    */
   folder?: string;
+  folderUID?: unknown;
+  folderRef?: unknown;
 };
 
 export type KubeprometheusstackHelmValuesGrafanaOperatorAnnotations = {
@@ -4561,6 +4565,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperator = {
    * @default {...} (5 keys)
    */
   securityContext?: KubeprometheusstackHelmValuesPrometheusOperatorSecurityContext;
+  hostUsers?: unknown;
   /**
    * ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
    *
@@ -5355,7 +5360,7 @@ export type KubeprometheusstackHelmValuesPrometheusOperatorAdmissionWebhooksPatc
    */
   repository?: string;
   /**
-   * @default "1.7.3"
+   * @default "1.7.4"
    */
   tag?: string;
   /**
@@ -6086,7 +6091,7 @@ export type KubeprometheusstackHelmValuesPrometheus = {
    */
   serviceMonitor?: KubeprometheusstackHelmValuesPrometheusServiceMonitor;
   /**
-   * @default {...} (114 keys)
+   * @default {...} (117 keys)
    */
   prometheusSpec?: KubeprometheusstackHelmValuesPrometheusPrometheusSpec;
   additionalRulesForClusterRole?: unknown[];
@@ -6977,6 +6982,27 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpec = {
   apiserverConfig?: KubeprometheusstackHelmValuesPrometheusPrometheusSpecApiserverConfig;
   additionalArgs?: unknown[];
   /**
+   * Convert all classic histograms to native histograms with custom buckets.
+   * This corresponds to the 'convert_classic_histograms_to_nhcb' field in Prometheus configuration.
+   *
+   * @default false
+   */
+  convertClassicHistogramsToNHCB?: boolean;
+  /**
+   * Enable scraping of classic histograms that are also exposed as native histograms.
+   * This corresponds to the 'always_scrape_classic_histograms' field in Prometheus configuration.
+   *
+   * @default false
+   */
+  scrapeClassicHistograms?: boolean;
+  /**
+   * Enable scraping of native histograms.
+   * This corresponds to the 'scrape_native_histograms' field in Prometheus configuration.
+   *
+   * @default false
+   */
+  scrapeNativeHistograms?: boolean;
+  /**
    * File to which scrape failures are logged.
    * Reloading the configuration will reopen the file.
    * Defaults to empty (disabled)
@@ -7638,7 +7664,7 @@ export type KubeprometheusstackHelmValuesPrometheusPrometheusSpecImage = {
    */
   repository?: string;
   /**
-   * @default "v3.8.1"
+   * @default "v3.9.1"
    */
   tag?: string;
   /**
@@ -8725,7 +8751,7 @@ export type KubeprometheusstackHelmValues = {
   /**
    * Manages Prometheus and Alertmanager components
    *
-   * @default {...} (49 keys)
+   * @default {...} (50 keys)
    */
   prometheusOperator?: KubeprometheusstackHelmValuesPrometheusOperator;
   /**
@@ -8986,6 +9012,8 @@ export type KubeprometheusstackHelmParameters = {
   "grafana.operator.dashboardsConfigMapRefEnabled"?: string;
   "grafana.operator.resyncPeriod"?: string;
   "grafana.operator.folder"?: string;
+  "grafana.operator.folderUID"?: string;
+  "grafana.operator.folderRef"?: string;
   "grafana.defaultDashboardsTimezone"?: string;
   "grafana.defaultDashboardsEditable"?: string;
   "grafana.defaultDashboardsInterval"?: string;
@@ -9427,6 +9455,7 @@ export type KubeprometheusstackHelmParameters = {
   "prometheusOperator.securityContext.runAsNonRoot"?: string;
   "prometheusOperator.securityContext.runAsUser"?: string;
   "prometheusOperator.securityContext.seccompProfile.type"?: string;
+  "prometheusOperator.hostUsers"?: string;
   "prometheusOperator.containerSecurityContext.allowPrivilegeEscalation"?: string;
   "prometheusOperator.containerSecurityContext.readOnlyRootFilesystem"?: string;
   "prometheusOperator.containerSecurityContext.capabilities.drop"?: string;
@@ -9572,6 +9601,9 @@ export type KubeprometheusstackHelmParameters = {
   "prometheus.prometheusSpec.disableCompaction"?: string;
   "prometheus.prometheusSpec.automountServiceAccountToken"?: string;
   "prometheus.prometheusSpec.additionalArgs"?: string;
+  "prometheus.prometheusSpec.convertClassicHistogramsToNHCB"?: string;
+  "prometheus.prometheusSpec.scrapeClassicHistograms"?: string;
+  "prometheus.prometheusSpec.scrapeNativeHistograms"?: string;
   "prometheus.prometheusSpec.scrapeFailureLogFile"?: string;
   "prometheus.prometheusSpec.scrapeInterval"?: string;
   "prometheus.prometheusSpec.scrapeTimeout"?: string;

@@ -71,7 +71,7 @@ export type TempoHelmValuesTempo = {
    */
   reportingEnabled?: boolean;
   /**
-   * @default {"enabled":false,"remoteWriteUrl":"http://prometheus.monitoring:9090/api/v1/write"}
+   * @default {...} (6 keys)
    */
   metricsGenerator?: TempoHelmValuesTempoMetricsGenerator;
   /**
@@ -167,6 +167,66 @@ export type TempoHelmValuesTempoMetricsGenerator = {
    * @default "http://prometheus.monitoring:9090/api/v1/write"
    */
   remoteWriteUrl?: string;
+  /**
+   * Processor-specific configuration for metrics generator (optional)
+   * Supports service_graphs, span_metrics, and local_blocks processors
+   *
+   * @default {}
+   */
+  processor?: TempoHelmValuesTempoMetricsGeneratorProcessor;
+  /**
+   * Registry configuration for metrics generator (optional)
+   *
+   * @default {}
+   */
+  registry?: TempoHelmValuesTempoMetricsGeneratorRegistry;
+  /**
+   * Storage configuration for metrics generator
+   * This section configures the storage path and remote write endpoints
+   *
+   * @default {"path":"/tmp/tempo","remote_write":[]}
+   */
+  storage?: TempoHelmValuesTempoMetricsGeneratorStorage;
+  /**
+   * Traces storage (WAL) configuration for metrics generator
+   * This configures the Write Ahead Log for traces used by the metrics generator
+   *
+   * @default {"path":"/tmp/traces"}
+   */
+  traces_storage?: TempoHelmValuesTempoMetricsGeneratorTracesstorage;
+};
+
+export type TempoHelmValuesTempoMetricsGeneratorProcessor = object;
+
+export type TempoHelmValuesTempoMetricsGeneratorRegistry = object;
+
+export type TempoHelmValuesTempoMetricsGeneratorStorage = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
+   * Path for storing metrics blocks. Defaults to /tmp/tempo for backward compatibility, but /var/tempo/metrics is recommended for production with persistent storage
+   *
+   * @default "/tmp/tempo"
+   */
+  path?: string;
+  remote_write?: unknown[];
+};
+
+export type TempoHelmValuesTempoMetricsGeneratorTracesstorage = {
+  /**
+   * This type allows arbitrary additional properties beyond those defined below.
+   * This is common for config maps, custom settings, and extensible configurations.
+   */
+  [key: string]: unknown;
+  /**
+   * Path for traces storage WAL used by metrics generator
+   *
+   * @default "/tmp/traces"
+   */
+  path?: string;
 };
 
 export type TempoHelmValuesTempoIngester = object;
@@ -902,6 +962,9 @@ export type TempoHelmParameters = {
   "tempo.reportingEnabled"?: string;
   "tempo.metricsGenerator.enabled"?: string;
   "tempo.metricsGenerator.remoteWriteUrl"?: string;
+  "tempo.metricsGenerator.storage.path"?: string;
+  "tempo.metricsGenerator.storage.remote_write"?: string;
+  "tempo.metricsGenerator.traces_storage.path"?: string;
   "tempo.retention"?: string;
   "tempo.overrides.per_tenant_override_config"?: string;
   "tempo.server.http_listen_port"?: string;
