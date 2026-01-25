@@ -16,7 +16,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
   "prometheus-adapter": "5.2.0",
   // renovate: datasource=helm registryUrl=https://prometheus-community.github.io/helm-charts versioning=semver
-  "prometheus-blackbox-exporter": "9.3.0",
+  "prometheus-blackbox-exporter": "9.8.0",
   // renovate: datasource=helm registryUrl=https://pkgs.tailscale.com/helmcharts versioning=semver
   "tailscale-operator": "1.92.5",
   // renovate: datasource=github-releases versioning=semver
