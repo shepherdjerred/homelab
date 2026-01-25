@@ -1,12 +1,10 @@
 import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
-import { DnsEndpoint } from "../../../generated/imports/externaldns.k8s.io.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
-import { DDNS_HOSTNAME } from "./external-dns.ts";
 
 export function createMinecraftShuxinApp(chart: Chart) {
   createIngress(
@@ -26,6 +24,8 @@ export function createMinecraftShuxinApp(chart: Chart) {
   });
 
   const minecraftValues: HelmValuesForChart<"minecraft"> = {
+    // Deploy as StatefulSet for mc-router auto-scaling support
+    workloadAsStatefulSet: true,
     image: {
       tag: versions["itzg/minecraft-server"],
     },
@@ -49,9 +49,12 @@ export function createMinecraftShuxinApp(chart: Chart) {
       memory: "1G",
       overrideServerProperties: true,
       forcegameMode: true,
-      serviceType: "NodePort",
-      nodePort: 30002,
-      servicePort: 30002,
+      // Use ClusterIP - mc-router handles external routing for Java Edition
+      serviceType: "ClusterIP",
+      // mc-router annotation for hostname-based routing
+      serviceAnnotations: {
+        "mc-router.itzg.me/externalServerName": "shuxin.sjer.red",
+      },
       extraPorts: [
         {
           service: {
@@ -66,8 +69,12 @@ export function createMinecraftShuxinApp(chart: Chart) {
           },
         },
         {
+          // Bedrock port (UDP) - mc-router doesn't support UDP, so this needs NodePort
+          // Note: Bedrock clients can only connect when server is running
+          // Java clients connecting via mc-router will wake the server
           service: {
             enabled: true,
+            type: "NodePort",
             port: 19132,
             nodePort: 30003,
           },
@@ -107,33 +114,7 @@ export function createMinecraftShuxinApp(chart: Chart) {
     },
   };
 
-  // DNS records for shuxin.sjer.red
-  new DnsEndpoint(chart, "minecraft-shuxin-dns", {
-    metadata: {
-      name: "minecraft-shuxin-dns",
-      namespace: "minecraft-shuxin",
-    },
-    spec: {
-      endpoints: [
-        {
-          dnsName: "shuxin.sjer.red",
-          recordType: "CNAME",
-          targets: [DDNS_HOSTNAME],
-          providerSpecific: [
-            {
-              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
-              value: "false",
-            },
-          ],
-        },
-        {
-          dnsName: "_minecraft._tcp.shuxin.sjer.red",
-          recordType: "SRV",
-          targets: ["0 5 30002 shuxin.sjer.red"],
-        },
-      ],
-    },
-  });
+  // DNS records are now managed by mc-router
 
   return new Application(chart, "minecraft-shuxin-app", {
     metadata: {

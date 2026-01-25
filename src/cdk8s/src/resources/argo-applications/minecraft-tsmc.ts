@@ -1,12 +1,11 @@
 import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
-import { DnsEndpoint } from "../../../generated/imports/externaldns.k8s.io.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
-import { DDNS_HOSTNAME, TUNNEL_CNAME_TARGET } from "./external-dns.ts";
+import { TUNNEL_CNAME_TARGET } from "./external-dns.ts";
 
 export function createMinecraftTsmcApp(chart: Chart) {
   createIngress(
@@ -27,6 +26,8 @@ export function createMinecraftTsmcApp(chart: Chart) {
   });
 
   const minecraftValues: HelmValuesForChart<"minecraft"> = {
+    // Deploy as StatefulSet for mc-router auto-scaling support
+    workloadAsStatefulSet: true,
     image: {
       tag: versions["itzg/minecraft-server"],
     },
@@ -49,9 +50,12 @@ export function createMinecraftTsmcApp(chart: Chart) {
       memory: "1G",
       overrideServerProperties: true,
       forcegameMode: true,
-      serviceType: "NodePort",
-      nodePort: 30003,
-      servicePort: 30003,
+      // Use ClusterIP - mc-router handles external routing
+      serviceType: "ClusterIP",
+      // mc-router annotation for hostname-based routing
+      serviceAnnotations: {
+        "mc-router.itzg.me/externalServerName": "ts-mc.net",
+      },
       extraPorts: [
         {
           service: {
@@ -91,33 +95,7 @@ export function createMinecraftTsmcApp(chart: Chart) {
     },
   };
 
-  // DNS records for ts-mc.net
-  new DnsEndpoint(chart, "minecraft-tsmc-dns", {
-    metadata: {
-      name: "minecraft-tsmc-dns",
-      namespace: "minecraft-tsmc",
-    },
-    spec: {
-      endpoints: [
-        {
-          dnsName: "ts-mc.net",
-          recordType: "CNAME",
-          targets: [DDNS_HOSTNAME],
-          providerSpecific: [
-            {
-              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
-              value: "false",
-            },
-          ],
-        },
-        {
-          dnsName: "_minecraft._tcp.ts-mc.net",
-          recordType: "SRV",
-          targets: ["0 5 30003 ts-mc.net"],
-        },
-      ],
-    },
-  });
+  // DNS records are now managed by mc-router
 
   return new Application(chart, "minecraft-tsmc-app", {
     metadata: {

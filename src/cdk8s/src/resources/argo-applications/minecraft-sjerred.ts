@@ -1,12 +1,10 @@
 import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
-import { DnsEndpoint } from "../../../generated/imports/externaldns.k8s.io.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
-import { DDNS_HOSTNAME } from "./external-dns.ts";
 
 export function createMinecraftSjerredApp(chart: Chart) {
   createIngress(
@@ -26,6 +24,8 @@ export function createMinecraftSjerredApp(chart: Chart) {
   });
 
   const minecraftValues: HelmValuesForChart<"minecraft"> = {
+    // Deploy as StatefulSet for mc-router auto-scaling support
+    workloadAsStatefulSet: true,
     image: {
       tag: versions["itzg/minecraft-server"],
     },
@@ -50,9 +50,12 @@ export function createMinecraftSjerredApp(chart: Chart) {
       memory: "1G",
       overrideServerProperties: true,
       forcegameMode: true,
-      serviceType: "NodePort",
-      nodePort: 30001,
-      servicePort: 30001,
+      // Use ClusterIP - mc-router handles external routing
+      serviceType: "ClusterIP",
+      // mc-router annotation for hostname-based routing
+      serviceAnnotations: {
+        "mc-router.itzg.me/externalServerName": "minecraft.sjer.red",
+      },
       extraPorts: [
         {
           service: {
@@ -80,33 +83,7 @@ export function createMinecraftSjerredApp(chart: Chart) {
     },
   };
 
-  // DNS records for minecraft.sjer.red
-  new DnsEndpoint(chart, "minecraft-sjerred-dns", {
-    metadata: {
-      name: "minecraft-sjerred-dns",
-      namespace: "minecraft-sjerred",
-    },
-    spec: {
-      endpoints: [
-        {
-          dnsName: "minecraft.sjer.red",
-          recordType: "CNAME",
-          targets: [DDNS_HOSTNAME],
-          providerSpecific: [
-            {
-              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
-              value: "false",
-            },
-          ],
-        },
-        {
-          dnsName: "_minecraft._tcp.minecraft.sjer.red",
-          recordType: "SRV",
-          targets: ["0 5 30001 minecraft.sjer.red"],
-        },
-      ],
-    },
-  });
+  // DNS records are now managed by mc-router
 
   return new Application(chart, "minecraft-sjerred-app", {
     metadata: {

@@ -11,14 +11,6 @@ export type PrometheusblackboxexporterHelmValuesGlobal = {
 
 export type PrometheusblackboxexporterHelmValuesPodDisruptionBudget = object;
 
-export type PrometheusblackboxexporterHelmValuesExtraEnv = {
-  /**
-   * This type allows arbitrary additional properties beyond those defined below.
-   * This is common for config maps, custom settings, and extensible configurations.
-   */
-  [key: string]: unknown;
-};
-
 export type PrometheusblackboxexporterHelmValuesStrategy = {
   /**
    * @default {"maxSurge":1,"maxUnavailable":0}
@@ -278,7 +270,6 @@ export type PrometheusblackboxexporterHelmValuesIngress = {
    */
   labels?: PrometheusblackboxexporterHelmValuesIngressLabels;
   /**
-   * kubernetes.io/ingress.class: nginx
    * kubernetes.io/tls-acme: "true"
    *
    * @default {}
@@ -607,12 +598,18 @@ export type PrometheusblackboxexporterHelmValuesNetworkPolicy = {
   enabled?: boolean;
   /**
    * Limit access only from monitoring namespace
-   * Before setting this value to true, you must add the name=monitoring label to the monitoring namespace
+   * Before setting this value to true, you must add the name=monitoring label to the monitoring namespace.  Name can be rewritten by monitoringNamespaceName
    * Network Policy uses label filtering
    *
    * @default false
    */
   allowMonitoringNamespace?: boolean;
+  /**
+   * Rewrite monitoring namespace in network policy (default value monitoring)
+   *
+   * @default "monitoring"
+   */
+  monitoringNamespaceName?: string;
 };
 
 export type PrometheusblackboxexporterHelmValuesCommonLabels = object;
@@ -730,7 +727,7 @@ export type PrometheusblackboxexporterHelmValuesConfigReloaderImage = {
    */
   repository?: string;
   /**
-   * @default "v0.71.2"
+   * @default "v0.87.1"
    */
   tag?: string;
   /**
@@ -935,20 +932,8 @@ export type PrometheusblackboxexporterHelmValues = {
    * @default false
    */
   automountServiceAccountToken?: boolean;
-  /**
-   * Additional blackbox-exporter container environment variables
-   * For instance to add a http_proxy
-   * HTTP_PROXY: "http://superproxy.com:3128"
-   *
-   * @default {}
-   */
-  extraEnv?: PrometheusblackboxexporterHelmValuesExtraEnv;
-  /**
-   * Additional blackbox-exporter container environment variables for secret
-   *
-   * @default ""
-   */
-  extraEnvFromSecret?: string;
+  extraEnv?: unknown[];
+  extraEnvFrom?: unknown[];
   extraVolumes?: unknown[];
   extraVolumeMounts?: unknown;
   extraInitContainers?: unknown[];
@@ -1110,7 +1095,7 @@ export type PrometheusblackboxexporterHelmValues = {
    */
   podMonitoring?: PrometheusblackboxexporterHelmValuesPodMonitoring;
   /**
-   * @default {"enabled":false,"allowMonitoringNamespace":false}
+   * @default {"enabled":false,"allowMonitoringNamespace":false,"monitoringNamespaceName":"monitoring"}
    */
   networkPolicy?: PrometheusblackboxexporterHelmValuesNetworkPolicy;
   dnsPolicy?: unknown;
@@ -1142,7 +1127,8 @@ export type PrometheusblackboxexporterHelmParameters = {
   kubeVersionOverride?: string;
   releaseLabel?: string;
   automountServiceAccountToken?: string;
-  extraEnvFromSecret?: string;
+  extraEnv?: string;
+  extraEnvFrom?: string;
   extraVolumes?: string;
   extraVolumeMounts?: string;
   extraInitContainers?: string;
@@ -1230,6 +1216,7 @@ export type PrometheusblackboxexporterHelmParameters = {
   "podMonitoring.targets"?: string;
   "networkPolicy.enabled"?: string;
   "networkPolicy.allowMonitoringNamespace"?: string;
+  "networkPolicy.monitoringNamespaceName"?: string;
   dnsPolicy?: string;
   dnsConfig?: string;
   extraManifests?: string;

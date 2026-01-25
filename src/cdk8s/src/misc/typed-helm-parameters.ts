@@ -85,6 +85,7 @@ import type { CoderHelmValues } from "../../generated/helm/coder.types";
 import type { RedisHelmValues } from "../../generated/helm/redis.types";
 import type { SeaweedfsHelmValues } from "../../generated/helm/seaweedfs.types";
 import type { PrometheusblackboxexporterHelmValues } from "../../generated/helm/prometheus-blackbox-exporter.types";
+import type { McrouterHelmValues } from "../../generated/helm/mc-router.types";
 
 type HelmChartValuesMap = {
   "argo-cd": ArgocdHelmValues;
@@ -106,6 +107,7 @@ type HelmChartValuesMap = {
   redis: RedisHelmValues;
   seaweedfs: SeaweedfsHelmValues;
   "prometheus-blackbox-exporter": PrometheusblackboxexporterHelmValues;
+  "mc-router": McrouterHelmValues;
 };
 
 export type HelmValuesForChart<TChart extends keyof HelmChartValuesMap> = HelmChartValuesMap[TChart];

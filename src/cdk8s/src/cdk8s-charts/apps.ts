@@ -18,6 +18,7 @@ import { createChartMuseumApp } from "../resources/argo-applications/chartmuseum
 import { createMinecraftSjerredApp } from "../resources/argo-applications/minecraft-sjerred.ts";
 import { createMinecraftShuxinApp } from "../resources/argo-applications/minecraft-shuxin.ts";
 import { createMinecraftTsmcApp } from "../resources/argo-applications/minecraft-tsmc.ts";
+import { createMcRouterApp } from "../resources/argo-applications/mc-router.ts";
 import { createLokiApp } from "../resources/argo-applications/loki.ts";
 import { createPromtailApp } from "../resources/argo-applications/promtail.ts";
 import { createTempoApp } from "../resources/argo-applications/tempo.ts";
@@ -102,6 +103,7 @@ export async function createAppsChart(app: App) {
   createNfdApp(chart);
   createGrafanaApp(chart);
   createChartMuseumApp(chart);
+  createMcRouterApp(chart);
   createMinecraftSjerredApp(chart);
   createMinecraftShuxinApp(chart);
   createMinecraftTsmcApp(chart);
