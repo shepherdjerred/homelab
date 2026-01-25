@@ -44,6 +44,9 @@ export function createTempoApp(chart: Chart) {
       enabled: true,
       storageClassName: NVME_STORAGE_CLASS,
       size: Size.gibibytes(32).asString(),
+      labels: {
+        "velero.io/backup": "enabled",
+      },
     },
     // Expose OTLP ports via service
     service: {

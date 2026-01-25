@@ -38,6 +38,20 @@ for cmd in velero kubectl aws; do
 done
 echo ""
 
+# Validate S3/R2 credentials
+echo -e "${CYAN}🔐 Validating S3/R2 credentials...${NC}"
+if ! aws s3 ls "s3://${BUCKET}/" \
+  --endpoint-url "${ENDPOINT}" \
+  --region "${REGION}" > /dev/null 2>&1; then
+  echo -e "${RED}✗ Error: Failed to access S3/R2 bucket '${BUCKET}'${NC}"
+  echo -e "${RED}  Check that AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are set correctly${NC}"
+  echo -e "${YELLOW}  Hint: Get credentials from Velero secret:${NC}"
+  echo -e "${YELLOW}    kubectl get secret -n velero cloud-credentials -o jsonpath='{.data.cloud}' | base64 -d${NC}"
+  exit 1
+fi
+echo -e "${GREEN}✓${NC} S3/R2 credentials valid"
+echo ""
+
 # Get list of backups from cluster
 echo -e "${CYAN}📋 Fetching list of backups from cluster...${NC}"
 BACKUP_COUNT=$(velero backup get --output json 2>/dev/null | jq -r '.items | length' || echo "0")

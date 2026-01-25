@@ -49,42 +49,34 @@ const VELERO_SCHEDULE_CONFIGS: VeleroScheduleConfig[] = [
   {
     id: "velero-backup-6hourly",
     name: "6hourly-backup",
-    cronSchedule: "15 */6 * * *", // Every 6 hours at minute 15
-    ttl: "72h", // 3 days retention (12 backups total)
+    cronSchedule: "15 */6 * * *",
+    ttl: "72h", // 3 days (12 backups)
     backupType: "6hourly",
-    description: "Every 6 hours backups - keep for 3 days (12 backups total) - FULL BACKUPS",
+    description: "Every 6 hours - keep 3 days (12 backups)",
   },
   {
-    id: "velero-backup-3daily",
-    name: "3daily-backup",
-    cronSchedule: "30 2 */3 * *", // Every 3 days at 2:30 AM
-    ttl: "5184h", // 216 days retention (72 backups * 3 days)
-    backupType: "3daily",
-    description: "Every 3 days backups - keep 72 backups (216 days ~7 months) - FULL BACKUPS",
+    id: "velero-backup-daily",
+    name: "daily-backup",
+    cronSchedule: "30 2 * * *", // Daily at 2:30 AM
+    ttl: "168h", // 7 days (7 backups)
+    backupType: "daily",
+    description: "Daily backups - keep 7 days",
   },
   {
     id: "velero-backup-weekly",
     name: "weekly-backup",
-    cronSchedule: "45 3 * * 1", // Every Monday at 3:45 AM
-    ttl: "1176h", // 49 days retention (7 weeks)
+    cronSchedule: "45 3 * * 1",
+    ttl: "720h", // 30 days (4 backups)
     backupType: "weekly",
-    description: "Weekly backups - keep 7 backups (7 weeks ~2 months) - FULL BACKUPS",
+    description: "Weekly backups - keep 30 days",
   },
   {
     id: "velero-backup-monthly",
     name: "monthly-backup",
-    cronSchedule: "0 5 2 * *", // 2nd day of month at 5:00 AM
-    ttl: "2880h", // 120 days retention (4 months)
+    cronSchedule: "0 5 1 * *", // 1st of month at 5 AM
+    ttl: "2160h", // 90 days / 3 months
     backupType: "monthly",
-    description: "Monthly backups - keep 4 backups (4 months) - FULL BACKUPS",
-  },
-  {
-    id: "velero-backup-quarterly",
-    name: "quarterly-backup",
-    cronSchedule: "30 7 3 */3 *", // 3rd day of every 3rd month at 7:30 AM
-    ttl: "2160h", // 90 days retention (3 months)
-    backupType: "quarterly",
-    description: "Quarterly backups - keep 1 backup (3 months) - FULL BACKUPS",
+    description: "Monthly backups - keep 3 months",
   },
 ];
 

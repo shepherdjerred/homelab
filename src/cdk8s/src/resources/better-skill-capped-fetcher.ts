@@ -25,7 +25,7 @@ export function createBetterSkillCappedFetcher(chart: Chart) {
     metadata: {
       name: "better-skill-capped-manifest",
       labels: {
-        "velero.io/backup": "enabled",
+        "velero.io/backup": "disabled",
         "velero.io/exclude-from-backup": "false",
       },
     },

@@ -13,6 +13,20 @@ REGION="auto"
 echo "🧹 Cleaning up Velero backups from R2 bucket..."
 echo ""
 
+# Validate S3/R2 credentials
+echo "🔐 Validating S3/R2 credentials..."
+if ! aws s3 ls "s3://${BUCKET}/" \
+  --endpoint-url "${ENDPOINT}" \
+  --region "${REGION}" > /dev/null 2>&1; then
+  echo "✗ Error: Failed to access S3/R2 bucket '${BUCKET}'"
+  echo "  Check that AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are set correctly"
+  echo "  Hint: Get credentials from Velero secret:"
+  echo "    kubectl get secret -n velero cloud-credentials -o jsonpath='{.data.cloud}' | base64 -d"
+  exit 1
+fi
+echo "✓ S3/R2 credentials valid"
+echo ""
+
 # List backup files
 echo "📋 Listing backup files in s3://${BUCKET}/${PREFIX_BACKUPS}..."
 aws s3 ls "s3://${BUCKET}/${PREFIX_BACKUPS}" \

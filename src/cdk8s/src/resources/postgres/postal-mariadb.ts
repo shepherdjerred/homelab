@@ -83,6 +83,9 @@ export class PostalMariaDB extends Construct {
           enabled: true,
           storageClass: props.storageClass ?? "zfs-ssd",
           size: props.storageSize ?? "32Gi",
+          labels: {
+            "velero.io/backup": "enabled",
+          },
         },
         resources: {
           requests: {

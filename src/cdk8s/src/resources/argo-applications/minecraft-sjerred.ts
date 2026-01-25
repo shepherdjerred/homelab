@@ -68,6 +68,9 @@ export function createMinecraftSjerredApp(chart: Chart) {
     },
     persistence: {
       storageClass: NVME_STORAGE_CLASS,
+      labels: {
+        "velero.io/backup": "enabled",
+      },
       dataDir: {
         Size: Size.gibibytes(32).asString(),
         enabled: true,

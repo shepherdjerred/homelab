@@ -77,6 +77,9 @@ export function createLokiApp(chart: Chart) {
       persistence: {
         storageClass: NVME_STORAGE_CLASS,
         size: Size.gibibytes(64).asString(),
+        labels: {
+          "velero.io/backup": "enabled",
+        },
       },
       extraVolumes: [
         {

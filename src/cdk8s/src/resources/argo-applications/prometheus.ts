@@ -160,6 +160,9 @@ export async function createPrometheusApp(chart: Chart) {
       persistence: {
         enabled: true,
         storageClassName: NVME_STORAGE_CLASS,
+        labels: {
+          "velero.io/backup": "enabled",
+        },
       },
       // Deploy Grafana as a StatefulSet instead of Deployment to avoid PVC deadlock
       // Single-replica StatefulSet handles rolling updates properly with RWO (ReadWriteOnce) PVCs
