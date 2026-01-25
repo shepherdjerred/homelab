@@ -403,6 +403,22 @@ export async function createPrometheusApp(chart: Chart) {
         automated: {},
         syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
       },
+      ignoreDifferences: [
+        {
+          group: "",
+          kind: "Secret",
+          name: "prometheus-grafana",
+          namespace: "prometheus",
+          jsonPointers: ["/data/admin-password"],
+        },
+        {
+          group: "apps",
+          kind: "StatefulSet",
+          name: "prometheus-grafana",
+          namespace: "prometheus",
+          jsonPointers: ["/spec/template/metadata/annotations/checksum~1secret"],
+        },
+      ],
     },
   });
 }

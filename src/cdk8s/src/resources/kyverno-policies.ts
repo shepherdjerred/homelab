@@ -14,6 +14,9 @@ export function createVeleroBackupLabelPolicy(chart: Chart) {
     kind: "ClusterPolicy",
     metadata: {
       name: "add-velero-backup-label",
+      annotations: {
+        "argocd.argoproj.io/sync-wave": "10",
+      },
     },
     spec: {
       rules: [
