@@ -90,7 +90,8 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
 
     // Always set bedroom temperature (bedroom is separate from office)
     tasks.push(() =>
-      bedroomHeater.set_temperature({
+      hass.call.climate.set_temperature({
+        entity_id: bedroomHeater.entity_id,
         hvac_mode: "heat",
         temperature: bedroomTemp,
       }),
@@ -100,7 +101,8 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
     // PC generates 2-3°C of warmth in the office, making additional heating unnecessary
     if (!isPcGeneratingHeat()) {
       tasks.push(() =>
-        officeHeater.set_temperature({
+        hass.call.climate.set_temperature({
+          entity_id: officeHeater.entity_id,
           hvac_mode: "heat",
           temperature: officeTemp,
         }),
@@ -141,7 +143,7 @@ export function climateControl({ hass, scheduler, logger }: TServiceParams) {
             if (pcGeneratingHeat) {
               logger.debug("PC generating heat - ensuring office heating is off");
               try {
-                await officeHeater.turn_off();
+                await hass.call.climate.turn_off({ entity_id: officeHeater.entity_id });
               } catch {
                 logger.debug("Failed to turn off office heater");
               }

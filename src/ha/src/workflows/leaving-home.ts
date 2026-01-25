@@ -24,7 +24,8 @@ export function leavingHome({ hass, logger }: TServiceParams) {
 
           // Set climate to energy-saving away mode (20°C)
           logger.debug("Setting climate to away mode");
-          await bedroomHeater.set_temperature({
+          await hass.call.climate.set_temperature({
+            entity_id: bedroomHeater.entity_id,
             hvac_mode: "heat",
             temperature: 20,
           });
@@ -42,7 +43,7 @@ export function leavingHome({ hass, logger }: TServiceParams) {
           logger.debug("Turning off all lights");
           const lights = hass.refBy.domain("light");
           for (const light of lights) {
-            await light.turn_off();
+            await hass.call.light.turn_off({ entity_id: light.entity_id });
           }
           logger.debug("All lights turned off");
 

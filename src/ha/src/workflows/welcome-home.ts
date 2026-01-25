@@ -32,7 +32,8 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
 
           // Set climate to comfortable home temperature (22°C)
           logger.debug("Setting climate to home comfort mode");
-          await bedroomHeater.set_temperature({
+          await hass.call.climate.set_temperature({
+            entity_id: bedroomHeater.entity_id,
             hvac_mode: "heat",
             temperature: 22,
           });
@@ -47,10 +48,10 @@ export function welcomeHome({ hass, logger }: TServiceParams) {
           // }
 
           logger.debug("Turning on entryway light");
-          await entrywayLight.turn_on();
+          await hass.call.switch.turn_on({ entity_id: entrywayLight.entity_id });
 
           logger.debug("Setting living room scene to bright");
-          await livingRoomScene.turn_on();
+          await hass.call.scene.turn_on({ entity_id: livingRoomScene.entity_id });
 
           // TODO: Re-enable when Christmas decorations are back
           // const randomScene = christmasScenes[Math.floor(Math.random() * christmasScenes.length)];

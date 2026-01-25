@@ -39,7 +39,8 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
 
             // Set climate to bedtime mode - comfortable for falling asleep
             logger.debug("Setting climate to bedtime mode");
-            await bedroomHeater.set_temperature({
+            await hass.call.climate.set_temperature({
+              entity_id: bedroomHeater.entity_id,
               hvac_mode: "heat",
               temperature: 22,
             });
@@ -55,17 +56,21 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
 
             if (bedroomLight.state === "on") {
               logger.debug("Turning on bedroom scene");
-              await bedroomScene.turn_on();
+              await hass.call.scene.turn_on({ entity_id: bedroomScene.entity_id });
             }
 
             logger.debug("Unjoining bedroom media player");
-            await bedroomMediaPlayer.unjoin();
+            await hass.call.media_player.unjoin({ entity_id: bedroomMediaPlayer.entity_id });
 
             logger.debug("Setting bedroom media player volume to 0");
-            await bedroomMediaPlayer.volume_set({ volume_level: 0 });
+            await hass.call.media_player.volume_set({
+              entity_id: bedroomMediaPlayer.entity_id,
+              volume_level: 0,
+            });
 
             logger.debug("Playing media on bedroom media player");
-            await bedroomMediaPlayer.play_media({
+            await hass.call.media_player.play_media({
+              entity_id: bedroomMediaPlayer.entity_id,
               media: JSON.stringify({
                 media_content_id: "FV:2/7",
                 media_content_type: "favorite_item_id",
@@ -78,7 +83,7 @@ export function goodNight({ hass, logger, context }: TServiceParams) {
                 amount: 5,
                 unit: "s",
               });
-              await bedroomMediaPlayer.volume_up();
+              await hass.call.media_player.volume_up({ entity_id: bedroomMediaPlayer.entity_id });
             }
 
             logger.debug("Closing bedroom covers");

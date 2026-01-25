@@ -64,7 +64,8 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
     logger.info("good_morning_early triggered");
     await withTimeout(
       runIf(isAnyoneHome(), () =>
-        bedroomHeater.set_temperature({
+        hass.call.climate.set_temperature({
+          entity_id: bedroomHeater.entity_id,
           hvac_mode: "heat",
           temperature: 22, // pre-wake heating
         }),
@@ -79,7 +80,8 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
     await withTimeout(
       runParallel([
         () =>
-          bedroomHeater.set_temperature({
+          hass.call.climate.set_temperature({
+            entity_id: bedroomHeater.entity_id,
             hvac_mode: "heat",
             temperature: 22,
           }),
@@ -111,7 +113,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
                       logger.info(`Before any changes - Entity state: ${bedroomMediaPlayer.state}`);
                       return Promise.resolve();
                     })(),
-                  () => bedroomMediaPlayer.unjoin(),
+                  () => hass.call.media_player.unjoin({ entity_id: bedroomMediaPlayer.entity_id }),
                   // Wait longer for unjoin to complete fully
                   () => wait({ amount: 5, unit: "s" }),
                   // Debug: Log state after unjoin
@@ -125,7 +127,10 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
                   () =>
                     (async () => {
                       logger.info("Calling volume_set with volume_level: 0");
-                      await bedroomMediaPlayer.volume_set({ volume_level: 0 });
+                      await hass.call.media_player.volume_set({
+                        entity_id: bedroomMediaPlayer.entity_id,
+                        volume_level: 0,
+                      });
                       logger.info("volume_set call completed");
                       return Promise.resolve();
                     })(),
@@ -142,7 +147,8 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
                     (async () => {
                       try {
                         logger.info("Attempting to play media on bedroom player");
-                        await bedroomMediaPlayer.play_media({
+                        await hass.call.media_player.play_media({
+                          entity_id: bedroomMediaPlayer.entity_id,
                           media: JSON.stringify({
                             media_content_id: "FV:2/5",
                             media_content_type: "favorite_item_id",
@@ -159,7 +165,8 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
                         logger.info("Waiting additional time and retrying...");
                         await wait({ amount: 3, unit: "s" });
                         try {
-                          await bedroomMediaPlayer.play_media({
+                          await hass.call.media_player.play_media({
+                            entity_id: bedroomMediaPlayer.entity_id,
                             media: JSON.stringify({
                               media_content_id: "FV:2/5",
                               media_content_type: "favorite_item_id",
@@ -178,13 +185,19 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
                       }
                     })(),
                   () =>
-                    runSequentialWithDelay(repeat(bedroomMediaPlayer.volume_up, initialVolumeSteps), {
-                      amount: 5,
-                      unit: "s",
-                    }),
+                    runSequentialWithDelay(
+                      repeat(
+                        () => hass.call.media_player.volume_up({ entity_id: bedroomMediaPlayer.entity_id }),
+                        initialVolumeSteps,
+                      ),
+                      {
+                        amount: 5,
+                        unit: "s",
+                      },
+                    ),
                 ]),
-              () => bedroomScene.turn_on({ transition: 3 }),
-              () => mainBathroomLight.turn_on(),
+              () => hass.call.scene.turn_on({ entity_id: bedroomScene.entity_id, transition: 3 }),
+              () => hass.call.switch.turn_on({ entity_id: mainBathroomLight.entity_id }),
             ]),
           ),
       ]),
@@ -202,19 +215,23 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
             runIf(personShuxin.state === "not_home", () =>
               openCoversWithDelay(hass, ["cover.bedroom_left", "cover.bedroom_right"]),
             ),
-          () => bedroomBrightScene.turn_on({ transition: 60 }),
+          () => hass.call.scene.turn_on({ entity_id: bedroomBrightScene.entity_id, transition: 60 }),
           () =>
             runSequential([
               // Set extra players to start volume
               () =>
                 (async () => {
                   for (const player of extraMediaPlayers) {
-                    await player.volume_set({ volume_level: startVolume });
+                    await hass.call.media_player.volume_set({
+                      entity_id: player.entity_id,
+                      volume_level: startVolume,
+                    });
                   }
                 })(),
               // Join all players together
               () =>
-                bedroomMediaPlayer.join({
+                hass.call.media_player.join({
+                  entity_id: bedroomMediaPlayer.entity_id,
                   group_members: extraMediaPlayers.map((p) => p.entity_id),
                 }),
               // Gentle volume increase for all players (bedroom + extra)
@@ -222,12 +239,12 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
                 runSequentialWithDelay(
                   repeat(async () => {
                     // Increase bedroom player volume
-                    await bedroomMediaPlayer.volume_up();
+                    await hass.call.media_player.volume_up({ entity_id: bedroomMediaPlayer.entity_id });
                     // Increase extra players volume
                     await Promise.all(
                       extraMediaPlayers.map(async (player) => {
                         logger.debug(`Increasing volume for ${player.entity_id}`);
-                        await player.volume_up();
+                        await hass.call.media_player.volume_up({ entity_id: player.entity_id });
                       }),
                     );
                   }, additionalVolumeSteps), // Only 2 additional steps instead of 5+3
@@ -237,7 +254,7 @@ export function goodMorning({ hass, scheduler, logger }: TServiceParams) {
                   },
                 ),
             ]),
-          () => entrywayLight.turn_on(),
+          () => hass.call.switch.turn_on({ entity_id: entrywayLight.entity_id }),
         ]),
       ),
       { amount: 5, unit: "m" },
