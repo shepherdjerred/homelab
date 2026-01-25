@@ -86,7 +86,7 @@ const versions = {
   "shepherdjerred/starlight-karma-bot/beta": "1.0.28",
   "shepherdjerred/starlight-karma-bot/prod": "1.0.13",
   // not managed by renovate
-  "shepherdjerred/birmel": "1.0.1537",
+  "shepherdjerred/birmel": "1.0.1538",
   // not managed by renovate
   "shepherdjerred/discord-plays-pokemon": "1.0.0",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
