@@ -1,6 +1,7 @@
 import { Chart } from "cdk8s";
 import { Namespace } from "cdk8s-plus-31";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
+import { KubeCustomResourceDefinition } from "../../../generated/imports/k8s.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 
@@ -9,6 +10,9 @@ const CLOUDFLARE_API_TOKEN_1PASSWORD_PATH = "vaults/v64ocnykdqju4ui6j6pua56xw4/i
 
 // Tunnel ID for CNAME target
 const TUNNEL_ID = "3cbdc9a6-9e79-412d-8fe1-60117fecd4d3";
+
+// DDNS hostname for NodePort services
+export const DDNS_HOSTNAME = "ddns.sjer.red";
 
 // External domains that external-dns should manage
 export const EXTERNAL_DNS_DOMAINS = [
@@ -42,11 +46,92 @@ export function createExternalDnsApp(chart: Chart) {
     },
   });
 
+  // Create DNSEndpoint CRD (not included in the Helm chart)
+  new KubeCustomResourceDefinition(chart, "dnsendpoint-crd", {
+    metadata: {
+      name: "dnsendpoints.externaldns.k8s.io",
+      annotations: {
+        "api-approved.kubernetes.io": "https://github.com/kubernetes-sigs/external-dns/pull/2007",
+      },
+    },
+    spec: {
+      group: "externaldns.k8s.io",
+      names: {
+        kind: "DNSEndpoint",
+        listKind: "DNSEndpointList",
+        plural: "dnsendpoints",
+        singular: "dnsendpoint",
+      },
+      scope: "Namespaced",
+      versions: [
+        {
+          name: "v1alpha1",
+          served: true,
+          storage: true,
+          schema: {
+            openApiv3Schema: {
+              type: "object",
+              properties: {
+                apiVersion: { type: "string" },
+                kind: { type: "string" },
+                metadata: { type: "object" },
+                spec: {
+                  type: "object",
+                  properties: {
+                    endpoints: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          dnsName: { type: "string" },
+                          labels: {
+                            type: "object",
+                            additionalProperties: { type: "string" },
+                          },
+                          providerSpecific: {
+                            type: "array",
+                            items: {
+                              type: "object",
+                              properties: {
+                                name: { type: "string" },
+                                value: { type: "string" },
+                              },
+                            },
+                          },
+                          recordTTL: { type: "integer", format: "int64" },
+                          recordType: { type: "string" },
+                          setIdentifier: { type: "string" },
+                          targets: {
+                            type: "array",
+                            items: { type: "string" },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+                status: {
+                  type: "object",
+                  properties: {
+                    observedGeneration: { type: "integer", format: "int64" },
+                  },
+                },
+              },
+            },
+          },
+          subresources: {
+            status: {},
+          },
+        },
+      ],
+    },
+  });
+
   const externalDnsValues = {
     provider: {
       name: "cloudflare",
     },
-    sources: ["service"],
+    sources: ["service", "crd"],
     domainFilters: EXTERNAL_DNS_DOMAINS,
     txtOwnerId: "homelab-external-dns",
     txtPrefix: "_externaldns.",

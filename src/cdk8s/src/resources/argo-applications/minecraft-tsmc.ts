@@ -1,11 +1,12 @@
 import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
+import { DnsEndpoint } from "../../../generated/imports/externaldns.k8s.io.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
-import { TUNNEL_CNAME_TARGET } from "./external-dns.ts";
+import { DDNS_HOSTNAME, TUNNEL_CNAME_TARGET } from "./external-dns.ts";
 
 export function createMinecraftTsmcApp(chart: Chart) {
   createIngress(
@@ -89,6 +90,34 @@ export function createMinecraftTsmcApp(chart: Chart) {
       },
     },
   };
+
+  // DNS records for ts-mc.net
+  new DnsEndpoint(chart, "minecraft-tsmc-dns", {
+    metadata: {
+      name: "minecraft-tsmc-dns",
+      namespace: "minecraft-tsmc",
+    },
+    spec: {
+      endpoints: [
+        {
+          dnsName: "ts-mc.net",
+          recordType: "CNAME",
+          targets: [DDNS_HOSTNAME],
+          providerSpecific: [
+            {
+              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
+              value: "false",
+            },
+          ],
+        },
+        {
+          dnsName: "_minecraft._tcp.ts-mc.net",
+          recordType: "SRV",
+          targets: ["0 5 30003 ts-mc.net"],
+        },
+      ],
+    },
+  });
 
   return new Application(chart, "minecraft-tsmc-app", {
     metadata: {

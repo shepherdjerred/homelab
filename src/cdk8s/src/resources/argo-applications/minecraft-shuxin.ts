@@ -1,10 +1,12 @@
 import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
+import { DnsEndpoint } from "../../../generated/imports/externaldns.k8s.io.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
+import { DDNS_HOSTNAME } from "./external-dns.ts";
 
 export function createMinecraftShuxinApp(chart: Chart) {
   createIngress(
@@ -63,6 +65,19 @@ export function createMinecraftShuxinApp(chart: Chart) {
             enabled: false,
           },
         },
+        {
+          service: {
+            enabled: true,
+            port: 19132,
+            nodePort: 30003,
+          },
+          protocol: "UDP",
+          containerPort: 19132,
+          name: "bedrock",
+          ingress: {
+            enabled: false,
+          },
+        },
       ],
       pluginUrls: [
         "https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar",
@@ -71,6 +86,10 @@ export function createMinecraftShuxinApp(chart: Chart) {
         "https://github.com/EssentialsX/Essentials/releases/download/2.21.2/EssentialsX-2.21.2.jar",
         "https://github.com/EssentialsX/Essentials/releases/download/2.21.2/EssentialsXSpawn-2.21.2.jar",
         "https://cdn.modrinth.com/data/lKEzGugV/versions/vkuwyUC6/PlaceholderAPI-2.11.6.jar",
+        // GeyserMC - allows Bedrock Edition (Switch, mobile, etc.) to connect
+        "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot",
+        // Floodgate - allows Bedrock players to join with Xbox accounts
+        "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot",
       ],
     },
     persistence: {
@@ -87,6 +106,34 @@ export function createMinecraftShuxinApp(chart: Chart) {
       VERSION_FROM_MODRINTH_PROJECTS: "true",
     },
   };
+
+  // DNS records for shuxin.sjer.red
+  new DnsEndpoint(chart, "minecraft-shuxin-dns", {
+    metadata: {
+      name: "minecraft-shuxin-dns",
+      namespace: "minecraft-shuxin",
+    },
+    spec: {
+      endpoints: [
+        {
+          dnsName: "shuxin.sjer.red",
+          recordType: "CNAME",
+          targets: [DDNS_HOSTNAME],
+          providerSpecific: [
+            {
+              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
+              value: "false",
+            },
+          ],
+        },
+        {
+          dnsName: "_minecraft._tcp.shuxin.sjer.red",
+          recordType: "SRV",
+          targets: ["0 5 30002 shuxin.sjer.red"],
+        },
+      ],
+    },
+  });
 
   return new Application(chart, "minecraft-shuxin-app", {
     metadata: {
