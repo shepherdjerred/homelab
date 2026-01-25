@@ -10,6 +10,7 @@ import { getHaWorkflowRuleGroups } from "./rules/ha-workflows";
 import { getGitckupRuleGroups } from "./rules/gitckup";
 import { getQBitTorrentRuleGroups } from "./rules/qbittorrent";
 import { getStaticSitesRuleGroups } from "./rules/static-sites";
+import { getR2StorageRuleGroups } from "./rules/r2-storage";
 
 export function createPrometheusMonitoring(chart: Chart) {
   // Create Home Assistant rules
@@ -128,6 +129,18 @@ export function createPrometheusMonitoring(chart: Chart) {
     },
     spec: {
       groups: getStaticSitesRuleGroups(),
+    },
+  });
+
+  // Create R2 storage rules
+  new PrometheusRule(chart, "prometheus-r2-storage-rules", {
+    metadata: {
+      name: "prometheus-r2-storage-rules",
+      namespace: "prometheus",
+      labels: { release: "prometheus" },
+    },
+    spec: {
+      groups: getR2StorageRuleGroups(),
     },
   });
 }

@@ -10,6 +10,7 @@ import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 import { createNvmeMetricsMonitoring } from "../monitoring/nvme-metrics.ts";
 import { createZfsSnapshotsMonitoring } from "../monitoring/zfs-snapshots.ts";
 import { createZfsZpoolMonitoring } from "../monitoring/zfs-zpool.ts";
+import { createR2ExporterMonitoring } from "../monitoring/r2-exporter.ts";
 import { escapeAlertmanagerTemplate } from "../monitoring/monitoring/rules/shared.ts";
 // import { HelmValuesForChart } from "../types/helm/index.js"; // Using 'any' for complex config
 
@@ -59,6 +60,7 @@ export async function createPrometheusApp(chart: Chart) {
   await createNvmeMetricsMonitoring(chart);
   await createZfsSnapshotsMonitoring(chart);
   await createZfsZpoolMonitoring(chart);
+  await createR2ExporterMonitoring(chart);
 
   // Type extension for blackbox-exporter subchart (not included in generated types)
   type PrometheusValuesWithBlackbox = HelmValuesForChart<"kube-prometheus-stack"> & {
