@@ -33,7 +33,10 @@ export function createBirmelDeployment(chart: Chart) {
         readOnlyRootFilesystem: false,
         ensureNonRoot: false,
       },
-      ports: [{ number: 4111, name: "studio" }],
+      ports: [
+        { number: 4111, name: "studio" },
+        { number: 4112, name: "oauth" },
+      ],
       volumeMounts: [
         {
           path: "/app/data",
@@ -58,6 +61,12 @@ export function createBirmelDeployment(chart: Chart) {
         }),
         OPENAI_MODEL: EnvValue.fromValue("gpt-5-mini"),
         OPENAI_CLASSIFIER_MODEL: EnvValue.fromValue("gpt-5-nano"),
+
+        // Anthropic configuration
+        ANTHROPIC_API_KEY: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "birmel-anthropic-api-key-secret", onePasswordItem.name),
+          key: "anthropic-api-key",
+        }),
 
         // Database paths
         DATABASE_URL: EnvValue.fromValue("file:/app/data/birmel.db"),
@@ -87,6 +96,22 @@ export function createBirmelDeployment(chart: Chart) {
         LOG_LEVEL: EnvValue.fromValue("info"),
         VOICE_ENABLED: EnvValue.fromValue("true"),
         DAILY_POSTS_ENABLED: EnvValue.fromValue("true"),
+
+        // Editor configuration
+        EDITOR_ENABLED: EnvValue.fromValue("true"),
+        EDITOR_OAUTH_PORT: EnvValue.fromValue("4112"),
+        EDITOR_ALLOWED_REPOS: EnvValue.fromValue(
+          JSON.stringify([
+            { name: "scout-for-lol", path: "shepherdjerred/scout-for-lol", branch: "main" },
+            { name: "monorepo", path: "shepherdjerred/monorepo", branch: "main" },
+          ]),
+        ),
+        EDITOR_GITHUB_CLIENT_ID: EnvValue.fromValue("Ov23liCMrfCR1Ggvx99o"),
+        EDITOR_GITHUB_CLIENT_SECRET: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "birmel-editor-github-secret", onePasswordItem.name),
+          key: "editor-github-client-secret",
+        }),
+        EDITOR_GITHUB_CALLBACK_URL: EnvValue.fromValue("https://birmel-oauth.tailnet-1a49.ts.net/auth/github/callback"),
       },
     }),
   );
@@ -101,5 +126,18 @@ export function createBirmelDeployment(chart: Chart) {
   new TailscaleIngress(chart, "birmel-studio-ingress", {
     service: studioService,
     host: "birmel-studio",
+  });
+
+  // Service for Editor OAuth
+  const oauthService = new Service(chart, "birmel-oauth-service", {
+    selector: deployment,
+    ports: [{ port: 4112, name: "oauth" }],
+  });
+
+  // TailscaleIngress with funnel for OAuth (publicly accessible for GitHub callback)
+  new TailscaleIngress(chart, "birmel-oauth-ingress", {
+    service: oauthService,
+    host: "birmel-oauth",
+    funnel: true,
   });
 }
