@@ -7,9 +7,6 @@ export function createProject(chart: Chart) {
       name: "default",
     },
     spec: {
-      orphanedResources: {
-        warn: true,
-      },
       sourceRepos: ["*"],
       destinations: [
         {
