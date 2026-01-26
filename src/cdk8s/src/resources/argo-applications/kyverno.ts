@@ -23,6 +23,19 @@ export function createKyvernoApp(chart: Chart) {
     reportsController: {
       replicas: 1,
     },
+    // Fix for removed bitnami/kubectl image - use bitnamilegacy instead
+    policyReportsCleanup: {
+      image: {
+        repository: "bitnamilegacy/kubectl",
+        tag: "1.31",
+      },
+    },
+    webhooksCleanup: {
+      image: {
+        repository: "bitnamilegacy/kubectl",
+        tag: "1.31",
+      },
+    },
   };
 
   return new Application(chart, "kyverno-app", {
