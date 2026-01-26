@@ -7,7 +7,7 @@ export function createArgoCdImageUpdaterApp(chart: Chart) {
   // Git credentials for write-back
   new OnePasswordItem(chart, "image-updater-git-creds", {
     spec: {
-      itemPath: "vaults/homelab/items/argocd-image-updater-git",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/ekicp7e533ahwirkav52ud5qxe",
     },
   });
 
