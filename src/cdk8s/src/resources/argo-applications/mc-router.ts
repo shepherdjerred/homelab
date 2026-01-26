@@ -99,22 +99,11 @@ export function createMcRouterApp(chart: Chart) {
           recordType: "SRV",
           targets: [`0 5 ${MC_ROUTER_NODE_PORT.toString()} shuxin.sjer.red`],
         },
-        // ts-mc.net -> ddns.sjer.red with SRV pointing to mc-router port
-        {
-          dnsName: "ts-mc.net",
-          recordType: "CNAME",
-          targets: [DDNS_HOSTNAME],
-          providerSpecific: [
-            {
-              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
-              value: "false",
-            },
-          ],
-        },
+        // ts-mc.net SRV pointing to ddns.sjer.red (no CNAME - apex domain)
         {
           dnsName: "_minecraft._tcp.ts-mc.net",
           recordType: "SRV",
-          targets: [`0 5 ${MC_ROUTER_NODE_PORT.toString()} ts-mc.net`],
+          targets: [`0 5 ${MC_ROUTER_NODE_PORT.toString()} ${DDNS_HOSTNAME}`],
         },
       ],
     },
