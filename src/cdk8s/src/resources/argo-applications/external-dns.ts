@@ -147,7 +147,13 @@ export function createExternalDnsApp(chart: Chart) {
         },
       },
     ],
-    extraArgs: ["--cloudflare-proxied"],
+    extraArgs: [
+      "--cloudflare-proxied",
+      "--managed-record-types=A",
+      "--managed-record-types=AAAA",
+      "--managed-record-types=CNAME",
+      "--managed-record-types=SRV",
+    ],
   };
 
   return new Application(chart, "external-dns-app", {
