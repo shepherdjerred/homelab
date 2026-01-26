@@ -28,7 +28,7 @@ import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
 import { buildAndPushDependencySummaryImage } from "./dependency-summary";
 import { buildAndPushCaddyS3ProxyImage } from "./caddy-s3proxy";
-import { buildAllCharts, HELM_CHARTS } from "./helm";
+import { buildAllCharts, HELM_CHARTS, publishAllCharts } from "./helm";
 import { Stage } from "./stage";
 import versions from "./versions";
 import { runReleasePleaseWorkflow } from "./release-please.ts";
@@ -846,8 +846,19 @@ export class Homelab {
       return { status: "skipped", message: "[SKIPPED] Not prod" };
     }
     try {
-      const result = await helmPublishFn(repoRoot, `1.0.0-${version}`, repo, chartMuseumUsername, chartMuseumPassword);
-      return { status: "passed", message: result };
+      const fullVersion = `1.0.0-${version}`;
+      const allChartsDist = buildAllCharts(repoRoot, fullVersion);
+      const results = await publishAllCharts(
+        allChartsDist,
+        fullVersion,
+        repo,
+        chartMuseumUsername,
+        chartMuseumPassword,
+      );
+      const message = Object.entries(results)
+        .map(([chart, result]) => `${chart}: ${result}`)
+        .join("\n");
+      return { status: "passed", message };
     } catch (e: unknown) {
       return {
         status: "failed",

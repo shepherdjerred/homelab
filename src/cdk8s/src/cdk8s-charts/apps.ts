@@ -56,7 +56,7 @@ import { createGickupApp } from "../resources/argo-applications/gickup.ts";
 import { createGrafanaDbApp } from "../resources/argo-applications/grafana-db.ts";
 import { createS3StaticSitesApp } from "../resources/argo-applications/s3-static-sites.ts";
 import { createKyvernoApp } from "../resources/argo-applications/kyverno.ts";
-import { createVeleroBackupLabelPolicy } from "../resources/kyverno-policies.ts";
+import { createKyvernoPoliciesApp } from "../resources/argo-applications/kyverno-policies.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -114,7 +114,7 @@ export async function createAppsChart(app: App) {
   createDaggerApp(chart);
   createVeleroApp(chart);
   createKyvernoApp(chart);
-  createVeleroBackupLabelPolicy(chart);
+  createKyvernoPoliciesApp(chart);
   createPostgresOperatorApp(chart);
   createCoderApp(chart);
   createSeaweedfsApp(chart);

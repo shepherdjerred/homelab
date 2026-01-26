@@ -38,8 +38,9 @@ versions.helm = helmVersion;
 
 // Extract caddy version without digest for use with variant tags (-alpine, -builder-alpine)
 // The base caddy digest doesn't apply to variants which have different content
-const caddyVersionOnly = versions.caddy.split("@")[0];
-if (caddyVersionOnly === undefined) throw new Error("Failed to parse caddy version");
+const parsedCaddyVersion = versions.caddy.split("@")[0];
+if (parsedCaddyVersion === undefined) throw new Error("Failed to parse caddy version");
+const caddyVersionOnly: string = parsedCaddyVersion;
 
 export default versions;
 

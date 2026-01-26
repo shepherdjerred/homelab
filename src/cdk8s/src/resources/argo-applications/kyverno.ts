@@ -28,6 +28,10 @@ export function createKyvernoApp(chart: Chart) {
   return new Application(chart, "kyverno-app", {
     metadata: {
       name: "kyverno",
+      annotations: {
+        // Deploy Kyverno CRDs before policies
+        "argocd.argoproj.io/sync-wave": "1",
+      },
     },
     spec: {
       project: "default",

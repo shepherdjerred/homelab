@@ -1,5 +1,4 @@
 import { dag, Directory, Secret, Container } from "@dagger.io/dagger";
-import { z } from "zod";
 import { buildK8sManifests } from "./cdk8s";
 import versions from "./versions";
 
@@ -32,6 +31,8 @@ export const HELM_CHARTS = [
   "grafana-db",
   // S3 static sites (consolidates sjer-red, webring, dpp-docs, scout-frontend, better-skill-capped)
   "s3-static-sites",
+  // Kyverno policies (separate to ensure CRDs exist before policies)
+  "kyverno-policies",
 ] as const;
 export type HelmChartName = (typeof HELM_CHARTS)[number];
 
