@@ -71,6 +71,10 @@ export function createMinecraftSjerredApp(chart: Chart) {
           },
         },
       ],
+      rcon: {
+        enabled: true,
+        withGeneratedPassword: true,
+      },
     },
     persistence: {
       storageClass: NVME_STORAGE_CLASS,

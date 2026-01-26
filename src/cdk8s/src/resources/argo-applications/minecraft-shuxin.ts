@@ -99,6 +99,10 @@ export function createMinecraftShuxinApp(chart: Chart) {
         // Floodgate - allows Bedrock players to join with Xbox accounts
         "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot",
       ],
+      rcon: {
+        enabled: true,
+        withGeneratedPassword: true,
+      },
     },
     persistence: {
       storageClass: NVME_STORAGE_CLASS,

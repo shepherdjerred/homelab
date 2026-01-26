@@ -83,6 +83,10 @@ export function createMinecraftTsmcApp(chart: Chart) {
         "https://github.com/EssentialsX/Essentials/releases/download/2.21.2/EssentialsXSpawn-2.21.2.jar",
         "https://cdn.modrinth.com/data/lKEzGugV/versions/vkuwyUC6/PlaceholderAPI-2.11.6.jar",
       ],
+      rcon: {
+        enabled: true,
+        withGeneratedPassword: true,
+      },
     },
     persistence: {
       storageClass: NVME_STORAGE_CLASS,
