@@ -26,7 +26,7 @@ export async function createR2ExporterMonitoring(chart: Chart) {
   // Create 1Password secret for Cloudflare API credentials
   const cloudflareSecret = new OnePasswordItem(chart, "r2-exporter-cloudflare-secret", {
     spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/r2-exporter",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/faryqlpsnrqupkirkwrejct3iy",
     },
     metadata: {
       name: "r2-exporter-cloudflare",
