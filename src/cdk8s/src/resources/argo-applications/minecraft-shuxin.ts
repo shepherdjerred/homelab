@@ -44,7 +44,7 @@ export function createMinecraftShuxinApp(chart: Chart) {
       version: versions.paper,
       type: "PAPER",
       motd: "Jerred & Shuxin",
-      whitelist: ["RiotShielder", "vietnamesechovy", ".jsheph02"].join(","),
+      whitelist: ["RiotShielder", "vietnamesechovy"].join(","),
       spawnProtection: 0,
       viewDistance: 15,
       memory: "1G",
