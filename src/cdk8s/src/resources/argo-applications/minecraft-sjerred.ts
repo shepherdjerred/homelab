@@ -27,6 +27,10 @@ export function createMinecraftSjerredApp(chart: Chart) {
     // Deploy as StatefulSet for mc-router auto-scaling support
     workloadAsStatefulSet: true,
     strategyType: "RollingUpdate",
+    // mc-router annotation for hostname-based routing (must be top-level)
+    serviceAnnotations: {
+      "mc-router.itzg.me/externalServerName": "sjer.red",
+    },
     image: {
       tag: versions["itzg/minecraft-server"],
     },
@@ -53,10 +57,6 @@ export function createMinecraftSjerredApp(chart: Chart) {
       forcegameMode: true,
       // Use ClusterIP - mc-router handles external routing
       serviceType: "ClusterIP",
-      // mc-router annotation for hostname-based routing
-      serviceAnnotations: {
-        "mc-router.itzg.me/externalServerName": "minecraft.sjer.red",
-      },
       extraPorts: [
         {
           service: {

@@ -55,9 +55,16 @@ export function createMcRouterApp(chart: Chart) {
     },
   };
 
-  // DNS records for mc-router
-  // All Minecraft servers will be accessed through mc-router
-  // We update the SRV records to point to mc-router's NodePort
+  // DNS CNAME records managed by external-dns
+  // Note: SRV records are managed manually in Cloudflare due to external-dns bug:
+  // https://github.com/kubernetes-sigs/external-dns/issues/5551
+  //
+  // Manual SRV records in Cloudflare:
+  //   _minecraft._tcp.sjer.red        -> 0 5 30000 ddns.sjer.red
+  //   _minecraft._tcp.shuxin.sjer.red -> 0 5 30000 shuxin.sjer.red
+  //   _minecraft._tcp.ts-mc.net       -> 0 5 30000 ddns.sjer.red
+  //
+  // Apex domains (sjer.red, ts-mc.net) use existing CF tunnel CNAMEs
   new DnsEndpoint(chart, "mc-router-dns", {
     metadata: {
       name: "mc-router-dns",
@@ -65,24 +72,7 @@ export function createMcRouterApp(chart: Chart) {
     },
     spec: {
       endpoints: [
-        // minecraft.sjer.red -> ddns.sjer.red with SRV pointing to mc-router port
-        {
-          dnsName: "minecraft.sjer.red",
-          recordType: "CNAME",
-          targets: [DDNS_HOSTNAME],
-          providerSpecific: [
-            {
-              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
-              value: "false",
-            },
-          ],
-        },
-        {
-          dnsName: "_minecraft._tcp.minecraft.sjer.red",
-          recordType: "SRV",
-          targets: [`0 5 ${MC_ROUTER_NODE_PORT.toString()} minecraft.sjer.red`],
-        },
-        // shuxin.sjer.red -> ddns.sjer.red with SRV pointing to mc-router port
+        // shuxin.sjer.red -> ddns.sjer.red (not apex, so CNAME works)
         {
           dnsName: "shuxin.sjer.red",
           recordType: "CNAME",
@@ -93,17 +83,6 @@ export function createMcRouterApp(chart: Chart) {
               value: "false",
             },
           ],
-        },
-        {
-          dnsName: "_minecraft._tcp.shuxin.sjer.red",
-          recordType: "SRV",
-          targets: [`0 5 ${MC_ROUTER_NODE_PORT.toString()} shuxin.sjer.red`],
-        },
-        // ts-mc.net SRV pointing to ddns.sjer.red (no CNAME - apex domain)
-        {
-          dnsName: "_minecraft._tcp.ts-mc.net",
-          recordType: "SRV",
-          targets: [`0 5 ${MC_ROUTER_NODE_PORT.toString()} ${DDNS_HOSTNAME}`],
         },
       ],
     },

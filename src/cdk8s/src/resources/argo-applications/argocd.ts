@@ -92,6 +92,14 @@ export function createArgoCdApp(chart: Chart) {
         // TODO: rename
         "accounts.gha": "apiKey",
         "accounts.gha.enabled": true,
+        // Exclude ephemeral Velero resources from tracking
+        "resource.exclusions": `- apiGroups:
+  - velero.io
+  kinds:
+  - Backup
+  - Restore
+  - PodVolumeBackup
+  - PodVolumeRestore`,
       },
       rbac: {
         // TODO: scope this to only syncing

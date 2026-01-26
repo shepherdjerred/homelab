@@ -27,6 +27,10 @@ export function createMinecraftShuxinApp(chart: Chart) {
     // Deploy as StatefulSet for mc-router auto-scaling support
     workloadAsStatefulSet: true,
     strategyType: "RollingUpdate",
+    // mc-router annotation for hostname-based routing (must be top-level)
+    serviceAnnotations: {
+      "mc-router.itzg.me/externalServerName": "shuxin.sjer.red",
+    },
     image: {
       tag: versions["itzg/minecraft-server"],
     },
@@ -52,10 +56,6 @@ export function createMinecraftShuxinApp(chart: Chart) {
       forcegameMode: true,
       // Use ClusterIP - mc-router handles external routing for Java Edition
       serviceType: "ClusterIP",
-      // mc-router annotation for hostname-based routing
-      serviceAnnotations: {
-        "mc-router.itzg.me/externalServerName": "shuxin.sjer.red",
-      },
       extraPorts: [
         {
           service: {

@@ -24,6 +24,19 @@ export function createKyvernoPoliciesApp(chart: Chart) {
         automated: {},
         syncOptions: ["ServerSideApply=true"],
       },
+      ignoreDifferences: [
+        {
+          group: "kyverno.io",
+          kind: "ClusterPolicy",
+          jsonPointers: [
+            "/spec/admission",
+            "/spec/background",
+            "/spec/emitWarning",
+            "/spec/validationFailureAction",
+            "/spec/rules/0/skipBackgroundRequests",
+          ],
+        },
+      ],
     },
   });
 }

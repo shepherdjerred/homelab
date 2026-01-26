@@ -26,7 +26,6 @@ export function createGrafanaApp(chart: Chart) {
         repoUrl: "https://github.com/dotdc/grafana-dashboards-kubernetes",
         path: ".",
         targetRevision: versions["dotdc/grafana-dashboards-kubernetes"],
-        kustomize: {},
       },
       destination: {
         server: "https://kubernetes.default.svc",
