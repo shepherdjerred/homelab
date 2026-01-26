@@ -32,10 +32,10 @@ export function createMinecraftShuxinApp(chart: Chart) {
     },
     resources: {
       requests: {
-        memory: "1Gi",
+        memory: "3Gi",
       },
       limits: {
-        memory: "1536Mi", // 1G heap + 512M overhead
+        memory: "4Gi",
       },
     },
     minecraftServer: {
@@ -47,7 +47,7 @@ export function createMinecraftShuxinApp(chart: Chart) {
       whitelist: ["RiotShielder", "vietnamesechovy"].join(","),
       spawnProtection: 0,
       viewDistance: 15,
-      memory: "1G",
+      memory: "3G",
       overrideServerProperties: true,
       forcegameMode: true,
       // Use ClusterIP - mc-router handles external routing for Java Edition
