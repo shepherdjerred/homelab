@@ -102,8 +102,8 @@ export function createBirmelDeployment(chart: Chart) {
         EDITOR_OAUTH_PORT: EnvValue.fromValue("4112"),
         EDITOR_ALLOWED_REPOS: EnvValue.fromValue(
           JSON.stringify([
-            { name: "scout-for-lol", path: "shepherdjerred/scout-for-lol", branch: "main" },
-            { name: "monorepo", path: "shepherdjerred/monorepo", branch: "main" },
+            { name: "scout-for-lol", repo: "shepherdjerred/scout-for-lol", branch: "main" },
+            { name: "monorepo", repo: "shepherdjerred/monorepo", branch: "main" },
           ]),
         ),
         EDITOR_GITHUB_CLIENT_ID: EnvValue.fromValue("Ov23liCMrfCR1Ggvx99o"),
