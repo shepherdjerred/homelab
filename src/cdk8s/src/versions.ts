@@ -100,7 +100,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "actions/actions-runner": "2.331.0@sha256:0effcd6eb6176b786f99b102a07bd32e04cc4fac415651547cbaed54ef524290",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "library/python": "3.14-alpine@sha256:079b889b270e730f38bdbabf505362538db449a216895c2c45664b1538bd34d5",
+  "library/python": "3.14-alpine@sha256:59d996ce35d58cbe39f14572e37443a1dcbcaf6842a117bc0950d164c38434f9",
   // renovate: datasource=docker registryUrl=https://registry.dagger.io versioning=loose
   "dagger-helm": "0.19.10",
   // renovate: datasource=helm registryUrl=https://vmware-tanzu.github.io/helm-charts versioning=semver
