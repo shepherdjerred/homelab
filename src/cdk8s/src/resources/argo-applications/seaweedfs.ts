@@ -77,6 +77,7 @@ export function createSeaweedfsApp(chart: Chart) {
     master: {
       enabled: true,
       replicas: 1,
+      garbageThreshold: 0.3, // GC when 30% of volume is garbage
       data: {
         type: "persistentVolumeClaim",
         size: Size.gibibytes(1).asString(),
