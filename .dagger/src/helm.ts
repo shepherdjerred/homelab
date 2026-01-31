@@ -29,6 +29,8 @@ export const HELM_CHARTS = [
   "pokemon",
   "gickup",
   "grafana-db",
+  // MCP gateway for aggregating MCP servers
+  "mcp-gateway",
   // S3 static sites (consolidates sjer-red, webring, dpp-docs, scout-frontend, better-skill-capped)
   "s3-static-sites",
   // Kyverno policies (separate to ensure CRDs exist before policies)

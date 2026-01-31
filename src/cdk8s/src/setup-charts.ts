@@ -19,6 +19,7 @@ import { createGickupChart } from "./cdk8s-charts/gickup.ts";
 import { createGrafanaDbChart } from "./cdk8s-charts/grafana-db.ts";
 import { createS3StaticSitesChart } from "./cdk8s-charts/s3-static-sites.ts";
 import { createKyvernoPoliciesChart } from "./cdk8s-charts/kyverno-policies.ts";
+import { createMcpGatewayChart } from "./cdk8s-charts/mcp-gateway.ts";
 
 /**
  * Sets up all charts for the application
@@ -56,4 +57,5 @@ export async function setupCharts(app: App): Promise<void> {
   createPokemonChart(app);
   await createGickupChart(app);
   createGrafanaDbChart(app);
+  await createMcpGatewayChart(app);
 }

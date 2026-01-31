@@ -57,6 +57,7 @@ import { createGrafanaDbApp } from "../resources/argo-applications/grafana-db.ts
 import { createS3StaticSitesApp } from "../resources/argo-applications/s3-static-sites.ts";
 import { createKyvernoApp } from "../resources/argo-applications/kyverno.ts";
 import { createKyvernoPoliciesApp } from "../resources/argo-applications/kyverno-policies.ts";
+import { createMcpGatewayApp } from "../resources/argo-applications/mcp-gateway.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -150,6 +151,7 @@ export async function createAppsChart(app: App) {
   createPokemonApp(chart);
   createGickupApp(chart);
   createGrafanaDbApp(chart);
+  createMcpGatewayApp(chart);
 
   // ArgoCD AppProject
   createProject(chart);

@@ -83,9 +83,11 @@ const versions = {
   openebs: "4.4.0",
   // not managed by renovate
   "shepherdjerred/scout-for-lol/beta": "1.0.226",
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver packageName=shepherdjerred/scout-for-lol
   "shepherdjerred/scout-for-lol/prod": "1.0.222",
   // not managed by renovate
   "shepherdjerred/starlight-karma-bot/beta": "1.0.28",
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver packageName=shepherdjerred/starlight-karma-bot
   "shepherdjerred/starlight-karma-bot/prod": "1.0.13",
   // not managed by renovate
   "shepherdjerred/birmel": "1.0.1637",
@@ -161,6 +163,8 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
   "clickhouse/clickhouse-server":
     "25.12-alpine@sha256:ae97f08909c80322db2a22cc10b33de16f949b5b4bc369b5b8de8bdfcad67e50",
+  // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
+  "tbxark/mcp-proxy": "v0.43.2@sha256:1c43164a910a4f74a3ce48d95cb2ef792de8d467296555e63944fa798f0a44bd",
   // Custom caddy-s3proxy image - Caddy with s3proxy plugin for serving static sites from S3
   // not managed by renovate
   "shepherdjerred/caddy-s3proxy": "latest",
