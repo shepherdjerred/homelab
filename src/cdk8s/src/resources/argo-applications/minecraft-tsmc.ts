@@ -1,13 +1,39 @@
 import { Chart, Size } from "cdk8s";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
+import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 import { createIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 import { TUNNEL_CNAME_TARGET } from "./external-dns.ts";
+import {
+  DISCORDSRV_PLUGIN_URL,
+  getDiscordSrvConfigMapManifest,
+  getDiscordSrvExtraVolumes,
+  getDiscordSrvExtraEnv,
+} from "../../misc/discordsrv-config.ts";
+
+const NAMESPACE = "minecraft-tsmc";
+const SECRET_NAME = "minecraft-tsmc-discord";
 
 export function createMinecraftTsmcApp(chart: Chart) {
+  // 1Password secret for DiscordSRV configuration
+  // Required fields in 1Password:
+  // - discord-bot-token: Discord bot token
+  // - discord-channel-id: Main chat channel ID
+  // - discord-console-channel-id: (optional) Console channel ID
+  // - discord-invite-link: (optional) Discord invite link
+  new OnePasswordItem(chart, "minecraft-tsmc-discord-1p", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/minecraft-tsmc-discord",
+    },
+    metadata: {
+      name: SECRET_NAME,
+      namespace: NAMESPACE,
+    },
+  });
+
   createIngress(
     chart,
     "minecraft-tsmc-bluemap-ingress",
@@ -82,6 +108,7 @@ export function createMinecraftTsmcApp(chart: Chart) {
         "https://github.com/EssentialsX/Essentials/releases/download/2.21.2/EssentialsX-2.21.2.jar",
         "https://github.com/EssentialsX/Essentials/releases/download/2.21.2/EssentialsXSpawn-2.21.2.jar",
         "https://cdn.modrinth.com/data/lKEzGugV/versions/vkuwyUC6/PlaceholderAPI-2.11.6.jar",
+        DISCORDSRV_PLUGIN_URL,
       ],
       rcon: {
         enabled: true,
@@ -98,6 +125,10 @@ export function createMinecraftTsmcApp(chart: Chart) {
         enabled: true,
       },
     },
+    // DiscordSRV configuration via ConfigMap and environment variables
+    extraDeploy: [getDiscordSrvConfigMapManifest(NAMESPACE, "ts-mc.net")],
+    extraVolumes: getDiscordSrvExtraVolumes(NAMESPACE),
+    extraEnv: getDiscordSrvExtraEnv(SECRET_NAME),
   };
 
   // DNS records are now managed by mc-router
@@ -120,6 +151,14 @@ export function createMinecraftTsmcApp(chart: Chart) {
         server: "https://kubernetes.default.svc",
         namespace: "minecraft-tsmc",
       },
+      // Allow mc-router to manage replicas for hibernation
+      ignoreDifferences: [
+        {
+          group: "apps",
+          kind: "StatefulSet",
+          jsonPointers: ["/spec/replicas"],
+        },
+      ],
       syncPolicy: {
         automated: {},
         syncOptions: ["CreateNamespace=true"],
