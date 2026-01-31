@@ -168,6 +168,9 @@ const versions = {
   // Custom caddy-s3proxy image - Caddy with s3proxy plugin for serving static sites from S3
   // not managed by renovate
   "shepherdjerred/caddy-s3proxy": "latest",
+  // Custom openclaw image - updated by CI pipeline
+  // not managed by renovate
+  "shepherdjerred/openclaw": "latest",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];
