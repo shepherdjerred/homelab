@@ -126,7 +126,7 @@ export function createMinecraftTsmcApp(chart: Chart) {
       },
     },
     // DiscordSRV configuration via ConfigMap and environment variables
-    extraDeploy: [getDiscordSrvConfigMapManifest(NAMESPACE, "ts-mc.net")],
+    extraDeploy: [getDiscordSrvConfigMapManifest(NAMESPACE)],
     extraVolumes: getDiscordSrvExtraVolumes(NAMESPACE),
     extraEnv: getDiscordSrvExtraEnv(SECRET_NAME),
   };

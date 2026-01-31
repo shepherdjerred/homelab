@@ -16,73 +16,14 @@
 export const DISCORDSRV_PLUGIN_URL =
   "https://download.discordsrv.com/v2/DiscordSRV/DiscordSRV/release/download/latest/jar";
 
-/**
- * Generates DiscordSRV config.yml with environment variable placeholders.
- * The itzg/minecraft-server container will substitute ${CFG_*} variables at startup.
- */
-export function generateDiscordSrvConfig(options: { serverName: string }): string {
-  return `# DiscordSRV Configuration
-# This config uses environment variable placeholders that are substituted at container startup.
-# See: https://docker-minecraft-server.readthedocs.io/en/latest/configuration/interpolating/
-
-# Bot token from 1Password secret
-BotToken: "\${CFG_DISCORD_BOT_TOKEN}"
-
-# Channel mappings - format: {"in-game-channel": "discord-channel-id"}
-# The first channel is the default for all messages
-Channels: {"global": "\${CFG_DISCORD_CHANNEL_ID}"}
-
-# Console channel for server logs and remote commands (set to empty string to disable)
-DiscordConsoleChannelId: "\${CFG_DISCORD_CONSOLE_CHANNEL_ID}"
-
-# Discord invite link shown to players via /discord command
-DiscordInviteLink: "\${CFG_DISCORD_INVITE_LINK}"
-
-# Enable bidirectional chat
-DiscordChatChannelDiscordToMinecraft: true
-DiscordChatChannelMinecraftToDiscord: true
-
-# Bot status displayed in Discord
-DiscordGameStatus: ["playing on ${options.serverName}"]
-DiscordOnlineStatus: ONLINE
-
-# Require linked accounts for Discord->Minecraft chat (set false for open servers)
-DiscordChatChannelRequireLinkedAccount: false
-
-# Show player count in bot status
-StatusUpdateRateInMinutes: 2
-
-# Join/leave messages
-MinecraftPlayerJoinMessageEnabled: true
-MinecraftPlayerLeaveMessageEnabled: true
-MinecraftPlayerFirstJoinMessageEnabled: true
-
-# Death messages
-MinecraftPlayerDeathMessageEnabled: true
-
-# Achievement messages
-MinecraftPlayerAchievementMessagesEnabled: true
-
-# Console channel settings
-DiscordConsoleChannelLogRefreshRateInSeconds: 5
-DiscordConsoleChannelUsageEnabled: true
-DiscordConsoleChannelBlacklistActsAsWhitelist: false
-DiscordConsoleChannelBlacklistedCommands: ["?", "op", "deop", "ban", "pardon", "ban-ip", "pardon-ip"]
-
-# Experiment: use webhooks for chat messages (shows player heads as avatars)
-Experiment_WebhookChatMessageDelivery: false
-
-# Debug mode (disable in production)
-Debug: false
-DebugJDA: false
-DebugJDARestActions: false
-`;
-}
+// Load the config template from the YAML file at module load time
+const configPath = new URL("discordsrv-config.yml", import.meta.url).pathname;
+const discordSrvConfigTemplate = await Bun.file(configPath).text();
 
 /**
  * Returns the Kubernetes ConfigMap manifest for DiscordSRV config.
  */
-export function getDiscordSrvConfigMapManifest(name: string, serverName: string): object {
+export function getDiscordSrvConfigMapManifest(name: string): object {
   return {
     apiVersion: "v1",
     kind: "ConfigMap",
@@ -90,7 +31,7 @@ export function getDiscordSrvConfigMapManifest(name: string, serverName: string)
       name: `${name}-discordsrv-config`,
     },
     data: {
-      "config.yml": generateDiscordSrvConfig({ serverName }),
+      "config.yml": discordSrvConfigTemplate,
     },
   };
 }
