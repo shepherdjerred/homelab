@@ -98,6 +98,10 @@ export function createMinecraftShuxinApp(chart: Chart) {
         "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot",
         // Floodgate - allows Bedrock players to join with Xbox accounts
         "https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot",
+        // ProtocolLib - packet manipulation library (dependency for some plugins)
+        "https://github.com/dmulloy2/ProtocolLib/releases/download/5.4.0/ProtocolLib.jar",
+        // DecentHolograms - hologram display plugin
+        "https://github.com/DecentSoftware-eu/DecentHolograms/releases/download/2.9.9/DecentHolograms-2.9.9.jar",
       ],
       rcon: {
         enabled: true,

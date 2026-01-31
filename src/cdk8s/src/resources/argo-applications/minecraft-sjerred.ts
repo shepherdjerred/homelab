@@ -83,7 +83,10 @@ export function createMinecraftSjerredApp(chart: Chart) {
       forcegameMode: true,
       // Use ClusterIP - mc-router handles external routing
       serviceType: "ClusterIP",
-      pluginUrls: [DISCORDSRV_PLUGIN_URL],
+      pluginUrls: [
+        DISCORDSRV_PLUGIN_URL,
+        "https://github.com/BlueMap-Minecraft/BlueMap/releases/download/v5.13/bluemap-5.13-paper.jar",
+      ],
       extraPorts: [
         {
           service: {
@@ -114,7 +117,7 @@ export function createMinecraftSjerredApp(chart: Chart) {
       },
     },
     // DiscordSRV configuration via ConfigMap and environment variables
-    extraDeploy: [getDiscordSrvConfigMapManifest(NAMESPACE, "sjer.red")],
+    extraDeploy: [getDiscordSrvConfigMapManifest(NAMESPACE)],
     extraVolumes: getDiscordSrvExtraVolumes(NAMESPACE),
     extraEnv: getDiscordSrvExtraEnv(SECRET_NAME),
   };
