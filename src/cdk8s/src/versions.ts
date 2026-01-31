@@ -24,7 +24,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://quay.io versioning=docker
   "redlib/redlib": "latest@sha256:dffb6c5a22f889d47d8e28e33411db0fb6c5694599f72cf740c912c12f5fc1c6",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
-  "itzg/minecraft-server": "2026.1.2-java21@sha256:223c1135c98683d0af80b4c20b5b566bea5ecc717d01780b610fd8a6839f7e5d",
+  "itzg/minecraft-server": "2026.1.3-java21@sha256:343a0349cfe04c70a95fc5a6d8c50ed69803001af58ba878e58906ca6a87d29c",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=loose
   "plexinc/pms-docker":
     "1.42.2.10156-f737b826c@sha256:9c03c26b9479ba9a09935f3367459bfdc8d21545f42ed2a13258983c5be1b252",
