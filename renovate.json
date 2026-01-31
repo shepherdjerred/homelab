@@ -7,8 +7,8 @@
       "description": "Update versions.ts",
       "managerFilePatterns": ["**/versions.ts"],
       "matchStrings": [
-        "\\/\\/ renovate: datasource=(?<datasource>[0-9a-z-\\.]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?))?\\s*\"(?<packageName>.+?)\":\\s*\"(?<currentValue>.+?)?(?:@(?<currentDigest>.+?))?\"",
-        "\\/\\/ renovate: datasource=(?<datasource>[0-9a-z-\\.]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?))?\\s*(?<packageName>[a-zA-Z0-9_-]+):\\s*\"(?<currentValue>.+?)?(?:@(?<currentDigest>.+?))?\""
+        "\\/\\/ renovate: datasource=(?<datasource>[0-9a-z-\\.]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?)?)?(?: packageName=(?<packageName>[^\\s]+?))?\\s*\"(?<depName>.+?)\":\\s*\"(?<currentValue>.+?)?(?:@(?<currentDigest>.+?))?\"",
+        "\\/\\/ renovate: datasource=(?<datasource>[0-9a-z-\\.]+?)?(?: registryUrl=(?<registryUrl>.*?)?)?(?: versioning=(?<versioning>[a-z-]+?)?)?(?: packageName=(?<packageName>[^\\s]+?))?\\s*(?<depName>[a-zA-Z0-9_-]+):\\s*\"(?<currentValue>.+?)?(?:@(?<currentDigest>.+?))?\""
       ]
     }
   ],
@@ -36,8 +36,22 @@
       "matchPackageNames": ["/^cdk8s/"]
     },
     {
+      "description": "Critical infrastructure - no delay, no automerge",
       "matchPackageNames": ["paper", "siderolabs/talos", "kubernetes/kubernetes"],
-      "automerge": false
+      "automerge": false,
+      "minimumReleaseAge": "0 days"
+    },
+    {
+      "description": "Prod images - no delay, no automerge",
+      "matchPackageNames": ["shepherdjerred/scout-for-lol/prod", "shepherdjerred/starlight-karma-bot/prod"],
+      "automerge": false,
+      "minimumReleaseAge": "0 days"
+    },
+    {
+      "description": "Minecraft - no delay, no automerge",
+      "matchPackageNames": ["itzg/minecraft-server", "minecraft", "mc-router"],
+      "automerge": false,
+      "minimumReleaseAge": "0 days"
     },
     {
       "matchPackageNames": ["ghcr.io/shepherdjerred/dotfiles"],
