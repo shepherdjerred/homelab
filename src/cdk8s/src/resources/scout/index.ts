@@ -64,9 +64,10 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
       key: "riot-api-key",
     }),
     S3_BUCKET_NAME: EnvValue.fromValue(s3BucketName),
-    SENTRY_DSN: EnvValue.fromValue(
-      "https://01aed04320da7d9b8ff25226bc5f3097@o92742.ingest.us.sentry.io/4508388740825088",
-    ),
+    SENTRY_DSN: EnvValue.fromSecretValue({
+      secret: Secret.fromSecretName(chart, "sentry-dsn-secret", onePasswordItem.name),
+      key: "sentry-dsn",
+    }),
     ENVIRONMENT: EnvValue.fromValue(stage),
     DATABASE_URL: EnvValue.fromValue("file:/data/db.sqlite"),
   };

@@ -35,6 +35,8 @@ export const HELM_CHARTS = [
   "s3-static-sites",
   // Kyverno policies (separate to ensure CRDs exist before policies)
   "kyverno-policies",
+  // Bugsink error tracking (Sentry SDK compatible)
+  "bugsink",
 ] as const;
 export type HelmChartName = (typeof HELM_CHARTS)[number];
 

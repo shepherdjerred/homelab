@@ -67,9 +67,10 @@ export function createStarlightKarmaBotDeployment(chart: Chart, stage: Stage) {
         DATA_DIR: EnvValue.fromValue("/data"),
         ENVIRONMENT: EnvValue.fromValue(stage),
         PORT: EnvValue.fromValue("8000"),
-        SENTRY_DSN: EnvValue.fromValue(
-          "https://b9d8d32fe0a4e6943820c45736456ac6@o92742.ingest.us.sentry.io/4510213125832704",
-        ),
+        SENTRY_DSN: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "sentry-dsn-secret", onePasswordItem.name),
+          key: "sentry-dsn",
+        }),
       },
     }),
   );

@@ -21,6 +21,7 @@ import { createS3StaticSitesChart } from "./cdk8s-charts/s3-static-sites.ts";
 import { createKyvernoPoliciesChart } from "./cdk8s-charts/kyverno-policies.ts";
 import { createMcpGatewayChart } from "./cdk8s-charts/mcp-gateway.ts";
 import { createOpenclawChart } from "./cdk8s-charts/openclaw.ts";
+import { createBugsinkChart } from "./cdk8s-charts/bugsink.ts";
 
 /**
  * Sets up all charts for the application
@@ -60,4 +61,5 @@ export async function setupCharts(app: App): Promise<void> {
   createGrafanaDbChart(app);
   await createMcpGatewayChart(app);
   createOpenclawChart(app);
+  createBugsinkChart(app);
 }

@@ -35,6 +35,13 @@ export function createVeleroBackupLabelPolicy(chart: Chart) {
                   names: ["pgdata-*"],
                 },
               },
+              {
+                resources: {
+                  kinds: ["PersistentVolumeClaim"],
+                  namespaces: ["bugsink"],
+                  names: ["pgdata-*"],
+                },
+              },
             ],
           },
           mutate: {

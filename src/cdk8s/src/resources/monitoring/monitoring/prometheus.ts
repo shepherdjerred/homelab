@@ -11,6 +11,7 @@ import { getGitckupRuleGroups } from "./rules/gitckup";
 import { getQBitTorrentRuleGroups } from "./rules/qbittorrent";
 import { getStaticSitesRuleGroups } from "./rules/static-sites";
 import { getR2StorageRuleGroups } from "./rules/r2-storage";
+import { getBugsinkRuleGroups } from "./rules/bugsink";
 
 export function createPrometheusMonitoring(chart: Chart) {
   // Create Home Assistant rules
@@ -141,6 +142,18 @@ export function createPrometheusMonitoring(chart: Chart) {
     },
     spec: {
       groups: getR2StorageRuleGroups(),
+    },
+  });
+
+  // Create Bugsink rules
+  new PrometheusRule(chart, "prometheus-bugsink-rules", {
+    metadata: {
+      name: "prometheus-bugsink-rules",
+      namespace: "bugsink",
+      labels: { release: "prometheus" },
+    },
+    spec: {
+      groups: getBugsinkRuleGroups(),
     },
   });
 }
