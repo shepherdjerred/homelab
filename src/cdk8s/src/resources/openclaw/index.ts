@@ -87,6 +87,7 @@ const OPENCLAW_CONFIG = {
       "process", // Arbitrary code execution
       "nodes", // Infrastructure access
       "gateway", // Control plane access - could modify own config
+      "canvas", // A2UI visual canvas - requires node connection
     ],
   },
 };

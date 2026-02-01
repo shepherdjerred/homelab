@@ -352,9 +352,10 @@ export function getMinecraftPluginConfigInitContainer(serverName: ServerName, us
     command: [
       "sh",
       "-c",
-      // Copy plugin configs if they exist
-      // Use find to iterate files and cp each one individually, creating parent dirs as needed
-      `if [ -d /plugin-configs ] && [ "$(ls -A /plugin-configs)" ]; then
+      // 1. Clear /data/config to prevent DirectoryNotEmptyException during itzg sync
+      // 2. Copy plugin configs if they exist
+      `rm -rf /data/config && mkdir -p /data/config
+      if [ -d /plugin-configs ] && [ "$(ls -A /plugin-configs)" ]; then
         cd /plugin-configs && find . -type f | while read f; do
           mkdir -p "/data/plugins/$(dirname "$f")"
           cp "$f" "/data/plugins/$f"
