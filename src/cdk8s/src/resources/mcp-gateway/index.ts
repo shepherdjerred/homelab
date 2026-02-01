@@ -38,13 +38,22 @@ export async function createMcpGatewayDeployment(chart: Chart) {
     },
   });
 
-  // Create 1Password item for API tokens
-  const onePasswordItem = new OnePasswordItem(chart, "mcp-gateway-1p", {
+  // Shared credential items
+  const todoistItem = new OnePasswordItem(chart, "todoist-1p", {
     spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/mcp-gateway",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/todoist",
     },
     metadata: {
-      name: "mcp-gateway",
+      name: "todoist",
+    },
+  });
+
+  const canvasItem = new OnePasswordItem(chart, "canvas-1p", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/canvas",
+    },
+    metadata: {
+      name: "canvas",
     },
   });
 
@@ -90,19 +99,19 @@ export async function createMcpGatewayDeployment(chart: Chart) {
         periodSeconds: Duration.seconds(10),
       }),
       envVariables: {
-        // Canvas configuration
+        // Canvas configuration (shared credential)
         CANVAS_API_TOKEN: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "mcp-gateway-canvas-token-secret", onePasswordItem.name),
-          key: "CANVAS_API_TOKEN",
+          secret: Secret.fromSecretName(chart, "canvas-token-secret", canvasItem.name),
+          key: "api-token",
         }),
         CANVAS_BASE_URL: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "mcp-gateway-canvas-url-secret", onePasswordItem.name),
-          key: "CANVAS_BASE_URL",
+          secret: Secret.fromSecretName(chart, "canvas-url-secret", canvasItem.name),
+          key: "base-url",
         }),
-        // Todoist configuration
+        // Todoist configuration (shared credential)
         TODOIST_API_KEY: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "mcp-gateway-todoist-key-secret", onePasswordItem.name),
-          key: "TODOIST_API_KEY",
+          secret: Secret.fromSecretName(chart, "todoist-secret", todoistItem.name),
+          key: "api-key",
         }),
       },
       volumeMounts: [

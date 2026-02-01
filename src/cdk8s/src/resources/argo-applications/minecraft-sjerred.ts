@@ -13,9 +13,10 @@ import {
   getDiscordSrvExtraEnv,
 } from "../../misc/discordsrv-config.ts";
 import {
-  getMinecraftConfigMapManifest,
+  getMinecraftConfigMapManifests,
   getMinecraftExtraVolumes,
   getMinecraftExtraEnv,
+  getMinecraftPluginConfigInitContainer,
 } from "../../misc/minecraft-config.ts";
 
 const NAMESPACE = "minecraft-sjerred";
@@ -121,7 +122,7 @@ export function createMinecraftSjerredApp(chart: Chart) {
       },
     },
     // Deploy ConfigMaps for server configs and DiscordSRV
-    extraDeploy: [getMinecraftConfigMapManifest("sjerred", NAMESPACE), getDiscordSrvConfigMapManifest(NAMESPACE)],
+    extraDeploy: [...getMinecraftConfigMapManifests("sjerred", NAMESPACE), getDiscordSrvConfigMapManifest(NAMESPACE)],
 
     // Mount configs to /config (itzg syncs to /data on startup)
     extraVolumes: [...getMinecraftExtraVolumes("sjerred", NAMESPACE), ...getDiscordSrvExtraVolumes(NAMESPACE)],
@@ -131,6 +132,9 @@ export function createMinecraftSjerredApp(chart: Chart) {
       ...getMinecraftExtraEnv(),
       ...getDiscordSrvExtraEnv(SECRET_NAME),
     },
+
+    // Init container to copy plugin configs (bypasses itzg sync which fails with DirectoryNotEmptyException)
+    initContainers: [getMinecraftPluginConfigInitContainer("sjerred")],
   };
 
   // DNS records are now managed by mc-router

@@ -225,17 +225,17 @@ export function createExternalDomainsChart(app: App) {
     },
     spec: {
       endpoints: [
-        // SPF record for FastMail
+        // SPF record for FastMail (~all = softfail for unauthorized senders)
         {
           dnsName: "shepherdjerred.com",
           recordType: "TXT",
-          targets: ["v=spf1 include:spf.messagingengine.com ?all"],
+          targets: ["v=spf1 include:spf.messagingengine.com ~all"],
         },
-        // DMARC policy
+        // DMARC policy (quarantine unauthorized mail)
         {
           dnsName: "_dmarc.shepherdjerred.com",
           recordType: "TXT",
-          targets: ["v=DMARC1; p=none; rua=mailto:jerred@shepherdjerred.com"],
+          targets: ["v=DMARC1; p=quarantine; rua=mailto:jerred@shepherdjerred.com"],
         },
       ],
     },
@@ -329,9 +329,10 @@ export function createExternalDomainsChart(app: App) {
     },
   });
 
-  // sjer.red - email via Postal (accepts email)
-  // Note: SPF includes both Postal (via rp.sjer.red) and FastMail for flexibility
-  // The rp.sjer.red CNAME is managed in postal.ts
+  // sjer.red - email setup:
+  // - Send: FastMail (directly) and Postal (relays through FastMail)
+  // - Receive: FastMail
+  // - Return-path: rp.sjer.red (for Postal bounce handling)
   new DnsEndpoint(chart, "sjer-red-txt", {
     metadata: {
       name: "sjer-red-txt",
@@ -339,15 +340,46 @@ export function createExternalDomainsChart(app: App) {
     },
     spec: {
       endpoints: [
+        // SPF: FastMail + Postal return-path
         {
           dnsName: "sjer.red",
           recordType: "TXT",
-          targets: ["v=spf1 include:spf.messagingengine.com include:rp.sjer.red ?all"],
+          targets: ["v=spf1 include:spf.messagingengine.com include:rp.sjer.red ~all"],
         },
+        // SPF for return-path subdomain (Postal uses rp.sjer.red for envelope sender)
+        {
+          dnsName: "rp.sjer.red",
+          recordType: "TXT",
+          targets: ["v=spf1 include:spf.messagingengine.com ~all"],
+        },
+        // DMARC policy (quarantine unauthorized mail)
         {
           dnsName: "_dmarc.sjer.red",
           recordType: "TXT",
-          targets: ["v=DMARC1; p=none; rua=mailto:jerred@shepherdjerred.com"],
+          targets: ["v=DMARC1; p=quarantine; rua=mailto:dmarc@sjer.red"],
+        },
+      ],
+    },
+  });
+
+  // sjer.red MX records for receiving email (FastMail)
+  new DnsEndpoint(chart, "sjer-red-mx", {
+    metadata: {
+      name: "sjer-red-mx",
+      namespace: "external-dns",
+    },
+    spec: {
+      endpoints: [
+        {
+          dnsName: "sjer.red",
+          recordType: "MX",
+          targets: ["10 in1-smtp.messagingengine.com", "20 in2-smtp.messagingengine.com"],
+        },
+        // MX for rp subdomain to receive bounces at FastMail
+        {
+          dnsName: "rp.sjer.red",
+          recordType: "MX",
+          targets: ["10 in1-smtp.messagingengine.com", "20 in2-smtp.messagingengine.com"],
         },
       ],
     },

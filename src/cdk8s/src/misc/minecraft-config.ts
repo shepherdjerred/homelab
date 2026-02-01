@@ -97,7 +97,8 @@ function getConfigs(serverName: ServerName): Record<string, string> {
 }
 
 /**
- * Returns ConfigMap manifest with all server configs.
+ * Returns ConfigMap manifest with all server configs in a single ConfigMap.
+ * @deprecated Use getMinecraftConfigMapManifests for large configs to avoid Application size limits
  */
 export function getMinecraftConfigMapManifest(serverName: ServerName, namespace: string): object {
   return {
@@ -113,26 +114,102 @@ export function getMinecraftConfigMapManifest(serverName: ServerName, namespace:
 }
 
 /**
- * Returns extraVolumes array for mounting configs to /config.
- * Uses ConfigMap items to restore original directory structure.
+ * Returns multiple ConfigMap manifests, split to avoid ArgoCD Application size limits.
+ * - One ConfigMap for non-plugin configs (server.properties, bukkit.yml, etc)
+ * - One ConfigMap per plugin directory
  */
-export function getMinecraftExtraVolumes(serverName: ServerName, namespace: string): object[] {
+export function getMinecraftConfigMapManifests(serverName: ServerName, namespace: string): object[] {
   const configs = getConfigs(serverName);
+  const configMaps: object[] = [];
 
-  // Map flattened keys back to original paths
-  const items = Object.keys(configs).map((key) => ({
-    key,
-    path: key.replaceAll("__", "/"), // Restore slashes from double underscore
-  }));
+  // Separate plugin configs from non-plugin configs
+  const nonPluginConfigs: Record<string, string> = {};
+  const pluginConfigs = new Map<string, Record<string, string>>();
 
-  return [
-    {
+  for (const [key, value] of Object.entries(configs)) {
+    if (key.startsWith("plugins__")) {
+      // Extract plugin name (e.g., "plugins__BlueMap__core.conf" -> "BlueMap")
+      const parts = key.split("__");
+      const pluginName = parts[1];
+      if (pluginName) {
+        const existing = pluginConfigs.get(pluginName) ?? {};
+        existing[key] = value;
+        pluginConfigs.set(pluginName, existing);
+      }
+    } else {
+      nonPluginConfigs[key] = value;
+    }
+  }
+
+  // ConfigMap for non-plugin configs
+  if (Object.keys(nonPluginConfigs).length > 0) {
+    configMaps.push({
+      apiVersion: "v1",
+      kind: "ConfigMap",
+      metadata: {
+        name: `${namespace}-server-configs`,
+        labels: { "app.kubernetes.io/component": "minecraft-config" },
+      },
+      data: nonPluginConfigs,
+    });
+  }
+
+  // One ConfigMap per plugin
+  for (const [pluginName, pluginData] of pluginConfigs) {
+    configMaps.push({
+      apiVersion: "v1",
+      kind: "ConfigMap",
+      metadata: {
+        name: `${namespace}-plugin-${pluginName.toLowerCase()}`,
+        labels: {
+          "app.kubernetes.io/component": "minecraft-config",
+          "app.kubernetes.io/plugin": pluginName,
+        },
+      },
+      data: pluginData,
+    });
+  }
+
+  return configMaps;
+}
+
+/**
+ * Returns extraVolumes array for mounting configs.
+ * - Non-plugin configs go to /config (synced to /data by itzg)
+ * - Plugin configs go to /plugin-configs (copied by init container to /data/plugins)
+ *
+ * @param useSplitConfigMaps - If true, references split ConfigMaps (one per plugin). Default false.
+ */
+export function getMinecraftExtraVolumes(
+  serverName: ServerName,
+  namespace: string,
+  useSplitConfigMaps = false,
+): object[] {
+  const configs = getConfigs(serverName);
+  const configKeys = Object.keys(configs);
+
+  // Separate plugin configs from other configs
+  const pluginKeys = configKeys.filter((key) => key.startsWith("plugins__"));
+  const nonPluginKeys = configKeys.filter((key) => !key.startsWith("plugins__"));
+
+  const volumes: object[] = [];
+
+  // Non-plugin configs mount to /config (itzg syncs to /data)
+  if (nonPluginKeys.length > 0) {
+    const nonPluginItems = nonPluginKeys.map((key) => ({
+      key,
+      path: key.replaceAll("__", "/"),
+    }));
+
+    const configMapName = useSplitConfigMaps ? `${namespace}-server-configs` : `${namespace}-configs`;
+
+    volumes.push({
       volumes: [
         {
           name: `${serverName}-configs`,
           configMap: {
-            name: `${namespace}-configs`,
-            items, // Use items to restore directory structure
+            name: configMapName,
+            items: nonPluginItems,
           },
         },
       ],
@@ -143,8 +220,149 @@ export function getMinecraftExtraVolumes(serverName: ServerName, namespace: stri
           readOnly: true,
         },
       ],
+    });
+  }
+
+  // Plugin configs mount to /plugin-configs (init container copies to /data/plugins)
+  if (pluginKeys.length > 0) {
+    if (useSplitConfigMaps) {
+      // Group keys by plugin name and create one volume per plugin
+      const pluginGroups = new Map<string, string[]>();
+      for (const key of pluginKeys) {
+        const parts = key.split("__");
+        const pluginName = parts[1];
+        if (pluginName) {
+          const existing = pluginGroups.get(pluginName) ?? [];
+          existing.push(key);
+          pluginGroups.set(pluginName, existing);
+        }
+      }
+
+      const allVolumes: object[] = [];
+      const allMounts: object[] = [];
+
+      for (const [pluginName, keys] of pluginGroups) {
+        const volumeName = `plugin-${pluginName.toLowerCase()}`;
+        const configMapName = `${namespace}-plugin-${pluginName.toLowerCase()}`;
+
+        allVolumes.push({
+          name: volumeName,
+          configMap: {
+            name: configMapName,
+            items: keys.map((key) => ({
+              key,
+              // Remove "plugins__PluginName__" prefix and restore slashes
+              path: key.replace(/^plugins__[^_]+__/, "").replaceAll("__", "/"),
+            })),
+          },
+        });
+
+        allMounts.push({
+          name: volumeName,
+          mountPath: `/plugin-configs/${pluginName}`,
+          readOnly: true,
+        });
+      }
+
+      volumes.push({
+        volumes: allVolumes,
+        volumeMounts: allMounts,
+      });
+    } else {
+      // Single ConfigMap for all plugins
+      const pluginItems = pluginKeys.map((key) => ({
+        key,
+        path: key.replace(/^plugins__/, "").replaceAll("__", "/"),
+      }));
+
+      volumes.push({
+        volumes: [
+          {
+            name: `${serverName}-plugin-configs`,
+            configMap: {
+              name: `${namespace}-configs`,
+              items: pluginItems,
+            },
+          },
+        ],
+        volumeMounts: [
+          {
+            name: `${serverName}-plugin-configs`,
+            mountPath: "/plugin-configs",
+            readOnly: true,
+          },
+        ],
+      });
+    }
+  }
+
+  return volumes;
+}
+
+/**
+ * Returns init container that copies plugin configs from /plugin-configs to /data/plugins.
+ * This bypasses itzg's /config sync which fails with DirectoryNotEmptyException when
+ * /data/plugins already contains downloaded plugin JARs.
+ *
+ * Uses find + cp to copy individual files, merging into existing directories.
+ *
+ * @param useSplitConfigMaps - If true, expects split volume mounts (one per plugin). Default false.
+ */
+export function getMinecraftPluginConfigInitContainer(serverName: ServerName, useSplitConfigMaps = false): object {
+  const configs = getConfigs(serverName);
+  const pluginKeys = Object.keys(configs).filter((key) => key.startsWith("plugins__"));
+
+  // Build volume mounts based on split or unified ConfigMaps
+  const volumeMounts: object[] = [
+    {
+      name: "datadir",
+      mountPath: "/data",
     },
   ];
+
+  if (useSplitConfigMaps) {
+    // Get unique plugin names
+    const pluginNames = new Set<string>();
+    for (const key of pluginKeys) {
+      const parts = key.split("__");
+      const pluginName = parts[1];
+      if (pluginName) {
+        pluginNames.add(pluginName);
+      }
+    }
+
+    for (const pluginName of pluginNames) {
+      volumeMounts.push({
+        name: `plugin-${pluginName.toLowerCase()}`,
+        mountPath: `/plugin-configs/${pluginName}`,
+        readOnly: true,
+      });
+    }
+  } else {
+    volumeMounts.push({
+      name: `${serverName}-plugin-configs`,
+      mountPath: "/plugin-configs",
+      readOnly: true,
+    });
+  }
+
+  return {
+    name: "copy-plugin-configs",
+    image: "busybox:latest",
+    command: [
+      "sh",
+      "-c",
+      // Copy plugin configs if they exist
+      // Use find to iterate files and cp each one individually, creating parent dirs as needed
+      `if [ -d /plugin-configs ] && [ "$(ls -A /plugin-configs)" ]; then
+        cd /plugin-configs && find . -type f | while read f; do
+          mkdir -p "/data/plugins/$(dirname "$f")"
+          cp "$f" "/data/plugins/$f"
+        done
+      fi`,
+    ],
+    volumeMounts,
+  };
 }
 
 /**

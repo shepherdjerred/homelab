@@ -36,10 +36,18 @@ const OPENCLAW_CONFIG = {
     discord: {
       enabled: true,
       token: "${DISCORD_BOT_TOKEN}",
+      groupPolicy: "allowlist",
       dm: {
         enabled: true,
         policy: "allowlist",
         allowFrom: ["160509172704739328"],
+      },
+      guilds: {
+        "1092210479755178054": {
+          slug: "main",
+          requireMention: true,
+          channels: {},
+        },
       },
     },
   },
@@ -56,10 +64,24 @@ const OPENCLAW_CONFIG = {
       sonos: { enabled: true },
       browser: { enabled: true },
       weather: { enabled: true },
+      canvas: { enabled: true },
     },
   },
-  // Tool deny list - block dangerous tools
+  // Tool configuration
   tools: {
+    web: {
+      search: {
+        enabled: true,
+        provider: "brave",
+        apiKey: "${BRAVE_API_KEY}",
+        maxResults: 5,
+      },
+      fetch: {
+        enabled: true,
+        maxChars: 50000,
+        timeoutSeconds: 30,
+      },
+    },
     deny: [
       "exec", // Broken approval flow + secret exfiltration risk
       "process", // Arbitrary code execution
@@ -80,6 +102,24 @@ export function createOpenclawDeployment(chart: Chart) {
     },
     metadata: {
       name: "openclaw",
+    },
+  });
+
+  const todoistItem = new OnePasswordItem(chart, "todoist-1p", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/todoist",
+    },
+    metadata: {
+      name: "todoist",
+    },
+  });
+
+  const canvasItem = new OnePasswordItem(chart, "canvas-1p", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/canvas",
+    },
+    metadata: {
+      name: "canvas",
     },
   });
 
@@ -130,7 +170,7 @@ export function createOpenclawDeployment(chart: Chart) {
   // fsGroup handles ownership, so no chown needed
   deployment.addInitContainer({
     name: "init-config",
-    image: "busybox:latest",
+    image: `library/busybox:${versions["library/busybox"]}`,
     command: ["sh", "-c", "cp /config-template/openclaw.json /data/openclaw.json"],
     securityContext: {
       user: UID,
@@ -177,6 +217,34 @@ export function createOpenclawDeployment(chart: Chart) {
         OPENCLAW_GATEWAY_TOKEN: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "openclaw-gateway-token-secret", onePasswordItem.name),
           key: "gateway-token",
+        }),
+        TODOIST_API_KEY: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "todoist-secret", todoistItem.name),
+          key: "api-key",
+        }),
+        FASTMAIL_TOKEN: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "openclaw-fastmail-secret", onePasswordItem.name),
+          key: "fastmail-token",
+        }),
+        GMAIL_TOKEN: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "openclaw-gmail-secret", onePasswordItem.name),
+          key: "gmail-token",
+        }),
+        HOMEASSISTANT_TOKEN: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "openclaw-homeassistant-secret", onePasswordItem.name),
+          key: "homeassistant-token",
+        }),
+        CANVAS_API_TOKEN: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "canvas-token-secret", canvasItem.name),
+          key: "api-token",
+        }),
+        CANVAS_BASE_URL: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "canvas-url-secret", canvasItem.name),
+          key: "base-url",
+        }),
+        BRAVE_API_KEY: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "openclaw-brave-secret", onePasswordItem.name),
+          key: "brave-api-key",
         }),
       },
       volumeMounts: [{ path: "/data", volume: dataVol }],

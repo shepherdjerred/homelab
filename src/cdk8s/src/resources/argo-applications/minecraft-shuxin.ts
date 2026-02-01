@@ -6,7 +6,7 @@ import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
 import {
-  getMinecraftConfigMapManifest,
+  getMinecraftConfigMapManifests,
   getMinecraftExtraVolumes,
   getMinecraftExtraEnv,
 } from "../../misc/minecraft-config.ts";
@@ -124,8 +124,8 @@ export function createMinecraftShuxinApp(chart: Chart) {
         enabled: true,
       },
     },
-    // Deploy ConfigMap for server configs
-    extraDeploy: [getMinecraftConfigMapManifest("shuxin", NAMESPACE)],
+    // Deploy ConfigMaps for server configs
+    extraDeploy: [...getMinecraftConfigMapManifests("shuxin", NAMESPACE)],
 
     // Mount configs to /config (itzg syncs to /data on startup)
     extraVolumes: getMinecraftExtraVolumes("shuxin", NAMESPACE),
