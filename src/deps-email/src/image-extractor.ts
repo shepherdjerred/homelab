@@ -126,24 +126,32 @@ async function renderHelmTemplate(
       stdout: "pipe",
       stderr: "pipe",
     });
-    await addProc.exited;
+    const addExitCode = await addProc.exited;
+    if (addExitCode !== 0) {
+      const stderr = await new Response(addProc.stderr).text();
+      throw new Error(`helm repo add failed: ${stderr}`);
+    }
 
     // Update repo
     const updateProc = Bun.spawn(["helm", "repo", "update", repoName], {
       stdout: "pipe",
       stderr: "pipe",
     });
-    await updateProc.exited;
+    const updateExitCode = await updateProc.exited;
+    if (updateExitCode !== 0) {
+      const stderr = await new Response(updateProc.stderr).text();
+      throw new Error(`helm repo update failed: ${stderr}`);
+    }
 
     // Build helm template command
-    // Use --dry-run and --no-hooks to avoid failures from missing CRDs/resources
+    // Use --dry-run=client and --no-hooks to avoid failures from missing CRDs/resources
     const templateArgs = [
       "template",
       "release-name",
       `${repoName}/${chartName}`,
       "--version",
       version,
-      "--dry-run",
+      "--dry-run=client",
       "--no-hooks",
     ];
 
