@@ -165,17 +165,17 @@ echo "Database URL built successfully"
           limit: Size.gibibytes(1),
         },
       },
-      liveness: Probe.fromHttpGet("/health/ready", {
+      liveness: Probe.fromTcpSocket({
         port: 8000,
         initialDelaySeconds: Duration.seconds(10),
         periodSeconds: Duration.seconds(30),
       }),
-      readiness: Probe.fromHttpGet("/health/ready", {
+      readiness: Probe.fromTcpSocket({
         port: 8000,
         initialDelaySeconds: Duration.seconds(5),
         periodSeconds: Duration.seconds(10),
       }),
-      startup: Probe.fromHttpGet("/health/ready", {
+      startup: Probe.fromTcpSocket({
         port: 8000,
         // Django migrations can be slow - allow up to 5 minutes
         failureThreshold: 30,
