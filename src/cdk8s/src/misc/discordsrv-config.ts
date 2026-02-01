@@ -53,7 +53,7 @@ export function getDiscordSrvExtraVolumes(name: string): object[] {
       volumeMounts: [
         {
           name: "discordsrv-config",
-          mountPath: "/data/plugins/DiscordSRV/config.yml",
+          mountPath: "/config/plugins/DiscordSRV/config.yml",
           subPath: "config.yml",
         },
       ],
