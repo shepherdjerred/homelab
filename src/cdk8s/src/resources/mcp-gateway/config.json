@@ -1,4 +1,9 @@
 {
+  "mcpProxy": {
+    "addr": ":9090",
+    "name": "MCP Gateway",
+    "version": "1.0.0"
+  },
   "mcpServers": {
     "canvas": {
       "command": "npx",

@@ -66,9 +66,14 @@ export function createBugsinkPostgreSQLDatabase(chart: Chart) {
           "data-checksums": "true",
         },
         pgHba: [
-          // Use SCRAM-SHA-256 authentication only, no trust
+          // Local connections for postgres superuser (required for Patroni management)
+          "local all postgres peer",
+          "local all all peer",
+          // Use SCRAM-SHA-256 authentication for remote connections
+          "hostssl all postgres all scram-sha-256",
           "hostssl bugsink_db bugsink all scram-sha-256",
           "hostssl replication standby all scram-sha-256",
+          "host all postgres all scram-sha-256",
           "host bugsink_db bugsink all scram-sha-256",
           "host replication standby all scram-sha-256",
         ],
