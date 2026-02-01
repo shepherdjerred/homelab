@@ -17,6 +17,61 @@ import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 import versions from "../../versions.ts";
 import type { PostalMariaDB } from "../../resources/postgres/postal-mariadb.ts";
 
+// Patched SMTPClient::Server to handle localhost and IP addresses
+// Bug: Postal's DNSResolver only does DNS lookups, not /etc/hosts
+// This causes localhost-based SMTP relays to fail with "No hosts to try"
+const PATCHED_SMTP_CLIENT_SERVER = `# frozen_string_literal: true
+
+module SMTPClient
+  class Server
+
+    attr_reader :hostname
+    attr_reader :port
+    attr_accessor :ssl_mode
+
+    def initialize(hostname, port: 25, ssl_mode: SSLModes::AUTO)
+      @hostname = hostname
+      @port = port
+      @ssl_mode = ssl_mode
+    end
+
+    # Return all IP addresses for this server by resolving its hostname.
+    # IPv6 addresses will be returned first.
+    #
+    # PATCHED: Handle localhost and IP addresses directly without DNS resolution
+    #
+    # @return [Array<SMTPClient::Endpoint>]
+    def endpoints
+      ips = []
+
+      # Handle localhost specially - DNS won't resolve it
+      if @hostname == "localhost"
+        ips << Endpoint.new(self, "127.0.0.1")
+        return ips
+      end
+
+      # Handle IP addresses directly (IPv4 and IPv6)
+      if @hostname =~ /^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}$/ || @hostname.include?(":")
+        ips << Endpoint.new(self, @hostname)
+        return ips
+      end
+
+      # Standard DNS resolution for regular hostnames
+      DNSResolver.local.aaaa(@hostname).each do |ip|
+        ips << Endpoint.new(self, ip)
+      end
+
+      DNSResolver.local.a(@hostname).each do |ip|
+        ips << Endpoint.new(self, ip)
+      end
+
+      ips
+    end
+
+  end
+end
+`;
+
 // Patched smtp_sender.rb to fix SMTP relay bug in Postal 3.1.1
 // Bug: SMTPClient::Server.new was called with positional args instead of keyword args
 // Bug: The .map result wasn't assigned, so relays were never actually used
@@ -253,10 +308,11 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
   // Reference the MariaDB credentials secret
   const mariadbSecret = Secret.fromSecretName(chart, "mariadb-secret", props.mariadb.secretItem.name);
 
-  // ConfigMap with patched smtp_sender.rb to fix SMTP relay bug in Postal 3.1.1
+  // ConfigMap with patched Ruby files to fix SMTP relay bugs
   const smtpSenderPatch = new ConfigMap(chart, "postal-smtp-sender-patch", {
     data: {
       "smtp_sender.rb": PATCHED_SMTP_SENDER,
+      "server.rb": PATCHED_SMTP_CLIENT_SERVER,
     },
   });
 
@@ -290,6 +346,10 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
 
     // SMTP server hostname (for outbound mail identification)
     POSTAL_SMTP_HOSTNAME: EnvValue.fromValue("postal.tailnet-1a49.ts.net"),
+
+    // Return path domain for bounce handling
+    // This fixes Gmail delivery issues caused by default "postal.example.com" placeholder
+    DNS_RETURN_PATH_DOMAIN: EnvValue.fromValue("rp.sjer.red"),
 
     // Rails secret key for session encryption
     RAILS_SECRET_KEY: EnvValue.fromSecretValue({
@@ -439,18 +499,27 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
         ensureNonRoot: true,
         readOnlyRootFilesystem: false,
       },
-      volumeMounts: [
-        {
-          path: "/opt/postal/data",
-          volume: Volume.fromPersistentVolumeClaim(chart, "postal-data-volume-worker", postalVolume.claim),
-        },
-        {
-          // Mount patched smtp_sender.rb to fix SMTP relay bug in Postal 3.1.1
-          path: "/opt/postal/app/app/senders/smtp_sender.rb",
-          subPath: "smtp_sender.rb",
-          volume: Volume.fromConfigMap(chart, "smtp-sender-patch-volume", smtpSenderPatch),
-        },
-      ],
+      volumeMounts: (() => {
+        const patchVolume = Volume.fromConfigMap(chart, "postal-patches-volume", smtpSenderPatch);
+        return [
+          {
+            path: "/opt/postal/data",
+            volume: Volume.fromPersistentVolumeClaim(chart, "postal-data-volume-worker", postalVolume.claim),
+          },
+          {
+            // Mount patched smtp_sender.rb to fix SMTP relay bug in Postal 3.1.1
+            path: "/opt/postal/app/app/senders/smtp_sender.rb",
+            subPath: "smtp_sender.rb",
+            volume: patchVolume,
+          },
+          {
+            // Mount patched server.rb to fix localhost resolution for SMTP relays
+            path: "/opt/postal/app/app/lib/smtp_client/server.rb",
+            subPath: "server.rb",
+            volume: patchVolume,
+          },
+        ];
+      })(),
       resources: {
         cpu: {
           request: Cpu.millis(250),

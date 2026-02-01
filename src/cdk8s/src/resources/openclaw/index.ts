@@ -8,30 +8,38 @@ import { withCommonProps } from "../../misc/common.ts";
 import versions from "../../versions.ts";
 
 const OPENCLAW_CONFIG = {
-  // Use singular "agent" based on official examples
-  agent: {
-    model: {
-      primary: "anthropic/claude-opus-4-5",
-    },
-    workspace: "/data/workspace",
-  },
-  // Sandbox OFF - k8s pod is isolation, but see security notes
+  // Agent defaults - model, workspace, sandbox settings
   agents: {
     defaults: {
-      sandbox: { mode: "off" },
+      model: {
+        primary: "anthropic/claude-opus-4-5",
+      },
+      workspace: "/data/workspace",
+      sandbox: { mode: "off" }, // k8s pod provides isolation
     },
   },
   gateway: {
     port: 18789,
+    mode: "local",
+    trustedProxies: ["10.244.0.0/16"], // Trust pod network for Tailscale ingress
+    auth: {
+      mode: "token",
+      token: "${OPENCLAW_GATEWAY_TOKEN}",
+      allowTailscale: true, // Accept Tailscale Serve identity headers
+    },
+    controlUi: {
+      allowInsecureAuth: true, // Allow token-only auth without device pairing (behind Tailscale)
+    },
   },
-  // Discord config - note nested dm object
+  // Discord config - token via env var substitution
   channels: {
     discord: {
-      // token from DISCORD_BOT_TOKEN env var
+      enabled: true,
+      token: "${DISCORD_BOT_TOKEN}",
       dm: {
         enabled: true,
         policy: "allowlist",
-        // allowFrom populated from env
+        allowFrom: ["160509172704739328"],
       },
     },
   },
@@ -39,17 +47,24 @@ const OPENCLAW_CONFIG = {
   skills: {
     entries: {
       github: { enabled: true },
+      todoist: { enabled: true },
+      fastmail: { enabled: true },
+      gmail: { enabled: true },
+      homeassistant: { enabled: true },
+      imessage: { enabled: true },
+      obsidian: { enabled: true },
+      sonos: { enabled: true },
+      browser: { enabled: true },
+      weather: { enabled: true },
     },
   },
-  // CRITICAL: Strict tool deny list due to broken exec approvals
+  // Tool deny list - block dangerous tools
   tools: {
     deny: [
-      "exec", // BROKEN approval flow - deny completely
-      "process", // Similar risks
-      "cron", // Persistent backdoors
+      "exec", // Broken approval flow + secret exfiltration risk
+      "process", // Arbitrary code execution
       "nodes", // Infrastructure access
-      "canvas", // Unknown attack surface
-      "gateway", // Control plane access
+      "gateway", // Control plane access - could modify own config
     ],
   },
 };
@@ -107,10 +122,32 @@ export function createOpenclawDeployment(chart: Chart) {
     },
   });
 
+  // Create volumes once to share between init and main containers
+  const dataVol = Volume.fromPersistentVolumeClaim(chart, "openclaw-data-vol", dataVolume.claim);
+  const configVol = Volume.fromConfigMap(chart, "openclaw-config-vol", configMap);
+
+  // Init container to copy config from ConfigMap to writable location (always overwrites)
+  // fsGroup handles ownership, so no chown needed
+  deployment.addInitContainer({
+    name: "init-config",
+    image: "busybox:latest",
+    command: ["sh", "-c", "cp /config-template/openclaw.json /data/openclaw.json"],
+    securityContext: {
+      user: UID,
+      group: GID,
+      ensureNonRoot: true,
+    },
+    volumeMounts: [
+      { path: "/data", volume: dataVol },
+      { path: "/config-template", volume: configVol },
+    ],
+  });
+
   deployment.addContainer(
     withCommonProps({
       name: "openclaw",
       image: `ghcr.io/shepherdjerred/openclaw:${versions["shepherdjerred/openclaw"]}`,
+      args: ["gateway", "--bind", "lan"],
       ports: [{ number: 18789, name: "http" }],
       securityContext: {
         user: UID,
@@ -124,6 +161,7 @@ export function createOpenclawDeployment(chart: Chart) {
         memory: { request: Size.gibibytes(1), limit: Size.gibibytes(4) },
       },
       envVariables: {
+        OPENCLAW_STATE_DIR: EnvValue.fromValue("/data"),
         ANTHROPIC_API_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "openclaw-anthropic-key-secret", onePasswordItem.name),
           key: "anthropic-api-key",
@@ -141,17 +179,7 @@ export function createOpenclawDeployment(chart: Chart) {
           key: "gateway-token",
         }),
       },
-      volumeMounts: [
-        {
-          path: "/data",
-          volume: Volume.fromPersistentVolumeClaim(chart, "openclaw-data-vol", dataVolume.claim),
-        },
-        {
-          path: "/home/node/.openclaw/openclaw.json",
-          subPath: "openclaw.json",
-          volume: Volume.fromConfigMap(chart, "openclaw-config-vol", configMap),
-        },
-      ],
+      volumeMounts: [{ path: "/data", volume: dataVol }],
     }),
   );
 

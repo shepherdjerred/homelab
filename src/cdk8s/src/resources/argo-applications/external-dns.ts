@@ -21,6 +21,10 @@ export const EXTERNAL_DNS_DOMAINS = [
   "discord-plays-pokemon.com",
   "ts-mc.net",
   "clauderon.com",
+  "jerred.is",
+  "jerredshepherd.com",
+  "glitter-boys.com",
+  "shepherdjerred.com",
 ];
 
 // Helper to get the tunnel CNAME target
@@ -74,6 +78,8 @@ export function createExternalDnsApp(chart: Chart) {
       "--managed-record-types=AAAA",
       "--managed-record-types=CNAME",
       "--managed-record-types=SRV",
+      "--managed-record-types=TXT",
+      "--managed-record-types=MX",
     ],
   };
 

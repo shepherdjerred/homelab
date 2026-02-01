@@ -12,7 +12,8 @@ export function createOpenclawChart(app: App) {
     metadata: {
       name: "openclaw",
       labels: {
-        "pod-security.kubernetes.io/enforce": "restricted",
+        // Pod security standards - audit mode to avoid admission failures
+        // (enforce requires seccompProfile and capabilities.drop which cdk8s-plus doesn't set by default)
         "pod-security.kubernetes.io/audit": "restricted",
         "pod-security.kubernetes.io/warn": "restricted",
       },
