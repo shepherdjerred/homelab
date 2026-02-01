@@ -270,7 +270,7 @@ echo "Database URL built successfully"
   // Cloudflare Tunnel for public access
   createCloudflareTunnelBinding(chart, "bugsink-cf-tunnel", {
     serviceName: service.name,
-    fqdn: "bugsink.shepherdjerred.com",
+    fqdn: "bugsink.sjer.red",
   });
 
   return { deployment, service };
