@@ -86,7 +86,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver packageName=shepherdjerred/scout-for-lol
   "shepherdjerred/scout-for-lol/prod": "1.0.230",
   // not managed by renovate
-  "shepherdjerred/starlight-karma-bot/beta": "1.0.28",
+  "shepherdjerred/starlight-karma-bot/beta": "1.0.29",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver packageName=shepherdjerred/starlight-karma-bot
   "shepherdjerred/starlight-karma-bot/prod": "1.0.13",
   // not managed by renovate
