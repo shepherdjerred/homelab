@@ -128,9 +128,12 @@ echo "Database URL built successfully"
           key: "secret-key",
         }),
         DEBUG: EnvValue.fromValue("False"),
+        ALLOWED_HOSTS: EnvValue.fromValue(
+          "bugsink.shepherdjerred.com,bugsink.sjer.red,bugsink.tailnet-1a49.ts.net,localhost,127.0.0.1",
+        ),
 
         // URL configuration
-        BASE_URL: EnvValue.fromValue("https://bugsink.shepherdjerred.com"),
+        BASE_URL: EnvValue.fromValue("https://bugsink.sjer.red"),
 
         // Proxy configuration
         BEHIND_HTTPS_PROXY: EnvValue.fromValue("True"),
