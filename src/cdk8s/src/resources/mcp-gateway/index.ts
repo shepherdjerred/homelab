@@ -78,13 +78,13 @@ export async function createMcpGatewayDeployment(chart: Chart) {
           limit: Cpu.millis(500),
         },
       },
-      liveness: Probe.fromHttpGet("/api/status", {
+      liveness: Probe.fromTcpSocket({
         port: 9090,
         initialDelaySeconds: Duration.seconds(30),
         periodSeconds: Duration.seconds(30),
         failureThreshold: 3,
       }),
-      readiness: Probe.fromHttpGet("/api/status", {
+      readiness: Probe.fromTcpSocket({
         port: 9090,
         initialDelaySeconds: Duration.seconds(10),
         periodSeconds: Duration.seconds(10),
