@@ -5,6 +5,13 @@ import { createIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import { NVME_STORAGE_CLASS } from "../../misc/storage-classes.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
+import {
+  getMinecraftConfigMapManifest,
+  getMinecraftExtraVolumes,
+  getMinecraftExtraEnv,
+} from "../../misc/minecraft-config.ts";
+
+const NAMESPACE = "minecraft-shuxin";
 
 export function createMinecraftShuxinApp(chart: Chart) {
   createIngress(
@@ -52,7 +59,6 @@ export function createMinecraftShuxinApp(chart: Chart) {
       spawnProtection: 0,
       viewDistance: 15,
       memory: "3G",
-      overrideServerProperties: true,
       forcegameMode: true,
       // Use ClusterIP - mc-router handles external routing for Java Edition
       serviceType: "ClusterIP",
@@ -118,7 +124,15 @@ export function createMinecraftShuxinApp(chart: Chart) {
         enabled: true,
       },
     },
+    // Deploy ConfigMap for server configs
+    extraDeploy: [getMinecraftConfigMapManifest("shuxin", NAMESPACE)],
+
+    // Mount configs to /config (itzg syncs to /data on startup)
+    extraVolumes: getMinecraftExtraVolumes("shuxin", NAMESPACE),
+
+    // Config sync settings
     extraEnv: {
+      ...getMinecraftExtraEnv(),
       VERSION_FROM_MODRINTH_PROJECTS: "true",
     },
   };

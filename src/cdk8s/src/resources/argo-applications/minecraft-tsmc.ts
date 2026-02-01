@@ -13,7 +13,11 @@ import {
   getDiscordSrvExtraVolumes,
   getDiscordSrvExtraEnv,
 } from "../../misc/discordsrv-config.ts";
-import { getTsmcConfigMapManifest, getTsmcExtraVolumes, getTsmcExtraEnv } from "../../misc/tsmc-config.ts";
+import {
+  getMinecraftConfigMapManifest,
+  getMinecraftExtraVolumes,
+  getMinecraftExtraEnv,
+} from "../../misc/minecraft-config.ts";
 
 const NAMESPACE = "minecraft-tsmc";
 const SECRET_NAME = "minecraft-tsmc-discord";
@@ -168,14 +172,14 @@ export function createMinecraftTsmcApp(chart: Chart) {
     },
 
     // Deploy ConfigMaps for server and plugin configs
-    extraDeploy: [getTsmcConfigMapManifest(NAMESPACE), getDiscordSrvConfigMapManifest(NAMESPACE)],
+    extraDeploy: [getMinecraftConfigMapManifest("tsmc", NAMESPACE), getDiscordSrvConfigMapManifest(NAMESPACE)],
 
     // Mount configs to /config (itzg syncs to /data on startup)
-    extraVolumes: [...getTsmcExtraVolumes(NAMESPACE), ...getDiscordSrvExtraVolumes(NAMESPACE)],
+    extraVolumes: [...getMinecraftExtraVolumes("tsmc", NAMESPACE), ...getDiscordSrvExtraVolumes(NAMESPACE)],
 
     // Config sync settings + DiscordSRV secrets
     extraEnv: {
-      ...getTsmcExtraEnv(),
+      ...getMinecraftExtraEnv(),
       ...getDiscordSrvExtraEnv(SECRET_NAME),
     },
   };

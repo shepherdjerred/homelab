@@ -12,6 +12,11 @@ import {
   getDiscordSrvExtraVolumes,
   getDiscordSrvExtraEnv,
 } from "../../misc/discordsrv-config.ts";
+import {
+  getMinecraftConfigMapManifest,
+  getMinecraftExtraVolumes,
+  getMinecraftExtraEnv,
+} from "../../misc/minecraft-config.ts";
 
 const NAMESPACE = "minecraft-sjerred";
 const SECRET_NAME = "minecraft-sjerred-discord";
@@ -79,7 +84,6 @@ export function createMinecraftSjerredApp(chart: Chart) {
       spawnProtection: 0,
       viewDistance: 15,
       memory: "3G",
-      overrideServerProperties: true,
       forcegameMode: true,
       // Use ClusterIP - mc-router handles external routing
       serviceType: "ClusterIP",
@@ -116,10 +120,17 @@ export function createMinecraftSjerredApp(chart: Chart) {
         enabled: true,
       },
     },
-    // DiscordSRV configuration via ConfigMap and environment variables
-    extraDeploy: [getDiscordSrvConfigMapManifest(NAMESPACE)],
-    extraVolumes: getDiscordSrvExtraVolumes(NAMESPACE),
-    extraEnv: getDiscordSrvExtraEnv(SECRET_NAME),
+    // Deploy ConfigMaps for server configs and DiscordSRV
+    extraDeploy: [getMinecraftConfigMapManifest("sjerred", NAMESPACE), getDiscordSrvConfigMapManifest(NAMESPACE)],
+
+    // Mount configs to /config (itzg syncs to /data on startup)
+    extraVolumes: [...getMinecraftExtraVolumes("sjerred", NAMESPACE), ...getDiscordSrvExtraVolumes(NAMESPACE)],
+
+    // Config sync settings + DiscordSRV secrets
+    extraEnv: {
+      ...getMinecraftExtraEnv(),
+      ...getDiscordSrvExtraEnv(SECRET_NAME),
+    },
   };
 
   // DNS records are now managed by mc-router
