@@ -332,7 +332,9 @@ export function createExternalDomainsChart(app: App) {
   // sjer.red - email setup:
   // - Send: FastMail (directly) and Postal (relays through FastMail)
   // - Receive: FastMail
-  // - Return-path: rp.sjer.red (for Postal bounce handling)
+  // - Return-path: rp.sjer.red (Postal envelope sender, needs its own SPF)
+  // Note: SPF is checked against envelope sender domain, not From header.
+  // When Postal sends with MAIL FROM @rp.sjer.red, receivers check rp.sjer.red's SPF.
   new DnsEndpoint(chart, "sjer-red-txt", {
     metadata: {
       name: "sjer-red-txt",
@@ -340,19 +342,21 @@ export function createExternalDomainsChart(app: App) {
     },
     spec: {
       endpoints: [
-        // SPF: FastMail + Postal return-path
+        // SPF for direct FastMail sending (envelope sender @sjer.red)
         {
           dnsName: "sjer.red",
           recordType: "TXT",
-          targets: ["v=spf1 include:spf.messagingengine.com include:rp.sjer.red ~all"],
+          targets: ["v=spf1 include:spf.messagingengine.com ~all"],
         },
-        // SPF for return-path subdomain (Postal uses rp.sjer.red for envelope sender)
+        // SPF for Postal return-path (envelope sender @rp.sjer.red)
+        // Postal relays through FastMail, so same SPF include
         {
           dnsName: "rp.sjer.red",
           recordType: "TXT",
           targets: ["v=spf1 include:spf.messagingengine.com ~all"],
         },
         // DMARC policy (quarantine unauthorized mail)
+        // Uses relaxed alignment (default) - rp.sjer.red aligns with sjer.red
         {
           dnsName: "_dmarc.sjer.red",
           recordType: "TXT",
