@@ -60,7 +60,7 @@ const versions = {
   "shepherdjerred/dependency-summary": "latest",
   // Custom better-skill-capped-fetcher image - updated by CI pipeline
   // not managed by renovate
-  "shepherdjerred/better-skill-capped-fetcher": "1.0.108",
+  "shepherdjerred/better-skill-capped-fetcher": "1.0.109",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "linuxserver/syncthing": "2.0.13@sha256:de603dda4513191b47d18bae93decd4683a20b212a3cd9595b2e681bb2ad9d34",
   // renovate: datasource=github-releases versioning=semver-coerced
