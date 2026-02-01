@@ -27,7 +27,7 @@ export function createMinecraftTsmcApp(chart: Chart) {
   // - discord-invite-link: (optional) Discord invite link
   new OnePasswordItem(chart, "minecraft-tsmc-discord-1p", {
     spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/minecraft-tsmc-discord",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/yqp25gif2grm5gkg6l44e6vmxy",
     },
     metadata: {
       name: SECRET_NAME,

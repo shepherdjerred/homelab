@@ -25,7 +25,7 @@ export function createMinecraftSjerredApp(chart: Chart) {
   // - discord-invite-link: (optional) Discord invite link
   new OnePasswordItem(chart, "minecraft-sjerred-discord-1p", {
     spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/minecraft-sjerred-discord",
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/q37vet77dfggoqbvu4bqle3gje",
     },
     metadata: {
       name: SECRET_NAME,
