@@ -1,7 +1,7 @@
 import { dag, Container, Directory, Secret } from "@dagger.io/dagger";
 import versions from "./versions";
 import { getMiseRuntimeContainer } from "./base";
-import { formatDaggerError } from "./errors";
+import { execWithOutput } from "./errors";
 
 // Release-please configuration
 const RELEASE_PLEASE_VERSION = "17.1.3";
@@ -111,29 +111,31 @@ export async function runReleasePleaseWorkflow(
       .withWorkdir("/workspace")
       .withMountedDirectory("/workspace", source)
       .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache-default"))
-      .withExec(["bun", "install", "--frozen-lockfile"]);
+      .withExec(["bun", "install", "--frozen-lockfile"])
+      .withWorkdir("/workspace/src/helm-types")
+      .withSecretVariable("NPM_TOKEN", npmToken)
+      .withExec(["sh", "-c", 'echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc'])
+      .withExec(["bun", "run", "build"]);
 
-    try {
-      // Use sync() instead of stdout() to avoid Dagger SDK URLSearchParams.toJSON bug
-      await publishContainer
-        .withWorkdir("/workspace/src/helm-types")
-        .withSecretVariable("NPM_TOKEN", npmToken)
-        .withExec(["sh", "-c", 'echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc'])
-        .withExec(["bun", "run", "build"])
-        .withExec([
-          "bun",
-          "publish",
-          "--access",
-          "public",
-          "--tag",
-          "latest",
-          "--registry",
-          "https://registry.npmjs.org",
-        ])
-        .sync();
+    // Use execWithOutput to avoid Dagger SDK URLSearchParams.toJSON bug with Bun
+    const result = await execWithOutput(publishContainer, [
+      "bun",
+      "publish",
+      "--access",
+      "public",
+      "--tag",
+      "latest",
+      "--registry",
+      "https://registry.npmjs.org",
+    ]);
+
+    if (result.exitCode === 0) {
       releaseOutputs.push("✓ Published @shepherdjerred/helm-types");
-    } catch (error) {
-      releaseOutputs.push(`✗ Failed to publish @shepherdjerred/helm-types: ${formatDaggerError(error)}`);
+    } else {
+      const output = result.stderr.trim() || result.stdout.trim() || "Unknown error";
+      releaseOutputs.push(
+        `✗ Failed to publish @shepherdjerred/helm-types (exit ${String(result.exitCode)}): ${output}`,
+      );
     }
   } else {
     releaseOutputs.push("No releases created - skipping NPM publish");
