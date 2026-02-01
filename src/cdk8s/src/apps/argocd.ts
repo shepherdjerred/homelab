@@ -87,8 +87,8 @@ export function createArgoCdApp(chart: Chart) {
         "accounts.gha.enabled": true,
       },
       rbac: {
-        // TODO: scope this to only syncing
-        "policy.csv": "g, gha, role:admin",
+        // Scoped to sync-only permission for the apps application
+        "policy.csv": "p, gha, applications, sync, apps, allow",
       },
     },
   };

@@ -3,8 +3,8 @@ import { ConfigMap, Deployment, EnvValue, Probe, Secret, Service, Volume } from 
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import versions from "../../versions.ts";
+import { createServiceMonitor } from "../../misc/service-monitor.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
-import { ServiceMonitor } from "../../../generated/imports/monitoring.coreos.com.ts";
 
 const CURRENT_FILENAME = fileURLToPath(import.meta.url);
 const CURRENT_DIRNAME = dirname(CURRENT_FILENAME);
@@ -115,28 +115,11 @@ export async function createR2ExporterMonitoring(chart: Chart) {
   });
 
   // Create ServiceMonitor for Prometheus to scrape R2 metrics
-  new ServiceMonitor(chart, "r2-exporter-service-monitor", {
-    metadata: {
-      name: "r2-exporter",
-      namespace: "prometheus",
-      labels: {
-        release: "prometheus", // Required for Prometheus operator discovery
-      },
-    },
-    spec: {
-      endpoints: [
-        {
-          port: "metrics",
-          interval: "60s",
-          path: "/metrics",
-        },
-      ],
-      selector: {
-        matchLabels: {
-          app: "r2-exporter",
-        },
-      },
-    },
+  createServiceMonitor(chart, {
+    name: "r2-exporter",
+    metadataName: "r2-exporter",
+    namespace: "prometheus",
+    interval: "60s",
   });
 
   return { cloudflareSecret, r2ExporterScript, deployment };

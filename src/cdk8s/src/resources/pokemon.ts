@@ -49,8 +49,14 @@ export function createPokemonDeployment(chart: Chart) {
         SIZEW: EnvValue.fromValue("1920"),
         SIZEH: EnvValue.fromValue("1080"),
         REFRESH: EnvValue.fromValue("60"),
-        PASSWD: EnvValue.fromValue("password"),
-        BASIC_AUTH_PASSWORD: EnvValue.fromValue("password"),
+        PASSWD: EnvValue.fromSecretValue({
+          secret,
+          key: "password",
+        }),
+        BASIC_AUTH_PASSWORD: EnvValue.fromSecretValue({
+          secret,
+          key: "password",
+        }),
         SELKIES_ENCODER: EnvValue.fromValue("vah264enc"),
         KASMVNC_ENABLE: EnvValue.fromValue("true"),
       },
@@ -59,9 +65,9 @@ export function createPokemonDeployment(chart: Chart) {
         readOnlyRootFilesystem: false,
         user: 1000,
         group: 1000,
-        // TODO: unsure if this is necessary
-        privileged: true,
-        allowPrivilegeEscalation: true,
+        // GPU is passed via gpu.intel.com/i915 resource limit, not privileged mode
+        privileged: false,
+        allowPrivilegeEscalation: false,
       },
       ports: [
         {

@@ -2,7 +2,7 @@ import { Chart, Size } from "cdk8s";
 import { ConfigMap, Deployment, DeploymentStrategy, Secret, Service, Volume } from "cdk8s-plus-31";
 import { withCommonProps } from "../misc/common.ts";
 import { ZfsSataVolume } from "../misc/zfs-sata-volume.ts";
-import { ServiceMonitor } from "../../generated/imports/monitoring.coreos.com.ts";
+import { createServiceMonitor } from "../misc/service-monitor.ts";
 import { OnePasswordItem } from "../../generated/imports/onepassword.com.ts";
 import versions from "../versions.ts";
 import { fileURLToPath } from "url";
@@ -96,26 +96,5 @@ export async function createGickupDeployment(chart: Chart) {
   });
 
   // Create ServiceMonitor for Prometheus to scrape gickup metrics
-  new ServiceMonitor(chart, "gickup-service-monitor", {
-    metadata: {
-      name: "gickup-service-monitor",
-      labels: {
-        release: "prometheus", // Required for Prometheus operator discovery
-      },
-    },
-    spec: {
-      endpoints: [
-        {
-          port: "metrics",
-          interval: "60s",
-          path: "/metrics",
-        },
-      ],
-      selector: {
-        matchLabels: {
-          app: "gickup",
-        },
-      },
-    },
-  });
+  createServiceMonitor(chart, { name: "gickup", interval: "60s" });
 }

@@ -11,6 +11,7 @@ import { createProwlarrDeployment } from "../resources/torrents/prowlarr.ts";
 import { createMaintainerrDeployment } from "../resources/torrents/maintainerr.ts";
 import { createRecyclarrDeployment } from "../resources/torrents/recyclarr.ts";
 import { createWhisperbridgeDeployment } from "../resources/torrents/whisperbridge.ts";
+import { KubeNetworkPolicy } from "../../generated/imports/k8s.ts";
 
 export function createMediaChart(app: App) {
   const chart = new Chart(app, "media", {
@@ -55,4 +56,33 @@ export function createMediaChart(app: App) {
   createMaintainerrDeployment(chart);
   createRecyclarrDeployment(chart);
   createWhisperbridgeDeployment(chart);
+
+  // NetworkPolicy: Default deny ingress from outside namespace
+  // Allows Tailscale, Cloudflare tunnel, intra-namespace, and Prometheus
+  new KubeNetworkPolicy(chart, "media-ingress-policy", {
+    metadata: { name: "media-ingress-policy" },
+    spec: {
+      podSelector: {},
+      policyTypes: ["Ingress"],
+      ingress: [
+        // Allow from Tailscale (private access)
+        {
+          from: [{ namespaceSelector: { matchLabels: { "kubernetes.io/metadata.name": "tailscale" } } }],
+        },
+        // Allow from Cloudflare tunnel (public access for plex, overseerr)
+        {
+          from: [{ namespaceSelector: { matchLabels: { "kubernetes.io/metadata.name": "cloudflare-tunnel" } } }],
+        },
+        // Allow all intra-namespace communication
+        // Media services are highly interconnected: sonarr<->radarr<->prowlarr<->qbittorrent<->bazarr<->plex<->overseerr<->maintainerr
+        {
+          from: [{ podSelector: {} }],
+        },
+        // Allow Prometheus scraping from monitoring namespace
+        {
+          from: [{ namespaceSelector: { matchLabels: { "kubernetes.io/metadata.name": "prometheus" } } }],
+        },
+      ],
+    },
+  });
 }

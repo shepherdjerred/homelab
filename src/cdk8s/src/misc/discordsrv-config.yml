@@ -2,8 +2,8 @@
 # This config uses environment variable placeholders that are substituted at container startup.
 # See: https://docker-minecraft-server.readthedocs.io/en/latest/configuration/interpolating/
 
-# Bot token from 1Password secret
-BotToken: "${CFG_DISCORD_BOT_TOKEN}"
+# Bot token read from DISCORDSRV_TOKEN env var (native DiscordSRV support)
+BotToken: ""
 
 # Channel mappings - format: {"in-game-channel": "discord-channel-id"}
 # The first channel is the default for all messages

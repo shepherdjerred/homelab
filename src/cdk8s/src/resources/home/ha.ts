@@ -1,14 +1,17 @@
 import { Deployment, DeploymentStrategy, EnvValue, Secret, Service } from "cdk8s-plus-31";
 import { Chart } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
+import { createServiceMonitor } from "../../misc/service-monitor.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
-import { ServiceMonitor } from "../../../generated/imports/monitoring.coreos.com.ts";
 import versions from "../../versions.ts";
 
 export function createHaDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "ha", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    podMetadata: {
+      labels: { app: "ha" },
+    },
   });
 
   const haTokenItem = new OnePasswordItem(chart, "ha-token", {
@@ -50,9 +53,9 @@ export function createHaDeployment(chart: Chart) {
       securityContext: {
         ensureNonRoot: false,
         readOnlyRootFilesystem: false,
-        // TODO: unsure if this is necessary
-        privileged: true,
-        allowPrivilegeEscalation: true,
+        // Pure application container making HTTP calls - no kernel access needed
+        privileged: false,
+        allowPrivilegeEscalation: false,
       },
       ports: [{ name: "metrics", number: 9090 }],
       volumeMounts: [],
@@ -72,26 +75,5 @@ export function createHaDeployment(chart: Chart) {
   });
 
   // Create ServiceMonitor for Prometheus to scrape HA metrics
-  new ServiceMonitor(chart, "ha-service-monitor", {
-    metadata: {
-      name: "ha-service-monitor",
-      labels: {
-        release: "prometheus", // Required for Prometheus operator discovery
-      },
-    },
-    spec: {
-      endpoints: [
-        {
-          port: "metrics",
-          interval: "30s",
-          path: "/metrics",
-        },
-      ],
-      selector: {
-        matchLabels: {
-          app: "ha",
-        },
-      },
-    },
-  });
+  createServiceMonitor(chart, { name: "ha" });
 }

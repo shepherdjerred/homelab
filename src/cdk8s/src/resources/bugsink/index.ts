@@ -387,7 +387,7 @@ echo "Database URL built successfully"
               },
               podSelector: {
                 matchLabels: {
-                  "cdk8s.io/metadata.addr": "postal-postal-smtp-c8835412",
+                  app: "postal-smtp",
                 },
               },
             },
@@ -411,19 +411,12 @@ echo "Database URL built successfully"
     fqdn: "bugsink.sjer.red",
   });
 
-  return { deployment, service };
+  return { deployment, service, bugsinkSecrets };
 }
 
-export function createBugsinkHousekeepingCronJob(chart: Chart) {
+export function createBugsinkHousekeepingCronJob(chart: Chart, bugsinkSecrets: OnePasswordItem) {
   const UID = 14237;
   const GID = 14237;
-
-  // Reuse bugsink secrets
-  const bugsinkSecrets = new OnePasswordItem(chart, "bugsink-housekeeping-secrets", {
-    spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/bugsink-credentials",
-    },
-  });
 
   // PostgreSQL credentials
   const postgresSecretName = "bugsink.bugsink-postgresql.credentials.postgresql.acid.zalan.do";

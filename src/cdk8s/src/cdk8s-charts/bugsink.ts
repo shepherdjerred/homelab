@@ -22,6 +22,6 @@ export function createBugsinkChart(app: App) {
   });
 
   createBugsinkPostgreSQLDatabase(chart);
-  createBugsinkDeployment(chart);
-  createBugsinkHousekeepingCronJob(chart);
+  const { bugsinkSecrets } = createBugsinkDeployment(chart);
+  createBugsinkHousekeepingCronJob(chart, bugsinkSecrets);
 }

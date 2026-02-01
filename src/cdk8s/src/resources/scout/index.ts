@@ -1,8 +1,8 @@
 import { Deployment, DeploymentStrategy, EnvValue, Protocol, Secret, Service, Volume } from "cdk8s-plus-31";
 import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
+import { createServiceMonitor } from "../../misc/service-monitor.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
-import { ServiceMonitor } from "../../../generated/imports/monitoring.coreos.com.ts";
 import versions from "../../versions.ts";
 import type { Stage } from "../../cdk8s-charts/scout.ts";
 import { match } from "ts-pattern";
@@ -134,27 +134,8 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
   });
 
   // Create ServiceMonitor for Prometheus to scrape Scout metrics
-  new ServiceMonitor(chart, `scout-service-monitor-${stage}`, {
-    metadata: {
-      name: `scout-service-monitor-${stage}`,
-      labels: {
-        release: "prometheus", // Required for Prometheus operator discovery
-      },
-    },
-    spec: {
-      endpoints: [
-        {
-          port: "metrics",
-          interval: "30s",
-          path: "/metrics",
-        },
-      ],
-      selector: {
-        matchLabels: {
-          app: "scout",
-          stage: stage,
-        },
-      },
-    },
+  createServiceMonitor(chart, {
+    name: `scout-${stage}`,
+    matchLabels: { app: "scout", stage },
   });
 }

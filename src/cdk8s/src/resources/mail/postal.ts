@@ -379,6 +379,9 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     securityContext: {
       fsGroup: GID,
     },
+    podMetadata: {
+      labels: { app: "postal-web" },
+    },
   });
 
   webDeployment.addContainer(
@@ -431,6 +434,9 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     securityContext: {
       fsGroup: GID,
     },
+    podMetadata: {
+      labels: { app: "postal-smtp" },
+    },
   });
 
   smtpDeployment.addContainer(
@@ -478,6 +484,9 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       fsGroup: GID,
+    },
+    podMetadata: {
+      labels: { app: "postal-worker" },
     },
   });
 

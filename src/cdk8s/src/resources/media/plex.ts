@@ -15,7 +15,7 @@ import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import { createCloudflareTunnelBinding } from "../../misc/cloudflare-tunnel.ts";
 import versions from "../../versions.ts";
-import { ServiceMonitor } from "../../../generated/imports/monitoring.coreos.com.ts";
+import { createServiceMonitor } from "../../misc/service-monitor.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
 
 export function createPlexDeployment(
@@ -213,26 +213,5 @@ export function createPlexDeployment(
   );
 
   // Create ServiceMonitor for Prometheus to scrape Plex metrics
-  new ServiceMonitor(chart, "plex-service-monitor", {
-    metadata: {
-      name: "plex-service-monitor",
-      labels: {
-        release: "prometheus", // Required for Prometheus operator discovery
-      },
-    },
-    spec: {
-      endpoints: [
-        {
-          port: "metrics",
-          interval: "60s",
-          path: "/metrics",
-        },
-      ],
-      selector: {
-        matchLabels: {
-          app: "plex",
-        },
-      },
-    },
-  });
+  createServiceMonitor(chart, { name: "plex", interval: "60s" });
 }

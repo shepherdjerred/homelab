@@ -14,8 +14,8 @@ import { withCommonProps } from "../../misc/common.ts";
 import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import versions from "../../versions.ts";
+import { createServiceMonitor } from "../../misc/service-monitor.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
-import { ServiceMonitor } from "../../../generated/imports/monitoring.coreos.com.ts";
 
 export function createQBitTorrentDeployment(
   chart: Chart,
@@ -159,26 +159,5 @@ export function createQBitTorrentDeployment(
   });
 
   // Create ServiceMonitor for Prometheus to scrape qBittorrent metrics
-  new ServiceMonitor(chart, "qbittorrent-service-monitor", {
-    metadata: {
-      name: "qbittorrent-service-monitor",
-      labels: {
-        release: "prometheus", // Required for Prometheus operator discovery
-      },
-    },
-    spec: {
-      endpoints: [
-        {
-          port: "metrics",
-          interval: "60s",
-          path: "/metrics",
-        },
-      ],
-      selector: {
-        matchLabels: {
-          app: "qbittorrent",
-        },
-      },
-    },
-  });
+  createServiceMonitor(chart, { name: "qbittorrent", interval: "60s" });
 }

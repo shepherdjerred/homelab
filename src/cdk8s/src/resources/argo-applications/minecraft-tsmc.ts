@@ -14,9 +14,10 @@ import {
   getDiscordSrvExtraEnv,
 } from "../../misc/discordsrv-config.ts";
 import {
-  getMinecraftConfigMapManifest,
+  getMinecraftConfigMapManifests,
   getMinecraftExtraVolumes,
   getMinecraftExtraEnv,
+  getMinecraftPluginConfigInitContainer,
 } from "../../misc/minecraft-config.ts";
 
 const NAMESPACE = "minecraft-tsmc";
@@ -171,17 +172,21 @@ export function createMinecraftTsmcApp(chart: Chart) {
       },
     },
 
-    // Deploy ConfigMaps for server and plugin configs
-    extraDeploy: [getMinecraftConfigMapManifest("tsmc", NAMESPACE), getDiscordSrvConfigMapManifest(NAMESPACE)],
+    // Deploy ConfigMaps for server and plugin configs (split into multiple to avoid size limits)
+    extraDeploy: [...getMinecraftConfigMapManifests("tsmc", NAMESPACE), getDiscordSrvConfigMapManifest(NAMESPACE)],
 
     // Mount configs to /config (itzg syncs to /data on startup)
-    extraVolumes: [...getMinecraftExtraVolumes("tsmc", NAMESPACE), ...getDiscordSrvExtraVolumes(NAMESPACE)],
+    // Use split ConfigMaps (true) to avoid Application size limits
+    extraVolumes: [...getMinecraftExtraVolumes("tsmc", NAMESPACE, true), ...getDiscordSrvExtraVolumes(NAMESPACE)],
 
     // Config sync settings + DiscordSRV secrets
     extraEnv: {
       ...getMinecraftExtraEnv(),
       ...getDiscordSrvExtraEnv(SECRET_NAME),
     },
+
+    // Init container to copy plugin configs (bypasses itzg sync which fails with DirectoryNotEmptyException)
+    initContainers: [getMinecraftPluginConfigInitContainer("tsmc", true)],
   };
 
   // DNS records are now managed by mc-router
@@ -214,7 +219,8 @@ export function createMinecraftTsmcApp(chart: Chart) {
       ],
       syncPolicy: {
         automated: {},
-        syncOptions: ["CreateNamespace=true"],
+        // ServerSideApply needed to avoid "annotation exceeds 262KB limit" error
+        syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
       },
     },
   });

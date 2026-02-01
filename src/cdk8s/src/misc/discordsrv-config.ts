@@ -67,7 +67,7 @@ export function getDiscordSrvExtraVolumes(name: string): object[] {
  * The itzg/minecraft-server container requires CFG_ prefix for variable substitution.
  *
  * 1Password field names -> Environment variables:
- * - discord-bot-token -> CFG_DISCORD_BOT_TOKEN
+ * - discord-bot-token -> DISCORDSRV_TOKEN (native DiscordSRV support)
  * - discord-channel-id -> CFG_DISCORD_CHANNEL_ID
  * - discord-console-channel-id -> CFG_DISCORD_CONSOLE_CHANNEL_ID
  * - discord-invite-link -> CFG_DISCORD_INVITE_LINK
@@ -76,7 +76,8 @@ export function getDiscordSrvExtraEnv(secretName: string): Record<string, object
   return {
     // Enable itzg's environment variable substitution for ${CFG_*} placeholders
     REPLACE_ENV_VARIABLES: "TRUE",
-    CFG_DISCORD_BOT_TOKEN: {
+    // DiscordSRV natively reads bot token from DISCORDSRV_TOKEN env var
+    DISCORDSRV_TOKEN: {
       valueFrom: {
         secretKeyRef: {
           name: secretName,
