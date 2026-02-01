@@ -13,6 +13,7 @@ import {
   getDiscordSrvExtraVolumes,
   getDiscordSrvExtraEnv,
 } from "../../misc/discordsrv-config.ts";
+import { getTsmcConfigMapManifest, getTsmcExtraVolumes, getTsmcExtraEnv } from "../../misc/tsmc-config.ts";
 
 const NAMESPACE = "minecraft-tsmc";
 const SECRET_NAME = "minecraft-tsmc-discord";
@@ -64,25 +65,73 @@ export function createMinecraftTsmcApp(chart: Chart) {
     },
     resources: {
       requests: {
-        memory: "3Gi",
+        memory: "6Gi",
+        cpu: "2000m",
       },
       limits: {
-        memory: "4Gi",
+        memory: "8Gi",
       },
     },
     minecraftServer: {
       eula: true,
-      difficulty: "normal",
+      difficulty: "hard",
+      maxPlayers: 20,
+      levelType: "LARGEBIOMES",
+      levelSeed: "6723312581398122416",
+      viewDistance: 10,
+      memory: "6G",
+      motd: "The Storm | Survival",
+      pvp: true,
+      gameMode: "survival",
+      forcegameMode: true,
+      spawnProtection: 0,
+      ops: "RiotShielder",
       version: versions.paper,
       type: "PAPER",
-      motd: "The Storm Minecraft",
-      spawnProtection: 0,
-      viewDistance: 15,
-      memory: "3G",
-      overrideServerProperties: true,
-      forcegameMode: true,
-      // Use ClusterIP - mc-router handles external routing
       serviceType: "ClusterIP",
+
+      // Plugin downloads - direct URLs
+      pluginUrls: [
+        "https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar",
+        "https://github.com/BlueMap-Minecraft/BlueMap/releases/download/v5.13/bluemap-5.13-paper.jar",
+        DISCORDSRV_PLUGIN_URL,
+        "https://github.com/EssentialsX/Essentials/releases/download/2.21.0/EssentialsX-2.21.0.jar",
+        "https://github.com/EssentialsX/Essentials/releases/download/2.21.0/EssentialsXSpawn-2.21.0.jar",
+        "https://github.com/dmulloy2/ProtocolLib/releases/download/5.1.0/ProtocolLib.jar",
+        "https://github.com/DecentSoftware-eu/DecentHolograms/releases/download/2.8.5/DecentHolograms-2.8.5.jar",
+        "https://github.com/garbagemule/MobArena/releases/download/0.108/MobArena-0.108.jar",
+      ],
+
+      // Modrinth plugins
+      modrinth: {
+        projects: [
+          "luckperms",
+          "towny",
+          "coreprotect",
+          "worldedit",
+          "worldguard",
+          "chunky",
+          "chunkyborder",
+          "plan",
+          "placeholderapi",
+          "chestsort",
+          "multiverse-core",
+          "craftbook",
+        ],
+        downloadDependencies: "required",
+      },
+
+      // Spiget plugins (resource IDs)
+      spigetResources: [
+        2445, // mcMMO
+        74304, // LevelledMobs
+        65603, // DynamicShop
+        771, // VentureChat
+        60837, // BetterSleeping
+        2162, // LWC
+        40313, // XConomy
+      ],
+
       extraPorts: [
         {
           service: {
@@ -101,15 +150,7 @@ export function createMinecraftTsmcApp(chart: Chart) {
           },
         },
       ],
-      pluginUrls: [
-        "https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar",
-        "https://github.com/BlueMap-Minecraft/BlueMap/releases/download/v5.13/bluemap-5.13-paper.jar",
-        "https://cdn.modrinth.com/data/fALzjamp/versions/kkEljQ4R/Chunky-Fabric-1.4.51.jar",
-        "https://github.com/EssentialsX/Essentials/releases/download/2.21.2/EssentialsX-2.21.2.jar",
-        "https://github.com/EssentialsX/Essentials/releases/download/2.21.2/EssentialsXSpawn-2.21.2.jar",
-        "https://cdn.modrinth.com/data/lKEzGugV/versions/vkuwyUC6/PlaceholderAPI-2.11.6.jar",
-        DISCORDSRV_PLUGIN_URL,
-      ],
+
       rcon: {
         enabled: true,
         withGeneratedPassword: true,
@@ -121,14 +162,22 @@ export function createMinecraftTsmcApp(chart: Chart) {
         "velero.io/backup": "enabled",
       },
       dataDir: {
-        Size: Size.gibibytes(32).asString(),
+        Size: Size.gibibytes(64).asString(),
         enabled: true,
       },
     },
-    // DiscordSRV configuration via ConfigMap and environment variables
-    extraDeploy: [getDiscordSrvConfigMapManifest(NAMESPACE)],
-    extraVolumes: getDiscordSrvExtraVolumes(NAMESPACE),
-    extraEnv: getDiscordSrvExtraEnv(SECRET_NAME),
+
+    // Deploy ConfigMaps for server and plugin configs
+    extraDeploy: [getTsmcConfigMapManifest(NAMESPACE), getDiscordSrvConfigMapManifest(NAMESPACE)],
+
+    // Mount configs to /config (itzg syncs to /data on startup)
+    extraVolumes: [...getTsmcExtraVolumes(NAMESPACE), ...getDiscordSrvExtraVolumes(NAMESPACE)],
+
+    // Config sync settings + DiscordSRV secrets
+    extraEnv: {
+      ...getTsmcExtraEnv(),
+      ...getDiscordSrvExtraEnv(SECRET_NAME),
+    },
   };
 
   // DNS records are now managed by mc-router
