@@ -110,6 +110,7 @@ export async function runReleasePleaseWorkflow(
     const publishContainer = getMiseRuntimeContainer()
       .withWorkdir("/workspace")
       .withMountedDirectory("/workspace", source)
+      .withExec(["mise", "trust", "--yes"])
       .withMountedCache("/root/.bun/install/cache", dag.cacheVolume("bun-cache-default"))
       .withExec(["bun", "install", "--frozen-lockfile"])
       .withWorkdir("/workspace/src/helm-types")
