@@ -217,7 +217,7 @@ export function createOpenclawDeployment(chart: Chart) {
 
   // Deployment
   const deployment = new Deployment(chart, "openclaw", {
-    replicas: 1,
+    replicas: 0,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       fsGroup: GID,
