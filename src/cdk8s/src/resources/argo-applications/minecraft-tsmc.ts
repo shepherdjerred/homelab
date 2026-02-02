@@ -126,20 +126,14 @@ export function createMinecraftTsmcApp(chart: Chart) {
           "chestsort",
           "multiverse-core",
           "craftbook",
+          "levelledmobs", // Was Spiget 74304
         ],
         downloadDependencies: "required",
       },
 
-      // Spiget plugins (resource IDs)
-      spigetResources: [
-        64348, // mcMMO (official - original author returned)
-        74304, // LevelledMobs
-        65603, // DynamicShop
-        771, // VentureChat
-        60837, // BetterSleeping
-        2162, // LWC
-        40313, // XConomy
-      ],
+      // TODO: Re-add these plugins when Spiget API is stable or find alternatives:
+      // - mcMMO (64348) - premium, needs to be built from source or purchased
+      // - DynamicShop (65603), VentureChat (771), BetterSleeping (60837), LWC (2162), XConomy (40313) - Spiget-only
 
       extraPorts: [
         {
