@@ -147,3 +147,20 @@ Uses `mise` (formerly rtx) for tool versions:
 mise trust    # Trust the mise.toml config
 mise run dev  # Install dependencies and setup
 ```
+
+## DNS for External Domains
+
+external-dns can't create CNAME + TXT for same apex (conflict). For S3 static sites
+(scout-for-lol.com, discord-plays-pokemon.com, better-skill-capped.com, clauderon.com, ts-mc.net):
+
+- **Apex CNAME + SPF**: Manual in Cloudflare
+- **Subdomain TXT** (\_dmarc, \*.\_domainkey): external-dns via DNSEndpoint
+
+Manual records:
+
+```text
+CNAME: <domain> -> 3cbdc9a6-9e79-412d-8fe1-60117fecd4d3.cfargotunnel.com (proxied)
+TXT: <domain> -> v=spf1 -all
+```
+
+If records disappear, delete stale `_externaldns.*` ownership TXT records first.
