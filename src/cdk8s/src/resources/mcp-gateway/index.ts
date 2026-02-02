@@ -76,16 +76,6 @@ export async function createMcpGatewayDeployment(chart: Chart) {
     },
   });
 
-  // Gmail credentials from clawdbot
-  const clawdbotItem = new OnePasswordItem(chart, "clawdbot-1p", {
-    spec: {
-      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/clawdbot",
-    },
-    metadata: {
-      name: "clawdbot",
-    },
-  });
-
   const deployment = new Deployment(chart, "mcp-gateway", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
@@ -174,13 +164,10 @@ export async function createMcpGatewayDeployment(chart: Chart) {
           key: "fastmail-token",
         }),
         // Gmail IMAP configuration - @automatearmy/email-reader-mcp expects USER_EMAIL and USER_PASS
-        USER_EMAIL: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "gmail-email-secret", clawdbotItem.name),
-          key: "email",
-        }),
+        USER_EMAIL: EnvValue.fromValue("shepherdjerred@gmail.com"),
         USER_PASS: EnvValue.fromSecretValue({
-          secret: Secret.fromSecretName(chart, "gmail-pass-secret", clawdbotItem.name),
-          key: "password",
+          secret: Secret.fromSecretName(chart, "gmail-pass-secret", openclawItem.name),
+          key: "gmail-token",
         }),
       },
       volumeMounts: [
