@@ -27,7 +27,7 @@ const versions = {
   "itzg/minecraft-server": "2026.1.3-java21@sha256:343a0349cfe04c70a95fc5a6d8c50ed69803001af58ba878e58906ca6a87d29c",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=loose
   "plexinc/pms-docker":
-    "1.42.2.10156-f737b826c@sha256:9c03c26b9479ba9a09935f3367459bfdc8d21545f42ed2a13258983c5be1b252",
+    "1.43.0.10467-2b1ba6e69-armhf@sha256:f63d1182c24253a0d6bca8516cb2e8d8c5d73d2304f00c7118e6ef63e653dca5",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=docker
   "linuxserver/tautulli": "2.16.0@sha256:f55e949daad9389c98cd936285aff7529aa4b8f148cae97f738c831e7a216205",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
