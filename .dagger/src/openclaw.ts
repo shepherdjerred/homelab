@@ -26,6 +26,8 @@ function buildOpenclawContainer(): Container {
       .withExec(["pnpm", "install"])
       .withExec(["pnpm", "ui:build"]) // Build the UI first (auto-installs UI deps)
       .withExec(["pnpm", "build"])
+      // Install mcporter for MCP server connections
+      .withExec(["npm", "install", "-g", "mcporter"])
       .withUser("node")
       .withExposedPort(18789)
       .withEntrypoint(["node", "dist/index.js"])

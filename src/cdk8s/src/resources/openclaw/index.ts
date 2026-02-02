@@ -69,6 +69,7 @@ const OPENCLAW_CONFIG = {
       browser: { enabled: true },
       weather: { enabled: true },
       canvas: { enabled: true },
+      mcporter: { enabled: true },
     },
   },
   // Tool configuration
@@ -94,45 +95,37 @@ const OPENCLAW_CONFIG = {
       "canvas", // A2UI visual canvas - requires node connection
     ],
   },
-  // MCP Gateway configuration - connects to centralized MCP proxy
-  mcp: {
-    servers: {
-      canvas: {
-        transport: "sse",
-        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/canvas/sse",
-      },
-      todoist: {
-        transport: "sse",
-        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/todoist/sse",
-      },
-      piazza: {
-        transport: "sse",
-        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/piazza/sse",
-      },
-      "home-assistant": {
-        transport: "sse",
-        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/home-assistant/sse",
-      },
-      github: {
-        transport: "sse",
-        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/github/sse",
-      },
-      sonos: {
-        transport: "sse",
-        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/sonos/sse",
-      },
-      fastmail: {
-        transport: "sse",
-        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/fastmail/sse",
-      },
-      weather: {
-        transport: "sse",
-        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/weather/sse",
-      },
-      gmail: {
-        transport: "sse",
-        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/gmail/sse",
-      },
+};
+
+// mcporter configuration - connects to MCP gateway for external services
+const MCPORTER_CONFIG = {
+  mcpServers: {
+    canvas: {
+      baseUrl: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/canvas/sse",
+    },
+    todoist: {
+      baseUrl: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/todoist/sse",
+    },
+    piazza: {
+      baseUrl: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/piazza/sse",
+    },
+    "home-assistant": {
+      baseUrl: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/home-assistant/sse",
+    },
+    github: {
+      baseUrl: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/github/sse",
+    },
+    sonos: {
+      baseUrl: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/sonos/sse",
+    },
+    fastmail: {
+      baseUrl: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/fastmail/sse",
+    },
+    weather: {
+      baseUrl: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/weather/sse",
+    },
+    gmail: {
+      baseUrl: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/gmail/sse",
     },
   },
 };
@@ -193,6 +186,16 @@ export function createOpenclawDeployment(chart: Chart) {
     },
   });
 
+  // ConfigMap with mcporter configuration for MCP server connections
+  const mcporterConfigMap = new ConfigMap(chart, "openclaw-mcporter", {
+    metadata: {
+      name: "openclaw-mcporter",
+    },
+    data: {
+      "mcporter.json": JSON.stringify(MCPORTER_CONFIG, null, 2),
+    },
+  });
+
   // Persistent storage for workspace
   const dataVolume = new ZfsNvmeVolume(chart, "openclaw-data", {
     storage: Size.gibibytes(10),
@@ -234,6 +237,7 @@ export function createOpenclawDeployment(chart: Chart) {
   const dataVol = Volume.fromPersistentVolumeClaim(chart, "openclaw-data-vol", dataVolume.claim);
   const configVol = Volume.fromConfigMap(chart, "openclaw-config-vol", configMap);
   const skillsVol = Volume.fromConfigMap(chart, "openclaw-skills-vol", skillsConfigMap);
+  const mcporterVol = Volume.fromConfigMap(chart, "openclaw-mcporter-vol", mcporterConfigMap);
 
   // Init container to copy config from ConfigMap to writable location (always overwrites)
   // fsGroup handles ownership, so no chown needed
@@ -341,7 +345,10 @@ export function createOpenclawDeployment(chart: Chart) {
           key: "brave-api-key",
         }),
       },
-      volumeMounts: [{ path: "/data", volume: dataVol }],
+      volumeMounts: [
+        { path: "/data", volume: dataVol },
+        { path: "/home/node/.mcporter", volume: mcporterVol },
+      ],
     }),
   );
 
