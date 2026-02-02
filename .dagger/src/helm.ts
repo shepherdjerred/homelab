@@ -41,6 +41,8 @@ export const HELM_CHARTS = [
   "bugsink",
   // DNS audit for SPF/DMARC/DKIM/MX validation
   "dns-audit",
+  // External domains DNS records (managed via external-dns DNSEndpoints)
+  "external-domains",
 ] as const;
 export type HelmChartName = (typeof HELM_CHARTS)[number];
 

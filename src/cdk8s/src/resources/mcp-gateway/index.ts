@@ -115,8 +115,8 @@ export async function createMcpGatewayDeployment(chart: Chart) {
           secret: Secret.fromSecretName(chart, "canvas-url-secret", canvasItem.name),
           key: "base-url",
         }),
-        // Todoist configuration (shared credential)
-        TODOIST_API_TOKEN: EnvValue.fromSecretValue({
+        // Todoist configuration - todoist-mcp expects API_KEY env var
+        API_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "todoist-secret", todoistItem.name),
           key: "api-key",
         }),
