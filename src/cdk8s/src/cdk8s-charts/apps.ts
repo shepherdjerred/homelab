@@ -61,6 +61,7 @@ import { createMcpGatewayApp } from "../resources/argo-applications/mcp-gateway.
 import { createOpenclawApp } from "../resources/argo-applications/openclaw.ts";
 import { createBugsinkApp } from "../resources/argo-applications/bugsink.ts";
 import { createDnsAuditApp } from "../resources/argo-applications/dns-audit.ts";
+import { createExternalDomainsApp } from "../resources/argo-applications/external-domains.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -158,6 +159,7 @@ export async function createAppsChart(app: App) {
   createOpenclawApp(chart);
   createBugsinkApp(chart);
   createDnsAuditApp(chart);
+  createExternalDomainsApp(chart);
 
   // ArgoCD AppProject
   createProject(chart);
