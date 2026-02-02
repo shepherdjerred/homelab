@@ -1,0 +1,8 @@
+apiVersion: v2
+name: external-domains
+description: DNSEndpoint resources for external domains managed by external-dns
+
+type: application
+
+version: "$version"
+appVersion: "$appVersion"
