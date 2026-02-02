@@ -93,7 +93,8 @@ async function pullChart(chartName: string, registryUrl: string, version: string
       // Already exists, return path
       return tempDir;
     } catch {
-      // Need to pull
+      // Chart not cached locally, need to pull from registry
+      console.debug(`[chart-fetcher] Chart ${chartName}@${version} not cached, pulling from ${registryUrl}`);
     }
 
     // Add the helm repo
@@ -189,8 +190,9 @@ async function readChartLock(chartPath: string, chartName: string): Promise<Char
     }
 
     return result.data;
-  } catch {
-    // Chart.lock doesn't exist - that's fine
+  } catch (error) {
+    // Chart.lock doesn't exist - that's fine, not all charts have lock files
+    console.debug(`[chart-fetcher] No Chart.lock for ${chartName}: ${String(error)}`);
     return null;
   }
 }

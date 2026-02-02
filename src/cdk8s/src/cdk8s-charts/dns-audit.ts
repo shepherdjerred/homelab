@@ -129,7 +129,6 @@ if __name__ == "__main__":
     metadata: {
       name: "dns-audit",
       annotations: {
-        "ignore-check.kube-linter.io/run-as-non-root": "Container runs as default Python image user",
         "ignore-check.kube-linter.io/no-read-only-root-fs": "Container requires writable filesystem for pip install",
       },
     },
@@ -156,7 +155,7 @@ if __name__ == "__main__":
                   name: "dns-audit",
                   image: "python:3.12-slim",
                   command: ["/bin/sh", "-c"],
-                  args: ["pip install --quiet checkdmarc && python3 /scripts/audit.py"],
+                  args: ["pip install --quiet --user checkdmarc && python3 /scripts/audit.py"],
                   volumeMounts: [
                     {
                       name: "script",
@@ -173,6 +172,12 @@ if __name__ == "__main__":
                       cpu: Quantity.fromString("500m"),
                       memory: Quantity.fromString("256Mi"),
                     },
+                  },
+                  securityContext: {
+                    runAsNonRoot: true,
+                    runAsUser: 65534,
+                    runAsGroup: 65534,
+                    allowPrivilegeEscalation: false,
                   },
                 },
               ],

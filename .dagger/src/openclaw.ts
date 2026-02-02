@@ -1,5 +1,6 @@
 import { dag, Container, type Secret } from "@dagger.io/dagger";
 import type { StepResult } from ".";
+import versions from "./versions.ts";
 
 /**
  * Builds a container with the OpenClaw application ready to run.
@@ -8,19 +9,23 @@ import type { StepResult } from ".";
  * @returns A configured Container ready to run the OpenClaw application.
  */
 function buildOpenclawContainer(): Container {
-  return dag
-    .container()
-    .from("node:22-bookworm")
-    .withExec(["corepack", "enable"])
-    .withExec(["git", "clone", "--depth=1", "https://github.com/openclaw/openclaw.git", "/app"])
-    .withWorkdir("/app")
-    .withMountedCache("/root/.local/share/pnpm/store", dag.cacheVolume("pnpm-cache-openclaw"))
-    .withExec(["pnpm", "install"])
-    .withExec(["pnpm", "ui:build"]) // Build the UI first (auto-installs UI deps)
-    .withExec(["pnpm", "build"])
-    .withUser("node")
-    .withExposedPort(18789)
-    .withEntrypoint(["node", "dist/index.js"]);
+  return (
+    dag
+      .container()
+      .from("node:22-bookworm")
+      .withExec(["corepack", "enable"])
+      // Clone and checkout pinned commit for supply chain security
+      .withExec(["git", "clone", "https://github.com/openclaw/openclaw.git", "/app"])
+      .withWorkdir("/app")
+      .withExec(["git", "checkout", versions.openclawCommit])
+      .withMountedCache("/root/.local/share/pnpm/store", dag.cacheVolume("pnpm-cache-openclaw"))
+      .withExec(["pnpm", "install"])
+      .withExec(["pnpm", "ui:build"]) // Build the UI first (auto-installs UI deps)
+      .withExec(["pnpm", "build"])
+      .withUser("node")
+      .withExposedPort(18789)
+      .withEntrypoint(["node", "dist/index.js"])
+  );
 }
 
 /**
@@ -38,22 +43,29 @@ export async function buildAndPushOpenclawImage(
   ghcrPassword: Secret,
   dryRun = false,
 ): Promise<StepResult> {
-  const container = buildOpenclawContainer();
+  try {
+    const container = buildOpenclawContainer();
 
-  // Build or publish the image based on dry-run flag
-  if (dryRun) {
-    // For dry-run, build the container to ensure it works
-    await container.sync();
+    // Build or publish the image based on dry-run flag
+    if (dryRun) {
+      // For dry-run, build the container to ensure it works
+      await container.sync();
+      return {
+        status: "passed",
+        message: "OpenClaw image built successfully",
+      };
+    }
+    // Publish the image
+    const result = await container.withRegistryAuth("ghcr.io", ghcrUsername, ghcrPassword).publish(imageName);
+
     return {
       status: "passed",
-      message: "OpenClaw image built successfully",
+      message: `OpenClaw image published: ${result}`,
+    };
+  } catch (error) {
+    return {
+      status: "failed",
+      message: `OpenClaw build/publish failed: ${String(error)}`,
     };
   }
-  // Publish the image
-  const result = await container.withRegistryAuth("ghcr.io", ghcrUsername, ghcrPassword).publish(imageName);
-
-  return {
-    status: "passed",
-    message: `OpenClaw image published: ${result}`,
-  };
 }

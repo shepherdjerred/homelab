@@ -85,9 +85,10 @@ const loadedConfigs: Record<ServerName, Record<string, string>> = {
 for (const name of serverNames) {
   try {
     loadedConfigs[name] = await loadServerConfigs(name);
-  } catch {
+  } catch (error) {
     // Config directory may not exist yet - that's OK during development
     // The error will surface when the server-specific functions are called
+    console.debug(`[minecraft-config] Skipping ${name} config load: ${String(error)}`);
   }
 }
 

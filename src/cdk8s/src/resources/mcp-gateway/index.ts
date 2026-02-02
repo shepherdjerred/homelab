@@ -57,6 +57,15 @@ export async function createMcpGatewayDeployment(chart: Chart) {
     },
   });
 
+  const piazzaItem = new OnePasswordItem(chart, "piazza-1p", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/piazza",
+    },
+    metadata: {
+      name: "piazza",
+    },
+  });
+
   const deployment = new Deployment(chart, "mcp-gateway", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
@@ -119,6 +128,19 @@ export async function createMcpGatewayDeployment(chart: Chart) {
         API_KEY: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "todoist-secret", todoistItem.name),
           key: "api-key",
+        }),
+        // Piazza configuration
+        PIAZZA_EMAIL: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "piazza-email-secret", piazzaItem.name),
+          key: "email",
+        }),
+        PIAZZA_PASSWORD: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "piazza-password-secret", piazzaItem.name),
+          key: "password",
+        }),
+        PIAZZA_COURSES: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "piazza-courses-secret", piazzaItem.name),
+          key: "courses",
         }),
       },
       volumeMounts: [

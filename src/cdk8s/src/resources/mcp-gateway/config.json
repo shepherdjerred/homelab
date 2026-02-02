@@ -12,6 +12,10 @@
     "todoist": {
       "command": "npx",
       "args": ["-y", "todoist-mcp@1.2.4"]
+    },
+    "piazza": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/clarsbyte/piazza-mcp.git", "piazza-mcp"]
     }
   }
 }
