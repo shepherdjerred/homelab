@@ -19,7 +19,7 @@ export function createMcpGatewayApp(chart: Chart) {
       },
       syncPolicy: {
         automated: {},
-        syncOptions: ["CreateNamespace=true"],
+        syncOptions: ["CreateNamespace=true", "Replace=true"],
       },
     },
   });

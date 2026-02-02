@@ -368,9 +368,9 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     LOGGING_ENABLED: EnvValue.fromValue("true"),
     LOGGING_HIGHLIGHTING_ENABLED: EnvValue.fromValue("false"),
 
-    // Prometheus metrics configuration
-    PROMETHEUS_ENABLED: EnvValue.fromValue("true"),
-    PROMETHEUS_PORT: EnvValue.fromValue("9090"),
+    // Health server configuration (exposes /metrics for Prometheus)
+    // Bind to 0.0.0.0 so Prometheus can scrape from outside the pod
+    HEALTH_SERVER_BIND_ADDRESS: EnvValue.fromValue("0.0.0.0"),
 
     // Wait for MariaDB to be ready before starting
     WAIT_FOR_TARGETS: EnvValue.fromValue(`${props.mariadb.serviceName}:3306`),
@@ -404,11 +404,6 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
         {
           name: "web",
           number: 5000,
-          protocol: Protocol.TCP,
-        },
-        {
-          name: "metrics",
-          number: 9090,
           protocol: Protocol.TCP,
         },
       ],
@@ -522,6 +517,13 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
       image: `ghcr.io/postalserver/postal:${versions["postalserver/postal"]}`,
       command: ["/bin/bash"],
       args: ["-c", "postal worker"],
+      ports: [
+        {
+          name: "metrics",
+          number: 9090,
+          protocol: Protocol.TCP,
+        },
+      ],
       envVariables: {
         ...commonEnv,
         // Use the local Postfix sidecar as SMTP relay (port 25 blocked externally)
@@ -625,10 +627,7 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
         app: "postal-web",
       },
     },
-    ports: [
-      { port: 5000, name: "web" },
-      { port: 9090, name: "metrics" },
-    ],
+    ports: [{ port: 5000, name: "web" }],
   });
 
   const smtpService = new Service(chart, "postal-smtp-service", {
@@ -641,14 +640,25 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     ports: [{ port: 25, name: "smtp" }],
   });
 
+  // Worker service for Prometheus metrics scraping
+  // The worker exposes health server with /metrics on port 9090
+  new Service(chart, "postal-worker-service", {
+    selector: workerDeployment,
+    metadata: {
+      labels: {
+        app: "postal-worker",
+      },
+    },
+    ports: [{ port: 9090, name: "metrics" }],
+  });
+
   // Create Tailscale Ingress for Web UI
-  // Use createIngress to specify port explicitly since service has multiple ports
   createIngress(chart, "postal-ingress", "postal", webService.name, 5000, ["postal"], false);
 
-  // Create ServiceMonitor for Prometheus metrics
+  // Create ServiceMonitor for Prometheus metrics (targets worker which exposes /metrics)
   createServiceMonitor(chart, {
     name: "postal",
-    matchLabels: { app: "postal-web" },
+    matchLabels: { app: "postal-worker" },
     port: "metrics",
     interval: "30s",
   });

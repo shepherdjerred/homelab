@@ -163,11 +163,17 @@ export function createMinecraftShuxinApp(chart: Chart) {
         namespace: "minecraft-shuxin",
       },
       // Allow mc-router to manage replicas for hibernation
+      // Ignore Service clusterIP/clusterIPs which are assigned by SSA
       ignoreDifferences: [
         {
           group: "apps",
           kind: "StatefulSet",
           jsonPointers: ["/spec/replicas"],
+        },
+        {
+          group: "",
+          kind: "Service",
+          jsonPointers: ["/spec/clusterIP", "/spec/clusterIPs"],
         },
       ],
       syncPolicy: {

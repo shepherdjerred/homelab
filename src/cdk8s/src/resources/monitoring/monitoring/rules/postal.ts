@@ -61,26 +61,33 @@ export function getPostalRuleGroups(): PrometheusRuleSpecGroups[] {
       name: "postal-queue",
       rules: [
         {
-          alert: "PostalQueueBacklog",
+          alert: "PostalQueueLatencyHigh",
           annotations: {
-            summary: "Postal message queue backlog",
-            message: escapePrometheusTemplate("Postal has {{ $value }} held messages. Email delivery may be delayed."),
+            summary: "Postal message queue latency is high",
+            message: escapePrometheusTemplate(
+              "Postal message queue latency p99 is {{ $value | humanizeDuration }}. Email delivery may be delayed.",
+            ),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("postal_held_messages > 100"),
+          // postal_message_queue_latency is a histogram; alert on high p99 latency
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "histogram_quantile(0.99, sum(rate(postal_message_queue_latency_bucket[5m])) by (le)) > 300",
+          ),
           for: "15m",
           labels: {
             severity: "warning",
           },
         },
         {
-          alert: "PostalQueueCritical",
+          alert: "PostalQueueLatencyCritical",
           annotations: {
-            summary: "Postal message queue critically backed up",
+            summary: "Postal message queue latency critically high",
             message: escapePrometheusTemplate(
-              "Postal has {{ $value }} held messages. Email delivery is severely impacted.",
+              "Postal message queue latency p99 is {{ $value | humanizeDuration }}. Email delivery is severely impacted.",
             ),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("postal_held_messages > 500"),
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
+            "histogram_quantile(0.99, sum(rate(postal_message_queue_latency_bucket[5m])) by (le)) > 900",
+          ),
           for: "5m",
           labels: {
             severity: "critical",
@@ -89,21 +96,49 @@ export function getPostalRuleGroups(): PrometheusRuleSpecGroups[] {
       ],
     },
     {
-      name: "postal-delivery",
+      name: "postal-worker",
       rules: [
         {
-          alert: "PostalDeliveryFailureRateHigh",
+          alert: "PostalWorkerErrorsHigh",
           annotations: {
-            summary: "High email delivery failure rate",
+            summary: "High rate of Postal worker errors",
             message: escapePrometheusTemplate(
-              "Postal delivery failure rate is {{ $value | humanizePercentage }}. Check SMTP relay and recipient domains.",
+              "Postal worker has {{ $value }} errors in the last 15 minutes. Check worker logs for details.",
             ),
           },
-          expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            `(sum(rate(postal_messages_total{status="HardFail"}[5m])) + sum(rate(postal_messages_total{status="SoftFail"}[5m])))
-             / sum(rate(postal_messages_total[5m])) > 0.1`,
-          ),
-          for: "15m",
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("increase(postal_worker_errors[15m]) > 10"),
+          for: "5m",
+          labels: {
+            severity: "warning",
+          },
+        },
+        {
+          alert: "PostalWorkerErrorsCritical",
+          annotations: {
+            summary: "Critical rate of Postal worker errors",
+            message: escapePrometheusTemplate(
+              "Postal worker has {{ $value }} errors in the last 15 minutes. Email processing may be failing.",
+            ),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("increase(postal_worker_errors[15m]) > 50"),
+          for: "5m",
+          labels: {
+            severity: "critical",
+          },
+        },
+      ],
+    },
+    {
+      name: "postal-smtp",
+      rules: [
+        {
+          alert: "PostalSMTPExceptionsHigh",
+          annotations: {
+            summary: "High rate of SMTP server exceptions",
+            message: escapePrometheusTemplate("Postal SMTP server has {{ $value }} exceptions in the last 15 minutes."),
+          },
+          expr: PrometheusRuleSpecGroupsRulesExpr.fromString("increase(postal_smtp_server_exceptions_total[15m]) > 10"),
+          for: "5m",
           labels: {
             severity: "warning",
           },
@@ -134,11 +169,12 @@ export function getPostalRuleGroups(): PrometheusRuleSpecGroups[] {
           annotations: {
             summary: "Postal MariaDB is down",
             message: escapePrometheusTemplate(
-              "Postal MariaDB has {{ $value }} available replicas. Database is unavailable.",
+              "Postal MariaDB StatefulSet has {{ $value }} ready replicas. Database is unavailable.",
             ),
           },
+          // MariaDB is deployed via Bitnami Helm chart as a StatefulSet named postal-mariadb
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'kube_deployment_status_replicas_available{namespace="postal", deployment="postal-postal-mariadb"} < 1',
+            'kube_statefulset_status_replicas_ready{namespace="postal", statefulset="postal-mariadb"} < 1',
           ),
           for: "2m",
           labels: {
