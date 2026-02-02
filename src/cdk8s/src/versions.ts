@@ -144,7 +144,7 @@ const versions = {
   // renovate: datasource=helm registryUrl=https://kubernetes-sigs.github.io/external-dns versioning=semver
   "external-dns": "1.20.0",
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
-  "postalserver/postal": "3.3.4@sha256:0945f345ee87f5e6a4eb227d47f41c223ec0aa8b06a7c24f9f60ca0f9b9e0c28",
+  "postalserver/postal": "3.3.5@sha256:bcab815adb33e3a41b644dfc4851c31512e29d6f170856332bc61059e90e87b7",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
   "library/mariadb": "11.8@sha256:345fa26d595e8c7fe298e0c4098ed400356f502458769c8902229b3437d6da2b",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=docker
