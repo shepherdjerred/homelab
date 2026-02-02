@@ -66,7 +66,7 @@
       "version": "1.0.0",
       "dependencies": {
         "@digital-alchemy/automation": "^25.11.18",
-        "@digital-alchemy/core": "^25.12.8",
+        "@digital-alchemy/core": "^26.0.0",
         "@digital-alchemy/hass": "^25.11.27",
         "@digital-alchemy/synapse": "^25.12.19",
         "@digital-alchemy/type-writer": "^25.11.16",
@@ -82,7 +82,7 @@
     },
     "src/helm-types": {
       "name": "@shepherdjerred/helm-types",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "bin": {
         "helm-types": "dist/cli.js",
       },
@@ -140,7 +140,7 @@
 
     "@digital-alchemy/automation": ["@digital-alchemy/automation@25.11.18", "", { "peerDependencies": { "@digital-alchemy/core": "*", "@digital-alchemy/hass": "*", "@digital-alchemy/synapse": "*", "dayjs": "^1" } }, "sha512-2nKbntehiLSLWLAKeN81U8CxFZjoY/5yh4TJcsIOYgRRAlfQvuQGav+OQofQtQePGjLPk8l6SHiafut8Kq2hKg=="],
 
-    "@digital-alchemy/core": ["@digital-alchemy/core@25.12.8", "", { "dependencies": { "@dotenvx/dotenvx": "^1.51.1", "chalk": "^5.6.2", "cron": "^4.3.4", "dayjs": "^1.11.19", "ini": "^6.0.0", "js-yaml": "^4.1.0", "minimist": "^1.2.8", "uuid": "^13.0.0" } }, "sha512-K9cPk+y3fhbgjwCuXQPN8TRYbS/9ZGX60umsPhOQfEJ8celgo37c/eXpbEyJxIhMOmbCtvxG5FhgLQhFHHhSEQ=="],
+    "@digital-alchemy/core": ["@digital-alchemy/core@26.1.9", "", { "dependencies": { "@dotenvx/dotenvx": "^1.51.4", "chalk": "^5.6.2", "cron": "^4.4.0", "dayjs": "^1.11.19", "ini": "^6.0.0", "js-yaml": "^4.1.1", "minimist": "^1.2.8", "uuid": "^13.0.0" } }, "sha512-0lMH2s5FaSkkMXoyzcLeyEIYaarpmwolfonYyJzstg3Mt7rOreG310GA1IkVGjkOWFZDqqZkYuaNpQtITbKSiw=="],
 
     "@digital-alchemy/hass": ["@digital-alchemy/hass@25.11.27", "", { "dependencies": { "dayjs": "^1.11.19", "semver": "^7.7.3", "type-fest": "^5.2.0", "uuid": "^13.0.0", "ws": "^8.18.3" }, "peerDependencies": { "@digital-alchemy/core": "*" }, "bin": { "mock-assistant": "scripts/mock-assistant.sh" } }, "sha512-TyC4mT0XkqUTrYUL8JLfZepY2CxGkt5n4DXY6F2DSJcKqCenXEyvWfvNd+s5hOqmaJJFEc9qAzz8g1LLLEM40w=="],
 
