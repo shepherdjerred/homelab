@@ -377,7 +377,7 @@ ChannelTopicUpdaterConsoleChannelTopicAtServerShutdownFormat: "Server is offline
 # This is the message sent to players when they run "/discord". It's recommended to leave command syntax as a part of this
 # Use {INVITE} as a placeholder for the invite link people need to join the Discord server, uses DiscordInviteLink configured in config.yml
 #
-DiscordCommandFormat: "&bJoin us on Discord at {INVITE}&b. For command help, do \"/discord ?\""
+DiscordCommandFormat: '&bJoin us on Discord at {INVITE}&b. For command help, do "/discord ?"'
 
 # No permission message
 NoPermissionMessage: "&cYou do not have permission to perform this command."
@@ -389,8 +389,8 @@ UnknownCommandMessage: "&bThat command doesn't exist!"
 # DiscordChatChannelServerStartupMessage: message to be sent when server starts; leave blank to disable
 # DiscordChatChannelServerShutdownMessage: message to be sent when server shuts down; leave blank to disable
 #
-DiscordChatChannelServerStartupMessage: ":white_check_mark: **Server has started**"
-DiscordChatChannelServerShutdownMessage: ":octagonal_sign: **Server has stopped**"
+DiscordChatChannelServerStartupMessage: ""
+DiscordChatChannelServerShutdownMessage: ""
 
 # Server watchdog message
 #
@@ -445,4 +445,4 @@ LinkedCommandSuccess: "&bYour Minecraft account is associated with %name%."
 UnlinkCommandSuccess: "&bYour Minecraft account is no longer associated with %name%."
 MinecraftNoLinkedAccount: "&cYour Minecraft account isn't associated with a Discord account."
 LinkingError: "&cCurrently unable to link accounts due to an internal error. Contact your server administration team."
-MinecraftNobodyFound: "&cNobody found with Discord ID/Discord name/Minecraft name/Minecraft UUID matching \"%target%\" to look up."
+MinecraftNobodyFound: '&cNobody found with Discord ID/Discord name/Minecraft name/Minecraft UUID matching "%target%" to look up.'
