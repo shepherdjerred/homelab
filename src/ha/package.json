@@ -16,7 +16,7 @@
   "description": "",
   "dependencies": {
     "@digital-alchemy/automation": "^25.11.18",
-    "@digital-alchemy/core": "^25.12.8",
+    "@digital-alchemy/core": "^26.0.0",
     "@digital-alchemy/hass": "^25.11.27",
     "@digital-alchemy/synapse": "^25.12.19",
     "@digital-alchemy/type-writer": "^25.11.16",
