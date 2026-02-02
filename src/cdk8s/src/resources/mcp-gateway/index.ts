@@ -104,6 +104,8 @@ export async function createMcpGatewayDeployment(chart: Chart) {
         periodSeconds: Duration.seconds(10),
       }),
       envVariables: {
+        // Set HOME to /tmp so npx can write cache files (container runs as nobody with /nonexistent home)
+        HOME: EnvValue.fromValue("/tmp"),
         // Canvas configuration (shared credential)
         CANVAS_API_TOKEN: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "canvas-token-secret", canvasItem.name),
@@ -114,7 +116,7 @@ export async function createMcpGatewayDeployment(chart: Chart) {
           key: "base-url",
         }),
         // Todoist configuration (shared credential)
-        TODOIST_API_KEY: EnvValue.fromSecretValue({
+        TODOIST_API_TOKEN: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "todoist-secret", todoistItem.name),
           key: "api-key",
         }),
