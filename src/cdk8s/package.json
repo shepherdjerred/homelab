@@ -26,7 +26,7 @@
     "ts-pattern": "^5.7.1",
     "zod": "^4.1.11",
     "@shepherdjerred/helm-types": "workspace:*",
-    "@grafana/grafana-foundation-sdk": "11.6.0-cogv0.0.x.1759917919"
+    "@grafana/grafana-foundation-sdk": "11.6.0-cogv0.0.x.1769699379"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.17",
