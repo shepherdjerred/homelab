@@ -264,13 +264,14 @@ export function createExternalDomainsChart(app: App) {
   });
 
   // jerred.is - email rejection (doesn't send email)
+  // Uses NO_APEX because apex has CNAME to sjer.red (CNAME + TXT conflict)
   new DnsEndpoint(chart, "jerred-is-txt", {
     metadata: {
       name: "jerred-is-txt",
       namespace: "external-dns",
     },
     spec: {
-      endpoints: EMAIL_REJECTION_RECORDS("jerred.is"),
+      endpoints: EMAIL_REJECTION_RECORDS_NO_APEX("jerred.is"),
     },
   });
 
@@ -354,6 +355,14 @@ export function createExternalDomainsChart(app: App) {
           dnsName: "_dmarc.sjer.red",
           recordType: "TXT",
           targets: ["v=DMARC1; p=quarantine; rua=mailto:dmarc@sjer.red"],
+        },
+        // Postal DKIM public key for signing outbound mail
+        {
+          dnsName: "postal-aooLXx._domainkey.sjer.red",
+          recordType: "TXT",
+          targets: [
+            "v=DKIM1; t=s; h=sha256; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFfuKrHpylh2b4GmkgNWYNOkD5LypiaG8T4rDFR/3erk8ZE2fT7Z5ycQcyt+WdVlaN4VhT4phGNLr1rdXNRpUMFZV6uvOFqy2vzvHLaYSiNaYGONdhBe8L1af67XXMsxUbNO8kbyVkSkvpPS9hnz7/qZBfd0glRoGdNI64NQyHlwIDAQAB;",
+          ],
         },
       ],
     },
