@@ -97,9 +97,41 @@ const OPENCLAW_CONFIG = {
   // MCP Gateway configuration - connects to centralized MCP proxy
   mcp: {
     servers: {
-      gateway: {
+      canvas: {
         transport: "sse",
-        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/sse",
+        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/canvas/sse",
+      },
+      todoist: {
+        transport: "sse",
+        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/todoist/sse",
+      },
+      piazza: {
+        transport: "sse",
+        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/piazza/sse",
+      },
+      "home-assistant": {
+        transport: "sse",
+        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/home-assistant/sse",
+      },
+      github: {
+        transport: "sse",
+        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/github/sse",
+      },
+      sonos: {
+        transport: "sse",
+        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/sonos/sse",
+      },
+      fastmail: {
+        transport: "sse",
+        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/fastmail/sse",
+      },
+      weather: {
+        transport: "sse",
+        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/weather/sse",
+      },
+      gmail: {
+        transport: "sse",
+        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/gmail/sse",
       },
     },
   },
