@@ -13,7 +13,23 @@ export type StaticSiteConfig = {
   bucket: string;
   indexFile?: string;
   notFoundPage?: string;
+  /**
+   * Use external-dns service annotations to create DNS records (CNAME to tunnel).
+   * Set to false for apex domains that have TXT/MX records, as CNAMEs can't coexist
+   * with other record types. Use `useTunnelDns` instead for those domains.
+   */
   externalDns?: boolean;
+  /**
+   * Use cloudflare-operator's built-in DNS management instead of external-dns.
+   * This creates DNS records directly in Cloudflare, bypassing external-dns.
+   *
+   * Use this for apex domains that have TXT records (e.g., SPF/DMARC for email rejection)
+   * managed via DNSEndpoint. External-dns can't handle both CNAME and TXT for the same
+   * domain name, but cloudflare-operator + external-dns can when they manage different
+   * record types separately. Cloudflare's CNAME flattening allows the proxied CNAME
+   * to coexist with TXT records.
+   */
+  useTunnelDns?: boolean;
 };
 
 export type S3StaticSitesProps = {
@@ -173,6 +189,12 @@ export class S3StaticSites extends Construct {
     });
 
     for (const site of props.sites) {
+      // Determine DNS update strategy:
+      // - useTunnelDns: true → cloudflare-operator creates DNS (disableDnsUpdates: false)
+      // - externalDns: true → external-dns creates DNS via service annotations (disableDnsUpdates: true)
+      // - neither → manual DNS management (disableDnsUpdates: true)
+      const disableDnsUpdates = !site.useTunnelDns;
+
       new TunnelBinding(this, `tunnel-${site.hostname.replace(/\./g, "-")}`, {
         metadata: {
           namespace,
@@ -188,10 +210,7 @@ export class S3StaticSites extends Construct {
         tunnelRef: {
           kind: TunnelBindingTunnelRefKind.CLUSTER_TUNNEL,
           name: "homelab-tunnel",
-          // Always disable DNS updates from cloudflare-operator:
-          // - Sites with externalDns: true use external-dns service annotations (CNAME)
-          // - Sites with externalDns: false use manual A records or DNSEndpoint
-          disableDnsUpdates: true,
+          disableDnsUpdates,
         },
       });
 

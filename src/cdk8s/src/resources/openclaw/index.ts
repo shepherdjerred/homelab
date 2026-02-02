@@ -94,6 +94,15 @@ const OPENCLAW_CONFIG = {
       "canvas", // A2UI visual canvas - requires node connection
     ],
   },
+  // MCP Gateway configuration - connects to centralized MCP proxy
+  mcp: {
+    servers: {
+      gateway: {
+        transport: "sse",
+        url: "http://mcp-gateway.mcp-gateway.svc.cluster.local:9090/sse",
+      },
+    },
+  },
 };
 
 export function createOpenclawDeployment(chart: Chart) {

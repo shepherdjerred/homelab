@@ -16,6 +16,35 @@
     "piazza": {
       "command": "uvx",
       "args": ["--from", "git+https://github.com/clarsbyte/piazza-mcp.git", "piazza-mcp"]
+    },
+    "home-assistant": {
+      "command": "uvx",
+      "args": [
+        "mcp-proxy",
+        "--transport=streamablehttp",
+        "--stateless",
+        "https://homeassistant.tailnet-1a49.ts.net/api/mcp"
+      ]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"]
+    },
+    "sonos": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/WinstonFassett/sonos-mcp-server.git", "sonos-mcp-server"]
+    },
+    "fastmail": {
+      "command": "npx",
+      "args": ["-y", "@jahfer/jmap-mcp-server"]
+    },
+    "weather": {
+      "command": "npx",
+      "args": ["-y", "@dangahagan/weather-mcp"]
+    },
+    "gmail": {
+      "command": "npx",
+      "args": ["-y", "@automatearmy/email-reader-mcp"]
     }
   }
 }

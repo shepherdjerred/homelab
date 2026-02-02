@@ -66,6 +66,26 @@ export async function createMcpGatewayDeployment(chart: Chart) {
     },
   });
 
+  // GitHub credentials (shared with openclaw)
+  const openclawItem = new OnePasswordItem(chart, "openclaw-1p", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/openclaw",
+    },
+    metadata: {
+      name: "openclaw",
+    },
+  });
+
+  // Gmail credentials from clawdbot
+  const clawdbotItem = new OnePasswordItem(chart, "clawdbot-1p", {
+    spec: {
+      itemPath: "vaults/v64ocnykdqju4ui6j6pua56xw4/items/clawdbot",
+    },
+    metadata: {
+      name: "clawdbot",
+    },
+  });
+
   const deployment = new Deployment(chart, "mcp-gateway", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
@@ -141,6 +161,26 @@ export async function createMcpGatewayDeployment(chart: Chart) {
         PIAZZA_COURSES: EnvValue.fromSecretValue({
           secret: Secret.fromSecretName(chart, "piazza-courses-secret", piazzaItem.name),
           key: "courses",
+        }),
+        // GitHub configuration - @modelcontextprotocol/server-github expects GITHUB_TOKEN
+        GITHUB_TOKEN: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "github-token-secret", openclawItem.name),
+          key: "gh-token",
+        }),
+        // Fastmail JMAP configuration - token stored in openclaw 1Password item
+        JMAP_SESSION_URL: EnvValue.fromValue("https://api.fastmail.com/jmap/session"),
+        JMAP_TOKEN: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "fastmail-jmap-token-secret", openclawItem.name),
+          key: "fastmail-token",
+        }),
+        // Gmail IMAP configuration - @automatearmy/email-reader-mcp expects USER_EMAIL and USER_PASS
+        USER_EMAIL: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "gmail-email-secret", clawdbotItem.name),
+          key: "email",
+        }),
+        USER_PASS: EnvValue.fromSecretValue({
+          secret: Secret.fromSecretName(chart, "gmail-pass-secret", clawdbotItem.name),
+          key: "password",
         }),
       },
       volumeMounts: [
