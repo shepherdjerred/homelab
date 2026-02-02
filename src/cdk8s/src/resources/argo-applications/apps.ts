@@ -19,7 +19,7 @@ export function createAppsApp(chart: Chart) {
       },
       syncPolicy: {
         automated: {},
-        syncOptions: ["CreateNamespace=true"],
+        syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
       },
     },
   });
