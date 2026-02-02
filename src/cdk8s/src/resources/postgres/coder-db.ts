@@ -15,6 +15,10 @@ export function createCoderPostgreSQLDatabase(chart: Chart) {
     metadata: {
       name: "coder-postgresql",
       namespace: "coder", // Same namespace as Coder
+      annotations: {
+        // Prevent ArgoCD from deleting this resource during sync - data loss protection
+        "argocd.argoproj.io/sync-options": "Delete=false",
+      },
     },
     spec: {
       numberOfInstances: 1, // Single node setup for homelab

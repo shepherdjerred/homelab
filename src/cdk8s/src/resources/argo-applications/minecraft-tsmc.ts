@@ -111,31 +111,10 @@ export function createMinecraftTsmcApp(chart: Chart) {
         "https://github.com/garbagemule/MobArena/releases/download/0.108/MobArena-0.108.jar",
       ],
 
-      // Modrinth plugins
-      modrinth: {
-        projects: [
-          "luckperms",
-          "towny",
-          // "coreprotect", // TODO: Re-add when it supports 1.21.11 (currently only 1.21.10)
-          "worldedit",
-          "worldguard",
-          "chunky",
-          "chunkyborder",
-          "plan",
-          "placeholderapi",
-          "chestsort",
-          "multiverse-core",
-          "craftbook",
-          "levelledmobs", // Was Spiget 74304
-        ],
-        downloadDependencies: "required",
-        allowedVersionType: "beta", // CraftBook only has beta releases
-      },
-
-      // TODO: Re-add these plugins when available:
-      // - coreprotect - waiting for 1.21.11 support (currently only 1.21.10)
-      // - mcMMO (64348) - premium, needs to be built from source or purchased
-      // - DynamicShop (65603), VentureChat (771), BetterSleeping (60837), LWC (2162), XConomy (40313) - Spiget-only
+      // TODO: Re-add modrinth plugins when they support 1.21.11:
+      // luckperms, towny, coreprotect, worldedit, worldguard, chunky, chunkyborder,
+      // plan, placeholderapi, chestsort, multiverse-core, craftbook, levelledmobs
+      // Also: mcMMO, DynamicShop, VentureChat, BetterSleeping, LWC, XConomy (Spiget-only)
 
       extraPorts: [
         {

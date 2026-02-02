@@ -12,6 +12,7 @@ import { getQBitTorrentRuleGroups } from "./rules/qbittorrent";
 import { getStaticSitesRuleGroups } from "./rules/static-sites";
 import { getR2StorageRuleGroups } from "./rules/r2-storage";
 import { getBugsinkRuleGroups } from "./rules/bugsink";
+import { getPostalRuleGroups } from "./rules/postal";
 
 export function createPrometheusMonitoring(chart: Chart) {
   // Create Home Assistant rules
@@ -154,6 +155,18 @@ export function createPrometheusMonitoring(chart: Chart) {
     },
     spec: {
       groups: getBugsinkRuleGroups(),
+    },
+  });
+
+  // Create Postal rules
+  new PrometheusRule(chart, "prometheus-postal-rules", {
+    metadata: {
+      name: "prometheus-postal-rules",
+      namespace: "postal",
+      labels: { release: "prometheus" },
+    },
+    spec: {
+      groups: getPostalRuleGroups(),
     },
   });
 }

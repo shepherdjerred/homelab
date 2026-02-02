@@ -14,6 +14,10 @@ export function createBugsinkPostgreSQLDatabase(chart: Chart) {
   return new Postgresql(chart, "bugsink-postgresql", {
     metadata: {
       name: "bugsink-postgresql",
+      annotations: {
+        // Prevent ArgoCD from deleting this resource during sync - data loss protection
+        "argocd.argoproj.io/sync-options": "Delete=false",
+      },
     },
     spec: {
       numberOfInstances: 1, // Single node setup for homelab

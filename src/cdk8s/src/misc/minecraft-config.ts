@@ -413,7 +413,7 @@ export function getMinecraftPluginConfigInitContainer(serverName: ServerName, us
       // 2. Copy plugin configs if they exist
       `rm -rf /data/config && mkdir -p /data/config
       if [ -d /plugin-configs ] && [ "$(ls -A /plugin-configs)" ]; then
-        cd /plugin-configs && find . -type f | while read f; do
+        cd /plugin-configs && find -L . -type f | while read f; do
           mkdir -p "/data/plugins/$(dirname "$f")"
           cp "$f" "/data/plugins/$f"
         done

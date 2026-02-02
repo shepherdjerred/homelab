@@ -12,8 +12,9 @@ import {
 import { Chart, Size } from "cdk8s";
 import { withCommonProps } from "../../misc/common.ts";
 import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
-import { TailscaleIngress } from "../../misc/tailscale.ts";
+import { createIngress } from "../../misc/tailscale.ts";
 import { OnePasswordItem } from "../../../generated/imports/onepassword.com.ts";
+import { createServiceMonitor } from "../../misc/service-monitor.ts";
 import versions from "../../versions.ts";
 import type { PostalMariaDB } from "../../resources/postgres/postal-mariadb.ts";
 
@@ -367,6 +368,10 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     LOGGING_ENABLED: EnvValue.fromValue("true"),
     LOGGING_HIGHLIGHTING_ENABLED: EnvValue.fromValue("false"),
 
+    // Prometheus metrics configuration
+    PROMETHEUS_ENABLED: EnvValue.fromValue("true"),
+    PROMETHEUS_PORT: EnvValue.fromValue("9090"),
+
     // Wait for MariaDB to be ready before starting
     WAIT_FOR_TARGETS: EnvValue.fromValue(`${props.mariadb.serviceName}:3306`),
     WAIT_FOR_TIMEOUT: EnvValue.fromValue("60"),
@@ -399,6 +404,11 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
         {
           name: "web",
           number: 5000,
+          protocol: Protocol.TCP,
+        },
+        {
+          name: "metrics",
+          number: 9090,
           protocol: Protocol.TCP,
         },
       ],
@@ -615,7 +625,10 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
         app: "postal-web",
       },
     },
-    ports: [{ port: 5000, name: "web" }],
+    ports: [
+      { port: 5000, name: "web" },
+      { port: 9090, name: "metrics" },
+    ],
   });
 
   const smtpService = new Service(chart, "postal-smtp-service", {
@@ -629,10 +642,15 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
   });
 
   // Create Tailscale Ingress for Web UI
-  new TailscaleIngress(chart, "postal-tailscale-ingress", {
-    service: webService,
-    host: "postal",
-    funnel: false, // Keep internal to tailnet for security
+  // Use createIngress to specify port explicitly since service has multiple ports
+  createIngress(chart, "postal-ingress", "postal", webService.name, 5000, ["postal"], false);
+
+  // Create ServiceMonitor for Prometheus metrics
+  createServiceMonitor(chart, {
+    name: "postal",
+    matchLabels: { app: "postal-web" },
+    port: "metrics",
+    interval: "30s",
   });
 
   return {
