@@ -89,9 +89,10 @@ export function createExternalDomainsChart(app: App) {
   // CNAME Records
   // ===========================================
 
-  // Note: External S3 static site domains (scout-for-lol.com, discord-plays-pokemon.com,
-  // better-skill-capped.com, clauderon.com, ts-mc.net) have apex CNAME + SPF managed
-  // manually in Cloudflare. external-dns can't create both for same apex (conflict).
+  // Note: Domains with apex CNAME (S3 static sites + redirects) have apex CNAME + SPF
+  // managed manually in Cloudflare. external-dns can't create both for same apex (conflict).
+  // Affected: scout-for-lol.com, discord-plays-pokemon.com, better-skill-capped.com,
+  // clauderon.com, ts-mc.net, jerred.is
   // Subdomain TXT records (_dmarc, *._domainkey) are managed below via DNSEndpoint.
 
   // jerred.is -> sjer.red
@@ -313,9 +314,20 @@ export function createExternalDomainsChart(app: App) {
     spec: { endpoints: EMAIL_REJECTION_RECORDS_NO_APEX("discord-plays-pokemon.com") },
   });
 
+  // ts-mc.net - FastMail email domain
+  // Apex records (CNAME, SPF, MX) and DKIM CNAMEs managed manually in Cloudflare
+  // due to apex CNAME conflict with S3 static site. Only DMARC via external-dns.
   new DnsEndpoint(chart, "ts-mc-net-txt", {
     metadata: { name: "ts-mc-net-txt", namespace: "external-dns" },
-    spec: { endpoints: EMAIL_REJECTION_RECORDS_NO_APEX("ts-mc.net") },
+    spec: {
+      endpoints: [
+        {
+          dnsName: "_dmarc.ts-mc.net",
+          recordType: "TXT",
+          targets: ["v=DMARC1; p=quarantine; rua=mailto:dmarc@ts-mc.net"],
+        },
+      ],
+    },
   });
 
   new DnsEndpoint(chart, "clauderon-com-txt", {
