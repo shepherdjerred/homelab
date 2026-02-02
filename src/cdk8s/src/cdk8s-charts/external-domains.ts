@@ -1,6 +1,6 @@
 import { App, Chart } from "cdk8s";
 import { DnsEndpoint } from "../../generated/imports/externaldns.k8s.io.ts";
-import { DDNS_HOSTNAME } from "../resources/argo-applications/external-dns.ts";
+import { DDNS_HOSTNAME, TUNNEL_CNAME_TARGET } from "../resources/argo-applications/external-dns.ts";
 
 // Helper to create unproxied providerSpecific config
 const UNPROXIED = [
@@ -71,6 +71,89 @@ export function createExternalDomainsChart(app: App) {
   // ===========================================
   // CNAME Records
   // ===========================================
+
+  // External domains pointing to Cloudflare Tunnel
+  // These domains use DNSEndpoint for CNAME instead of cloudflare-operator's useTunnelDns
+  // because cloudflare-operator creates records in wrong zone (e.g., scout-for-lol.com.sjer.red)
+  new DnsEndpoint(chart, "scout-for-lol-com-dns", {
+    metadata: {
+      name: "scout-for-lol-com-dns",
+      namespace: "external-dns",
+    },
+    spec: {
+      endpoints: [
+        {
+          dnsName: "scout-for-lol.com",
+          recordType: "CNAME",
+          targets: [TUNNEL_CNAME_TARGET],
+        },
+      ],
+    },
+  });
+
+  new DnsEndpoint(chart, "discord-plays-pokemon-com-dns", {
+    metadata: {
+      name: "discord-plays-pokemon-com-dns",
+      namespace: "external-dns",
+    },
+    spec: {
+      endpoints: [
+        {
+          dnsName: "discord-plays-pokemon.com",
+          recordType: "CNAME",
+          targets: [TUNNEL_CNAME_TARGET],
+        },
+      ],
+    },
+  });
+
+  new DnsEndpoint(chart, "better-skill-capped-com-dns", {
+    metadata: {
+      name: "better-skill-capped-com-dns",
+      namespace: "external-dns",
+    },
+    spec: {
+      endpoints: [
+        {
+          dnsName: "better-skill-capped.com",
+          recordType: "CNAME",
+          targets: [TUNNEL_CNAME_TARGET],
+        },
+      ],
+    },
+  });
+
+  new DnsEndpoint(chart, "clauderon-com-dns", {
+    metadata: {
+      name: "clauderon-com-dns",
+      namespace: "external-dns",
+    },
+    spec: {
+      endpoints: [
+        {
+          dnsName: "clauderon.com",
+          recordType: "CNAME",
+          targets: [TUNNEL_CNAME_TARGET],
+        },
+      ],
+    },
+  });
+
+  new DnsEndpoint(chart, "ts-mc-net-dns", {
+    metadata: {
+      name: "ts-mc-net-dns",
+      namespace: "external-dns",
+    },
+    spec: {
+      endpoints: [
+        {
+          dnsName: "ts-mc.net",
+          recordType: "CNAME",
+          targets: [TUNNEL_CNAME_TARGET],
+        },
+      ],
+    },
+  });
 
   // jerred.is -> sjer.red
   new DnsEndpoint(chart, "jerred-is-dns", {

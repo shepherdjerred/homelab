@@ -11,18 +11,19 @@ export const staticSites: StaticSiteConfig[] = [
 
   // Apex domains with email rejection TXT records (SPF/DMARC/DKIM in external-domains.ts):
   // - externalDns: false → don't use external-dns service annotations for CNAME
-  // - useTunnelDns: true → let cloudflare-operator create DNS directly
+  // - useTunnelDns: false → use DNSEndpoint in external-domains.ts for CNAME
   //
   // This avoids external-dns conflict: "Domain X contains conflicting record type
   // candidates; discarding CNAME record". External-dns can't create both CNAME and
-  // TXT for the same domain. By splitting responsibility (cloudflare-operator for
-  // CNAME, external-dns for TXT via DNSEndpoint), both record types get created.
-  // Cloudflare's CNAME flattening converts the proxied CNAME to A records internally.
-  { hostname: "discord-plays-pokemon.com", bucket: "dpp-docs", externalDns: false, useTunnelDns: true },
-  { hostname: "scout-for-lol.com", bucket: "scout-frontend", externalDns: false, useTunnelDns: true },
-  { hostname: "better-skill-capped.com", bucket: "better-skill-capped", externalDns: false, useTunnelDns: true },
-  { hostname: "clauderon.com", bucket: "clauderon", externalDns: false, useTunnelDns: true },
-  { hostname: "ts-mc.net", bucket: "ts-mc", externalDns: false, useTunnelDns: true },
+  // TXT for the same domain. By using separate DNSEndpoints (one for CNAME, one for TXT),
+  // both record types get created. The CNAME points to the Cloudflare Tunnel target.
+  // Note: cloudflare-operator's useTunnelDns creates records in the wrong zone for
+  // external domains (e.g., scout-for-lol.com.sjer.red), so we use DNSEndpoint instead.
+  { hostname: "discord-plays-pokemon.com", bucket: "dpp-docs", externalDns: false, useTunnelDns: false },
+  { hostname: "scout-for-lol.com", bucket: "scout-frontend", externalDns: false, useTunnelDns: false },
+  { hostname: "better-skill-capped.com", bucket: "better-skill-capped", externalDns: false, useTunnelDns: false },
+  { hostname: "clauderon.com", bucket: "clauderon", externalDns: false, useTunnelDns: false },
+  { hostname: "ts-mc.net", bucket: "ts-mc", externalDns: false, useTunnelDns: false },
 ];
 
 export const S3_ENDPOINT = "https://seaweedfs.sjer.red";
