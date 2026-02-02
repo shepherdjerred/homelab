@@ -9,16 +9,17 @@ export const staticSites: StaticSiteConfig[] = [
   { hostname: "webring.sjer.red", bucket: "webring", externalDns: true },
   { hostname: "resume.sjer.red", bucket: "resume", externalDns: true },
 
-  // Apex domains with email rejection TXT records (SPF/DMARC/DKIM in external-domains.ts):
-  // - externalDns: false → don't use external-dns service annotations for CNAME
-  // - useTunnelDns: false → use DNSEndpoint in external-domains.ts for CNAME
+  // Apex domains - routing via TunnelBinding, DNS partially manual:
+  // - externalDns: false → no service annotation CNAME
+  // - useTunnelDns: false → TunnelBinding routes traffic, but no DNS (wrong zone issue)
   //
-  // This avoids external-dns conflict: "Domain X contains conflicting record type
-  // candidates; discarding CNAME record". External-dns can't create both CNAME and
-  // TXT for the same domain. By using separate DNSEndpoints (one for CNAME, one for TXT),
-  // both record types get created. The CNAME points to the Cloudflare Tunnel target.
-  // Note: cloudflare-operator's useTunnelDns creates records in the wrong zone for
-  // external domains (e.g., scout-for-lol.com.sjer.red), so we use DNSEndpoint instead.
+  // DNS setup:
+  // - Subdomain TXT (_dmarc, *._domainkey): Managed by external-dns via DNSEndpoint
+  // - Apex CNAME + SPF: Manual in Cloudflare (external-dns conflict when both exist)
+  //
+  // Manual Cloudflare records needed:
+  //   CNAME: <domain> → 3cbdc9a6-9e79-412d-8fe1-60117fecd4d3.cfargotunnel.com (proxied)
+  //   TXT: <domain> → v=spf1 -all
   { hostname: "discord-plays-pokemon.com", bucket: "dpp-docs", externalDns: false, useTunnelDns: false },
   { hostname: "scout-for-lol.com", bucket: "scout-frontend", externalDns: false, useTunnelDns: false },
   { hostname: "better-skill-capped.com", bucket: "better-skill-capped", externalDns: false, useTunnelDns: false },

@@ -1,6 +1,6 @@
 import { App, Chart } from "cdk8s";
 import { DnsEndpoint } from "../../generated/imports/externaldns.k8s.io.ts";
-import { DDNS_HOSTNAME, TUNNEL_CNAME_TARGET } from "../resources/argo-applications/external-dns.ts";
+import { DDNS_HOSTNAME } from "../resources/argo-applications/external-dns.ts";
 
 // Helper to create unproxied providerSpecific config
 const UNPROXIED = [
@@ -11,12 +11,29 @@ const UNPROXIED = [
 ];
 
 // Standard email rejection TXT records for domains that don't send email
+// Includes apex SPF record
 const EMAIL_REJECTION_RECORDS = (domain: string) => [
   {
     dnsName: domain,
     recordType: "TXT",
     targets: ["v=spf1 -all"],
   },
+  {
+    dnsName: `_dmarc.${domain}`,
+    recordType: "TXT",
+    targets: ["v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;"],
+  },
+  {
+    dnsName: `*._domainkey.${domain}`,
+    recordType: "TXT",
+    targets: ["v=DKIM1; p="],
+  },
+];
+
+// Email rejection records for domains that also need apex CNAME (managed manually).
+// Excludes apex SPF to avoid external-dns conflict with CNAME.
+// Apex records (CNAME + SPF) must be created manually in Cloudflare.
+const EMAIL_REJECTION_RECORDS_NO_APEX = (domain: string) => [
   {
     dnsName: `_dmarc.${domain}`,
     recordType: "TXT",
@@ -72,88 +89,10 @@ export function createExternalDomainsChart(app: App) {
   // CNAME Records
   // ===========================================
 
-  // External domains pointing to Cloudflare Tunnel
-  // These domains use DNSEndpoint for CNAME instead of cloudflare-operator's useTunnelDns
-  // because cloudflare-operator creates records in wrong zone (e.g., scout-for-lol.com.sjer.red)
-  new DnsEndpoint(chart, "scout-for-lol-com-dns", {
-    metadata: {
-      name: "scout-for-lol-com-dns",
-      namespace: "external-dns",
-    },
-    spec: {
-      endpoints: [
-        {
-          dnsName: "scout-for-lol.com",
-          recordType: "CNAME",
-          targets: [TUNNEL_CNAME_TARGET],
-        },
-      ],
-    },
-  });
-
-  new DnsEndpoint(chart, "discord-plays-pokemon-com-dns", {
-    metadata: {
-      name: "discord-plays-pokemon-com-dns",
-      namespace: "external-dns",
-    },
-    spec: {
-      endpoints: [
-        {
-          dnsName: "discord-plays-pokemon.com",
-          recordType: "CNAME",
-          targets: [TUNNEL_CNAME_TARGET],
-        },
-      ],
-    },
-  });
-
-  new DnsEndpoint(chart, "better-skill-capped-com-dns", {
-    metadata: {
-      name: "better-skill-capped-com-dns",
-      namespace: "external-dns",
-    },
-    spec: {
-      endpoints: [
-        {
-          dnsName: "better-skill-capped.com",
-          recordType: "CNAME",
-          targets: [TUNNEL_CNAME_TARGET],
-        },
-      ],
-    },
-  });
-
-  new DnsEndpoint(chart, "clauderon-com-dns", {
-    metadata: {
-      name: "clauderon-com-dns",
-      namespace: "external-dns",
-    },
-    spec: {
-      endpoints: [
-        {
-          dnsName: "clauderon.com",
-          recordType: "CNAME",
-          targets: [TUNNEL_CNAME_TARGET],
-        },
-      ],
-    },
-  });
-
-  new DnsEndpoint(chart, "ts-mc-net-dns", {
-    metadata: {
-      name: "ts-mc-net-dns",
-      namespace: "external-dns",
-    },
-    spec: {
-      endpoints: [
-        {
-          dnsName: "ts-mc.net",
-          recordType: "CNAME",
-          targets: [TUNNEL_CNAME_TARGET],
-        },
-      ],
-    },
-  });
+  // Note: External S3 static site domains (scout-for-lol.com, discord-plays-pokemon.com,
+  // better-skill-capped.com, clauderon.com, ts-mc.net) have apex CNAME + SPF managed
+  // manually in Cloudflare. external-dns can't create both for same apex (conflict).
+  // Subdomain TXT records (_dmarc, *._domainkey) are managed below via DNSEndpoint.
 
   // jerred.is -> sjer.red
   new DnsEndpoint(chart, "jerred-is-dns", {
@@ -357,59 +296,30 @@ export function createExternalDomainsChart(app: App) {
     },
   });
 
-  // better-skill-capped.com - email rejection (doesn't send email)
+  // External S3 static site domains - subdomain TXT only (apex managed manually in Cloudflare)
   new DnsEndpoint(chart, "better-skill-capped-com-txt", {
-    metadata: {
-      name: "better-skill-capped-com-txt",
-      namespace: "external-dns",
-    },
-    spec: {
-      endpoints: EMAIL_REJECTION_RECORDS("better-skill-capped.com"),
-    },
+    metadata: { name: "better-skill-capped-com-txt", namespace: "external-dns" },
+    spec: { endpoints: EMAIL_REJECTION_RECORDS_NO_APEX("better-skill-capped.com") },
   });
 
-  // scout-for-lol.com - email rejection (doesn't send email)
   new DnsEndpoint(chart, "scout-for-lol-com-txt", {
-    metadata: {
-      name: "scout-for-lol-com-txt",
-      namespace: "external-dns",
-    },
-    spec: {
-      endpoints: EMAIL_REJECTION_RECORDS("scout-for-lol.com"),
-    },
+    metadata: { name: "scout-for-lol-com-txt", namespace: "external-dns" },
+    spec: { endpoints: EMAIL_REJECTION_RECORDS_NO_APEX("scout-for-lol.com") },
   });
 
-  // discord-plays-pokemon.com - email rejection (doesn't send email)
   new DnsEndpoint(chart, "discord-plays-pokemon-com-txt", {
-    metadata: {
-      name: "discord-plays-pokemon-com-txt",
-      namespace: "external-dns",
-    },
-    spec: {
-      endpoints: EMAIL_REJECTION_RECORDS("discord-plays-pokemon.com"),
-    },
+    metadata: { name: "discord-plays-pokemon-com-txt", namespace: "external-dns" },
+    spec: { endpoints: EMAIL_REJECTION_RECORDS_NO_APEX("discord-plays-pokemon.com") },
   });
 
-  // ts-mc.net - email rejection (doesn't send email)
   new DnsEndpoint(chart, "ts-mc-net-txt", {
-    metadata: {
-      name: "ts-mc-net-txt",
-      namespace: "external-dns",
-    },
-    spec: {
-      endpoints: EMAIL_REJECTION_RECORDS("ts-mc.net"),
-    },
+    metadata: { name: "ts-mc-net-txt", namespace: "external-dns" },
+    spec: { endpoints: EMAIL_REJECTION_RECORDS_NO_APEX("ts-mc.net") },
   });
 
-  // clauderon.com - email rejection (doesn't send email)
   new DnsEndpoint(chart, "clauderon-com-txt", {
-    metadata: {
-      name: "clauderon-com-txt",
-      namespace: "external-dns",
-    },
-    spec: {
-      endpoints: EMAIL_REJECTION_RECORDS("clauderon.com"),
-    },
+    metadata: { name: "clauderon-com-txt", namespace: "external-dns" },
+    spec: { endpoints: EMAIL_REJECTION_RECORDS_NO_APEX("clauderon.com") },
   });
 
   // sjer.red - email setup:
