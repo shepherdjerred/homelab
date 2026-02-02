@@ -163,7 +163,7 @@ export function createMinecraftShuxinApp(chart: Chart) {
         namespace: "minecraft-shuxin",
       },
       // Allow mc-router to manage replicas for hibernation
-      // Ignore Service clusterIP/clusterIPs which are assigned by SSA
+      // Ignore Service fields that Kubernetes fills with defaults (chart templates null/empty values)
       ignoreDifferences: [
         {
           group: "apps",
@@ -173,7 +173,14 @@ export function createMinecraftShuxinApp(chart: Chart) {
         {
           group: "",
           kind: "Service",
-          jsonPointers: ["/spec/clusterIP", "/spec/clusterIPs"],
+          jsonPointers: [
+            "/spec/clusterIP",
+            "/spec/clusterIPs",
+            "/spec/ipFamilies",
+            "/spec/ipFamilyPolicy",
+            "/spec/internalTrafficPolicy",
+            "/spec/sessionAffinity",
+          ],
         },
       ],
       syncPolicy: {

@@ -6,6 +6,7 @@ import { ZfsNvmeVolume } from "../../misc/zfs-nvme-volume.ts";
 import { TailscaleIngress } from "../../misc/tailscale.ts";
 import { withCommonProps } from "../../misc/common.ts";
 import versions from "../../versions.ts";
+import { homeassistantSkill, todoistSkill, fastmailSkill, gmailSkill } from "./skills/index.ts";
 
 const OPENCLAW_CONFIG = {
   // Agent defaults - model, workspace, sandbox settings
@@ -53,6 +54,9 @@ const OPENCLAW_CONFIG = {
   },
   // Skills configuration
   skills: {
+    load: {
+      extraDirs: ["/data/skills"],
+    },
     entries: {
       github: { enabled: true },
       todoist: { enabled: true },
@@ -134,6 +138,20 @@ export function createOpenclawDeployment(chart: Chart) {
     },
   });
 
+  // ConfigMap with skill definitions
+  // Keys are flat (no slashes) - init container creates directory structure
+  const skillsConfigMap = new ConfigMap(chart, "openclaw-skills", {
+    metadata: {
+      name: "openclaw-skills",
+    },
+    data: {
+      "homeassistant.md": homeassistantSkill,
+      "todoist.md": todoistSkill,
+      "fastmail.md": fastmailSkill,
+      "gmail.md": gmailSkill,
+    },
+  });
+
   // Persistent storage for workspace
   const dataVolume = new ZfsNvmeVolume(chart, "openclaw-data", {
     storage: Size.gibibytes(10),
@@ -174,6 +192,7 @@ export function createOpenclawDeployment(chart: Chart) {
   // Create volumes once to share between init and main containers
   const dataVol = Volume.fromPersistentVolumeClaim(chart, "openclaw-data-vol", dataVolume.claim);
   const configVol = Volume.fromConfigMap(chart, "openclaw-config-vol", configMap);
+  const skillsVol = Volume.fromConfigMap(chart, "openclaw-skills-vol", skillsConfigMap);
 
   // Init container to copy config from ConfigMap to writable location (always overwrites)
   // fsGroup handles ownership, so no chown needed
@@ -189,6 +208,31 @@ export function createOpenclawDeployment(chart: Chart) {
     volumeMounts: [
       { path: "/data", volume: dataVol },
       { path: "/config-template", volume: configVol },
+    ],
+  });
+
+  // Init container to copy skills from ConfigMap to writable location
+  // Creates directory structure: /data/skills/{name}/SKILL.md from {name}.md files
+  deployment.addInitContainer({
+    name: "init-skills",
+    image: `library/busybox:${versions["library/busybox"]}`,
+    command: [
+      "sh",
+      "-c",
+      `for f in /skills-template/*.md; do
+        name=$(basename "$f" .md)
+        mkdir -p "/data/skills/$name"
+        cp "$f" "/data/skills/$name/SKILL.md"
+      done`,
+    ],
+    securityContext: {
+      user: UID,
+      group: GID,
+      ensureNonRoot: true,
+    },
+    volumeMounts: [
+      { path: "/data", volume: dataVol },
+      { path: "/skills-template", volume: skillsVol },
     ],
   });
 

@@ -14,6 +14,10 @@ function buildOpenclawContainer(): Container {
       .container()
       .from("node:22-bookworm")
       .withExec(["corepack", "enable"])
+      // Install himalaya CLI for email operations (Fastmail/Gmail skills)
+      .withExec(["apt-get", "update"])
+      .withExec(["apt-get", "install", "-y", "curl"])
+      .withExec(["sh", "-c", "curl -sSL https://raw.githubusercontent.com/pimalaya/himalaya/master/install.sh | sh"])
       // Clone and checkout pinned commit for supply chain security
       .withExec(["git", "clone", "https://github.com/openclaw/openclaw.git", "/app"])
       .withWorkdir("/app")
