@@ -39,6 +39,13 @@ export async function createNvmeMetricsMonitoring(chart: Chart) {
       labels: {
         app: "nvme-metrics-collector",
       },
+      annotations: {
+        "ignore-check.kube-linter.io/sensitive-host-mounts": "Required for NVMe device monitoring via /dev",
+        "ignore-check.kube-linter.io/privileged-container": "Required for NVMe device access",
+        "ignore-check.kube-linter.io/privilege-escalation-container": "Required when privileged is true",
+        "ignore-check.kube-linter.io/run-as-non-root": "Required for NVMe device access as root",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Required to install nvme-cli at runtime",
+      },
     },
     serviceAccount,
     securityContext: {

@@ -14,7 +14,7 @@ import {
   getDiscordSrvExtraEnv,
 } from "../../misc/discordsrv-config.ts";
 import {
-  getMinecraftConfigMapManifests,
+  createMinecraftConfigMaps,
   getMinecraftExtraVolumes,
   getMinecraftExtraEnv,
   getMinecraftPluginConfigInitContainer,
@@ -24,6 +24,9 @@ const NAMESPACE = "minecraft-tsmc";
 const SECRET_NAME = "minecraft-tsmc-discord";
 
 export function createMinecraftTsmcApp(chart: Chart) {
+  // Create ConfigMaps externally (not in Helm values) to avoid Application size limits
+  createMinecraftConfigMaps(chart, "tsmc", NAMESPACE);
+
   // 1Password secret for DiscordSRV configuration
   // Required fields in 1Password:
   // - discord-bot-token: Discord bot token
@@ -62,8 +65,9 @@ export function createMinecraftTsmcApp(chart: Chart) {
     workloadAsStatefulSet: true,
     strategyType: "RollingUpdate",
     // mc-router annotation for hostname-based routing (must be top-level)
+    // Include mc.ts-mc.net because SRV record redirects there and some clients send that hostname
     serviceAnnotations: {
-      "mc-router.itzg.me/externalServerName": "ts-mc.net",
+      "mc-router.itzg.me/externalServerName": "ts-mc.net,mc.ts-mc.net",
     },
     image: {
       tag: versions["itzg/minecraft-server"],
@@ -128,7 +132,7 @@ export function createMinecraftTsmcApp(chart: Chart) {
 
       // Spiget plugins (resource IDs)
       spigetResources: [
-        2445, // mcMMO
+        64348, // mcMMO (official - original author returned)
         74304, // LevelledMobs
         65603, // DynamicShop
         771, // VentureChat
@@ -172,8 +176,8 @@ export function createMinecraftTsmcApp(chart: Chart) {
       },
     },
 
-    // Deploy ConfigMaps for server and plugin configs (split into multiple to avoid size limits)
-    extraDeploy: [...getMinecraftConfigMapManifests("tsmc", NAMESPACE), getDiscordSrvConfigMapManifest(NAMESPACE)],
+    // DiscordSRV ConfigMap (main server ConfigMaps are created externally to avoid size limits)
+    extraDeploy: [getDiscordSrvConfigMapManifest(NAMESPACE)],
 
     // Mount configs to /config (itzg syncs to /data on startup)
     // Use split ConfigMaps (true) to avoid Application size limits

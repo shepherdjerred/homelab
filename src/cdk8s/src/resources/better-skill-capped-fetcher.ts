@@ -34,6 +34,10 @@ export function createBetterSkillCappedFetcher(chart: Chart) {
   new KubeCronJob(chart, "better-skill-capped-fetcher-cronjob", {
     metadata: {
       name: "better-skill-capped-fetcher",
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "Container runs as default user",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Container requires writable filesystem",
+      },
     },
     spec: {
       schedule: "*/15 * * * *",

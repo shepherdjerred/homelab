@@ -128,6 +128,10 @@ if __name__ == "__main__":
   new KubeCronJob(chart, "dns-audit-cronjob", {
     metadata: {
       name: "dns-audit",
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "Container runs as default Python image user",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Container requires writable filesystem for pip install",
+      },
     },
     spec: {
       // Run daily at 6 AM UTC

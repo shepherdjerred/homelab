@@ -1,5 +1,6 @@
 import { App, Chart } from "cdk8s";
 import { Namespace } from "cdk8s-plus-31";
+import { KubeNetworkPolicy } from "../../generated/imports/k8s.ts";
 import { createOpenclawDeployment } from "../resources/openclaw/index.ts";
 
 export function createOpenclawChart(app: App) {
@@ -21,4 +22,15 @@ export function createOpenclawChart(app: App) {
   });
 
   createOpenclawDeployment(chart);
+
+  // NetworkPolicy: Allow ingress from Tailscale only
+  // Note: Egress policy already exists in resources/openclaw/index.ts (allows all except cloud metadata)
+  new KubeNetworkPolicy(chart, "openclaw-ingress-netpol", {
+    metadata: { name: "openclaw-ingress-netpol" },
+    spec: {
+      podSelector: {},
+      policyTypes: ["Ingress"],
+      ingress: [{ from: [{ namespaceSelector: { matchLabels: { "kubernetes.io/metadata.name": "tailscale" } } }] }],
+    },
+  });
 }

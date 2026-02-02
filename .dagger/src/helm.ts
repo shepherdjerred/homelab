@@ -39,6 +39,8 @@ export const HELM_CHARTS = [
   "kyverno-policies",
   // Bugsink error tracking (Sentry SDK compatible)
   "bugsink",
+  // DNS audit for SPF/DMARC/DKIM/MX validation
+  "dns-audit",
 ] as const;
 export type HelmChartName = (typeof HELM_CHARTS)[number];
 

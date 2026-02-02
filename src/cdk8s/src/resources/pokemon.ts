@@ -25,6 +25,12 @@ export function createPokemonDeployment(chart: Chart) {
     securityContext: {
       fsGroup: GID,
     },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "Discord Plays Pokemon requires flexible user permissions",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Application requires writable filesystem for runtime data",
+      },
+    },
   });
 
   const localPathVolume = new ZfsNvmeVolume(chart, "pokemon-volume", {

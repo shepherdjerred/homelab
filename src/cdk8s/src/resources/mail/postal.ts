@@ -379,6 +379,11 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     securityContext: {
       fsGroup: GID,
     },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Postal requires writable filesystem for Rails runtime",
+      },
+    },
     podMetadata: {
       labels: { app: "postal-web" },
     },
@@ -434,6 +439,11 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     securityContext: {
       fsGroup: GID,
     },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Postal requires writable filesystem for Rails runtime",
+      },
+    },
     podMetadata: {
       labels: { app: "postal-smtp" },
     },
@@ -484,6 +494,12 @@ export function createPostalDeployment(chart: Chart, props: PostalDeploymentProp
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       fsGroup: GID,
+    },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "Postfix sidecar requires root to start",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Postal and Postfix require writable filesystem",
+      },
     },
     podMetadata: {
       labels: { app: "postal-worker" },

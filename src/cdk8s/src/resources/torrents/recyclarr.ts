@@ -9,6 +9,12 @@ export function createRecyclarrDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "recyclarr", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "LinuxServer.io images run as root internally",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "LinuxServer.io images require writable filesystem",
+      },
+    },
   });
 
   const localPathVolume = new ZfsNvmeVolume(chart, "recyclarr-pvc", {

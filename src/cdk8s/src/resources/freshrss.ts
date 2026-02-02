@@ -10,6 +10,13 @@ export function createFreshRssDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "freshrss", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "FreshRSS requires root for PHP-FPM and cron operations",
+        "ignore-check.kube-linter.io/no-read-only-root-fs":
+          "FreshRSS requires writable filesystem for sessions and cache",
+      },
+    },
   });
 
   const freshRssDataVolume = new ZfsNvmeVolume(chart, "freshrss-data", {

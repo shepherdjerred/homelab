@@ -13,6 +13,9 @@
 
 import { Glob } from "bun";
 import path from "path";
+import { type Construct } from "constructs";
+import { KubeConfigMap } from "../../generated/imports/k8s.ts";
+import versions from "../versions.ts";
 
 // Cache loaded configs per server to avoid re-reading
 const configCache = new Map<string, Record<string, string>>();
@@ -171,6 +174,60 @@ export function getMinecraftConfigMapManifests(serverName: ServerName, namespace
   }
 
   return configMaps;
+}
+
+/**
+ * Creates ConfigMaps directly as cdk8s resources (external to Helm values).
+ * Use this for large configs that exceed ArgoCD Application size limits.
+ * The ConfigMaps will be managed by ArgoCD but not embedded in the Helm chart.
+ */
+export function createMinecraftConfigMaps(scope: Construct, serverName: ServerName, namespace: string): void {
+  const configs = getConfigs(serverName);
+
+  // Separate plugin configs from non-plugin configs
+  const nonPluginConfigs: Record<string, string> = {};
+  const pluginConfigs = new Map<string, Record<string, string>>();
+
+  for (const [key, value] of Object.entries(configs)) {
+    if (key.startsWith("plugins__")) {
+      const parts = key.split("__");
+      const pluginName = parts[1];
+      if (pluginName !== undefined) {
+        const existing = pluginConfigs.get(pluginName) ?? {};
+        existing[key] = value;
+        pluginConfigs.set(pluginName, existing);
+      }
+    } else {
+      nonPluginConfigs[key] = value;
+    }
+  }
+
+  // ConfigMap for non-plugin configs
+  if (Object.keys(nonPluginConfigs).length > 0) {
+    new KubeConfigMap(scope, `${namespace}-server-configs`, {
+      metadata: {
+        name: `${namespace}-server-configs`,
+        namespace,
+        labels: { "app.kubernetes.io/component": "minecraft-config" },
+      },
+      data: nonPluginConfigs,
+    });
+  }
+
+  // One ConfigMap per plugin
+  for (const [pluginName, pluginData] of pluginConfigs) {
+    new KubeConfigMap(scope, `${namespace}-plugin-${pluginName.toLowerCase()}`, {
+      metadata: {
+        name: `${namespace}-plugin-${pluginName.toLowerCase()}`,
+        namespace,
+        labels: {
+          "app.kubernetes.io/component": "minecraft-config",
+          "app.kubernetes.io/plugin": pluginName,
+        },
+      },
+      data: pluginData,
+    });
+  }
 }
 
 /**
@@ -348,7 +405,7 @@ export function getMinecraftPluginConfigInitContainer(serverName: ServerName, us
 
   return {
     name: "copy-plugin-configs",
-    image: "busybox:latest",
+    image: `library/busybox:${versions["library/busybox"]}`,
     command: [
       "sh",
       "-c",

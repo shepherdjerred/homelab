@@ -15,6 +15,13 @@ export function createWhisperbridgeDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "whisperbridge", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "Whisperbridge requires root for container operations",
+        "ignore-check.kube-linter.io/no-read-only-root-fs":
+          "Whisperbridge requires writable filesystem for runtime data",
+      },
+    },
   });
 
   deployment.addContainer(

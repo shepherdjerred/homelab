@@ -60,8 +60,9 @@ export function createMinecraftSjerredApp(chart: Chart) {
     workloadAsStatefulSet: true,
     strategyType: "RollingUpdate",
     // mc-router annotation for hostname-based routing (must be top-level)
+    // Include mc.sjer.red because SRV record redirects there and some clients send that hostname
     serviceAnnotations: {
-      "mc-router.itzg.me/externalServerName": "sjer.red",
+      "mc-router.itzg.me/externalServerName": "sjer.red,mc.sjer.red",
     },
     image: {
       tag: versions["itzg/minecraft-server"],
@@ -121,11 +122,12 @@ export function createMinecraftSjerredApp(chart: Chart) {
         enabled: true,
       },
     },
-    // Deploy ConfigMaps for server configs and DiscordSRV
+    // Deploy ConfigMaps for server configs and DiscordSRV (split to avoid size limits)
     extraDeploy: [...getMinecraftConfigMapManifests("sjerred", NAMESPACE), getDiscordSrvConfigMapManifest(NAMESPACE)],
 
     // Mount configs to /config (itzg syncs to /data on startup)
-    extraVolumes: [...getMinecraftExtraVolumes("sjerred", NAMESPACE), ...getDiscordSrvExtraVolumes(NAMESPACE)],
+    // Use split ConfigMaps (true) to match extraDeploy
+    extraVolumes: [...getMinecraftExtraVolumes("sjerred", NAMESPACE, true), ...getDiscordSrvExtraVolumes(NAMESPACE)],
 
     // Config sync settings + DiscordSRV secrets
     extraEnv: {
@@ -134,7 +136,7 @@ export function createMinecraftSjerredApp(chart: Chart) {
     },
 
     // Init container to copy plugin configs (bypasses itzg sync which fails with DirectoryNotEmptyException)
-    initContainers: [getMinecraftPluginConfigInitContainer("sjerred")],
+    initContainers: [getMinecraftPluginConfigInitContainer("sjerred", true)],
   };
 
   // DNS records are now managed by mc-router
@@ -167,7 +169,7 @@ export function createMinecraftSjerredApp(chart: Chart) {
       ],
       syncPolicy: {
         automated: {},
-        syncOptions: ["CreateNamespace=true"],
+        syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
       },
     },
   });

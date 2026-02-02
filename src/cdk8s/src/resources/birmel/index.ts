@@ -14,6 +14,13 @@ export function createBirmelDeployment(chart: Chart) {
       fsGroup: 1000,
       ensureNonRoot: false,
     },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root":
+          "Birmel requires flexible user permissions for container operations",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Birmel requires writable filesystem for SQLite databases",
+      },
+    },
   });
 
   const onePasswordItem = new OnePasswordItem(chart, "birmel-1p", {

@@ -102,11 +102,14 @@ export class S3StaticSites extends Construct {
     });
 
     const deployment = new Deployment(this, "deployment", {
-      metadata: {
-        name: "s3-static-sites",
-      },
       replicas: 1,
       strategy: DeploymentStrategy.rollingUpdate(),
+      metadata: {
+        name: "s3-static-sites",
+        annotations: {
+          "ignore-check.kube-linter.io/no-read-only-root-fs": "Caddy requires writable filesystem for runtime data",
+        },
+      },
     });
 
     const dataVolume = Volume.fromEmptyDir(this, "caddy-data", "caddy-data");

@@ -40,6 +40,14 @@ export function createPlexDeployment(
     securityContext: {
       fsGroup: GID,
     },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/privileged-container": "Required for Intel GPU transcoding access",
+        "ignore-check.kube-linter.io/privilege-escalation-container": "Required when privileged is true",
+        "ignore-check.kube-linter.io/run-as-non-root": "Plex requires root for media library permissions",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Plex requires writable filesystem for transcoding cache",
+      },
+    },
   });
 
   const localPathVolume = new ZfsNvmeVolume(chart, "plex-pvc", {

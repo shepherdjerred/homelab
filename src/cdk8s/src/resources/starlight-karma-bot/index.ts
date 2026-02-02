@@ -16,6 +16,12 @@ export function createStarlightKarmaBotDeployment(chart: Chart, stage: Stage) {
       fsGroup: 1000,
       ensureNonRoot: false,
     },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "Starlight Karma Bot requires flexible user permissions",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Bot requires writable filesystem for SQLite database",
+      },
+    },
   });
 
   const { path, image, applicationId } = match(stage)

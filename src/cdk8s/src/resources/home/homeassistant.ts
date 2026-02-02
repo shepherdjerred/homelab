@@ -11,6 +11,16 @@ export async function createHomeAssistantDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "homeassistant", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/privileged-container": "Required for USB device and hardware access",
+        "ignore-check.kube-linter.io/privilege-escalation-container": "Required when privileged is true",
+        "ignore-check.kube-linter.io/host-network": "Required for mDNS and local network device discovery",
+        "ignore-check.kube-linter.io/run-as-non-root": "Home Assistant requires root for hardware access",
+        "ignore-check.kube-linter.io/no-read-only-root-fs":
+          "Home Assistant requires writable filesystem for runtime data",
+      },
+    },
   });
 
   const claim = new ZfsNvmeVolume(chart, "homeassistant-pvc", {

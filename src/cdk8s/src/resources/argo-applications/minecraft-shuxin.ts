@@ -9,6 +9,7 @@ import {
   getMinecraftConfigMapManifests,
   getMinecraftExtraVolumes,
   getMinecraftExtraEnv,
+  getMinecraftPluginConfigInitContainer,
 } from "../../misc/minecraft-config.ts";
 
 const NAMESPACE = "minecraft-shuxin";
@@ -128,13 +129,17 @@ export function createMinecraftShuxinApp(chart: Chart) {
     extraDeploy: [...getMinecraftConfigMapManifests("shuxin", NAMESPACE)],
 
     // Mount configs to /config (itzg syncs to /data on startup)
-    extraVolumes: getMinecraftExtraVolumes("shuxin", NAMESPACE),
+    // Use split ConfigMaps (true) to avoid annotation size limits
+    extraVolumes: getMinecraftExtraVolumes("shuxin", NAMESPACE, true),
 
     // Config sync settings
     extraEnv: {
       ...getMinecraftExtraEnv(),
       VERSION_FROM_MODRINTH_PROJECTS: "true",
     },
+
+    // Init container to copy plugin configs (bypasses itzg sync which fails with DirectoryNotEmptyException)
+    initContainers: [getMinecraftPluginConfigInitContainer("shuxin", true)],
   };
 
   // DNS records are now managed by mc-router
@@ -157,9 +162,17 @@ export function createMinecraftShuxinApp(chart: Chart) {
         server: "https://kubernetes.default.svc",
         namespace: "minecraft-shuxin",
       },
+      // Allow mc-router to manage replicas for hibernation
+      ignoreDifferences: [
+        {
+          group: "apps",
+          kind: "StatefulSet",
+          jsonPointers: ["/spec/replicas"],
+        },
+      ],
       syncPolicy: {
         automated: {},
-        syncOptions: ["CreateNamespace=true"],
+        syncOptions: ["CreateNamespace=true", "ServerSideApply=true"],
       },
     },
   });

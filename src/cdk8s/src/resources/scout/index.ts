@@ -12,6 +12,12 @@ export function createScoutDeployment(chart: Chart, stage: Stage) {
   const deployment = new Deployment(chart, "scout-backend", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "Scout requires flexible user permissions",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Scout requires writable filesystem for SQLite database",
+      },
+    },
   });
 
   const { path, image, applicationId, s3BucketName } = match(stage)

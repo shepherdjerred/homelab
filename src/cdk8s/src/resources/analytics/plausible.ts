@@ -34,6 +34,11 @@ export function createPlausibleDeployment(chart: Chart, props: CreatePlausibleDe
     securityContext: {
       fsGroup: GID,
     },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Plausible requires writable filesystem for Elixir runtime",
+      },
+    },
   });
 
   // Create shared volumes

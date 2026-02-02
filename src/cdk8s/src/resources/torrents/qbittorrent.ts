@@ -38,6 +38,15 @@ export function createQBitTorrentDeployment(
   const deployment = new Deployment(chart, "qbittorrent", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/privileged-container":
+          "Gluetun VPN container requires privileged for network setup",
+        "ignore-check.kube-linter.io/privilege-escalation-container": "Required when privileged is true",
+        "ignore-check.kube-linter.io/run-as-non-root": "Gluetun and LinuxServer images require root",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "VPN and torrent client require writable filesystem",
+      },
+    },
   });
 
   const localPathVolume = new ZfsNvmeVolume(chart, "qbittorrent-pvc", {

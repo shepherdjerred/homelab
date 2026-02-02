@@ -32,6 +32,13 @@ export async function createSmartctlMonitoring(chart: Chart) {
       labels: {
         app: "smartctl-collector",
       },
+      annotations: {
+        "ignore-check.kube-linter.io/sensitive-host-mounts": "Required for SMART disk monitoring via /dev, /proc, /sys",
+        "ignore-check.kube-linter.io/privileged-container": "Required for raw disk device access",
+        "ignore-check.kube-linter.io/privilege-escalation-container": "Required when privileged is true",
+        "ignore-check.kube-linter.io/run-as-non-root": "Required for disk access as root",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Required to install smartmontools at runtime",
+      },
     },
     serviceAccount,
     securityContext: {

@@ -59,10 +59,10 @@ export function createMcRouterApp(chart: Chart) {
   // Note: SRV records are managed manually in Cloudflare due to external-dns bug:
   // https://github.com/kubernetes-sigs/external-dns/issues/5551
   //
-  // Manual SRV records in Cloudflare:
-  //   _minecraft._tcp.sjer.red        -> 0 5 30000 ddns.sjer.red
+  // Manual SRV records in Cloudflare (use unique hostnames per server):
+  //   _minecraft._tcp.sjer.red        -> 0 5 30000 mc.sjer.red
   //   _minecraft._tcp.shuxin.sjer.red -> 0 5 30000 shuxin.sjer.red
-  //   _minecraft._tcp.ts-mc.net       -> 0 5 30000 ddns.sjer.red
+  //   _minecraft._tcp.ts-mc.net       -> 0 5 30000 mc.ts-mc.net
   //
   // Apex domains (sjer.red, ts-mc.net) use existing CF tunnel CNAMEs
   new DnsEndpoint(chart, "mc-router-dns", {
@@ -72,9 +72,33 @@ export function createMcRouterApp(chart: Chart) {
     },
     spec: {
       endpoints: [
-        // shuxin.sjer.red -> ddns.sjer.red (not apex, so CNAME works)
+        // mc.sjer.red -> ddns.sjer.red (SRV target for sjer.red)
+        {
+          dnsName: "mc.sjer.red",
+          recordType: "CNAME",
+          targets: [DDNS_HOSTNAME],
+          providerSpecific: [
+            {
+              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
+              value: "false",
+            },
+          ],
+        },
+        // shuxin.sjer.red -> ddns.sjer.red (SRV target for shuxin.sjer.red)
         {
           dnsName: "shuxin.sjer.red",
+          recordType: "CNAME",
+          targets: [DDNS_HOSTNAME],
+          providerSpecific: [
+            {
+              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
+              value: "false",
+            },
+          ],
+        },
+        // mc.ts-mc.net -> ddns.sjer.red (SRV target for ts-mc.net)
+        {
+          dnsName: "mc.ts-mc.net",
           recordType: "CNAME",
           targets: [DDNS_HOSTNAME],
           providerSpecific: [

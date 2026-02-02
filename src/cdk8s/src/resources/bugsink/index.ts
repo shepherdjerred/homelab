@@ -33,6 +33,11 @@ export function createBugsinkDeployment(chart: Chart) {
     securityContext: {
       fsGroup: GID,
     },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Bugsink requires writable filesystem for Django runtime",
+      },
+    },
     podMetadata: {
       labels: {
         app: "bugsink",
@@ -425,6 +430,10 @@ export function createBugsinkHousekeepingCronJob(chart: Chart, bugsinkSecrets: O
   new KubeCronJob(chart, "bugsink-housekeeping", {
     metadata: {
       name: "bugsink-housekeeping",
+      annotations: {
+        "ignore-check.kube-linter.io/no-read-only-root-fs":
+          "Containers require writable filesystem for database URL and command execution",
+      },
     },
     spec: {
       schedule: "0 3 * * *",

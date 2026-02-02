@@ -50,6 +50,11 @@ export function createClickHouseDeployment(chart: Chart) {
     securityContext: {
       fsGroup: GID,
     },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "ClickHouse requires writable filesystem for runtime data",
+      },
+    },
   });
 
   deployment.addContainer(

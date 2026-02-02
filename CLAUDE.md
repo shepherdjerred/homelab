@@ -105,6 +105,34 @@ const user = data as User;
 - Variables/Functions: `camelCase`
 - Constants: `UPPER_CASE` or `camelCase`
 
+## Adding New Services
+
+When adding a new Kubernetes service/chart, you MUST complete ALL of these steps:
+
+1. **CDK8s Chart** - `src/cdk8s/src/cdk8s-charts/{name}.ts`
+   - Export a `create{Name}Chart(app: App)` function
+   - Register in `src/cdk8s/src/setup-charts.ts`
+
+2. **Helm Chart Directory** - `src/cdk8s/helm/{name}/Chart.yaml`
+
+   ```yaml
+   apiVersion: v2
+   name: { name }
+   description: { description }
+   type: application
+   version: "$version"
+   appVersion: "$appVersion"
+   ```
+
+3. **Dagger Helm Registry** - `.dagger/src/helm.ts`
+   - Add `"{name}"` to the `HELM_CHARTS` array
+
+4. **ArgoCD Application** - `src/cdk8s/src/resources/argo-applications/{name}.ts`
+   - Export a `create{Name}App(chart: Chart)` function
+   - Wire up in `src/cdk8s/src/cdk8s-charts/apps.ts` (import + call)
+
+**NEVER apply manifests directly with `kubectl apply`. All deployments go through ArgoCD.**
+
 ## Git Workflow
 
 - Conventional commits enforced via commitlint

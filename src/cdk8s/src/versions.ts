@@ -54,10 +54,10 @@ const versions = {
   "home-assistant/home-assistant": "2026.1.2@sha256:3007eeeaf87d1e3a2047faeac6ff01dfef218b8a404bdff3ce421c1f4f363a43",
   // Custom homelab HA image - updated by CI pipeline
   // not managed by renovate
-  "shepherdjerred/homelab": "latest",
+  "shepherdjerred/homelab": "latest@sha256:8002b51df1f714254daa06035867226eb448c7e05c2ba5e2ce66e035d3e0653c",
   // Custom dependency-summary image - updated by CI pipeline
   // not managed by renovate
-  "shepherdjerred/dependency-summary": "latest",
+  "shepherdjerred/dependency-summary": "latest@sha256:9056bf948b6f4b7e381fd8ce3824e8184114f0fd4bec943d2ab11e786b74c39b",
   // Custom better-skill-capped-fetcher image - updated by CI pipeline
   // not managed by renovate
   "shepherdjerred/better-skill-capped-fetcher": "1.0.109",
@@ -169,10 +169,10 @@ const versions = {
   "bugsink/bugsink": "2.0.12@sha256:947060d62fe017f73526ca38eefbf1063041cca53259b11ff01411e267cabd09",
   // Custom caddy-s3proxy image - Caddy with s3proxy plugin for serving static sites from S3
   // not managed by renovate
-  "shepherdjerred/caddy-s3proxy": "latest",
+  "shepherdjerred/caddy-s3proxy": "latest@sha256:94a9083245e3e58a43646ab85a949845e46fde3ceb9eb4bbf638ee91e2a6b52f",
   // Custom openclaw image - updated by CI pipeline
   // not managed by renovate
-  "shepherdjerred/openclaw": "latest",
+  "shepherdjerred/openclaw": "latest@sha256:43446319c3fe125d0ff73525f9a5a8303c0c020f9136427e5d49b39f863af635",
 };
 
 const daggerVersion = versions["dagger-helm"].split("@")[0];

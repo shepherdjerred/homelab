@@ -5,6 +5,15 @@ import { merge } from "lodash";
 export const LINUXSERVER_UID = 1000;
 export const LINUXSERVER_GID = 1000;
 
+/**
+ * kube-linter annotations for LinuxServer.io images.
+ * These images run as root internally and require a writable filesystem.
+ */
+export const LINUXSERVER_KUBE_LINTER_ANNOTATIONS = {
+  "ignore-check.kube-linter.io/run-as-non-root": "LinuxServer.io images run as root internally",
+  "ignore-check.kube-linter.io/no-read-only-root-fs": "LinuxServer.io images require writable filesystem",
+} as const;
+
 const commonLinuxServerProps: Partial<ContainerProps> = {
   ...commonProps,
   envVariables: {

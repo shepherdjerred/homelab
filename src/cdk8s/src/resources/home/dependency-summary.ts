@@ -27,6 +27,10 @@ export function createDependencySummaryCronJob(chart: Chart) {
     metadata: {
       name: "dependency-summary",
       namespace: "dependency-summary",
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "Container runs as default user",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Container requires writable filesystem",
+      },
     },
     spec: {
       // Every Monday at 9am UTC

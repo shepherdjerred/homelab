@@ -12,6 +12,12 @@ export function createMaintainerrDeployment(chart: Chart) {
     securityContext: {
       fsGroup: LINUXSERVER_GID,
     },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "LinuxServer.io images run as root internally",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "LinuxServer.io images require writable filesystem",
+      },
+    },
   });
 
   const localPathVolume = new ZfsNvmeVolume(chart, "maintainerr-pvc", {

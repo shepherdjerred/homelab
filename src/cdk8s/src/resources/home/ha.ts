@@ -9,6 +9,12 @@ export function createHaDeployment(chart: Chart) {
   const deployment = new Deployment(chart, "ha", {
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/run-as-non-root": "HA automation container runs as root",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "HA requires writable filesystem for runtime data",
+      },
+    },
     podMetadata: {
       labels: { app: "ha" },
     },

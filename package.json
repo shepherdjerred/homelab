@@ -59,7 +59,8 @@
       "bash -c 'cd src/cdk8s && bunx eslint --cache --fix'",
       "bash -c 'cd src/cdk8s && bun run typecheck'",
       "bash -c 'cd src/cdk8s && bun run test'",
-      "bash -c './scripts/lint-helm.sh'"
+      "bash -c './scripts/lint-helm.sh'",
+      "bash -c 'cd src/cdk8s && bun run build && kube-linter lint --config ../../.kube-linter.yaml dist/*.k8s.yaml'"
     ],
     "src/cdk8s/helm/**/*": [
       "bash -c './scripts/lint-helm.sh'"

@@ -44,6 +44,9 @@ export function createSeaweedfsApp(chart: Chart) {
     metadata: {
       name: "seaweedfs-filer-ui",
       namespace: "seaweedfs",
+      annotations: {
+        "ignore-check.kube-linter.io/dangling-service": "Pods are managed by SeaweedFS Helm chart",
+      },
     },
     spec: {
       type: "ClusterIP",

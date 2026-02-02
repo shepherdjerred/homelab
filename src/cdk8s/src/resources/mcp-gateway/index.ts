@@ -63,6 +63,11 @@ export async function createMcpGatewayDeployment(chart: Chart) {
     securityContext: {
       fsGroup: GID,
     },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "MCP Gateway requires writable filesystem for runtime data",
+      },
+    },
   });
 
   deployment.addContainer(

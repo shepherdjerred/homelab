@@ -155,11 +155,19 @@ export function createOpenclawDeployment(chart: Chart) {
 
   // Deployment
   const deployment = new Deployment(chart, "openclaw", {
-    metadata: { labels: { app: "openclaw" } },
     replicas: 1,
     strategy: DeploymentStrategy.recreate(),
     securityContext: {
       fsGroup: GID,
+    },
+    metadata: {
+      annotations: {
+        "ignore-check.kube-linter.io/no-read-only-root-fs":
+          "OpenClaw requires writable filesystem for state and workspace",
+      },
+    },
+    podMetadata: {
+      labels: { app: "openclaw" },
     },
   });
 
