@@ -22,6 +22,12 @@ export function createCloudflareTunnelBinding(
     metadata: {
       ...(props.namespace ? { namespace: props.namespace } : {}),
       ...(props.annotations ? { annotations: props.annotations } : {}),
+      // Labels and finalizer added by cloudflare-operator controller - include to prevent ArgoCD drift
+      labels: {
+        "cfargotunnel.com/kind": "TunnelBinding",
+        "cfargotunnel.com/name": "homelab-tunnel",
+      },
+      finalizers: ["cfargotunnel.com/finalizer"],
     },
     subjects: [
       {

@@ -70,6 +70,7 @@ export function createMinecraftSjerredApp(chart: Chart) {
     resources: {
       requests: {
         memory: "3Gi",
+        cpu: "500m",
       },
       limits: {
         memory: "4Gi",

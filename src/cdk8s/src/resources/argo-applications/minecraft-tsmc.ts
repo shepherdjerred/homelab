@@ -75,7 +75,7 @@ export function createMinecraftTsmcApp(chart: Chart) {
     resources: {
       requests: {
         memory: "6Gi",
-        cpu: "2000m",
+        cpu: "2",
       },
       limits: {
         memory: "8Gi",

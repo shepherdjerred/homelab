@@ -11,11 +11,6 @@ export function createPostgresOperatorApp(chart: Chart) {
   });
 
   const postgresOperatorValues: HelmValuesForChart<"postgres-operator"> = {
-    // Configuration for single-node cluster
-    configGeneral: {
-      // Enable only minimal required functionality
-      enable_cross_namespace_secret: true,
-    },
     configKubernetes: {
       // Since we have a single-node cluster, reduce resource requirements
       cluster_labels: {
