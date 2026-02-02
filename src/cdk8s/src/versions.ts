@@ -166,7 +166,7 @@ const versions = {
   // renovate: datasource=docker registryUrl=https://ghcr.io versioning=semver
   "tbxark/mcp-proxy": "v0.43.2@sha256:1c43164a910a4f74a3ce48d95cb2ef792de8d467296555e63944fa798f0a44bd",
   // renovate: datasource=docker registryUrl=https://docker.io versioning=semver
-  "bugsink/bugsink": "2.0.12@sha256:947060d62fe017f73526ca38eefbf1063041cca53259b11ff01411e267cabd09",
+  "bugsink/bugsink": "2.0.12@sha256:4fcf877f17d526644f255ecad7a82ff0e30251af4dd22de1d218d768d4028a20",
   // Custom caddy-s3proxy image - Caddy with s3proxy plugin for serving static sites from S3
   // not managed by renovate
   "shepherdjerred/caddy-s3proxy": "latest@sha256:94a9083245e3e58a43646ab85a949845e46fde3ceb9eb4bbf638ee91e2a6b52f",
