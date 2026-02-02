@@ -19,6 +19,7 @@ export function getReleasePleaseContainer(): Container {
     .withExec(["apt-get", "update"])
     .withExec(["apt-get", "install", "-y", "git"])
     .withExec(["bun", "install", "-g", `release-please@${RELEASE_PLEASE_VERSION}`])
+    .withEnvVariable("CACHEBUSTER", new Date().toISOString())
     .withWorkdir("/workspace");
 }
 
