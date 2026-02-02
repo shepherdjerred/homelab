@@ -129,6 +129,7 @@ export function createMinecraftTsmcApp(chart: Chart) {
           "levelledmobs", // Was Spiget 74304
         ],
         downloadDependencies: "required",
+        allowedVersionType: "beta", // CraftBook only has beta releases
       },
 
       // TODO: Re-add these plugins when Spiget API is stable or find alternatives:
