@@ -1,7 +1,11 @@
 import type { StaticSiteConfig } from "../../misc/s3-static-site.ts";
 
 export const staticSites: StaticSiteConfig[] = [
-  { hostname: "sjer.red", bucket: "sjer-red", externalDns: true },
+  // Note: sjer.red apex uses externalDns: false because:
+  // - CNAMEs can't coexist with MX/TXT records at apex
+  // - Uses manual Cloudflare A records (proxy) pointing to tunnel
+  // - TXT/MX managed via DNSEndpoint in external-domains chart
+  { hostname: "sjer.red", bucket: "sjer-red", externalDns: false },
   { hostname: "webring.sjer.red", bucket: "webring", externalDns: true },
   { hostname: "resume.sjer.red", bucket: "resume", externalDns: true },
   { hostname: "discord-plays-pokemon.com", bucket: "dpp-docs", externalDns: true },

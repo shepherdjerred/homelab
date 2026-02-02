@@ -188,7 +188,10 @@ export class S3StaticSites extends Construct {
         tunnelRef: {
           kind: TunnelBindingTunnelRefKind.CLUSTER_TUNNEL,
           name: "homelab-tunnel",
-          disableDnsUpdates: site.externalDns ?? false,
+          // Always disable DNS updates from cloudflare-operator:
+          // - Sites with externalDns: true use external-dns service annotations (CNAME)
+          // - Sites with externalDns: false use manual A records or DNSEndpoint
+          disableDnsUpdates: true,
         },
       });
 

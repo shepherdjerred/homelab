@@ -116,7 +116,7 @@ export function createMinecraftTsmcApp(chart: Chart) {
         projects: [
           "luckperms",
           "towny",
-          "coreprotect",
+          // "coreprotect", // TODO: Re-add when it supports 1.21.11 (currently only 1.21.10)
           "worldedit",
           "worldguard",
           "chunky",
@@ -132,7 +132,8 @@ export function createMinecraftTsmcApp(chart: Chart) {
         allowedVersionType: "beta", // CraftBook only has beta releases
       },
 
-      // TODO: Re-add these plugins when Spiget API is stable or find alternatives:
+      // TODO: Re-add these plugins when available:
+      // - coreprotect - waiting for 1.21.11 support (currently only 1.21.10)
       // - mcMMO (64348) - premium, needs to be built from source or purchased
       // - DynamicShop (65603), VentureChat (771), BetterSleeping (60837), LWC (2162), XConomy (40313) - Spiget-only
 
