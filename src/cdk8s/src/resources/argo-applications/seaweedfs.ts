@@ -144,6 +144,7 @@ export function createSeaweedfsApp(chart: Chart) {
       name: "seaweedfs",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://seaweedfs.github.io/seaweedfs/helm",

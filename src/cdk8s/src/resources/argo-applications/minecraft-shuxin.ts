@@ -149,6 +149,7 @@ export function createMinecraftShuxinApp(chart: Chart) {
       name: "minecraft-shuxin",
     },
     spec: {
+      revisionHistoryLimit: 2,
       project: "default",
       source: {
         repoUrl: "https://itzg.github.io/minecraft-server-charts/",

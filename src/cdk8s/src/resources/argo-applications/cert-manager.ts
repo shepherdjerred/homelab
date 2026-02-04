@@ -35,6 +35,7 @@ export function createCertManagerApp(chart: Chart) {
       name: "cert-manager",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         // https://artifacthub.io/packages/search?org=cert-manager

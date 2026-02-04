@@ -2,6 +2,7 @@ import { App, Chart } from "cdk8s";
 import { Namespace, ConfigMap } from "cdk8s-plus-31";
 import { KubeCronJob, Quantity } from "../../generated/imports/k8s.ts";
 import { EXTERNAL_DNS_DOMAINS } from "../resources/argo-applications/external-dns.ts";
+import versions from "../versions.ts";
 
 /**
  * DNS Audit CronJob
@@ -129,7 +130,7 @@ if __name__ == "__main__":
     metadata: {
       name: "dns-audit",
       annotations: {
-        "ignore-check.kube-linter.io/no-read-only-root-fs": "Container requires writable filesystem for pip install",
+        "ignore-check.kube-linter.io/no-read-only-root-fs": "Container requires writable filesystem",
       },
     },
     spec: {
@@ -138,9 +139,10 @@ if __name__ == "__main__":
       timeZone: "UTC",
       concurrencyPolicy: "Forbid",
       successfulJobsHistoryLimit: 3,
-      failedJobsHistoryLimit: 3,
+      failedJobsHistoryLimit: 1,
       jobTemplate: {
         spec: {
+          activeDeadlineSeconds: 300,
           backoffLimit: 2,
           template: {
             metadata: {
@@ -153,9 +155,8 @@ if __name__ == "__main__":
               containers: [
                 {
                   name: "dns-audit",
-                  image: "python:3.12-slim",
-                  command: ["/bin/sh", "-c"],
-                  args: ["pip install --quiet --user checkdmarc && python3 /scripts/audit.py"],
+                  image: `ghcr.io/shepherdjerred/dns-audit:${versions["shepherdjerred/dns-audit"]}`,
+                  command: ["python3", "/scripts/audit.py"],
                   volumeMounts: [
                     {
                       name: "script",

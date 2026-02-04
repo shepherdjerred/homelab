@@ -76,6 +76,7 @@ export function createDaggerApp(chart: Chart) {
       name: "dagger",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "registry.dagger.io",

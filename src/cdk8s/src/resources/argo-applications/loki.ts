@@ -318,6 +318,7 @@ export function createLokiApp(chart: Chart) {
       name: "loki",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         // https://github.com/grafana/loki/tree/main/production/helm/loki

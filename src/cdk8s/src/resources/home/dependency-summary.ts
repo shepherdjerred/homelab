@@ -38,7 +38,7 @@ export function createDependencySummaryCronJob(chart: Chart) {
       timeZone: "America/Los_Angeles",
       concurrencyPolicy: "Forbid",
       successfulJobsHistoryLimit: 3,
-      failedJobsHistoryLimit: 3,
+      failedJobsHistoryLimit: 1,
       jobTemplate: {
         spec: {
           backoffLimit: 2,

@@ -21,6 +21,7 @@ export function createGrafanaApp(chart: Chart) {
       name: "grafana",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://github.com/dotdc/grafana-dashboards-kubernetes",

@@ -258,6 +258,7 @@ export function createCoderApp(chart: Chart) {
       name: "coder",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://helm.coder.com/v2",

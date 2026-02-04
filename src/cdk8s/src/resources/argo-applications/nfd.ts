@@ -18,6 +18,7 @@ export function createNfdApp(chart: Chart) {
       name: "nfd",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://kubernetes-sigs.github.io/node-feature-discovery/charts",

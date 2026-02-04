@@ -92,6 +92,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
       name: "actions-runner-controller",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "ghcr.io/actions/actions-runner-controller-charts",
@@ -142,6 +143,7 @@ export function createActionsRunnerControllerApp(chart: Chart) {
         name: `${repo.name}-runner-set`,
       },
       spec: {
+        revisionHistoryLimit: 5,
         project: "default",
         source: {
           repoUrl: "ghcr.io/actions/actions-runner-controller-charts",

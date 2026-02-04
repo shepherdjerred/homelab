@@ -27,6 +27,7 @@ import { sync as argocdSync } from "./argocd";
 import { applyK8sConfig, buildAndApplyCdk8s } from "./k8s";
 import { buildAndPushHaImage } from "./ha";
 import { buildAndPushDependencySummaryImage } from "./dependency-summary";
+import { buildAndPushDnsAuditImage } from "./dns-audit";
 import { buildAndPushCaddyS3ProxyImage } from "./caddy-s3proxy";
 import { buildAndPushOpenclawImage } from "./openclaw";
 import { buildAllCharts, HELM_CHARTS, publishAllCharts } from "./helm";
@@ -143,6 +144,30 @@ export class Homelab {
       .directory("/workspace");
   }
 
+  /** Update the versions.ts file with the dns-audit image version for production builds */
+  @func()
+  updateDnsAuditVersion(
+    @argument({
+      ignore: ["node_modules", "dist", "build", ".cache", "*.log", ".env*", "!.env.example", ".dagger"],
+      defaultPath: ".",
+    })
+    source: Directory,
+    @argument() version: string,
+  ): Directory {
+    return dag
+      .container()
+      .from(`alpine:${versions.alpine}`)
+      .withMountedDirectory("/workspace", source)
+      .withWorkdir("/workspace")
+      .withExec([
+        "sed",
+        "-i",
+        `s/"shepherdjerred\\/dns-audit": "[^"]*"/"shepherdjerred\\/dns-audit": "${version}"/`,
+        "src/cdk8s/src/versions.ts",
+      ])
+      .directory("/workspace");
+  }
+
   /**
    * Runs kube-linter, ArgoCD sync, builds for CDK8s and HA, publishes the HA image (if prod), publishes the Helm chart (if prod), and runs release-please for npm publishing as part of the CI pipeline.
    * @param source The source directory for kube-linter, and builds.
@@ -191,6 +216,7 @@ export class Homelab {
     if (env === Stage.Prod) {
       updatedSource = this.updateHaVersion(source, chartVersion);
       updatedSource = this.updateDependencySummaryVersion(updatedSource, chartVersion);
+      updatedSource = this.updateDnsAuditVersion(updatedSource, chartVersion);
     }
 
     // Prepare shared containers once - this is a major optimization
@@ -359,63 +385,80 @@ export class Homelab {
     // Publish all images and Helm chart in parallel for faster CI
     let haPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
     let depSummaryPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
+    let dnsAuditPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
     let caddyS3ProxyPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
     let openclawPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
     let helmPublishResult: StepResult = { status: "skipped", message: "[SKIPPED] Not prod" };
 
     if (env === Stage.Prod) {
       // Run all image pushes and helm publish in parallel
-      const [haResults, depSummaryResults, caddyS3ProxyResult, openclawResult, helmResult] = await Promise.all([
-        // HA image: push versioned and latest tags in parallel
-        Promise.all([
-          this.internalPublishHaImage(
-            updatedSource,
-            `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
-            ghcrUsername,
-            ghcrPassword,
-            env,
-          ),
-          this.internalPublishHaImage(
-            updatedSource,
-            `ghcr.io/shepherdjerred/homelab:latest`,
-            ghcrUsername,
-            ghcrPassword,
-            env,
-          ),
-        ]),
-        // Dependency-summary image: push versioned and latest tags in parallel
-        Promise.all([
-          this.internalPublishDependencySummaryImage(
-            updatedSource,
-            `ghcr.io/shepherdjerred/dependency-summary:${chartVersion}`,
-            ghcrUsername,
-            ghcrPassword,
-            env,
-          ),
-          this.internalPublishDependencySummaryImage(
-            updatedSource,
-            `ghcr.io/shepherdjerred/dependency-summary:latest`,
-            ghcrUsername,
-            ghcrPassword,
-            env,
-          ),
-        ]),
-        // Caddy-s3proxy image: push latest tag only (no versioning needed for this utility image)
-        buildAndPushCaddyS3ProxyImage(`ghcr.io/shepherdjerred/caddy-s3proxy:latest`, ghcrUsername, ghcrPassword, false),
-        // OpenClaw image: push latest tag only
-        buildAndPushOpenclawImage(`ghcr.io/shepherdjerred/openclaw:latest`, ghcrUsername, ghcrPassword, false),
-        // Helm chart publish
-        helmBuildResult.dist
-          ? this.helmPublishBuilt(
-              helmBuildResult.dist,
-              `1.0.0-${chartVersion}`,
-              chartRepo,
-              chartMuseumUsername,
-              chartMuseumPassword,
+      const [haResults, depSummaryResults, dnsAuditResults, caddyS3ProxyResult, openclawResult, helmResult] =
+        await Promise.all([
+          // HA image: push versioned and latest tags in parallel
+          Promise.all([
+            this.internalPublishHaImage(
+              updatedSource,
+              `ghcr.io/shepherdjerred/homelab:${chartVersion}`,
+              ghcrUsername,
+              ghcrPassword,
               env,
-            )
-          : Promise.resolve({ status: "skipped" as const, message: "[SKIPPED] No dist available" }),
-      ]);
+            ),
+            this.internalPublishHaImage(
+              updatedSource,
+              `ghcr.io/shepherdjerred/homelab:latest`,
+              ghcrUsername,
+              ghcrPassword,
+              env,
+            ),
+          ]),
+          // Dependency-summary image: push versioned and latest tags in parallel
+          Promise.all([
+            this.internalPublishDependencySummaryImage(
+              updatedSource,
+              `ghcr.io/shepherdjerred/dependency-summary:${chartVersion}`,
+              ghcrUsername,
+              ghcrPassword,
+              env,
+            ),
+            this.internalPublishDependencySummaryImage(
+              updatedSource,
+              `ghcr.io/shepherdjerred/dependency-summary:latest`,
+              ghcrUsername,
+              ghcrPassword,
+              env,
+            ),
+          ]),
+          // Dns-audit image: push versioned and latest tags in parallel
+          Promise.all([
+            buildAndPushDnsAuditImage(
+              `ghcr.io/shepherdjerred/dns-audit:${chartVersion}`,
+              ghcrUsername,
+              ghcrPassword,
+              false,
+            ),
+            buildAndPushDnsAuditImage(`ghcr.io/shepherdjerred/dns-audit:latest`, ghcrUsername, ghcrPassword, false),
+          ]),
+          // Caddy-s3proxy image: push latest tag only (no versioning needed for this utility image)
+          buildAndPushCaddyS3ProxyImage(
+            `ghcr.io/shepherdjerred/caddy-s3proxy:latest`,
+            ghcrUsername,
+            ghcrPassword,
+            false,
+          ),
+          // OpenClaw image: push latest tag only
+          buildAndPushOpenclawImage(`ghcr.io/shepherdjerred/openclaw:latest`, ghcrUsername, ghcrPassword, false),
+          // Helm chart publish
+          helmBuildResult.dist
+            ? this.helmPublishBuilt(
+                helmBuildResult.dist,
+                `1.0.0-${chartVersion}`,
+                chartRepo,
+                chartMuseumUsername,
+                chartMuseumPassword,
+                env,
+              )
+            : Promise.resolve({ status: "skipped" as const, message: "[SKIPPED] No dist available" }),
+        ]);
 
       // Combine HA results
       haPublishResult = {
@@ -428,6 +471,12 @@ export class Homelab {
         status:
           depSummaryResults[0].status === "passed" && depSummaryResults[1].status === "passed" ? "passed" : "failed",
         message: `Versioned tag: ${depSummaryResults[0].message}\nLatest tag: ${depSummaryResults[1].message}`,
+      };
+
+      // Combine dns-audit results
+      dnsAuditPublishResult = {
+        status: dnsAuditResults[0].status === "passed" && dnsAuditResults[1].status === "passed" ? "passed" : "failed",
+        message: `Versioned tag: ${dnsAuditResults[0].message}\nLatest tag: ${dnsAuditResults[1].message}`,
       };
 
       // Caddy-s3proxy result
@@ -471,6 +520,7 @@ export class Homelab {
       helmBuildResult.message,
       `HA Image Publish result:\n${haPublishResult.message}`,
       `Dependency Summary Image Publish result:\n${depSummaryPublishResult.message}`,
+      `Dns Audit Image Publish result:\n${dnsAuditPublishResult.message}`,
       `Caddy S3Proxy Image Publish result:\n${caddyS3ProxyPublishResult.message}`,
       `OpenClaw Image Publish result:\n${openclawPublishResult.message}`,
       `Helm Chart Publish result:\n${helmPublishResult.message}`,
@@ -493,6 +543,7 @@ export class Homelab {
       (env === Stage.Prod &&
         (haPublishResult.status === "failed" ||
           depSummaryPublishResult.status === "failed" ||
+          dnsAuditPublishResult.status === "failed" ||
           caddyS3ProxyPublishResult.status === "failed" ||
           openclawPublishResult.status === "failed" ||
           helmPublishResult.status === "failed"))

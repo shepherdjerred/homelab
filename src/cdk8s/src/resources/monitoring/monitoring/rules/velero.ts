@@ -267,7 +267,7 @@ and on(schedule) (max(velero_backup_success_total{schedule!="",schedule=~"${sche
             ),
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            "increase(velero_backup_validation_failure_total[24h]) > 0",
+            "increase(velero_backup_validation_failure_total[6h]) > 0",
           ),
           for: "5m",
           labels: {

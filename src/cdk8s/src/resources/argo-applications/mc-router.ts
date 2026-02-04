@@ -117,6 +117,7 @@ export function createMcRouterApp(chart: Chart) {
       name: "mc-router",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://itzg.github.io/minecraft-server-charts/",

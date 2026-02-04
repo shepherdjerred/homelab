@@ -310,6 +310,12 @@ export async function createPrometheusApp(chart: Chart) {
               matchers: ['severity = "info"'],
             },
             {
+              // Silence NodeMemoryMajorPagesFaults - noisy kube-prometheus-stack default
+              // Custom memory alerts (HighMemoryPressure, LowMemoryAvailable, MemoryLeakSuspected) provide better coverage
+              receiver: "null",
+              matchers: ['alertname = "NodeMemoryMajorPagesFaults"'],
+            },
+            {
               // Silence PDB alerts for postgres-operator critical-op PDBs
               // These PDBs only match pods during critical operations, so Total=0 is expected
               receiver: "null",
@@ -385,6 +391,7 @@ export async function createPrometheusApp(chart: Chart) {
       name: "prometheus",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         // https://github.com/prometheus-community/helm-charts/

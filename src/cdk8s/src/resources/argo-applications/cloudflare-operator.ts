@@ -28,6 +28,7 @@ export function createCloudflareOperatorApp(chart: Chart) {
       name: "cloudflare-operator",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         // https://github.com/adyanth/cloudflare-operator

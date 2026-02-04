@@ -44,6 +44,7 @@ export function createOpenEBSApp(chart: Chart) {
       name: "openebs",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://openebs.github.io/openebs",

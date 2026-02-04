@@ -7,6 +7,7 @@ export function createPokemonApp(chart: Chart) {
       name: "pokemon",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://chartmuseum.tailnet-1a49.ts.net",

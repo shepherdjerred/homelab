@@ -49,6 +49,7 @@ export function createChartMuseumApp(chart: Chart) {
       name: "chartmuseum",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://chartmuseum.github.io/charts",

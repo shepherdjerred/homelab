@@ -34,9 +34,9 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "HA workflow failed",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{status="failure"}[5m])) > 0',
+            'sum without(pod, instance, container, endpoint) (increase(ha_workflow_executions_total{status="failure"}[15m])) > 0',
           ),
-          for: "1m",
+          for: "5m",
           labels: { severity: "warning" },
         },
         {
@@ -48,9 +48,9 @@ export function getHaWorkflowRuleGroups(): PrometheusRuleSpecGroups[] {
             summary: "HA workflow timeout",
           },
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
-            'sum without(pod, instance, container, endpoint) (increase(ha_workflow_errors_total{error_type="TimeoutError"}[5m])) > 0',
+            'sum without(pod, instance, container, endpoint) (increase(ha_workflow_errors_total{error_type="TimeoutError"}[15m])) > 0',
           ),
-          for: "1m",
+          for: "5m",
           labels: { severity: "warning" },
         },
         {

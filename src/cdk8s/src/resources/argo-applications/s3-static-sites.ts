@@ -7,6 +7,7 @@ export function createS3StaticSitesApp(chart: Chart) {
       name: "s3-static-sites",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://chartmuseum.tailnet-1a49.ts.net",

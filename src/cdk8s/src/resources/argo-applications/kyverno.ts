@@ -47,6 +47,7 @@ export function createKyvernoApp(chart: Chart) {
       },
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://kyverno.github.io/kyverno",

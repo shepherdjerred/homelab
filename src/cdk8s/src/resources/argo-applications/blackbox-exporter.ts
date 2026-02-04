@@ -24,6 +24,7 @@ export function createBlackboxExporterApp(chart: Chart) {
   return new Application(chart, "blackbox-exporter-app", {
     metadata: { name: "blackbox-exporter" },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://prometheus-community.github.io/helm-charts",

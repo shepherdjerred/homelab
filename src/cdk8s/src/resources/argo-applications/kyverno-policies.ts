@@ -11,6 +11,7 @@ export function createKyvernoPoliciesApp(chart: Chart) {
       },
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://chartmuseum.tailnet-1a49.ts.net",

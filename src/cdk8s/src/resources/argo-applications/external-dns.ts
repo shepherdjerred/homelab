@@ -88,6 +88,7 @@ export function createExternalDnsApp(chart: Chart) {
       name: "external-dns",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://kubernetes-sigs.github.io/external-dns",

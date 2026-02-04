@@ -19,6 +19,7 @@ export function createTailscaleApp(chart: Chart) {
       name: "tailscale",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://pkgs.tailscale.com/helmcharts",

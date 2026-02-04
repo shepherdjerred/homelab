@@ -113,6 +113,7 @@ export function createArgoCdApp(chart: Chart) {
       name: "argocd",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         // https://argoproj.github.io/argo-helm/

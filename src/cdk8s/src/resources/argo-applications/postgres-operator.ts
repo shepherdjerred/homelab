@@ -41,6 +41,7 @@ export function createPostgresOperatorApp(chart: Chart) {
       name: "postgres-operator",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         // https://github.com/zalando/postgres-operator

@@ -188,6 +188,7 @@ export function createVeleroApp(chart: Chart) {
       name: "velero",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         // https://vmware-tanzu.github.io/helm-charts/

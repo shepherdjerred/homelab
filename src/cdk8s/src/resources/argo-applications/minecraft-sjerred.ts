@@ -146,6 +146,7 @@ export function createMinecraftSjerredApp(chart: Chart) {
       name: "minecraft-sjerred",
     },
     spec: {
+      revisionHistoryLimit: 2,
       project: "default",
       source: {
         repoUrl: "https://itzg.github.io/minecraft-server-charts/",

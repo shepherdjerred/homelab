@@ -61,6 +61,7 @@ export function createPrometheusAdapterApp(chart: Chart) {
       name: "prometheus-adapter",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://prometheus-community.github.io/helm-charts",

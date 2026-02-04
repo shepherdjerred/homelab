@@ -26,6 +26,7 @@ export function createOnePasswordApp(chart: Chart) {
       name: "1password",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         // https://github.com/1Password/connect-helm-charts

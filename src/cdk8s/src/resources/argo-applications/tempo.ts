@@ -59,6 +59,7 @@ export function createTempoApp(chart: Chart) {
       name: "tempo",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         // https://github.com/grafana/helm-charts/tree/main/charts/tempo

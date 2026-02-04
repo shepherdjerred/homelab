@@ -16,6 +16,7 @@ export function createArgoCdImageUpdaterApp(chart: Chart) {
       name: "argocd-image-updater",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://argoproj.github.io/argo-helm/",

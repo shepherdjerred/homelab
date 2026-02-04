@@ -19,7 +19,7 @@ export function getGitckupRuleGroups(): PrometheusRuleSpecGroups[] {
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             "sum(increase(gickup_jobs_started[25h])) > sum(increase(gickup_jobs_complete[25h]))",
           ),
-          for: "15m",
+          for: "30m",
           labels: {
             severity: "warning",
           },

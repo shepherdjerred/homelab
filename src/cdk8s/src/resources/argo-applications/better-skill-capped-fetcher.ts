@@ -7,6 +7,7 @@ export function createBetterSkillCappedFetcherApp(chart: Chart) {
       name: "better-skill-capped-fetcher",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://chartmuseum.tailnet-1a49.ts.net",

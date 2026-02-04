@@ -28,6 +28,7 @@ export function createPromtailApp(chart: Chart) {
       name: "promtail",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         // https://github.com/grafana/helm-charts/tree/main/charts/promtail

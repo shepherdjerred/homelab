@@ -7,6 +7,7 @@ export function createDnsAuditApp(chart: Chart) {
       name: "dns-audit",
     },
     spec: {
+      revisionHistoryLimit: 5,
       project: "default",
       source: {
         repoUrl: "https://chartmuseum.tailnet-1a49.ts.net",

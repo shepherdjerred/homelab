@@ -84,7 +84,7 @@ export function getResourceMonitoringRuleGroups(): PrometheusRuleSpecGroups[] {
           expr: PrometheusRuleSpecGroupsRulesExpr.fromString(
             "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) - (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes offset 24h) > 8589934592", // 8GB increase over 24h (adjusted for ZFS ARC growth)
           ),
-          for: "2h",
+          for: "4h",
           labels: { severity: "warning" },
         },
       ],
