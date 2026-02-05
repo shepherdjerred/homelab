@@ -14,8 +14,11 @@
       "args": ["-y", "todoist-mcp@1.2.4"]
     },
     "piazza": {
-      "command": "uvx",
-      "args": ["--from", "git+https://github.com/clarsbyte/piazza-mcp.git", "piazza-mcp"]
+      "command": "sh",
+      "args": [
+        "-c",
+        "[ -d /tmp/piazza-mcp ] || git clone https://github.com/clarsbyte/piazza-mcp.git /tmp/piazza-mcp && uv run --with 'fastmcp>=3.0.0b1' --with piazza-api /tmp/piazza-mcp/main.py"
+      ]
     },
     "home-assistant": {
       "command": "uvx",
