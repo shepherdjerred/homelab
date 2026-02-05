@@ -13,3 +13,10 @@ dist/
 
 # Worktree initialization marker
 .git/worktree-initialized
+
+# OpenTofu / Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfplan

@@ -1,0 +1,67 @@
+name: OpenTofu Plan
+
+on:
+  push:
+    branches: [main]
+    paths: ["src/tofu/**"]
+  pull_request:
+    paths: ["src/tofu/**"]
+  schedule:
+    - cron: "0 9 * * 0" # Weekly Sunday 9am UTC
+  workflow_dispatch:
+
+jobs:
+  tofu-plan:
+    runs-on: [homelab-runner-set]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - uses: 1password/load-secrets-action/configure@v3
+        with:
+          connect-host: http://onepassword-connect.1password.svc.cluster.local:8080
+          connect-token: ${{ secrets.OP_CONNECT_TOKEN }}
+
+      - uses: 1password/load-secrets-action@v3
+        with:
+          export-env: true
+        env:
+          CLOUDFLARE_API_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/CLOUDFLARE_API_TOKEN
+          CLOUDFLARE_ACCOUNT_ID: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/CLOUDFLARE_ACCOUNT_ID
+          AWS_ACCESS_KEY_ID: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/AWS_ACCESS_KEY_ID
+          AWS_SECRET_ACCESS_KEY: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/AWS_SECRET_ACCESS_KEY
+          GH_TOFU_TOKEN: op://bic45kuflnwsnxnd67dzcnxjze/5p65mbzr237yyzt2sfnfao3a5a/GH_TOFU_TOKEN
+
+      - name: Extract Dagger version
+        id: dagger-version
+        run: |
+          DAGGER_IMAGE=$(kubectl get pod --selector=name=dagger-dagger-helm-engine --namespace=dagger -o jsonpath='{.items[0].spec.containers[0].image}')
+          DAGGER_VERSION="${DAGGER_IMAGE##*:v}"
+          echo "version=$DAGGER_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Install Dagger CLI
+        env:
+          DAGGER_VERSION: ${{ steps.dagger-version.outputs.version }}
+        run: |
+          curl -fsSL https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION="$DAGGER_VERSION" BIN_DIR="$HOME/.local/bin" sh
+
+      - name: Add Dagger to PATH
+        run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Get Dagger Engine Pod Name
+        run: |
+          DAGGER_ENGINE_POD_NAME="$(kubectl get pod --selector=name=dagger-dagger-helm-engine --namespace=dagger --output=jsonpath='{.items[0].metadata.name}')"
+          echo "_EXPERIMENTAL_DAGGER_RUNNER_HOST=kube-pod://$DAGGER_ENGINE_POD_NAME?namespace=dagger" >> "$GITHUB_ENV"
+
+      - name: Run tofu plan
+        run: |
+          dagger call tofu-plan \
+            --source=. \
+            --cloudflare-api-token env://CLOUDFLARE_API_TOKEN \
+            --cloudflare-account-id env://CLOUDFLARE_ACCOUNT_ID \
+            --aws-access-key-id env://AWS_ACCESS_KEY_ID \
+            --aws-secret-access-key env://AWS_SECRET_ACCESS_KEY \
+            --github-token env://GH_TOFU_TOKEN
+
+permissions:
+  contents: read

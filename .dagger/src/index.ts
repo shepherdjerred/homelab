@@ -34,6 +34,7 @@ import { buildAllCharts, HELM_CHARTS, publishAllCharts } from "./helm";
 import { Stage } from "./stage";
 import versions from "./versions";
 import { runReleasePleaseWorkflow } from "./release-please.ts";
+import { planAll } from "./tofu";
 
 export type StepStatus = "passed" | "failed" | "skipped";
 // note: this must be an interface for Dagger
@@ -995,5 +996,22 @@ export class Homelab {
         message: `Helm Chart Publish: FAILED\n${errorMessage}`,
       };
     }
+  }
+
+  /**
+   * Runs tofu plan for all infrastructure directories (cloudflare, github).
+   * Reports drift or errors.
+   */
+  @func()
+  async tofuPlan(
+    @argument({ defaultPath: "." })
+    source: Directory,
+    cloudflareApiToken: Secret,
+    cloudflareAccountId: Secret,
+    awsAccessKeyId: Secret,
+    awsSecretAccessKey: Secret,
+    githubToken?: Secret,
+  ): Promise<string> {
+    return planAll(source, cloudflareApiToken, cloudflareAccountId, awsAccessKeyId, awsSecretAccessKey, githubToken);
   }
 }
