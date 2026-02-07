@@ -3,27 +3,46 @@ resource "cloudflare_zone" "jerred_is" {
   zone       = "jerred.is"
 }
 
-resource "cloudflare_bot_management" "jerred_is" {
-  zone_id            = cloudflare_zone.jerred_is.id
-  ai_bots_protection = "block"
-  crawler_protection = "enabled"
-  fight_mode         = true
-  enable_js          = true
+# Redirect to sjer.red
+resource "cloudflare_record" "jerred_is_cname_apex" {
+  zone_id = cloudflare_zone.jerred_is.id
+  name    = "jerred.is"
+  type    = "CNAME"
+  content = "sjer.red"
+  proxied = true
 }
 
-# DNS records will be populated by cf-terraforming import.
-# Placeholder records for email security:
+resource "cloudflare_record" "jerred_is_cname_www" {
+  zone_id = cloudflare_zone.jerred_is.id
+  name    = "www"
+  type    = "CNAME"
+  content = "sjer.red"
+  proxied = true
+}
 
+# Email security
 resource "cloudflare_record" "jerred_is_spf" {
   zone_id = cloudflare_zone.jerred_is.id
-  name    = "@"
+  name    = "jerred.is"
   type    = "TXT"
-  value   = "v=spf1 -all"
+  content = "v=spf1 -all"
 }
 
 resource "cloudflare_record" "jerred_is_dmarc" {
   zone_id = cloudflare_zone.jerred_is.id
   name    = "_dmarc"
   type    = "TXT"
-  value   = "v=DMARC1; p=reject; rua=mailto:dmarc@jerred.is"
+  content = "v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;"
+}
+
+resource "cloudflare_record" "jerred_is_dkim_wildcard" {
+  zone_id = cloudflare_zone.jerred_is.id
+  name    = "*._domainkey"
+  type    = "TXT"
+  content = "v=DKIM1; p="
+}
+
+# DNSSEC (pending — .is TLD requires manual DS record at registrar)
+resource "cloudflare_zone_dnssec" "jerred_is" {
+  zone_id = cloudflare_zone.jerred_is.id
 }

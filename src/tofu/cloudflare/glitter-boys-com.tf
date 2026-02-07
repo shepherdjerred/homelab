@@ -3,27 +3,46 @@ resource "cloudflare_zone" "glitter_boys_com" {
   zone       = "glitter-boys.com"
 }
 
-resource "cloudflare_bot_management" "glitter_boys_com" {
-  zone_id            = cloudflare_zone.glitter_boys_com.id
-  ai_bots_protection = "block"
-  crawler_protection = "enabled"
-  fight_mode         = true
-  enable_js          = true
+# Fly.io app CNAMEs
+resource "cloudflare_record" "glitter_boys_com_cname_beta" {
+  zone_id = cloudflare_zone.glitter_boys_com.id
+  name    = "beta"
+  type    = "CNAME"
+  content = "glitter-boys-beta.fly.dev"
+  proxied = false
 }
 
-# DNS records will be populated by cf-terraforming import.
-# Placeholder records for email security:
+resource "cloudflare_record" "glitter_boys_com_cname_prod" {
+  zone_id = cloudflare_zone.glitter_boys_com.id
+  name    = "prod"
+  type    = "CNAME"
+  content = "glitter-boys-prod.fly.dev"
+  proxied = false
+}
 
+# Email security
 resource "cloudflare_record" "glitter_boys_com_spf" {
   zone_id = cloudflare_zone.glitter_boys_com.id
-  name    = "@"
+  name    = "glitter-boys.com"
   type    = "TXT"
-  value   = "v=spf1 -all"
+  content = "v=spf1 -all"
 }
 
 resource "cloudflare_record" "glitter_boys_com_dmarc" {
   zone_id = cloudflare_zone.glitter_boys_com.id
   name    = "_dmarc"
   type    = "TXT"
-  value   = "v=DMARC1; p=reject; rua=mailto:dmarc@glitter-boys.com"
+  content = "v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s;"
+}
+
+resource "cloudflare_record" "glitter_boys_com_dkim_wildcard" {
+  zone_id = cloudflare_zone.glitter_boys_com.id
+  name    = "*._domainkey"
+  type    = "TXT"
+  content = "v=DKIM1; p="
+}
+
+# DNSSEC
+resource "cloudflare_zone_dnssec" "glitter_boys_com" {
+  zone_id = cloudflare_zone.glitter_boys_com.id
 }

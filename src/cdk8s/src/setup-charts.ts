@@ -22,7 +22,6 @@ import { createKyvernoPoliciesChart } from "./cdk8s-charts/kyverno-policies.ts";
 import { createMcpGatewayChart } from "./cdk8s-charts/mcp-gateway.ts";
 import { createOpenclawChart } from "./cdk8s-charts/openclaw.ts";
 import { createBugsinkChart } from "./cdk8s-charts/bugsink.ts";
-import { createExternalDomainsChart } from "./cdk8s-charts/external-domains.ts";
 import { createDnsAuditChart } from "./cdk8s-charts/dns-audit.ts";
 
 /**
@@ -64,6 +63,5 @@ export async function setupCharts(app: App): Promise<void> {
   await createMcpGatewayChart(app);
   createOpenclawChart(app);
   createBugsinkChart(app);
-  createExternalDomainsChart(app);
   createDnsAuditChart(app);
 }

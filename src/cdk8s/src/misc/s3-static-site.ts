@@ -2,7 +2,6 @@ import { Chart, JsonPatch } from "cdk8s";
 import { Construct } from "constructs";
 import { ConfigMap, Deployment, DeploymentStrategy, EnvValue, Secret, Service, Volume } from "cdk8s-plus-31";
 import { TunnelBinding, TunnelBindingTunnelRefKind } from "../../generated/imports/networking.cfargotunnel.com.ts";
-import { TUNNEL_CNAME_TARGET } from "../resources/argo-applications/external-dns.ts";
 import { withCommonProps } from "./common.ts";
 import versions from "../versions.ts";
 import { ApiObject } from "cdk8s";
@@ -13,23 +12,6 @@ export type StaticSiteConfig = {
   bucket: string;
   indexFile?: string;
   notFoundPage?: string;
-  /**
-   * Use external-dns service annotations to create DNS records (CNAME to tunnel).
-   * Set to false for apex domains that have TXT/MX records, as CNAMEs can't coexist
-   * with other record types. Use `useTunnelDns` instead for those domains.
-   */
-  externalDns?: boolean;
-  /**
-   * Use cloudflare-operator's built-in DNS management instead of external-dns.
-   * This creates DNS records directly in Cloudflare, bypassing external-dns.
-   *
-   * Use this for apex domains that have TXT records (e.g., SPF/DMARC for email rejection)
-   * managed via DNSEndpoint. External-dns can't handle both CNAME and TXT for the same
-   * domain name, but cloudflare-operator + external-dns can when they manage different
-   * record types separately. Cloudflare's CNAME flattening allows the proxied CNAME
-   * to coexist with TXT records.
-   */
-  useTunnelDns?: boolean;
 };
 
 export type S3StaticSitesProps = {
@@ -171,30 +153,16 @@ export class S3StaticSites extends Construct {
 
     this.deployment = deployment;
 
-    const serviceAnnotations: Record<string, string> = {};
-    const externalHostnames = props.sites.filter((site) => site.externalDns).map((site) => site.hostname);
-
-    if (externalHostnames.length > 0) {
-      serviceAnnotations["external-dns.alpha.kubernetes.io/hostname"] = externalHostnames.join(",");
-      serviceAnnotations["external-dns.alpha.kubernetes.io/target"] = TUNNEL_CNAME_TARGET;
-    }
-
     this.service = new Service(this, "service", {
       metadata: {
         name: "s3-static-sites",
-        annotations: Object.keys(serviceAnnotations).length > 0 ? serviceAnnotations : undefined,
       },
       selector: deployment,
       ports: [{ port: 80 }],
     });
 
     for (const site of props.sites) {
-      // Determine DNS update strategy:
-      // - useTunnelDns: true → cloudflare-operator creates DNS (disableDnsUpdates: false)
-      // - externalDns: true → external-dns creates DNS via service annotations (disableDnsUpdates: true)
-      // - neither → manual DNS management (disableDnsUpdates: true)
-      const disableDnsUpdates = !site.useTunnelDns;
-
+      // DNS is managed by OpenTofu — disable cloudflare-operator DNS updates
       new TunnelBinding(this, `tunnel-${site.hostname.replace(/\./g, "-")}`, {
         metadata: {
           namespace,
@@ -210,7 +178,7 @@ export class S3StaticSites extends Construct {
         tunnelRef: {
           kind: TunnelBindingTunnelRefKind.CLUSTER_TUNNEL,
           name: "homelab-tunnel",
-          disableDnsUpdates,
+          disableDnsUpdates: true,
         },
       });
 

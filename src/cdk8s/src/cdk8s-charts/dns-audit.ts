@@ -1,7 +1,7 @@
 import { App, Chart } from "cdk8s";
 import { Namespace, ConfigMap } from "cdk8s-plus-31";
 import { KubeCronJob, Quantity } from "../../generated/imports/k8s.ts";
-import { EXTERNAL_DNS_DOMAINS } from "../resources/argo-applications/external-dns.ts";
+import { MANAGED_DOMAINS } from "../resources/argo-applications/external-dns.ts";
 import versions from "../versions.ts";
 
 /**
@@ -37,7 +37,7 @@ import json
 import subprocess
 import sys
 
-DOMAINS = ${JSON.stringify(EXTERNAL_DNS_DOMAINS)}
+DOMAINS = ${JSON.stringify(MANAGED_DOMAINS)}
 
 def log(level, msg, **kwargs):
     """Output structured JSON log"""

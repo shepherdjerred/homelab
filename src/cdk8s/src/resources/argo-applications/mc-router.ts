@@ -1,10 +1,8 @@
 import { Chart } from "cdk8s";
 import { Namespace } from "cdk8s-plus-31";
 import { Application } from "../../../generated/imports/argoproj.io.ts";
-import { DnsEndpoint } from "../../../generated/imports/externaldns.k8s.io.ts";
 import versions from "../../versions.ts";
 import type { HelmValuesForChart } from "../../misc/typed-helm-parameters.ts";
-import { DDNS_HOSTNAME } from "./external-dns.ts";
 
 // NodePort for mc-router to accept all Minecraft connections
 const MC_ROUTER_NODE_PORT = 30000;
@@ -55,62 +53,8 @@ export function createMcRouterApp(chart: Chart) {
     },
   };
 
-  // DNS CNAME records managed by external-dns
-  // Note: SRV records are managed manually in Cloudflare due to external-dns bug:
-  // https://github.com/kubernetes-sigs/external-dns/issues/5551
-  //
-  // Manual SRV records in Cloudflare (use unique hostnames per server):
-  //   _minecraft._tcp.sjer.red        -> 0 5 30000 mc.sjer.red
-  //   _minecraft._tcp.shuxin.sjer.red -> 0 5 30000 shuxin.sjer.red
-  //   _minecraft._tcp.ts-mc.net       -> 0 5 30000 mc.ts-mc.net
-  //
-  // Apex domains (sjer.red, ts-mc.net) use existing CF tunnel CNAMEs
-  new DnsEndpoint(chart, "mc-router-dns", {
-    metadata: {
-      name: "mc-router-dns",
-      namespace: "mc-router",
-    },
-    spec: {
-      endpoints: [
-        // mc.sjer.red -> ddns.sjer.red (SRV target for sjer.red)
-        {
-          dnsName: "mc.sjer.red",
-          recordType: "CNAME",
-          targets: [DDNS_HOSTNAME],
-          providerSpecific: [
-            {
-              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
-              value: "false",
-            },
-          ],
-        },
-        // shuxin.sjer.red -> ddns.sjer.red (SRV target for shuxin.sjer.red)
-        {
-          dnsName: "shuxin.sjer.red",
-          recordType: "CNAME",
-          targets: [DDNS_HOSTNAME],
-          providerSpecific: [
-            {
-              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
-              value: "false",
-            },
-          ],
-        },
-        // mc.ts-mc.net -> ddns.sjer.red (SRV target for ts-mc.net)
-        {
-          dnsName: "mc.ts-mc.net",
-          recordType: "CNAME",
-          targets: [DDNS_HOSTNAME],
-          providerSpecific: [
-            {
-              name: "external-dns.alpha.kubernetes.io/cloudflare-proxied",
-              value: "false",
-            },
-          ],
-        },
-      ],
-    },
-  });
+  // DNS records (SRV, CNAME) are managed by OpenTofu (src/tofu/cloudflare/)
+  // DDNS-related records (mc.sjer.red, shuxin.sjer.red, mc.ts-mc.net) are excluded from tofu
 
   return new Application(chart, "mc-router-app", {
     metadata: {

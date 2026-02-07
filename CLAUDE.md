@@ -148,19 +148,20 @@ mise trust    # Trust the mise.toml config
 mise run dev  # Install dependencies and setup
 ```
 
-## DNS for External Domains
+## DNS Management
 
-external-dns can't create CNAME + TXT for same apex (conflict). For S3 static sites
-(scout-for-lol.com, discord-plays-pokemon.com, better-skill-capped.com, clauderon.com, ts-mc.net):
+All Cloudflare DNS records are managed by OpenTofu in `src/tofu/cloudflare/`.
+Each domain has its own `.tf` file with zone, DNS records, and DNSSEC resources.
 
-- **Apex CNAME + SPF**: Manual in Cloudflare
-- **Subdomain TXT** (\_dmarc, \*.\_domainkey): external-dns via DNSEndpoint
+Records **excluded** from tofu (dynamic, managed elsewhere):
 
-Manual records:
+- `ddns.sjer.red` (A/AAAA) — updated by ddns service
+- `mc.sjer.red`, `shuxin.sjer.red`, `mc.ts-mc.net` — CNAME to ddns
+- `files.sjer.red`, `storage.ts-mc.net` — auto-managed by Cloudflare R2 custom domains
 
-```text
-CNAME: <domain> -> 3cbdc9a6-9e79-412d-8fe1-60117fecd4d3.cfargotunnel.com (proxied)
-TXT: <domain> -> v=spf1 -all
+To add/modify DNS records, edit the appropriate `.tf` file and run:
+
+```bash
+op run --env-file=.env -- tofu -chdir=cloudflare plan
+op run --env-file=.env -- tofu -chdir=cloudflare apply
 ```
-
-If records disappear, delete stale `_externaldns.*` ownership TXT records first.

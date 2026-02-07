@@ -11,7 +11,6 @@ import { createIntelDevicePluginOperatorApp } from "../resources/argo-applicatio
 import { createIntelGpuDevicePluginApp } from "../resources/argo-applications/intel-gpu-device-plugin.ts";
 import { createCertManagerApp } from "../resources/argo-applications/cert-manager.ts";
 import { createCloudflareOperatorApp } from "../resources/argo-applications/cloudflare-operator.ts";
-import { createExternalDnsApp } from "../resources/argo-applications/external-dns.ts";
 import { createNfdApp } from "../resources/argo-applications/nfd.ts";
 import { createGrafanaApp } from "../resources/argo-applications/grafana.ts";
 import { createChartMuseumApp } from "../resources/argo-applications/chartmuseum.ts";
@@ -26,6 +25,7 @@ import { Namespace } from "cdk8s-plus-31";
 import { createStorageClasses } from "../misc/storage-classes.ts";
 import { createOpenEBSApp } from "../resources/argo-applications/openebs.ts";
 import { createActionsRunnerControllerApp } from "../resources/argo-applications/actions-runner-controller.ts";
+import { createBuildkiteApp } from "../resources/argo-applications/buildkite.ts";
 import { createDaggerApp } from "../resources/argo-applications/dagger.ts";
 import { createVeleroApp } from "../resources/argo-applications/velero.ts";
 import { createPostgresOperatorApp } from "../resources/argo-applications/postgres-operator.ts";
@@ -61,7 +61,6 @@ import { createMcpGatewayApp } from "../resources/argo-applications/mcp-gateway.
 import { createOpenclawApp } from "../resources/argo-applications/openclaw.ts";
 import { createBugsinkApp } from "../resources/argo-applications/bugsink.ts";
 import { createDnsAuditApp } from "../resources/argo-applications/dns-audit.ts";
-import { createExternalDomainsApp } from "../resources/argo-applications/external-domains.ts";
 
 export async function createAppsChart(app: App) {
   const chart = new Chart(app, "apps", {
@@ -104,7 +103,6 @@ export async function createAppsChart(app: App) {
   createIntelGpuDevicePluginApp(chart);
   createCertManagerApp(chart);
   createCloudflareOperatorApp(chart);
-  createExternalDnsApp(chart);
   createNfdApp(chart);
   createGrafanaApp(chart);
   createChartMuseumApp(chart);
@@ -116,6 +114,7 @@ export async function createAppsChart(app: App) {
   createPromtailApp(chart);
   createTempoApp(chart);
   createActionsRunnerControllerApp(chart);
+  createBuildkiteApp(chart);
   createDaggerApp(chart);
   createVeleroApp(chart);
   createKyvernoApp(chart);
@@ -159,7 +158,6 @@ export async function createAppsChart(app: App) {
   createOpenclawApp(chart);
   createBugsinkApp(chart);
   createDnsAuditApp(chart);
-  createExternalDomainsApp(chart);
 
   // ArgoCD AppProject
   createProject(chart);
